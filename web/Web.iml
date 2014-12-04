@@ -3,6 +3,8 @@
   <component name="FacetManager">
     <facet type="gwt" name="GWT">
       <configuration>
+        <setting name="compilerMaxHeapSize" value="1024" />
+        <setting name="gwtScriptOutputStyle" value="DETAILED" />
         <setting name="gwtSdkUrl" value="file://Z:/gwt-2.7.0" />
         <setting name="webFacet" value="Web" />
       </configuration>
@@ -28,5 +30,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="gwt-user" level="project" />
     <orderEntry type="module" module-name="Core" />
+    <orderEntry type="library" name="gwt-pouchdb-3.2.0" level="application" />
   </component>
 </module>

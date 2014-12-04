@@ -8,6 +8,14 @@
     <!-- Specify the app entry point class.                   -->
     <entry-point class='cc.legault.rtdc.web.client.web'/>
 
+    <!-- Do not include the <script> tags in the *.gwt.xml files -->
+    <!-- Those are included in the host html page -->
+    <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
+
+    <!-- Dependencies -->
+    <inherits name="it.netgrid.gwt.PouchDB" />
+
+
 
     <!-- Specify the app servlets.                   -->
     <servlet path='/webService' class='cc.legault.rtdc.web.server.webServiceImpl'/>

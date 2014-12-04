@@ -6,6 +6,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import it.netgrid.gwt.pouchdb.PouchDb;
+import it.netgrid.gwt.pouchdb.options.EmptyOptionsFactory;
+import it.netgrid.gwt.pouchdb.options.IPouchdbOptionsFactory;
+import it.netgrid.gwt.pouchdb.options.ReplicationOptions;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
@@ -36,6 +40,13 @@ public class web implements EntryPoint {
         //
         RootPanel.get("slot1").add(button);
         RootPanel.get("slot2").add(label);
+
+        IPouchdbOptionsFactory factory = new EmptyOptionsFactory();
+        ReplicationOptions options = factory.buildReplicationOptions();
+        options.setContinuous(true);
+
+        PouchDb localDb = new PouchDb("local_db_name");
+        //PouchDb.replicate("http://localhost:5984/remote_db_name", "local_db_name", options);
     }
 
     private static class MyAsyncCallback implements AsyncCallback<String> {
