@@ -5,6 +5,9 @@ Thumbs.db
 
 #IntelliJ
 out
+*.iws
+.idea/workspace.xml
+.idea/tasks.xml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
