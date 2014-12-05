@@ -4,7 +4,6 @@ Thumbs.db
 *.class
 
 #IntelliJ
-.idea
 out
 
 # Mobile Tools for Java (J2ME)
