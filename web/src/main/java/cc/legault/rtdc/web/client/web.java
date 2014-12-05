@@ -1,15 +1,22 @@
 package cc.legault.rtdc.web.client;
 
+import cc.legault.rtdc.core.Unit;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import it.netgrid.gwt.pouchdb.PouchDb;
+import it.netgrid.gwt.pouchdb.PouchDbDoc;
+import it.netgrid.gwt.pouchdb.handler.IDocUpdateHandler;
 import it.netgrid.gwt.pouchdb.options.EmptyOptionsFactory;
 import it.netgrid.gwt.pouchdb.options.IPouchdbOptionsFactory;
 import it.netgrid.gwt.pouchdb.options.ReplicationOptions;
+import it.netgrid.gwt.pouchdb.response.DocUpdateResponse;
+import it.netgrid.gwt.pouchdb.response.ErrorResponse;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
@@ -47,6 +54,24 @@ public class web implements EntryPoint {
 
         PouchDb localDb = new PouchDb("local_db_name");
         //PouchDb.replicate("http://localhost:5984/remote_db_name", "local_db_name", options);
+
+
+        Unit unit = new Unit("12E");
+        PouchDbDoc doc = PouchDbAdapter.fromNoSQLObject(unit);
+        localDb.put(doc, new IDocUpdateHandler() {
+
+            @Override
+            public void onSuccess(DocUpdateResponse response) {
+                // Success handling
+                GWT.log(response.getRev());
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                // Error handling
+                GWT.log(error.getReason());
+            }
+        });
     }
 
     private static class MyAsyncCallback implements AsyncCallback<String> {

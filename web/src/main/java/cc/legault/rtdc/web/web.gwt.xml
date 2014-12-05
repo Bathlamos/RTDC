@@ -13,6 +13,8 @@
     <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
 
     <!-- Dependencies -->
+    <inherits name="cc.legault.rtdc.core.Core" />
+
     <inherits name="it.netgrid.gwt.PouchDB" />
 
 

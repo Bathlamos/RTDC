@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cc.legault</groupId>
-    <artifactId>rtdc-web</artifactId>
+    <artifactId>rtdc-core</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>RTDC Web</name>
+    <name>RTDC Core</name>
     <url>http://github.com/Bathlamos/RTDC</url>
 
     <dependencies>
