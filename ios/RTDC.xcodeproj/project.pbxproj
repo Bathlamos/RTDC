@@ -11,13 +11,31 @@
 		1F6231411A34D253009E4BB3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231401A34D253009E4BB3 /* AppDelegate.m */; };
 		1F6231441A34D253009E4BB3 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231431A34D253009E4BB3 /* MasterViewController.m */; };
 		1F6231471A34D253009E4BB3 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231461A34D253009E4BB3 /* DetailViewController.m */; };
-		1F62314A1A34D253009E4BB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F6231481A34D253009E4BB3 /* Main.storyboard */; };
 		1F62314C1A34D253009E4BB3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F62314B1A34D253009E4BB3 /* Images.xcassets */; };
-		1F62314F1A34D253009E4BB3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F62314D1A34D253009E4BB3 /* LaunchScreen.xib */; };
 		1F62315B1A34D253009E4BB3 /* RTDCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F62315A1A34D253009E4BB3 /* RTDCTests.m */; };
 		1F6231661A37E65C009E4BB3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6231651A37E65C009E4BB3 /* libz.dylib */; };
 		1F6231681A37E664009E4BB3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6231671A37E664009E4BB3 /* Security.framework */; };
 		1F62316B1A37E67E009E4BB3 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6231691A37E66C009E4BB3 /* libicucore.dylib */; };
+		1F62317A1A388F71009E4BB3 /* CommandInterface.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231711A388F71009E4BB3 /* CommandInterface.java */; };
+		1F62317B1A388F71009E4BB3 /* CommandInterface.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231711A388F71009E4BB3 /* CommandInterface.java */; };
+		1F62317C1A388F71009E4BB3 /* CommandInterfaceListener.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231721A388F71009E4BB3 /* CommandInterfaceListener.java */; };
+		1F62317D1A388F71009E4BB3 /* CommandInterfaceListener.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231721A388F71009E4BB3 /* CommandInterfaceListener.java */; };
+		1F62317E1A388F71009E4BB3 /* Engine.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231731A388F71009E4BB3 /* Engine.java */; };
+		1F62317F1A388F71009E4BB3 /* Engine.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231731A388F71009E4BB3 /* Engine.java */; };
+		1F6231801A388F71009E4BB3 /* Game.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231741A388F71009E4BB3 /* Game.java */; };
+		1F6231811A388F71009E4BB3 /* Game.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231741A388F71009E4BB3 /* Game.java */; };
+		1F6231821A388F71009E4BB3 /* Move.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231751A388F71009E4BB3 /* Move.java */; };
+		1F6231831A388F71009E4BB3 /* Move.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231751A388F71009E4BB3 /* Move.java */; };
+		1F6231841A388F71009E4BB3 /* Position.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231761A388F71009E4BB3 /* Position.java */; };
+		1F6231851A388F71009E4BB3 /* Position.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231761A388F71009E4BB3 /* Position.java */; };
+		1F6231861A388F71009E4BB3 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 1F6231771A388F71009E4BB3 /* README */; };
+		1F6231871A388F71009E4BB3 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 1F6231771A388F71009E4BB3 /* README */; };
+		1F6231881A388F71009E4BB3 /* Score.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231781A388F71009E4BB3 /* Score.java */; };
+		1F6231891A388F71009E4BB3 /* Score.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231781A388F71009E4BB3 /* Score.java */; };
+		1F62318A1A388F71009E4BB3 /* SuperEngine.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231791A388F71009E4BB3 /* SuperEngine.java */; };
+		1F62318B1A388F71009E4BB3 /* SuperEngine.java in Sources */ = {isa = PBXBuildFile; fileRef = 1F6231791A388F71009E4BB3 /* SuperEngine.java */; };
+		1F62318D1A389089009E4BB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F6231481A34D253009E4BB3 /* Main.storyboard */; };
+		1F62318E1A38909C009E4BB3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F62314D1A34D253009E4BB3 /* LaunchScreen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -64,6 +82,15 @@
 		1F6231671A37E664009E4BB3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		1F6231691A37E66C009E4BB3 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		1F62316C1A3883A1009E4BB3 /* Settings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings.xcconfig; path = Config/Settings.xcconfig; sourceTree = "<group>"; };
+		1F6231711A388F71009E4BB3 /* CommandInterface.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CommandInterface.java; sourceTree = "<group>"; };
+		1F6231721A388F71009E4BB3 /* CommandInterfaceListener.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = CommandInterfaceListener.java; sourceTree = "<group>"; };
+		1F6231731A388F71009E4BB3 /* Engine.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = Engine.java; sourceTree = "<group>"; };
+		1F6231741A388F71009E4BB3 /* Game.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = Game.java; sourceTree = "<group>"; };
+		1F6231751A388F71009E4BB3 /* Move.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = Move.java; sourceTree = "<group>"; };
+		1F6231761A388F71009E4BB3 /* Position.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = Position.java; sourceTree = "<group>"; };
+		1F6231771A388F71009E4BB3 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		1F6231781A388F71009E4BB3 /* Score.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = Score.java; sourceTree = "<group>"; };
+		1F6231791A388F71009E4BB3 /* SuperEngine.java */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.java; path = SuperEngine.java; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +139,7 @@
 		1F62313A1A34D253009E4BB3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1F62316F1A388F71009E4BB3 /* Othello */,
 				1F62313F1A34D253009E4BB3 /* AppDelegate.h */,
 				1F6231401A34D253009E4BB3 /* AppDelegate.m */,
 				1F6231421A34D253009E4BB3 /* MasterViewController.h */,
@@ -150,6 +178,30 @@
 				1F6231591A34D253009E4BB3 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1F62316F1A388F71009E4BB3 /* Othello */ = {
+			isa = PBXGroup;
+			children = (
+				1F6231701A388F71009E4BB3 /* Engine */,
+			);
+			path = Othello;
+			sourceTree = "<group>";
+		};
+		1F6231701A388F71009E4BB3 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				1F6231711A388F71009E4BB3 /* CommandInterface.java */,
+				1F6231721A388F71009E4BB3 /* CommandInterfaceListener.java */,
+				1F6231731A388F71009E4BB3 /* Engine.java */,
+				1F6231741A388F71009E4BB3 /* Game.java */,
+				1F6231751A388F71009E4BB3 /* Move.java */,
+				1F6231761A388F71009E4BB3 /* Position.java */,
+				1F6231771A388F71009E4BB3 /* README */,
+				1F6231781A388F71009E4BB3 /* Score.java */,
+				1F6231791A388F71009E4BB3 /* SuperEngine.java */,
+			);
+			path = Engine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,8 +285,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F62314A1A34D253009E4BB3 /* Main.storyboard in Resources */,
-				1F62314F1A34D253009E4BB3 /* LaunchScreen.xib in Resources */,
+				1F62318E1A38909C009E4BB3 /* LaunchScreen.xib in Resources */,
+				1F62318D1A389089009E4BB3 /* Main.storyboard in Resources */,
+				1F6231861A388F71009E4BB3 /* README in Resources */,
 				1F62314C1A34D253009E4BB3 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -243,6 +296,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F6231871A388F71009E4BB3 /* README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,10 +307,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F6231821A388F71009E4BB3 /* Move.java in Sources */,
 				1F6231411A34D253009E4BB3 /* AppDelegate.m in Sources */,
+				1F62317A1A388F71009E4BB3 /* CommandInterface.java in Sources */,
 				1F6231441A34D253009E4BB3 /* MasterViewController.m in Sources */,
+				1F6231801A388F71009E4BB3 /* Game.java in Sources */,
+				1F62318A1A388F71009E4BB3 /* SuperEngine.java in Sources */,
+				1F6231881A388F71009E4BB3 /* Score.java in Sources */,
+				1F62317E1A388F71009E4BB3 /* Engine.java in Sources */,
 				1F62313E1A34D253009E4BB3 /* main.m in Sources */,
 				1F6231471A34D253009E4BB3 /* DetailViewController.m in Sources */,
+				1F6231841A388F71009E4BB3 /* Position.java in Sources */,
+				1F62317C1A388F71009E4BB3 /* CommandInterfaceListener.java in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,7 +326,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F6231831A388F71009E4BB3 /* Move.java in Sources */,
 				1F62315B1A34D253009E4BB3 /* RTDCTests.m in Sources */,
+				1F6231851A388F71009E4BB3 /* Position.java in Sources */,
+				1F62317F1A388F71009E4BB3 /* Engine.java in Sources */,
+				1F62317B1A388F71009E4BB3 /* CommandInterface.java in Sources */,
+				1F6231811A388F71009E4BB3 /* Game.java in Sources */,
+				1F6231891A388F71009E4BB3 /* Score.java in Sources */,
+				1F62317D1A388F71009E4BB3 /* CommandInterfaceListener.java in Sources */,
+				1F62318B1A388F71009E4BB3 /* SuperEngine.java in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,7 +376,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -333,7 +403,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -349,7 +419,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -370,7 +440,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -382,6 +452,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -394,7 +465,12 @@
 					"$(inherited)",
 					"\"${J2OBJC_HOME}/lib\"",
 				);
-				OTHER_LDFLAGS = "-ljre_emul";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"z\"",
+					"-l\"jre_emul\"",
+					"-l\"icucore\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -403,6 +479,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -415,7 +492,12 @@
 					"$(inherited)",
 					"\"${J2OBJC_HOME}/lib\"",
 				);
-				OTHER_LDFLAGS = "-ljre_emul";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"z\"",
+					"-l\"jre_emul\"",
+					"-l\"icucore\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
