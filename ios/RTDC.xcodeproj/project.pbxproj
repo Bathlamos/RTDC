@@ -387,7 +387,7 @@
 				INFOPLIST_FILE = RTDC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/../j2objc/lib";
-				OTHER_LDFLAGS = "-jre_emul";
+				OTHER_LDFLAGS = "-ljre_emul";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -405,7 +405,7 @@
 				INFOPLIST_FILE = RTDC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/../j2objc/lib";
-				OTHER_LDFLAGS = "-jre_emul";
+				OTHER_LDFLAGS = "-ljre_emul";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
