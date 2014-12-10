@@ -9,6 +9,8 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 
+
+
 @interface MasterViewController ()
 
 @property NSMutableArray *objects;
@@ -22,6 +24,8 @@
         self.clearsSelectionOnViewWillAppear = NO;
         self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
+    
+    
 }
 
 - (void)viewDidLoad {

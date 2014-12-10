@@ -30,7 +30,7 @@
 				"${DERIVED_FILES_DIR}/${INPUT_FILE_BASE}.h",
 				"${DERIVED_FILES_DIR}/${INPUT_FILE_BASE}.m",
 			);
-			script = "${PROJECT_DIR}/../j2objc -d ${DERIVED_FILES_DIR} -sourcepath ${PROJECT_DIR}/../core/src/ \\ --no-package-directories ${INPUT_FILE_PATH};";
+			script = "if [ ! -f \"${J2OBJC_HOME}/j2objc\" ]; then echo \"J2OBJC_HOME not correctly defined in Settings.xcconfig, currently set to '${J2OBJC_HOME}'\"; exit 1; fi;\n\"${J2OBJC_HOME}/j2objc\" -d ${DERIVED_FILES_DIR} -sourcepath \"${PROJECT_DIR}/Classes\" --no-package-directories --prefix Othello.Engine=OE -g ${INPUT_FILE_PATH};";
 		};
 /* End PBXBuildRule section */
 
@@ -63,6 +63,7 @@
 		1F6231651A37E65C009E4BB3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1F6231671A37E664009E4BB3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		1F6231691A37E66C009E4BB3 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		1F62316C1A3883A1009E4BB3 /* Settings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Settings.xcconfig; path = Config/Settings.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,10 +90,11 @@
 		1F62312F1A34D252009E4BB3 = {
 			isa = PBXGroup;
 			children = (
+				1F62316C1A3883A1009E4BB3 /* Settings.xcconfig */,
 				1F6231691A37E66C009E4BB3 /* libicucore.dylib */,
 				1F6231671A37E664009E4BB3 /* Security.framework */,
 				1F6231651A37E65C009E4BB3 /* libz.dylib */,
-				1F62313A1A34D253009E4BB3 /* RTDC */,
+				1F62313A1A34D253009E4BB3 /* Classes */,
 				1F6231571A34D253009E4BB3 /* RTDCTests */,
 				1F6231391A34D253009E4BB3 /* Products */,
 			);
@@ -107,7 +109,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1F62313A1A34D253009E4BB3 /* RTDC */ = {
+		1F62313A1A34D253009E4BB3 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				1F62313F1A34D253009E4BB3 /* AppDelegate.h */,
@@ -121,7 +123,7 @@
 				1F62314D1A34D253009E4BB3 /* LaunchScreen.xib */,
 				1F62313B1A34D253009E4BB3 /* Supporting Files */,
 			);
-			path = RTDC;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		1F62313B1A34D253009E4BB3 /* Supporting Files */ = {
@@ -298,6 +300,7 @@
 /* Begin XCBuildConfiguration section */
 		1F62315C1A34D253009E4BB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F62316C1A3883A1009E4BB3 /* Settings.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -340,6 +343,7 @@
 		};
 		1F62315D1A34D253009E4BB3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F62316C1A3883A1009E4BB3 /* Settings.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -381,12 +385,15 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"${PROJECT_DIR}/../j2objc/include",
+					"\"${J2OBJC_HOME}/include\"",
 					"${DERIVED_FILES_DIR}",
 				);
-				INFOPLIST_FILE = RTDC/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Classes/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/../j2objc/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${J2OBJC_HOME}/lib\"",
+				);
 				OTHER_LDFLAGS = "-ljre_emul";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -399,12 +406,15 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"${PROJECT_DIR}/../j2objc/include",
+					"\"${J2OBJC_HOME}/include\"",
 					"${DERIVED_FILES_DIR}",
 				);
-				INFOPLIST_FILE = RTDC/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Classes/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/../j2objc/lib";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${J2OBJC_HOME}/lib\"",
+				);
 				OTHER_LDFLAGS = "-ljre_emul";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
