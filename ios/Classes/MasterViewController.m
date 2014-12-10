@@ -8,7 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
-
+#import "Move.h"
 
 
 @interface MasterViewController ()
@@ -25,6 +25,7 @@
         self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
     
+    OEMove* move;
     
 }
 
