@@ -140,26 +140,10 @@
 		1F6231921A389789009E4BB3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				1F6231931A389789009E4BB3 /* cc */,
+				1F6231951A389789009E4BB3 /* rtdc */,
 			);
 			name = Core;
 			path = ../core/src;
-			sourceTree = "<group>";
-		};
-		1F6231931A389789009E4BB3 /* cc */ = {
-			isa = PBXGroup;
-			children = (
-				1F6231941A389789009E4BB3 /* legault */,
-			);
-			path = cc;
-			sourceTree = "<group>";
-		};
-		1F6231941A389789009E4BB3 /* legault */ = {
-			isa = PBXGroup;
-			children = (
-				1F6231951A389789009E4BB3 /* rtdc */,
-			);
-			path = legault;
 			sourceTree = "<group>";
 		};
 		1F6231951A389789009E4BB3 /* rtdc */ = {
