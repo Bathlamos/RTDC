@@ -1,12 +1,10 @@
-package cc.legault.rtdc.web.client;
+package rtdc.web.client;
 
-import cc.legault.rtdc.core.Unit;
+import rtdc.core.Unit;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import it.netgrid.gwt.pouchdb.PouchDb;

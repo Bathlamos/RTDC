@@ -6,20 +6,20 @@
     <inherits name='com.google.gwt.user.User'/>
 
     <!-- Specify the app entry point class.                   -->
-    <entry-point class='cc.legault.rtdc.web.client.web'/>
+    <entry-point class='rtdc.web.client.web'/>
 
     <!-- Do not include the <script> tags in the *.gwt.xml files -->
     <!-- Those are included in the host html page -->
     <set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
 
     <!-- Dependencies -->
-    <inherits name="cc.legault.rtdc.core.Core" />
+    <inherits name="rtdc.core.Core" />
 
     <inherits name="it.netgrid.gwt.PouchDB" />
 
 
 
     <!-- Specify the app servlets.                   -->
-    <servlet path='/webService' class='cc.legault.rtdc.web.server.webServiceImpl'/>
+    <servlet path='/webService' class='rtdc.web.server.webServiceImpl'/>
 
 </module>

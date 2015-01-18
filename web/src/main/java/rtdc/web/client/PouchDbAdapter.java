@@ -1,11 +1,10 @@
-package cc.legault.rtdc.web.client;
+package rtdc.web.client;
 
-import cc.legault.rtdc.core.NoSQLObject;
+import rtdc.core.*;
 import com.google.gwt.core.client.JavaScriptObject;
 import it.netgrid.gwt.pouchdb.PouchDbDoc;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class PouchDbAdapter {
 

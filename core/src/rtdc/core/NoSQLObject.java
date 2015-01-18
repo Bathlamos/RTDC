@@ -1,4 +1,4 @@
-package cc.legault.rtdc.core;
+package rtdc.core;
 
 import java.util.HashMap;
 import java.util.Map;

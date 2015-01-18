@@ -1,4 +1,4 @@
-package cc.legault.rtdc.web.client;
+package rtdc.web.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;

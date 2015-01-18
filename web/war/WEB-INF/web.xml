@@ -7,7 +7,7 @@
 
     <servlet>
         <servlet-name>web webService</servlet-name>
-        <servlet-class>cc.legault.rtdc.web.server.webServiceImpl</servlet-class>
+        <servlet-class>rtdc.web.server.webServiceImpl</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>web webService</servlet-name>

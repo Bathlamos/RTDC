@@ -1,4 +1,4 @@
-package cc.legault.rtdc.web.client;
+package rtdc.web.client;
 
 /*
 File: Math.uuid.js

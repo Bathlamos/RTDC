@@ -1,7 +1,7 @@
-package cc.legault.rtdc.web.server;
+package rtdc.web.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import cc.legault.rtdc.web.client.webService;
+import rtdc.web.client.webService;
 
 public class webServiceImpl extends RemoteServiceServlet implements webService {
     // Implementation of sample interface method
