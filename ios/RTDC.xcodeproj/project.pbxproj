@@ -226,7 +226,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
-				ORGANIZATIONNAME = "Legault - Ménard";
+				ORGANIZATIONNAME = "Clermont, Ermel, Fortin-Boulay, Legault & Ménard";
 				TargetAttributes = {
 					1F6231371A34D252009E4BB3 = {
 						CreatedOnToolsVersion = 6.1;
