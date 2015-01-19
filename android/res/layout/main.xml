@@ -4,10 +4,20 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World, MyActivity"
-            />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Login"
+            android:id="@+id/loginButton" android:layout_marginTop="42dp" android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" android:onClick="login" />
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Logout"
+            android:id="@+id/logoutButton" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+            android:layout_marginBottom="39dp" android:onClick="logout" />
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Call"
+            android:id="@+id/callButton" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+            android:onClick="call" />
+    </RelativeLayout>
 </LinearLayout>
 
