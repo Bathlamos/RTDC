@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var unit = CoreUnit(NSString: "Cake")
+    
+    var unit = RtdcCoreUnit(NSString: "Pizza")
     
     override func viewDidLoad() {
         super.viewDidLoad()
