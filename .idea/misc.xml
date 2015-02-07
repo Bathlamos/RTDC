@@ -47,6 +47,7 @@
       <list>
         <option value="$PROJECT_DIR$/core/pom.xml" />
         <option value="$PROJECT_DIR$/web/pom.xml" />
+        <option value="$PROJECT_DIR$/android/pom.xml" />
       </list>
     </option>
   </component>
