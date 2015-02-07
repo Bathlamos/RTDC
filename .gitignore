@@ -226,3 +226,5 @@ xcuserdata
 # pull your cahnges to other's repo"
 #
 #*.xccheckout
+web/target/MANIFEST.MF
+*.MF
