@@ -3,6 +3,8 @@ Thumbs.db
 
 *.class
 
+local.properties
+
 #Gradle
 .gradle/
 
