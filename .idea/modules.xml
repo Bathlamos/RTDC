@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/android/Android.iml" filepath="$PROJECT_DIR$/android/Android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/core/Core.iml" filepath="$PROJECT_DIR$/core/Core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/web/Web.iml" filepath="$PROJECT_DIR$/web/Web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RTDC.iml" filepath="$PROJECT_DIR$/RTDC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/android.iml" filepath="$PROJECT_DIR$/android/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
     </modules>
   </component>
 </project>
