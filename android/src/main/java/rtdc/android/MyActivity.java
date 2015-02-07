@@ -28,7 +28,7 @@ public class MyActivity extends Activity {
              */
             manager = new Manager(new AndroidContext(mContext), Manager.DEFAULT_OPTIONS);
         } catch (IOException e) {
-            Log.e(TAG, "Cannot create Manager instance", e);
+            Log.e("lll", "Cannot create Manager instance", e);
             return;
         }
     }
