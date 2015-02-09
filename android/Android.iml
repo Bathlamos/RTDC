@@ -83,12 +83,17 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="jackson-databind-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="couchbase-lite-android-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-asl-1.9.2" level="project" />
     <orderEntry type="library" exported="" name="jackson-mapper-asl-1.9.2" level="project" />
     <orderEntry type="library" exported="" name="gwt-servlet-2.7.0" level="project" />
+    <orderEntry type="library" exported="" name="jsr305-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="jackson-annotations-2.3.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />
+    <orderEntry type="library" exported="" name="realtime-json-0.5.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-2.3.1" level="project" />
     <orderEntry type="library" exported="" name="couchbase-lite-java-core-1.0.0" level="project" />
     <orderEntry type="module" module-name="core" exported="" />
   </component>

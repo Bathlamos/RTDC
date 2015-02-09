@@ -19,6 +19,9 @@ buildscript {
 repositories { mavenCentral() }
 
 dependencies {
+    compile 'com.google.code.findbugs:jsr305:3.0.0'
+    compile 'com.goodow.realtime:realtime-json:0.5.5-SNAPSHOT'
+
     def cargoVersion = '1.4.4'
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
             "org.codehaus.cargo:cargo-ant:$cargoVersion"

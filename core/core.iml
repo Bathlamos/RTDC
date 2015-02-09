@@ -55,6 +55,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="jsr305-3.0.0" level="project" />
+    <orderEntry type="library" exported="" name="realtime-json-0.5.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="jackson-databind-2.3.1" level="project" />
+    <orderEntry type="library" exported="" name="jackson-annotations-2.3.0" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-2.3.1" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="gwt-servlet-2.7.0" level="project" />
   </component>
 </module>
