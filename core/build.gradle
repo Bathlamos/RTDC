@@ -1,3 +1,5 @@
+apply plugin: 'java'
+/*
 apply plugin: 'war'
 apply plugin: 'cargo'
 apply plugin: 'jetty'
@@ -72,3 +74,4 @@ afterEvaluate {
     tasks.cargoStartLocal.dependsOn(tasks.draftWar)
     tasks.cargoRunLocal.dependsOn(tasks.draftWar)
 }
+*/
