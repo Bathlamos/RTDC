@@ -1,7 +1,67 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        //GWT plugin
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'org.gradle.api.plugins:gradle-cargo-plugin:0.6.1'
+    }
+}
+
+apply plugin: 'java'
 apply plugin: 'war'
+apply plugin: 'cargo'
+apply plugin: 'jetty'
 apply plugin: 'gwt'
+
+dependencies {
+    def cargoVersion = '1.4.4'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+            "org.codehaus.cargo:cargo-ant:$cargoVersion"
+    compile 'com.google.inject.extensions:guice-servlet:4.0-beta5'
+    compile 'com.google.inject.extensions:guice-servlet:4.0-beta5'
+
+}
 
 gwt {
     gwtVersion='2.7.0'
     modules 'rtdc.web.rtdc-web'
+
+    maxHeapSize = "1024M"
+
+    superDev {
+        noPrecompile=true
+    }
+}
+
+cargo {
+    containerId = 'jetty9x'
+    port = 8080
+
+    deployable {
+        file = tasks.draftWar.archivePath
+        context = 'app'
+    }
+
+    local {
+        installer {
+            installUrl = file("$projectDir/etc/jetty-distribution-9.0.5.v20130815.zip").toURI()
+            downloadDir = file("$buildDir/download")
+            extractDir = file("$buildDir/extract")
+        }
+    }
+}
+
+task jettyDraftWar(type: JettyRunWar) {
+    dependsOn draftWar
+    dependsOn.remove('war')
+    webApp=draftWar.archivePath
+}
+
+afterEvaluate {
+    tasks.cargoStartLocal.dependsOn(tasks.draftWar)
+    tasks.cargoRunLocal.dependsOn(tasks.draftWar)
 }

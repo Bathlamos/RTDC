@@ -11,6 +11,6 @@
     <entry-point class='rtdc.web.client.web'/>
 
     <!-- Specify the app servlets.                   -->
-    <servlet path='/webService' class='rtdc.web.server.webServiceImpl'/>
+    <!-- <servlet path='/webService' class='rtdc.web.server.webServiceImpl'/>-->
 
 </module>

@@ -51,6 +51,8 @@
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
+          <root url="file://$MODULE_DIR$/build/gwt/out/rtdc_web" relative="/rtdc_web" />
+          <root url="file://$MODULE_DIR$/build/gwt/out/WEB-INF" relative="/WEB-INF" />
         </webroots>
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
@@ -73,6 +75,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="guice-servlet-4.0-beta5" level="project" />
+    <orderEntry type="library" exported="" name="guice-4.0-beta5" level="project" />
+    <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="aopalliance-1.0" level="project" />
+    <orderEntry type="library" exported="" name="guava-16.0.1" level="project" />
     <orderEntry type="library" exported="" scope="RUNTIME" name="gwt-servlet-2.7.0" level="project" />
   </component>
 </module>

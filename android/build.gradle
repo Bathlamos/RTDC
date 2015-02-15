@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        //Adds the android gradle plugin as a dependency of this buildscript
+        classpath 'com.android.tools.build:gradle:1.0.0'
+    }
+}
+
 apply plugin: 'android'
 
 android {
