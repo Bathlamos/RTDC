@@ -32,9 +32,6 @@
     </facet>
     <facet type="web" name="Web Gradle : web-draft.war">
       <configuration>
-        <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" />
-        </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
@@ -46,9 +43,6 @@
     </facet>
     <facet type="web" name="Web Gradle : web.war">
       <configuration>
-        <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" />
-        </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
           <root url="file://$MODULE_DIR$/build/gwt/out/rtdc_web" relative="/rtdc_web" />
@@ -75,11 +69,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="guice-servlet-4.0-beta5" level="project" />
+    <orderEntry type="module" module-name="core" exported="" />
     <orderEntry type="library" exported="" name="guice-4.0-beta5" level="project" />
+    <orderEntry type="library" exported="" name="guice-servlet-4.0-beta5" level="project" />
+    <orderEntry type="library" exported="" name="gwt-servlet-2.7.0" level="project" />
+    <orderEntry type="library" exported="" name="gwt-user-2.7.0" level="project" />
+    <orderEntry type="library" exported="" name="realtime-json-0.5.0" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="aopalliance-1.0" level="project" />
     <orderEntry type="library" exported="" name="guava-16.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="gwt-servlet-2.7.0" level="project" />
+    <orderEntry type="library" exported="" name="validation-api-1.0.0.GA" level="project" />
+    <orderEntry type="library" exported="" name="validation-api-1.0.0.GA-sources" level="project" />
+    <orderEntry type="library" exported="" name="jackson-databind-2.3.1" level="project" />
+    <orderEntry type="library" exported="" name="jackson-annotations-2.3.0" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-2.3.1" level="project" />
   </component>
 </module>

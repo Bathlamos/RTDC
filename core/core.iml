@@ -26,19 +26,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="jackson-datatype-hibernate4-2.5.1" level="project" />
-    <orderEntry type="library" exported="" name="hibernate-annotations-3.5.6-Final" level="project" />
-    <orderEntry type="library" exported="" name="jackson-databind-2.5.1" level="project" />
-    <orderEntry type="library" exported="" name="jackson-core-2.5.1" level="project" />
-    <orderEntry type="library" exported="" name="hibernate-core-3.5.6-Final" level="project" />
-    <orderEntry type="library" exported="" name="hibernate-commons-annotations-3.2.0.Final" level="project" />
-    <orderEntry type="library" exported="" name="hibernate-jpa-2.0-api-1.0.0.Final" level="project" />
-    <orderEntry type="library" exported="" name="slf4j-api-1.5.8" level="project" />
-    <orderEntry type="library" exported="" name="jackson-annotations-2.5.0" level="project" />
-    <orderEntry type="library" exported="" name="antlr-2.7.6" level="project" />
-    <orderEntry type="library" exported="" name="commons-collections-3.1" level="project" />
-    <orderEntry type="library" exported="" name="dom4j-1.6.1" level="project" />
-    <orderEntry type="library" exported="" name="jta-1.1" level="project" />
-    <orderEntry type="library" exported="" name="xml-apis-1.0.b2" level="project" />
+    <orderEntry type="library" exported="" name="realtime-json-0.5.0" level="project" />
+    <orderEntry type="library" exported="" name="jackson-databind-2.3.1" level="project" />
+    <orderEntry type="library" exported="" name="jackson-annotations-2.3.0" level="project" />
+    <orderEntry type="library" exported="" name="jackson-core-2.3.1" level="project" />
   </component>
 </module>
