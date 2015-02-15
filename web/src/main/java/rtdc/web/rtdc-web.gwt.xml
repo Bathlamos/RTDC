@@ -5,6 +5,9 @@
     <!-- Inherit the core Web Toolkit stuff.                  -->
     <inherits name='com.google.gwt.user.User'/>
 
+    <!-- Inherit RTDC core -->
+    <inherits name='rtdc.core.rtdc-core'/>
+
     <source path="client" />
 
     <!-- Specify the app entry point class.                   -->
