@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import rtdc.web.server.service.Authentication;
+import rtdc.web.server.service.ExceptionServlet;
 
 public class GuiceServletConfig extends GuiceServletContextListener {
 
@@ -14,7 +15,8 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 
             @Override
             protected void configureServlets() {
-                serve("/authenticate*").with(Authentication.class);
+                serve("/error").with(ExceptionServlet.class);
+                serve("/api/authenticate*").with(Authentication.class);
             }
         });
     }

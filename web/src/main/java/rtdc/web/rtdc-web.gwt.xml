@@ -5,10 +5,15 @@
     <!-- Inherit the core Web Toolkit stuff.                  -->
     <inherits name='com.google.gwt.user.User'/>
 
+    <!-- Inherit RTDC core -->
+    <inherits name='rtdc.core.rtdc-core'/>
+
+    <inherits name="com.google.gwt.http.HTTP"/>
+
     <source path="client" />
 
     <!-- Specify the app entry point class.                   -->
-    <entry-point class='rtdc.web.client.web'/>
+    <entry-point class='rtdc.web.client.Rtdc'/>
 
     <!-- Specify the app servlets.                   -->
     <!-- <servlet path='/webService' class='rtdc.web.server.webServiceImpl'/>-->
