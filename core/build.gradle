@@ -1,3 +1,5 @@
+apply plugin: 'java'
+/*
 apply plugin: 'war'
 apply plugin: 'cargo'
 apply plugin: 'jetty'
@@ -22,9 +24,8 @@ dependencies {
     def cargoVersion = '1.4.4'
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
             "org.codehaus.cargo:cargo-ant:$cargoVersion"
-
     // Needed for Legacy SuperDevMode
-//	gwt files('etc/superdevmode-launcher-legacy.jar')
+    //	gwt files('etc/superdevmode-launcher-legacy.jar')
 }
 
 gwt {
@@ -73,3 +74,4 @@ afterEvaluate {
     tasks.cargoStartLocal.dependsOn(tasks.draftWar)
     tasks.cargoRunLocal.dependsOn(tasks.draftWar)
 }
+*/
