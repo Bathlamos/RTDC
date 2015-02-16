@@ -22,12 +22,7 @@ public class Authentication extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        AuthenticationInformation authInfo = null;
-        try{
-            authInfo = new AuthenticationInformation(Util.getHttpRequestData(req));
-        }catch(JSONException e){
-
-        }
+        AuthenticationInformation authInfo = new AuthenticationInformation(Util.getHttpRequestData(req));
 
         //Do some validation with the database
 

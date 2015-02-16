@@ -3,6 +3,10 @@ package rtdc.core.model;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class User extends JSONObject {
 
     public User(){}
@@ -11,6 +15,7 @@ public class User extends JSONObject {
         super(json);
     }
 
+    @Id
     public int getId(){
         return optInt("id");
     }
@@ -33,6 +38,5 @@ public class User extends JSONObject {
     public void setFirstName(String firstName){
         put("firstName", firstName);
     }
-
 
 }
