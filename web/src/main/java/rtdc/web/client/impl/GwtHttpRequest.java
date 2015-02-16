@@ -58,7 +58,7 @@ public class GwtHttpRequest implements HttpRequest{
         try {
             builder.send();
         }catch(RequestException exception){
-            Window.alert("Panic2");
+            exception.printStackTrace();
         }
     }
 }

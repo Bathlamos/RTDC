@@ -11,7 +11,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "localhost:8888/api/";
+    private static final String URL = "http://127.0.0.1:8888/api/";
 
     private Service(){}
 
