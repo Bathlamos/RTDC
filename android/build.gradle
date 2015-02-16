@@ -1,4 +1,14 @@
-apply plugin: 'com.android.application'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        //Adds the android gradle plugin as a dependency of this buildscript
+        classpath 'com.android.tools.build:gradle:1.0.0'
+    }
+}
+
+apply plugin: 'android'
 
 android {
     compileSdkVersion 19
@@ -13,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 9
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
@@ -26,9 +36,7 @@ android {
     }
 }
 
+
 dependencies {
-    compile project(':core')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:19.1+'
-    compile 'com.couchbase.lite:couchbase-lite-android:1.0.0'
 }
