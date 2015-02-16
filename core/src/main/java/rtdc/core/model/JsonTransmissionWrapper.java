@@ -1,11 +1,10 @@
 package rtdc.core.model;
 
 import com.goodow.realtime.json.JsonElement;
-import com.goodow.realtime.json.impl.JreJsonObject;
 
-public class JsonTransmissionWrapper extends JreJsonObject {
+public class JsonTransmissionWrapper {
 
-    public JsonTransmissionWrapper(JsonElement data){
+   /* public JsonTransmissionWrapper(JsonElement data){
         setData(data);
         setStatus("success");
     }
@@ -28,6 +27,6 @@ public class JsonTransmissionWrapper extends JreJsonObject {
 
     public void setStatus(String status) {
         set("status", status);
-    }
+    }*/
 
 }

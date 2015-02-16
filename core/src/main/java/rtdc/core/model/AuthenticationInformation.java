@@ -1,22 +1,33 @@
 package rtdc.core.model;
 
-import com.goodow.realtime.json.impl.JreJsonObject;
 
-public class AuthenticationInformation extends JreJsonObject {
+import rtdc.core.json.JSONException;
+import rtdc.core.json.JSONObject;
 
-    public String getUsername() {
-        return getString("username");
-    }
-    public void setUsername(String username) {
-        set("username", username);
-    }
+public class AuthenticationInformation extends JSONObject {
 
-    public String getPassword() {
-        return getString("password");
-    }
-    public void setPassword(String password) {
-        set("password", password);
+    public AuthenticationInformation(){}
+
+    public AuthenticationInformation(String json) throws JSONException{
+        super(json);
     }
 
+    public String getUsername(){
+        return optString("username");
+    }
+    public void setUsername(String username){
+        try {
+            putOpt("username", username);
+        }catch(JSONException e){}
+    }
+
+    public String getPassword(){
+        return optString("password");
+    }
+    public void setPassword(String password){
+        try {
+            putOpt("password", password);
+        }catch(JSONException e){}
+    }
 
 }

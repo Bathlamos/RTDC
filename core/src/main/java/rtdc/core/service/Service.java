@@ -17,7 +17,7 @@ public final class Service {
     public static void authenticateUser(AuthenticationInformation authInfo, final AsyncCallback<User> callback){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest();
 
-        req.setUrl(URL + "authenticate");
+        /*req.setUrl(URL + "authenticate");
         req.setRequestData(authInfo.toJsonString());
         req.setRequestMethod(POST);
         req.execute(new AsyncCallback<HttpResponse>() {
@@ -25,7 +25,7 @@ public final class Service {
             public void onCallback(HttpResponse resp) {
                 callback.onCallback((User) Json.parse(resp.getContent()));
             }
-        });
+        });*/
     }
 
 }

@@ -1,28 +1,43 @@
 package rtdc.core.model;
 
-import com.goodow.realtime.json.impl.JreJsonObject;
+import rtdc.core.json.JSONException;
+import rtdc.core.json.JSONObject;
 
-public class User extends JreJsonObject {
+public class User extends JSONObject {
 
-    public int getId() {
-        return (int) getNumber("id");
-    }
-    public void setId(int id) {
-        set("id", id);
-    }
+    public User(){}
 
-    public String getSurname() {
-        return getString("surname");
-    }
-    public void setSurname(String surname) {
-        set("surname", surname);
+    public User(String json) throws JSONException{
+        super(json);
     }
 
-    public String getFirstName() {
-        return getString("firstName");
+    public int getId(){
+        return optInt("id");
     }
-    public void setFirstName(String firstName) {
-        set("firstName", firstName);
+    public void setId(int id){
+        try {
+            putOpt("id", id);
+        }catch(JSONException e){}
+    }
+
+    public String getSurname(){
+        return optString("surname");
+    }
+
+    public void setSurname(String surname){
+        try {
+            putOpt("surname", surname);
+        }catch(JSONException e){}
+    }
+
+    public String getFirstName(){
+        return optString("firstName");
+    }
+
+    public void setFirstName(String firstName){
+        try {
+            putOpt("firstName", firstName);
+        }catch(JSONException e){}
     }
 
 
