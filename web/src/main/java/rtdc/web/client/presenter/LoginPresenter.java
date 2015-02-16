@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.*;
 import rtdc.core.controller.LoginController;
 import rtdc.core.view.LoginView;
 
-public class LoginPresenter extends Widget implements LoginView {
+public class LoginPresenter extends Composite implements LoginView {
 
     interface LoginPresenterUiBinder extends UiBinder<FlowPanel, LoginPresenter> {}
     private static LoginPresenterUiBinder ourUiBinder = GWT.create(LoginPresenterUiBinder.class);
@@ -26,7 +26,7 @@ public class LoginPresenter extends Widget implements LoginView {
     Button go;
 
     public LoginPresenter() {
-        ourUiBinder.createAndBindUi(this);
+        initWidget(ourUiBinder.createAndBindUi(this));
 
         go.addClickHandler(new ClickHandler() {
             @Override

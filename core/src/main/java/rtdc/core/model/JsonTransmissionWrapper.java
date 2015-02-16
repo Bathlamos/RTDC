@@ -1,32 +1,29 @@
 package rtdc.core.model;
 
-import com.goodow.realtime.json.JsonElement;
+import rtdc.core.json.JSONObject;
 
-public class JsonTransmissionWrapper {
+public class JsonTransmissionWrapper extends JSONObject {
 
-   /* public JsonTransmissionWrapper(JsonElement data){
-        setData(data);
-        setStatus("success");
+    public JsonTransmissionWrapper(String json) {
+        super(json);
     }
 
-    public JsonTransmissionWrapper(Throwable exception){
+    public JsonTransmissionWrapper(Throwable exception) {
         setStatus(exception.getClass().getSimpleName());
     }
 
-    public JsonElement getData() {
-        return getObject("data");
+    public JSONObject getData(){
+        return optJSONObject("data");
+    }
+    public void setData(JSONObject data) {
+        put("data", data);
     }
 
-    public void setData(JsonElement data) {
-        set("data", data);
+    public String getStatus(){
+        return optString("status");
     }
-
-    public String getStatus() {
-        return getString("status");
+    public void setStatus( String status) {
+        put("status", status);
     }
-
-    public void setStatus(String status) {
-        set("status", status);
-    }*/
 
 }

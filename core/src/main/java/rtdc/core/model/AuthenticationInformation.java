@@ -1,14 +1,12 @@
 package rtdc.core.model;
 
-
-import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
 public class AuthenticationInformation extends JSONObject {
 
     public AuthenticationInformation(){}
 
-    public AuthenticationInformation(String json) throws JSONException{
+    public AuthenticationInformation(String json){
         super(json);
     }
 
@@ -16,18 +14,14 @@ public class AuthenticationInformation extends JSONObject {
         return optString("username");
     }
     public void setUsername(String username){
-        try {
-            putOpt("username", username);
-        }catch(JSONException e){}
+        put("username", username);
     }
 
     public String getPassword(){
         return optString("password");
     }
-    public void setPassword(String password){
-        try {
-            putOpt("password", password);
-        }catch(JSONException e){}
+    public void setPassword(String password) {
+        putOpt("password", password);
     }
 
 }

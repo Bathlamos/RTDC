@@ -1,6 +1,7 @@
 package rtdc.web.server.service;
 
 import com.google.inject.Singleton;
+import rtdc.core.model.JsonTransmissionWrapper;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,9 +17,9 @@ public class ExceptionServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Throwable throwable = (Throwable) req.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
 
-        /*if(throwable != null) {
+        if(throwable != null) {
             JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(throwable);
-            resp.getWriter().write(wrapper.toJsonString());
-        }*/
+            resp.getWriter().write(wrapper.toString());
+        }
     }
 }

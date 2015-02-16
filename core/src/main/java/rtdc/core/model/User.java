@@ -15,9 +15,7 @@ public class User extends JSONObject {
         return optInt("id");
     }
     public void setId(int id){
-        try {
-            putOpt("id", id);
-        }catch(JSONException e){}
+        put("id", id);
     }
 
     public String getSurname(){
@@ -25,9 +23,7 @@ public class User extends JSONObject {
     }
 
     public void setSurname(String surname){
-        try {
-            putOpt("surname", surname);
-        }catch(JSONException e){}
+        put("surname", surname);
     }
 
     public String getFirstName(){
@@ -35,9 +31,7 @@ public class User extends JSONObject {
     }
 
     public void setFirstName(String firstName){
-        try {
-            putOpt("firstName", firstName);
-        }catch(JSONException e){}
+        put("firstName", firstName);
     }
 
 

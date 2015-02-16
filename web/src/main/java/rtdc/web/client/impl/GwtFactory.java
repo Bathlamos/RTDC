@@ -7,7 +7,7 @@ public class GwtFactory implements Factory {
 
     @Override
     public HttpRequest newHttpRequest() {
-        return null;
+        return new GwtHttpRequest();
     }
 
 }

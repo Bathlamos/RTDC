@@ -6,9 +6,6 @@ import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.service.AsyncCallback;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 public class GwtHttpRequest implements HttpRequest{
 
     Request req;

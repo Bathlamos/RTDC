@@ -38,8 +38,7 @@ public class Authentication extends HttpServlet {
             user.setId(1);
             resp.getWriter().write(user.toString());
         }else
-            ;
-            //resp.getWriter().write(
-                   // new JsonTransmissionWrapper(new UsernamePasswordMismatchException()).toJsonString());
+            resp.getWriter().write(
+                   new JsonTransmissionWrapper(new UsernamePasswordMismatchException()).toString());
     }
 }
