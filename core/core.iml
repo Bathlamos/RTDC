@@ -24,11 +24,8 @@
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="realtime-json-0.5.0" level="project" />
-    <orderEntry type="library" exported="" name="jackson-databind-2.3.1" level="project" />
-    <orderEntry type="library" exported="" name="jackson-annotations-2.3.0" level="project" />
-    <orderEntry type="library" exported="" name="jackson-core-2.3.1" level="project" />
+    <orderEntry type="library" exported="" name="persistence-api-1.0.2" level="project" />
   </component>
 </module>
