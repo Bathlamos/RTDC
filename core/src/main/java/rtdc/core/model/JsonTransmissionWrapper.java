@@ -10,6 +10,7 @@ public class JsonTransmissionWrapper extends JSONObject {
 
     public JsonTransmissionWrapper(Throwable exception) {
         setStatus(exception.getClass().getSimpleName());
+        setDescription(exception.getMessage());
     }
 
     public JSONObject getData(){
@@ -22,8 +23,15 @@ public class JsonTransmissionWrapper extends JSONObject {
     public String getStatus(){
         return optString("status");
     }
-    public void setStatus( String status) {
+    public void setStatus(String status) {
         put("status", status);
+    }
+
+    public String getDescription(){
+        return optString("description");
+    }
+    public void setDescription(String description) {
+        put("description", description);
     }
 
 }

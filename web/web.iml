@@ -84,6 +84,7 @@
     <orderEntry type="library" exported="" name="gwt-user-2.7.0" level="project" />
     <orderEntry type="library" exported="" name="hibernate-core-4.3.8.Final" level="project" />
     <orderEntry type="library" exported="" name="postgresql-9.1-901-1.jdbc4" level="project" />
+    <orderEntry type="library" exported="" name="jbcrypt-0.3m" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="aopalliance-1.0" level="project" />
     <orderEntry type="library" exported="" name="guava-16.0.1" level="project" />
