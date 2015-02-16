@@ -6,24 +6,23 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import rtdc.core.Bootstrapper;
+import rtdc.web.client.impl.GwtFactory;
+import rtdc.web.client.presenter.LoginPresenter;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
  */
-public class web implements EntryPoint {
+public class Rtdc implements EntryPoint {
 
     /**
      * This is the entry point method.
      */
     public void onModuleLoad() {
-        final Button button = new Button("Click me");
-        final Label label = new Label();
 
-        button.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                label.setText("Hello there!");
-            }
-        });
+        Bootstrapper.initialize(new GwtFactory());
+
+        RootPanel.get().add(new LoginPresenter());
 
     }
 

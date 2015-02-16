@@ -2,6 +2,6 @@
         "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to="rtdc_core">
 
-    <source path="exception" />
+    <source path="" />
 
 </module>
