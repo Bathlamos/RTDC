@@ -22,7 +22,6 @@ dependencies {
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
             "org.codehaus.cargo:cargo-ant:$cargoVersion"
     compile project(':core')
-    compile 'org.hibernate:hibernate-core:4.3.8.Final'
     compile 'com.google.inject:guice:4.0-beta5'
     compile 'com.google.inject.extensions:guice-servlet:4.0-beta5'
     compile 'com.google.gwt:gwt-servlet:2.7.0'
