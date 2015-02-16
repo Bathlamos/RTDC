@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TabHost;
-import com.couchbase.lite.Manager;
-import com.couchbase.lite.android.AndroidContext;
 
 import java.io.IOException;
 
@@ -32,19 +30,5 @@ public class MyActivity extends Activity {
         tabSpec.setContent(R.id.tabUnits);
         tabSpec.setIndicator("Manage Units");
         tabHost.addTab(tabSpec);
-
-        Manager manager;
-
-        Context mContext = getApplicationContext();
-        try {
-            /*
-             * In Java the Manager instance and all the objects descending
-             * from it may be used on any thread.
-             */
-            manager = new Manager(new AndroidContext(mContext), Manager.DEFAULT_OPTIONS);
-        } catch (IOException e) {
-            Log.e("lll", "Cannot create Manager instance", e);
-            return;
-        }
     }
 }
