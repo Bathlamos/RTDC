@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import com.couchbase.lite.Manager;
-import com.couchbase.lite.android.AndroidContext;
+import android.widget.TabHost;
 
 import java.io.IOException;
 
@@ -18,18 +17,18 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        Manager manager;
+        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
-        Context mContext = getApplicationContext();
-        try {
-            /*
-             * In Java the Manager instance and all the objects descending
-             * from it may be used on any thread.
-             */
-            manager = new Manager(new AndroidContext(mContext), Manager.DEFAULT_OPTIONS);
-        } catch (IOException e) {
-            Log.e("lll", "Cannot create Manager instance", e);
-            return;
-        }
+        tabHost.setup();
+
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("accounts");
+        tabSpec.setContent(R.id.tabAccounts);
+        tabSpec.setIndicator("Manage Accounts");
+        tabHost.addTab(tabSpec);
+
+        tabSpec = tabHost.newTabSpec("units");
+        tabSpec.setContent(R.id.tabUnits);
+        tabSpec.setIndicator("Manage Units");
+        tabHost.addTab(tabSpec);
     }
 }

@@ -1,7 +1,17 @@
-apply plugin: 'com.android.application'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        //Adds the android gradle plugin as a dependency of this buildscript
+        classpath 'com.android.tools.build:gradle:1.0.0'
+    }
+}
+
+apply plugin: 'android'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion '19.1.0'
 
     // workaround for "duplicate files during packaging of APK" issue
@@ -13,8 +23,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 19
+        minSdkVersion 11
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -26,8 +36,8 @@ android {
     }
 }
 
+
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:19.1+'
-    compile 'com.couchbase.lite:couchbase-lite-android:1.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.3'
 }

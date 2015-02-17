@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+           version="3.0">
+
+    <!-- servlet definition -->
+    <servlet>
+        <servlet-name>ExceptionServlet</servlet-name>
+        <servlet-class>rtdc.web.server.service.ExceptionServlet</servlet-class>
+    </servlet>
+    <!-- servlet mappings -->
+    <servlet-mapping>
+        <servlet-name>ExceptionServlet</servlet-name>
+        <url-pattern>/api/error</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>guiceFilter</filter-name>
+        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>guiceFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>rtdc.web.server.config.GuiceServletConfig</listener-class>
+    </listener>
+
+    <error-page>
+        <exception-type>rtdc.core.exception.ApiException</exception-type >
+        <location>/api/error</location>
+    </error-page>
+
+    <!--<servlet>
+        <servlet-name>web webService</servlet-name>
+        <servlet-class>rtdc.web.server.webServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>web webService</servlet-name>
+        <url-pattern>/web/webService</url-pattern>
+    </servlet-mapping>-->
+</web-app>
