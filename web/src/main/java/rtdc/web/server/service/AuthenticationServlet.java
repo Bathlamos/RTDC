@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 
 @Singleton
-public class Authentication extends HttpServlet {
+public class AuthenticationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

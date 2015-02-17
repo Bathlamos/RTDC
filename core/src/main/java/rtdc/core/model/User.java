@@ -4,6 +4,7 @@ import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -36,7 +37,8 @@ public class User extends JSONObject implements Serializable{
     }
     public void setId(int id){put(ID, id);}
 
-    @Column(name = USERNAME, unique = true)
+    @NotNull
+    @Column(name = USERNAME, unique = true, nullable = false)
     public String getUsername(){
         return optString(USERNAME);
     }

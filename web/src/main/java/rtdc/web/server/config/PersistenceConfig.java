@@ -7,6 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import rtdc.core.model.User;
+import rtdc.web.server.auth.AuthenticatedUser;
 
 public class PersistenceConfig {
 
@@ -26,6 +27,7 @@ public class PersistenceConfig {
             configuration.addAnnotatedClass(User.class);
             configuration.configure("hibernate.cfg.xml");
             configuration.addAnnotatedClass(User.class);
+            configuration.addAnnotatedClass(AuthenticatedUser.class);
             System.out.println("Hibernate Configuration loaded");
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

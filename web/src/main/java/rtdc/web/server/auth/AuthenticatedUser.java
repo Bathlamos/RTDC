@@ -3,6 +3,7 @@ package rtdc.web.server.auth;
 import rtdc.core.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("a")
@@ -14,7 +15,12 @@ public class AuthenticatedUser extends User{
     private String passwordHash;
     private String salt;
 
-    @Column(name = PASSWORD_HASH)
+    public AuthenticatedUser(String json){
+        super(json);
+    }
+
+    @NotNull
+    @Column(name = PASSWORD_HASH, nullable = false)
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -22,7 +28,8 @@ public class AuthenticatedUser extends User{
         this.passwordHash = passwordHash;
     }
 
-    @Column(name = SALT)
+    @NotNull
+    @Column(name = SALT, nullable = false)
     public String getSalt() {
         return salt;
     }
