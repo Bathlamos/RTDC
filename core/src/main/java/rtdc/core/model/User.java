@@ -18,7 +18,7 @@ import java.io.Serializable;
 @DiscriminatorValue("u")
 public class User extends JSONObject implements Serializable{
 
-    public static final String ID = "id",
+    public static final String ID = "user_id",
         USERNAME = "username",
         SURNAME = "surname",
         FIRSTNAME = "firstname";
