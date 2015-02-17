@@ -5,9 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -31,8 +33,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rtdc.android.R;
+import rtdc.android.impl.AndroidFactory;
+import rtdc.core.Bootstrapper;
+import rtdc.core.controller.LoginController;
+import rtdc.core.view.LoginView;
 
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, LoginView {
 
     private UserLoginTask mAuthTask = null;
 
@@ -43,10 +49,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mEmailLoginFormView;
     private View mLoginFormView;
 
+    private LoginController controller = new LoginController(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Bootstrapper.initialize(new AndroidFactory());
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -69,12 +79,62 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             @Override
             public void onClick(View view) {
                 //attemptLogin();
+                controller.login();
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         mEmailLoginFormView = findViewById(R.id.email_login_form);
+    }
+
+    @Override
+    public String getUsername() {
+        return mEmailView.getText().toString();
+    }
+
+    @Override
+    public void setUsername(String username) {
+        mEmailView.setText(username);
+        displayError("It worked", username);
+    }
+
+    @Override
+    public String getPassword() {
+        return mPasswordView.getText().toString();
+    }
+
+    @Override
+    public void setPassword(String password) {
+        mPasswordView.setText(password);
+    }
+
+    @Override
+    public void displayPermanentError(String title, String error) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(error)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @Override
+    public void displayError(String title, String error) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(error)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setIconAttribute(android.R.attr.alertDialogIcon)
+                .show();
     }
 
     private void populateAutoComplete() {
