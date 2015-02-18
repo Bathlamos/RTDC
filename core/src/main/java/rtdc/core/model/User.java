@@ -13,10 +13,13 @@ import java.io.Serializable;
 public class User extends JSONObject implements Serializable{
 
     public static final String ID = "user_id",
-        USERNAME = "username",
-        SURNAME = "surname",
-        FIRSTNAME = "firstname",
-        ROLE = "ROLE";
+            USERNAME = "username",
+            SURNAME = "surname",
+            EMAIL = "email",
+            PHONE = "phone",
+            FIRSTNAME = "firstname",
+            PERMISSION = "PERMISSION",
+            ROLE = "ROLE";
 
     private String authenticationToken;
 
@@ -59,6 +62,31 @@ public class User extends JSONObject implements Serializable{
         put(FIRSTNAME, firstName);
     }
 
+    @Column(name = EMAIL)
+    public String getEmail(){
+        return optString(EMAIL);
+    }
+    public void setEmail(String email){
+        put(EMAIL, email);
+    }
+
+    @Column(name = PHONE)
+    public long getPhone(){
+        return optLong(PHONE);
+    }
+    public void setPhone(long phone){
+        put(PHONE, phone);
+    }
+
+    @Column(name = PERMISSION)
+    public String getPermission(){
+        return optString(PERMISSION);
+    }
+    public void setPermission(String permission){
+        put(PERMISSION, permission);
+    }
+
+    @NotNull
     @Column(name = ROLE)
     public String getRole(){
         return optString(ROLE);
