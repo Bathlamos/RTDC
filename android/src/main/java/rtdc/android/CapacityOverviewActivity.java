@@ -10,6 +10,10 @@ import android.util.TypedValue;
 import android.view.*;
 import android.widget.*;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+
 
 public class CapacityOverviewActivity extends Activity {
 
@@ -24,6 +28,8 @@ public class CapacityOverviewActivity extends Activity {
     };
     private boolean editing;
     private boolean offsetColor;                                // Used to alternate row colors in the table
+    private int chosenSortedColumn = 0;
+    private boolean reverseSort = false;
     private final String tableBorderColor = "#CCCCCC";
     private final String tableHeaderColor = "#B9B9B9";
     private final String tableRowColor = "#EEEEEE";
@@ -103,6 +109,7 @@ public class CapacityOverviewActivity extends Activity {
         headerRow.setBackgroundColor(Color.parseColor(tableBorderColor));          // Set the color of the border
         staticHeaderRow.setBackgroundColor(Color.parseColor(tableBorderColor));    // Set the color of the border
         for(int i = 0; i < headerTitles.length; i++){
+            final int column = i;
 
             // Create a text view for each header for the table
 
@@ -127,6 +134,12 @@ public class CapacityOverviewActivity extends Activity {
             TableRow.LayoutParams params2 = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.FILL_PARENT);
             params2.setMargins(1, 1, 1, 1);                                 // Add a margin to add a border to the table
             staticHeaderRow.addView(staticHeaderText, params2);
+            staticHeaderText.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    sortRows(column);
+                }
+            });
         }
 
         // Add the headers to the tables
@@ -182,5 +195,81 @@ public class CapacityOverviewActivity extends Activity {
         ((TextView)row.getChildAt(4)).setText(String.valueOf(totalAdmits));
         ((TextView)row.getChildAt(5)).setText(String.valueOf(admitsBy2));
         ((TextView)row.getChildAt(6)).setText(String.valueOf(statusAt2));
+    }
+
+    public void sortRows(int sortingColumn){
+        offsetColor = false;
+        TableLayout table = (TableLayout) findViewById(R.id.table);
+        HashMap<String, TableRow> rows = new HashMap<>();
+        Object[] objectsToSort = new Object[table.getChildCount()-1];
+
+        // Loop through all rows and get all the values that are in the wanted column
+
+        for(int i = 1; i < table.getChildCount(); i++){
+            TableRow row = (TableRow) table.getChildAt(i);
+
+            // If we're sorting the first column, we want to sort strings (unit names)
+            // All other columns, we want to sort integers
+
+            if(sortingColumn == 0)
+                objectsToSort[i-1] = ((TextView)row.getChildAt(sortingColumn)).getText();
+            else
+                objectsToSort[i-1] = Integer.parseInt((String) ((TextView) row.getChildAt(sortingColumn)).getText());
+
+            // We want to keep the row in a hash map for easier access later
+            // Key is "<current row number in the table> <value from the sorting column>"
+
+            rows.put(i+" "+String.valueOf(objectsToSort[i-1]), row);
+        }
+
+        // If the column we're sorting was already the one that the table was sorted with, we change the sorting order
+
+        if(chosenSortedColumn == sortingColumn)
+            reverseSort = !reverseSort;
+        else
+            reverseSort = false;
+
+        // Sort the array of values
+
+        if(!reverseSort)
+            Arrays.sort(objectsToSort);
+        else
+            Arrays.sort(objectsToSort, Collections.reverseOrder());
+
+        for(int i = 0; i < objectsToSort.length; i++){
+            TableRow row = null;
+
+            // Find the row with the wanted value in the column
+
+            for(int j = 1; j <= objectsToSort.length; j++) {
+                row = rows.get(j + " " + objectsToSort[i]);
+                if(row != null) {
+                    rows.remove(j + " " + objectsToSort[i]);
+                    break;
+                }
+            }
+
+            // If somehow the row was not found, we just skip this value (mostly a prevention, it should always find the row)
+
+            if(row == null)
+                continue;
+
+            // Readd the row in the table at the end of the table
+
+            table.removeView(row);
+            table.addView(row);
+
+            // Reset the background color of the row
+
+            for(int j = 0; j < row.getChildCount(); j++){
+                TextView text = (TextView) row.getChildAt(j);
+                if(offsetColor)
+                    text.setBackgroundColor(Color.parseColor(tableRowColor));
+                else
+                    text.setBackgroundColor(Color.parseColor(tableRowAlternateColor));
+            }
+            offsetColor = !offsetColor;
+        }
+        chosenSortedColumn = sortingColumn;
     }
 }
