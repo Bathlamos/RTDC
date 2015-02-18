@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_create_user">Create a new user</string>
+
+    <string name="employee_id">Employee Number</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email_address">Email Address</string>
+    <string name="email_hint">username@hospital.com</string>
+    <string name="first_name">First Name</string>
+    <string name="surname">Surname</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="role">Role</string>
+    <string name="permission">Permission</string>
+
+    <string-array name="roles_array">
+        <item>Administrator</item>
+        <item>Unit Manager</item>
+        <item>Nurse</item>
+        <item>Stakeholder</item>
+    </string-array>
+    <string-array name="permissions_array">
+        <item>Admin</item>
+    </string-array>
+
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+</resources>
