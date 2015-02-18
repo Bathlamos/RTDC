@@ -4,7 +4,7 @@ import android.content.Context;
 import com.android.volley.*;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
-import rtdc.android.Rtdc;
+import rtdc.android.RTDC;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.json.JSONException;
@@ -44,7 +44,7 @@ public class AndroidHttpRequest implements HttpRequest {
 
     @Override
     public void execute(final AsyncCallback<HttpResponse> callback) {
-        Context context = Rtdc.getAppContext();
+        Context context = RTDC.getAppContext();
         RequestQueue requestQueue = MyVolley.getInstance(context).getRequestQueue();
 
         Response.Listener listener = new Response.Listener<String>(){
