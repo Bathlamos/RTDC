@@ -20,7 +20,7 @@ public class UserService {
 
     @GET
     @Produces("application/json")
-    public List<User> getUnits(@Context HttpServletRequest req){
+    public List<User> getUser(@Context HttpServletRequest req){
         AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -31,7 +31,7 @@ public class UserService {
 
     @POST
     @Produces("application/json")
-    public boolean updateUnit(@Context HttpServletRequest req, ServerUser unit){
+    public boolean updateUser(@Context HttpServletRequest req, ServerUser unit){
         AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
