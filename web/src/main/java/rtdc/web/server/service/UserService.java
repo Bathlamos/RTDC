@@ -1,10 +1,8 @@
 package rtdc.web.server.service;
 
 import org.hibernate.Session;
-import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
-import rtdc.web.server.model.ServerUnit;
 import rtdc.web.server.model.ServerUser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,18 +22,18 @@ public class UserService {
         AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        List<User> units = (List<User>) session.createCriteria(ServerUser.class).list();
+        List<User> users = (List<User>) session.createCriteria(ServerUser.class).list();
         session.getTransaction().commit();
-        return units;
+        return users;
     }
 
     @POST
     @Produces("application/json")
-    public boolean updateUser(@Context HttpServletRequest req, ServerUser unit){
+    public boolean updateUser(@Context HttpServletRequest req, ServerUser user){
         AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        session.saveOrUpdate(unit);
+        session.saveOrUpdate(user);
         session.getTransaction().commit();
         return true;
     }
@@ -43,7 +41,7 @@ public class UserService {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    public boolean deleteUnit(@Context HttpServletRequest req, @PathParam("id") String id){
+    public boolean deleteUser(@Context HttpServletRequest req, @PathParam("id") String id){
         AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
