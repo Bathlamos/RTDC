@@ -17,7 +17,7 @@
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit capacity"
+                android:text="Enable editing"
                 android:id="@+id/editButton" android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="7dip"/>
     </FrameLayout>

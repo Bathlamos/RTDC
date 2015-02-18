@@ -56,8 +56,12 @@ public class CapacityOverviewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 editing = !editing;
-                if(editing)
+                if(editing){
                     editingRowOriginalColor = Color.parseColor(tableRowAlternateColor);
+                    ((Button)v).setText("Disable editing");
+                }else{
+                    ((Button)v).setText("Enable editing");
+                }
                 TableLayout table = (TableLayout) findViewById(R.id.table);
                 updateEditingRow((TableRow) table.getChildAt(1));
             }
