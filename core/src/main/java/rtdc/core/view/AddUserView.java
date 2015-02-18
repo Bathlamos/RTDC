@@ -3,27 +3,23 @@ package rtdc.core.view;
 public interface AddUserView extends View {
 
     String getUsernameAsString();
-    void setUsernameAsString(String username);
+    void setUsernameAsString(String value);
     void setErrorForUsername(String error);
 
     String getSurnameAsString();
-    void setSurnameAsString(String username);
+    void setSurnameAsString(String value);
     void setErrorForSurname(String error);
 
     String getFirstnameAsString();
-    void setFirstnameAsString(String username);
+    void setFirstnameAsString(String value);
     void setErrorForFirstname(String error);
 
-    String getFirstPasswordAsString();
-    void setFirstPasswordAsString(String username);
-    void setErrorForFirstPassword(String error);
-
-    String getSecondPasswordAsString();
-    void setSecondPasswordAsString(String username);
-    void setErrorForSecondPassword(String error);
+    String getPasswordAsString();
+    void setPasswordAsString(String value);
+    void setErrorForPassword(String error);
 
     String getPermissionAsString();
-    void setPermissionAsString(String username);
+    void setPermissionAsString(String value);
     void setPermissionForSurname(String error);
 
 }

@@ -1,10 +1,12 @@
 package rtdc.web.server.service;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.exception.InvalidSessionException;
 import rtdc.core.exception.UsernamePasswordMismatchException;
 import rtdc.core.model.User;
-import rtdc.web.server.dao.UserDao;
+import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.ServerUser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +33,12 @@ public class AuthService {
         else if (password == null || password.isEmpty())
             throw new UsernamePasswordMismatchException("Password cannot be empty");
         else{
-            ServerUser user = UserDao.getUserByUsername(username);
+            //Get user by username
+            Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+            ServerUser user = (ServerUser) session.createCriteria(ServerUser.class).add(
+                    Restrictions.eq(ServerUser.USERNAME, username)).uniqueResult();
+            session.getTransaction().commit();
 
             if(user == null)
                 //We do not have any user with that username in the database
@@ -45,13 +52,11 @@ public class AuthService {
                     user.setAuthenticationToken(BCrypt.gensalt());
                     UserInformation info = new UserInformation();
                     info.id = user.getId();
-                    info.role = user.getRole();
+                    info.permission = user.getRole();
                     info.lastUsed = new Date();
                     authenticatedUsers.put(user.getSalt(), info);
 
                     return user;
-
-                    //We want some long-term session-like tracking for that individual
                 }else
                     throw new UsernamePasswordMismatchException("Username / password mismatch");
             }
@@ -60,7 +65,7 @@ public class AuthService {
 
     private static final class UserInformation{
         private int id;
-        private String role;
+        private String permission;
         private Date lastUsed;
     }
 

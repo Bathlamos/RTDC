@@ -8,14 +8,19 @@
     <!-- Inherit RTDC core -->
     <inherits name='rtdc.core.rtdc-core'/>
 
+    <!-- RESTful web interface -->
     <inherits name="com.google.gwt.http.HTTP"/>
+
+    <!-- Validation -->
+    <inherits name="org.hibernate.validator.HibernateValidator" />
+    <replace-with
+            class="com.google.gwt.sample.validation.client.SampleValidatorFactory">
+        <when-type-is class="javax.validation.ValidatorFactory" />
+    </replace-with>
 
     <source path="client" />
 
     <!-- Specify the app entry point class.                   -->
     <entry-point class='rtdc.web.client.Rtdc'/>
-
-    <!-- Specify the app servlets.                   -->
-    <!-- <servlet path='/webService' class='rtdc.web.server.webServiceImpl'/>-->
 
 </module>

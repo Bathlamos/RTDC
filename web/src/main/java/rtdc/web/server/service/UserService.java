@@ -2,8 +2,10 @@ package rtdc.web.server.service;
 
 import org.hibernate.Session;
 import rtdc.core.model.Unit;
+import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.ServerUnit;
+import rtdc.web.server.model.ServerUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -13,23 +15,23 @@ import java.util.List;
 import static rtdc.core.model.ApplicationPermission.ADMIN;
 import static rtdc.core.model.ApplicationPermission.USER;
 
-@Path("units")
-public class UnitService {
+@Path("users")
+public class UserService {
 
     @GET
     @Produces("application/json")
-    public List<Unit> getUnits(@Context HttpServletRequest req){
-        AuthService.hasRole(req, USER, ADMIN);
+    public List<User> getUnits(@Context HttpServletRequest req){
+        AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        List<Unit> units = (List<Unit>) session.createCriteria(ServerUnit.class).list();
+        List<User> units = (List<User>) session.createCriteria(ServerUser.class).list();
         session.getTransaction().commit();
         return units;
     }
 
     @POST
     @Produces("application/json")
-    public boolean updateUnit(@Context HttpServletRequest req, ServerUnit unit){
+    public boolean updateUnit(@Context HttpServletRequest req, ServerUser unit){
         AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
@@ -45,8 +47,8 @@ public class UnitService {
         AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        ServerUnit unit = (ServerUnit) session.load(ServerUnit.class, id);
-        session.delete(unit);
+        ServerUser user = (ServerUser) session.load(ServerUser.class, id);
+        session.delete(user);
         session.getTransaction().commit();
         return true;
     }
