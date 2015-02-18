@@ -41,6 +41,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".presenter.CreateUserActivity"
+            android:label="@string/title_activity_create_user"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+            <!--android:parentActivityName=".presenter.UserListActivity"-->
+            <!-- Parent activity meta-data to support API level 7+ -->
+            <!--<meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presenter.UserListActivity" /> -->
+        </activity>
     </application>
 
 </manifest>
