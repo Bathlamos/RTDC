@@ -27,16 +27,24 @@ dependencies {
     //We use this notation to include the source, for GWT
     compile files(project(':core').sourceSets.main.java.srcDirs)
 
+    gwt files('etc/superdevmode-launcher-legacy.jar')
+
     compile 'org.hibernate:hibernate-validator:4.1.0.Final'
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.1.0.Final', classifier: 'sources'
+    gwt 'org.hibernate:hibernate-validator:4.1.0.Final'
     gwt group: 'org.hibernate', name: 'hibernate-validator', version: '4.1.0.Final', classifier: 'sources'
     compile 'javax.validation:validation-api:1.0.0.GA'
+    gwt 'javax.validation:validation-api:1.0.0.GA'
     gwt group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA', classifier: 'sources'
     //Dependencies of Hibernate validator
     compile 'org.slf4j:slf4j-api:1.6.1'
+    gwt 'org.slf4j:slf4j-api:1.6.1'
     gwt group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1', classifier: 'sources'
     compile 'org.slf4j:slf4j-log4j12:1.6.1'
+    gwt 'org.slf4j:slf4j-log4j12:1.6.1'
     gwt group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1', classifier: 'sources'
     compile 'log4j:log4j:1.2.16'
+    gwt 'log4j:log4j:1.2.16'
     gwt group: 'log4j', name: 'log4j', version: '1.2.16', classifier: 'sources'
 
     compile 'com.google.inject:guice:4.0-beta5'

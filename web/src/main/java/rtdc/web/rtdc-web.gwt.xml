@@ -13,8 +13,7 @@
 
     <!-- Validation -->
     <inherits name="org.hibernate.validator.HibernateValidator" />
-    <replace-with
-            class="com.google.gwt.sample.validation.client.SampleValidatorFactory">
+    <replace-with class="rtdc.web.client.impl.GwtFactory">
         <when-type-is class="javax.validation.ValidatorFactory" />
     </replace-with>
 

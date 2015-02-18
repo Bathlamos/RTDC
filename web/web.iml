@@ -79,6 +79,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="hibernate-validator-4.1.0.Final" level="project" />
+    <orderEntry type="library" exported="" name="hibernate-validator-4.1.0.Final-sources" level="project" />
     <orderEntry type="library" exported="" name="validation-api-1.0.0.GA" level="project" />
     <orderEntry type="library" exported="" name="slf4j-api-1.6.1" level="project" />
     <orderEntry type="library" exported="" name="slf4j-log4j12-1.6.1" level="project" />
