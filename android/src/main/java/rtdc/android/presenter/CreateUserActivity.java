@@ -2,13 +2,15 @@ package rtdc.android.presenter;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import rtdc.android.R;
+
+import java.lang.reflect.Field;
 
 public class CreateUserActivity extends Activity {
 
@@ -31,6 +33,18 @@ public class CreateUserActivity extends Activity {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        }
+        catch (Exception e) {
+            // presumably, not relevant
+        }
     }
 
 
@@ -38,7 +52,7 @@ public class CreateUserActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_create_user, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
