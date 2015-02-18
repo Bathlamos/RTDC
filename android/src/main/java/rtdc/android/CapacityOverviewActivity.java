@@ -28,13 +28,16 @@ public class CapacityOverviewActivity extends Activity {
     };
     private boolean editing;
     private boolean offsetColor;                                // Used to alternate row colors in the table
-    private int chosenSortedColumn = 0;
-    private boolean reverseSort = false;
+    private TableRow selectedEditingRow;                        // The current selected row for editing
+    private int chosenSortedColumn = 0;                         // The column currently used for sorting the table
+    private int editingRowOriginalColor;                        // When a row becomes editable its original color goes here
+    private boolean reverseSort = false;                        // Specifies if the sort for the table is reversed
     private final String tableBorderColor = "#CCCCCC";
     private final String tableHeaderColor = "#B9B9B9";
     private final String tableRowColor = "#EEEEEE";
     private final String tableRowAlternateColor = "#FFFFFF";
     private final String textColor = "#000000";
+    private final String tableRowSelectedForEditingColor = "#BAE0E0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,35 +55,11 @@ public class CapacityOverviewActivity extends Activity {
         findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
-                // Loop through all rows in the table and change all TextViews to EditTexts
-
-                TableLayout table = (TableLayout) findViewById(R.id.table);
-                for(int i = 0; i < table.getChildCount(); i++){
-                    TableRow row = (TableRow) table.getChildAt(i);
-                    for(int j = 0; j < row.getChildCount(); j++){
-                        TextView originalTextView = (TextView) row.getChildAt(j);
-                        TextView newTextView;
-
-                        if(editing)
-                            newTextView = new TextView(CapacityOverviewActivity.this);
-                        else
-                            newTextView = new EditText(CapacityOverviewActivity.this);
-
-                        newTextView.setBackgroundColor(((ColorDrawable) originalTextView.getBackground()).getColor());
-                        newTextView.setGravity(Gravity.CENTER);
-                        newTextView.setText(originalTextView.getText());
-                        newTextView.setTextSize(12);
-                        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-                        newTextView.setHeight(px);
-                        newTextView.setTextColor(Color.parseColor(textColor));
-                        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-                        params.setMargins(1, 1, 1, 1);
-                        row.removeViewAt(j);
-                        row.addView(newTextView, j, params);
-                    }
-                }
                 editing = !editing;
+                if(editing)
+                    editingRowOriginalColor = Color.parseColor(tableRowAlternateColor);
+                TableLayout table = (TableLayout) findViewById(R.id.table);
+                updateEditingRow((TableRow) table.getChildAt(1));
             }
         });
 
@@ -160,7 +139,7 @@ public class CapacityOverviewActivity extends Activity {
     }
 
     private void addRow(String unit, int availableBeds, int potentialDCs, int dcsBy2, int totalAdmits, int admitsBy2, int statusAt2) {
-        TableLayout table = (TableLayout) findViewById(R.id.table);
+        final TableLayout table = (TableLayout) findViewById(R.id.table);
         final TableRow row = new TableRow(this);
         row.setBackgroundColor(Color.parseColor(tableBorderColor));
         row.setBaselineAligned(false);
@@ -168,20 +147,35 @@ public class CapacityOverviewActivity extends Activity {
         // Create and add all views to the row
 
         for(int i = 0; i < headerTitles.length; i++){
-            TextView b = new TextView(this);
+            TextView textView = new TextView(this);
+
+            // Setup all the properties for the text view
+
             if(offsetColor)
-                b.setBackgroundColor(Color.parseColor(tableRowColor));
+                textView.setBackgroundColor(Color.parseColor(tableRowColor));
             else
-                b.setBackgroundColor(Color.parseColor(tableRowAlternateColor));
-            b.setGravity(Gravity.CENTER);
-            b.setTextSize(12);
-            b.setEnabled(false);
+                textView.setBackgroundColor(Color.parseColor(tableRowAlternateColor));
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextSize(12);
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
-            b.setHeight(px);
-            b.setTextColor(Color.parseColor(textColor));
+            textView.setHeight(px);
+            textView.setTextColor(Color.parseColor(textColor));
+
+            // Register the listener for the edit mode
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(editing)
+                        updateEditingRow(row);
+                }
+            });
+
+            // Add the view to the row
+
             TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
             params.setMargins(1, 1, 1, 1);
-            row.addView(b, params);
+            row.addView(textView, params);
         }
         table.addView(row, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
         offsetColor = !offsetColor;
@@ -271,5 +265,73 @@ public class CapacityOverviewActivity extends Activity {
             offsetColor = !offsetColor;
         }
         chosenSortedColumn = sortingColumn;
+    }
+
+    private void updateEditingRow(TableRow newEditingRow){
+        // Put the current editing row back to normal
+
+        final TableLayout table = (TableLayout) findViewById(R.id.table);
+        if(selectedEditingRow != null){
+            for(int i = 0; i < selectedEditingRow.getChildCount(); i++){
+                TextView originalEditView = (TextView) selectedEditingRow.getChildAt(i);
+                TextView textView = new TextView(this);
+
+                // Setup all the properties for the text view
+
+                textView.setBackgroundColor(editingRowOriginalColor);
+                textView.setGravity(Gravity.CENTER);
+                textView.setTextSize(12);
+                int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                textView.setHeight(px);
+                textView.setTextColor(Color.parseColor(textColor));
+                textView.setText(originalEditView.getText());
+
+                // Register the listener for the edit mode
+
+                final TableRow currentRow = selectedEditingRow;
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(editing)
+                            updateEditingRow(currentRow);
+                    }
+                });
+
+                // Remove the old view and add the new one
+
+                TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+                params.setMargins(1, 1, 1, 1);
+                selectedEditingRow.removeViewAt(i);
+                selectedEditingRow.addView(textView, i, params);
+            }
+        }
+
+        // If we're still in editing mode, loop through the row and change all TextViews to EditTexts
+
+        if(editing){
+            for (int j = 0; j < newEditingRow.getChildCount(); j++) {
+                TextView originalTextView = (TextView) newEditingRow.getChildAt(j);
+                editingRowOriginalColor = ((ColorDrawable) originalTextView.getBackground()).getColor();
+                TextView editTextView = new EditText(CapacityOverviewActivity.this);
+
+                // Setup all the properties for the text view
+
+                editTextView.setBackgroundColor(Color.parseColor(tableRowSelectedForEditingColor));
+                editTextView.setGravity(Gravity.CENTER);
+                editTextView.setText(originalTextView.getText());
+                editTextView.setTextSize(12);
+                int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+                editTextView.setHeight(px);
+                editTextView.setTextColor(Color.parseColor(textColor));
+
+                // Remove the old view and add the new one
+
+                TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+                params.setMargins(1, 1, 1, 1);
+                newEditingRow.removeViewAt(j);
+                newEditingRow.addView(editTextView, j, params);
+            }
+        }
+        selectedEditingRow = newEditingRow;
     }
 }
