@@ -1,5 +1,6 @@
 package rtdc.core.model;
 
+import org.hibernate.validator.constraints.Email;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
@@ -46,6 +47,7 @@ public class User extends JSONObject implements Serializable{
         put(USERNAME, username);
     }
 
+    @NotNull
     @Column(name = SURNAME)
     public String getSurname(){
         return optString(SURNAME);
@@ -54,6 +56,7 @@ public class User extends JSONObject implements Serializable{
         put(SURNAME, surname);
     }
 
+    @NotNull
     @Column(name = FIRSTNAME)
     public String getFirstName(){
         return optString(FIRSTNAME);
@@ -62,6 +65,7 @@ public class User extends JSONObject implements Serializable{
         put(FIRSTNAME, firstName);
     }
 
+    @Email
     @Column(name = EMAIL)
     public String getEmail(){
         return optString(EMAIL);
@@ -78,6 +82,7 @@ public class User extends JSONObject implements Serializable{
         put(PHONE, phone);
     }
 
+    @NotNull
     @Column(name = PERMISSION)
     public String getPermission(){
         return optString(PERMISSION);
