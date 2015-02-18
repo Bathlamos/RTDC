@@ -6,8 +6,8 @@ import rtdc.core.impl.HttpRequest;
 public class GwtFactory implements Factory {
 
     @Override
-    public HttpRequest newHttpRequest() {
-        return new GwtHttpRequest();
+    public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {
+        return new GwtHttpRequest(url, requestMethod);
     }
 
 }

@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "units")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Unit extends JSONObject {
 
     public static final String ID = "unit_id",

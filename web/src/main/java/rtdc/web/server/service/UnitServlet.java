@@ -22,15 +22,15 @@ import java.util.List;
 import java.util.Set;
 
 @Singleton
-public class UserServlet extends HttpServlet {
+public class UnitServlet extends HttpServlet {
 
     private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String usersAsString = req.getParameter("data");
-        if(usersAsString == null || usersAsString.isEmpty())
+        String unitIds = req.getParameter("data");
+        if(unitIds == null || unitIds.isEmpty())
             userError(resp, "No users provided");
         else {
             JSONArray users = new JSONArray(req.getParameter("data"));

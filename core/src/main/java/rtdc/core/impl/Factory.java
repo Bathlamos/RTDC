@@ -2,6 +2,6 @@ package rtdc.core.impl;
 
 public interface Factory {
 
-    HttpRequest newHttpRequest();
+    HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod);
 
 }

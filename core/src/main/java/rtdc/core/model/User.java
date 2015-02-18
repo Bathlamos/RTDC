@@ -10,18 +10,15 @@ import java.io.Serializable;
 @Entity
 @Table(name = "users")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(
-        name="OBJ_TYPE",
-        discriminatorType=DiscriminatorType.STRING,
-        length=1
-)
-@DiscriminatorValue("u")
 public class User extends JSONObject implements Serializable{
 
     public static final String ID = "user_id",
         USERNAME = "username",
         SURNAME = "surname",
-        FIRSTNAME = "firstname";
+        FIRSTNAME = "firstname",
+        ROLE = "ROLE";
+
+    private String authenticationToken;
 
     public User(){}
 
@@ -62,4 +59,19 @@ public class User extends JSONObject implements Serializable{
         put(FIRSTNAME, firstName);
     }
 
+    @Column(name = ROLE)
+    public String getRole(){
+        return optString(ROLE);
+    }
+    public void setRole(String role){
+        put(ROLE, role);
+    }
+
+    public String getAuthenticationToken() {
+        return authenticationToken;
+    }
+
+    public void setAuthenticationToken(String authenticationToken) {
+        this.authenticationToken = authenticationToken;
+    }
 }

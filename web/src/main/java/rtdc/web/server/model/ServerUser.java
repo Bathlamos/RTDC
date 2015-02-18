@@ -1,21 +1,25 @@
-package rtdc.web.server.auth;
+package rtdc.web.server.model;
 
 import rtdc.core.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@DiscriminatorValue("a")
-public class AuthenticatedUser extends User{
+@DiscriminatorValue("s")
+public class ServerUser extends User{
 
     private static final String PASSWORD_HASH = "password_hash",
         SALT = "salt";
 
     private String passwordHash;
     private String salt;
+    private Set<ServerUnit> units = new HashSet<>();
 
-    public AuthenticatedUser(String json){
+    public ServerUser(){}
+    public ServerUser(String json){
         super(json);
     }
 
@@ -35,5 +39,13 @@ public class AuthenticatedUser extends User{
     }
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    @ManyToMany(mappedBy = "users")
+    public Set<ServerUnit> getUnits() {
+        return units;
+    }
+    public void setUnits(Set<ServerUnit> units) {
+        this.units = units;
     }
 }

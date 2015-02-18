@@ -67,7 +67,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    //attemptLogin();
+                    controller.login();
                     return true;
                 }
                 return false;
@@ -78,7 +78,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //attemptLogin();
                 controller.login();
             }
         });
@@ -96,7 +95,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     @Override
     public void setUsername(String username) {
         mEmailView.setText(username);
-        displayError("It worked", username);
     }
 
     @Override

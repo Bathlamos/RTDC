@@ -1,6 +1,5 @@
 package rtdc.core.controller;
 
-import rtdc.core.model.AuthenticationInformation;
 import rtdc.core.model.User;
 import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
@@ -15,11 +14,7 @@ public class LoginController {
     }
 
     public void login(){
-        AuthenticationInformation authInfo = new AuthenticationInformation();
-        authInfo.setUsername(view.getUsername());
-        authInfo.setPassword(view.getPassword());
-
-        Service.authenticateUser(authInfo, new AsyncCallback<User>() {
+        Service.authenticateUser(view.getUsername(), view.getPassword(), new AsyncCallback<User>() {
             @Override
             public void onCallback(User user) {
                 view.setUsername("Yay! You logged in :)   ->   " + user.getFirstName());
