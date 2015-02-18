@@ -18,8 +18,8 @@ public class AndroidHttpRequest implements HttpRequest {
 
     private String url;
     private int requestMethod;
-    private Map<String, String> params = new HashMap<>(),
-        headers = new HashMap<>();
+    private Map<String, String> params = new HashMap<String, String>(),
+        headers = new HashMap<String, String>();
 
     public AndroidHttpRequest(String url, HttpRequest.RequestMethod requestMethod){
         this.url = url;
