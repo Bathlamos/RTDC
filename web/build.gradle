@@ -27,14 +27,35 @@ dependencies {
     //We use this notation to include the source, for GWT
     compile files(project(':core').sourceSets.main.java.srcDirs)
 
+    gwt files('etc/superdevmode-launcher-legacy.jar')
+
+    compile 'org.hibernate:hibernate-validator:4.1.0.Final'
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.1.0.Final', classifier: 'sources'
+    gwt 'org.hibernate:hibernate-validator:4.1.0.Final'
+    gwt group: 'org.hibernate', name: 'hibernate-validator', version: '4.1.0.Final', classifier: 'sources'
+    compile 'javax.validation:validation-api:1.0.0.GA'
+    gwt 'javax.validation:validation-api:1.0.0.GA'
+    gwt group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA', classifier: 'sources'
+    //Dependencies of Hibernate validator
+    compile 'org.slf4j:slf4j-api:1.6.1'
+    gwt 'org.slf4j:slf4j-api:1.6.1'
+    gwt group: 'org.slf4j', name: 'slf4j-api', version: '1.6.1', classifier: 'sources'
+    compile 'org.slf4j:slf4j-log4j12:1.6.1'
+    gwt 'org.slf4j:slf4j-log4j12:1.6.1'
+    gwt group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.6.1', classifier: 'sources'
+    compile 'log4j:log4j:1.2.16'
+    gwt 'log4j:log4j:1.2.16'
+    gwt group: 'log4j', name: 'log4j', version: '1.2.16', classifier: 'sources'
+
     compile 'com.google.inject:guice:4.0-beta5'
-    compile 'com.google.guava:guava:18.0'
     compile 'com.google.guava:guava-gwt:18.0'
     compile 'com.google.inject.extensions:guice-servlet:4.0-beta5'
     compile 'com.google.gwt:gwt-servlet:2.7.0'
     compile 'com.google.gwt:gwt-user:2.7.0'
     compile 'org.hibernate:hibernate-core:4.3.8.Final'
-    compile 'org.hibernate:hibernate-validator:5.1.3.Final'
+    compile 'com.sun.jersey:jersey-server:1.19'
+    compile 'com.sun.jersey.contribs:jersey-guice:1.19'
+    compile 'com.owlike:genson:1.2'
     compile 'javax.el:javax.el-api:3.0.0' //A dependency of Hibernate Validator
     compile 'postgresql:postgresql:9.1-901-1.jdbc4'
     compile 'org.mindrot:jbcrypt:0.3m'

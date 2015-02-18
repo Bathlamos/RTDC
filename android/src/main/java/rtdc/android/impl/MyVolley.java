@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 public class MyVolley {
+
     private static MyVolley mInstance;
     private RequestQueue mRequestQueue;
     private static Context mContext;
@@ -17,9 +18,8 @@ public class MyVolley {
     }
 
     public static synchronized MyVolley getInstance(Context context) {
-        if (mInstance == null) {
+        if (mInstance == null)
             mInstance = new MyVolley(context);
-        }
         return mInstance;
     }
 

@@ -1,63 +1,91 @@
 package rtdc.android.impl;
 
 import android.content.Context;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import rtdc.android.MyApplication;
+import com.android.volley.*;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonRequest;
+import rtdc.android.RTDC;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
+import rtdc.core.json.JSONException;
 import rtdc.core.service.AsyncCallback;
-import rtdc.core.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AndroidHttpRequest implements HttpRequest {
 
     private String url;
-    private RequestMethod requestMethod;
-    private String requestData;
+    private int requestMethod;
+    private Map<String, String> params = new HashMap<String, String>(),
+        headers = new HashMap<String, String>();
 
-    @Override
-    public void setUrl(String url) {
+    public AndroidHttpRequest(String url, HttpRequest.RequestMethod requestMethod){
         this.url = url;
+        this.requestMethod = 0; // Defaults to GET
+        switch(requestMethod){
+            case GET: this.requestMethod = Request.Method.GET; break;
+            case POST: this.requestMethod = Request.Method.POST; break;
+            case PUT: this.requestMethod = Request.Method.PUT; break;
+            case DELETE: this.requestMethod = Request.Method.DELETE; break;
+        }
     }
 
     @Override
-    public void setRequestMethod(RequestMethod requestMethod) {
-        this.requestMethod = requestMethod;
+    public void addParameter(String parameter, String data) {
+        params.put(parameter, data);
     }
 
     @Override
-    public void setRequestData(String requestData) {
-        this.requestData = requestData;
+    public void setHeader(String name, String value) {
+        headers.put(name, value);
     }
 
     @Override
     public void execute(final AsyncCallback<HttpResponse> callback) {
-        Context context = MyApplication.getAppContext();
-
+        Context context = RTDC.getAppContext();
         RequestQueue requestQueue = MyVolley.getInstance(context).getRequestQueue();
-        int rMethod = 0; // Defaults to GET
-        switch(requestMethod){
-            case GET: rMethod = Request.Method.GET; break;
-            case POST: rMethod = Request.Method.POST; break;
-            case PUT: rMethod = Request.Method.PUT; break;
-            case DELETE: rMethod = Request.Method.DELETE; break;
-        }
 
-        JsonObjectRequest request = new JsonObjectRequest(rMethod, url, requestData, new Response.Listener<JSONObject>() {
+        Response.Listener listener = new Response.Listener<String>(){
             @Override
-            public void onResponse(JSONObject response) {
-                // TODO Extract actual response code from response.
-                callback.onCallback(new AndroidHttpResponse(400, response.toString()));
+            public void onResponse(String response) {
+                callback.onSuccess(new AndroidHttpResponse(400, response));
             }
-        }, new Response.ErrorListener() {
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO Log Error or display it in application
+                callback.onError(error.getMessage());
             }
-        });
+        };
 
-        requestQueue.add(request);
+        requestQueue.add(new JsonObjectRequest(requestMethod, url, params.toString(), listener, errorListener));
+    }
+
+    private final class JsonObjectRequest extends JsonRequest<String> {
+
+        public JsonObjectRequest(int method, String url, String requestBody, Response.Listener<String> listener,
+                                 Response.ErrorListener errorListener) {
+            super(method, url, requestBody, listener, errorListener);
+        }
+
+        @Override
+        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+            try {
+                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                return Response.success(jsonString, HttpHeaderParser.parseCacheHeaders(response));
+            } catch (UnsupportedEncodingException e) {
+                return Response.error(new ParseError(e));
+            } catch (JSONException je) {
+                return Response.error(new ParseError(je));
+            }
+        }
+
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+            return params;
+        }
     }
 }

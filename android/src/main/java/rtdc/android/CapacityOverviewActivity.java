@@ -198,7 +198,7 @@ public class CapacityOverviewActivity extends Activity {
     public void sortRows(int sortingColumn){
         offsetColor = false;
         TableLayout table = (TableLayout) findViewById(R.id.table);
-        HashMap<String, TableRow> rows = new HashMap<>();
+        HashMap<String, TableRow> rows = new HashMap<String, TableRow>();
         Object[] objectsToSort = new Object[table.getChildCount()-1];
 
         // Loop through all rows and get all the values that are in the wanted column

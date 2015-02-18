@@ -2,9 +2,6 @@ package rtdc.android.impl;
 
 import rtdc.core.impl.HttpResponse;
 
-/**
- * Created by Nicolas on 2015-02-16.
- */
 public class AndroidHttpResponse implements HttpResponse {
 
     private int statusCode;

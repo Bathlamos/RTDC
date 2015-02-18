@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import rtdc.core.Bootstrapper;
 import rtdc.web.client.impl.GwtFactory;
+import rtdc.web.client.presenter.AddUserPresenter;
 import rtdc.web.client.presenter.LoginPresenter;
 
 /**
@@ -23,6 +24,8 @@ public class Rtdc implements EntryPoint {
         Bootstrapper.initialize(new GwtFactory());
 
         RootPanel.get().add(new LoginPresenter());
+
+        RootPanel.get().add(new AddUserPresenter());
 
     }
 

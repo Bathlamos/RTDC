@@ -8,30 +8,10 @@ import rtdc.core.service.AsyncCallback;
 
 public class GwtHttpRequest implements HttpRequest{
 
-    Request req;
+    private final RequestBuilder builder;
+    private StringBuilder params = new StringBuilder();
 
-    private String url;
-    private RequestMethod requestMethod;
-    private String requestData;
-
-    @Override
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Override
-    public void setRequestMethod(RequestMethod requestMethod) {
-        this.requestMethod = requestMethod;
-    }
-
-    @Override
-    public void setRequestData(String requestData) {
-        this.requestData = requestData;
-    }
-
-    @Override
-    public void execute(final AsyncCallback<HttpResponse> callback) {
-
+    public GwtHttpRequest(String url, RequestMethod requestMethod){
         RequestBuilder.Method method = null;
         switch(requestMethod){
             case GET: method = RequestBuilder.GET; break;
@@ -39,24 +19,37 @@ public class GwtHttpRequest implements HttpRequest{
             case PUT: method = RequestBuilder.PUT; break;
             case DELETE: method = RequestBuilder.DELETE; break;
         }
+        builder = new RequestBuilder(method, url);
+    }
 
-        RequestBuilder builder = new RequestBuilder(method, url);
-        builder.setRequestData(requestData);
+    public void setHeader(String name, String value){
+        builder.setHeader(name, value);
+    }
 
-        builder.setCallback(new RequestCallback() {
-            @Override
-            public void onResponseReceived(Request request, Response response) {
-                callback.onCallback(new GwtHttpResponse(response));
-            }
 
-            @Override
-            public void onError(Request request, Throwable exception) {
-                Window.alert("Panic");
-            }
-        });
+    @Override
+    public void addParameter(String parameter, String data) {
+        if(params.length() != 0)
+            params.append('&');
+        params.append(parameter);
+        params.append('=');
+        params.append(data);
+    }
 
+    @Override
+    public void execute(final AsyncCallback<HttpResponse> callback) {
         try {
-            builder.send();
+            builder.sendRequest(params.toString(), new RequestCallback() {
+                @Override
+                public void onResponseReceived(Request request, Response response) {
+                    callback.onSuccess(new GwtHttpResponse(response));
+                }
+
+                @Override
+                public void onError(Request request, Throwable exception) {
+                    callback.onError(exception.getMessage());
+                }
+            });
         }catch(RequestException exception){
             exception.printStackTrace();
         }

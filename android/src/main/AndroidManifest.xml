@@ -20,7 +20,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light"
-        android:name=".MyApplication">
+        android:name=".RTDC">
         <activity
             android:name=".MyActivity"
             android:label="@string/app_name" >
@@ -36,11 +36,20 @@
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".presenter.CreateUserActivity"
+            android:label="@string/title_activity_create_user"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+            <!--android:parentActivityName=".presenter.UserListActivity"-->
+            <!-- Parent activity meta-data to support API level 7+ -->
+            <!--<meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presenter.UserListActivity" /> -->
+        </activity>
     </application>
 
 </manifest>

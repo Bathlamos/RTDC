@@ -1,13 +1,12 @@
 package rtdc.web.server.config;
 
-import java.util.Properties;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import rtdc.core.model.User;
-import rtdc.web.server.auth.AuthenticatedUser;
+import rtdc.web.server.model.ServerUnit;
+import rtdc.web.server.model.ServerUser;
 
 public class PersistenceConfig {
 
@@ -26,8 +25,8 @@ public class PersistenceConfig {
             Configuration configuration = new Configuration();
             configuration.addAnnotatedClass(User.class);
             configuration.configure("hibernate.cfg.xml");
-            configuration.addAnnotatedClass(User.class);
-            configuration.addAnnotatedClass(AuthenticatedUser.class);
+            configuration.addAnnotatedClass(ServerUnit.class);
+            configuration.addAnnotatedClass(ServerUser.class);
             System.out.println("Hibernate Configuration loaded");
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

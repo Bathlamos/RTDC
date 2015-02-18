@@ -6,11 +6,9 @@ public interface HttpRequest {
 
     public enum RequestMethod{GET, PUT, DELETE, POST}
 
-    public void setUrl(String url);
+    public void addParameter(String parameter, String data);
 
-    public void setRequestMethod(RequestMethod requestMethod);
-
-    public void setRequestData(String requestData);
+    public void setHeader(String name, String value);
 
     public void execute(AsyncCallback<HttpResponse> response);
 
