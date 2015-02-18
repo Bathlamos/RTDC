@@ -3,6 +3,7 @@ package rtdc.core.service;
 import rtdc.core.Bootstrapper;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
+import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.User;
 import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
@@ -19,8 +20,17 @@ public final class Service {
         req.addParameter("password", password);
         req.execute(new AsyncCallback<HttpResponse>() {
             @Override
-            public void onCallback(HttpResponse resp) {
-                callback.onCallback(new User(resp.getContent()));
+            public void onSuccess(HttpResponse resp) {
+                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                if("success".equals(wrapper.getStatus()))
+                    callback.onSuccess((User) wrapper.getData());
+                else
+                    callback.onError(wrapper.getDescription());
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
             }
         });
     }

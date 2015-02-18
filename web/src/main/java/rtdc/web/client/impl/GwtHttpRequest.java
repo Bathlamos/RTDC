@@ -42,12 +42,12 @@ public class GwtHttpRequest implements HttpRequest{
             builder.sendRequest(params.toString(), new RequestCallback() {
                 @Override
                 public void onResponseReceived(Request request, Response response) {
-                    callback.onCallback(new GwtHttpResponse(response));
+                    callback.onSuccess(new GwtHttpResponse(response));
                 }
 
                 @Override
                 public void onError(Request request, Throwable exception) {
-                    Window.alert("Panic");
+                    callback.onError(exception.getMessage());
                 }
             });
         }catch(RequestException exception){

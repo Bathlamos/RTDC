@@ -50,15 +50,14 @@ public class AndroidHttpRequest implements HttpRequest {
         Response.Listener listener = new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
-                // TODO Extract actual response code from response.
-                callback.onCallback(new AndroidHttpResponse(400, response));
+                callback.onSuccess(new AndroidHttpResponse(400, response));
             }
         };
 
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // TODO Log Error or display it in application
+                callback.onError(error.getMessage());
             }
         };
 
