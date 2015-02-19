@@ -4,7 +4,10 @@ import android.content.Context;
 import com.android.volley.*;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
-import rtdc.android.RTDC;
+import com.android.volley.toolbox.Volley;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
+import rtdc.android.Rtdc;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.json.JSONException;
@@ -12,9 +15,13 @@ import rtdc.core.service.AsyncCallback;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class AndroidHttpRequest implements HttpRequest {
+
+    private static RequestQueue mRequestQueue;
 
     private String url;
     private int requestMethod;
@@ -44,9 +51,6 @@ public class AndroidHttpRequest implements HttpRequest {
 
     @Override
     public void execute(final AsyncCallback<HttpResponse> callback) {
-        Context context = RTDC.getAppContext();
-        RequestQueue requestQueue = MyVolley.getInstance(context).getRequestQueue();
-
         Response.Listener listener = new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
@@ -57,11 +61,25 @@ public class AndroidHttpRequest implements HttpRequest {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callback.onError(error.getMessage());
+                callback.onError(error.networkResponse.toString() + " : " + error.getMessage());
             }
         };
 
-        requestQueue.add(new JsonObjectRequest(requestMethod, url, params.toString(), listener, errorListener));
+        //Format the parameters
+        List<BasicNameValuePair> paramsAsValuePairs = new LinkedList<BasicNameValuePair>();
+        for(Map.Entry<String, String> param: params.entrySet())
+            paramsAsValuePairs.add(new BasicNameValuePair(param.getKey(), param.getValue()));
+
+        getRequestQueue().add(new JsonObjectRequest(requestMethod, url, URLEncodedUtils.format(paramsAsValuePairs, "UTF-8"), listener, errorListener));
+    }
+
+    public static RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            // getApplicationContext() is key, it keeps you from leaking the
+            // Activity or BroadcastReceiver if someone passes one in.
+            mRequestQueue = Volley.newRequestQueue(Rtdc.getAppContext().getApplicationContext());
+        }
+        return mRequestQueue;
     }
 
     private final class JsonObjectRequest extends JsonRequest<String> {
@@ -86,6 +104,11 @@ public class AndroidHttpRequest implements HttpRequest {
         @Override
         protected Map<String, String> getParams() throws AuthFailureError {
             return params;
+        }
+
+        @Override
+        public Map<String, String> getHeaders() throws AuthFailureError {
+            return headers;
         }
     }
 }

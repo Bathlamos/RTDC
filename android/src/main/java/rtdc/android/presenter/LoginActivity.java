@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import rtdc.android.R;
 import rtdc.android.impl.AndroidFactory;
@@ -67,7 +69,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    //attemptLogin();
+                    controller.login();
                     return true;
                 }
                 return false;

@@ -9,7 +9,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "http://127.0.0.1:8888/api/";
+    private static final String URL = "http://192.168.2.49:8888/api/";
 
     private Service(){}
 
@@ -27,7 +27,7 @@ public final class Service {
                     user.map().putAll(wrapper.getData().map());
                     callback.onSuccess(user);
                 }else
-                    callback.onError(wrapper.getDescription());
+                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
             }
 
             @Override
@@ -49,7 +49,7 @@ public final class Service {
                 if("success".equals(wrapper.getStatus()))
                     callback.onSuccess(true);
                 else
-                    callback.onError(wrapper.getDescription());
+                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
             }
 
             @Override
