@@ -1,12 +1,15 @@
 package rtdc.android.presenter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import rtdc.android.R;
+import rtdc.core.view.AddUnitView;
 
-public class CreateUnitActivity extends Activity {
+public class CreateUnitActivity extends Activity implements AddUnitView{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +38,53 @@ public class CreateUnitActivity extends Activity {
         }
 */
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public String getNameAsString() {
+        return null;
+    }
+
+    @Override
+    public void setNameAsString(String name) {
+
+    }
+
+    @Override
+    public String getTotalBedsAsString() {
+        return null;
+    }
+
+    @Override
+    public void setTotalBedsAsString(String totalBeds) {
+
+    }
+
+    @Override
+    public void displayPermanentError(String title, String error) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(error)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setIconAttribute(android.R.attr.alertDialogIcon)
+                .show();
+    }
+
+    @Override
+    public void displayError(String title, String error) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(error)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setIconAttribute(android.R.attr.alertDialogIcon)
+                .show();
     }
 }

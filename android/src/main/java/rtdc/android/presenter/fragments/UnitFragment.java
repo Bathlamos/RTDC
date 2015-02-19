@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import rtdc.android.R;
 
+import rtdc.core.controller.UnitListController;
 import rtdc.core.model.Unit;
 import rtdc.core.view.UnitListView;
 
@@ -26,9 +27,9 @@ import java.util.List;
  */
 public class UnitFragment extends Fragment implements AbsListView.OnItemClickListener, UnitListView {
 
-    private OnFragmentInteractionListener mListener;
+    private UnitListController controller;
 
-    private List<Unit> unitListItemList;
+    private OnFragmentInteractionListener mListener;
 
     /**
      * The fragment's ListView/GridView.
@@ -60,12 +61,7 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        unitListItemList = new ArrayList<Unit>();
-        unitListItemList.add(new Unit());
-        unitListItemList.get(0).setName("ICU");
-        unitListItemList.add(new Unit());
-        unitListItemList.get(1).setName("E42");
-        mAdapter = new UnitListAdapter(getActivity(), unitListItemList);
+        controller = new UnitListController(this);
     }
 
     @Override
@@ -84,17 +80,18 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        mAdapter = new UnitListAdapter(getActivity(), unitListItemList);
-        ((AdapterView)mListView).setAdapter(mAdapter);
+    public void setUnits(List<Unit> units) {
+        mAdapter = new UnitListAdapter(getActivity(), units);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mAdapter = new UnitListAdapter(getActivity(), unitListItemList);
-        ((AdapterView)mListView).setAdapter(mAdapter);
+    public void displayPermanentError(String title, String error) {
+        Toast.makeText(getActivity(), title + "\nPermanent error: " + error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayError(String title, String error) {
+        Toast.makeText(getActivity(), title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -124,7 +121,7 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
-            Unit unit = this.unitListItemList.get(position);
+            Unit unit = (Unit) mAdapter.getItem(position);
             Toast.makeText(getActivity(), unit.getName() + " Clicked", Toast.LENGTH_SHORT).show();
         }
     }
@@ -141,21 +138,6 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
             ((TextView) emptyView).setText(emptyText);
         }
 
-    }
-
-    @Override
-    public void setUnits(List<Unit> units) {
-        mAdapter = new UnitListAdapter(getActivity(), unitListItemList);
-    }
-
-    @Override
-    public void displayPermanentError(String title, String error) {
-        Toast.makeText(getActivity(), title + "\nPermanent error: " + error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void displayError(String title, String error) {
-        Toast.makeText(getActivity(), title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
 
     /**

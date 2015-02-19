@@ -14,6 +14,7 @@ import rtdc.core.model.User;
 import rtdc.core.view.UserListView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,7 +31,6 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
     private UserListController controller;
 
     private OnFragmentInteractionListener mListener;
-    private List<User> userListItemList;
 
     /**
      * The fragment's ListView/GridView.
@@ -65,17 +65,18 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
 
     @Override
     public void setUsers(List<User> users) {
-        mAdapter = new UserListAdapter(getActivity(), userListItemList);
+        mAdapter = new UserListAdapter(getActivity().getBaseContext(), users);
+        ((AdapterView)mListView).setAdapter(mAdapter);
     }
 
     @Override
     public void displayPermanentError(String title, String error) {
-        Toast.makeText(getActivity(), title + "\nPermanent error: " + error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getBaseContext(), title + "\nPermanent error: " + error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayError(String title, String error) {
-        Toast.makeText(getActivity(), title + "\nError: " + error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getBaseContext(), title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -85,24 +86,12 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(R.id.users_listView);
-        ((AdapterView)mListView).setAdapter(mAdapter);
+        //((AdapterView)mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((AdapterView)mListView).setAdapter(mAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ((AdapterView)mListView).setAdapter(mAdapter);
     }
 
     @Override
@@ -132,7 +121,7 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
-            User user = this.userListItemList.get(position);
+            User user = (User) mAdapter.getItem(position);
             Toast.makeText(getActivity(), user.getUsername() + " Clicked", Toast.LENGTH_SHORT).show();
         }
     }

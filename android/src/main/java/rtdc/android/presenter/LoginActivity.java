@@ -45,9 +45,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mEmailLoginFormView;
-    private View mLoginFormView;
+    private View mProgressView, mEmailLoginFormView, mLoginFormView;
 
     private LoginController controller = new LoginController(this);
 

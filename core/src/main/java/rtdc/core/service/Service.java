@@ -4,6 +4,7 @@ import rtdc.core.Bootstrapper;
 import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
+import rtdc.core.json.JSONArray;
 import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
@@ -71,6 +72,29 @@ public final class Service {
         });
     }
 
+    public static void updateOrSaveUnit(Unit unit , final AsyncCallback<Boolean> callback){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "unit", PUT);
+        req.setHeader("Content-type", "application/x-www-form-urlencoded");
+        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+        req.addParameter("unit", unit.toString());
+        req.execute(new AsyncCallback<HttpResponse>() {
+            @Override
+            public void onSuccess(HttpResponse resp) {
+                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                catchSessionExpiredException(wrapper);
+                if("success".equals(wrapper.getStatus()))
+                    callback.onSuccess(true);
+                else
+                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
     public static void getUnits(final AsyncCallback<List<Unit>> callback){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
         req.setHeader("Content-type", "application/x-www-form-urlencoded");
@@ -80,9 +104,16 @@ public final class Service {
             public void onSuccess(HttpResponse resp) {
                 JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
                 catchSessionExpiredException(wrapper);
-                if("success".equals(wrapper.getStatus()))
-                    callback.onSuccess(Util.asList(wrapper.getDataAsJSONArray(), new LinkedList<Unit>()));
-                else
+                if("success".equals(wrapper.getStatus())) {
+                    JSONArray array = wrapper.getDataAsJSONArray();
+                    LinkedList<Unit> units = new LinkedList<Unit>();
+                    for(int i = array.length() - 1; i >= 0; i--) {
+                        Unit unit = new Unit();
+                        unit.map().putAll(array.getJSONObject(i).map());
+                        units.add(unit);
+                    }
+                    callback.onSuccess(units);
+                }else
                     callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
             }
 
@@ -102,9 +133,16 @@ public final class Service {
             public void onSuccess(HttpResponse resp) {
                 JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
                 catchSessionExpiredException(wrapper);
-                if("success".equals(wrapper.getStatus()))
-                    callback.onSuccess(Util.asList(wrapper.getDataAsJSONArray(), new LinkedList<User>()));
-                else
+                if("success".equals(wrapper.getStatus())) {
+                    JSONArray array = wrapper.getDataAsJSONArray();
+                    LinkedList<User> users = new LinkedList<User>();
+                    for(int i = array.length() - 1; i >= 0; i--) {
+                        User user = new User();
+                        user.map().putAll(array.getJSONObject(i).map());
+                        users.add(user);
+                    }
+                    callback.onSuccess(users);
+                }else
                     callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
             }
 

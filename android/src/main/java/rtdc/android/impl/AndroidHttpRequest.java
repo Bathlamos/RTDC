@@ -72,6 +72,8 @@ public class AndroidHttpRequest implements HttpRequest {
         List<BasicNameValuePair> paramsAsValuePairs = new LinkedList<BasicNameValuePair>();
         for(Map.Entry<String, String> param: params.entrySet())
             paramsAsValuePairs.add(new BasicNameValuePair(param.getKey(), param.getValue()));
+        if(requestMethod == 0)
+            url += "?" + URLEncodedUtils.format(paramsAsValuePairs, "UTF-8");
 
         getRequestQueue().add(new JsonObjectRequest(requestMethod, url, URLEncodedUtils.format(paramsAsValuePairs, "UTF-8"), listener, errorListener));
     }

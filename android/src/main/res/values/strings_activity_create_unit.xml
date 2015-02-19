@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="unit_name">Name</string>
-    <string name="unit_total_beds">Total of beds</string>
+    <string name="unit_total_beds">Total number of beds</string>
 </resources>

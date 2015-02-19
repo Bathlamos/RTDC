@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 @Path("authenticate")
 public class AuthService {
 
-    private static final ConcurrentHashMap<String, UserInformation> authenticatedUsers = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, UserInformation> authenticatedUsers = new ConcurrentHashMap<String, UserInformation>();
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -47,7 +47,8 @@ public class AuthService {
                             Restrictions.eq("username", username)).uniqueResult();
                 session.getTransaction().commit();
             } catch (RuntimeException e) {
-                transaction.rollback();
+                if(transaction != null)
+                    transaction.rollback();
                 throw e;
             }
 
@@ -84,11 +85,9 @@ public class AuthService {
         if(roles == null || roles.length == 0)
             return true;
         String token = req.getParameter("authToken");
-        Logger.getLogger("RTDC").log(Level.INFO, token);
         if(token != null && !token.isEmpty()) {
             UserInformation user = authenticatedUsers.remove(token);
             Date now = new Date();
-            Logger.getLogger("RTDC").log(Level.INFO, user.lastUsed.getTime() + " : " + now.getTime());
             if(user != null && user.lastUsed.getTime() + 60 * 60 * 1000 > now.getTime()){
                 user.lastUsed = now;
                 authenticatedUsers.put(token, user);

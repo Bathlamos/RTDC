@@ -15,7 +15,7 @@ public class Util {
     }
 
     public static <T extends JSONObject> List<T> asList(JSONArray array, List<T> list){
-        for(int i = array.length() - 1; i >= 0; i++)
+        for(int i = array.length() - 2; i >= 0; i--)
             list.add((T) array.get(i));
         return list;
     }

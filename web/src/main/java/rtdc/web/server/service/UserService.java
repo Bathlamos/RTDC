@@ -35,7 +35,7 @@ import static rtdc.core.model.ApplicationPermission.USER;
 public class UserService {
 
     @GET
-    public String getUnits(@Context HttpServletRequest req){
+    public String getUsers(@Context HttpServletRequest req){
         AuthService.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         Transaction transaction = null;
@@ -45,7 +45,8 @@ public class UserService {
             session.getTransaction().commit();
             return new JsonTransmissionWrapper(Util.asJSONArray(users)).toString();
         } catch (RuntimeException e) {
-            transaction.rollback();
+            if(transaction != null)
+                transaction.rollback();
             throw e;
         }
     }
@@ -54,7 +55,7 @@ public class UserService {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     public String updateUser(@Context HttpServletRequest req, @FormParam("password") String password, @FormParam("user" )String userString){
-        //AuthService.hasRole(req, ADMIN);
+        AuthService.hasRole(req, ADMIN);
         User user = new User(userString);
 
         if(password == null || password.isEmpty() || password.length() < 4)
@@ -63,7 +64,7 @@ public class UserService {
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            ServerUser sUser = (ServerUser) session.createCriteria(User.class).add(Restrictions.eq("id", user.getId())).uniqueResult();
+            ServerUser sUser = (ServerUser) session.createCriteria(ServerUser.class).add(Restrictions.eq("id", user.getId())).uniqueResult();
 
             if(sUser == null){
                 //We create a new ServerUser
@@ -73,16 +74,15 @@ public class UserService {
             }else
                 sUser.map().putAll(user.map());
 
-            Logger.getLogger("lll").log(Level.WARNING, Joiner.on(", ").join(sUser.map().values()));
-
-            /*Set<ConstraintViolation<ServerUser>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(sUser);
+            Set<ConstraintViolation<ServerUser>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(sUser);
             if(!violations.isEmpty())
-                throw InvalidParameterException.fromConstraintViolations(violations);*/
+                throw InvalidParameterException.fromConstraintViolations(violations);
 
             session.saveOrUpdate(sUser);
             session.getTransaction().commit();
         } catch (RuntimeException e) {
-            transaction.rollback();
+            if(transaction != null)
+                transaction.rollback();
             throw e;
         }
         return new JsonTransmissionWrapper().toString();
@@ -101,7 +101,8 @@ public class UserService {
             session.delete(user);
             session.getTransaction().commit();
         } catch (RuntimeException e) {
-            transaction.rollback();
+            if(transaction != null)
+                transaction.rollback();
             throw e;
         }
         return new JsonTransmissionWrapper().toString();

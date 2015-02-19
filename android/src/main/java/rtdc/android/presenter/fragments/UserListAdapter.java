@@ -13,14 +13,9 @@ import rtdc.core.model.User;
 
 import java.util.List;
 
-
-/**
- * Created by Mathieu on 2015-02-18.
- */
 public class UserListAdapter extends ArrayAdapter {
 
     private Context context;
-    private boolean useList = true;
 
     public UserListAdapter(Context context, List items) {
         super(context, android.R.layout.simple_list_item_1, items);
@@ -40,16 +35,12 @@ public class UserListAdapter extends ArrayAdapter {
      * @return */
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        User user = (User)getItem(position);
+        User user = (User) getItem(position);
         View viewToUse = null;
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            if (useList) {
-                viewToUse = mInflater.inflate(R.layout.user_list_item, null);
-            } else {
-                viewToUse = mInflater.inflate(R.layout.user_grid_item, null);
-            }
+            viewToUse = mInflater.inflate(R.layout.user_list_item, null);
             holder = new ViewHolder();
             holder.usernameText = (TextView)viewToUse.findViewById(R.id.username_textView);
             holder.secondLine = (TextView) viewToUse.findViewById(R.id.user_secondLine);
