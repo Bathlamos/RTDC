@@ -10,6 +10,7 @@ import android.widget.*;
 import rtdc.android.R;
 
 import rtdc.core.model.Unit;
+import rtdc.core.view.UnitListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class UnitFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class UnitFragment extends Fragment implements AbsListView.OnItemClickListener, UnitListView {
 
     private OnFragmentInteractionListener mListener;
 
@@ -139,6 +140,22 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
         if (emptyView instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
         }
+
+    }
+
+    @Override
+    public void setUnits(List<Unit> units) {
+        mAdapter = new UnitListAdapter(getActivity(), unitListItemList);
+    }
+
+    @Override
+    public void displayPermanentError(String title, String error) {
+        Toast.makeText(getActivity(), title + "\nPermanent error: " + error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayError(String title, String error) {
+        Toast.makeText(getActivity(), title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
 
     /**
