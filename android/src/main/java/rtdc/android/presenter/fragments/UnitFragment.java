@@ -15,6 +15,8 @@ import rtdc.core.view.UnitListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A fragment representing a list of Items.
@@ -71,7 +73,6 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(R.id.units_listView);
-        ((AdapterView)mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -82,6 +83,7 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void setUnits(List<Unit> units) {
         mAdapter = new UnitListAdapter(getActivity(), units);
+        ((AdapterView)mListView).setAdapter(mAdapter);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class AddUnitController {
         this.view = view;
     }
 
-    public void addUser() {
+    public void addUnit() {
 
         Unit newUnit = new Unit();
         newUnit.setName(view.getNameAsString());

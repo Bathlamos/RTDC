@@ -73,7 +73,7 @@ public final class Service {
     }
 
     public static void updateOrSaveUnit(Unit unit , final AsyncCallback<Boolean> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "unit", PUT);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
         req.setHeader("Content-type", "application/x-www-form-urlencoded");
         req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
         req.addParameter("unit", unit.toString());
