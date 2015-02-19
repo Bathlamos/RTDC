@@ -26,15 +26,14 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".presenter.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-           <intent-filter>
+                android:name=".presenter.LoginActivity"
+                android:label="@string/title_activity_login"
+                android:windowSoftInputMode="adjustResize|stateHidden" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presenter.CreateUserActivity"
             android:label="@string/title_activity_create_user"

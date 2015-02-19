@@ -1,5 +1,6 @@
 package rtdc.core.controller;
 
+import rtdc.core.Bootstrapper;
 import rtdc.core.model.User;
 import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
@@ -18,7 +19,7 @@ public class LoginController {
             @Override
             public void onSuccess(User user) {
                 view.saveAuthenticationToken(user.getAuthenticationToken());
-                view.setUsername("Yay! You logged in :)   ->   " + user.getFirstName());
+                Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
             }
 
             @Override

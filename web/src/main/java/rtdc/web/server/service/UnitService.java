@@ -6,7 +6,7 @@ import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.Unit;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.ServerUnit;
-import rtdc.web.server.util.Util;
+import rtdc.core.util.Util;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;

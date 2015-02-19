@@ -55,20 +55,6 @@ public class Rtdc extends Application implements BootstrapperView{
     }
 
     @Override
-    public void goToLogin() {
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
-
-    @Override
-    public void goToMain() {
-        Intent intent = new Intent(context, CapacityOverviewActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
-
-    @Override
     public void displayPermanentError(String title, String error) {
         displayPermanentError(title, error);
     }

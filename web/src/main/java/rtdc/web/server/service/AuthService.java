@@ -81,7 +81,7 @@ public class AuthService {
     public static boolean hasRole(HttpServletRequest req, String... roles){
         if(roles == null || roles.length == 0)
             return true;
-        String token = req.getParameter("auth_token");
+        String token = req.getParameter("authToken");
         if(token != null && !token.isEmpty()) {
             UserInformation user = authenticatedUsers.remove(token);
             Date now = new Date();

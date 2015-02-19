@@ -8,4 +8,6 @@ public interface Factory {
 
     Validator newValidator();
 
+    Dispatcher newDispatcher();
+
 }
