@@ -1,10 +1,12 @@
 package rtdc.web.server.service;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.exception.InvalidSessionException;
 import rtdc.core.exception.UsernamePasswordMismatchException;
+import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.ServerUser;
@@ -24,7 +26,7 @@ public class AuthService {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public User authenticate(@Context HttpServletRequest req,
+    public String authenticate(@Context HttpServletRequest req,
                              @FormParam("username") String username,
                              @FormParam("password") String password){
 
@@ -35,10 +37,17 @@ public class AuthService {
         else{
             //Get user by username
             Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
-            session.beginTransaction();
-            ServerUser user = (ServerUser) session.createCriteria(ServerUser.class).add(
-                    Restrictions.eq(ServerUser.USERNAME, username)).uniqueResult();
-            session.getTransaction().commit();
+            ServerUser user = null;
+            Transaction transaction = null;
+            try{
+                transaction = session.beginTransaction();
+                user = (ServerUser) session.createCriteria(ServerUser.class).add(
+                            Restrictions.eq("username", username)).uniqueResult();
+                session.getTransaction().commit();
+            } catch (RuntimeException e) {
+                transaction.rollback();
+                throw e;
+            }
 
             if(user == null)
                 //We do not have any user with that username in the database
@@ -56,7 +65,7 @@ public class AuthService {
                     info.lastUsed = new Date();
                     authenticatedUsers.put(user.getSalt(), info);
 
-                    return user;
+                    return new JsonTransmissionWrapper(user).toString();
                 }else
                     throw new UsernamePasswordMismatchException("Username / password mismatch");
             }

@@ -554,12 +554,21 @@ public class JSONObject {
 
 
     /**
-     * Get an enumeration of the keys of the JSONObject.
+     * Get an set of the keys of the JSONObject.
      *
      * @return An iterator of the keys.
      */
     public Set<String> keySet() {
         return this.myHashMap.keySet();
+    }
+
+    /**
+     * Get a Collection of the Entries of the JSONObject.
+     *
+     * @return An iterator of the keys.
+     */
+    public Map map() {
+        return this.myHashMap;
     }
 
 

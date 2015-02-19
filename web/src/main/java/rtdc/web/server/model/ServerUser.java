@@ -16,7 +16,6 @@ public class ServerUser extends User{
 
     private String passwordHash;
     private String salt;
-    private Set<ServerUnit> units = new HashSet<>();
 
     public ServerUser(){}
     public ServerUser(String json){
@@ -41,11 +40,4 @@ public class ServerUser extends User{
         this.salt = salt;
     }
 
-    @ManyToMany(mappedBy = "users")
-    public Set<ServerUnit> getUnits() {
-        return units;
-    }
-    public void setUnits(Set<ServerUnit> units) {
-        this.units = units;
-    }
 }

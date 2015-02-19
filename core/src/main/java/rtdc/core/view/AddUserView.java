@@ -14,6 +14,12 @@ public interface AddUserView extends View {
     void setFirstnameAsString(String value);
     void setErrorForFirstname(String error);
 
+    String getEmailAsString();
+    void setEmailAsString(String value);
+
+    String getRoleAsString();
+    void setRoleAsString(String value);
+
     String getPasswordAsString();
     void setPasswordAsString(String value);
     void setErrorForPassword(String error);

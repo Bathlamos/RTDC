@@ -50,7 +50,7 @@ public class AndroidHttpRequest implements HttpRequest {
         Response.Listener listener = new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
-                callback.onSuccess(new AndroidHttpResponse(400, response));
+                callback.onSuccess(new AndroidHttpResponse(200, response));
             }
         };
 

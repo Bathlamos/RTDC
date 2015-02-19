@@ -1,14 +1,29 @@
 package rtdc.web.server.service;
 
+import com.google.common.base.Joiner;
+import org.apache.log4j.lf5.LogLevel;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+import org.mindrot.jbcrypt.BCrypt;
+import rtdc.core.Bootstrapper;
+import rtdc.core.exception.InvalidParameterException;
+import rtdc.core.json.JSONObject;
+import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.ServerUser;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static rtdc.core.model.ApplicationPermission.ADMIN;
 import static rtdc.core.model.ApplicationPermission.USER;
@@ -16,39 +31,61 @@ import static rtdc.core.model.ApplicationPermission.USER;
 @Path("users")
 public class UserService {
 
-    @GET
+    @PUT
+    @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    public List<User> getUser(@Context HttpServletRequest req){
-        AuthService.hasRole(req, ADMIN);
-        Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        List<User> users = (List<User>) session.createCriteria(ServerUser.class).list();
-        session.getTransaction().commit();
-        return users;
-    }
+    public String updateUser(@Context HttpServletRequest req, @FormParam("password") String password, @FormParam("user" )String userString){
+        //AuthService.hasRole(req, ADMIN);
+        User user = new User(userString);
 
-    @POST
-    @Produces("application/json")
-    public boolean updateUser(@Context HttpServletRequest req, ServerUser user){
-        AuthService.hasRole(req, ADMIN);
+        if(password == null || password.isEmpty() || password.length() < 4)
+            throw new InvalidParameterException("Password must be longer than 4 characters");
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        session.saveOrUpdate(user);
-        session.getTransaction().commit();
-        return true;
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            ServerUser sUser = (ServerUser) session.createCriteria(User.class).add(Restrictions.eq("id", user.getId())).uniqueResult();
+
+            if(sUser == null){
+                //We create a new ServerUser
+                sUser = new ServerUser(userString);
+                sUser.setSalt(BCrypt.gensalt());
+                sUser.setPasswordHash(BCrypt.hashpw(password, sUser.getSalt()));
+            }else
+                sUser.map().putAll(user.map());
+
+            Logger.getLogger("lll").log(Level.WARNING, Joiner.on(", ").join(sUser.map().values()));
+
+            /*Set<ConstraintViolation<ServerUser>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(sUser);
+            if(!violations.isEmpty())
+                throw InvalidParameterException.fromConstraintViolations(violations);*/
+
+            session.saveOrUpdate(sUser);
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            transaction.rollback();
+            throw e;
+        }
+        return new JsonTransmissionWrapper().toString();
     }
 
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    public boolean deleteUser(@Context HttpServletRequest req, @PathParam("id") String id){
+    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") String id){
         AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        ServerUser user = (ServerUser) session.load(ServerUser.class, id);
-        session.delete(user);
-        session.getTransaction().commit();
-        return true;
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            ServerUser user = (ServerUser) session.load(ServerUser.class, id);
+            session.delete(user);
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            transaction.rollback();
+            throw e;
+        }
+        return new JsonTransmissionWrapper().toString();
     }
 
 }

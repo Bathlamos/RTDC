@@ -92,7 +92,6 @@
     <orderEntry type="library" exported="" name="hibernate-core-4.3.8.Final" level="project" />
     <orderEntry type="library" exported="" name="jersey-server-1.19" level="project" />
     <orderEntry type="library" exported="" name="jersey-guice-1.19" level="project" />
-    <orderEntry type="library" exported="" name="genson-1.2" level="project" />
     <orderEntry type="library" exported="" name="javax.el-api-3.0.0" level="project" />
     <orderEntry type="library" exported="" name="postgresql-9.1-901-1.jdbc4" level="project" />
     <orderEntry type="library" exported="" name="jbcrypt-0.3m" level="project" />

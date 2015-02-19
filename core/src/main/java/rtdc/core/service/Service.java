@@ -22,8 +22,32 @@ public final class Service {
             @Override
             public void onSuccess(HttpResponse resp) {
                 JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                if("success".equals(wrapper.getStatus())) {
+                    User user = new User();
+                    user.map().putAll(wrapper.getData().map());
+                    callback.onSuccess(user);
+                }else
+                    callback.onError(wrapper.getDescription());
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
+    public static void updateOrSaveUser(User user, String password, final AsyncCallback<Boolean> callback){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
+        req.setHeader("Content-type", "application/x-www-form-urlencoded");
+        req.addParameter("user", user.toString());
+        req.addParameter("password", password);
+        req.execute(new AsyncCallback<HttpResponse>() {
+            @Override
+            public void onSuccess(HttpResponse resp) {
+                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
                 if("success".equals(wrapper.getStatus()))
-                    callback.onSuccess((User) wrapper.getData());
+                    callback.onSuccess(true);
                 else
                     callback.onError(wrapper.getDescription());
             }

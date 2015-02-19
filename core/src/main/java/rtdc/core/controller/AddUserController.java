@@ -19,32 +19,37 @@ public class AddUserController {
         this.view = view;
     }
 
-    public void addUser(){
+    public void addUser() {
 
         User newUser = new User();
         newUser.setUsername(view.getUsernameAsString());
         newUser.setFirstName(view.getFirstnameAsString());
         newUser.setSurname(view.getSurnameAsString());
-
+        newUser.setEmail(view.getEmailAsString());
+        newUser.setPermission(view.getPermissionAsString());
+        newUser.setRole(view.getRoleAsString());
+        String password = view.getPasswordAsString();
 
         Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
 
-        for(ConstraintViolation<User> violation: constraintViolations)
-            view.displayError(violation.getLeafBean().toString(), violation.getMessage() + ": " + violation.getPropertyPath());
+        if (!constraintViolations.isEmpty()) {
+            ConstraintViolation<User> first = constraintViolations.iterator().next();
+            view.displayError("Error", first.getPropertyPath() + " : " + first.getMessage());
+        } else if (password == null || password.isEmpty() || password.length() < 4)
+            view.displayError("Error", "Password needs to be at least 4 characters");
+        else {
+            Service.updateOrSaveUser(newUser, password, new AsyncCallback<Boolean>() {
 
-//        Service.authenticateUser(view.getUsername(), view.getPassword(), new AsyncCallback<User>() {
-//            @Override
-//            public void onSuccess(User user) {
-//                view.setUsername("Yay! You logged in :)   ->   " + user.getFirstName());
-//            }
-//
-//            @Override
-//            public void onError(String message) {
-//                view.displayError("Error", message);
-//            }
-//        });
+                @Override
+                public void onSuccess(Boolean result) {
+                    view.displayError("Success", "Success");
+                }
+
+                @Override
+                public void onError(String message) {
+                    view.displayError("CommError", message);
+                }
+            });
+        }
     }
-
-
-
 }

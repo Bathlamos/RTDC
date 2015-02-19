@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "units")
@@ -39,6 +40,7 @@ public class Unit extends JSONObject {
     }
 
     @NotNull
+    @Size(min=1)
     @Column(name = NAME)
     public String getName(){
         return optString(NAME);
@@ -48,7 +50,6 @@ public class Unit extends JSONObject {
     }
 
     @Min(value=0)
-    @NotNull
     @Column(name = TOTAL_BEDS)
     public int getTotalBeds(){
         return optInt(TOTAL_BEDS);
@@ -58,7 +59,6 @@ public class Unit extends JSONObject {
     }
 
     @Min(value=0)
-    @NotNull
     @Column(name = AVAILABLE_BEDS)
     public int getAvailableBeds(){
         return optInt(AVAILABLE_BEDS);
@@ -68,7 +68,6 @@ public class Unit extends JSONObject {
     }
 
     @Min(value=0)
-    @NotNull
     @Column(name = POTENTIAL_DC)
     public int getPotentialDc(){
         return optInt(POTENTIAL_DC);
@@ -78,7 +77,6 @@ public class Unit extends JSONObject {
     }
 
     @Min(value=0)
-    @NotNull
     @Column(name = DC_BY_DEADLINE)
     public int getDcByDeadline(){
         return optInt(DC_BY_DEADLINE);
@@ -88,7 +86,6 @@ public class Unit extends JSONObject {
     }
 
     @Min(value=0)
-    @NotNull
     @Column(name = TOTAL_ADMITS)
     public int getTotalAdmits(){
         return optInt(TOTAL_ADMITS);
@@ -98,7 +95,6 @@ public class Unit extends JSONObject {
     }
 
     @Min(value=0)
-    @NotNull
     @Column(name = ADMITS_BY_DEADLINE)
     public int getAdmitsByDeadline(){
         return optInt(ADMITS_BY_DEADLINE);

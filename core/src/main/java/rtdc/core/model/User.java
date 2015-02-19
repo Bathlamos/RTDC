@@ -1,11 +1,15 @@
 package rtdc.core.model;
 
+import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -18,8 +22,9 @@ public class User extends JSONObject implements Serializable{
             EMAIL = "email",
             PHONE = "phone",
             FIRSTNAME = "firstname",
-            PERMISSION = "PERMISSION",
-            ROLE = "ROLE";
+            PERMISSION = "permission",
+            ROLE = "role",
+            UNIT = "unit";
 
     private String authenticationToken;
 
@@ -38,6 +43,7 @@ public class User extends JSONObject implements Serializable{
     public void setId(int id){put(ID, id);}
 
     @NotNull
+    @Size(min=1)
     @Column(name = USERNAME, unique = true, nullable = false)
     public String getUsername(){
         return optString(USERNAME);
@@ -47,6 +53,7 @@ public class User extends JSONObject implements Serializable{
     }
 
     @NotNull
+    @Size(min=1)
     @Column(name = SURNAME)
     public String getSurname(){
         return optString(SURNAME);
@@ -56,6 +63,7 @@ public class User extends JSONObject implements Serializable{
     }
 
     @NotNull
+    @Size(min=1)
     @Column(name = FIRSTNAME)
     public String getFirstName(){
         return optString(FIRSTNAME);
@@ -65,6 +73,7 @@ public class User extends JSONObject implements Serializable{
     }
 
     @Column(name = EMAIL)
+    @Pattern(regexp = ".+@.+\\.[a-z]+")
     public String getEmail(){
         return optString(EMAIL);
     }
@@ -81,6 +90,7 @@ public class User extends JSONObject implements Serializable{
     }
 
     @NotNull
+    @Size(min=1)
     @Column(name = PERMISSION)
     public String getPermission(){
         return optString(PERMISSION);
@@ -90,6 +100,7 @@ public class User extends JSONObject implements Serializable{
     }
 
     @NotNull
+    @Size(min=1)
     @Column(name = ROLE)
     public String getRole(){
         return optString(ROLE);
@@ -98,10 +109,17 @@ public class User extends JSONObject implements Serializable{
         put(ROLE, role);
     }
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = true, targetEntity = Unit.class)
+    public Unit getUnit() {
+        return (Unit) optJSONObject(UNIT);
+    }
+    public void setUnit(Unit unit) {
+        put(UNIT, unit);
+    }
+
     public String getAuthenticationToken() {
         return authenticationToken;
     }
-
     public void setAuthenticationToken(String authenticationToken) {
         this.authenticationToken = authenticationToken;
     }

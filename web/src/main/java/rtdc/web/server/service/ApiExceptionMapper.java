@@ -11,12 +11,12 @@ import javax.ws.rs.ext.Provider;
 
 @Singleton
 @Provider
-public class ApiExceptionMapper implements ExceptionMapper<ApiException> {
+public class ApiExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override
-    public Response toResponse(ApiException exception) {
-        return Response.status(400).
-                entity(new JsonTransmissionWrapper(exception)).
+    public Response toResponse(Throwable throwable) {
+        return Response.status(200).
+                entity(new JsonTransmissionWrapper(throwable).toString()).
                 type(MediaType.APPLICATION_JSON_TYPE)
                 .build();
     }
