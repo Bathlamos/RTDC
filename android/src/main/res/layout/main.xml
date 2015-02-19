@@ -37,6 +37,12 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:orientation="vertical">
+                    <fragment android:name="rtdc.android.presenter.fragments.UnitFragment"
+                              android:id="@+id/units_fragment"
+                              android:layout_weight="1"
+                              android:layout_width="fill_parent"
+                              android:layout_height="fill_parent"
+                              tools:layout="@layout/fragment_unit"/>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

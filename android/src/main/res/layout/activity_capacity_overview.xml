@@ -1,42 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="2dp"
-                tools:context="rtdc.android.CapacityOverviewActivity">
-    <HorizontalScrollView
-            android:id="@+id/horizontalView"
-            android:layout_height="fill_parent"
-            android:scrollbars="horizontal|vertical"
-            android:layout_width="fill_parent"
-            android:fillViewport="true" android:layout_below="@+id/frameLayout">
-        <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-        <ScrollView
-                android:id="@+id/layout"
-                android:layout_height="fill_parent"
-                android:scrollbars="horizontal|vertical"
-                android:layout_width="fill_parent"
-                android:scrollbarStyle="outsideInset"
-                android:fillViewport="true" android:layout_alignParentEnd="false"
-                android:layout_alignParentStart="false">
-                <TableLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/table">
-                </TableLayout>
-            </ScrollView>
-            <TableLayout
-                    android:id="@+id/staticHeader"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:stretchColumns="*" android:layout_alignParentStart="true"
-                    android:layout_marginRight="8dip">
-            </TableLayout>
-        </RelativeLayout>
-    </HorizontalScrollView>
-</RelativeLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/CapacityListView" android:layout_gravity="center_horizontal" android:choiceMode="none"/>
+</LinearLayout>

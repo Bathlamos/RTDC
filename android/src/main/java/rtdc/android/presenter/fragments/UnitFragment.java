@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import rtdc.android.R;
 
-import rtdc.core.model.User;
+import rtdc.core.model.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +23,11 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class UserFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class UnitFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     private OnFragmentInteractionListener mListener;
 
-    private List<User> userListItemList;
+    private List<Unit> unitListItemList;
 
     /**
      * The fragment's ListView/GridView.
@@ -52,30 +52,28 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public UserFragment() {
+    public UnitFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userListItemList = new ArrayList<User>();
-        userListItemList.add(new User());
-        userListItemList.get(0).setUsername("Jane");
-        userListItemList.add(new User());
-        userListItemList.get(1).setUsername("John");
-        userListItemList.add(new User());
-        userListItemList.get(2).setUsername("Jack");
-        mAdapter = new UserListAdapter(getActivity(), userListItemList);
+        unitListItemList = new ArrayList<Unit>();
+        unitListItemList.add(new Unit());
+        unitListItemList.get(0).setName("ICU");
+        unitListItemList.add(new Unit());
+        unitListItemList.get(1).setName("E42");
+        mAdapter = new UnitListAdapter(getActivity(), unitListItemList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_unit_list, container, false);
 
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(R.id.users_listView);
+        mListView = (AbsListView) view.findViewById(R.id.units_listView);
         ((AdapterView)mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
@@ -87,14 +85,14 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onStart() {
         super.onStart();
-        mAdapter = new UserListAdapter(getActivity(), userListItemList);
+        mAdapter = new UnitListAdapter(getActivity(), unitListItemList);
         ((AdapterView)mListView).setAdapter(mAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter = new UserListAdapter(getActivity(), userListItemList);
+        mAdapter = new UnitListAdapter(getActivity(), unitListItemList);
         ((AdapterView)mListView).setAdapter(mAdapter);
     }
 
@@ -125,8 +123,8 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
-            User user = this.userListItemList.get(position);
-            Toast.makeText(getActivity(), user.getUsername() + " Clicked", Toast.LENGTH_SHORT).show();
+            Unit unit = this.unitListItemList.get(position);
+            Toast.makeText(getActivity(), unit.getName() + " Clicked", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -154,7 +152,7 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(int userId);
+        public void onFragmentInteraction(int unitId);
     }
 
 }

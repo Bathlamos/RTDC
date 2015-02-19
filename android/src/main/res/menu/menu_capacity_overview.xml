@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/discardCapacity"
+          android:title="@string/cancel"
+          android:icon="@drawable/ic_action_discard"
+          android:showAsAction="ifRoom|withText"
+          android:visible="false" />
+
+    <item android:id="@+id/saveCapacity"
+          android:title="@string/save"
+          android:icon="@drawable/ic_action_save"
+          android:showAsAction="ifRoom|withText"
+          android:visible="false" />
+
+    <item android:id="@+id/editCapacity"
+          android:title="@string/edit"
+          android:icon="@drawable/ic_action_edit"
+          android:showAsAction="ifRoom|withText"/>
+</menu>

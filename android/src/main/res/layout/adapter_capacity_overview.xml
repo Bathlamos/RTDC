@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="UnitName"
+            android:id="@+id/unitName"
+            android:layout_weight="3" android:textStyle="bold" android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp" android:background="@android:color/transparent"/>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="availableBeds"
+            android:id="@+id/availableBeds"
+            android:inputType="number"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
+            android:textColor="#000000" android:enabled="false" >
+    </EditText>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="potentialDC"
+            android:id="@+id/potentialDC"
+            android:inputType="number"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
+            android:textColor="#000000" android:enabled="false">
+    </EditText>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="DCByDeadline"
+            android:id="@+id/DCByDeadline"
+            android:inputType="number"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
+            android:textColor="#000000" android:enabled="false">
+    </EditText>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="totalAdmits"
+            android:id="@+id/totalAdmits"
+            android:inputType="number"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
+            android:textColor="#000000" android:enabled="false">
+    </EditText>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="admitsByDeadline"
+            android:id="@+id/admitsByDeadline"
+            android:inputType="number"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
+            android:textColor="#000000" android:enabled="false">
+    </EditText>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="StatusAtDeadline"
+            android:id="@+id/statusAtDeadline"
+            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
+            android:inputType="number" android:textColor="#000000" android:enabled="false" android:background="@android:color/transparent"/>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
+
+</LinearLayout>

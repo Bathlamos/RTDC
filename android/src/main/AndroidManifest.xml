@@ -16,33 +16,51 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
+        android:name=".Rtdc"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light"
-        android:name=".Rtdc">
+        android:theme="@android:style/Theme.Holo.Light" >
         <activity
             android:name=".MyActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-                android:name=".presenter.LoginActivity"
-                android:label="@string/title_activity_login"
-                android:windowSoftInputMode="adjustResize|stateHidden" >
+            android:name=".presenter.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".presenter.CreateUserActivity"
             android:label="@string/title_activity_create_user"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:parentActivityName=".MyActivity">
+            android:parentActivityName=".MyActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+
             <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MyActivity" />
+        </activity>
+        <activity
+            android:name=".presenter.CreateUnitActivity"
+            android:label="@string/title_activity_create_unit"
+            android:parentActivityName=".MyActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rtdc.android.MyActivity" />
         </activity>
     </application>
 
