@@ -16,7 +16,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/secondLine"
+        android:id="@+id/user_secondLine"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"

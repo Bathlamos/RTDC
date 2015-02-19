@@ -29,6 +29,7 @@ public class UserListAdapter extends ArrayAdapter {
 
     private class ViewHolder {
         TextView usernameText;
+        TextView secondLine;
     }
 
     /**
@@ -51,13 +52,15 @@ public class UserListAdapter extends ArrayAdapter {
             }
             holder = new ViewHolder();
             holder.usernameText = (TextView)viewToUse.findViewById(R.id.username_textView);
+            holder.secondLine = (TextView) viewToUse.findViewById(R.id.user_secondLine);
             viewToUse.setTag(holder);
         } else {
             viewToUse = convertView;
             holder = (ViewHolder) viewToUse.getTag();
         }
 
-        holder.usernameText.setText(user.getUsername());
+        holder.usernameText.setText(user.getSurname() + ", " + user.getFirstName());
+        holder.secondLine.setText(user.getUsername() + ", " + user.getRole());
         return viewToUse;
     }
  }

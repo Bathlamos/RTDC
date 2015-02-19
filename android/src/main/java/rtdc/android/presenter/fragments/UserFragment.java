@@ -70,12 +70,12 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
 
     @Override
     public void displayPermanentError(String title, String error) {
-
+        Toast.makeText(getActivity(), title + "\nPermanent error: " + error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayError(String title, String error) {
-
+        Toast.makeText(getActivity(), title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
