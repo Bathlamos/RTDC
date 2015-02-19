@@ -15,7 +15,7 @@
             android:text="UnitName"
             android:id="@+id/unitName"
             android:layout_weight="3" android:textStyle="bold" android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp" android:background="@android:color/transparent"/>
+            android:layout_marginLeft="5dp" android:background="@android:color/transparent" android:gravity="center"/>
 
     <Space
             android:layout_width="0dp"
@@ -29,8 +29,8 @@
             android:id="@+id/availableBeds"
             android:inputType="number"
             android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
-            android:textColor="#000000" android:enabled="false" >
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center">
     </EditText>
 
     <Space
@@ -45,8 +45,8 @@
             android:id="@+id/potentialDC"
             android:inputType="number"
             android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
-            android:textColor="#000000" android:enabled="false">
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center">
     </EditText>
 
     <Space
@@ -61,8 +61,8 @@
             android:id="@+id/DCByDeadline"
             android:inputType="number"
             android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
-            android:textColor="#000000" android:enabled="false">
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center">
     </EditText>
 
     <Space
@@ -77,8 +77,8 @@
             android:id="@+id/totalAdmits"
             android:inputType="number"
             android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
-            android:textColor="#000000" android:enabled="false">
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center">
     </EditText>
 
     <Space
@@ -93,8 +93,8 @@
             android:id="@+id/admitsByDeadline"
             android:inputType="number"
             android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
-            android:textColor="#000000" android:enabled="false">
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center">
     </EditText>
 
     <Space
@@ -108,8 +108,9 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="StatusAtDeadline"
             android:id="@+id/statusAtDeadline"
-            android:layout_weight="2" android:layout_gravity="center_vertical" android:gravity="right"
-            android:inputType="number" android:textColor="#000000" android:enabled="false" android:background="@android:color/transparent"/>
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:background="@android:color/transparent"
+            android:gravity="center"/>
 
     <Space
             android:layout_width="0dp"
