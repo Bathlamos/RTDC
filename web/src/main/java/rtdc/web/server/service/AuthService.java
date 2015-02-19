@@ -63,7 +63,7 @@ public class AuthService {
                     info.id = user.getId();
                     info.permission = user.getRole();
                     info.lastUsed = new Date();
-                    authenticatedUsers.put(user.getSalt(), info);
+                    authenticatedUsers.put(user.getAuthenticationToken(), info);
 
                     return new JsonTransmissionWrapper(user).toString();
                 }else

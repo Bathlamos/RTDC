@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 import rtdc.android.impl.AndroidFactory;
 import rtdc.android.presenter.LoginActivity;
@@ -13,11 +14,13 @@ import rtdc.core.Bootstrapper;
 import rtdc.core.controller.BootstrapperController;
 import rtdc.core.view.BootstrapperView;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Rtdc extends Application implements BootstrapperView{
 
     private static Context context;
-    public static final String AUTH_TOKEN_KEY = "authTokenKey",
-        PREFS_NAME = "RtdcPrefs";
+    public static final String AUTH_TOKEN_KEY = "authTokenKey";
 
     private static SharedPreferences settings;
     private BootstrapperController controller = new BootstrapperController(this);
@@ -28,7 +31,7 @@ public class Rtdc extends Application implements BootstrapperView{
         context = getApplicationContext();
 
         Bootstrapper.initialize(new AndroidFactory());
-        settings = getSharedPreferences(PREFS_NAME, 0);
+        settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         controller.init();
     }
 
@@ -42,7 +45,8 @@ public class Rtdc extends Application implements BootstrapperView{
 
     @Override
     public boolean hasAuthenticationToken() {
-        return settings.getString(AUTH_TOKEN_KEY, null) != null;
+        Logger.getLogger("RTDC").log(Level.INFO, "HasAuthenticationToken : " + settings.getString(AUTH_TOKEN_KEY, ""));
+        return !settings.getString(AUTH_TOKEN_KEY, "").isEmpty();
     }
 
     @Override

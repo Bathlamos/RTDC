@@ -28,6 +28,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import rtdc.android.R;
 import rtdc.android.Rtdc;
@@ -105,8 +107,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
     @Override
     public void saveAuthenticationToken(String token) {
-        SharedPreferences.Editor editor = Rtdc.getAppPrefs().edit();
-        editor.putString(Rtdc.AUTH_TOKEN_KEY, token);
+        Logger.getLogger("RTDC").log(Level.INFO, "Saving authentication token : " + token);
+        Rtdc.getAppPrefs().edit().putString(Rtdc.AUTH_TOKEN_KEY, token).commit();
     }
 
     @Override

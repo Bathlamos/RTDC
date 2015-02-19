@@ -24,7 +24,8 @@ public class User extends JSONObject implements Serializable{
             FIRSTNAME = "firstname",
             PERMISSION = "permission",
             ROLE = "role",
-            UNIT = "unit";
+            UNIT = "unit",
+            AUTH_TOKEN = "authenticationToken";
 
     private String authenticationToken;
 
@@ -117,10 +118,11 @@ public class User extends JSONObject implements Serializable{
         put(UNIT, unit);
     }
 
+    @Transient
     public String getAuthenticationToken() {
-        return authenticationToken;
+        return optString(AUTH_TOKEN);
     }
     public void setAuthenticationToken(String authenticationToken) {
-        this.authenticationToken = authenticationToken;
+        put(AUTH_TOKEN, authenticationToken);
     }
 }

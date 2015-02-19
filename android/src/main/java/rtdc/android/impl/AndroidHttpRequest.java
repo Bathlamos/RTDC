@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AndroidHttpRequest implements HttpRequest {
 
@@ -54,6 +56,7 @@ public class AndroidHttpRequest implements HttpRequest {
         Response.Listener listener = new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
+                Logger.getLogger("RTDC").log(Level.WARNING, response);
                 callback.onSuccess(new AndroidHttpResponse(200, response));
             }
         };
@@ -61,7 +64,7 @@ public class AndroidHttpRequest implements HttpRequest {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callback.onError(error.networkResponse.toString() + " : " + error.getMessage());
+                callback.onError(error.networkResponse + " : " + error.getMessage());
             }
         };
 
