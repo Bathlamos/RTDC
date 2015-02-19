@@ -8,12 +8,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
+import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateUserActivity;
+import rtdc.android.presenter.fragments.UnitFragment;
 import rtdc.android.presenter.fragments.UserFragment;
 
 import java.io.IOException;
 
-public class MyActivity extends Activity implements UserFragment.OnFragmentInteractionListener {
+public class MyActivity extends Activity implements UserFragment.OnFragmentInteractionListener, UnitFragment.OnFragmentInteractionListener {
     /**
      * Called when the activity is first created.
      */
@@ -59,7 +61,8 @@ public class MyActivity extends Activity implements UserFragment.OnFragmentInter
                     Intent intent = new Intent(this, CreateUserActivity.class);
                     startActivity(intent);
                 } else if (tabHost.getCurrentTab() == TAB_UNITS) {
-                    // TODO: Intent to navigate to Units list
+                    Intent intent = new Intent(this, CreateUnitActivity.class);
+                    startActivity(intent);
                 }
                 return true;
             default:
