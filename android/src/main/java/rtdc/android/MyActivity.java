@@ -5,10 +5,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TabHost;
+import rtdc.android.presenter.fragments.UserFragment;
 
 import java.io.IOException;
 
-public class MyActivity extends Activity {
+public class MyActivity extends Activity implements UserFragment.OnFragmentInteractionListener {
     /**
      * Called when the activity is first created.
      */
@@ -30,5 +31,12 @@ public class MyActivity extends Activity {
         tabSpec.setContent(R.id.tabUnits);
         tabSpec.setIndicator("Manage Units");
         tabHost.addTab(tabSpec);
+
+    }
+
+
+    @Override
+    public void onFragmentInteraction(int userId) {
+
     }
 }
