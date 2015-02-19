@@ -1,9 +1,9 @@
 package rtdc.core.service;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
-import rtdc.core.json.JSONObject;
 import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
@@ -11,6 +11,8 @@ import rtdc.core.util.Util;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
@@ -29,6 +31,7 @@ public final class Service {
             @Override
             public void onSuccess(HttpResponse resp) {
                 JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                catchSessionExpiredException(wrapper);
                 if("success".equals(wrapper.getStatus())) {
                     User user = new User();
                     user.map().putAll(wrapper.getData().map());
@@ -54,6 +57,7 @@ public final class Service {
             @Override
             public void onSuccess(HttpResponse resp) {
                 JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                catchSessionExpiredException(wrapper);
                 if("success".equals(wrapper.getStatus()))
                     callback.onSuccess(true);
                 else
@@ -68,13 +72,14 @@ public final class Service {
     }
 
     public static void getUnits(final AsyncCallback<List<Unit>> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
         req.setHeader("Content-type", "application/x-www-form-urlencoded");
         req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
         req.execute(new AsyncCallback<HttpResponse>() {
             @Override
             public void onSuccess(HttpResponse resp) {
                 JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                catchSessionExpiredException(wrapper);
                 if("success".equals(wrapper.getStatus()))
                     callback.onSuccess(Util.asList(wrapper.getDataAsJSONArray(), new LinkedList<Unit>()));
                 else
@@ -89,13 +94,14 @@ public final class Service {
     }
 
     public static void getUsers(final AsyncCallback<List<User>> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET);
         req.setHeader("Content-type", "application/x-www-form-urlencoded");
         req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
         req.execute(new AsyncCallback<HttpResponse>() {
             @Override
             public void onSuccess(HttpResponse resp) {
                 JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                catchSessionExpiredException(wrapper);
                 if("success".equals(wrapper.getStatus()))
                     callback.onSuccess(Util.asList(wrapper.getDataAsJSONArray(), new LinkedList<User>()));
                 else
@@ -107,6 +113,14 @@ public final class Service {
                 callback.onError(message);
             }
         });
+    }
+
+    private static void catchSessionExpiredException(JsonTransmissionWrapper wrapper){
+        Logger.getLogger("RTDC").log(Level.INFO, SessionExpiredException.class.getSimpleName() + " : " + wrapper.getStatus());
+        if(SessionExpiredException.class.getSimpleName().equals(wrapper.getStatus())) {
+            Bootstrapper.AUTHENTICATION_TOKEN = null;
+            Bootstrapper.FACTORY.newDispatcher().goToLogin(true);
+        }
     }
 
 }

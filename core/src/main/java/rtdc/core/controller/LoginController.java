@@ -6,6 +6,9 @@ import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
 import rtdc.core.view.LoginView;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class LoginController {
 
     private LoginView view;
@@ -19,6 +22,7 @@ public class LoginController {
             @Override
             public void onSuccess(User user) {
                 view.saveAuthenticationToken(user.getAuthenticationToken());
+                Bootstrapper.AUTHENTICATION_TOKEN = user.getAuthenticationToken();
                 Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
             }
 

@@ -96,14 +96,12 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onStart() {
         super.onStart();
-        mAdapter = new UserListAdapter(getActivity(), userListItemList);
         ((AdapterView)mListView).setAdapter(mAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter = new UserListAdapter(getActivity(), userListItemList);
         ((AdapterView)mListView).setAdapter(mAdapter);
     }
 

@@ -15,6 +15,7 @@ public class ApiExceptionMapper implements ExceptionMapper<Throwable> {
 
     @Override
     public Response toResponse(Throwable throwable) {
+        throwable.printStackTrace();
         return Response.status(200).
                 entity(new JsonTransmissionWrapper(throwable).toString()).
                 type(MediaType.APPLICATION_JSON_TYPE)

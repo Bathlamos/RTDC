@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
-import rtdc.core.exception.InvalidSessionException;
 import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.exception.UsernamePasswordMismatchException;
 import rtdc.core.model.JsonTransmissionWrapper;
@@ -18,6 +17,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Path("authenticate")
 public class AuthService {
@@ -83,16 +84,18 @@ public class AuthService {
         if(roles == null || roles.length == 0)
             return true;
         String token = req.getParameter("authToken");
+        Logger.getLogger("RTDC").log(Level.INFO, token);
         if(token != null && !token.isEmpty()) {
             UserInformation user = authenticatedUsers.remove(token);
             Date now = new Date();
-            if(user != null && user.lastUsed.getTime() < now.getTime() + 60 * 60 * 1000){
+            Logger.getLogger("RTDC").log(Level.INFO, user.lastUsed.getTime() + " : " + now.getTime());
+            if(user != null && user.lastUsed.getTime() + 60 * 60 * 1000 > now.getTime()){
                 user.lastUsed = now;
+                authenticatedUsers.put(token, user);
                 return true;
-            }else if (user != null)
-                throw new SessionExpiredException("");
+            }
         }
-        throw new InvalidSessionException("");
+        throw new SessionExpiredException("");
     }
 
 }
