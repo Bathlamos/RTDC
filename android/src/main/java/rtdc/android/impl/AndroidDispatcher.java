@@ -2,11 +2,9 @@ package rtdc.android.impl;
 
 
 import android.content.Intent;
-import rtdc.android.CapacityOverviewActivity;
 import rtdc.android.MyActivity;
 import rtdc.android.Rtdc;
 import rtdc.android.presenter.LoginActivity;
-import rtdc.core.Bootstrapper;
 import rtdc.core.impl.Dispatcher;
 
 public class AndroidDispatcher implements Dispatcher {

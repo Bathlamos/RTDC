@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.*;
 import rtdc.android.R;
 
+import rtdc.core.controller.UserListController;
 import rtdc.core.model.User;
+import rtdc.core.view.UserListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,11 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class UserFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class UserFragment extends Fragment implements AbsListView.OnItemClickListener, UserListView {
+
+    private UserListController controller;
 
     private OnFragmentInteractionListener mListener;
-
     private List<User> userListItemList;
 
     /**
@@ -52,21 +55,27 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public UserFragment() {
-    }
+    public UserFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        controller = new UserListController(this);
+    }
 
-        userListItemList = new ArrayList<User>();
-        userListItemList.add(new User());
-        userListItemList.get(0).setUsername("Jane");
-        userListItemList.add(new User());
-        userListItemList.get(1).setUsername("John");
-        userListItemList.add(new User());
-        userListItemList.get(2).setUsername("Jack");
+    @Override
+    public void setUsers(List<User> users) {
         mAdapter = new UserListAdapter(getActivity(), userListItemList);
+    }
+
+    @Override
+    public void displayPermanentError(String title, String error) {
+
+    }
+
+    @Override
+    public void displayError(String title, String error) {
+
     }
 
     @Override

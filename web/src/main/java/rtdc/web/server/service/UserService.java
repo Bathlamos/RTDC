@@ -10,8 +10,11 @@ import rtdc.core.Bootstrapper;
 import rtdc.core.exception.InvalidParameterException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.JsonTransmissionWrapper;
+import rtdc.core.model.Unit;
 import rtdc.core.model.User;
+import rtdc.core.util.Util;
 import rtdc.web.server.config.PersistenceConfig;
+import rtdc.web.server.model.ServerUnit;
 import rtdc.web.server.model.ServerUser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +33,22 @@ import static rtdc.core.model.ApplicationPermission.USER;
 
 @Path("users")
 public class UserService {
+
+    @GET
+    public String getUnits(@Context HttpServletRequest req){
+        AuthService.hasRole(req, USER, ADMIN);
+        Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            List<User> users = (List<User>) session.createCriteria(ServerUser.class).list();
+            session.getTransaction().commit();
+            return new JsonTransmissionWrapper(Util.asJSONArray(users)).toString();
+        } catch (RuntimeException e) {
+            transaction.rollback();
+            throw e;
+        }
+    }
 
     @PUT
     @Consumes("application/x-www-form-urlencoded")

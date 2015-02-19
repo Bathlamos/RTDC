@@ -68,7 +68,7 @@ public final class Service {
     }
 
     public static void getUnits(final AsyncCallback<List<Unit>> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
         req.setHeader("Content-type", "application/x-www-form-urlencoded");
         req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
         req.execute(new AsyncCallback<HttpResponse>() {
@@ -77,6 +77,27 @@ public final class Service {
                 JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
                 if("success".equals(wrapper.getStatus()))
                     callback.onSuccess(Util.asList(wrapper.getDataAsJSONArray(), new LinkedList<Unit>()));
+                else
+                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
+    public static void getUsers(final AsyncCallback<List<User>> callback){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
+        req.setHeader("Content-type", "application/x-www-form-urlencoded");
+        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+        req.execute(new AsyncCallback<HttpResponse>() {
+            @Override
+            public void onSuccess(HttpResponse resp) {
+                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                if("success".equals(wrapper.getStatus()))
+                    callback.onSuccess(Util.asList(wrapper.getDataAsJSONArray(), new LinkedList<User>()));
                 else
                     callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
             }

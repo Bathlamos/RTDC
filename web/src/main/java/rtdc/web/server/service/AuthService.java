@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.exception.InvalidSessionException;
+import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.exception.UsernamePasswordMismatchException;
 import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.User;
@@ -88,7 +89,8 @@ public class AuthService {
             if(user != null && user.lastUsed.getTime() < now.getTime() + 60 * 60 * 1000){
                 user.lastUsed = now;
                 return true;
-            }
+            }else if (user != null)
+                throw new SessionExpiredException("");
         }
         throw new InvalidSessionException("");
     }
