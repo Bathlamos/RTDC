@@ -17,6 +17,7 @@ public class LoginController {
         Service.authenticateUser(view.getUsername(), view.getPassword(), new AsyncCallback<User>() {
             @Override
             public void onSuccess(User user) {
+                view.saveAuthenticationToken(user.getAuthenticationToken());
                 view.setUsername("Yay! You logged in :)   ->   " + user.getFirstName());
             }
 

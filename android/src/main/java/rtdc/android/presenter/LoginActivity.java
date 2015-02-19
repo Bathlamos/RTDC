@@ -7,10 +7,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.CursorLoader;
-import android.content.DialogInterface;
-import android.content.Loader;
+import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,10 +28,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import rtdc.android.R;
+import rtdc.android.Rtdc;
 import rtdc.android.impl.AndroidFactory;
 import rtdc.core.Bootstrapper;
 import rtdc.core.controller.LoginController;
@@ -57,8 +53,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        Bootstrapper.initialize(new AndroidFactory());
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -97,7 +91,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     @Override
     public void setUsername(String username) {
         mEmailView.setText(username);
-        displayError("It worked", username);
     }
 
     @Override
@@ -108,6 +101,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
     @Override
     public void setPassword(String password) {
         mPasswordView.setText(password);
+    }
+
+    @Override
+    public void saveAuthenticationToken(String token) {
+        SharedPreferences.Editor editor = Rtdc.getAppPrefs().edit();
+        editor.putString(Rtdc.AUTH_TOKEN_KEY, token);
     }
 
     @Override
