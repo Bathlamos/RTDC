@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import rtdc.android.MyActivity;
 import rtdc.android.R;
 import rtdc.core.model.Unit;
 
@@ -86,6 +87,9 @@ public class CapacityOverviewActivity extends Activity{
                 setEditable = false;
                 adapter.notifyDataSetChanged();
                 return true;
+            case R.id.action_go_to_manage:
+                Intent intent = new Intent(this, MyActivity.class);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }

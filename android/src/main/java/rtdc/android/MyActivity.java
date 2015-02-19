@@ -7,13 +7,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.widget.TabHost;
+import rtdc.android.presenter.CapacityOverviewActivity;
 import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateUserActivity;
 import rtdc.android.presenter.fragments.UnitFragment;
 import rtdc.android.presenter.fragments.UserFragment;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 public class MyActivity extends Activity implements UserFragment.OnFragmentInteractionListener, UnitFragment.OnFragmentInteractionListener {
     /**
@@ -42,6 +45,19 @@ public class MyActivity extends Activity implements UserFragment.OnFragmentInter
         tabSpec.setIndicator("Manage Units");
         tabHost.addTab(tabSpec);
 
+        // This is to force the display of the overlay button in the action bar
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        }
+        catch (Exception e) {
+            // presumably, not relevant
+        }
     }
 
     @Override
@@ -65,6 +81,9 @@ public class MyActivity extends Activity implements UserFragment.OnFragmentInter
                     startActivity(intent);
                 }
                 return true;
+            case R.id.action_go_to_cap_overview:
+                Intent intent = new Intent(this, CapacityOverviewActivity.class);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }

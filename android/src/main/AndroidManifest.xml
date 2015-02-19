@@ -62,6 +62,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="rtdc.android.MyActivity" />
         </activity>
+
+        <activity android:name=".presenter.CapacityOverviewActivity"
+                  android:label="@string/title_activity_capacity_overview">
+
+        </activity>
     </application>
 
 </manifest>

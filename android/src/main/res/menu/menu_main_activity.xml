@@ -6,4 +6,9 @@
           android:icon="@drawable/ic_action_new"
           android:showAsAction="ifRoom|withText"/>
 
+    <item android:id="@+id/action_go_to_cap_overview"
+          android:title="Capacity Overview"
+          android:showAsAction="withText"/>
+          />
+
 </menu>
