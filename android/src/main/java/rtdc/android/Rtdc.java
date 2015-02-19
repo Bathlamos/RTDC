@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 import rtdc.android.impl.AndroidFactory;
+import rtdc.android.presenter.CapacityOverviewActivity;
 import rtdc.android.presenter.LoginActivity;
 import rtdc.core.Bootstrapper;
 import rtdc.core.controller.BootstrapperController;
