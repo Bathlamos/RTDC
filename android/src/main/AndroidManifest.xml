@@ -34,7 +34,7 @@
             android:name=".presenter.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-            <intent-filter>
+           <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -43,12 +43,12 @@
         <activity
             android:name=".presenter.CreateUserActivity"
             android:label="@string/title_activity_create_user"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-            <!--android:parentActivityName=".presenter.UserListActivity"-->
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:parentActivityName=".MyActivity">
             <!-- Parent activity meta-data to support API level 7+ -->
-            <!--<meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presenter.UserListActivity" /> -->
+                android:value=".MyActivity" />
         </activity>
     </application>
 
