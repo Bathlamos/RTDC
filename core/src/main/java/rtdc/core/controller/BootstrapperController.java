@@ -22,9 +22,9 @@ public class BootstrapperController {
         Logger.getLogger("RTDC").log(Level.INFO, "Authentication Token: " + view.getAuthenticationToken());
         if(view.hasAuthenticationToken()){
             Bootstrapper.AUTHENTICATION_TOKEN = view.getAuthenticationToken();
-            view.goToMain();
+            Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
         }else
-            view.goToLogin();
+            Bootstrapper.FACTORY.newDispatcher().goToLogin(true);
     }
 
 }

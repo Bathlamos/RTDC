@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.exception.InvalidSessionException;
+import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.exception.UsernamePasswordMismatchException;
 import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.User;
@@ -81,14 +82,15 @@ public class AuthService {
     public static boolean hasRole(HttpServletRequest req, String... roles){
         if(roles == null || roles.length == 0)
             return true;
-        String token = req.getParameter("auth_token");
+        String token = req.getParameter("authToken");
         if(token != null && !token.isEmpty()) {
             UserInformation user = authenticatedUsers.remove(token);
             Date now = new Date();
             if(user != null && user.lastUsed.getTime() < now.getTime() + 60 * 60 * 1000){
                 user.lastUsed = now;
                 return true;
-            }
+            }else if (user != null)
+                throw new SessionExpiredException("");
         }
         throw new InvalidSessionException("");
     }

@@ -17,4 +17,10 @@
           android:title="@string/edit"
           android:icon="@drawable/ic_action_edit"
           android:showAsAction="ifRoom|withText"/>
+
+    <item android:id="@+id/action_go_to_manage"
+          android:title="Manage Accounts and Units"
+          android:showAsAction="withText"/>
+    />
+
 </menu>

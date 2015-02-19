@@ -1,5 +1,6 @@
 package rtdc.android.impl;
 
+import rtdc.core.impl.Dispatcher;
 import rtdc.core.impl.Factory;
 import rtdc.core.impl.HttpRequest;
 
@@ -18,5 +19,10 @@ public class AndroidFactory implements Factory{
     public Validator newValidator() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         return factory.getValidator();
+    }
+
+    @Override
+    public Dispatcher newDispatcher() {
+        return new AndroidDispatcher();
     }
 }

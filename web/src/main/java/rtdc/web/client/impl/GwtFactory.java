@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.validation.client.AbstractGwtValidatorFactory;
 import com.google.gwt.validation.client.GwtValidation;
 import com.google.gwt.validation.client.impl.AbstractGwtValidator;
+import rtdc.core.impl.Dispatcher;
 import rtdc.core.impl.Factory;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.model.User;
@@ -33,6 +34,11 @@ public final class GwtFactory extends AbstractGwtValidatorFactory implements Fac
     @Override
     public Validator newValidator() {
         return Validation.buildDefaultValidatorFactory().getValidator();
+    }
+
+    @Override
+    public Dispatcher newDispatcher() {
+        return new GWTDispatcher();
     }
 
 }
