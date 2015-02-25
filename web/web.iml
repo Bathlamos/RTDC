@@ -76,7 +76,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="hibernate-validator-4.1.0.Final" level="project" />
     <orderEntry type="library" exported="" name="hibernate-validator-4.1.0.Final-sources" level="project" />
@@ -113,6 +113,6 @@
     <orderEntry type="library" exported="" name="xml-apis-1.0.b2" level="project" />
     <orderEntry type="library" exported="" name="jsr311-api-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="guava-18.0" level="project" />
-    <orderEntry type="library" exported="" name="Z__RTDC_core_src_main_java" level="project" />
+    <orderEntry type="library" exported="" name="C__Users_Nicolas_IdeaProjects_RTDC_core_src_main_java" level="project" />
   </component>
 </module>
