@@ -1,6 +1,21 @@
 apply plugin: 'java'
 
 dependencies {
-    compile 'javax.persistence:persistence-api:1.0.2'
-    compile 'javax.validation:validation-api:1.0.0.GA'
+    compile group: 'javax.persistence', name: 'persistence-api', version: '1.0.2', classifier: 'sources'
+    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA', classifier: 'sources'
+}
+
+apply from: 'j2objc.gradle'
+
+j2objcConfig {
+    // MODIFY to where your unzipped j2objc directory is located
+    // NOTE download the latest version from: https://github.com/google/j2objc/releases
+    j2objcHome "${projectDir}/../j2objc"
+
+    // MODIFY to where generated objc files should be put for Xcode project
+    // NOTE these files should be checked in to the repository and updated as needed
+    // NOTE this should contain ONLY j2objc generated files, other contents will be deleted
+    destDir "${projectDir}/../Xcode/j2objc-generated"
+
+    translateFlags "-d ${projectDir}/../Xcode/j2objc-generated -sourcepath ${projectDir}/../out/artifacts/core_jar/ --no-package-directories"
 }
