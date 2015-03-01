@@ -35,7 +35,7 @@ public final class Service {
                 catchSessionExpiredException(wrapper);
                 if("success".equals(wrapper.getStatus())) {
                     User user = new User();
-                    user.map().putAll(wrapper.getData().map());
+                    //user.map().putAll(wrapper.getData().map());
                     callback.onSuccess(user);
                 }else
                     callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
@@ -138,7 +138,7 @@ public final class Service {
                     LinkedList<User> users = new LinkedList<User>();
                     for(int i = array.length() - 1; i >= 0; i--) {
                         User user = new User();
-                        user.map().putAll(array.getJSONObject(i).map());
+                        //user.map().putAll(array.getJSONObject(i).map());
                         users.add(user);
                     }
                     callback.onSuccess(users);

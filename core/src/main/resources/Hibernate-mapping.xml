@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="rtdc.core.model.Unit" table="UNIT">
+    <class name="rtdc.core.model.Unit" table="UNITS">
         <id name="id" type="String" column="unit_id">
             <generator class="native"/>
         </id>
@@ -15,5 +15,18 @@
         <property name="totalAdmits" column="totalAdmits" type="int"/>
         <property name="dcByDeadline" column="dcByDeadline" type="int"/>
         <property name="admitsByDeadline" column="admitsByDeadline" type="int"/>
+    </class>
+    <class name="rtdc.core.model.User" table="USERS">
+        <id name="id" type="String" column="user_id">
+            <generator class="native"/>
+        </id>
+        <property name="username" column="username" type="string"/>
+        <property name="lastName" column="lastName" type="string"/>
+        <property name="firstName" column="firstName" type="string"/>
+        <property name="email" column="email" type="string"/>
+        <property name="phone" column="phone" type="long"/>
+        <property name="permission" column="permission" type="string"/>
+        <property name="role" column="role" type="string"/>
+        <one-to-one name="unit" class="rtdc.core.model.Unit" cascade="save-update" lazy="false"/>
     </class>
 </hibernate-mapping>

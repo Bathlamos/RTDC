@@ -1,10 +1,5 @@
 apply plugin: 'java'
 
-dependencies {
-    compile group: 'javax.persistence', name: 'persistence-api', version: '1.0.2', classifier: 'sources'
-    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA', classifier: 'sources'
-}
-
 apply from: 'j2objc.gradle'
 
 j2objcConfig {
@@ -17,5 +12,5 @@ j2objcConfig {
     // NOTE this should contain ONLY j2objc generated files, other contents will be deleted
     destDir null //"${projectDir}/../Xcode/j2objc-generated"
 
-    translateFlags "-d ${projectDir}/../ios/Core -sourcepath ${configurations.runtime.resolve().join(File.pathSeparator) + File.pathSeparator}${projectDir}/../core/src/main/java --no-package-directories"
+    translateFlags "-d ${projectDir}/../ios/Core -sourcepath ${projectDir}/../core/src/main/java --no-package-directories"
 }

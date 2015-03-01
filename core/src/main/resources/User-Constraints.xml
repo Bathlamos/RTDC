@@ -2,41 +2,40 @@
                      xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.0.xsd"
                      xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
     <default-package>rtdc.core.model</default-package>
-    <bean class="rtdc.core.model.Unit" ignore-annotations="true">
-        <getter name="name">
+    <bean class="rtdc.core.model.User" ignore-annotations="true">
+        <getter name="username">
             <constraint annotation="javax.validation.constraints.NotNull" />
             <constraint annotation="javax.validation.constraints.Size">
                 <element name="min">1</element>
             </constraint>
         </getter>
-        <getter name="totalBeds">
+        <getter name="lastName">
+            <constraint annotation="javax.validation.constraints.NotNull" />
             <constraint annotation="javax.validation.constraints.Size">
-                <element name="min">0</element>
+                <element name="min">1</element>
             </constraint>
         </getter>
-        <getter name="availableBeds">
+        <getter name="firstName">
+            <constraint annotation="javax.validation.constraints.NotNull" />
             <constraint annotation="javax.validation.constraints.Size">
-                <element name="min">0</element>
+                <element name="min">1</element>
             </constraint>
         </getter>
-        <getter name="potentialDc">
-            <constraint annotation="javax.validation.constraints.Size">
-                <element name="min">0</element>
+        <getter name="email">
+            <constraint annotation="javax.validation.constraints.Pattern">
+                <element name="regexp">^.+@.+\.[a-z]+$</element>
             </constraint>
         </getter>
-        <getter name="dcByDeadline">
+        <getter name="permission">
+            <constraint annotation="javax.validation.constraints.NotNull" />
             <constraint annotation="javax.validation.constraints.Size">
-                <element name="min">0</element>
+                <element name="min">1</element>
             </constraint>
         </getter>
-        <getter name="totalAdmits">
+        <getter name="role">
+            <constraint annotation="javax.validation.constraints.NotNull" />
             <constraint annotation="javax.validation.constraints.Size">
-                <element name="min">0</element>
-            </constraint>
-        </getter>
-        <getter name="admitsByDeadline">
-            <constraint annotation="javax.validation.constraints.Size">
-                <element name="min">0</element>
+                <element name="min">1</element>
             </constraint>
         </getter>
     </bean>
