@@ -12,5 +12,6 @@ j2objcConfig {
     // NOTE this should contain ONLY j2objc generated files, other contents will be deleted
     destDir null //"${projectDir}/../Xcode/j2objc-generated"
 
-    translateFlags "-d ${projectDir}/../ios/Core -sourcepath ${projectDir}/../core/src/main/java --no-package-directories"
+    translateFlags "-d ${projectDir}/../ios/Core -sourcepath ${projectDir}/../core/src/main/java " +
+            "--no-package-directories --prefixes ${projectDir}/../core/prefixes.properties"
 }
