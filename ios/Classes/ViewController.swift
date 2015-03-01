@@ -8,17 +8,16 @@
 
 import UIKit
 
-class ViewController: UIViewController {
 
+class ViewController: UIViewController {
     
-    var unit = RtdcCoreUnit(NSString: "Pizza")
+    
+    let temp = JSONJSONObject();
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        
-        println(unit.getName())
     }
 
     override func didReceiveMemoryWarning() {
