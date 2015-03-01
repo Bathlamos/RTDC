@@ -17,5 +17,5 @@ j2objcConfig {
     // NOTE this should contain ONLY j2objc generated files, other contents will be deleted
     destDir null //"${projectDir}/../Xcode/j2objc-generated"
 
-    translateFlags "-d ${projectDir}/../ios/Core -sourcepath ${configurations.runtime.resolve().join(";")};${projectDir}/../core/src/main/java --no-package-directories"
+    translateFlags "-d ${projectDir}/../ios/Core -sourcepath ${configurations.runtime.resolve().join(File.pathSeparator) + File.pathSeparator}${projectDir}/../core/src/main/java --no-package-directories"
 }
