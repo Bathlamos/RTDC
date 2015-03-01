@@ -15,8 +15,6 @@
 
 + (void)initialize__WithRtdcCoreImplFactory:(id<RtdcCoreImplFactory>)factory OBJC_METHOD_FAMILY_NONE;
 
-- (void)lol;
-
 - (instancetype)init;
 
 @end

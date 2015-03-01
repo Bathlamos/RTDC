@@ -4,10 +4,11 @@
 //
 
 #include "IOSClass.h"
-#include "JSONException.h"
 #include "JSONObject.h"
 #include "Unit.h"
 #include "User.h"
+#include "java/util/Map.h"
+#include "java/util/Set.h"
 #include "javax/persistence/Column.h"
 #include "javax/persistence/Entity.h"
 #include "javax/persistence/FetchType.h"
@@ -36,101 +37,110 @@ NSString * RtdcCoreModelUser_ROLE_ = @"role";
 NSString * RtdcCoreModelUser_UNIT_ = @"unit";
 NSString * RtdcCoreModelUser_AUTH_TOKEN_ = @"authenticationToken";
 
-- (instancetype)init {
-  return [super init];
-}
-
-- (instancetype)initWithNSString:(NSString *)json {
-  return [super initWithNSString:json];
-}
-
 - (jint)getId {
-  return [self optIntWithNSString:RtdcCoreModelUser_ID_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optIntWithNSString:RtdcCoreModelUser_ID_];
 }
 
 - (void)setIdWithInt:(jint)id_ {
-  [self putWithNSString:RtdcCoreModelUser_ID_ withInt:id_];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_ID_ withInt:id_];
 }
 
 - (NSString *)getUsername {
-  return [self optStringWithNSString:RtdcCoreModelUser_USERNAME_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:RtdcCoreModelUser_USERNAME_];
 }
 
 - (void)setUsernameWithNSString:(NSString *)username {
-  [self putWithNSString:RtdcCoreModelUser_USERNAME_ withId:username];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_USERNAME_ withId:username];
 }
 
 - (NSString *)getSurname {
-  return [self optStringWithNSString:RtdcCoreModelUser_SURNAME_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:RtdcCoreModelUser_SURNAME_];
 }
 
 - (void)setSurnameWithNSString:(NSString *)surname {
-  [self putWithNSString:RtdcCoreModelUser_SURNAME_ withId:surname];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_SURNAME_ withId:surname];
 }
 
 - (NSString *)getFirstName {
-  return [self optStringWithNSString:RtdcCoreModelUser_FIRSTNAME_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:RtdcCoreModelUser_FIRSTNAME_];
 }
 
 - (void)setFirstNameWithNSString:(NSString *)firstName {
-  [self putWithNSString:RtdcCoreModelUser_FIRSTNAME_ withId:firstName];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_FIRSTNAME_ withId:firstName];
 }
 
 - (NSString *)getEmail {
-  return [self optStringWithNSString:RtdcCoreModelUser_EMAIL_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:RtdcCoreModelUser_EMAIL_];
 }
 
 - (void)setEmailWithNSString:(NSString *)email {
-  [self putWithNSString:RtdcCoreModelUser_EMAIL_ withId:email];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_EMAIL_ withId:email];
 }
 
 - (jlong)getPhone {
-  return [self optLongWithNSString:RtdcCoreModelUser_PHONE_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optLongWithNSString:RtdcCoreModelUser_PHONE_];
 }
 
 - (void)setPhoneWithLong:(jlong)phone {
-  [self putWithNSString:RtdcCoreModelUser_PHONE_ withLong:phone];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_PHONE_ withLong:phone];
 }
 
 - (NSString *)getPermission {
-  return [self optStringWithNSString:RtdcCoreModelUser_PERMISSION_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:RtdcCoreModelUser_PERMISSION_];
 }
 
 - (void)setPermissionWithNSString:(NSString *)permission {
-  [self putWithNSString:RtdcCoreModelUser_PERMISSION_ withId:permission];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_PERMISSION_ withId:permission];
 }
 
 - (NSString *)getRole {
-  return [self optStringWithNSString:RtdcCoreModelUser_ROLE_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:RtdcCoreModelUser_ROLE_];
 }
 
 - (void)setRoleWithNSString:(NSString *)role {
-  [self putWithNSString:RtdcCoreModelUser_ROLE_ withId:role];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_ROLE_ withId:role];
 }
 
 - (RtdcCoreModelUnit *)getUnit {
-  return (RtdcCoreModelUnit *) check_class_cast([self optJSONObjectWithNSString:RtdcCoreModelUser_UNIT_], [RtdcCoreModelUnit class]);
+  return (RtdcCoreModelUnit *) check_class_cast([((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optJSONObjectWithNSString:RtdcCoreModelUser_UNIT_], [RtdcCoreModelUnit class]);
 }
 
 - (void)setUnitWithRtdcCoreModelUnit:(RtdcCoreModelUnit *)unit {
-  [self putWithNSString:RtdcCoreModelUser_UNIT_ withId:unit];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_UNIT_ withId:unit];
 }
 
 - (NSString *)getAuthenticationToken {
-  return [self optStringWithNSString:RtdcCoreModelUser_AUTH_TOKEN_];
+  return [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:RtdcCoreModelUser_AUTH_TOKEN_];
 }
 
 - (void)setAuthenticationTokenWithNSString:(NSString *)authenticationToken {
-  [self putWithNSString:RtdcCoreModelUser_AUTH_TOKEN_ withId:authenticationToken];
+  [((RtdcCoreJsonJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:RtdcCoreModelUser_AUTH_TOKEN_ withId:authenticationToken];
+}
+
+- (id<JavaUtilSet>)validatePropertyWithNSString:(NSString *)property {
+  return nil;
+}
+
+- (id<JavaUtilMap>)validateAll {
+  return nil;
+}
+
+- (instancetype)init {
+  if (self = [super init]) {
+    RtdcCoreModelUser_setAndConsume_jsonObject_User_(self, [[RtdcCoreJsonJSONObject alloc] init]);
+  }
+  return self;
 }
 
 - (void)dealloc {
+  RtdcCoreModelUser_set_jsonObject_User_(self, nil);
   RtdcCoreModelUser_set_authenticationToken_(self, nil);
   [super dealloc];
 }
 
 - (void)copyAllFieldsTo:(RtdcCoreModelUser *)other {
   [super copyAllFieldsTo:other];
+  RtdcCoreModelUser_set_jsonObject_User_(other, jsonObject_User_);
   RtdcCoreModelUser_set_authenticationToken_(other, authenticationToken_);
 }
 
@@ -180,8 +190,6 @@ NSString * RtdcCoreModelUser_AUTH_TOKEN_ = @"authenticationToken";
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "init", "User", NULL, 0x1, NULL },
-    { "initWithNSString:", "User", NULL, 0x1, "Lrtdc.core.json.JSONException;" },
     { "getId", NULL, "I", 0x1, NULL },
     { "setIdWithInt:", "setId", "V", 0x1, NULL },
     { "getUsername", NULL, "Ljava.lang.String;", 0x1, NULL },
@@ -202,8 +210,12 @@ NSString * RtdcCoreModelUser_AUTH_TOKEN_ = @"authenticationToken";
     { "setUnitWithRtdcCoreModelUnit:", "setUnit", "V", 0x1, NULL },
     { "getAuthenticationToken", NULL, "Ljava.lang.String;", 0x1, NULL },
     { "setAuthenticationTokenWithNSString:", "setAuthenticationToken", "V", 0x1, NULL },
+    { "validatePropertyWithNSString:", "validateProperty", "Ljava.util.Set;", 0x1, NULL },
+    { "validateAll", NULL, "Ljava.util.Map;", 0x1, NULL },
+    { "init", NULL, NULL, 0x1, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
+    { "jsonObject_User_", "jsonObject", 0x4, "Lrtdc.core.json.JSONObject;", NULL,  },
     { "ID_", NULL, 0x19, "Ljava.lang.String;", &RtdcCoreModelUser_ID_,  },
     { "USERNAME_", NULL, 0x19, "Ljava.lang.String;", &RtdcCoreModelUser_USERNAME_,  },
     { "SURNAME_", NULL, 0x19, "Ljava.lang.String;", &RtdcCoreModelUser_SURNAME_,  },
@@ -216,7 +228,7 @@ NSString * RtdcCoreModelUser_AUTH_TOKEN_ = @"authenticationToken";
     { "AUTH_TOKEN_", NULL, 0x19, "Ljava.lang.String;", &RtdcCoreModelUser_AUTH_TOKEN_,  },
     { "authenticationToken_", NULL, 0x2, "Ljava.lang.String;", NULL,  },
   };
-  static const J2ObjcClassInfo _RtdcCoreModelUser = { "User", "rtdc.core.model", NULL, 0x1, 22, methods, 11, fields, 0, NULL};
+  static const J2ObjcClassInfo _RtdcCoreModelUser = { "User", "rtdc.core.model", NULL, 0x1, 23, methods, 12, fields, 0, NULL};
   return &_RtdcCoreModelUser;
 }
 

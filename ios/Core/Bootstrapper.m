@@ -16,9 +16,6 @@ NSString * RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
   RtdcCoreBootstrapper_initialize__WithRtdcCoreImplFactory_(factory);
 }
 
-- (void)lol {
-}
-
 - (instancetype)init {
   return [super init];
 }
@@ -26,14 +23,13 @@ NSString * RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initialize__WithRtdcCoreImplFactory:", "initialize", "V", 0x9, NULL },
-    { "lol", NULL, "V", 0x0, NULL },
     { "init", NULL, NULL, 0x1, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
     { "FACTORY_", NULL, 0x9, "Lrtdc.core.impl.Factory;", &RtdcCoreBootstrapper_FACTORY_,  },
     { "AUTHENTICATION_TOKEN_", NULL, 0x9, "Ljava.lang.String;", &RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_,  },
   };
-  static const J2ObjcClassInfo _RtdcCoreBootstrapper = { "Bootstrapper", "rtdc.core", NULL, 0x1, 3, methods, 2, fields, 0, NULL};
+  static const J2ObjcClassInfo _RtdcCoreBootstrapper = { "Bootstrapper", "rtdc.core", NULL, 0x1, 2, methods, 2, fields, 0, NULL};
   return &_RtdcCoreBootstrapper;
 }
 

@@ -6,20 +6,19 @@
 #ifndef _RtdcCoreModelUser_H_
 #define _RtdcCoreModelUser_H_
 
+@class RtdcCoreJsonJSONObject;
 @class RtdcCoreModelUnit;
+@protocol JavaUtilMap;
+@protocol JavaUtilSet;
 
 #import "JreEmulation.h"
-#include "JSONObject.h"
-#include "java/io/Serializable.h"
+#include "RtdcObject.h"
 
-@interface RtdcCoreModelUser : RtdcCoreJsonJSONObject < JavaIoSerializable > {
+@interface RtdcCoreModelUser : RtdcCoreModelRtdcObject {
  @public
+  RtdcCoreJsonJSONObject *jsonObject_User_;
   NSString *authenticationToken_;
 }
-
-- (instancetype)init;
-
-- (instancetype)initWithNSString:(NSString *)json;
 
 - (jint)getId;
 
@@ -61,6 +60,12 @@
 
 - (void)setAuthenticationTokenWithNSString:(NSString *)authenticationToken;
 
+- (id<JavaUtilSet>)validatePropertyWithNSString:(NSString *)property;
+
+- (id<JavaUtilMap>)validateAll;
+
+- (instancetype)init;
+
 - (void)dealloc;
 
 - (void)copyAllFieldsTo:(RtdcCoreModelUser *)other;
@@ -69,6 +74,7 @@
 
 __attribute__((always_inline)) inline void RtdcCoreModelUser_init() {}
 
+J2OBJC_FIELD_SETTER(RtdcCoreModelUser, jsonObject_User_, RtdcCoreJsonJSONObject *)
 J2OBJC_FIELD_SETTER(RtdcCoreModelUser, authenticationToken_, NSString *)
 
 FOUNDATION_EXPORT NSString *RtdcCoreModelUser_ID_;

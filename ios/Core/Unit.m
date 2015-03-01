@@ -7,17 +7,6 @@
 #include "JSONException.h"
 #include "JSONObject.h"
 #include "Unit.h"
-#include "javax/persistence/Column.h"
-#include "javax/persistence/Entity.h"
-#include "javax/persistence/GeneratedValue.h"
-#include "javax/persistence/GenerationType.h"
-#include "javax/persistence/Id.h"
-#include "javax/persistence/Inheritance.h"
-#include "javax/persistence/InheritanceType.h"
-#include "javax/persistence/Table.h"
-#include "javax/validation/constraints/Min.h"
-#include "javax/validation/constraints/NotNull.h"
-#include "javax/validation/constraints/Size.h"
 
 @implementation RtdcCoreModelUnit
 
@@ -100,42 +89,6 @@ NSString * RtdcCoreModelUnit_ADMITS_BY_DEADLINE_ = @"admitsByDeadline";
 
 - (void)setAdmitsByDeadlineWithInt:(jint)admitsByDeadline {
   [self putWithNSString:RtdcCoreModelUnit_ADMITS_BY_DEADLINE_ withInt:admitsByDeadline];
-}
-
-+ (IOSObjectArray *)__annotations {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxPersistenceEntity alloc] initWithName:@""] autorelease], [[[JavaxPersistenceTable alloc] initWithCatalog:@"" withName:@"units" withSchema:@"" withUniqueConstraints:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]]] autorelease], [[[JavaxPersistenceInheritance alloc] initWithStrategy:JavaxPersistenceInheritanceTypeEnum_get_SINGLE_TABLE()] autorelease] } count:3 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
-}
-
-+ (IOSObjectArray *)__annotations_getId {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxPersistenceId alloc] init] autorelease], [[[JavaxPersistenceGeneratedValue alloc] initWithGenerator:@"" withStrategy:JavaxPersistenceGenerationTypeEnum_get_AUTO()] autorelease], [[[JavaxPersistenceColumn alloc] initWithColumnDefinition:@"" withInsertable:true withLength:255 withName:@"unit_id" withNullable:true withPrecision:0 withScale:0 withTable:@"" withUnique:false withUpdatable:true] autorelease] } count:3 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
-}
-
-+ (IOSObjectArray *)__annotations_getName {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxValidationConstraintsNotNull alloc] initWithGroups:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withMessage:@"{javax.validation.constraints.NotNull.message}" withPayload:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]]] autorelease], [[[JavaxValidationConstraintsSize alloc] initWithGroups:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withMax:2147483647 withMessage:@"{javax.validation.constraints.Size.message}" withMin:1 withPayload:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]]] autorelease], [[[JavaxPersistenceColumn alloc] initWithColumnDefinition:@"" withInsertable:true withLength:255 withName:@"name" withNullable:true withPrecision:0 withScale:0 withTable:@"" withUnique:false withUpdatable:true] autorelease] } count:3 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
-}
-
-+ (IOSObjectArray *)__annotations_getTotalBeds {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxValidationConstraintsMin alloc] initWithGroups:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withMessage:@"{javax.validation.constraints.Min.message}" withPayload:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withValue:0] autorelease], [[[JavaxPersistenceColumn alloc] initWithColumnDefinition:@"" withInsertable:true withLength:255 withName:@"totalBeds" withNullable:true withPrecision:0 withScale:0 withTable:@"" withUnique:false withUpdatable:true] autorelease] } count:2 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
-}
-
-+ (IOSObjectArray *)__annotations_getAvailableBeds {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxValidationConstraintsMin alloc] initWithGroups:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withMessage:@"{javax.validation.constraints.Min.message}" withPayload:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withValue:0] autorelease], [[[JavaxPersistenceColumn alloc] initWithColumnDefinition:@"" withInsertable:true withLength:255 withName:@"availableBeds" withNullable:true withPrecision:0 withScale:0 withTable:@"" withUnique:false withUpdatable:true] autorelease] } count:2 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
-}
-
-+ (IOSObjectArray *)__annotations_getPotentialDc {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxValidationConstraintsMin alloc] initWithGroups:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withMessage:@"{javax.validation.constraints.Min.message}" withPayload:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withValue:0] autorelease], [[[JavaxPersistenceColumn alloc] initWithColumnDefinition:@"" withInsertable:true withLength:255 withName:@"potentialDc" withNullable:true withPrecision:0 withScale:0 withTable:@"" withUnique:false withUpdatable:true] autorelease] } count:2 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
-}
-
-+ (IOSObjectArray *)__annotations_getDcByDeadline {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxValidationConstraintsMin alloc] initWithGroups:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withMessage:@"{javax.validation.constraints.Min.message}" withPayload:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withValue:0] autorelease], [[[JavaxPersistenceColumn alloc] initWithColumnDefinition:@"" withInsertable:true withLength:255 withName:@"dcByDeadline" withNullable:true withPrecision:0 withScale:0 withTable:@"" withUnique:false withUpdatable:true] autorelease] } count:2 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
-}
-
-+ (IOSObjectArray *)__annotations_getTotalAdmits {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxValidationConstraintsMin alloc] initWithGroups:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withMessage:@"{javax.validation.constraints.Min.message}" withPayload:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withValue:0] autorelease], [[[JavaxPersistenceColumn alloc] initWithColumnDefinition:@"" withInsertable:true withLength:255 withName:@"totalAdmits" withNullable:true withPrecision:0 withScale:0 withTable:@"" withUnique:false withUpdatable:true] autorelease] } count:2 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
-}
-
-+ (IOSObjectArray *)__annotations_getAdmitsByDeadline {
-  return [IOSObjectArray arrayWithObjects:(id[]) { [[[JavaxValidationConstraintsMin alloc] initWithGroups:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withMessage:@"{javax.validation.constraints.Min.message}" withPayload:[IOSObjectArray arrayWithObjects:(id[]) {  } count:0 type:[[NSObject class] getClass]] withValue:0] autorelease], [[[JavaxPersistenceColumn alloc] initWithColumnDefinition:@"" withInsertable:true withLength:255 withName:@"admitsByDeadline" withNullable:true withPrecision:0 withScale:0 withTable:@"" withUnique:false withUpdatable:true] autorelease] } count:2 type:[IOSClass classWithProtocol:@protocol(JavaLangAnnotationAnnotation)]];
 }
 
 + (const J2ObjcClassInfo *)__metadata {

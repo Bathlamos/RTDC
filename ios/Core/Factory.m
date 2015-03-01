@@ -6,7 +6,6 @@
 #include "Dispatcher.h"
 #include "Factory.h"
 #include "HttpRequest.h"
-#include "javax/validation/Validator.h"
 
 @interface RtdcCoreImplFactory : NSObject
 @end
@@ -16,10 +15,9 @@
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "newHttpRequestWithNSString:withRtdcCoreImplHttpRequest_RequestMethodEnum:", "newHttpRequest", "Lrtdc.core.impl.HttpRequest;", 0x401, NULL },
-    { "newValidator", NULL, "Ljavax.validation.Validator;", 0x401, NULL },
     { "newDispatcher", NULL, "Lrtdc.core.impl.Dispatcher;", 0x401, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreImplFactory = { "Factory", "rtdc.core.impl", NULL, 0x201, 3, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _RtdcCoreImplFactory = { "Factory", "rtdc.core.impl", NULL, 0x201, 2, methods, 0, NULL, 0, NULL};
   return &_RtdcCoreImplFactory;
 }
 

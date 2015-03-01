@@ -7,7 +7,6 @@
 #define _RtdcCoreImplFactory_H_
 
 @class RtdcCoreImplHttpRequest_RequestMethodEnum;
-@protocol JavaxValidationValidator;
 @protocol RtdcCoreImplDispatcher;
 @protocol RtdcCoreImplHttpRequest;
 
@@ -17,8 +16,6 @@
 
 - (id<RtdcCoreImplHttpRequest>)newHttpRequestWithNSString:(NSString *)url
             withRtdcCoreImplHttpRequest_RequestMethodEnum:(RtdcCoreImplHttpRequest_RequestMethodEnum *)requestMethod OBJC_METHOD_FAMILY_NONE;
-
-- (id<JavaxValidationValidator>)newValidator OBJC_METHOD_FAMILY_NONE;
 
 - (id<RtdcCoreImplDispatcher>)newDispatcher OBJC_METHOD_FAMILY_NONE;
 

@@ -141,7 +141,6 @@ void RtdcCoreServiceService_catchSessionExpiredExceptionWithRtdcCoreModelJsonTra
   RtdcCoreServiceService_catchSessionExpiredExceptionWithRtdcCoreModelJsonTransmissionWrapper_(wrapper);
   if ([@"success" isEqual:[wrapper getStatus]]) {
     RtdcCoreModelUser *user = [[[RtdcCoreModelUser alloc] init] autorelease];
-    [((id<JavaUtilMap>) nil_chk([user map])) putAllWithJavaUtilMap:[((RtdcCoreJsonJSONObject *) nil_chk([wrapper getData])) map]];
     [((id<RtdcCoreServiceAsyncCallback>) nil_chk(val$callback_)) onSuccessWithId:user];
   }
   else [((id<RtdcCoreServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:JreStrcat("$$$", [wrapper getStatus], @" : ", [wrapper getDescription])];
@@ -329,7 +328,6 @@ void RtdcCoreServiceService_catchSessionExpiredExceptionWithRtdcCoreModelJsonTra
     JavaUtilLinkedList *users = [[[JavaUtilLinkedList alloc] init] autorelease];
     for (jint i = [((RtdcCoreJsonJSONArray *) nil_chk(array)) length] - 1; i >= 0; i--) {
       RtdcCoreModelUser *user = [[[RtdcCoreModelUser alloc] init] autorelease];
-      [((id<JavaUtilMap>) nil_chk([user map])) putAllWithJavaUtilMap:[((RtdcCoreJsonJSONObject *) nil_chk([array getJSONObjectWithInt:i])) map]];
       [users addWithId:user];
     }
     [((id<RtdcCoreServiceAsyncCallback>) nil_chk(val$callback_)) onSuccessWithId:users];
