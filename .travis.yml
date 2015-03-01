@@ -1,0 +1,19 @@
+before_install:
+ - chmod +x gradlew
+
+notifications:
+  email: false
+
+language: android
+android:
+  components:
+    # The BuildTools version used by your project
+    - build-tools-19.1.0
+
+    # The SDK version used to compile your project
+    - android-17
+
+# whitelist
+branches:
+  only:
+    - master

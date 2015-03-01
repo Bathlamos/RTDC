@@ -11,12 +11,6 @@
     <!-- RESTful web interface -->
     <inherits name="com.google.gwt.http.HTTP"/>
 
-    <!-- Validation -->
-    <inherits name="org.hibernate.validator.HibernateValidator" />
-    <replace-with class="rtdc.web.client.impl.GwtFactory">
-        <when-type-is class="javax.validation.ValidatorFactory" />
-    </replace-with>
-
     <source path="client" />
 
     <!-- Specify the app entry point class.                   -->
