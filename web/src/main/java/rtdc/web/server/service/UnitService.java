@@ -1,5 +1,6 @@
 package rtdc.web.server.service;
 
+import com.google.inject.Inject;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
