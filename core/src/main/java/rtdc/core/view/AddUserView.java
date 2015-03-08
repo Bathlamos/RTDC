@@ -1,31 +1,18 @@
 package rtdc.core.view;
 
+import rtdc.core.impl.ValidatorWidget;
+import rtdc.core.model.Unit;
+
 public interface AddUserView extends View {
 
-    String getUsernameAsString();
-    void setUsernameAsString(String value);
-    void setErrorForUsername(String error);
-
-    String getSurnameAsString();
-    void setSurnameAsString(String value);
-    void setErrorForSurname(String error);
-
-    String getFirstnameAsString();
-    void setFirstnameAsString(String value);
-    void setErrorForFirstname(String error);
-
-    String getEmailAsString();
-    void setEmailAsString(String value);
-
-    String getRoleAsString();
-    void setRoleAsString(String value);
-
-    String getPasswordAsString();
-    void setPasswordAsString(String value);
-    void setErrorForPassword(String error);
-
-    String getPermissionAsString();
-    void setPermissionAsString(String value);
-    void setPermissionForSurname(String error);
+    ValidatorWidget<String> getUsernameWidget();
+    ValidatorWidget<String> getSurnameWidget();
+    ValidatorWidget<String> getFirstNameWidget();
+    ValidatorWidget<String> getRoleWidget();
+    ValidatorWidget<String> getEmailWidget();
+    ValidatorWidget<String> getPasswordWidget();
+    ValidatorWidget<String> getSecondPasswordWidget();
+    ValidatorWidget<String> getPermissionWidget();
+    ValidatorWidget<Unit> getUnitWidget();
 
 }

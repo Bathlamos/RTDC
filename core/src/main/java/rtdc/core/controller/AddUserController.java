@@ -18,6 +18,8 @@ public class AddUserController extends Controller<AddUserView> implements Update
 
     public AddUserController(AddUserView view){
         super(view);
+
+        view.getEmailWidget().
     }
 
     public void addUser() {
