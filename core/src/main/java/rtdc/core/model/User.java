@@ -1,100 +1,98 @@
 package rtdc.core.model;
 
+import com.google.common.collect.Sets;
 import rtdc.core.json.JSONObject;
 
-import java.util.Map;
 import java.util.Set;
+
+import static rtdc.core.model.RtdcObject.DataType.*;
+import static rtdc.core.model.RtdcObject.ValidationConstraints.*;
 
 public class User extends RtdcObject {
 
-    protected JSONObject jsonObject = new JSONObject();
+    private static Set<Property> objectProperties;
 
-    public static final String ID = "user_id",
-            USERNAME = "username",
-            LAST_NAME = "lastName",
-            EMAIL = "email",
-            PHONE = "phone",
-            FIRST_NAME = "firstName",
-            PERMISSION = "permission",
-            ROLE = "role",
-            UNIT = "unit",
-            AUTH_TOKEN = "authenticationToken";
+    public static final Property ID = new Property("user_id", INT),
+            USERNAME = new Property("username", STRING, NOT_EMPTY),
+            FIRST_NAME = new Property("firstName", STRING, NOT_EMPTY),
+            LAST_NAME = new Property("lastName", STRING, NOT_EMPTY),
+            EMAIL = new Property("email", STRING, NOT_EMPTY, REGEX_EMAIL),
+            PHONE = new Property("phone", LONG),
+            PERMISSION = new Property("permission", STRING),
+            ROLE = new Property("role", STRING),
+            UNIT = new Property("unit", DataType.UNIT, NOT_NULL),
+            AUTH_TOKEN = new Property("authenticationToken", STRING);
 
-    public int getId(){
-        return jsonObject.optInt(ID);
+    static{
+        objectProperties = Sets.newHashSet(ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PHONE, PERMISSION, ROLE, UNIT, AUTH_TOKEN);
     }
-    public void setId(int id){jsonObject.put(ID, id);}
+
+    public User(){
+        super(objectProperties);
+    }
+
+    public User(JSONObject jsonobject){
+        super(objectProperties, jsonobject);
+    }
+
+    public String getId(){
+        return (String) getProperty(ID);
+    }
+    public void setId(String id){setProperty(ID, id);}
 
     public String getUsername(){
-        return jsonObject.optString(USERNAME);
+        return (String) getProperty(USERNAME);
     }
     public void setUsername(String username){
-        jsonObject.put(USERNAME, username);
+        setProperty(USERNAME, username);
     }
 
     public String getLastName(){
-        return jsonObject.optString(LAST_NAME);
+        return (String) getProperty(LAST_NAME);
     }
     public void setLastName(String lastName){
-        jsonObject.put(LAST_NAME, lastName);
+        setProperty(LAST_NAME, lastName);
     }
 
     public String getFirstName(){
-        return jsonObject.optString(FIRST_NAME);
+        return (String) getProperty(FIRST_NAME);
     }
     public void setFirstName(String firstName){
-        jsonObject.put(FIRST_NAME, firstName);
+        setProperty(FIRST_NAME, firstName);
     }
 
     public String getEmail(){
-        return jsonObject.optString(EMAIL);
+        return (String) getProperty(EMAIL);
     }
     public void setEmail(String email){
-        jsonObject.put(EMAIL, email);
+        setProperty(EMAIL, email);
     }
 
     public long getPhone(){
-        return jsonObject.optLong(PHONE);
+        return (Long) getProperty(PHONE);
     }
     public void setPhone(long phone){
-        jsonObject.put(PHONE, phone);
+        setProperty(PHONE, phone);
     }
 
     public String getPermission(){
-        return jsonObject.optString(PERMISSION);
+        return (String) getProperty(PERMISSION);
     }
     public void setPermission(String permission){
-        jsonObject.put(PERMISSION, permission);
+        setProperty(PERMISSION, permission);
     }
 
     public String getRole(){
-        return jsonObject.optString(ROLE);
+        return (String) getProperty(ROLE);
     }
     public void setRole(String role){
-        jsonObject.put(ROLE, role);
+        setProperty(ROLE, role);
     }
 
     public Unit getUnit() {
-        return (Unit) jsonObject.optJSONObject(UNIT);
+        return (Unit) getProperty(UNIT);
     }
     public void setUnit(Unit unit) {
-        jsonObject.put(UNIT, unit);
-    }
-
-    public String getAuthenticationToken() {
-        return jsonObject.optString(AUTH_TOKEN);
-    }
-    public void setAuthenticationToken(String authenticationToken) {
-        jsonObject.put(AUTH_TOKEN, authenticationToken);
-    }
-
-    @Override
-    public Set<String> validateProperty(String property) {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> validateAll() {
-        return null;
+        setProperty(UNIT, unit);
     }
 }

@@ -2,6 +2,10 @@ apply plugin: 'java'
 
 apply from: 'j2objc.gradle'
 
+dependencies{
+    compile 'com.google.guava:guava:14.0.1'
+}
+
 j2objcConfig {
     // MODIFY to where your unzipped j2objc directory is located
     // NOTE download the latest version from: https://github.com/google/j2objc/releases
@@ -12,5 +16,7 @@ j2objcConfig {
     // NOTE this should contain ONLY j2objc generated files, other contents will be deleted
     destDir null //"${projectDir}/../Xcode/j2objc-generated"
 
-    translateFlags "-d ${projectDir}/../ios/Core -sourcepath ${projectDir}/../core/src/main/java --no-package-directories"
+    translateFlags "-d ${projectDir}/../ios/Core -classpath ${j2objcHome}/lib/guava-14.0.1.jar " +
+            "-sourcepath ${projectDir}/../core/src/main/java --no-package-directories " +
+            "--prefixes ${projectDir}/../core/prefixes.properties"
 }

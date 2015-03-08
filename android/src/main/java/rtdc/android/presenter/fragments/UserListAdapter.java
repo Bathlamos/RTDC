@@ -50,7 +50,7 @@ public class UserListAdapter extends ArrayAdapter {
             holder = (ViewHolder) viewToUse.getTag();
         }
 
-        holder.usernameText.setText(user.getSurname() + ", " + user.getFirstName());
+        holder.usernameText.setText(user.getLastName() + ", " + user.getFirstName());
         holder.secondLine.setText(user.getUsername() + ", " + user.getRole());
         return viewToUse;
     }

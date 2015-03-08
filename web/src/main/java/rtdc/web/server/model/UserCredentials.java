@@ -4,26 +4,19 @@ import rtdc.core.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@DiscriminatorValue("s")
-public class ServerUser extends User{
-
-    private static final String PASSWORD_HASH = "password_hash",
-        SALT = "salt";
+public class UserCredentials implements Serializable {
 
     private String passwordHash;
     private String salt;
-
-    public ServerUser(){}
-    public ServerUser(String json){
-        super(json);
-    }
+    private User user;
 
     @NotNull
-    @Column(name = PASSWORD_HASH, nullable = false)
+    @Column(name = "password_hash", nullable = false)
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -32,12 +25,21 @@ public class ServerUser extends User{
     }
 
     @NotNull
-    @Column(name = SALT, nullable = false)
+    @Column(name = "salt", nullable = false)
     public String getSalt() {
         return salt;
     }
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    @Id
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.ALL, optional = false)
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

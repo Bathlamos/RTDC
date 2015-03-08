@@ -1,15 +1,12 @@
 package rtdc.web.server.service;
 
-import com.google.inject.Singleton;
-import rtdc.core.exception.ApiException;
-import rtdc.core.model.JsonTransmissionWrapper;
+import rtdc.core.event.ErrorEvent;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-@Singleton
 @Provider
 public class ApiExceptionMapper implements ExceptionMapper<Throwable> {
 
@@ -17,7 +14,7 @@ public class ApiExceptionMapper implements ExceptionMapper<Throwable> {
     public Response toResponse(Throwable throwable) {
         throwable.printStackTrace();
         return Response.status(200).
-                entity(new JsonTransmissionWrapper(throwable).toString()).
+                entity(new ErrorEvent(throwable.getMessage()).toString()).
                 type(MediaType.APPLICATION_JSON_TYPE)
                 .build();
     }

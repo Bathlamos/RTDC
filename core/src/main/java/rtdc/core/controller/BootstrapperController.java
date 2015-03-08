@@ -10,12 +10,10 @@ import rtdc.core.view.LoginView;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BootstrapperController {
-
-    private BootstrapperView view;
+public class BootstrapperController extends Controller<BootstrapperView> {
 
     public BootstrapperController(BootstrapperView view){
-        this.view = view;
+        super(view);
     }
 
     public void init(){

@@ -4,9 +4,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import rtdc.core.model.User;
-import rtdc.web.server.model.ServerUnit;
-import rtdc.web.server.model.ServerUser;
+import rtdc.web.server.model.AuthenticationToken;
+import rtdc.web.server.model.UserCredentials;
 
 public class PersistenceConfig {
 
@@ -16,11 +15,12 @@ public class PersistenceConfig {
     private static SessionFactory buildSessionFactory() {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-            Configuration configuration = new Configuration();
-            configuration.addAnnotatedClass(User.class);
-            configuration.configure("hibernate.cfg.xml");
-            configuration.addAnnotatedClass(ServerUnit.class);
-            configuration.addAnnotatedClass(ServerUser.class);
+            Configuration configuration = new Configuration()
+                    .configure("hibernate.cfg.xml")
+                    .addResource("User.hbm.xml")
+                    .addResource("Unit.hbm.xml")
+                    .addAnnotatedClass(UserCredentials.class)
+                    .addAnnotatedClass(AuthenticationToken.class);
             System.out.println("Hibernate Configuration loaded");
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

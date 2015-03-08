@@ -7,12 +7,10 @@ import rtdc.core.service.Service;
 import rtdc.core.view.AddUnitView;
 import rtdc.core.view.AddUserView;
 
-public class AddUnitController {
-
-    private AddUnitView view;
+public class AddUnitController extends Controller<AddUnitView>{
 
     public AddUnitController(AddUnitView view){
-        this.view = view;
+        super(view);
     }
 
     public void addUnit() {

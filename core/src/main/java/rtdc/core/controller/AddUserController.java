@@ -1,7 +1,10 @@
 package rtdc.core.controller;
 
+import com.google.common.collect.Multimap;
 import rtdc.core.Bootstrapper;
+import rtdc.core.event.UpdateCompleteEvent;
 import rtdc.core.impl.Factory;
+import rtdc.core.model.RtdcObject;
 import rtdc.core.model.User;
 import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
@@ -10,12 +13,11 @@ import rtdc.core.view.LoginView;
 
 import java.util.Set;
 
-public class AddUserController {
+public class AddUserController extends Controller<AddUserView> implements UpdateCompleteEvent.UpdateCompleteHandler {
 
-    private AddUserView view;
 
     public AddUserController(AddUserView view){
-        this.view = view;
+        super(view);
     }
 
     public void addUser() {
@@ -29,26 +31,17 @@ public class AddUserController {
         newUser.setRole(view.getRoleAsString());
         String password = view.getPasswordAsString();
 
-        /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
+        Multimap<RtdcObject.Property, String> violations = newUser.getConstraintsViolations();
+        if(violations.isEmpty())
+            Service.updateOrSaveUser(newUser, password);
+        else {
+            RtdcObject.Property p = violations.keys().iterator().next();
+            view.displayError("Error", p.getPropertyName() + " : " + violations.get(p).iterator().next());
+        }
+    }
 
-        if (!constraintViolations.isEmpty()) {
-            ConstraintViolation<User> first = constraintViolations.iterator().next();
-            view.displayError("Error", first.getPropertyPath() + " : " + first.getMessage());
-        } else if (password == null || password.isEmpty() || password.length() < 4)
-            view.displayError("Error", "Password needs to be at least 4 characters");
-        else {*/
-            Service.updateOrSaveUser(newUser, password, new AsyncCallback<Boolean>() {
-
-                @Override
-                public void onSuccess(Boolean result) {
-                    view.displayError("Success", "Success");
-                }
-
-                @Override
-                public void onError(String message) {
-                    view.displayError("CommError", message);
-                }
-            });
-        //}
+    @Override
+    public void onUpdateComplete(UpdateCompleteEvent event) {
+        view.displayError("Success", "Success");
     }
 }

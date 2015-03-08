@@ -1,79 +1,92 @@
 package rtdc.core.model;
 
+import com.google.common.collect.Sets;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
-public class Unit extends JSONObject {
+import java.util.Set;
+import static rtdc.core.model.RtdcObject.ValidationConstraints.*;
 
-    public static final String ID = "unit_id",
-            NAME = "name",
-            TOTAL_BEDS = "totalBeds",
-            AVAILABLE_BEDS = "availableBeds",
-            POTENTIAL_DC = "potentialDc",
-            TOTAL_ADMITS = "totalAdmits",
-            DC_BY_DEADLINE = "dcByDeadline",
-            ADMITS_BY_DEADLINE = "admitsByDeadline";
+public class Unit extends RtdcObject {
 
-    public Unit(){}
+    private static Set<RtdcObject.Property> objectProperties;
 
-    public Unit(String json) throws JSONException{
-        super(json);
+    public static final Property ID = new Property("unit_id", DataType.INT),
+            NAME = new Property("name", DataType.STRING),
+            TOTAL_BEDS = new Property("username", DataType.INT, POSITIVE_NUMBER),
+            AVAILABLE_BEDS = new Property("lastName", DataType.INT, POSITIVE_NUMBER),
+            POTENTIAL_DC = new Property("email", DataType.INT, POSITIVE_NUMBER),
+            TOTAL_ADMITS = new Property("phone", DataType.INT, POSITIVE_NUMBER),
+            DC_BY_DEADLINE = new Property("permission", DataType.INT, POSITIVE_NUMBER),
+            ADMITS_BY_DEADLINE = new Property("role", DataType.INT, POSITIVE_NUMBER);
+
+    static{
+        objectProperties = Sets.newHashSet(ID, NAME, TOTAL_BEDS, AVAILABLE_BEDS, AVAILABLE_BEDS, POTENTIAL_DC,
+                TOTAL_ADMITS, TOTAL_ADMITS, DC_BY_DEADLINE, ADMITS_BY_DEADLINE);
     }
 
-    public int getId(){
-        return optInt(ID);
+    public Unit(){
+        super(objectProperties);
     }
-    public void setId(int id){
-        put(ID, id);
+
+    public Unit(JSONObject jsonObject) throws JSONException{
+        super(objectProperties, jsonObject);
+    }
+
+    public String getId(){
+        return (String) getProperty(ID);
+    }
+    public void setId(String id){
+        setProperty(ID, id);
     }
 
     public String getName(){
-        return optString(NAME);
+        return (String) getProperty(NAME);
     }
     public void setName(String name){
-        put(NAME, name);
+        setProperty(NAME, name);
     }
 
     public int getTotalBeds(){
-        return optInt(TOTAL_BEDS);
+        return (Integer) getProperty(TOTAL_BEDS);
     }
     public void setTotalBeds(int totalBeds){
-        put(TOTAL_BEDS, totalBeds);
+        setProperty(TOTAL_BEDS, totalBeds);
     }
 
     public int getAvailableBeds(){
-        return optInt(AVAILABLE_BEDS);
+        return (Integer) getProperty(AVAILABLE_BEDS);
     }
     public void setAvailableBeds(int availableBeds){
-        put(AVAILABLE_BEDS, availableBeds);
+        setProperty(AVAILABLE_BEDS, availableBeds);
     }
 
     public int getPotentialDc(){
-        return optInt(POTENTIAL_DC);
+        return (Integer) getProperty(POTENTIAL_DC);
     }
     public void setPotentialDc(int potentialDc){
-        put(POTENTIAL_DC, potentialDc);
+        setProperty(POTENTIAL_DC, potentialDc);
     }
 
     public int getDcByDeadline(){
-        return optInt(DC_BY_DEADLINE);
+        return (Integer) getProperty(DC_BY_DEADLINE);
     }
     public void setDcByDeadline(int dcByDeadline){
-        put(DC_BY_DEADLINE, dcByDeadline);
+        setProperty(DC_BY_DEADLINE, dcByDeadline);
     }
 
     public int getTotalAdmits(){
-        return optInt(TOTAL_ADMITS);
+        return (Integer) getProperty(TOTAL_ADMITS);
     }
     public void setTotalAdmits(int totalAdmit){
-        put(TOTAL_ADMITS, totalAdmit);
+        setProperty(TOTAL_ADMITS, totalAdmit);
     }
 
     public int getAdmitsByDeadline(){
-        return optInt(ADMITS_BY_DEADLINE);
+        return (Integer) getProperty(ADMITS_BY_DEADLINE);
     }
     public void setAdmitsByDeadline(int admitsByDeadline){
-        put(ADMITS_BY_DEADLINE, admitsByDeadline);
+        setProperty(ADMITS_BY_DEADLINE, admitsByDeadline);
     }
 
 }

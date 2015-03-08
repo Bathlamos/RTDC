@@ -2,6 +2,9 @@
         "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to="rtdc_core">
 
+    <!-- Guava -->
+    <inherits name="com.google.common.collect.Collect"/>
+
     <source path="" />
 
 </module>

@@ -11,6 +11,9 @@
     <!-- RESTful web interface -->
     <inherits name="com.google.gwt.http.HTTP"/>
 
+    <!-- Guava -->
+    <inherits name="com.google.common.collect.Collect"/>
+
     <source path="client" />
 
     <!-- Specify the app entry point class.                   -->

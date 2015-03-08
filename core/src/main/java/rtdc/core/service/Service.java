@@ -1,11 +1,14 @@
 package rtdc.core.service;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.event.ErrorEvent;
+import rtdc.core.event.Event;
 import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.json.JSONArray;
-import rtdc.core.model.JsonTransmissionWrapper;
+import rtdc.core.json.JSONException;
+import rtdc.core.json.JSONObject;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.util.Util;
@@ -23,142 +26,132 @@ public final class Service {
 
     private Service(){}
 
-    public static void authenticateUser(String username, String password, final AsyncCallback<User> callback){
+    public static void authenticateUser(String username, String password){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate", POST);
-        req.setHeader("Content-type", "application/x-www-form-urlencoded");
         req.addParameter("username", username);
         req.addParameter("password", password);
-        req.execute(new AsyncCallback<HttpResponse>() {
-            @Override
-            public void onSuccess(HttpResponse resp) {
-                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
-                catchSessionExpiredException(wrapper);
-                if("success".equals(wrapper.getStatus())) {
-                    User user = new User();
-                    //user.map().putAll(wrapper.getData().map());
-                    callback.onSuccess(user);
-                }else
-                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
-            }
-
-            @Override
-            public void onError(String message) {
-                callback.onError(message);
-            }
-        });
+        executeRequest(req);
     }
 
-    public static void updateOrSaveUser(User user, String password, final AsyncCallback<Boolean> callback){
+    public static void updateOrSaveUser(User user, String password){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
-        req.setHeader("Content-type", "application/x-www-form-urlencoded");
         req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
         req.addParameter("user", user.toString());
         req.addParameter("password", password);
-        req.execute(new AsyncCallback<HttpResponse>() {
-            @Override
-            public void onSuccess(HttpResponse resp) {
-                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
-                catchSessionExpiredException(wrapper);
-                if("success".equals(wrapper.getStatus()))
-                    callback.onSuccess(true);
-                else
-                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
-            }
-
-            @Override
-            public void onError(String message) {
-                callback.onError(message);
-            }
-        });
+        executeRequest(req);
     }
 
     public static void updateOrSaveUnit(Unit unit , final AsyncCallback<Boolean> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
-        req.setHeader("Content-type", "application/x-www-form-urlencoded");
-        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
-        req.addParameter("unit", unit.toString());
-        req.execute(new AsyncCallback<HttpResponse>() {
-            @Override
-            public void onSuccess(HttpResponse resp) {
-                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
-                catchSessionExpiredException(wrapper);
-                if("success".equals(wrapper.getStatus()))
-                    callback.onSuccess(true);
-                else
-                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
-            }
-
-            @Override
-            public void onError(String message) {
-                callback.onError(message);
-            }
-        });
+//        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
+//        req.setHeader("Content-type", "application/x-www-form-urlencoded");
+//        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+//        req.addParameter("unit", unit.toString());
+//        req.execute(new AsyncCallback<HttpResponse>() {
+//            @Override
+//            public void onSuccess(HttpResponse resp) {
+//                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+//                catchSessionExpiredException(wrapper);
+//                if("success".equals(wrapper.getStatus()))
+//                    callback.onSuccess(true);
+//                else
+//                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
+//            }
+//
+//            @Override
+//            public void onError(String message) {
+//                callback.onError(message);
+//            }
+//        });
     }
 
     public static void getUnits(final AsyncCallback<List<Unit>> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
-        req.setHeader("Content-type", "application/x-www-form-urlencoded");
-        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
-        req.execute(new AsyncCallback<HttpResponse>() {
-            @Override
-            public void onSuccess(HttpResponse resp) {
-                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
-                catchSessionExpiredException(wrapper);
-                if("success".equals(wrapper.getStatus())) {
-                    JSONArray array = wrapper.getDataAsJSONArray();
-                    LinkedList<Unit> units = new LinkedList<Unit>();
-                    for(int i = array.length() - 1; i >= 0; i--) {
-                        Unit unit = new Unit();
-                        unit.map().putAll(array.getJSONObject(i).map());
-                        units.add(unit);
-                    }
-                    callback.onSuccess(units);
-                }else
-                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
-            }
-
-            @Override
-            public void onError(String message) {
-                callback.onError(message);
-            }
-        });
+//        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
+//        req.setHeader("Content-type", "application/x-www-form-urlencoded");
+//        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+//        req.execute(new AsyncCallback<HttpResponse>() {
+//            @Override
+//            public void onSuccess(HttpResponse resp) {
+//                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+//                catchSessionExpiredException(wrapper);
+//                if("success".equals(wrapper.getStatus())) {
+////                    JSONArray array = wrapper.getDataAsJSONArray();
+////                    LinkedList<Unit> units = new LinkedList<Unit>();
+////                    for(int i = array.length() - 1; i >= 0; i--) {
+////                        Unit unit = new Unit();
+////                        unit.map().putAll(array.getJSONObject(i).map());
+////                        units.add(unit);
+////                    }
+////                    callback.onSuccess(units);
+//                }else
+//                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
+//            }
+//
+//            @Override
+//            public void onError(String message) {
+//                callback.onError(message);
+//            }
+//        });
     }
 
     public static void getUsers(final AsyncCallback<List<User>> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET);
-        req.setHeader("Content-type", "application/x-www-form-urlencoded");
-        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
-        req.execute(new AsyncCallback<HttpResponse>() {
+//        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET);
+//        req.setHeader("Content-type", "application/x-www-form-urlencoded");
+//        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+//        req.execute(new AsyncCallback<HttpResponse>() {
+//            @Override
+//            public void onSuccess(HttpResponse resp) {
+//                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+//                catchSessionExpiredException(wrapper);
+//                if("success".equals(wrapper.getStatus())) {
+////                    JSONArray array = wrapper.getDataAsJSONArray();
+////                    LinkedList<User> users = new LinkedList<User>();
+////                    for(int i = array.length() - 1; i >= 0; i--) {
+////                        User user = new User();
+////                        //user.map().putAll(array.getJSONObject(i).map());
+////                        users.add(user);
+////                    }
+////                    callback.onSuccess(users);
+//                }else
+//                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
+//            }
+//
+//            @Override
+//            public void onError(String message) {
+//                callback.onError(message);
+//            }
+//        });
+    }
+//
+//    private static void catchSessionExpiredException(JsonTransmissionWrapper wrapper){
+//        Logger.getLogger("RTDC").log(Level.INFO, SessionExpiredException.class.getSimpleName() + " : " + wrapper.getStatus());
+//        if(SessionExpiredException.class.getSimpleName().equals(wrapper.getStatus())) {
+//            Bootstrapper.AUTHENTICATION_TOKEN = null;
+//            Bootstrapper.FACTORY.newDispatcher().goToLogin(true);
+//        }
+//    }
+
+    private static void executeRequest(HttpRequest request){
+        request.setHeader("Content-type", "application/x-www-form-urlencoded");
+        request.execute(new AsyncCallback<HttpResponse>() {
             @Override
             public void onSuccess(HttpResponse resp) {
-                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
-                catchSessionExpiredException(wrapper);
-                if("success".equals(wrapper.getStatus())) {
-                    JSONArray array = wrapper.getDataAsJSONArray();
-                    LinkedList<User> users = new LinkedList<User>();
-                    for(int i = array.length() - 1; i >= 0; i--) {
-                        User user = new User();
-                        //user.map().putAll(array.getJSONObject(i).map());
-                        users.add(user);
+                if(resp.getStatusCode() != 200)
+                    new ErrorEvent("Error code " + resp.getStatusCode() + " " + resp.getContent()).fire();
+                else {
+                    try {
+                        JSONObject object = new JSONObject(resp.getContent());
+                        Event.fire(object);
+                    } catch (JSONException e) {
+                        new ErrorEvent("Unrecognized output from server " + resp.getContent() + " " + e.getMessage()).fire();
                     }
-                    callback.onSuccess(users);
-                }else
-                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
+                }
             }
 
             @Override
             public void onError(String message) {
-                callback.onError(message);
+                new ErrorEvent("Network error " + message).fire();
             }
         });
-    }
-
-    private static void catchSessionExpiredException(JsonTransmissionWrapper wrapper){
-        Logger.getLogger("RTDC").log(Level.INFO, SessionExpiredException.class.getSimpleName() + " : " + wrapper.getStatus());
-        if(SessionExpiredException.class.getSimpleName().equals(wrapper.getStatus())) {
-            Bootstrapper.AUTHENTICATION_TOKEN = null;
-            Bootstrapper.FACTORY.newDispatcher().goToLogin(true);
-        }
     }
 
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="rtdc.core.model.Unit" table="UNITS">
+        <id name="id" type="string" column="unit_id">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+        <property name="totalBeds" column="totalBeds" type="int"/>
+        <property name="availableBeds" column="availableBeds" type="int"/>
+        <property name="potentialDc" column="potentialDc" type="int"/>
+        <property name="totalAdmits" column="totalAdmits" type="int"/>
+        <property name="dcByDeadline" column="dcByDeadline" type="int"/>
+        <property name="admitsByDeadline" column="admitsByDeadline" type="int"/>
+    </class>
+</hibernate-mapping>

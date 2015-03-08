@@ -4,26 +4,21 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
-import rtdc.core.exception.SessionExpiredException;
+import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.exception.UsernamePasswordMismatchException;
-import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
-import rtdc.web.server.model.ServerUser;
+import rtdc.web.server.model.AuthenticationToken;
+import rtdc.web.server.model.UserCredentials;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Path("authenticate")
 public class AuthService {
-
-    private static final ConcurrentHashMap<String, UserInformation> authenticatedUsers = new ConcurrentHashMap<String, UserInformation>();
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -39,12 +34,15 @@ public class AuthService {
         else{
             //Get user by username
             Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
-            ServerUser user = null;
+            UserCredentials userCredentials = null;
+            User user = null;
             Transaction transaction = null;
             try{
                 transaction = session.beginTransaction();
-                user = (ServerUser) session.createCriteria(ServerUser.class).add(
-                            Restrictions.eq("username", username)).uniqueResult();
+                user = (User) session.createCriteria(User.class).add(
+                        Restrictions.eq("username", username)).uniqueResult();
+                userCredentials = (UserCredentials) session.createCriteria(UserCredentials.class).add(
+                        Restrictions.eq("user", user)).uniqueResult();
                 session.getTransaction().commit();
             } catch (RuntimeException e) {
                 if(transaction != null)
@@ -52,49 +50,36 @@ public class AuthService {
                 throw e;
             }
 
-            if(user == null)
+            if(userCredentials == null)
                 //We do not have any user with that username in the database
                 throw new UsernamePasswordMismatchException("Username / password mismatch");
             else{
-                String passwordAttempt = BCrypt.hashpw(password, user.getSalt());
+                String passwordAttempt = BCrypt.hashpw(password, userCredentials.getSalt());
 
-                if(user.getPasswordHash().equals(passwordAttempt)) {
+                if(userCredentials.getPasswordHash().equals(passwordAttempt)) {
 
-                    //Authenticate user
-                    user.setAuthenticationToken(BCrypt.gensalt());
-                    UserInformation info = new UserInformation();
-                    info.id = user.getId();
-                    info.permission = user.getRole();
-                    info.lastUsed = new Date();
-                    authenticatedUsers.put(user.getAuthenticationToken(), info);
+                    //Create an authentication token
+                    AuthenticationToken token = new AuthenticationToken();
+                    token.setDateSet(new Date());
+                    token.setAuthenticationToken(BCrypt.gensalt());
+                    token.setUser(user);
 
-                    return new JsonTransmissionWrapper(user).toString();
+                    //Store the token
+                    try{
+                        transaction = session.beginTransaction();
+                        session.save(token);
+                        session.getTransaction().commit();
+                    } catch (RuntimeException e) {
+                        if(transaction != null)
+                            transaction.rollback();
+                        throw e;
+                    }
+
+                    return new AuthenticationEvent(user, token.getAuthenticationToken()).toString();
                 }else
                     throw new UsernamePasswordMismatchException("Username / password mismatch");
             }
         }
-    }
-
-    private static final class UserInformation{
-        private int id;
-        private String permission;
-        private Date lastUsed;
-    }
-
-    public static boolean hasRole(HttpServletRequest req, String... roles){
-        if(roles == null || roles.length == 0)
-            return true;
-        String token = req.getParameter("authToken");
-        if(token != null && !token.isEmpty()) {
-            UserInformation user = authenticatedUsers.remove(token);
-            Date now = new Date();
-            if(user != null && user.lastUsed.getTime() + 60 * 60 * 1000 > now.getTime()){
-                user.lastUsed = now;
-                authenticatedUsers.put(token, user);
-                return true;
-            }
-        }
-        throw new SessionExpiredException("");
     }
 
 }

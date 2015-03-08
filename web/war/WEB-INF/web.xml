@@ -5,26 +5,19 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
            version="3.0">
 
-    <filter>
-        <filter-name>guiceFilter</filter-name>
-        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
-    </filter>
+    <servlet>
+        <servlet-name>Jersey REST Service</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 
-    <filter-mapping>
-        <filter-name>guiceFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <listener>
-        <listener-class>rtdc.web.server.config.GuiceServletConfig</listener-class>
-    </listener>
-
-    <!--<servlet>
-        <servlet-name>web webService</servlet-name>
-        <servlet-class>rtdc.web.server.webServiceImpl</servlet-class>
+        <init-param>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>rtdc.web.server.service</param-value>
+        </init-param>
     </servlet>
+
     <servlet-mapping>
-        <servlet-name>web webService</servlet-name>
-        <url-pattern>/web/webService</url-pattern>
-    </servlet-mapping>-->
+        <servlet-name>Jersey REST Service</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>

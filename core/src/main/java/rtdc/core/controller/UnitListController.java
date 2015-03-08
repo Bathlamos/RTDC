@@ -11,12 +11,10 @@ import rtdc.core.view.UserListView;
 
 import java.util.List;
 
-public class UnitListController {
-
-    private UnitListView view;
+public class UnitListController extends Controller<UnitListView>{
 
     public UnitListController(UnitListView view){
-        this.view = view;
+        super(view);
         Service.getUnits(new AsyncCallback<List<Unit>>() {
             @Override
             public void onSuccess(List<Unit> units) {

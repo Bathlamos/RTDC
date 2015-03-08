@@ -1,38 +1,27 @@
 package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
-import rtdc.core.model.User;
-import rtdc.core.service.AsyncCallback;
+import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.service.Service;
 import rtdc.core.view.LoginView;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+public class LoginController extends Controller<LoginView> implements AuthenticationEvent.AuthenticationHandler{
 
-public class LoginController {
-
-    private LoginView view;
 
     public LoginController(LoginView view){
-        this.view = view;
+        super(view);
     }
 
     public void login(){
-        Service.authenticateUser(view.getUsername(), view.getPassword(), new AsyncCallback<User>() {
-            @Override
-            public void onSuccess(User user) {
-                view.saveAuthenticationToken(user.getAuthenticationToken());
-                Bootstrapper.AUTHENTICATION_TOKEN = user.getAuthenticationToken();
-                Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
-            }
-
-            @Override
-            public void onError(String message) {
-                view.displayError("Error", message);
-            }
-        });
+        Service.authenticateUser(view.getUsername(), view.getPassword());
+        AuthenticationEvent.subscribe(this);
     }
 
 
-
+    @Override
+    public void onAuthenticate(AuthenticationEvent event) {
+        view.saveAuthenticationToken(event.getAuthenticationToken());
+        Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
+        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
+    }
 }
