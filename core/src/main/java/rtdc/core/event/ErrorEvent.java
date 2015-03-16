@@ -1,20 +1,16 @@
 package rtdc.core.event;
 
-import com.google.common.collect.Sets;
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.User;
 
-import java.util.HashSet;
-import java.util.Set;
+import rtdc.core.model.Property;
+import rtdc.core.model.Property.DataType;
 
-public class ErrorEvent extends Event {
+public class ErrorEvent extends Event<ErrorEvent.ErrorHandler> {
 
-    public static final String TYPE = "error";
-
-    public interface ErrorHandler{ public void onError(ErrorEvent event);}
+    public static final EventType<ErrorHandler> TYPE = EventType.build("error");
+    public interface ErrorHandler extends EventHandler{ public void onError(ErrorEvent event);}
 
     public static final Property DESCRIPTION = new Property("description", DataType.STRING);
-    private static final Set<Property> objectProperties = Sets.newHashSet(DESCRIPTION);
 
     public ErrorEvent(String description){
         this(new JSONObject("{}"));
@@ -22,24 +18,15 @@ public class ErrorEvent extends Event {
     }
 
     public ErrorEvent(JSONObject jsonObject){
-        super(TYPE, objectProperties, jsonObject);
+        super(TYPE, jsonObject, DESCRIPTION);
     }
 
     public String getDescription(){
         return (String) getProperty(DESCRIPTION);
     }
 
-    public static void subscribe(ErrorHandler handler){
-        handlers.add(handler);
-    }
-
-    public static void unsubscribe(ErrorHandler handler){
-        handlers.remove(handler);
-    }
-
-    public void fire(){
-        for(Object o: handlers)
-            ((ErrorHandler) o).onError(this);
+    public void fire(ErrorHandler handler){
+        handler.onError(this);
     }
 
 }

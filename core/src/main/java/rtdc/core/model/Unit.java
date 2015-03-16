@@ -5,20 +5,21 @@ import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
 import java.util.Set;
-import static rtdc.core.model.RtdcObject.ValidationConstraints.*;
+import static rtdc.core.model.Property.DataType.*;
+import static rtdc.core.model.Property.ValidationConstraint.*;
 
 public class Unit extends RtdcObject {
 
-    private static Set<RtdcObject.Property> objectProperties;
+    private static Set<Property> objectProperties;
 
-    public static final Property ID = new Property("unit_id", DataType.INT),
-            NAME = new Property("name", DataType.STRING),
-            TOTAL_BEDS = new Property("username", DataType.INT, POSITIVE_NUMBER),
-            AVAILABLE_BEDS = new Property("lastName", DataType.INT, POSITIVE_NUMBER),
-            POTENTIAL_DC = new Property("email", DataType.INT, POSITIVE_NUMBER),
-            TOTAL_ADMITS = new Property("phone", DataType.INT, POSITIVE_NUMBER),
-            DC_BY_DEADLINE = new Property("permission", DataType.INT, POSITIVE_NUMBER),
-            ADMITS_BY_DEADLINE = new Property("role", DataType.INT, POSITIVE_NUMBER);
+    public static final Property ID = new Property("unit_id", INT),
+            NAME = new Property("name", STRING),
+            TOTAL_BEDS = new Property("username", INT, POSITIVE_NUMBER),
+            AVAILABLE_BEDS = new Property("lastName", INT, POSITIVE_NUMBER),
+            POTENTIAL_DC = new Property("email", INT, POSITIVE_NUMBER),
+            TOTAL_ADMITS = new Property("phone", INT, POSITIVE_NUMBER),
+            DC_BY_DEADLINE = new Property("permission", INT, POSITIVE_NUMBER),
+            ADMITS_BY_DEADLINE = new Property("role", INT, POSITIVE_NUMBER);
 
     static{
         objectProperties = Sets.newHashSet(ID, NAME, TOTAL_BEDS, AVAILABLE_BEDS, AVAILABLE_BEDS, POTENTIAL_DC,

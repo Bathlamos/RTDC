@@ -5,8 +5,9 @@ import rtdc.core.json.JSONObject;
 
 import java.util.Set;
 
-import static rtdc.core.model.RtdcObject.DataType.*;
-import static rtdc.core.model.RtdcObject.ValidationConstraints.*;
+import rtdc.core.model.Property.DataType;
+import static rtdc.core.model.Property.DataType.*;
+import static rtdc.core.model.Property.ValidationConstraint.*;
 
 public class User extends RtdcObject {
 

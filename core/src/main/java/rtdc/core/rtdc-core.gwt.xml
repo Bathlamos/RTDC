@@ -7,4 +7,7 @@
 
     <source path="" />
 
+    <!-- Used to re-route the WeakReference class -->
+    <super-source path="jre" />
+
 </module>

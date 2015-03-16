@@ -1,58 +1,16 @@
 package rtdc.core.model;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.*;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.Property.ValidationConstraint;
 
 import java.util.*;
 
 public abstract class RtdcObject {
 
-    public static enum DataType {BOOLEAN, INT, LONG, STRING, JSON_ARRAY, JSON_OBJECT, UNIT, USER}
-    public static enum ValidationConstraints {NOT_NULL, NOT_EMPTY, REGEX_EMAIL, POSITIVE_NUMBER}
-
-    public static final class Property{
-        private String propertyName;
-        private DataType dataType;
-        private ValidationConstraints[] validationConstraints;
-
-        public Property(String propertyName, DataType dataType, ValidationConstraints... validationConstraints){
-            this.setPropertyName(propertyName);
-            this.setDataType(dataType);
-            this.validationConstraints = validationConstraints;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return !(obj instanceof  Property) || getPropertyName().equals(((Property) obj).getPropertyName());
-        }
-
-        @Override
-        public int hashCode() {
-            return getPropertyName().hashCode();
-        }
-
-        public String getPropertyName() {
-            return propertyName;
-        }
-
-        public void setPropertyName(String propertyName) {
-            this.propertyName = propertyName;
-        }
-
-        public DataType getDataType() {
-            return dataType;
-        }
-
-        public void setDataType(DataType dataType) {
-            this.dataType = dataType;
-        }
-    }
-
-    private final Map<String, Property> objectProperties;
-
+    private final ImmutableMap<String, Property> objectProperties;
     private final JSONObject jsonObject;
 
     public RtdcObject(Set<Property> objectProperties){
@@ -61,9 +19,9 @@ public abstract class RtdcObject {
 
     public RtdcObject(Set<Property> objectProperties, JSONObject jsonObject){
         this.jsonObject = jsonObject;
-        this.objectProperties = new HashMap<String, Property>();
+        ImmutableMap.Builder<String, Property> builder = ImmutableMap.builder();
         for(Property property: objectProperties) {
-            this.objectProperties.put(property.getPropertyName(), property);
+            builder.put(property.getPropertyName(), property);
 
             //Check for special properties
             switch(property.getDataType()){
@@ -77,6 +35,8 @@ public abstract class RtdcObject {
                     break;
             }
         }
+
+        this.objectProperties = builder.build();
 
 
         //Check that all properties are valid and satisfy the validation constraints
@@ -93,38 +53,37 @@ public abstract class RtdcObject {
             }
     }
 
-    public Multimap<Property, String> getConstraintsViolations(){
-        Multimap<Property, String> violations = HashMultimap.create();
+    public ImmutableMultimap<Property, String> getConstraintsViolations(){
+        ImmutableMultimap.Builder<Property, String> builder = ImmutableMultimap.builder();
         for(Property property: objectProperties.values())
-            violations.putAll(property, validateProperty(property));
-        return violations;
+            builder.putAll(property, validateProperty(property));
+        return builder.build();
     }
 
-    public Set<String> validateProperty(Property property){
-        Set<String> constraintViolations = new HashSet<String>();
+    public ImmutableSet<String> validateProperty(Property property){
+        ImmutableSet.Builder<String> builder = ImmutableSet.builder();
         String propertyName = property.getPropertyName();
-        if(property.validationConstraints != null)
-            for(ValidationConstraints constraint: property.validationConstraints){
-                switch(constraint){
-                    case NOT_EMPTY:
-                        if(jsonObject.optString(propertyName).isEmpty())
-                            constraintViolations.add("Cannot be empty");
-                        break;
-                    case NOT_NULL:
-                        if(jsonObject.opt(propertyName) == null)
-                            constraintViolations.add("Cannot be empty");
-                        break;
-                    case REGEX_EMAIL:
-                        if(jsonObject.optString(propertyName).matches("^\\S+@\\S+\\.\\S+$"));
-                            constraintViolations.add("Invalid email");
-                        break;
-                    case POSITIVE_NUMBER:
-                        if(jsonObject.optLong(propertyName) < 0);
-                            constraintViolations.add("The number needs to be greater than zero");
-                        break;
-                }
+        for(ValidationConstraint constraint: property.getValidationConstraints()) {
+            switch (constraint) {
+                case NOT_EMPTY:
+                    if (jsonObject.optString(propertyName).isEmpty())
+                        builder.add("Cannot be empty");
+                    break;
+                case NOT_NULL:
+                    if (jsonObject.opt(propertyName) == null)
+                        builder.add("Cannot be empty");
+                    break;
+                case REGEX_EMAIL:
+                    if (jsonObject.optString(propertyName).matches("^\\S+@\\S+\\.\\S+$")) ;
+                    builder.add("Invalid email");
+                    break;
+                case POSITIVE_NUMBER:
+                    if (jsonObject.optLong(propertyName) < 0) ;
+                    builder.add("The number needs to be greater than zero");
+                    break;
             }
-        return constraintViolations;
+        }
+        return builder.build();
     }
 
     public boolean validateType(Property property){
