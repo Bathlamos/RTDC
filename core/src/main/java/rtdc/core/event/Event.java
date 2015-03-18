@@ -1,6 +1,7 @@
 package rtdc.core.event;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.RtdcObject;
@@ -25,8 +26,10 @@ public abstract class Event<T extends EventHandler> extends RtdcObject {
                 return new ErrorEvent(object);
             if(AuthenticationEvent.TYPE.equals(type))
                 return new AuthenticationEvent(object);
-            if(UpdateCompleteEvent.TYPE.equals(type))
+            if(UpdateCompleteEvent.UNIT_UPDATED.equals(type))
                 return new UpdateCompleteEvent(object);
+            if(FetchUnitsEvent.TYPE.equals(type))
+                return new FetchUnitsEvent(object);
             return null;
         }
     };
@@ -52,24 +55,15 @@ public abstract class Event<T extends EventHandler> extends RtdcObject {
     public static void fire(JSONObject object){
         Event event = initializer.apply(object);
         if(event == null)
-            throwErrorEvent("Message type not recognized " + object.toString());
+            new ErrorEvent("Message type not recognized " + object.toString()).fire();
         else{
             Multimap<Property, String> violations = event.getConstraintsViolations();
-            if(!violations.isEmpty()) {
-                throwErrorEvent("Constrain violation when translating " + object.toString());
-            }else {
-                EventType<EventHandler> type = EventType.build(object.optString("name"));
-                for (Object handler : handlers.get(type).getHandlers())
-                    event.fire((EventHandler) handler);
-            }
+            if(!violations.isEmpty())
+                new ErrorEvent("Constrain violation when translating " + object.toString()).fire();
+            else
+                event.fire();
             return;
         }
-    }
-
-    private static void throwErrorEvent(String description){
-        ErrorEvent event = new ErrorEvent(description);
-        for (Object handler : handlers.get(ErrorEvent.TYPE).getHandlers())
-            event.fire((ErrorEvent.ErrorHandler) handler);
     }
 
     public static <T extends EventHandler> void subscribe(EventType<T> eventType, T eventHandler){
@@ -78,6 +72,10 @@ public abstract class Event<T extends EventHandler> extends RtdcObject {
         handlers.get(eventType).addHandler(eventHandler);
     }
 
-    abstract void fire(T handler);
+    protected ImmutableSet<T> getHandlers(EventType<T> type){
+        return handlers.get(type).getHandlers();
+    }
+
+    abstract void fire();
 
 }

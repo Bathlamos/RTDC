@@ -2,6 +2,7 @@ package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.AuthenticationEvent;
+import rtdc.core.event.Event;
 import rtdc.core.service.Service;
 import rtdc.core.view.LoginView;
 
@@ -14,7 +15,7 @@ public class LoginController extends Controller<LoginView> implements Authentica
 
     public void login(){
         Service.authenticateUser(view.getUsername(), view.getPassword());
-        AuthenticationEvent.subscribe(this);
+        Event.subscribe(AuthenticationEvent.TYPE, this);
     }
 
 

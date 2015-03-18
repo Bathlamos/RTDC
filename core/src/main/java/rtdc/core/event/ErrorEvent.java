@@ -25,8 +25,9 @@ public class ErrorEvent extends Event<ErrorEvent.ErrorHandler> {
         return (String) getProperty(DESCRIPTION);
     }
 
-    public void fire(ErrorHandler handler){
-        handler.onError(this);
+    public void fire(){
+        for(ErrorHandler handler: getHandlers(TYPE))
+            handler.onError(this);
     }
 
 }

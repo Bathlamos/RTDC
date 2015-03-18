@@ -32,7 +32,8 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Authenticatio
         return (String) getProperty(AUTH_TOKEN);
     }
 
-    void fire(AuthenticationHandler handler) {
-        handler.onAuthenticate(this);
+    void fire() {
+        for(AuthenticationHandler handler: getHandlers(TYPE))
+            handler.onAuthenticate(this);
     }
 }

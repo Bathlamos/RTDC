@@ -105,6 +105,13 @@ public abstract class RtdcObject {
         }
     }
 
+    public void copyProperties(RtdcObject object){
+        //Check that both objects are of the same type
+        if(object.getClass() == getClass())
+            for(Property p: object.objectProperties.values())
+                setProperty(p, object.getProperty(p));
+    }
+
     protected Object getProperty(Property property){
         return jsonObject.opt(property.getPropertyName());
     }

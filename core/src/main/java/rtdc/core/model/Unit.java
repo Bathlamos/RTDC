@@ -14,16 +14,19 @@ public class Unit extends RtdcObject {
 
     public static final Property ID = new Property("unit_id", INT),
             NAME = new Property("name", STRING),
-            TOTAL_BEDS = new Property("username", INT, POSITIVE_NUMBER),
-            AVAILABLE_BEDS = new Property("lastName", INT, POSITIVE_NUMBER),
-            POTENTIAL_DC = new Property("email", INT, POSITIVE_NUMBER),
-            TOTAL_ADMITS = new Property("phone", INT, POSITIVE_NUMBER),
-            DC_BY_DEADLINE = new Property("permission", INT, POSITIVE_NUMBER),
-            ADMITS_BY_DEADLINE = new Property("role", INT, POSITIVE_NUMBER);
+            TOTAL_BEDS = new Property("username", STRING, POSITIVE_NUMBER),
+            AVAILABLE_BEDS = new Property("lastName", STRING, POSITIVE_NUMBER),
+            POTENTIAL_DC = new Property("email", STRING, POSITIVE_NUMBER),
+            TOTAL_ADMITS = new Property("phone", STRING, POSITIVE_NUMBER),
+            DC_BY_DEADLINE = new Property("permission", STRING, POSITIVE_NUMBER),
+            ADMITS_BY_DEADLINE = new Property("role", STRING, POSITIVE_NUMBER);
+
+    private String id, name;
+    private int totalBeds, availableBeds, potentialDc, totalAdmits, dcByDeadline, admitsByDeadline;
 
     static{
         objectProperties = Sets.newHashSet(ID, NAME, TOTAL_BEDS, AVAILABLE_BEDS, AVAILABLE_BEDS, POTENTIAL_DC,
-                TOTAL_ADMITS, TOTAL_ADMITS, DC_BY_DEADLINE, ADMITS_BY_DEADLINE);
+                TOTAL_ADMITS, DC_BY_DEADLINE, ADMITS_BY_DEADLINE);
     }
 
     public Unit(){
@@ -89,5 +92,17 @@ public class Unit extends RtdcObject {
     public void setAdmitsByDeadline(int admitsByDeadline){
         setProperty(ADMITS_BY_DEADLINE, admitsByDeadline);
     }
+
+    public static void fromJson(JSONObject object){
+        id = object.optString("id");
+    }
+
+    public JSONObject toJson(){
+        JSONObject object = new JSONObject();
+        object.put("id", id);
+        return object;
+    }
+
+    public void validate()
 
 }

@@ -1,6 +1,7 @@
 package rtdc.core.controller;
 
 import rtdc.core.event.ErrorEvent;
+import rtdc.core.event.Event;
 import rtdc.core.view.View;
 
 public abstract class Controller<T extends View> implements ErrorEvent.ErrorHandler{
@@ -8,7 +9,7 @@ public abstract class Controller<T extends View> implements ErrorEvent.ErrorHand
     protected final T view;
 
     public Controller(T view){
-        ErrorEvent.subscribe(this);
+        Event.subscribe(ErrorEvent.TYPE, this);
         this.view = view;
     }
 
