@@ -183,31 +183,31 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
             Unit currentUnit = units.get(position);
 
             int status = currentUnit.getAvailableBeds() + currentUnit.getDcByDeadline() - currentUnit.getAdmitsByDeadline();
-            Logger logger = Logger.getLogger("yolo");
-            logger.log(Level.INFO, "yolo");
+           // Logger logger = Logger.getLogger("yolo");
+            //logger.log(Level.INFO, currentUnit.getName());
 
             TextView unitName = (TextView) view.findViewById(R.id.unitName);
             unitName.setText(currentUnit.getName());
 
             EditText availableBeds = (EditText) view.findViewById(R.id.availableBeds);
             availableBeds.setText(Integer.toString(currentUnit.getAvailableBeds()));
-            availableBeds.setTag(currentUnit.getId()+":"+1);
+            availableBeds.setTag(currentUnit.getName()+":"+1);
 
             EditText potentialDC = (EditText) view.findViewById(R.id.potentialDC);
             potentialDC.setText(Integer.toString(currentUnit.getPotentialDc()));
-            potentialDC.setTag(currentUnit.getId()+":"+2);
+            potentialDC.setTag(currentUnit.getName()+":"+2);
 
             EditText DCByDeadline = (EditText) view.findViewById(R.id.DCByDeadline);
             DCByDeadline.setText(Integer.toString(currentUnit.getDcByDeadline()));
-            DCByDeadline.setTag(currentUnit.getId()+":"+3);
+            DCByDeadline.setTag(currentUnit.getName()+":"+3);
 
             EditText totalAdmits = (EditText) view.findViewById(R.id.totalAdmits);
             totalAdmits.setText(Integer.toString(currentUnit.getTotalAdmits()));
-            totalAdmits.setTag(currentUnit.getId()+":"+4);
+            totalAdmits.setTag(currentUnit.getName()+":"+4);
 
             EditText admitsByDeadline = (EditText) view.findViewById(R.id.admitsByDeadline);
             admitsByDeadline.setText(Integer.toString(currentUnit.getAdmitsByDeadline()));
-            admitsByDeadline.setTag(currentUnit.getId()+":"+5);
+            admitsByDeadline.setTag(currentUnit.getName()+":"+5);
             
             TextView statusAtDeadline = (TextView) view.findViewById(R.id.statusAtDeadline);
             statusAtDeadline.setText(Integer.toString(status));
@@ -275,7 +275,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         Random rand = new Random();
         for(int i = 0; i < x; i++) {
             Unit sampleUnit = new Unit();
-            sampleUnit.setName((rand.nextInt((15 - 0) + 1)+"E").toString());
+            sampleUnit.setName((i+1)+"E".toString());
             sampleUnit.setAvailableBeds(rand.nextInt((15 - 0) + 1) + 0);
             sampleUnit.setPotentialDc(rand.nextInt((15 - 0) + 1) + 0);
             sampleUnit.setDcByDeadline(rand.nextInt((15 - 0) + 1) + 0);
@@ -313,8 +313,12 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
 
             Unit unit = null;
             for (Unit u : units) {
-                if (u.getId() == Integer.parseInt(tag[0])) {
+                //if (u.getId() == Integer.parseInt(tag[0])) {
+                Logger logger = Logger.getLogger("yolo");
+                logger.log(Level.INFO, u.getName()+" == "+tag[0]+"?");
+                if (u.getName().equals(tag[0])) {
                     unit = u;
+                    logger.log(Level.INFO, "Yes!!");
                     break;
                 }
             }
@@ -324,6 +328,8 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
             switch (Integer.parseInt(tag[1])) {
                 case 1:
                     if(value != unit.getAvailableBeds()) unit.setAvailableBeds(value);
+                    Logger logger = Logger.getLogger("sdf");
+                    logger.log(Level.INFO, "Changed column "+tag[1]+" for unit "+tag[0]+" with value "+value);
                     break;
                 case 2:
                     if(value != unit.getPotentialDc()) unit.setPotentialDc(value);

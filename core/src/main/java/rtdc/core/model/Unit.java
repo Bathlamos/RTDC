@@ -32,9 +32,7 @@ public class Unit extends JSONObject {
     @Id
     @GeneratedValue
     @Column(name = ID)
-    public int getId(){
-        return optInt(ID);
-    }
+    public int getId() { return optInt(ID); }
     public void setId(int id){
         put(ID, id);
     }
