@@ -3,6 +3,7 @@ package rtdc.android.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,17 +14,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import org.apache.log4j.lf5.LogLevel;
 import rtdc.android.MyActivity;
 import rtdc.android.R;
 import rtdc.core.controller.UnitListController;
+import rtdc.core.impl.NumberAwareStringComparator;
 import rtdc.core.model.Unit;
 import rtdc.core.view.UnitListView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class CapacityOverviewActivity extends Activity implements UnitListView{
+public class CapacityOverviewActivity extends Activity implements UnitListView {
 
     List<Unit> units = new ArrayList<Unit>();
     ListView unitListView;
@@ -40,10 +43,77 @@ public class CapacityOverviewActivity extends Activity implements UnitListView{
         setContentView(R.layout.activity_capacity_overview);
 
         controller = new UnitListController(this);
-
         context = this.getBaseContext();
-
         unitListView = (ListView) findViewById(R.id.CapacityListView);
+
+        // Comment this out when connected to server ------
+        addUnits(5);
+        adapter = new UnitListAdapter();
+        ((AdapterView)unitListView).setAdapter(adapter);
+        // ------------------------------------------------
+
+        TextView unitNameHeader = (TextView) findViewById(R.id.unitNameHeader);
+        unitNameHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(units, new NumberAwareStringComparator());
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        TextView availableBedsHeader = (TextView) findViewById(R.id.availableBedsHeader);
+        availableBedsHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(units, Unit.availableBedsComparator);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        TextView potentialDCHeader = (TextView) findViewById(R.id.potentialDCHeader);
+        potentialDCHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(units, Unit.potentialDcComparator);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        TextView DCByDeadlineHeader = (TextView) findViewById(R.id.DCByDeadlineHeader);
+        DCByDeadlineHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(units, Unit.dcByDeadlineComparator);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        TextView totalAdmitsHeader = (TextView) findViewById(R.id.totalAdmitsHeader);
+        totalAdmitsHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(units, Unit.totalAdmitsComparator);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        TextView admitsByDeadlineHeader = (TextView) findViewById(R.id.admitsByDeadlineHeader);
+        admitsByDeadlineHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(units, Unit.admitsByDeadlineComparator);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        TextView statusAtDeadlineHeader = (TextView) findViewById(R.id.statusAtDeadlineHeader);
+        statusAtDeadlineHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Collections.sort(units, Unit.statusAtDeadlineComparator);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -113,24 +183,32 @@ public class CapacityOverviewActivity extends Activity implements UnitListView{
             Unit currentUnit = units.get(position);
 
             int status = currentUnit.getAvailableBeds() + currentUnit.getDcByDeadline() - currentUnit.getAdmitsByDeadline();
+            Logger logger = Logger.getLogger("yolo");
+            logger.log(Level.INFO, "yolo");
 
             TextView unitName = (TextView) view.findViewById(R.id.unitName);
             unitName.setText(currentUnit.getName());
+
             EditText availableBeds = (EditText) view.findViewById(R.id.availableBeds);
             availableBeds.setText(Integer.toString(currentUnit.getAvailableBeds()));
-            availableBeds.setTag(position+":"+1);
+            availableBeds.setTag(currentUnit.getId()+":"+1);
+
             EditText potentialDC = (EditText) view.findViewById(R.id.potentialDC);
             potentialDC.setText(Integer.toString(currentUnit.getPotentialDc()));
-            potentialDC.setTag(position+":"+2);
+            potentialDC.setTag(currentUnit.getId()+":"+2);
+
             EditText DCByDeadline = (EditText) view.findViewById(R.id.DCByDeadline);
             DCByDeadline.setText(Integer.toString(currentUnit.getDcByDeadline()));
-            DCByDeadline.setTag(position+":"+3);
+            DCByDeadline.setTag(currentUnit.getId()+":"+3);
+
             EditText totalAdmits = (EditText) view.findViewById(R.id.totalAdmits);
             totalAdmits.setText(Integer.toString(currentUnit.getTotalAdmits()));
-            totalAdmits.setTag(position+":"+4);
+            totalAdmits.setTag(currentUnit.getId()+":"+4);
+
             EditText admitsByDeadline = (EditText) view.findViewById(R.id.admitsByDeadline);
             admitsByDeadline.setText(Integer.toString(currentUnit.getAdmitsByDeadline()));
-            admitsByDeadline.setTag(position+":"+5);
+            admitsByDeadline.setTag(currentUnit.getId()+":"+5);
+            
             TextView statusAtDeadline = (TextView) view.findViewById(R.id.statusAtDeadline);
             statusAtDeadline.setText(Integer.toString(status));
 
@@ -179,9 +257,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView{
             }
 
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             public void afterTextChanged(Editable editable) {
                 String value = editable.toString();
@@ -192,6 +268,20 @@ public class CapacityOverviewActivity extends Activity implements UnitListView{
 
                 }
             }
+        }
+    }
+
+    private void addUnits(int x) {
+        Random rand = new Random();
+        for(int i = 0; i < x; i++) {
+            Unit sampleUnit = new Unit();
+            sampleUnit.setName((rand.nextInt((15 - 0) + 1)+"E").toString());
+            sampleUnit.setAvailableBeds(rand.nextInt((15 - 0) + 1) + 0);
+            sampleUnit.setPotentialDc(rand.nextInt((15 - 0) + 1) + 0);
+            sampleUnit.setDcByDeadline(rand.nextInt((15 - 0) + 1) + 0);
+            sampleUnit.setTotalAdmits(rand.nextInt((15 - 0) + 1) + 0);
+            sampleUnit.setAdmitsByDeadline(rand.nextInt((15 - 0) + 1) + 0);
+            this.units.add(sampleUnit);
         }
     }
 
@@ -214,36 +304,21 @@ public class CapacityOverviewActivity extends Activity implements UnitListView{
 
     // Update unit capacities with new values
     private void updateCapacity() {
-        /*
-        View view;
-        EditText etAvailableBeds, etPotentialDC, etDcByDeadline, etTotalAdmits, etAdmitsByDeadline;
-        int availableBeds, potentialDC, dcByDeadline, totalAdmits, admitsByDeadline;
-        for (int i = 0; i < unitListView.getCount(); i++) {
-            view = unitListView.getAdapter().getView(i, null, null);
-            etAvailableBeds = (EditText) view.findViewById(R.id.availableBeds);
-            availableBeds = Integer.parseInt(etAvailableBeds.getText().toString());
-            etPotentialDC = (EditText) view.findViewById(R.id.potentialDC);
-            potentialDC = Integer.parseInt(etPotentialDC.getText().toString());
-            etDcByDeadline = (EditText) view.findViewById(R.id.DCByDeadline);
-            dcByDeadline = Integer.parseInt(etDcByDeadline.getText().toString());
-            etTotalAdmits = (EditText) view.findViewById(R.id.totalAdmits);
-            totalAdmits = Integer.parseInt(etTotalAdmits.getText().toString());
-            etAdmitsByDeadline = (EditText) view.findViewById(R.id.admitsByDeadline);
-            admitsByDeadline = Integer.parseInt(etAdmitsByDeadline.getText().toString());
-            if(availableBeds != units.get(i).getAvailableBeds()) units.get(i).setAvailableBeds(availableBeds);
-            if(potentialDC != units.get(i).getPotentialDc()) units.get(i).setPotentialDc(potentialDC);
-            if(dcByDeadline != units.get(i).getDcByDeadline()) units.get(i).setDcByDeadline(dcByDeadline);
-            if(totalAdmits != units.get(i).getTotalAdmits()) units.get(i).setTotalAdmits(totalAdmits);
-            if(admitsByDeadline != units.get(i).getAdmitsByDeadline()) units.get(i).setAdmitsByDeadline(admitsByDeadline);
-            Toast.makeText(this, units.get(i).getAvailableBeds() + " changed for " + availableBeds, Toast.LENGTH_SHORT).show();
-        }*/
+
         String[] tag;
-        Unit unit;
         int value;
 
         for (HashMap.Entry<String, Integer> capacity : capacityValues.entrySet()) {
             tag = capacity.getKey().split(":");
-            unit = units.get(Integer.parseInt(tag[0]));
+
+            Unit unit = null;
+            for (Unit u : units) {
+                if (u.getId() == Integer.parseInt(tag[0])) {
+                    unit = u;
+                    break;
+                }
+            }
+
             value = capacity.getValue();
 
             switch (Integer.parseInt(tag[1])) {

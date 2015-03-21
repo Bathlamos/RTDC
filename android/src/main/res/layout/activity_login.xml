@@ -44,7 +44,7 @@
                         android:maxLines="1"
                         android:singleLine="true"/>
 
-                <EditText
+                <rtdc.android.impl.AndroidTextValidationWidget
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

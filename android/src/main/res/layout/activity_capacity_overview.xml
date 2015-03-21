@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
     <LinearLayout
             android:orientation="horizontal"
@@ -17,10 +17,12 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Unit Name"
-                android:id="@+id/unitName"
+                android:id="@+id/unitNameHeader"
+                android:onClick="onClick"
+                android:clickable="true"
                 android:layout_weight="3" android:textStyle="bold" android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp" android:background="@android:color/transparent"
-                android:gravity="center" android:textColor="#ff062f4f"/>
+                android:gravity="center" android:textColor="#ff062f4f" android:textSize="18dp"/>
 
         <Space
                 android:layout_width="0dp"
@@ -32,10 +34,12 @@
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Available&#10;Beds"
-                android:id="@+id/availableBeds"
+                android:id="@+id/availableBedsHeader"
+                android:onClick="onClick"
+                android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:enabled="false" android:background="@android:color/transparent"
-                android:textStyle="italic" android:gravity="center"/>
+                android:textColor="#ff062f4f" android:background="@android:color/transparent"
+                android:textStyle="italic" android:gravity="center" android:textSize="14dp"/>
 
         <Space
                 android:layout_width="0dp"
@@ -46,11 +50,13 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Potential&#10;Discharge"
-                android:id="@+id/potentialDC"
+                android:text="Potential&#10;DC"
+                android:id="@+id/potentialDCHeader"
+                android:onClick="onClick"
+                android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:enabled="false" android:background="@android:color/transparent"
-                android:textStyle="italic" android:gravity="center"/>
+                android:textColor="#ff062f4f" android:background="@android:color/transparent"
+                android:textStyle="italic" android:gravity="center" android:textSize="14dp"/>
 
         <Space
                 android:layout_width="0dp"
@@ -62,11 +68,13 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="DC By&#10;Deadline"
-                android:id="@+id/DCByDeadline"
+                android:text="DC By 2PM"
+                android:id="@+id/DCByDeadlineHeader"
+                android:onClick="onClick"
+                android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:enabled="false" android:background="@android:color/transparent"
-                android:textStyle="italic" android:gravity="center"/>
+                android:textColor="#ff062f4f" android:background="@android:color/transparent"
+                android:textStyle="italic" android:gravity="center" android:textSize="14dp"/>
 
         <Space
                 android:layout_width="0dp"
@@ -77,11 +85,13 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Total&#10;Admits"
-                android:id="@+id/totalAdmits"
+                android:text="Total Admits"
+                android:id="@+id/totalAdmitsHeader"
+                android:onClick="onClick"
+                android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:enabled="false" android:background="@android:color/transparent"
-                android:textStyle="italic" android:gravity="center"/>
+                android:textColor="#ff062f4f" android:background="@android:color/transparent"
+                android:textStyle="italic" android:gravity="center" android:textSize="14dp"/>
 
         <Space
                 android:layout_width="0dp"
@@ -92,11 +102,13 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Admits By&#10;Deadline"
-                android:id="@+id/admitsByDeadline"
+                android:text="Admits by 2PM"
+                android:id="@+id/admitsByDeadlineHeader"
+                android:onClick="onClick"
+                android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:enabled="false" android:background="@android:color/transparent"
-                android:textStyle="italic" android:gravity="center"/>
+                android:textColor="#ff062f4f" android:background="@android:color/transparent"
+                android:textStyle="italic" android:gravity="center" android:textSize="14dp"/>
 
         <Space
                 android:layout_width="0dp"
@@ -107,11 +119,13 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Status At&#10;Deadline"
-                android:id="@+id/statusAtDeadline"
+                android:text="Status at 2PM"
+                android:id="@+id/statusAtDeadlineHeader"
+                android:onClick="onClick"
+                android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:enabled="false" android:background="@android:color/transparent"
-                android:textStyle="italic" android:gravity="center"/>
+                android:textColor="#ff062f4f" android:background="@android:color/transparent"
+                android:textStyle="italic" android:gravity="center" android:textSize="14dp"/>
 
         <Space
                 android:layout_width="0dp"

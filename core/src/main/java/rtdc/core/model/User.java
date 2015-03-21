@@ -1,100 +1,128 @@
 package rtdc.core.model;
 
+import rtdc.core.json.JSONArray;
+import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
-import java.util.Map;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Set;
 
-public class User extends RtdcObject {
-
-    protected JSONObject jsonObject = new JSONObject();
+@Entity
+@Table(name = "users")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+public class User extends JSONObject implements Serializable{
 
     public static final String ID = "user_id",
             USERNAME = "username",
-            LAST_NAME = "lastName",
+            SURNAME = "surname",
             EMAIL = "email",
             PHONE = "phone",
-            FIRST_NAME = "firstName",
+            FIRSTNAME = "firstname",
             PERMISSION = "permission",
             ROLE = "role",
             UNIT = "unit",
             AUTH_TOKEN = "authenticationToken";
 
-    public int getId(){
-        return jsonObject.optInt(ID);
-    }
-    public void setId(int id){jsonObject.put(ID, id);}
+    private String authenticationToken;
 
+    public User(){}
+
+    public User(String json) throws JSONException{
+        super(json);
+    }
+
+    @Id
+    @GeneratedValue
+    @Column(name = ID)
+    public int getId(){
+        return optInt(ID);
+    }
+    public void setId(int id){put(ID, id);}
+
+    @NotNull
+    @Size(min=1)
+    @Column(name = USERNAME, unique = true, nullable = false)
     public String getUsername(){
-        return jsonObject.optString(USERNAME);
+        return optString(USERNAME);
     }
     public void setUsername(String username){
-        jsonObject.put(USERNAME, username);
+        put(USERNAME, username);
     }
 
-    public String getLastName(){
-        return jsonObject.optString(LAST_NAME);
+    @NotNull
+    @Size(min=1)
+    @Column(name = SURNAME)
+    public String getSurname(){
+        return optString(SURNAME);
     }
-    public void setLastName(String lastName){
-        jsonObject.put(LAST_NAME, lastName);
+    public void setSurname(String surname){
+        put(SURNAME, surname);
     }
 
+    @NotNull
+    @Size(min=1)
+    @Column(name = FIRSTNAME)
     public String getFirstName(){
-        return jsonObject.optString(FIRST_NAME);
+        return optString(FIRSTNAME);
     }
     public void setFirstName(String firstName){
-        jsonObject.put(FIRST_NAME, firstName);
+        put(FIRSTNAME, firstName);
     }
 
+    @Column(name = EMAIL)
+    @Pattern(regexp = ".+@.+\\.[a-z]+")
     public String getEmail(){
-        return jsonObject.optString(EMAIL);
+        return optString(EMAIL);
     }
     public void setEmail(String email){
-        jsonObject.put(EMAIL, email);
+        put(EMAIL, email);
     }
 
+    @Column(name = PHONE)
     public long getPhone(){
-        return jsonObject.optLong(PHONE);
+        return optLong(PHONE);
     }
     public void setPhone(long phone){
-        jsonObject.put(PHONE, phone);
+        put(PHONE, phone);
     }
 
+    @NotNull
+    @Size(min=1)
+    @Column(name = PERMISSION)
     public String getPermission(){
-        return jsonObject.optString(PERMISSION);
+        return optString(PERMISSION);
     }
     public void setPermission(String permission){
-        jsonObject.put(PERMISSION, permission);
+        put(PERMISSION, permission);
     }
 
+    @NotNull
+    @Size(min=1)
+    @Column(name = ROLE)
     public String getRole(){
-        return jsonObject.optString(ROLE);
+        return optString(ROLE);
     }
     public void setRole(String role){
-        jsonObject.put(ROLE, role);
+        put(ROLE, role);
     }
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = true, targetEntity = Unit.class)
     public Unit getUnit() {
-        return (Unit) jsonObject.optJSONObject(UNIT);
+        return (Unit) optJSONObject(UNIT);
     }
     public void setUnit(Unit unit) {
-        jsonObject.put(UNIT, unit);
+        put(UNIT, unit);
     }
 
+    @Transient
     public String getAuthenticationToken() {
-        return jsonObject.optString(AUTH_TOKEN);
+        return optString(AUTH_TOKEN);
     }
     public void setAuthenticationToken(String authenticationToken) {
-        jsonObject.put(AUTH_TOKEN, authenticationToken);
-    }
-
-    @Override
-    public Set<String> validateProperty(String property) {
-        return null;
-    }
-
-    @Override
-    public Map<String, String> validateAll() {
-        return null;
+        put(AUTH_TOKEN, authenticationToken);
     }
 }

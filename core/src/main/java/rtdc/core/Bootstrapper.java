@@ -12,5 +12,4 @@ public class Bootstrapper {
         Bootstrapper.FACTORY = factory;
     }
 
-    //void lol(){}
 }

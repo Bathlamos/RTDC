@@ -26,5 +26,7 @@
     </content>
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="persistence-api-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="validation-api-1.0.0.GA" level="project" />
   </component>
 </module>

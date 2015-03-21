@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import rtdc.android.R;
 import rtdc.core.controller.AddUserController;
+import rtdc.core.model.User;
 import rtdc.core.view.AddUserView;
 
 import java.lang.reflect.Field;
@@ -62,6 +64,20 @@ public class CreateUserActivity extends Activity implements AddUserView {
         }
         catch (Exception e) {
             // presumably, not relevant
+        }
+
+        Intent intent = getIntent();
+        String userJson = intent.getStringExtra("user");
+
+        if (userJson != null) {
+            User user = new User(userJson);
+            setUsernameAsString(user.getUsername());
+            setEmailAsString(user.getEmail());
+            setFirstnameAsString(user.getFirstName());
+            setSurnameAsString(user.getSurname());
+            setPhoneAsLong(user.getPhone());
+            setRoleAsString(user.getRole());
+            setPermissionAsString(user.getPermission());
         }
 
         controller = new AddUserController(this);
@@ -145,6 +161,12 @@ public class CreateUserActivity extends Activity implements AddUserView {
     public void setEmailAsString(String value) {
         emailEdit.setText(value);
     }
+
+    @Override
+    public long getPhoneAsLong() { return Long.parseLong(phoneEdit.getText().toString()); }
+
+    @Override
+    public void setPhoneAsLong(long value) { phoneEdit.setText((new Long(value)).toString());   }
 
     @Override
     public String getRoleAsString() {

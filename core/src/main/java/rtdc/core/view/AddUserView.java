@@ -17,6 +17,9 @@ public interface AddUserView extends View {
     String getEmailAsString();
     void setEmailAsString(String value);
 
+    long getPhoneAsLong();
+    void setPhoneAsLong(long value);
+
     String getRoleAsString();
     void setRoleAsString(String value);
 

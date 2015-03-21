@@ -8,6 +8,7 @@ import rtdc.core.service.Service;
 import rtdc.core.view.AddUserView;
 import rtdc.core.view.LoginView;
 
+import javax.validation.ConstraintViolation;
 import java.util.Set;
 
 public class AddUserController {
@@ -23,7 +24,7 @@ public class AddUserController {
         User newUser = new User();
         newUser.setUsername(view.getUsernameAsString());
         newUser.setFirstName(view.getFirstnameAsString());
-        newUser.setLastName(view.getSurnameAsString());
+        newUser.setSurname(view.getSurnameAsString());
         newUser.setEmail(view.getEmailAsString());
         newUser.setPermission(view.getPermissionAsString());
         newUser.setRole(view.getRoleAsString());

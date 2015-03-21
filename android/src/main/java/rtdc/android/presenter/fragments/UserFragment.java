@@ -1,6 +1,7 @@
 package rtdc.android.presenter.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import rtdc.android.R;
 
+import rtdc.android.presenter.CreateUserActivity;
 import rtdc.core.controller.UserListController;
 import rtdc.core.model.User;
 import rtdc.core.view.UserListView;
@@ -122,7 +124,9 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
             User user = (User) mAdapter.getItem(position);
-            Toast.makeText(getActivity(), user.getUsername() + " Clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this.getActivity(), CreateUserActivity.class);
+            intent.putExtra("user", user.toString());
+            startActivity(intent);
         }
     }
 

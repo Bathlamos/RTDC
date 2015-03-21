@@ -58,7 +58,7 @@ public class UserService {
         //AuthService.hasRole(req, ADMIN);
         User user = new User(userString);
 
-        if(password == null || password.isEmpty() || password.length() < 4)
+        if(password == null || password == "" || password.length() < 4)
             throw new InvalidParameterException("Password must be longer than 4 characters");
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         Transaction transaction = null;
