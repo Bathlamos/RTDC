@@ -1,25 +1,28 @@
 package rtdc.core.event;
 
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.DataType;
-import rtdc.core.model.ObjectType;
-import rtdc.core.model.Property;
-import rtdc.core.model.Unit;
+import rtdc.core.model.*;
 
 public class FetchUnitsEvent extends Event {
 
-    public static final ObjectType<FetchUnitsEvent> TYPE = ObjectType.build("fetchUnitsEvent", FetchUnitsEvent.class);
-    public interface FetchUnitsHandler extends EventHandler{ public void onUnitsFetched(FetchUnitsEvent event);}
+    public static final DataType<FetchUnitsEvent> TYPE = DataType.extend(RtdcObject.TYPE, "fetchUnitsEvent",
+            FetchUnitsEvent.class,
+            new Field("units", Array.TYPE, Unit.TYPE));
 
-    public static final Property UNITS = new Property("units", DataType.USER);
+    public interface FetchUnitsHandler extends EventHandler<FetchUnitsEvent>{ public void onUnitsFetched(FetchUnitsEvent event);}
 
     public FetchUnitsEvent(Unit[] units){
         this(new JSONObject("{}"));
-        setProperty(UNITS, units);
+        setProperty("units", units);
     }
 
     public FetchUnitsEvent(JSONObject jsonObject){
-        super(TYPE, jsonObject, UNITS);
+        super(jsonObject);
+    }
+
+    @Override
+    public DataType getType() {
+        return TYPE;
     }
 
     @Override
@@ -30,6 +33,6 @@ public class FetchUnitsEvent extends Event {
     }
 
     public Unit[] getUnits() {
-        return getProperty(UNITS);
+        return (Unit[]) getProperty("units");
     }
 }

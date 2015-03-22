@@ -1,36 +1,43 @@
 package rtdc.core.event;
 
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.ObjectType;
+import rtdc.core.model.DataType;
+import rtdc.core.model.Field;
+import rtdc.core.model.RtdcObject;
 import rtdc.core.model.User;
-import rtdc.core.model.Property;
-
-import static rtdc.core.model.DataType;
 
 public class AuthenticationEvent extends Event<AuthenticationEvent.AuthenticationHandler> {
 
-    public static final ObjectType<AuthenticationHandler> TYPE = ObjectType.build("authentication");
-    public interface AuthenticationHandler extends EventHandler{ public void onAuthenticate(AuthenticationEvent event);}
+    public static final DataType<AuthenticationEvent> TYPE = DataType.extend(RtdcObject.TYPE, "authentication",
+            AuthenticationEvent.class,
+            new Field("user", User.TYPE),
+            new Field("auth_token", DataType.STRING));
 
-    public static final Property USER = new Property("user", DataType.USER),
-            AUTH_TOKEN = new Property("auth_token", DataType.STRING);
+    public interface AuthenticationHandler extends EventHandler<AuthenticationEvent>{
+        public void onAuthenticate(AuthenticationEvent event);
+    }
 
     public AuthenticationEvent(User user, String authenticationToken){
         this(new JSONObject("{}"));
-        setProperty(USER, user);
-        setProperty(AUTH_TOKEN, authenticationToken);
+        setProperty("user", user);
+        setProperty("auth_token", authenticationToken);
     }
 
     public AuthenticationEvent(JSONObject jsonObject){
-        super(TYPE, jsonObject, USER, AUTH_TOKEN);
+        super(jsonObject);
+    }
+
+    @Override
+    public DataType getType() {
+        return TYPE;
     }
 
     public User getUser(){
-        return (User) getProperty(USER);
+        return (User) getProperty("user");
     }
 
     public String getAuthenticationToken(){
-        return (String) getProperty(AUTH_TOKEN);
+        return (String) getProperty("auth_token");
     }
 
     void fire() {

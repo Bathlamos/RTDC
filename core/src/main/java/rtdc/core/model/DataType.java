@@ -19,7 +19,7 @@ public class DataType<T> {
     private final ImmutableSet<Field> fields;
 
     DataType(String name, Class<T> clazz, Field... fields){
-        this(false, name, clazz);
+        this(false, name, clazz, fields);
     }
 
     DataType(boolean isPrimitive, String name, Class<T> clazz, Field... fields){
