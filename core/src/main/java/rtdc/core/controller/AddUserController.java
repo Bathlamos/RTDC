@@ -37,7 +37,7 @@ public class AddUserController extends Controller<AddUserView> implements Update
 //            Service.updateOrSaveUser(newUser, password);
 //        else {
 //            RtdcObject.Property p = violations.keys().iterator().next();
-//            view.displayError("Error", p.getPropertyName() + " : " + violations.get(p).iterator().next());
+//            view.displayError("Error", p.getName() + " : " + violations.get(p).iterator().next());
 //        }
     }
 

@@ -1,108 +1,89 @@
 package rtdc.core.model;
 
-import com.google.common.collect.Sets;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 
-import java.util.Set;
-import static rtdc.core.model.Property.DataType.*;
-import static rtdc.core.model.Property.ValidationConstraint.*;
+import static rtdc.core.model.DataType.*;
+import static rtdc.core.model.ValidationConstraint.*;
 
 public class Unit extends RtdcObject {
 
-    private static Set<Property> objectProperties;
-
-    public static final Property ID = new Property("unit_id", INT),
-            NAME = new Property("name", STRING),
-            TOTAL_BEDS = new Property("username", STRING, POSITIVE_NUMBER),
-            AVAILABLE_BEDS = new Property("lastName", STRING, POSITIVE_NUMBER),
-            POTENTIAL_DC = new Property("email", STRING, POSITIVE_NUMBER),
-            TOTAL_ADMITS = new Property("phone", STRING, POSITIVE_NUMBER),
-            DC_BY_DEADLINE = new Property("permission", STRING, POSITIVE_NUMBER),
-            ADMITS_BY_DEADLINE = new Property("role", STRING, POSITIVE_NUMBER);
-
-    private String id, name;
-    private int totalBeds, availableBeds, potentialDc, totalAdmits, dcByDeadline, admitsByDeadline;
-
-    static{
-        objectProperties = Sets.newHashSet(ID, NAME, TOTAL_BEDS, AVAILABLE_BEDS, AVAILABLE_BEDS, POTENTIAL_DC,
-                TOTAL_ADMITS, DC_BY_DEADLINE, ADMITS_BY_DEADLINE);
-    }
+    public static final DataType<Unit> TYPE = DataType.extend(RtdcObject.TYPE, "unit", Unit.class,
+            new Field("unit_id", INT),
+            new Field("name", STRING),
+            new Field("totalBeds", INT, POSITIVE_NUMBER),
+            new Field("availableBeds", INT, POSITIVE_NUMBER),
+            new Field("potentialDc", INT, POSITIVE_NUMBER),
+            new Field("dcByDeadline", INT, POSITIVE_NUMBER),
+            new Field("totalAdmits", INT, POSITIVE_NUMBER),
+            new Field("admitsByDeadline", INT, POSITIVE_NUMBER));
 
     public Unit(){
-        super(objectProperties);
     }
 
     public Unit(JSONObject jsonObject) throws JSONException{
-        super(objectProperties, jsonObject);
+        super(jsonObject);
+    }
+
+    @Override
+    public DataType getType() {
+        return TYPE;
     }
 
     public String getId(){
-        return (String) getProperty(ID);
+        return (String) getProperty("unit_id");
     }
     public void setId(String id){
-        setProperty(ID, id);
+        setProperty("unit_id", id);
     }
 
     public String getName(){
-        return (String) getProperty(NAME);
+        return (String) getProperty("name");
     }
     public void setName(String name){
-        setProperty(NAME, name);
+        setProperty("name", name);
     }
 
     public int getTotalBeds(){
-        return (Integer) getProperty(TOTAL_BEDS);
+        return (Integer) getProperty("totalBeds");
     }
     public void setTotalBeds(int totalBeds){
-        setProperty(TOTAL_BEDS, totalBeds);
+        setProperty("totalBeds", totalBeds);
     }
 
     public int getAvailableBeds(){
-        return (Integer) getProperty(AVAILABLE_BEDS);
+        return (Integer) getProperty("availableBeds");
     }
     public void setAvailableBeds(int availableBeds){
-        setProperty(AVAILABLE_BEDS, availableBeds);
+        setProperty("availableBeds", availableBeds);
     }
 
     public int getPotentialDc(){
-        return (Integer) getProperty(POTENTIAL_DC);
+        return (Integer) getProperty("potentialDc");
     }
     public void setPotentialDc(int potentialDc){
-        setProperty(POTENTIAL_DC, potentialDc);
+        setProperty("potentialDc", potentialDc);
     }
 
     public int getDcByDeadline(){
-        return (Integer) getProperty(DC_BY_DEADLINE);
+        return (Integer) getProperty("dcByDeadline");
     }
     public void setDcByDeadline(int dcByDeadline){
-        setProperty(DC_BY_DEADLINE, dcByDeadline);
+        setProperty("dcByDeadline", dcByDeadline);
     }
 
     public int getTotalAdmits(){
-        return (Integer) getProperty(TOTAL_ADMITS);
+        return (Integer) getProperty("totalAdmits");
     }
     public void setTotalAdmits(int totalAdmit){
-        setProperty(TOTAL_ADMITS, totalAdmit);
+        setProperty("totalAdmits", totalAdmit);
     }
 
     public int getAdmitsByDeadline(){
-        return (Integer) getProperty(ADMITS_BY_DEADLINE);
+        return (Integer) getProperty("admitsByDeadline");
     }
     public void setAdmitsByDeadline(int admitsByDeadline){
-        setProperty(ADMITS_BY_DEADLINE, admitsByDeadline);
+        setProperty("admitsByDeadline", admitsByDeadline);
     }
-
-    public static void fromJson(JSONObject object){
-        id = object.optString("id");
-    }
-
-    public JSONObject toJson(){
-        JSONObject object = new JSONObject();
-        object.put("id", id);
-        return object;
-    }
-
-    public void validate()
 
 }

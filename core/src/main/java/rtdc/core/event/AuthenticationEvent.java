@@ -1,14 +1,15 @@
 package rtdc.core.event;
 
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.ObjectType;
 import rtdc.core.model.User;
 import rtdc.core.model.Property;
 
-import static rtdc.core.model.Property.DataType;
+import static rtdc.core.model.DataType;
 
 public class AuthenticationEvent extends Event<AuthenticationEvent.AuthenticationHandler> {
 
-    public static final EventType<AuthenticationHandler> TYPE = EventType.build("authentication");
+    public static final ObjectType<AuthenticationHandler> TYPE = ObjectType.build("authentication");
     public interface AuthenticationHandler extends EventHandler{ public void onAuthenticate(AuthenticationEvent event);}
 
     public static final Property USER = new Property("user", DataType.USER),

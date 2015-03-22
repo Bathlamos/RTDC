@@ -2,12 +2,13 @@ package rtdc.core.event;
 
 import rtdc.core.json.JSONObject;
 
+import rtdc.core.model.ObjectType;
 import rtdc.core.model.Property;
-import rtdc.core.model.Property.DataType;
+import rtdc.core.model.DataType;
 
-public class ErrorEvent extends Event<ErrorEvent.ErrorHandler> {
+public class ErrorEvent extends Event {
 
-    public static final EventType<ErrorHandler> TYPE = EventType.build("error");
+    public static final ObjectType<ErrorEvent> TYPE = ObjectType.build("error", ErrorEvent.class);
     public interface ErrorHandler extends EventHandler{ public void onError(ErrorEvent event);}
 
     public static final Property DESCRIPTION = new Property("description", DataType.STRING);

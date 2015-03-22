@@ -5,95 +5,92 @@ import rtdc.core.json.JSONObject;
 
 import java.util.Set;
 
-import rtdc.core.model.Property.DataType;
-import static rtdc.core.model.Property.DataType.*;
-import static rtdc.core.model.Property.ValidationConstraint.*;
+import static rtdc.core.model.DataType.*;
+import static rtdc.core.model.ValidationConstraint.*;
 
 public class User extends RtdcObject {
 
-    private static Set<Property> objectProperties;
-
-    public static final Property ID = new Property("user_id", INT),
-            USERNAME = new Property("username", STRING, NOT_EMPTY),
-            FIRST_NAME = new Property("firstName", STRING, NOT_EMPTY),
-            LAST_NAME = new Property("lastName", STRING, NOT_EMPTY),
-            EMAIL = new Property("email", STRING, NOT_EMPTY, REGEX_EMAIL),
-            PHONE = new Property("phone", LONG),
-            PERMISSION = new Property("permission", STRING),
-            ROLE = new Property("role", STRING),
-            UNIT = new Property("unit", DataType.UNIT, NOT_NULL),
-            AUTH_TOKEN = new Property("authenticationToken", STRING);
-
-    static{
-        objectProperties = Sets.newHashSet(ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PHONE, PERMISSION, ROLE, UNIT, AUTH_TOKEN);
-    }
+    public static final DataType<User> TYPE = DataType.extend(RtdcObject.TYPE, "user", User.class,
+            new Field("user_id", INT),
+            new Field("username", STRING, NOT_EMPTY),
+            new Field("firstName", STRING, NOT_EMPTY),
+            new Field("lastName", STRING, NOT_EMPTY),
+            new Field("email", STRING, NOT_EMPTY, REGEX_EMAIL),
+            new Field("phone", LONG),
+            new Field("permission", STRING),
+            new Field("role", STRING),
+            new Field("unit", Unit.TYPE, NOT_NULL),
+            new Field("authenticationToken", STRING));
 
     public User(){
-        super(objectProperties);
+    }
+    public User(JSONObject jsonobject){
+        super(jsonobject);
     }
 
-    public User(JSONObject jsonobject){
-        super(objectProperties, jsonobject);
+    @Override
+    public DataType getType() {
+        return TYPE;
     }
 
     public String getId(){
-        return (String) getProperty(ID);
+        return (String) getProperty("user_id");
     }
-    public void setId(String id){setProperty(ID, id);}
+    public void setId(String id){setProperty("user_id", id);}
 
     public String getUsername(){
-        return (String) getProperty(USERNAME);
+        return (String) getProperty("username");
     }
     public void setUsername(String username){
-        setProperty(USERNAME, username);
+        setProperty("username", username);
     }
 
     public String getLastName(){
-        return (String) getProperty(LAST_NAME);
+        return (String) getProperty("lastName");
     }
     public void setLastName(String lastName){
-        setProperty(LAST_NAME, lastName);
+        setProperty("lastName", lastName);
     }
 
     public String getFirstName(){
-        return (String) getProperty(FIRST_NAME);
+        return (String) getProperty("firstName");
     }
     public void setFirstName(String firstName){
-        setProperty(FIRST_NAME, firstName);
+        setProperty("firstName", firstName);
     }
 
     public String getEmail(){
-        return (String) getProperty(EMAIL);
+        return (String) getProperty("email");
     }
     public void setEmail(String email){
-        setProperty(EMAIL, email);
+        setProperty("email", email);
     }
 
     public long getPhone(){
-        return (Long) getProperty(PHONE);
+        return (Long) getProperty("phone");
     }
     public void setPhone(long phone){
-        setProperty(PHONE, phone);
+        setProperty("phone", phone);
     }
 
     public String getPermission(){
-        return (String) getProperty(PERMISSION);
+        return (String) getProperty("permission");
     }
     public void setPermission(String permission){
-        setProperty(PERMISSION, permission);
+        setProperty("permission", permission);
     }
 
     public String getRole(){
-        return (String) getProperty(ROLE);
+        return (String) getProperty("role");
     }
     public void setRole(String role){
-        setProperty(ROLE, role);
+        setProperty("role", role);
     }
 
     public Unit getUnit() {
-        return (Unit) getProperty(UNIT);
+        return (Unit) getProperty("unit");
     }
     public void setUnit(Unit unit) {
-        setProperty(UNIT, unit);
+        setProperty("unit", unit);
     }
 }

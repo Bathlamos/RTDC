@@ -1,19 +1,20 @@
 package rtdc.core.model;
 
-/**
- * Immutable class
- */
-public final class Property{
-    public static enum DataType {BOOLEAN, INT, LONG, STRING, JSON_ARRAY, JSON_OBJECT, UNIT, USER}
-    public static enum ValidationConstraint {NOT_NULL, NOT_EMPTY, REGEX_EMAIL, POSITIVE_NUMBER}
+public class Field {
 
     private final String propertyName;
     private final DataType dataType;
+    private final DataType generics;
     private final ValidationConstraint[] validationConstraints;
 
-    public Property(String propertyName, DataType dataType, ValidationConstraint... validationConstraints){
+    public Field(String propertyName, DataType dataType, ValidationConstraint... validationConstraints){
+        this(propertyName, dataType, null, validationConstraints);
+    }
+
+    public Field(String propertyName, DataType dataType, DataType generics, ValidationConstraint... validationConstraints){
         this.propertyName = propertyName;
         this.dataType = dataType;
+        this.generics = generics;
         if(validationConstraints == null)
             this.validationConstraints = new ValidationConstraint[0];
         else
@@ -23,12 +24,16 @@ public final class Property{
     /**
      * String is immutable, so giving direct references doesn't matter
      */
-    public String getPropertyName() {
+    public String getName() {
         return propertyName;
     }
 
     public DataType getDataType() {
         return dataType;
+    }
+
+    public DataType getGenerics() {
+        return generics;
     }
 
     /**
@@ -42,11 +47,12 @@ public final class Property{
 
     @Override
     public boolean equals(Object obj) {
-        return !(obj instanceof  Property) || getPropertyName().equals(((Property) obj).getPropertyName());
+        return !(obj instanceof  Field) || getName().equals(((Field) obj).getName());
     }
 
     @Override
     public int hashCode() {
-        return getPropertyName().hashCode();
+        return getName().hashCode();
     }
+
 }
