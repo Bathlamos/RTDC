@@ -9,6 +9,10 @@
     <item android:id="@+id/action_go_to_cap_overview"
           android:title="Capacity Overview"
           android:showAsAction="withText"/>
-          />
+
+    <item android:id="@+id/action_go_to_action_plan"
+          android:title="Action Plan"
+          android:showAsAction="withText"/>
+    />
 
 </menu>

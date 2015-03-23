@@ -14,44 +14,47 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import org.apache.log4j.lf5.LogLevel;
 import rtdc.android.MyActivity;
 import rtdc.android.R;
-import rtdc.core.controller.UnitListController;
+import rtdc.core.controller.ActionListController;
 import rtdc.core.impl.NumberAwareStringComparator;
-import rtdc.core.model.Unit;
-import rtdc.core.view.UnitListView;
+import rtdc.core.model.Action;
+import rtdc.core.view.ActionListView;
 
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CapacityOverviewActivity extends Activity implements UnitListView {
+public class ActionPlanActivity extends Activity implements ActionListView {
 
-    List<Unit> units = new ArrayList<Unit>();
-    ListView unitListView;
-    ArrayAdapter<Unit> adapter;
+    List<Action> actions = new ArrayList<Action>();
+    ListView actionListView;
+    ArrayAdapter<Action> adapter;
+    ArrayAdapter<Action> editAdapter;
     Boolean setEditable = false;
-    private UnitListController controller;
-    private HashMap<String, Integer> capacityValues = new HashMap<String, Integer>();
+    private ActionListController controller;
+    private HashMap<String, Integer> actionValues = new HashMap<String, Integer>();
 
     Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_capacity_overview);
+        setContentView(R.layout.activity_action_plan);
 
-        controller = new UnitListController(this);
+        controller = new ActionListController(this);
         context = this.getBaseContext();
-        unitListView = (ListView) findViewById(R.id.CapacityListView);
+        actionListView = (ListView) findViewById(R.id.ActionListView);
 
         // Comment this out when connected to server ------
-        addUnits(5);
-        adapter = new UnitListAdapter();
-        ((AdapterView)unitListView).setAdapter(adapter);
+        addActions(5);
+        adapter = new ActionListAdapter();
+       // editAdapter = new EditActionListAdapter();
+        ((AdapterView)actionListView).setAdapter(adapter);
+        //((AdapterView)actionListView).setAdapter(editAdapter);
         // ------------------------------------------------
 
+        /*
         TextView unitNameHeader = (TextView) findViewById(R.id.unitNameHeader);
         unitNameHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,21 +116,21 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
                 Collections.sort(units, Unit.statusAtDeadlineComparator);
                 adapter.notifyDataSetChanged();
             }
-        });
+        });*/
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_capacity_overview, menu);
+        getMenuInflater().inflate(R.menu.menu_action_plan, menu);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem save = menu.findItem(R.id.saveCapacity);
-        MenuItem discard = menu.findItem(R.id.discardCapacity);
-        MenuItem edit = menu.findItem(R.id.editCapacity);
+        MenuItem save = menu.findItem(R.id.saveActionPlan);
+        MenuItem discard = menu.findItem(R.id.discardActionPlan);
+        MenuItem edit = menu.findItem(R.id.editActionPlan);
 
         save.setVisible(setEditable);
         discard.setVisible(setEditable);
@@ -141,19 +144,18 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
 
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.editCapacity:
+            case R.id.editActionPlan:
                 setEditable = true;
-                adapter.notifyDataSetChanged();
+                editAdapter.notifyDataSetChanged();
                 invalidateOptionsMenu();
                 return true;
-            case R.id.saveCapacity:
-                // TODO - Commit changes to Database
-                updateCapacity();
+            case R.id.saveActionPlan:
+                //updateActionPlan();
                 invalidateOptionsMenu();
                 setEditable = false;
                 adapter.notifyDataSetChanged();
                 return true;
-            case R.id.discardCapacity:
+            case R.id.discardActionPlan:
                 invalidateOptionsMenu();
                 setEditable = false;
                 adapter.notifyDataSetChanged();
@@ -166,28 +168,61 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         }
     }
 
-    private class UnitListAdapter extends ArrayAdapter<Unit> {
-        public UnitListAdapter(){
-            super(CapacityOverviewActivity.this, R.layout.adapter_capacity_overview, units);
+    private class ActionListAdapter extends ArrayAdapter<Action> {
+        public ActionListAdapter(){
+            super(ActionPlanActivity.this, R.layout.adapter_action_plan, actions);
         }
 
         @Override
         public View getView(int position, View view, ViewGroup parent){
-            boolean unitListViewIsNull = false;
 
             if(view == null){
-                view = getLayoutInflater().inflate(R.layout.adapter_capacity_overview, parent, false);
-                unitListViewIsNull = true;
+                view = getLayoutInflater().inflate(R.layout.adapter_action_plan, parent, false);
             }
 
-            Unit currentUnit = units.get(position);
+            Action currentAction = actions.get(position);
 
-            int status = currentUnit.getAvailableBeds() + currentUnit.getDcByDeadline() - currentUnit.getAdmitsByDeadline();
-            Logger logger = Logger.getLogger("yolo");
-            logger.log(Level.INFO, currentUnit.getName());
+            TextView status = (TextView) view.findViewById(R.id.status);
+            status.setText(currentAction.getStatus());
 
-            TextView unitName = (TextView) view.findViewById(R.id.unitName);
-            unitName.setText(currentUnit.getName());
+            TextView role = (TextView) view.findViewById(R.id.role);
+            role.setText(currentAction.getRole());
+
+            TextView action = (TextView) view.findViewById(R.id.action);
+            action.setText(currentAction.getAction());
+
+            TextView target = (TextView) view.findViewById(R.id.target);
+            target.setText(currentAction.getTarget());
+
+            TextView deadline = (TextView) view.findViewById(R.id.deadline);
+            deadline.setText(currentAction.getDeadline());
+
+            TextView notes = (TextView) view.findViewById(R.id.notes);
+            notes.setText(currentAction.getNotes());
+
+            return view;
+        }
+    }
+
+    /*
+    private class EditActionListAdapter extends ArrayAdapter<Action> {
+        public EditActionListAdapter(){
+            super(ActionPlanActivity.this, R.layout.adapter_action_plan, actions);
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent){
+            boolean actionListViewIsNull = false;
+
+            if(view == null){
+                view = getLayoutInflater().inflate(R.layout.adapter_action_plan, parent, false);
+                actionListViewIsNull = true;
+            }
+
+            Action currentAction = actions.get(position);
+
+            TextView status = (TextView) view.findViewById(R.id.status);
+            status.setText(currentAction.getStatus());
 
             EditText availableBeds = (EditText) view.findViewById(R.id.availableBeds);
             availableBeds.setText(Integer.toString(currentUnit.getAvailableBeds()));
@@ -208,11 +243,11 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
             EditText admitsByDeadline = (EditText) view.findViewById(R.id.admitsByDeadline);
             admitsByDeadline.setText(Integer.toString(currentUnit.getAdmitsByDeadline()));
             admitsByDeadline.setTag(currentUnit.getName()+":"+5);
-            
+
             TextView statusAtDeadline = (TextView) view.findViewById(R.id.statusAtDeadline);
             statusAtDeadline.setText(Integer.toString(status));
 
-            if(unitListViewIsNull) {
+            if(actionListViewIsNull) {
                 availableBeds.addTextChangedListener(new GenericTextWatcher(currentUnit.getName(), "1"));
                 potentialDC.addTextChangedListener(new GenericTextWatcher(currentUnit.getName(), "2"));
                 DCByDeadline.addTextChangedListener(new GenericTextWatcher(currentUnit.getName(), "3"));
@@ -280,27 +315,26 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
                 }
             }
         }
-    }
+    }*/
 
-    private void addUnits(int x) {
-        Random rand = new Random();
+    private void addActions(int x) {
         for(int i = 0; i < x; i++) {
-            Unit sampleUnit = new Unit();
-            sampleUnit.setName((i+1)+"E".toString());
-            sampleUnit.setAvailableBeds(rand.nextInt((15 - 0) + 1) + 0);
-            sampleUnit.setPotentialDc(rand.nextInt((15 - 0) + 1) + 0);
-            sampleUnit.setDcByDeadline(rand.nextInt((15 - 0) + 1) + 0);
-            sampleUnit.setTotalAdmits(rand.nextInt((15 - 0) + 1) + 0);
-            sampleUnit.setAdmitsByDeadline(rand.nextInt((15 - 0) + 1) + 0);
-            this.units.add(sampleUnit);
+            Action sampleAction = new Action();
+            sampleAction.setStatus("In Progress");
+            sampleAction.setRole("Jennifer Joyce");
+            sampleAction.setAction("Push for discharge");
+            sampleAction.setTarget("John Peyton in D308");
+            sampleAction.setDeadline("11:00 AM");
+            sampleAction.setNotes("Aggressively push for all \"Potential Discharges\" to be actually discharged without pushing, we would discharge 3; with pushing, we'll discharge 4.");
+            this.actions.add(sampleAction);
         }
     }
 
     @Override
-    public void setUnits(List<Unit> units) {
-        this.units = units;
-        adapter = new UnitListAdapter();
-        ((AdapterView)unitListView).setAdapter(adapter);
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
+        adapter = new ActionListAdapter();
+        ((AdapterView)actionListView).setAdapter(adapter);
     }
 
     @Override
@@ -313,8 +347,9 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         Toast.makeText(this, title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
 
+    /*
     // Update unit capacities with new values
-    private void updateCapacity() {
+    private void updateActionPlan() {
 
         String[] tag;
         int value;
@@ -357,5 +392,5 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
             }
         }
         capacityValues.clear();
-    }
+    }*/
 }

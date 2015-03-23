@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:background="#E1E1E1" android:paddingTop="5dp"
+              android:paddingBottom="5dp">
+
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/status"
+                android:layout_weight="2" android:layout_gravity="center_vertical"
+                android:textColor="#000000" android:background="@android:color/transparent"
+                android:gravity="center" android:textSize="14dp"/>
+
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/role"
+                android:layout_weight="2" android:layout_gravity="center_vertical"
+                android:textColor="#000000" android:background="@android:color/transparent"
+                android:gravity="center" android:textSize="14dp"/>
+
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/action"
+                android:layout_weight="2" android:layout_gravity="center_vertical"
+                android:textColor="#000000" android:background="@android:color/transparent"
+                android:gravity="center" android:textSize="14dp"/>
+
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
+
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/target"
+                android:layout_weight="2" android:layout_gravity="center_vertical"
+                android:textColor="#000000" android:background="@android:color/transparent"
+                android:gravity="center" android:textSize="14dp"/>
+
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=""
+                android:id="@+id/deadline"
+                android:layout_weight="2" android:layout_gravity="center_vertical"
+                android:textColor="#000000" android:background="@android:color/transparent"
+                android:gravity="center" android:textSize="14dp"/>
+
+        <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content" android:padding="7dp">
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Notes"
+            android:id="@+id/notesTitle"
+            android:layout_weight="1" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:background="@android:color/transparent"
+            android:textStyle="bold" android:gravity="center" android:textSize="14dp"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/notes"
+            android:layout_weight="4" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:background="@android:color/transparent"
+            android:textStyle="italic" android:textSize="14dp" android:gravity="left|center_vertical"/>
+
+    </LinearLayout>
+
+</LinearLayout>

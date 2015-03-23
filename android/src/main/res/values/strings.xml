@@ -9,6 +9,7 @@
     <string name="action_add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
-    <string name="title_activity_create_unit">CreateUnitActivity</string>
+    <string name="title_activity_create_unit">Create Unit</string>
+    <string name="title_activity_action_plan">Action Plan</string>
 
 </resources>

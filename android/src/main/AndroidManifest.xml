@@ -16,6 +16,14 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
     <application
         android:name=".Rtdc"
         android:icon="@drawable/ic_launcher"
@@ -29,7 +37,6 @@
             android:name=".presenter.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-
         </activity>
         <activity
             android:name=".presenter.CreateUserActivity"
@@ -50,15 +57,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="rtdc.android.MyActivity" />
         </activity>
-
-        <activity android:name=".presenter.CapacityOverviewActivity"
-                  android:label="@string/title_activity_capacity_overview"
-                  android:configChanges="orientation|keyboardHidden|screenSize">
+        <activity
+            android:name=".presenter.CapacityOverviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_capacity_overview" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".presenter.ActionPlanActivity"
+            android:label="@string/title_activity_action_plan" >
         </activity>
     </application>
 

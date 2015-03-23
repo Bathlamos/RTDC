@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.widget.TabHost;
+import rtdc.android.presenter.ActionPlanActivity;
 import rtdc.android.presenter.CapacityOverviewActivity;
 import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateUserActivity;
@@ -84,6 +85,9 @@ public class MyActivity extends Activity implements UserFragment.OnFragmentInter
             case R.id.action_go_to_cap_overview:
                 Intent intent = new Intent(this, CapacityOverviewActivity.class);
                 startActivity(intent);
+            case R.id.action_go_to_action_plan:
+                Intent intent2 = new Intent(this, ActionPlanActivity.class);
+                startActivity(intent2);
             default:
                 return super.onOptionsItemSelected(item);
         }
