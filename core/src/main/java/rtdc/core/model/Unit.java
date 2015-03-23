@@ -1,89 +1,135 @@
 package rtdc.core.model;
 
-import rtdc.core.json.JSONException;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 
-import static rtdc.core.model.DataType.*;
-import static rtdc.core.model.ValidationConstraint.*;
+public class Unit extends RootObject implements ValidationEnabled<Unit.Properties> {
 
-public class Unit extends RtdcObject {
-
-    public static final DataType<Unit> TYPE = DataType.extend(RtdcObject.TYPE, "unit", Unit.class,
-            new Field("unit_id", INT),
-            new Field("name", STRING),
-            new Field("totalBeds", INT, POSITIVE_NUMBER),
-            new Field("availableBeds", INT, POSITIVE_NUMBER),
-            new Field("potentialDc", INT, POSITIVE_NUMBER),
-            new Field("dcByDeadline", INT, POSITIVE_NUMBER),
-            new Field("totalAdmits", INT, POSITIVE_NUMBER),
-            new Field("admitsByDeadline", INT, POSITIVE_NUMBER));
-
-    public Unit(){
+    public enum Properties{
+        id,
+        name,
+        totalBeds,
+        availableBeds,
+        potentialDc,
+        dcByDeadline,
+        totalAdmits,
+        admitsByDeadline
     }
 
-    public Unit(JSONObject jsonObject) throws JSONException{
-        super(jsonObject);
+    private String id;
+    private String name;
+    private int totalBeds;
+    private int availableBeds;
+    private int potentialDc;
+    private int dcByDeadline;
+    private int totalAdmits;
+    private int admitsByDeadline;
+
+    public Unit(){}
+
+    public Unit (JSONObject object){
+        setId(object.optString(Properties.id.name()));
+        setName(object.optString(Properties.name.name()));
+        setTotalBeds(object.optInt(Properties.totalBeds.name()));
+        setAvailableBeds(object.optInt(Properties.availableBeds.name()));
+        setPotentialDc(object.optInt(Properties.potentialDc.name()));
+        setDcByDeadline(object.optInt(Properties.dcByDeadline.name()));
+        setTotalAdmits(object.optInt(Properties.totalAdmits.name()));
+        setAdmitsByDeadline(object.optInt(Properties.admitsByDeadline.name()));
     }
 
     @Override
-    public DataType getType() {
-        return TYPE;
+    public void augmentJsonObject(JSONObject object) {
+        object.put(Properties.id.name(), getId());
+        object.put(Properties.name.name(), getName());
+        object.put(Properties.totalBeds.name(), getTotalBeds());
+        object.put(Properties.availableBeds.name(), getAvailableBeds());
+        object.put(Properties.potentialDc.name(), getPotentialDc());
+        object.put(Properties.dcByDeadline.name(), getDcByDeadline());
+        object.put(Properties.totalAdmits.name(), getTotalAdmits());
+        object.put(Properties.admitsByDeadline.name(), getAdmitsByDeadline());
     }
 
-    public String getId(){
-        return (String) getProperty("unit_id");
-    }
-    public void setId(String id){
-        setProperty("unit_id", id);
+    @Override
+    public String getType() {
+        return "unit";
     }
 
-    public String getName(){
-        return (String) getProperty("name");
-    }
-    public void setName(String name){
-        setProperty("name", name);
-    }
-
-    public int getTotalBeds(){
-        return (Integer) getProperty("totalBeds");
-    }
-    public void setTotalBeds(int totalBeds){
-        setProperty("totalBeds", totalBeds);
-    }
-
-    public int getAvailableBeds(){
-        return (Integer) getProperty("availableBeds");
-    }
-    public void setAvailableBeds(int availableBeds){
-        setProperty("availableBeds", availableBeds);
+    public boolean validate(Properties property) throws ValidationException{
+        SimpleValidator validator = new SimpleValidator();
+        switch(property){
+            case name: return validator.expectNotEmpty(name);
+            case totalBeds: return validator.expectPositiveNumber(admitsByDeadline);
+            case availableBeds: return validator.expectPositiveNumber(availableBeds);
+            case potentialDc: return validator.expectPositiveNumber(potentialDc);
+            case dcByDeadline: return validator.expectPositiveNumber(dcByDeadline);
+            case totalAdmits: return validator.expectPositiveNumber(totalAdmits);
+            case admitsByDeadline: return validator.expectPositiveNumber(admitsByDeadline);
+        }
+        return true;
     }
 
-    public int getPotentialDc(){
-        return (Integer) getProperty("potentialDc");
-    }
-    public void setPotentialDc(int potentialDc){
-        setProperty("potentialDc", potentialDc);
+    public String getId() {
+        return id;
     }
 
-    public int getDcByDeadline(){
-        return (Integer) getProperty("dcByDeadline");
-    }
-    public void setDcByDeadline(int dcByDeadline){
-        setProperty("dcByDeadline", dcByDeadline);
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public int getTotalAdmits(){
-        return (Integer) getProperty("totalAdmits");
-    }
-    public void setTotalAdmits(int totalAdmit){
-        setProperty("totalAdmits", totalAdmit);
+    public String getName() {
+        return name;
     }
 
-    public int getAdmitsByDeadline(){
-        return (Integer) getProperty("admitsByDeadline");
-    }
-    public void setAdmitsByDeadline(int admitsByDeadline){
-        setProperty("admitsByDeadline", admitsByDeadline);
+    public void setName(String name) {
+        this.name = name;
     }
 
+    public int getTotalBeds() {
+        return totalBeds;
+    }
+
+    public void setTotalBeds(int totalBeds) {
+        this.totalBeds = totalBeds;
+    }
+
+    public int getAvailableBeds() {
+        return availableBeds;
+    }
+
+    public void setAvailableBeds(int availableBeds) {
+        this.availableBeds = availableBeds;
+    }
+
+    public int getPotentialDc() {
+        return potentialDc;
+    }
+
+    public void setPotentialDc(int potentialDc) {
+        this.potentialDc = potentialDc;
+    }
+
+    public int getDcByDeadline() {
+        return dcByDeadline;
+    }
+
+    public void setDcByDeadline(int dcByDeadline) {
+        this.dcByDeadline = dcByDeadline;
+    }
+
+    public int getTotalAdmits() {
+        return totalAdmits;
+    }
+
+    public void setTotalAdmits(int totalAdmits) {
+        this.totalAdmits = totalAdmits;
+    }
+
+    public int getAdmitsByDeadline() {
+        return admitsByDeadline;
+    }
+
+    public void setAdmitsByDeadline(int admitsByDeadline) {
+        this.admitsByDeadline = admitsByDeadline;
+    }
 }

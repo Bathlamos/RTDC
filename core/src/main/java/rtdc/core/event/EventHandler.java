@@ -1,4 +1,4 @@
 package rtdc.core.event;
 
-public interface EventHandler<EventType> {
+public interface EventHandler {
 }

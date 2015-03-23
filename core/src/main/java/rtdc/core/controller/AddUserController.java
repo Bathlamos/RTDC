@@ -2,9 +2,8 @@ package rtdc.core.controller;
 
 import com.google.common.collect.Multimap;
 import rtdc.core.Bootstrapper;
-import rtdc.core.event.UpdateCompleteEvent;
 import rtdc.core.impl.Factory;
-import rtdc.core.model.RtdcObject;
+
 import rtdc.core.model.User;
 import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
@@ -13,7 +12,7 @@ import rtdc.core.view.LoginView;
 
 import java.util.Set;
 
-public class AddUserController extends Controller<AddUserView> implements UpdateCompleteEvent.UpdateCompleteHandler {
+public class AddUserController extends Controller<AddUserView> {
 
 
     public AddUserController(AddUserView view){
@@ -39,10 +38,5 @@ public class AddUserController extends Controller<AddUserView> implements Update
 //            RtdcObject.Property p = violations.keys().iterator().next();
 //            view.displayError("Error", p.getName() + " : " + violations.get(p).iterator().next());
 //        }
-    }
-
-    @Override
-    public void onUpdateComplete(UpdateCompleteEvent event) {
-        view.displayError("Success", "Success");
     }
 }

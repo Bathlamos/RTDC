@@ -1,96 +1,145 @@
 package rtdc.core.model;
 
-import com.google.common.collect.Sets;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 
-import java.util.Set;
+public class User extends RootObject implements ValidationEnabled<User.Properties> {
 
-import static rtdc.core.model.DataType.*;
-import static rtdc.core.model.ValidationConstraint.*;
-
-public class User extends RtdcObject {
-
-    public static final DataType<User> TYPE = DataType.extend(RtdcObject.TYPE, "user", User.class,
-            new Field("user_id", INT),
-            new Field("username", STRING, NOT_EMPTY),
-            new Field("firstName", STRING, NOT_EMPTY),
-            new Field("lastName", STRING, NOT_EMPTY),
-            new Field("email", STRING, NOT_EMPTY, REGEX_EMAIL),
-            new Field("phone", LONG),
-            new Field("permission", STRING),
-            new Field("role", STRING),
-            new Field("unit", Unit.TYPE, NOT_NULL),
-            new Field("authenticationToken", STRING));
-
-    public User(){
+    public enum Properties{
+        id,
+        username,
+        firstName,
+        lastName,
+        email,
+        permission,
+        role,
+        phone,
+        unit
     }
-    public User(JSONObject jsonobject){
-        super(jsonobject);
+
+    private String id;
+    private String username;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String permission;
+    private String role;
+    private long phone;
+    private Unit unit;
+
+    public User(){}
+
+    public User (JSONObject object){
+        setId(object.optString(Properties.id.name()));
+        setUsername(object.optString(Properties.username.name()));
+        setFirstName(object.optString(Properties.firstName.name()));
+        setLastName(object.optString(Properties.lastName.name()));
+        setEmail(object.optString(Properties.email.name()));
+        setPermission(object.optString(Properties.permission.name()));
+        setRole(object.optString(Properties.role.name()));
+        setPhone(object.optLong(Properties.phone.name()));
+        if(object.has(Properties.unit.name()))
+            setUnit(new Unit(object.getJSONObject(Properties.unit.name())));
     }
 
     @Override
-    public DataType getType() {
-        return TYPE;
+    public void augmentJsonObject(JSONObject object) {
+        object.put(Properties.id.name(), getId());
+        object.put(Properties.username.name(), getUsername());
+        object.put(Properties.firstName.name(), getFirstName());
+        object.put(Properties.lastName.name(), getLastName());
+        object.put(Properties.email.name(), getEmail());
+        object.put(Properties.permission.name(), getPermission());
+        object.put(Properties.role.name(), getRole());
+        object.put(Properties.phone.name(), getPhone());
+        object.put(Properties.unit.name(), getUnit());
     }
 
-    public String getId(){
-        return (String) getProperty("user_id");
-    }
-    public void setId(String id){setProperty("user_id", id);}
-
-    public String getUsername(){
-        return (String) getProperty("username");
-    }
-    public void setUsername(String username){
-        setProperty("username", username);
+    @Override
+    public String getType() {
+        return "user";
     }
 
-    public String getLastName(){
-        return (String) getProperty("lastName");
-    }
-    public void setLastName(String lastName){
-        setProperty("lastName", lastName);
-    }
-
-    public String getFirstName(){
-        return (String) getProperty("firstName");
-    }
-    public void setFirstName(String firstName){
-        setProperty("firstName", firstName);
+    @Override
+    public boolean validate(Properties property) throws ValidationException {
+        SimpleValidator validator = new SimpleValidator();
+        switch(property){
+            case username: return validator.expectNotEmpty(getUsername());
+            case email: return validator.expectEmail(getEmail());
+        }
+        return true;
     }
 
-    public String getEmail(){
-        return (String) getProperty("email");
-    }
-    public void setEmail(String email){
-        setProperty("email", email);
+    public String getId() {
+        return id;
     }
 
-    public long getPhone(){
-        return (Long) getProperty("phone");
-    }
-    public void setPhone(long phone){
-        setProperty("phone", phone);
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getPermission(){
-        return (String) getProperty("permission");
-    }
-    public void setPermission(String permission){
-        setProperty("permission", permission);
+    public String getUsername() {
+        return username;
     }
 
-    public String getRole(){
-        return (String) getProperty("role");
+    public void setUsername(String username) {
+        this.username = username;
     }
-    public void setRole(String role){
-        setProperty("role", role);
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(long phone) {
+        this.phone = phone;
     }
 
     public Unit getUnit() {
-        return (Unit) getProperty("unit");
+        return unit;
     }
+
     public void setUnit(Unit unit) {
-        setProperty("unit", unit);
+        this.unit = unit;
     }
+
 }

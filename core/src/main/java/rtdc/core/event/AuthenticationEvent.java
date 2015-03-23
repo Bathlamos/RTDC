@@ -1,47 +1,55 @@
 package rtdc.core.event;
 
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.DataType;
-import rtdc.core.model.Field;
-import rtdc.core.model.RtdcObject;
 import rtdc.core.model.User;
 
 public class AuthenticationEvent extends Event<AuthenticationEvent.AuthenticationHandler> {
 
-    public static final DataType<AuthenticationEvent> TYPE = DataType.extend(RtdcObject.TYPE, "authentication",
-            AuthenticationEvent.class,
-            new Field("user", User.TYPE),
-            new Field("auth_token", DataType.STRING));
+    public static final EventType<AuthenticationHandler> TYPE = new EventType<AuthenticationHandler>("authenticationEvent");
 
-    public interface AuthenticationHandler extends EventHandler<AuthenticationEvent>{
+    public enum Properties{
+        user,
+        authenticationToken
+    }
+
+    private final User user;
+    private final String authenticationToken;
+
+    public interface AuthenticationHandler extends EventHandler{
         public void onAuthenticate(AuthenticationEvent event);
     }
 
     public AuthenticationEvent(User user, String authenticationToken){
-        this(new JSONObject("{}"));
-        setProperty("user", user);
-        setProperty("auth_token", authenticationToken);
+        this.user = user;
+        this.authenticationToken = authenticationToken;
     }
 
-    public AuthenticationEvent(JSONObject jsonObject){
-        super(jsonObject);
+    public AuthenticationEvent(JSONObject object){
+        user = new User(object.getJSONObject(Properties.user.name()));
+        authenticationToken = object.optString(Properties.authenticationToken.name());
     }
-
-    @Override
-    public DataType getType() {
-        return TYPE;
-    }
-
+    
     public User getUser(){
-        return (User) getProperty("user");
+        return user;
     }
 
     public String getAuthenticationToken(){
-        return (String) getProperty("auth_token");
+        return authenticationToken;
     }
 
     void fire() {
         for(AuthenticationHandler handler: getHandlers(TYPE))
             handler.onAuthenticate(this);
+    }
+
+    @Override
+    public void augmentJsonObject(JSONObject object) {
+        object.put(Properties.user.name(), user);
+        object.put(Properties.authenticationToken.name(), authenticationToken);
+    }
+
+    @Override
+    public String getType() {
+        return TYPE.getName();
     }
 }

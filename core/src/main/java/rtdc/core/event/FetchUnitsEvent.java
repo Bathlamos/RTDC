@@ -1,38 +1,54 @@
 package rtdc.core.event;
 
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.*;
 
-public class FetchUnitsEvent extends Event {
+import java.util.Set;
 
-    public static final DataType<FetchUnitsEvent> TYPE = DataType.extend(RtdcObject.TYPE, "fetchUnitsEvent",
-            FetchUnitsEvent.class,
-            new Field("units", Array.TYPE, Unit.TYPE));
+public class FetchUnitsEvent extends Event<FetchUnitsEvent.FetchUnitsHandler> {
 
-    public interface FetchUnitsHandler extends EventHandler<FetchUnitsEvent>{ public void onUnitsFetched(FetchUnitsEvent event);}
+    public static final EventType<FetchUnitsHandler> TYPE = new EventType<FetchUnitsHandler>("fetchUnitsEvent");
 
-    public FetchUnitsEvent(Unit[] units){
-        this(new JSONObject("{}"));
-        setProperty("units", units);
+    public interface FetchUnitsHandler extends EventHandler{ public void onUnitsFetched(FetchUnitsEvent event);}
+
+    public enum Properties{
+        users
     }
 
-    public FetchUnitsEvent(JSONObject jsonObject){
-        super(jsonObject);
+    private final ImmutableSet<Unit> units;
+
+    public FetchUnitsEvent(Iterable<Unit> units){
+        this.units = ImmutableSet.copyOf(units);
+    }
+
+    public FetchUnitsEvent(JSONObject object){
+        units = ImmutableSet.copyOf(parseJsonArray(object.getJSONArray(Properties.users.name()), new Function<JSONObject, Unit>() {
+            @Override
+            public Unit apply(JSONObject input) {
+                return new Unit(input);
+            }
+        }));
+    }
+
+    public ImmutableSet<Unit> getUnits(){
+        return units;
+    }
+
+
+    public void fire(){
+        for(FetchUnitsHandler handler: getHandlers(TYPE))
+            handler.onUnitsFetched(this);
     }
 
     @Override
-    public DataType getType() {
-        return TYPE;
+    public void augmentJsonObject(JSONObject object) {
+        object.put(Properties.users.name(), toJsonArray(units));
     }
 
     @Override
-    void fire() {
-        for(Object handler: getHandlers(TYPE))
-            if(handler instanceof FetchUnitsHandler)
-                ((FetchUnitsHandler) handler).onUnitsFetched(this);
-    }
-
-    public Unit[] getUnits() {
-        return (Unit[]) getProperty("units");
+    public String getType() {
+        return TYPE.getName();
     }
 }
