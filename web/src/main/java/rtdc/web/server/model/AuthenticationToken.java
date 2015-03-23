@@ -14,8 +14,9 @@ public class AuthenticationToken implements Serializable {
     private Date dateSet;
     private User user;
 
+    @Id
     @NotNull
-    @Column(name = "auth_token", nullable = false)
+    @Column(name = "auth_token")
     public String getAuthenticationToken() {
         return authToken;
     }
@@ -32,7 +33,6 @@ public class AuthenticationToken implements Serializable {
         this.dateSet = dateSet;
     }
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.ALL, optional = false)
     public User getUser() {
         return user;

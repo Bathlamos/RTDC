@@ -52,7 +52,7 @@ public class User extends RootObject implements ValidationEnabled<User.Propertie
         object.put(Properties.permission.name(), getPermission());
         object.put(Properties.role.name(), getRole());
         object.put(Properties.phone.name(), getPhone());
-        object.put(Properties.unit.name(), getUnit().toJsonObject());
+        object.put(Properties.unit.name(), unit == null? null: unit.toJsonObject());
     }
 
     @Override

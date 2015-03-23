@@ -16,6 +16,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Path("authenticate")
 public class AuthService {
@@ -33,7 +35,7 @@ public class AuthService {
             throw new UsernamePasswordMismatchException("Password cannot be empty");
         else{
             //Get user by username
-            Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
+            Session session = PersistenceConfig.getSessionFactory().openSession();
             UserCredentials userCredentials = null;
             User user = null;
             Transaction transaction = null;
@@ -43,11 +45,13 @@ public class AuthService {
                         Restrictions.eq("username", username)).uniqueResult();
                 userCredentials = (UserCredentials) session.createCriteria(UserCredentials.class).add(
                         Restrictions.eq("user", user)).uniqueResult();
-                session.getTransaction().commit();
+                transaction.commit();
             } catch (RuntimeException e) {
                 if(transaction != null)
                     transaction.rollback();
                 throw e;
+            } finally {
+                session.close();
             }
 
             if(userCredentials == null)
@@ -65,14 +69,18 @@ public class AuthService {
                     token.setUser(user);
 
                     //Store the token
+                    session = PersistenceConfig.getSessionFactory().openSession();
+                    transaction = null;
                     try{
                         transaction = session.beginTransaction();
                         session.save(token);
-                        session.getTransaction().commit();
+                        transaction.commit();
                     } catch (RuntimeException e) {
                         if(transaction != null)
                             transaction.rollback();
                         throw e;
+                    } finally {
+                        session.close();
                     }
 
                     return new AuthenticationEvent(user, token.getAuthenticationToken()).toString();

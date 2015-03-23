@@ -19,10 +19,10 @@ public abstract class RootObject {
         return arrayList;
     }
 
-    protected JSONArray toJsonArray(Iterable iterable){
+    protected JSONArray toJsonArray(Iterable<? extends RootObject> iterable){
         JSONArray array = new JSONArray();
-        for(Object o: iterable)
-            array.put(o);
+        for(RootObject o: iterable)
+            array.put(o.toJsonObject());
         return array;
     }
 
