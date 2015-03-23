@@ -63,15 +63,12 @@ public class UserService {
             transaction = session.beginTransaction();
 
             UserCredentials credentials = null;
-            if(user.getId() == null)
+            if(user.getId() == 0)
                 credentials = new UserCredentials();
             else
                 credentials = (UserCredentials) session.load(UserCredentials.class, user.getId());
 
             session.saveOrUpdate(user);
-
-            session.getTransaction().commit();
-            transaction = session.beginTransaction();
 
             credentials.setUser(user);
             credentials.setSalt(BCrypt.gensalt());
@@ -91,7 +88,7 @@ public class UserService {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") String id){
+    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
         //AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
         Transaction transaction = null;

@@ -16,19 +16,20 @@ public class ActionCompleteEvent extends Event<ActionCompleteEvent.ActionComplet
         objectType
     }
 
-    private final String objectId, objectType;
+    private final String objectType;
+    private final int objectId;
 
-    public ActionCompleteEvent(String objectId, String objectType){
+    public ActionCompleteEvent(int objectId, String objectType){
         this.objectId = objectId;
         this.objectType = objectType;
     }
 
     public ActionCompleteEvent(JSONObject object){
-        objectId = object.getString(Properties.objectId.name());
+        objectId = object.getInt(Properties.objectId.name());
         objectType = object.getString(Properties.objectType.name());
     }
 
-    public String getObjectId(){
+    public int getObjectId(){
         return objectId;
     }
 

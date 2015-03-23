@@ -5,10 +5,12 @@
 
 <hibernate-mapping>
     <class name="rtdc.core.model.User" table="USERS">
-        <id name="id" type="string" column="user_id">
-            <generator class="native"/>
+        <id name="id" type="integer" column="user_id">
+            <generator class="increment"/>
         </id>
-        <property name="username" column="username" type="string"/>
+        <property name="username" type="string">
+            <column name="username" not-null="true" unique="true"/>
+        </property>
         <property name="lastName" column="lastName" type="string"/>
         <property name="firstName" column="firstName" type="string"/>
         <property name="email" column="email" type="string"/>

@@ -16,7 +16,7 @@ public class Unit extends RootObject implements ValidationEnabled<Unit.Propertie
         admitsByDeadline
     }
 
-    private String id;
+    private int id;
     private String name;
     private int totalBeds;
     private int availableBeds;
@@ -28,7 +28,7 @@ public class Unit extends RootObject implements ValidationEnabled<Unit.Propertie
     public Unit(){}
 
     public Unit (JSONObject object){
-        setId(object.optString(Properties.id.name(), null));
+        setId(object.optInt(Properties.id.name()));
         setName(object.optString(Properties.name.name()));
         setTotalBeds(object.optInt(Properties.totalBeds.name()));
         setAvailableBeds(object.optInt(Properties.availableBeds.name()));
@@ -69,11 +69,11 @@ public class Unit extends RootObject implements ValidationEnabled<Unit.Propertie
         return true;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

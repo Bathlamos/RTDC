@@ -5,15 +5,17 @@
 
 <hibernate-mapping>
     <class name="rtdc.core.model.Unit" table="UNITS">
-        <id name="id" type="string" column="unit_id">
-            <generator class="native"/>
+        <id name="id" type="integer" column="unit_id">
+            <generator class="increment"/>
         </id>
-        <property name="name" column="name" type="string"/>
-        <property name="totalBeds" column="totalBeds" type="int"/>
-        <property name="availableBeds" column="availableBeds" type="int"/>
-        <property name="potentialDc" column="potentialDc" type="int"/>
-        <property name="totalAdmits" column="totalAdmits" type="int"/>
-        <property name="dcByDeadline" column="dcByDeadline" type="int"/>
-        <property name="admitsByDeadline" column="admitsByDeadline" type="int"/>
+        <property name="name" type="string">
+            <column name="name" not-null="true" unique="true"/>
+        </property>
+        <property name="totalBeds" column="totalBeds" type="integer"/>
+        <property name="availableBeds" column="availableBeds" type="integer"/>
+        <property name="potentialDc" column="potentialDc" type="integer"/>
+        <property name="totalAdmits" column="totalAdmits" type="integer"/>
+        <property name="dcByDeadline" column="dcByDeadline" type="integer"/>
+        <property name="admitsByDeadline" column="admitsByDeadline" type="integer"/>
     </class>
 </hibernate-mapping>

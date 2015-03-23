@@ -17,7 +17,7 @@ public class User extends RootObject implements ValidationEnabled<User.Propertie
         unit
     }
 
-    private String id;
+    private int id;
     private String username;
     private String firstName;
     private String lastName;
@@ -30,7 +30,7 @@ public class User extends RootObject implements ValidationEnabled<User.Propertie
     public User(){}
 
     public User (JSONObject object){
-        setId(object.optString(Properties.id.name(), null));
+        setId(object.optInt(Properties.id.name()));
         setUsername(object.optString(Properties.username.name()));
         setFirstName(object.optString(Properties.firstName.name()));
         setLastName(object.optString(Properties.lastName.name()));
@@ -70,11 +70,11 @@ public class User extends RootObject implements ValidationEnabled<User.Propertie
         return true;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
