@@ -28,7 +28,7 @@ public class Unit extends RootObject implements ValidationEnabled<Unit.Propertie
     public Unit(){}
 
     public Unit (JSONObject object){
-        setId(object.optString(Properties.id.name()));
+        setId(object.optString(Properties.id.name(), null));
         setName(object.optString(Properties.name.name()));
         setTotalBeds(object.optInt(Properties.totalBeds.name()));
         setAvailableBeds(object.optInt(Properties.availableBeds.name()));

@@ -23,6 +23,8 @@ public abstract class Event<T extends EventHandler> extends RootObject {
                 e = new ErrorEvent(object);
             else if(type.equalsIgnoreCase(FetchUnitsEvent.TYPE.getName()))
                 e = new FetchUnitsEvent(object);
+            else if(type.equalsIgnoreCase(FetchUsersEvent.TYPE.getName()))
+                e = new FetchUsersEvent(object);
             e.fire();
         }
     }

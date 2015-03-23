@@ -5,8 +5,6 @@ import rtdc.core.model.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class UserCredentials implements Serializable {
@@ -34,7 +32,7 @@ public class UserCredentials implements Serializable {
     }
 
     @Id
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     public User getUser() {
         return user;
     }

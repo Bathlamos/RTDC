@@ -14,7 +14,7 @@ public class FetchUnitsEvent extends Event<FetchUnitsEvent.FetchUnitsHandler> {
     public interface FetchUnitsHandler extends EventHandler{ public void onUnitsFetched(FetchUnitsEvent event);}
 
     public enum Properties{
-        users
+        units
     }
 
     private final ImmutableSet<Unit> units;
@@ -24,7 +24,7 @@ public class FetchUnitsEvent extends Event<FetchUnitsEvent.FetchUnitsHandler> {
     }
 
     public FetchUnitsEvent(JSONObject object){
-        units = ImmutableSet.copyOf(parseJsonArray(object.getJSONArray(Properties.users.name()), new Function<JSONObject, Unit>() {
+        units = ImmutableSet.copyOf(parseJsonArray(object.getJSONArray(Properties.units.name()), new Function<JSONObject, Unit>() {
             @Override
             public Unit apply(JSONObject input) {
                 return new Unit(input);
@@ -44,7 +44,7 @@ public class FetchUnitsEvent extends Event<FetchUnitsEvent.FetchUnitsHandler> {
 
     @Override
     public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.users.name(), toJsonArray(units));
+        object.put(Properties.units.name(), toJsonArray(units));
     }
 
     @Override

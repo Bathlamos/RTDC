@@ -30,7 +30,7 @@ public class User extends RootObject implements ValidationEnabled<User.Propertie
     public User(){}
 
     public User (JSONObject object){
-        setId(object.optString(Properties.id.name()));
+        setId(object.optString(Properties.id.name(), null));
         setUsername(object.optString(Properties.username.name()));
         setFirstName(object.optString(Properties.firstName.name()));
         setLastName(object.optString(Properties.lastName.name()));
