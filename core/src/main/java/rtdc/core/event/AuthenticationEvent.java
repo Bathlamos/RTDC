@@ -44,7 +44,7 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Authenticatio
 
     @Override
     public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.user.name(), user);
+        object.put(Properties.user.name(), user.toJsonObject());
         object.put(Properties.authenticationToken.name(), authenticationToken);
     }
 

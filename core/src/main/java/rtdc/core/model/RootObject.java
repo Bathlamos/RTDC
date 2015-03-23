@@ -28,9 +28,13 @@ public abstract class RootObject {
 
     @Override
     public String toString() {
+        return toJsonObject().toString();
+    }
+
+    public JSONObject toJsonObject(){
         JSONObject object = new JSONObject();
         object.put("type", getType());
         augmentJsonObject(object);
-        return object.toString();
+        return object;
     }
 }
