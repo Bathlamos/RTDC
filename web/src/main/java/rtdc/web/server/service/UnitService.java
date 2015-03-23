@@ -28,18 +28,21 @@ public class UnitService {
     @GET
     public String getUnits(@Context HttpServletRequest req){
         //AuthService.hasRole(req, USER, ADMIN);
-        Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
+        Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
+        List<Unit> units = null;
         try{
             transaction = session.beginTransaction();
-            List<Unit> units = (List<Unit>) session.createCriteria(Unit.class).list();
-            session.getTransaction().commit();
-            return new FetchUnitsEvent(units).toString();
+            units = (List<Unit>) session.createCriteria(Unit.class).list();
+            transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
             throw e;
+        } finally{
+            session.close();
         }
+        return new FetchUnitsEvent(units).toString();
     }
 
     @PUT
@@ -49,7 +52,7 @@ public class UnitService {
         //AuthService.hasRole(req, ADMIN);
         Unit unit = new Unit(new JSONObject(unitString));
 
-        Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
+        Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -59,11 +62,13 @@ public class UnitService {
                 return new ErrorEvent(dbViolations.toString()).toString();
 
             session.saveOrUpdate(unit);
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
         return "whooo!";
         //return new UpdateCompleteEvent(UpdateCompleteEvent.UNIT_UPDATED, unit.getId()).toString();

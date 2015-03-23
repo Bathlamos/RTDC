@@ -30,18 +30,21 @@ public class UserService {
     @GET
     public String getUsers(@Context HttpServletRequest req){
         //AuthService.hasRole(req, USER, ADMIN);
-        Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
+        Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
+        List<User> users = null;
         try{
             transaction = session.beginTransaction();
-            List<User> users = (List<User>) session.createCriteria(UserCredentials.class).list();
-            session.getTransaction().commit();
-            return new FetchUsersEvent(users).toString();
+            users = (List<User>) session.createCriteria(User.class).list();
+            transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
             throw e;
+        } finally{
+            session.close();
         }
+        return new FetchUsersEvent(users).toString();
     }
 
     @PUT
@@ -57,7 +60,7 @@ public class UserService {
 
         if(password == null || password.isEmpty() || password.length() < 4)
             return new ErrorEvent("Password must be longer than 4 characters").toString();
-        Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
+        Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
@@ -75,12 +78,13 @@ public class UserService {
             credentials.setPasswordHash(BCrypt.hashpw(password, credentials.getSalt()));
 
             session.saveOrUpdate(credentials);
-
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
         return new ActionCompleteEvent(user.getId(), "user").toString();
     }
@@ -90,17 +94,19 @@ public class UserService {
     @Produces("application/json")
     public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
         //AuthService.hasRole(req, ADMIN);
-        Session session = PersistenceConfig.getSessionFactory().getCurrentSession();
+        Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
             User user = (User) session.load(User.class, id);
             session.delete(user);
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
         return new ActionCompleteEvent(id, "user").toString();
     }
