@@ -69,6 +69,7 @@
         </activity>
         <activity
             android:name=".presenter.ActionPlanActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_action_plan" >
         </activity>
     </application>

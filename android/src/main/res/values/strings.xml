@@ -11,5 +11,15 @@
     <string name="save">Save</string>
     <string name="title_activity_create_unit">Create Unit</string>
     <string name="title_activity_action_plan">Action Plan</string>
+    <string-array name="action_status">
+        <item>In Progress</item>
+        <item>Completed</item>
+        <item>Failed</item>
+    </string-array>
+    <string-array name="actions">
+        <item>Push for Discharge</item>
+        <item>Off Servicing to</item>
+        <item>Hold Until</item>
+    </string-array>
 
 </resources>
