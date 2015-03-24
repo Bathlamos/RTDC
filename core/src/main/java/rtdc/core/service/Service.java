@@ -5,6 +5,7 @@ import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.json.JSONArray;
+import rtdc.core.model.Action;
 import rtdc.core.model.JsonTransmissionWrapper;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
@@ -113,6 +114,35 @@ public final class Service {
                         units.add(unit);
                     }
                     callback.onSuccess(units);
+                }else
+                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
+    public static void getActions(final AsyncCallback<List<Action>> callback){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
+        req.setHeader("Content-type", "application/x-www-form-urlencoded");
+        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+        req.execute(new AsyncCallback<HttpResponse>() {
+            @Override
+            public void onSuccess(HttpResponse resp) {
+                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                catchSessionExpiredException(wrapper);
+                if("success".equals(wrapper.getStatus())) {
+                    JSONArray array = wrapper.getDataAsJSONArray();
+                    LinkedList<Action> actions = new LinkedList<Action>();
+                    for(int i = array.length() - 1; i >= 0; i--) {
+                        Action action = new Action();
+                        action.map().putAll(array.getJSONObject(i).map());
+                        actions.add(action);
+                    }
+                    callback.onSuccess(actions);
                 }else
                     callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
             }

@@ -24,8 +24,8 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     List<Action> actions = new ArrayList<Action>();
     ListView actionListView;
     ArrayAdapter<Action> adapter;
-    ArrayAdapter<Action> editAdapter;
     Boolean setEditable = false;
+    int editActionId;
     private ActionListController controller;
     private HashMap<String, Integer> actionValues = new HashMap<String, Integer>();
 
@@ -39,12 +39,10 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         controller = new ActionListController(this);
         context = this.getBaseContext();
         actionListView = (ListView) findViewById(R.id.ActionListView);
-        registerForContextMenu(actionListView);
 
         // Comment this out when connected to server ------
         addActions(5);
         adapter = new ActionListAdapter();
-        editAdapter = new EditActionListAdapter();
         ((AdapterView)actionListView).setAdapter(adapter);
         // ------------------------------------------------
     }
@@ -57,35 +55,10 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem save = menu.findItem(R.id.saveActionPlan);
-        MenuItem discard = menu.findItem(R.id.discardActionPlan);
-        MenuItem edit = menu.findItem(R.id.editActionPlan);
-
-        save.setVisible(setEditable);
-        discard.setVisible(setEditable);
-        edit.setVisible(!setEditable);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.editActionPlan:
-                setEditable = true;
-                ((AdapterView)actionListView).setAdapter(editAdapter);
-                invalidateOptionsMenu();
-                return true;
-            case R.id.saveActionPlan:
-                invalidateOptionsMenu();
-                setEditable = false;
-                ((AdapterView)actionListView).setAdapter(adapter);
-                return true;
-            case R.id.discardActionPlan:
-                invalidateOptionsMenu();
-                setEditable = false;
-                ((AdapterView)actionListView).setAdapter(adapter);
+            case R.id.addAction:
                 return true;
             case R.id.action_go_to_manage:
                 Intent intent = new Intent(this, MyActivity.class);
@@ -97,10 +70,10 @@ public class ActionPlanActivity extends Activity implements ActionListView {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId( ) == R.id.ActionListView) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            Action action = actions.get(info.position);
-            menu.setHeaderTitle(action.getAction()+": "+action.getTarget()+" "+action.getId());
+        if (v.getId( ) == R.id.optionsMenuBtn) {
+            Action action = actions.get(Integer.parseInt(v.getTag().toString()));
+            editActionId = action.getId();
+            menu.setHeaderTitle(action.getAction()+": "+action.getTarget()+" "+editActionId);
             menu.add("Edit");
             menu.add("Delete");
         }
@@ -108,13 +81,15 @@ public class ActionPlanActivity extends Activity implements ActionListView {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        int actionId = actions.get(info.position).getId();
         Intent intent = new Intent(this, CreateUserActivity.class);
-        intent.putExtra("actionId", actionId);
+        intent.putExtra("actionId", editActionId);
         startActivity(intent);
 
         return true;
+    }
+
+    public void onOptionsMenuClick(View v) {
+        openContextMenu(v);
     }
 
     private class ActionListAdapter extends ArrayAdapter<Action> {
@@ -149,92 +124,24 @@ public class ActionPlanActivity extends Activity implements ActionListView {
             TextView notes = (TextView) view.findViewById(R.id.notes);
             notes.setText(currentAction.getNotes());
 
-            return view;
-        }
-    }
-
-    private class EditActionListAdapter extends ArrayAdapter<Action> {
-        public EditActionListAdapter(){
-            super(ActionPlanActivity.this, R.layout.adapter_edit_action_plan, actions);
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent){
-            boolean actionListViewIsNull = false;
-
-            if(view == null){
-                view = getLayoutInflater().inflate(R.layout.adapter_edit_action_plan, parent, false);
-                actionListViewIsNull = true;
-            }
-
-            Action currentAction = actions.get(position);
-
-            Spinner status = (Spinner) view.findViewById(R.id.editStatus);
-            ArrayAdapter<CharSequence> statusAdapter = ArrayAdapter.createFromResource(context, R.array.action_status, android.R.layout.simple_spinner_item);
-            statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            status.setAdapter(statusAdapter);
-
-            TextView role = (TextView) view.findViewById(R.id.editRole);
-            role.setText(currentAction.getRole());
-
-            Spinner action = (Spinner) view.findViewById(R.id.editAction);
-            ArrayAdapter<CharSequence> actionAdapter = ArrayAdapter.createFromResource(context, R.array.actions, android.R.layout.simple_spinner_item);
-            actionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            action.setAdapter(actionAdapter);
-
-            TextView target = (TextView) view.findViewById(R.id.editTarget);
-            target.setText(currentAction.getTarget());
-
-            TextView deadline = (TextView) view.findViewById(R.id.editDeadline);
-            deadline.setText(currentAction.getDeadline());
-
-            EditText notes = (EditText) view.findViewById(R.id.editNotes);
-            notes.setText(currentAction.getNotes());
-
-            if(actionListViewIsNull) {
-                notes.addTextChangedListener(new GenericTextWatcher(currentAction.getId(), "5"));
-            }
+            ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
+            optionsMenuBtn.setTag(position);
+            registerForContextMenu(optionsMenuBtn);
 
             return view;
-        }
-
-        private class GenericTextWatcher implements TextWatcher {
-
-            private int actionId;
-            private String field;
-
-            private GenericTextWatcher(int actionId, String field) {
-                this.actionId = actionId;
-                this.field = field;
-            }
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String value = editable.toString();
-                // Save the value for the given tag
-                try {
-                    actionValues.put(actionId+":"+field, Integer.parseInt(value));
-                } catch (NumberFormatException e) {
-
-                }
-            }
         }
     }
 
     private void addActions(int x) {
         for(int i = 0; i < x; i++) {
             Action sampleAction = new Action();
-            sampleAction.setId(x);
+            sampleAction.setId(i);
             sampleAction.setStatus("In Progress");
             sampleAction.setRole("Jennifer Joyce");
             sampleAction.setAction("Push for discharge");
             sampleAction.setTarget("John Peyton in D308");
             sampleAction.setDeadline("11:00 AM");
-            sampleAction.setNotes("Aggressively push for all \"Potential Discharges\" to be actually discharged without pushing, we would discharge 3; with pushing, we'll discharge 4.");
+            sampleAction.setNotes("Aggressively push for all \"Potential Discharges\" to be actually discharged. Without pushing, we would discharge 3; with pushing, we'll discharge 4.");
             this.actions.add(sampleAction);
         }
     }
