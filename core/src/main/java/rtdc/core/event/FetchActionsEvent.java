@@ -4,7 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
-import rtdc.core.model.User;
+import rtdc.core.model.ObjectProperty;
 
 public class FetchActionsEvent extends Event<FetchActionsEvent.FetchActionsHandler> {
 
@@ -12,7 +12,7 @@ public class FetchActionsEvent extends Event<FetchActionsEvent.FetchActionsHandl
 
     public interface FetchActionsHandler extends EventHandler{ public void onActionsFetched(FetchActionsEvent event);}
 
-    public enum Properties{
+    public enum Properties implements ObjectProperty<FetchActionsEvent>{
         actions
     }
 
@@ -42,12 +42,20 @@ public class FetchActionsEvent extends Event<FetchActionsEvent.FetchActionsHandl
     }
 
     @Override
-    public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.actions.name(), toJsonArray(actions));
+    public ObjectProperty[] getProperties() {
+        return Properties.values();
     }
 
     @Override
     public String getType() {
         return TYPE.getName();
+    }
+
+    @Override
+    public Object getValue(ObjectProperty property) {
+        switch((Properties) property){
+            case actions: return actions;
+        }
+        return null;
     }
 }

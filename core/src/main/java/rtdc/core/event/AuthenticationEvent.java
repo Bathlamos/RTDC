@@ -1,13 +1,14 @@
 package rtdc.core.event;
 
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.ObjectProperty;
 import rtdc.core.model.User;
 
 public class AuthenticationEvent extends Event<AuthenticationEvent.AuthenticationHandler> {
 
     public static final EventType<AuthenticationHandler> TYPE = new EventType<AuthenticationHandler>("authenticationEvent");
 
-    public enum Properties{
+    public enum Properties implements ObjectProperty<AuthenticationEvent>{
         user,
         authenticationToken
     }
@@ -43,13 +44,21 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Authenticatio
     }
 
     @Override
-    public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.user.name(), user.toJsonObject());
-        object.put(Properties.authenticationToken.name(), authenticationToken);
+    public ObjectProperty[] getProperties() {
+        return Properties.values();
     }
 
     @Override
     public String getType() {
         return TYPE.getName();
+    }
+
+    @Override
+    public Object getValue(ObjectProperty property) {
+        switch((Properties) property){
+            case user: return user;
+            case authenticationToken: return authenticationToken;
+        }
+        return null;
     }
 }

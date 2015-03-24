@@ -1,13 +1,14 @@
 package rtdc.core.event;
 
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.ObjectProperty;
 import rtdc.core.model.User;
 
 public class ErrorEvent extends Event<ErrorEvent.ErrorHandler> {
 
     public static final EventType<ErrorHandler> TYPE = new EventType<ErrorHandler>("errorEvent");
 
-    public enum Properties{
+    public enum Properties implements ObjectProperty<ErrorEvent>{
         description
     }
 
@@ -35,13 +36,21 @@ public class ErrorEvent extends Event<ErrorEvent.ErrorHandler> {
     }
 
     @Override
-    public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.description.name(), description);
+    public ObjectProperty[] getProperties() {
+        return Properties.values();
     }
 
     @Override
     public String getType() {
         return TYPE.getName();
+    }
+
+    @Override
+    public Object getValue(ObjectProperty property) {
+        switch((Properties) property){
+            case description: return description;
+        }
+        return null;
     }
 
 }

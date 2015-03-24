@@ -3,6 +3,7 @@ package rtdc.core.event;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.ObjectProperty;
 import rtdc.core.model.User;
 
 public class ActionCompleteEvent extends Event<ActionCompleteEvent.ActionCompleteHandler> {
@@ -11,7 +12,7 @@ public class ActionCompleteEvent extends Event<ActionCompleteEvent.ActionComplet
 
     public interface ActionCompleteHandler extends EventHandler{ public void onActionComplete(ActionCompleteEvent event);}
 
-    public enum Properties{
+    public enum Properties implements ObjectProperty<ActionCompleteEvent>{
         objectId,
         objectType
     }
@@ -44,13 +45,21 @@ public class ActionCompleteEvent extends Event<ActionCompleteEvent.ActionComplet
     }
 
     @Override
-    public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.objectId.name(), objectId);
-        object.put(Properties.objectType.name(), objectType);
+    public ObjectProperty[] getProperties() {
+        return Properties.values();
     }
 
     @Override
     public String getType() {
         return TYPE.getName();
+    }
+
+    @Override
+    public Object getValue(ObjectProperty property) {
+        switch((Properties) property){
+            case objectId: return objectId;
+            case objectType: return objectType;
+        }
+        return null;
     }
 }

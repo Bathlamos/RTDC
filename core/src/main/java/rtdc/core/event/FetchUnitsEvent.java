@@ -5,15 +5,13 @@ import com.google.common.collect.ImmutableSet;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.*;
 
-import java.util.Set;
-
 public class FetchUnitsEvent extends Event<FetchUnitsEvent.FetchUnitsHandler> {
 
     public static final EventType<FetchUnitsHandler> TYPE = new EventType<FetchUnitsHandler>("fetchUnitsEvent");
 
     public interface FetchUnitsHandler extends EventHandler{ public void onUnitsFetched(FetchUnitsEvent event);}
 
-    public enum Properties{
+    public enum Properties implements ObjectProperty<FetchUnitsEvent>{
         units
     }
 
@@ -43,12 +41,20 @@ public class FetchUnitsEvent extends Event<FetchUnitsEvent.FetchUnitsHandler> {
     }
 
     @Override
-    public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.units.name(), toJsonArray(units));
+    public ObjectProperty[] getProperties() {
+        return Properties.values();
     }
 
     @Override
     public String getType() {
         return TYPE.getName();
+    }
+
+    @Override
+    public Object getValue(ObjectProperty property) {
+        switch((Properties) property){
+            case units : return units;
+        }
+        return null;
     }
 }
