@@ -98,14 +98,58 @@ public class Action extends JSONObject {
         put(NOTES, notes);
     }
 
-    // Comparators to potentially be implemented later
+    // Comparators for Action Plan row sorting
     public static Comparator<Action> statusComparator = new Comparator<Action>() {
 
         public int compare(Action action1, Action action2) {
-            String status1 = action1.getStatus();
-            String status2 = action2.getStatus();
+            String value1 = action1.getStatus();
+            String value2 = action2.getStatus();
 
-            return status1.compareTo(status2);
+            return value1.compareTo(value2);
+        }
+
+    };
+
+    public static Comparator<Action> roleComparator = new Comparator<Action>() {
+
+        public int compare(Action action1, Action action2) {
+            String value1 = action1.getRole();
+            String value2 = action2.getRole();
+
+            return value1.compareTo(value2);
+        }
+
+    };
+
+    public static Comparator<Action> actionComparator = new Comparator<Action>() {
+
+        public int compare(Action action1, Action action2) {
+            String value1 = action1.getAction();
+            String value2 = action2.getAction();
+
+            return value1.compareTo(value2);
+        }
+
+    };
+
+    public static Comparator<Action> targetComparator = new Comparator<Action>() {
+
+        public int compare(Action action1, Action action2) {
+            String value1 = action1.getTarget();
+            String value2 = action2.getTarget();
+
+            return value1.compareTo(value2);
+        }
+
+    };
+
+    public static Comparator<Action> deadlineComparator = new Comparator<Action>() {
+
+        public int compare(Action action1, Action action2) {
+            String value1 = action1.getDeadline();
+            String value2 = action2.getDeadline();
+
+            return value1.compareTo(value2);
         }
 
     };

@@ -100,6 +100,31 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         openContextMenu(v);
     }
 
+    public void onHeaderItemClick(View v) {
+        switch(v.getId()) {
+            case R.id.statusHeader:
+                Collections.sort(actions, Action.statusComparator);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.roleHeader:
+                Collections.sort(actions, Action.roleComparator);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.actionHeader:
+                Collections.sort(actions, Action.actionComparator);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.targetHeader:
+                Collections.sort(actions, Action.targetComparator);
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.deadlineHeader:
+                Collections.sort(actions, Action.deadlineComparator);
+                adapter.notifyDataSetChanged();
+                break;
+        }
+    }
+
     private class ActionListAdapter extends ArrayAdapter<Action> {
         public ActionListAdapter(){
             super(ActionPlanActivity.this, R.layout.adapter_action_plan, actions);
