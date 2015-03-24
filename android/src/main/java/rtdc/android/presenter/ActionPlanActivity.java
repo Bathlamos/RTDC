@@ -6,10 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import rtdc.android.MyActivity;
 import rtdc.android.R;
@@ -42,6 +39,7 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         controller = new ActionListController(this);
         context = this.getBaseContext();
         actionListView = (ListView) findViewById(R.id.ActionListView);
+        registerForContextMenu(actionListView);
 
         // Comment this out when connected to server ------
         addActions(5);
@@ -95,6 +93,28 @@ public class ActionPlanActivity extends Activity implements ActionListView {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        if (v.getId( ) == R.id.ActionListView) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            Action action = actions.get(info.position);
+            menu.setHeaderTitle(action.getAction()+": "+action.getTarget()+" "+action.getId());
+            menu.add("Edit");
+            menu.add("Delete");
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int actionId = actions.get(info.position).getId();
+        Intent intent = new Intent(this, CreateUserActivity.class);
+        intent.putExtra("actionId", actionId);
+        startActivity(intent);
+
+        return true;
     }
 
     private class ActionListAdapter extends ArrayAdapter<Action> {
@@ -208,6 +228,7 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     private void addActions(int x) {
         for(int i = 0; i < x; i++) {
             Action sampleAction = new Action();
+            sampleAction.setId(x);
             sampleAction.setStatus("In Progress");
             sampleAction.setRole("Jennifer Joyce");
             sampleAction.setAction("Push for discharge");
