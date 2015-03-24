@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="rtdc.core.model.Action" table="ACTIONS">
+        <id name="id" type="integer" column="unit_id">
+            <generator class="increment"/>
+        </id>
+        <many-to-one name="unit" class="rtdc.core.model.Unit" cascade="save-update" lazy="false"/>
+        <property name="status" column="status" type="string"/>
+        <one-to-one name="personResponsible" class="rtdc.core.model.User" cascade="save-update" lazy="false"/>
+        <property name="roleResponsible" column="roleResponsible" type="string"/>
+        <property name="task" type="string">
+            <column name="task" not-null="true"/>
+        </property>
+        <property name="target" column="target" type="string"/>
+        <property name="deadline" column="deadline" type="java.util.Date"/>
+        <property name="description" column="description" type="string"/>
+    </class>
+</hibernate-mapping>

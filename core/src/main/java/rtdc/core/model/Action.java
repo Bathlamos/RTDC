@@ -3,6 +3,8 @@ package rtdc.core.model;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 
+import java.util.Date;
+
 public class Action extends RootObject implements ValidationEnabled<Action.Properties> {
 
     public enum Properties{
@@ -22,8 +24,8 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
     private String status;
     private User personResponsible;
     private String roleResponsible;
-    private String task;
-    private String target;
+    private String task; // this is the title
+    private Date target;
     private long deadline;
     private String description;
 
@@ -33,10 +35,12 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
         setId(object.optInt(Properties.id.name()));
         setUnit(new Unit(object.getJSONObject(Properties.unit.name())));
         setStatus(object.optString(Properties.status.name()));
-        setPersonResponsible(new User(object.getJSONObject(Properties.personResponsible.name())));
+        if(object.has(Properties.personResponsible.name()))
+            setPersonResponsible(new User(object.getJSONObject(Properties.personResponsible.name())));
         setRoleResponsible(object.optString(Properties.roleResponsible.name()));
         setTask(object.optString(Properties.task.name()));
-        setTarget(object.optString(Properties.target.name()));
+        if(object.has(Properties.target.name()))
+            setTarget(new Date(object.optLong(Properties.target.name())));
         setDeadline(object.optLong(Properties.deadline.name()));
         setDescription(object.optString(Properties.description.name()));
     }
@@ -63,7 +67,8 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
     public boolean validate(Properties property) throws ValidationException {
         SimpleValidator validator = new SimpleValidator();
         switch(property){
-
+            case unit: return validator.expectNotNull(unit);
+            case task: return validator.expectNotEmpty(task);
         }
         return true;
     }
@@ -116,11 +121,11 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
         this.task = task;
     }
 
-    public String getTarget() {
+    public Date getTarget() {
         return target;
     }
 
-    public void setTarget(String target) {
+    public void setTarget(Date target) {
         this.target = target;
     }
 

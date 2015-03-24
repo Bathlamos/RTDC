@@ -15,17 +15,7 @@ public class UnitListController extends Controller<UnitListView>{
 
     public UnitListController(UnitListView view){
         super(view);
-        Service.getUnits(new AsyncCallback<List<Unit>>() {
-            @Override
-            public void onSuccess(List<Unit> units) {
-                UnitListController.this.view.setUnits(units);
-            }
-
-            @Override
-            public void onError(String message) {
-                UnitListController.this.view.displayError("Error", message);
-            }
-        });
+        Service.getUnits();
     }
 
     public void onClickUser(Unit unit){

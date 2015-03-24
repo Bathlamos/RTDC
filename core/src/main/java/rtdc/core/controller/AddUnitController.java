@@ -30,18 +30,7 @@ public class AddUnitController extends Controller<AddUnitView>{
         } else if (password == null || password.isEmpty() || password.length() < 4)
             view.displayError("Error", "Password needs to be at least 4 characters");
         else {*/
-            Service.updateOrSaveUnit(newUnit, new AsyncCallback<Boolean>() {
-
-                @Override
-                public void onSuccess(Boolean result) {
-                    view.displayError("Success", "Success");
-                }
-
-                @Override
-                public void onError(String message) {
-                    view.displayError("CommError", message);
-                }
-            });
+            Service.updateOrSaveUnit(newUnit);
         //}
     }
 }

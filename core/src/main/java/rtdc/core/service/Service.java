@@ -9,6 +9,7 @@ import rtdc.core.impl.HttpResponse;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.util.Util;
@@ -33,38 +34,62 @@ public final class Service {
         executeRequest(req);
     }
 
+    public static void getUnits(){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
+        executeRequest(req);
+    }
+
+    public static void updateOrSaveUnit(Unit unit){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
+        req.addParameter("unit", unit.toString());
+        executeRequest(req);
+    }
+
+    public static void deleteUnit(int unitId){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
+        req.addParameter("id", unitId + "");
+        executeRequest(req);
+    }
+
+    public static void getUsers(){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET);
+        executeRequest(req);
+    }
+
     public static void updateOrSaveUser(User user, String password){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
-        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
         req.addParameter("user", user.toString());
         req.addParameter("password", password);
         executeRequest(req);
     }
 
-    public static void updateOrSaveUnit(Unit unit , final AsyncCallback<Boolean> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
-        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
-        req.addParameter("unit", unit.toString());
-        executeRequest(req);
-    }
-
-    public static void getUnits(final AsyncCallback<List<Unit>> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
-        req.setHeader("Content-type", "application/x-www-form-urlencoded");
-        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
-        executeRequest(req);
-    }
-
-    public static void getUsers(final AsyncCallback<List<User>> callback){
+    public static void deleteUser(int userId){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET);
-        req.setHeader("Content-type", "application/x-www-form-urlencoded");
-        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+        req.addParameter("id", userId + "");
+        executeRequest(req);
+    }
+
+    public static void getActions(){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET);
+        executeRequest(req);
+    }
+
+    public static void updateOrSaveActions(Action action){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions", PUT);
+        req.addParameter("action", action.toString());
+        executeRequest(req);
+    }
+
+    public static void deleteAction(int actionId){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET);
+        req.addParameter("id", actionId + "");
         executeRequest(req);
     }
 
 
     private static void executeRequest(HttpRequest request){
         request.setHeader("Content-type", "application/x-www-form-urlencoded");
+        //TODO:         req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
         request.execute(new AsyncCallback<HttpResponse>() {
             @Override
             public void onSuccess(HttpResponse resp) {

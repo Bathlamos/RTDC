@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<constraint-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.0.xsd"
+                     xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
+    <default-package>rtdc.core.model</default-package>
+    <bean class="rtdc.core.model.Action" ignore-annotations="true">
+        <getter name="unit">
+            <constraint annotation="javax.validation.constraints.NotNull" />
+            <constraint annotation="javax.validation.constraints.Size">
+                <element name="min">1</element>
+            </constraint>
+        </getter>
+        <getter name="task">
+            <constraint annotation="javax.validation.constraints.NotNull" />
+            <constraint annotation="javax.validation.constraints.Size">
+                <element name="min">1</element>
+            </constraint>
+        </getter>
+    </bean>
+</constraint-mappings>
