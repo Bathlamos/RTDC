@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import rtdc.android.R;
+import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.view.AddActionView;
@@ -63,7 +64,7 @@ public class CreateActionActivity extends Activity implements AddActionView {
         String actionId = intent.getStringExtra("actionId");
 
         if (actionId != null) {
-            Action action = new Action(actionId);
+            Action action = new Action(new JSONObject(actionId));
             Unit unit = action.getUnit();
             setUnitAsString(unit.getName());
             setStatusAsString(action.getStatus());

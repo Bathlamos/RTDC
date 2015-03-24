@@ -176,6 +176,16 @@ public class CreateUserActivity extends Activity implements AddUserView {
     }
 
     @Override
+    public long getPhoneAsLong() {
+        return Long.parseLong(phoneEdit.getText().toString());
+    }
+
+    @Override
+    public void setPhoneAsLong(long value) {
+        phoneEdit.setText(value + "");
+    }
+
+    @Override
     public String getRoleAsString() {
         return roleSpinner.getSelectedItem().toString();
     }
