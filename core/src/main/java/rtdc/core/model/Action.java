@@ -46,14 +46,8 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
     }
 
     @Override
-    public void augmentJsonObject(JSONObject object){
-        for(Properties p: Action.Properties.values()){
-            Object o = getValue(p);
-            if(o instanceof RootObject)
-                object.put(p.name(), ((RootObject) o).toJsonObject());
-            else
-                object.put(p.name(), o);
-        }
+    public ObjectProperty[] getProperties() {
+        return Properties.values();
     }
 
     @Override

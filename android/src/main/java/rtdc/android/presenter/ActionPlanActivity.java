@@ -9,7 +9,6 @@ import android.widget.*;
 import rtdc.android.MyActivity;
 import rtdc.android.R;
 import rtdc.core.controller.ActionListController;
-import rtdc.core.impl.NumberAwareStringComparator;
 import rtdc.core.model.Action;
 import rtdc.core.view.ActionListView;
 import java.util.*;
@@ -34,12 +33,6 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         controller = new ActionListController(this);
         context = this.getBaseContext();
         actionListView = (ListView) findViewById(R.id.ActionListView);
-
-        // Comment this out when connected to server ------
-        addActions(5);
-        adapter = new ActionListAdapter();
-        ((AdapterView)actionListView).setAdapter(adapter);
-        // ------------------------------------------------
     }
 
     @Override
@@ -158,20 +151,6 @@ public class ActionPlanActivity extends Activity implements ActionListView {
             registerForContextMenu(optionsMenuBtn);
 
             return view;
-        }
-    }
-
-    private void addActions(int x) {
-        for(int i = 0; i < x; i++) {
-            Action sampleAction = new Action();
-            sampleAction.setId(i);
-            sampleAction.setStatus("In Progress");
-            sampleAction.setRoleResponsible("Jennifer Joyce");
-            sampleAction.setTarget("Push for discharge");
-            sampleAction.setTarget("John Peyton in D308");
-            sampleAction.setDeadline(new Date());
-            //sampleAction.setNotes("Aggressively push for all \"Potential Discharges\" to be actually discharged. Without pushing, we would discharge 3; with pushing, we'll discharge 4.");
-            this.actions.add(sampleAction);
         }
     }
 
