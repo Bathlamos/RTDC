@@ -21,7 +21,7 @@ import javax.ws.rs.core.Context;
 import java.util.List;
 import java.util.Set;
 
-@Path("users")
+@Path("action")
 public class ActionService {
 
     @GET
