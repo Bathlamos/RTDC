@@ -125,8 +125,8 @@
     <orderEntry type="library" exported="" name="hk2-utils-2.4.0-b09" level="project" />
     <orderEntry type="library" exported="" name="aopalliance-repackaged-2.4.0-b09" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
-    <orderEntry type="library" exported="" name="validation-api-1.1.0.Final" level="project" />
     <orderEntry type="library" exported="" name="validation-api-1.1.0.Final-sources" level="project" />
+    <orderEntry type="library" exported="" name="validation-api-1.1.0.Final" level="project" />
     <orderEntry type="library" exported="" name="Z__RTDC_core_src_main_java" level="project" />
   </component>
 </module>
