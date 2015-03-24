@@ -15,16 +15,11 @@ import android.os.Build.VERSION;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +28,7 @@ import java.util.logging.Logger;
 
 import rtdc.android.R;
 import rtdc.android.Rtdc;
-import rtdc.android.impl.AndroidFactory;
-import rtdc.core.Bootstrapper;
+import rtdc.android.impl.AndroidTextValidationWidget;
 import rtdc.core.controller.LoginController;
 import rtdc.core.view.LoginView;
 
@@ -44,7 +38,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
+    private AndroidTextValidationWidget mPasswordView;
     private View mProgressView, mEmailLoginFormView, mLoginFormView;
 
     private LoginController controller = new LoginController(this);
@@ -58,7 +52,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (AndroidTextValidationWidget) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -74,13 +68,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor>, 
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.login();
+                if(mPasswordView.isEmpty()) mPasswordView.setError("Enter password");
+                else controller.login();
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         mEmailLoginFormView = findViewById(R.id.email_login_form);
+    }
+
+    private void validationError(String error) {
+        Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show();
     }
 
     @Override

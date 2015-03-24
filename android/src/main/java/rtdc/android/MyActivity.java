@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.widget.TabHost;
+import rtdc.android.presenter.ActionPlanActivity;
 import rtdc.android.presenter.CapacityOverviewActivity;
 import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateUserActivity;
@@ -70,20 +71,27 @@ public class MyActivity extends Activity implements UserFragment.OnFragmentInter
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_add:
                 TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
                 if (tabHost.getCurrentTab() == TAB_ACCOUNTS) {
-                    Intent intent = new Intent(this, CreateUserActivity.class);
+                    intent = new Intent(this, CreateUserActivity.class);
                     startActivity(intent);
+
                 } else if (tabHost.getCurrentTab() == TAB_UNITS) {
-                    Intent intent = new Intent(this, CreateUnitActivity.class);
+                    intent = new Intent(this, CreateUnitActivity.class);
                     startActivity(intent);
                 }
                 return true;
             case R.id.action_go_to_cap_overview:
-                Intent intent = new Intent(this, CapacityOverviewActivity.class);
+                intent = new Intent(this, CapacityOverviewActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.action_go_to_action_plan:
+                intent = new Intent(this, ActionPlanActivity.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

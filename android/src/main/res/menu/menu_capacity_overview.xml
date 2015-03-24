@@ -3,7 +3,7 @@
 
     <item android:id="@+id/discardCapacity"
           android:title="@string/cancel"
-          android:icon="@drawable/ic_action_discard"
+          android:icon="@drawable/ic_action_cancel"
           android:showAsAction="ifRoom|withText"
           android:visible="false" />
 

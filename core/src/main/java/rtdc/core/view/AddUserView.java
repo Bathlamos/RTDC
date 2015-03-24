@@ -5,7 +5,7 @@ import rtdc.core.model.Unit;
 
 public interface AddUserView extends View {
 
-    public String getUsernameAsString();
+    String getUsernameAsString();
     void setUsernameAsString(String value);
     void setErrorForUsername(String error);
 
@@ -19,7 +19,12 @@ public interface AddUserView extends View {
 
     String getEmailAsString();
     void setEmailAsString(String value);
+
+    long getPhoneAsLong();
+    void setPhoneAsLong(long value);
+
     String getRoleAsString();
+    void setRoleAsString(String value);
 
     void setRoleAsString(String value);
     String getPasswordAsString();
