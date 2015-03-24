@@ -1,6 +1,7 @@
 package rtdc.android.presenter.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import rtdc.android.R;
 
+import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.core.controller.UnitListController;
 import rtdc.core.model.Unit;
 import rtdc.core.view.UnitListView;
@@ -45,8 +47,8 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static UserFragment newInstance(String param1, String param2) {
-        UserFragment fragment = new UserFragment();
+    public static UnitFragment newInstance(String param1, String param2) {
+        UnitFragment fragment = new UnitFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -124,7 +126,9 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
             Unit unit = (Unit) mAdapter.getItem(position);
-            Toast.makeText(getActivity(), unit.getName() + " Clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this.getActivity(), CreateUnitActivity.class);
+            intent.putExtra("unit", unit.toString());
+            startActivity(intent);
         }
     }
 

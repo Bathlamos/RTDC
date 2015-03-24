@@ -4,16 +4,21 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.core.controller.AddUserController;
+import rtdc.core.json.JSONObject;
+import rtdc.core.model.User;
 import rtdc.core.view.AddUserView;
 
 import java.lang.reflect.Field;
@@ -22,8 +27,10 @@ public class CreateUserActivity extends Activity implements AddUserView {
 
     private AddUserController controller;
 
-    private EditText usernameEdit, passwordEdit, emailEdit, firstNameEdit, surnameEdit, phoneEdit;
+    private TextView passwordText;
+    private EditText usernameEdit, passwordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
     private Spinner roleSpinner, permissionSpinner;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +38,11 @@ public class CreateUserActivity extends Activity implements AddUserView {
         setContentView(R.layout.activity_create_user);
 
         usernameEdit = (EditText) findViewById(R.id.usernameEdit);
+        passwordText = (TextView) findViewById(R.id.passwordText);
         passwordEdit = (EditText) findViewById(R.id.passwordEdit);
         emailEdit = (EditText) findViewById(R.id.emailEdit);
         firstNameEdit = (EditText) findViewById(R.id.firstNameEdit);
-        surnameEdit = (EditText) findViewById(R.id.surnameEdit);
+        lastNameEdit = (EditText) findViewById(R.id.lastNameEdit);
         phoneEdit = (EditText) findViewById(R.id.phoneEdit);
 
         roleSpinner = (Spinner) findViewById(R.id.roleSpinner);
@@ -51,6 +59,24 @@ public class CreateUserActivity extends Activity implements AddUserView {
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+        String userJson = intent.getStringExtra("user");
+        if (userJson != null) {
+            currentUser = new User(new JSONObject(userJson));
+            setUsernameAsString(currentUser.getUsername());
+            usernameEdit.setEnabled(false);
+            usernameEdit.setFocusable(false);
+            passwordText.setVisibility(View.GONE);
+            passwordEdit.setVisibility(View.GONE);
+            setEmailAsString(currentUser.getEmail());
+            setFirstnameAsString(currentUser.getFirstName());
+            setSurnameAsString(currentUser.getLastName());
+            phoneEdit.setText(Long.toString(currentUser.getPhone()));
+            setRoleAsString(currentUser.getRole());
+            setPermissionAsString(currentUser.getPermission());
+        }
+
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
@@ -86,6 +112,9 @@ public class CreateUserActivity extends Activity implements AddUserView {
         if (id == R.id.action_save_new_user) {
             controller.addUser();
             return true;
+        } else if (id == R.id.action_discard_user) {
+            controller.deleteUser(currentUser);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -108,12 +137,12 @@ public class CreateUserActivity extends Activity implements AddUserView {
 
     @Override
     public String getSurnameAsString() {
-        return surnameEdit.getText().toString();
+        return lastNameEdit.getText().toString();
     }
 
     @Override
     public void setSurnameAsString(String value) {
-        surnameEdit.setText(value);
+        lastNameEdit.setText(value);
     }
 
     @Override
