@@ -11,8 +11,8 @@ buildscript {
 apply plugin: 'android'
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion '19.1.0'
+    compileSdkVersion 21
+    buildToolsVersion '21.1.1'
 
     // workaround for "duplicate files during packaging of APK" issue
     // see https://groups.google.com/d/msg/adt-dev/bl5Rc4Szpzg/wC8cylTWuIEJ
@@ -27,7 +27,7 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 17
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -47,4 +47,5 @@ android {
 dependencies {
     compile project(":core")
     compile 'com.mcxiaoke.volley:library:1.0.+'
+    compile 'com.android.support:support-annotations:21.0.0'
 }

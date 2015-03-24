@@ -1,3 +1,3 @@
 rootProject.name = 'RTDC'
-include ':android', ':web', ':core'
+include ':core', ':web', ':android'
 
