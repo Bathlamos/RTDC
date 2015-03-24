@@ -1,14 +1,18 @@
 package rtdc.android.presenter;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import rtdc.android.R;
 import rtdc.core.controller.AddUnitController;
+import rtdc.core.json.JSONObject;
+import rtdc.core.model.Unit;
 import rtdc.core.view.AddUnitView;
 
 public class CreateUnitActivity extends Activity implements AddUnitView{
@@ -17,10 +21,26 @@ public class CreateUnitActivity extends Activity implements AddUnitView{
 
     private EditText unitNameEdit, totalBedsEdit;
 
+    private Unit currentUnit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_unit);
+
+        unitNameEdit = (EditText) findViewById(R.id.unitNameEdit);
+        totalBedsEdit = (EditText) findViewById(R.id.totalBedsEdit);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+        String unitJson = intent.getStringExtra("unit");
+        if (unitJson != null) {
+            currentUnit = new Unit(new JSONObject(unitJson));
+            unitNameEdit.setText(currentUnit.getName());
+            totalBedsEdit.setText(currentUnit.getTotalBeds());
+        }
 
         controller = new AddUnitController(this);
     }
@@ -30,9 +50,6 @@ public class CreateUnitActivity extends Activity implements AddUnitView{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_create_unit, menu);
-
-        unitNameEdit = (EditText) findViewById(R.id.unitNameEdit);
-        totalBedsEdit = (EditText) findViewById(R.id.totalBedsEdit);
 
         return true;
     }
@@ -47,6 +64,17 @@ public class CreateUnitActivity extends Activity implements AddUnitView{
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save_new_unit) {
             controller.addUnit();
+            // Get out of activity ?
+            return true;
+        } else if (id == R.id.action_discard_unit) {
+            if (currentUnit != null) {
+                controller.deleteUnit(currentUnit);
+                // Ask for confirmation
+                // Get out of activity
+            }
+            else {
+                // Get out of activity
+            }
             return true;
         }
 

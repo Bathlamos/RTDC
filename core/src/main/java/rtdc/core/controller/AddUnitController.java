@@ -33,4 +33,8 @@ public class AddUnitController extends Controller<AddUnitView>{
             Service.updateOrSaveUnit(newUnit);
         //}
     }
+
+    public void deleteUnit(Unit unit){
+        Service.deleteUnit(unit.getId());
+    }
 }

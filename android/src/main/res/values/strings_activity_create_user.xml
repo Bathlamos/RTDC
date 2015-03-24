@@ -8,7 +8,7 @@
     <string name="email_address">Email Address</string>
     <string name="email_hint">username@hospital.com</string>
     <string name="first_name">First Name</string>
-    <string name="surname">Surname</string>
+    <string name="last_name">Last Name</string>
     <string name="phone_number">Phone Number</string>
     <string name="role">Role</string>
     <string name="permission">Permission</string>

@@ -28,6 +28,10 @@ public class AddUserController extends Controller<AddUserView> implements Action
         Service.updateOrSaveUser(newUser, password);
     }
 
+    public void deleteUser(User user){
+        Service.deleteUser(user.getId());
+    }
+
     @Override
     public void onActionComplete(ActionCompleteEvent event) {
         view.displayError("Success", "success");

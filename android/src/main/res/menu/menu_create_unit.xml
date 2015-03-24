@@ -3,6 +3,11 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="rtdc.android.presenter.CreateUserActivity">
 
+    <item android:id="@+id/action_discard_unit"
+          android:title="@string/cancel"
+          android:icon="@drawable/ic_action_discard"
+          android:showAsAction="ifRoom|withText"/>
+
     <item android:id="@+id/action_save_new_unit"
           android:title="@string/action_save"
           android:icon="@drawable/ic_action_save"
