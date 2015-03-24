@@ -1,24 +1,24 @@
 package rtdc.core.event;
 
 import com.google.common.collect.ImmutableSet;
+import rtdc.core.util.WeakReferenceDecorator;
 
-import java.lang.ref.WeakReference;
 import java.util.HashSet;
 import java.util.Iterator;
 
 public class EventAggregator<T> {
 
-    final HashSet<WeakReference<T>> handlers = new HashSet<WeakReference<T>>();
+    final HashSet<WeakReferenceDecorator<T>> handlers = new HashSet<WeakReferenceDecorator<T>>();
 
     public void addHandler(T object){
         if(object != null)
-            handlers.add(new WeakReference<T>(object));
+            handlers.add(new WeakReferenceDecorator<T>(object));
     }
 
     //Clear at the same time
     public ImmutableSet<T> getHandlers(){
         ImmutableSet.Builder<T> builder = ImmutableSet.builder();
-        Iterator<WeakReference<T>> it = handlers.iterator();
+        Iterator<WeakReferenceDecorator<T>> it = handlers.iterator();
         while(it.hasNext()){
             T next = it.next().get();
             if(next == null)
