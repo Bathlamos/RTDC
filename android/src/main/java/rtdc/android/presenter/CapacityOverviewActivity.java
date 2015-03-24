@@ -3,7 +3,6 @@ package rtdc.android.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,10 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import org.apache.log4j.lf5.LogLevel;
 import rtdc.android.MyActivity;
 import rtdc.android.R;
-import rtdc.core.controller.UnitListController;
+import rtdc.core.controller.CapacityOverviewController;
 import rtdc.core.impl.NumberAwareStringComparator;
 import rtdc.core.model.Unit;
 import rtdc.core.view.UnitListView;
@@ -32,7 +30,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
     ListView unitListView;
     ArrayAdapter<Unit> adapter;
     Boolean setEditable = false;
-    private UnitListController controller;
+    private CapacityOverviewController controller;
     private HashMap<String, Integer> capacityValues = new HashMap<String, Integer>();
 
     Context context;
@@ -42,7 +40,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capacity_overview);
 
-        controller = new UnitListController(this);
+        controller = new CapacityOverviewController(this);
         context = this.getBaseContext();
         unitListView = (ListView) findViewById(R.id.CapacityListView);
 
@@ -65,7 +63,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         availableBedsHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Collections.sort(units, Unit.availableBedsComparator);
+                units = controller.sortUnits(Unit.Properties.availableBeds);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -74,7 +72,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         potentialDCHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Collections.sort(units, Unit.potentialDcComparator);
+                units = controller.sortUnits(Unit.Properties.potentialDc);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -83,7 +81,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         DCByDeadlineHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Collections.sort(units, Unit.dcByDeadlineComparator);
+                units = controller.sortUnits(Unit.Properties.dcByDeadline);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -92,7 +90,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         totalAdmitsHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Collections.sort(units, Unit.totalAdmitsComparator);
+                units = controller.sortUnits(Unit.Properties.totalAdmits);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -101,7 +99,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         admitsByDeadlineHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Collections.sort(units, Unit.admitsByDeadlineComparator);
+                units = controller.sortUnits(Unit.Properties.admitsByDeadline);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -110,7 +108,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         statusAtDeadlineHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Collections.sort(units, Unit.statusAtDeadlineComparator);
+                units = controller.sortUnits(Unit.Properties.statusAtDeadline);
                 adapter.notifyDataSetChanged();
             }
         });

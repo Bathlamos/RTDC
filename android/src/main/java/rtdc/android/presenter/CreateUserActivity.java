@@ -74,7 +74,7 @@ public class CreateUserActivity extends Activity implements AddUserView {
             setUsernameAsString(user.getUsername());
             setEmailAsString(user.getEmail());
             setFirstnameAsString(user.getFirstName());
-            setSurnameAsString(user.getSurname());
+            setSurnameAsString(user.getLastName());
             setPhoneAsLong(user.getPhone());
             setRoleAsString(user.getRole());
             setPermissionAsString(user.getPermission());

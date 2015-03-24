@@ -72,7 +72,7 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         if (v.getId( ) == R.id.optionsMenuBtn) {
             Action action = actions.get(Integer.parseInt(v.getTag().toString()));
             editActionId = action.getId();
-            menu.setHeaderTitle(action.getAction()+": "+action.getTarget()+" "+editActionId);
+            menu.setHeaderTitle(action.getTask() + ": " + action.getTarget() + " "+editActionId);
             menu.add(0, 1, 0, "Edit");
             menu.add(0, 2, 0, "Delete");
         }
@@ -103,26 +103,22 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     public void onHeaderItemClick(View v) {
         switch(v.getId()) {
             case R.id.statusHeader:
-                Collections.sort(actions, Action.statusComparator);
-                adapter.notifyDataSetChanged();
+                actions = controller.sortActions(Action.Properties.status);
                 break;
             case R.id.roleHeader:
-                Collections.sort(actions, Action.roleComparator);
-                adapter.notifyDataSetChanged();
+                actions = controller.sortActions(Action.Properties.roleResponsible);
                 break;
             case R.id.actionHeader:
-                Collections.sort(actions, Action.actionComparator);
-                adapter.notifyDataSetChanged();
+                actions = controller.sortActions(Action.Properties.task);
                 break;
             case R.id.targetHeader:
-                Collections.sort(actions, Action.targetComparator);
-                adapter.notifyDataSetChanged();
+                actions = controller.sortActions(Action.Properties.target);
                 break;
             case R.id.deadlineHeader:
-                Collections.sort(actions, Action.deadlineComparator);
-                adapter.notifyDataSetChanged();
+                actions = controller.sortActions(Action.Properties.deadline);
                 break;
         }
+        adapter.notifyDataSetChanged();
     }
 
     private class ActionListAdapter extends ArrayAdapter<Action> {
@@ -143,19 +139,19 @@ public class ActionPlanActivity extends Activity implements ActionListView {
             status.setText(currentAction.getStatus());
 
             TextView role = (TextView) view.findViewById(R.id.role);
-            role.setText(currentAction.getRole());
+            role.setText(currentAction.getRoleResponsible());
 
             TextView action = (TextView) view.findViewById(R.id.action);
-            action.setText(currentAction.getAction());
+            action.setText(currentAction.getTask());
 
             TextView target = (TextView) view.findViewById(R.id.target);
             target.setText(currentAction.getTarget());
 
             TextView deadline = (TextView) view.findViewById(R.id.deadline);
-            deadline.setText(currentAction.getDeadline());
+            deadline.setText(currentAction.getDeadline().toString());
 
-            TextView notes = (TextView) view.findViewById(R.id.notes);
-            notes.setText(currentAction.getNotes());
+//            TextView notes = (TextView) view.findViewById(R.id.notes);
+//            notes.setText(currentAction.getNotes());
 
             ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
             optionsMenuBtn.setTag(position);
@@ -170,11 +166,11 @@ public class ActionPlanActivity extends Activity implements ActionListView {
             Action sampleAction = new Action();
             sampleAction.setId(i);
             sampleAction.setStatus("In Progress");
-            sampleAction.setRole("Jennifer Joyce");
-            sampleAction.setAction("Push for discharge");
+            sampleAction.setRoleResponsible("Jennifer Joyce");
+            sampleAction.setTarget("Push for discharge");
             sampleAction.setTarget("John Peyton in D308");
-            sampleAction.setDeadline("11:00 AM");
-            sampleAction.setNotes("Aggressively push for all \"Potential Discharges\" to be actually discharged. Without pushing, we would discharge 3; with pushing, we'll discharge 4.");
+            sampleAction.setDeadline(new Date());
+            //sampleAction.setNotes("Aggressively push for all \"Potential Discharges\" to be actually discharged. Without pushing, we would discharge 3; with pushing, we'll discharge 4.");
             this.actions.add(sampleAction);
         }
     }

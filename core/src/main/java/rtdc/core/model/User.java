@@ -5,7 +5,7 @@ import rtdc.core.json.JSONObject;
 
 public class User extends RootObject implements ValidationEnabled<User.Properties> {
 
-    public enum Properties{
+    public enum Properties implements ObjectProperty<User> {
         id,
         username,
         firstName,
@@ -43,21 +43,29 @@ public class User extends RootObject implements ValidationEnabled<User.Propertie
     }
 
     @Override
-    public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.id.name(), getId());
-        object.put(Properties.username.name(), getUsername());
-        object.put(Properties.firstName.name(), getFirstName());
-        object.put(Properties.lastName.name(), getLastName());
-        object.put(Properties.email.name(), getEmail());
-        object.put(Properties.permission.name(), getPermission());
-        object.put(Properties.role.name(), getRole());
-        object.put(Properties.phone.name(), getPhone());
-        object.put(Properties.unit.name(), unit == null? null: unit.toJsonObject());
+    public ObjectProperty[] getProperties() {
+        return Properties.values();
     }
 
     @Override
     public String getType() {
         return "user";
+    }
+
+    @Override
+    public Object getValue(ObjectProperty property) {
+        switch((Properties) property){
+            case id: return id;
+            case username: return username;
+            case firstName: return firstName;
+            case lastName: return lastName;
+            case email: return email;
+            case permission: return permission;
+            case role: return role;
+            case phone: return phone;
+            case unit: return unit;
+        }
+        return null;
     }
 
     @Override

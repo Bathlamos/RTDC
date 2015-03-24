@@ -64,14 +64,14 @@ public class CreateActionActivity extends Activity implements AddActionView {
 
         if (actionId != null) {
             Action action = new Action(actionId);
-            Unit unit = new Unit(Integer.toString(action.getUnitId()));
+            Unit unit = action.getUnit();
             setUnitAsString(unit.getName());
             setStatusAsString(action.getStatus());
-            setRoleAsString(action.getRole());
-            setActionAsString(action.getAction());
+            setRoleAsString(action.getRoleResponsible());
+            setActionAsString(action.getTask());
             setTargetAsString(action.getTarget());
-            setDeadlineAsString(action.getDeadline());
-            setNotesAsString(action.getNotes());
+            setDeadlineAsString(action.getDeadline().toString());
+            //setNotesAsString(action.getNotes());
         }
 
         // controller = new AddActionController(this);

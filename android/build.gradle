@@ -47,5 +47,4 @@ android {
 dependencies {
     compile project(":core")
     compile 'com.mcxiaoke.volley:library:1.0.+'
-    compile 'com.android.support:support-annotations:21.0.0'
 }

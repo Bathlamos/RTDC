@@ -26,7 +26,6 @@ public interface AddUserView extends View {
     String getRoleAsString();
     void setRoleAsString(String value);
 
-    void setRoleAsString(String value);
     String getPasswordAsString();
     void setPasswordAsString(String value);
 

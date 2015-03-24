@@ -8,9 +8,11 @@ import java.util.ArrayList;
 
 public abstract class RootObject {
 
-    public abstract void augmentJsonObject(JSONObject object);
+    public abstract ObjectProperty[] getProperties();
 
     public abstract String getType();
+
+    public abstract Object getValue(ObjectProperty property);
 
     protected <T> ArrayList<T> parseJsonArray(JSONArray array, Function<JSONObject, T> function){
         ArrayList<T> arrayList = new ArrayList<T>();
@@ -34,7 +36,15 @@ public abstract class RootObject {
     public JSONObject toJsonObject(){
         JSONObject object = new JSONObject();
         object.put("type", getType());
-        augmentJsonObject(object);
+        for(ObjectProperty p: getProperties()){
+            Object o = getValue(p);
+            if(o == null)
+                ;//Do nothing ~> we want the JSON to be light
+            if(o instanceof RootObject)
+                object.put(p.name(), ((RootObject) o).toJsonObject());
+            else
+                object.put(p.name(), o);
+        }
         return object;
     }
 }

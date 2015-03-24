@@ -9,14 +9,11 @@ import android.view.ViewGroup;
 import android.widget.*;
 import rtdc.android.R;
 
-import rtdc.core.controller.UnitListController;
+import rtdc.core.controller.CapacityOverviewController;
 import rtdc.core.model.Unit;
 import rtdc.core.view.UnitListView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A fragment representing a list of Items.
@@ -29,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class UnitFragment extends Fragment implements AbsListView.OnItemClickListener, UnitListView {
 
-    private UnitListController controller;
+    private CapacityOverviewController controller;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,7 +60,7 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        controller = new UnitListController(this);
+        controller = new CapacityOverviewController(this);
     }
 
     @Override

@@ -5,7 +5,7 @@ import rtdc.core.json.JSONObject;
 
 public class Unit extends RootObject implements ValidationEnabled<Unit.Properties> {
 
-    public enum Properties{
+    public enum Properties implements ObjectProperty<Unit> {
         id,
         name,
         totalBeds,
@@ -13,7 +13,8 @@ public class Unit extends RootObject implements ValidationEnabled<Unit.Propertie
         potentialDc,
         dcByDeadline,
         totalAdmits,
-        admitsByDeadline
+        admitsByDeadline,
+        statusAtDeadline
     }
 
     private int id;
@@ -39,20 +40,29 @@ public class Unit extends RootObject implements ValidationEnabled<Unit.Propertie
     }
 
     @Override
-    public void augmentJsonObject(JSONObject object) {
-        object.put(Properties.id.name(), getId());
-        object.put(Properties.name.name(), getName());
-        object.put(Properties.totalBeds.name(), getTotalBeds());
-        object.put(Properties.availableBeds.name(), getAvailableBeds());
-        object.put(Properties.potentialDc.name(), getPotentialDc());
-        object.put(Properties.dcByDeadline.name(), getDcByDeadline());
-        object.put(Properties.totalAdmits.name(), getTotalAdmits());
-        object.put(Properties.admitsByDeadline.name(), getAdmitsByDeadline());
+    public ObjectProperty[] getProperties() {
+        return Properties.values();
     }
 
     @Override
     public String getType() {
         return "unit";
+    }
+
+    @Override
+    public Object getValue(ObjectProperty property) {
+        switch((Properties) property){
+            case id : return id;
+            case name: return name;
+            case totalBeds: return totalBeds;
+            case availableBeds: return availableBeds;
+            case potentialDc: return potentialDc;
+            case dcByDeadline: return dcByDeadline;
+            case totalAdmits: return totalAdmits;
+            case admitsByDeadline: return admitsByDeadline;
+            case statusAtDeadline: return getStatusAtDeadline();
+        }
+        return null;
     }
 
     public boolean validate(Properties property) throws ValidationException{
@@ -131,5 +141,9 @@ public class Unit extends RootObject implements ValidationEnabled<Unit.Propertie
 
     public void setAdmitsByDeadline(int admitsByDeadline) {
         this.admitsByDeadline = admitsByDeadline;
+    }
+
+    public int getStatusAtDeadline(){
+        return getAvailableBeds() + getDcByDeadline() - getAdmitsByDeadline();
     }
 }

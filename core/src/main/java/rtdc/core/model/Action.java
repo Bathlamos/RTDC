@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Action extends RootObject implements ValidationEnabled<Action.Properties> {
 
-    public enum Properties{
+    public enum Properties implements ObjectProperty<Action> {
         id,
         unit,
         status,
@@ -25,8 +25,8 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
     private User personResponsible;
     private String roleResponsible;
     private String task; // this is the title
-    private Date target;
-    private long deadline;
+    private String target;
+    private Date deadline;
     private String description;
 
     public Action(){}
@@ -39,29 +39,44 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
             setPersonResponsible(new User(object.getJSONObject(Properties.personResponsible.name())));
         setRoleResponsible(object.optString(Properties.roleResponsible.name()));
         setTask(object.optString(Properties.task.name()));
-        if(object.has(Properties.target.name()))
-            setTarget(new Date(object.optLong(Properties.target.name())));
-        setDeadline(object.optLong(Properties.deadline.name()));
+        if(object.has(Properties.deadline.name()))
+            setDeadline(new Date(object.getLong(Properties.deadline.name())));
+        setTarget(object.optString(Properties.target.name()));
         setDescription(object.optString(Properties.description.name()));
     }
 
     @Override
     public void augmentJsonObject(JSONObject object){
-        object.put(Properties.id.name(), getId());
-        object.put(Properties.unit.name(), getUnit().toJsonObject());
-        object.put(Properties.status.name(), getStatus());
-        object.put(Properties.personResponsible.name(), personResponsible == null? null: personResponsible.toJsonObject());
-        object.put(Properties.roleResponsible.name(), roleResponsible == null? null: getRoleResponsible());
-        object.put(Properties.task.name(), getTask());
-        object.put(Properties.target.name(), getTarget());
-        object.put(Properties.deadline.name(), getDeadline());
-        object.put(Properties.description.name(), getDescription());
+        for(Properties p: Action.Properties.values()){
+            Object o = getValue(p);
+            if(o instanceof RootObject)
+                object.put(p.name(), ((RootObject) o).toJsonObject());
+            else
+                object.put(p.name(), o);
+        }
     }
 
     @Override
     public String getType() {
         return "action";
     }
+
+    @Override
+    public Object getValue(ObjectProperty property) {
+        switch((Properties) property){
+            case id: return getId();
+            case unit: return getUnit();
+            case status: return getStatus();
+            case personResponsible: return getPersonResponsible();
+            case roleResponsible: return getRoleResponsible();
+            case task: return getTask();
+            case target: return getTarget();
+            case deadline: return getDeadline();
+            case description: return getDescription();
+        }
+        return null;
+    }
+
 
     @Override
     public boolean validate(Properties property) throws ValidationException {
@@ -121,19 +136,19 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
         this.task = task;
     }
 
-    public Date getTarget() {
+    public String getTarget() {
         return target;
     }
 
-    public void setTarget(Date target) {
+    public void setTarget(String target) {
         this.target = target;
     }
 
-    public long getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(long deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 
