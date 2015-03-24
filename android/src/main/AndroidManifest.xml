@@ -34,6 +34,7 @@
             android:name=".presenter.CreateUserActivity"
             android:label="@string/title_activity_create_user"
             android:parentActivityName=".MyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize|stateHidden" >
 
             <!-- Parent activity meta-data to support API level 7+ -->
@@ -44,6 +45,7 @@
         <activity
             android:name=".presenter.CreateUnitActivity"
             android:label="@string/title_activity_create_unit"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".MyActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -53,16 +55,21 @@
             android:name=".presenter.CapacityOverviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_capacity_overview" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity
+                android:name=".presenter.CreateActionActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/title_activity_create_action" >
         </activity>
         <activity
             android:name=".presenter.ActionPlanActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_action_plan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

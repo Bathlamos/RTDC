@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.*;
 import android.widget.*;
 import rtdc.android.MyActivity;
@@ -14,20 +12,15 @@ import rtdc.core.controller.ActionListController;
 import rtdc.core.impl.NumberAwareStringComparator;
 import rtdc.core.model.Action;
 import rtdc.core.view.ActionListView;
-
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ActionPlanActivity extends Activity implements ActionListView {
 
     List<Action> actions = new ArrayList<Action>();
     ListView actionListView;
     ArrayAdapter<Action> adapter;
-    Boolean setEditable = false;
     int editActionId;
     private ActionListController controller;
-    private HashMap<String, Integer> actionValues = new HashMap<String, Integer>();
 
     Context context;
 
@@ -35,6 +28,8 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_plan);
+
+        setTitle(getTitle()+" - 2E Unit");
 
         controller = new ActionListController(this);
         context = this.getBaseContext();
@@ -57,12 +52,16 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.addAction:
+                intent = new Intent(this, CreateActionActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.action_go_to_manage:
-                Intent intent = new Intent(this, MyActivity.class);
+                intent = new Intent(this, MyActivity.class);
                 startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -74,17 +73,26 @@ public class ActionPlanActivity extends Activity implements ActionListView {
             Action action = actions.get(Integer.parseInt(v.getTag().toString()));
             editActionId = action.getId();
             menu.setHeaderTitle(action.getAction()+": "+action.getTarget()+" "+editActionId);
-            menu.add("Edit");
-            menu.add("Delete");
+            menu.add(0, 1, 0, "Edit");
+            menu.add(0, 2, 0, "Delete");
         }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, CreateUserActivity.class);
-        intent.putExtra("actionId", editActionId);
-        startActivity(intent);
-
+        switch(item.getItemId()) {
+            case 1:
+                Intent intent = new Intent(this, CreateActionActivity.class);
+                intent.putExtra("actionId", editActionId);
+                startActivity(intent);
+                break;
+            case 2:
+                // TODO - Delete from database
+                deleteAction(editActionId);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(this, "Action Deleted", Toast.LENGTH_SHORT).show();
+                break;
+        }
         return true;
     }
 
@@ -143,6 +151,15 @@ public class ActionPlanActivity extends Activity implements ActionListView {
             sampleAction.setDeadline("11:00 AM");
             sampleAction.setNotes("Aggressively push for all \"Potential Discharges\" to be actually discharged. Without pushing, we would discharge 3; with pushing, we'll discharge 4.");
             this.actions.add(sampleAction);
+        }
+    }
+
+    private void deleteAction(int actionId) {
+        for (int i = 0; i < actions.size(); i++) {
+            if(actions.get(i).getId() == actionId) {
+                actions.remove(i);
+                break;
+            }
         }
     }
 

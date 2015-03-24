@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content" android:paddingTop="3dp">
 
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:paddingTop="5dp" android:paddingBottom="5dp"
-            android:paddingRight="18dp">
+            android:paddingRight="34dp" android:minHeight="35dp" android:background="#00b1dc"
+            >
         <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -22,8 +23,8 @@
                 android:onClick="onClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:background="@android:color/transparent"
-                android:textStyle="bold|italic" android:textSize="14dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="#ffffff" android:background="@android:color/transparent"
+                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
@@ -39,8 +40,8 @@
                 android:onClick="onClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:background="@android:color/transparent"
-                android:textStyle="bold|italic" android:textSize="14dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="#ffffff" android:background="@android:color/transparent"
+                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
@@ -56,8 +57,8 @@
                 android:onClick="onClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:background="@android:color/transparent"
-                android:textStyle="bold|italic" android:textSize="14dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="#ffffff" android:background="@android:color/transparent"
+                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
@@ -74,8 +75,8 @@
                 android:onClick="onClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:background="@android:color/transparent"
-                android:textStyle="bold|italic" android:textSize="14dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="#ffffff" android:background="@android:color/transparent"
+                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
@@ -91,8 +92,8 @@
                 android:onClick="onClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ff062f4f" android:background="@android:color/transparent"
-                android:textStyle="bold|italic" android:textSize="14dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="#ffffff" android:background="@android:color/transparent"
+                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"

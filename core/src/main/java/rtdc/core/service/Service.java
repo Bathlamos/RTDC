@@ -20,7 +20,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "http://10.146.64.240:8888/api/";
+    private static final String URL = "http://192.168.1.101:8888/api/";
 
     private Service(){}
 
@@ -125,35 +125,6 @@ public final class Service {
         });
     }
 
-    public static void getActions(final AsyncCallback<List<Action>> callback){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
-        req.setHeader("Content-type", "application/x-www-form-urlencoded");
-        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
-        req.execute(new AsyncCallback<HttpResponse>() {
-            @Override
-            public void onSuccess(HttpResponse resp) {
-                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
-                catchSessionExpiredException(wrapper);
-                if("success".equals(wrapper.getStatus())) {
-                    JSONArray array = wrapper.getDataAsJSONArray();
-                    LinkedList<Action> actions = new LinkedList<Action>();
-                    for(int i = array.length() - 1; i >= 0; i--) {
-                        Action action = new Action();
-                        action.map().putAll(array.getJSONObject(i).map());
-                        actions.add(action);
-                    }
-                    callback.onSuccess(actions);
-                }else
-                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
-            }
-
-            @Override
-            public void onError(String message) {
-                callback.onError(message);
-            }
-        });
-    }
-
     public static void getUsers(final AsyncCallback<List<User>> callback){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET);
         req.setHeader("Content-type", "application/x-www-form-urlencoded");
@@ -172,6 +143,35 @@ public final class Service {
                         users.add(user);
                     }
                     callback.onSuccess(users);
+                }else
+                    callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
+            }
+
+            @Override
+            public void onError(String message) {
+                callback.onError(message);
+            }
+        });
+    }
+
+    public static void getActions(final AsyncCallback<List<Action>> callback){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET);
+        req.setHeader("Content-type", "application/x-www-form-urlencoded");
+        req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+        req.execute(new AsyncCallback<HttpResponse>() {
+            @Override
+            public void onSuccess(HttpResponse resp) {
+                JsonTransmissionWrapper wrapper = new JsonTransmissionWrapper(resp.getContent());
+                catchSessionExpiredException(wrapper);
+                if("success".equals(wrapper.getStatus())) {
+                    JSONArray array = wrapper.getDataAsJSONArray();
+                    LinkedList<Action> actions = new LinkedList<Action>();
+                    for(int i = array.length() - 1; i >= 0; i--) {
+                        Action action = new Action();
+                        action.map().putAll(array.getJSONObject(i).map());
+                        actions.add(action);
+                    }
+                    callback.onSuccess(actions);
                 }else
                     callback.onError(wrapper.getStatus() + " : " + wrapper.getDescription());
             }

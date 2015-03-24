@@ -11,6 +11,16 @@
     <string name="save">Save</string>
     <string name="title_activity_create_unit">Create Unit</string>
     <string name="title_activity_action_plan">Action Plan</string>
+    <string name="action_unit">Unit</string>
+    <string name="action_status">Status</string>
+    <string name="action_role">Role</string>
+    <string name="action_role_hint">Employee or Role Name</string>
+    <string name="action_action">Action</string>
+    <string name="action_target">Target</string>
+    <string name="action_target_hint">Patient and/or Room</string>
+    <string name="deadline">Deadline</string>
+    <string name="notes">Notes</string>
+    <string name="title_activity_create_action">Create Action</string>
     <string-array name="action_status">
         <item>In Progress</item>
         <item>Completed</item>
@@ -19,7 +29,7 @@
     <string-array name="actions">
         <item>Push for Discharge</item>
         <item>Off Servicing to</item>
-        <item>Hold Until</item>
+        <item>Hold</item>
     </string-array>
 
 </resources>

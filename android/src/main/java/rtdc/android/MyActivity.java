@@ -71,23 +71,27 @@ public class MyActivity extends Activity implements UserFragment.OnFragmentInter
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_add:
                 TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
                 if (tabHost.getCurrentTab() == TAB_ACCOUNTS) {
-                    Intent intent = new Intent(this, CreateUserActivity.class);
+                    intent = new Intent(this, CreateUserActivity.class);
                     startActivity(intent);
+
                 } else if (tabHost.getCurrentTab() == TAB_UNITS) {
-                    Intent intent = new Intent(this, CreateUnitActivity.class);
+                    intent = new Intent(this, CreateUnitActivity.class);
                     startActivity(intent);
                 }
                 return true;
             case R.id.action_go_to_cap_overview:
-                Intent intent = new Intent(this, CapacityOverviewActivity.class);
+                intent = new Intent(this, CapacityOverviewActivity.class);
                 startActivity(intent);
+                return true;
             case R.id.action_go_to_action_plan:
-                Intent intent2 = new Intent(this, ActionPlanActivity.class);
-                startActivity(intent2);
+                intent = new Intent(this, ActionPlanActivity.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
