@@ -36,7 +36,11 @@ public abstract class Event<T extends EventHandler> extends RootObject {
     }
 
     protected <T extends EventHandler> ImmutableSet<T> getHandlers(EventType<T> type){
-        return handlers.get(type).getHandlers();
+        EventAggregator eventAggregator = handlers.get(type);
+        if(eventAggregator == null)
+            return ImmutableSet.of();
+        else
+            return eventAggregator.getHandlers();
     }
 
     abstract void fire();

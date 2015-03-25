@@ -1,6 +1,7 @@
 package rtdc.core.controller;
 
 import com.google.common.collect.ImmutableSet;
+import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
@@ -18,6 +19,7 @@ public class CapacityOverviewController extends Controller<UnitListView> impleme
 
     public CapacityOverviewController(UnitListView view){
         super(view);
+        Event.subscribe(FetchUnitsEvent.TYPE, this);
         Service.getUnits();
     }
 

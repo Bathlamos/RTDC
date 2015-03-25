@@ -1,6 +1,7 @@
 package rtdc.core.controller;
 
 import com.google.common.collect.ImmutableSet;
+import rtdc.core.event.Event;
 import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
@@ -20,11 +21,12 @@ public class ActionListController implements FetchActionsEvent.FetchActionsHandl
 
     public ActionListController(ActionListView view){
         this.view = view;
+        Event.subscribe(FetchActionsEvent.TYPE, this);
         Service.getActions();
     }
 
     public List<Action> sortActions(Action.Properties property){
-        LinkedList<Action> sortedActions = new LinkedList<Action>(actions);
+        LinkedList<Action> sortedActions = new LinkedList<>(actions);
         Collections.sort(sortedActions, SimpleComparator.forProperty(property));
         return sortedActions;
     }
