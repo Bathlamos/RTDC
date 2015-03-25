@@ -66,10 +66,6 @@ public class CreateUserActivity extends Activity implements AddUserView {
         if (userJson != null) {
             currentUser = new User(new JSONObject(userJson));
             setUsernameAsString(currentUser.getUsername());
-            usernameEdit.setEnabled(false);
-            usernameEdit.setFocusable(false);
-            passwordText.setVisibility(View.GONE);
-            passwordEdit.setVisibility(View.GONE);
             setEmailAsString(currentUser.getEmail());
             setFirstnameAsString(currentUser.getFirstName());
             setSurnameAsString(currentUser.getLastName());
