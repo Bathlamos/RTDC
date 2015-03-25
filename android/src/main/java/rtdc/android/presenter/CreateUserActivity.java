@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import rtdc.android.MyActivity;
 import rtdc.android.R;
 import rtdc.core.controller.AddUserController;
 import rtdc.core.json.JSONObject;
@@ -111,9 +112,20 @@ public class CreateUserActivity extends Activity implements AddUserView {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save_new_user) {
             controller.addUser();
+            Intent intent = new Intent(this, MyActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_discard_user) {
-            controller.deleteUser(currentUser);
+            if (currentUser != null) {
+                controller.deleteUser(currentUser);
+                // Ask for confirmation
+                Intent intent = new Intent(this, MyActivity.class);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(this, MyActivity.class);
+                startActivity(intent);
+            }
             return true;
         }
 

@@ -3,12 +3,14 @@ package rtdc.android.presenter;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import rtdc.android.MyActivity;
 import rtdc.android.R;
 import rtdc.core.controller.AddUnitController;
 import rtdc.core.json.JSONObject;
@@ -64,16 +66,19 @@ public class CreateUnitActivity extends Activity implements AddUnitView{
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save_new_unit) {
             controller.addUnit();
-            // Get out of activity ?
+            Intent intent = new Intent(this, MyActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_discard_unit) {
             if (currentUnit != null) {
                 controller.deleteUnit(currentUnit);
-                // Ask for confirmation
-                // Get out of activity
+                // Show confirmation dialog
+                Intent intent = new Intent(this, MyActivity.class);
+                startActivity(intent);
             }
             else {
-                // Get out of activity
+                Intent intent = new Intent(this, MyActivity.class);
+                startActivity(intent);
             }
             return true;
         }
