@@ -41,7 +41,7 @@ public class CreateUnitActivity extends Activity implements AddUnitView{
         if (unitJson != null) {
             currentUnit = new Unit(new JSONObject(unitJson));
             unitNameEdit.setText(currentUnit.getName());
-            totalBedsEdit.setText(currentUnit.getTotalBeds());
+            totalBedsEdit.setText(Integer.toString(currentUnit.getTotalBeds()));
         }
 
         controller = new AddUnitController(this);
