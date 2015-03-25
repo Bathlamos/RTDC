@@ -5,7 +5,7 @@ import rtdc.core.json.JSONObject;
 
 import java.util.Date;
 
-public class Action extends RootObject implements ValidationEnabled<Action.Properties> {
+public class Action extends RootObject{
 
     public enum Properties implements ObjectProperty<Action> {
         id,
@@ -69,17 +69,6 @@ public class Action extends RootObject implements ValidationEnabled<Action.Prope
             case description: return getDescription();
         }
         return null;
-    }
-
-
-    @Override
-    public boolean validate(Properties property) throws ValidationException {
-        SimpleValidator validator = new SimpleValidator();
-        switch(property){
-            case unit: return validator.expectNotNull(unit);
-            case task: return validator.expectNotEmpty(task);
-        }
-        return true;
     }
 
     public int getId() {

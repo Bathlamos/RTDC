@@ -3,7 +3,7 @@ package rtdc.core.model;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 
-public class Unit extends RootObject implements ValidationEnabled<Unit.Properties> {
+public class Unit extends RootObject {
 
     public enum Properties implements ObjectProperty<Unit> {
         id,
