@@ -30,6 +30,7 @@ public class UnitListAdapter extends ArrayAdapter {
 
     private class ViewHolder {
         TextView nameText;
+        TextView secondLine;
     }
 
     /**
@@ -52,6 +53,7 @@ public class UnitListAdapter extends ArrayAdapter {
             }
             holder = new ViewHolder();
             holder.nameText = (TextView)viewToUse.findViewById(R.id.unit_textView);
+            holder.secondLine = (TextView) viewToUse.findViewById(R.id.unit_secondLine);
             viewToUse.setTag(holder);
         } else {
             viewToUse = convertView;
@@ -59,6 +61,7 @@ public class UnitListAdapter extends ArrayAdapter {
         }
 
         holder.nameText.setText(unit.getName());
+        holder.secondLine.setText("Total number of beds: " + unit.getTotalBeds());
         return viewToUse;
     }
 }
