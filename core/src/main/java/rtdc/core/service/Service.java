@@ -85,8 +85,7 @@ public final class Service {
         req.addParameter("id", actionId + "");
         executeRequest(req);
     }
-
-
+    
     private static void executeRequest(HttpRequest request){
         request.setContentType("application/x-www-form-urlencoded");
         //TODO:         req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);

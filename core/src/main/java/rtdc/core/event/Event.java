@@ -25,7 +25,12 @@ public abstract class Event<T extends EventHandler> extends RootObject {
                 e = new FetchUnitsEvent(object);
             else if(type.equalsIgnoreCase(FetchUsersEvent.TYPE.getName()))
                 e = new FetchUsersEvent(object);
-            e.fire();
+            else if(type.equalsIgnoreCase(FetchActionsEvent.TYPE.getName()))
+                e = new FetchActionsEvent(object);
+            if( e != null)
+                e.fire();
+            else
+                throw new RuntimeException("Event has not been registred under Event.java/fire: " + object.toString());
         }
     }
 
