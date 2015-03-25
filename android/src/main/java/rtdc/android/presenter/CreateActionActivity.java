@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import rtdc.android.R;
+import rtdc.core.controller.AddActionController;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
@@ -25,25 +26,22 @@ import java.util.List;
 
 public class CreateActionActivity extends Activity implements AddActionView {
 
-    // private AddActionController controller;
+    private AddActionController controller;
 
     private EditText roleEdit, targetEdit, deadlineEdit, notesEdit;
     private Spinner unitSpinner, statusSpinner, actionSpinner;
-    List<String> unitArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_action);
 
+        controller = new AddActionController(this);
+
         roleEdit = (EditText) findViewById(R.id.roleEdit);
         targetEdit = (EditText) findViewById(R.id.targetEdit);
         deadlineEdit = (EditText) findViewById(R.id.deadlineEdit);
         notesEdit = (EditText) findViewById(R.id.notesEdit);
-
-        unitArray =  new ArrayList<String>();
-        unitArray.add("1E");
-        unitArray.add("2E");
 
         unitSpinner = (Spinner) findViewById(R.id.unitSpinner);
         ArrayAdapter<String> unitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unitArray);

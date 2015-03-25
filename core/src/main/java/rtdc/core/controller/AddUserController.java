@@ -6,7 +6,7 @@ import rtdc.core.model.User;
 import rtdc.core.service.Service;
 import rtdc.core.view.AddUserView;
 
-public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.ActionCompleteHandler {
+public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.Handler {
 
 
     public AddUserController(AddUserView view){

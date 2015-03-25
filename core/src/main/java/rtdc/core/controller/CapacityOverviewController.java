@@ -3,7 +3,6 @@ package rtdc.core.controller;
 import com.google.common.collect.ImmutableSet;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
-import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
@@ -13,7 +12,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CapacityOverviewController extends Controller<UnitListView> implements FetchUnitsEvent.FetchUnitsHandler{
+public class CapacityOverviewController extends Controller<UnitListView> implements FetchUnitsEvent.Handler {
 
     private ImmutableSet<Unit> units;
 

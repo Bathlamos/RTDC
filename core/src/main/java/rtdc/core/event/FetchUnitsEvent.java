@@ -5,11 +5,11 @@ import com.google.common.collect.ImmutableSet;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.*;
 
-public class FetchUnitsEvent extends Event<FetchUnitsEvent.FetchUnitsHandler> {
+public class FetchUnitsEvent extends Event<FetchUnitsEvent.Handler> {
 
-    public static final EventType<FetchUnitsHandler> TYPE = new EventType<FetchUnitsHandler>("fetchUnitsEvent");
+    public static final EventType<Handler> TYPE = new EventType<Handler>("fetchUnitsEvent");
 
-    public interface FetchUnitsHandler extends EventHandler{ public void onUnitsFetched(FetchUnitsEvent event);}
+    public interface Handler extends EventHandler{ public void onUnitsFetched(FetchUnitsEvent event);}
 
     public enum Properties implements ObjectProperty<FetchUnitsEvent>{
         units
@@ -36,7 +36,7 @@ public class FetchUnitsEvent extends Event<FetchUnitsEvent.FetchUnitsHandler> {
 
 
     public void fire(){
-        for(FetchUnitsHandler handler: getHandlers(TYPE))
+        for(Handler handler: getHandlers(TYPE))
             handler.onUnitsFetched(this);
     }
 

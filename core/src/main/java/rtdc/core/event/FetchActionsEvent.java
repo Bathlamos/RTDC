@@ -6,11 +6,11 @@ import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.ObjectProperty;
 
-public class FetchActionsEvent extends Event<FetchActionsEvent.FetchActionsHandler> {
+public class FetchActionsEvent extends Event<FetchActionsEvent.Handler> {
 
-    public static final EventType<FetchActionsHandler> TYPE = new EventType<FetchActionsHandler>("fetchActionsEvent");
+    public static final EventType<Handler> TYPE = new EventType<Handler>("fetchActionsEvent");
 
-    public interface FetchActionsHandler extends EventHandler{ public void onActionsFetched(FetchActionsEvent event);}
+    public interface Handler extends EventHandler{ public void onActionsFetched(FetchActionsEvent event);}
 
     public enum Properties implements ObjectProperty<FetchActionsEvent>{
         actions
@@ -37,7 +37,7 @@ public class FetchActionsEvent extends Event<FetchActionsEvent.FetchActionsHandl
 
 
     public void fire(){
-        for(FetchActionsHandler handler: getHandlers(TYPE))
+        for(Handler handler: getHandlers(TYPE))
             handler.onActionsFetched(this);
     }
 

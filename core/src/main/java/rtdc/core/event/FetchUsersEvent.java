@@ -4,14 +4,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.ObjectProperty;
-import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
-public class FetchUsersEvent extends Event<FetchUsersEvent.FetchUsersHandler> {
+public class FetchUsersEvent extends Event<FetchUsersEvent.Handler> {
 
-    public static final EventType<FetchUsersHandler> TYPE = new EventType<FetchUsersHandler>("fetchUsersEvent");
+    public static final EventType<Handler> TYPE = new EventType<Handler>("fetchUsersEvent");
 
-    public interface FetchUsersHandler extends EventHandler{ public void onUsersFetched(FetchUsersEvent event);}
+    public interface Handler extends EventHandler{ public void onUsersFetched(FetchUsersEvent event);}
 
     public enum Properties implements ObjectProperty<FetchUsersEvent>{
         users
@@ -38,7 +37,7 @@ public class FetchUsersEvent extends Event<FetchUsersEvent.FetchUsersHandler> {
 
 
     public void fire(){
-        for(FetchUsersHandler handler: getHandlers(TYPE))
+        for(Handler handler: getHandlers(TYPE))
             handler.onUsersFetched(this);
     }
 

@@ -4,9 +4,9 @@ import rtdc.core.json.JSONObject;
 import rtdc.core.model.ObjectProperty;
 import rtdc.core.model.User;
 
-public class AuthenticationEvent extends Event<AuthenticationEvent.AuthenticationHandler> {
+public class AuthenticationEvent extends Event<AuthenticationEvent.Handler> {
 
-    public static final EventType<AuthenticationHandler> TYPE = new EventType<AuthenticationHandler>("authenticationEvent");
+    public static final EventType<Handler> TYPE = new EventType<Handler>("authenticationEvent");
 
     public enum Properties implements ObjectProperty<AuthenticationEvent>{
         user,
@@ -16,9 +16,7 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Authenticatio
     private final User user;
     private final String authenticationToken;
 
-    public interface AuthenticationHandler extends EventHandler{
-        public void onAuthenticate(AuthenticationEvent event);
-    }
+    public interface Handler extends EventHandler{ public void onAuthenticate(AuthenticationEvent event); }
 
     public AuthenticationEvent(User user, String authenticationToken){
         this.user = user;
@@ -39,7 +37,7 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Authenticatio
     }
 
     void fire() {
-        for(AuthenticationHandler handler: getHandlers(TYPE))
+        for(Handler handler: getHandlers(TYPE))
             handler.onAuthenticate(this);
     }
 

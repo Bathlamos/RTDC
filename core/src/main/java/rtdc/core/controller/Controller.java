@@ -4,7 +4,7 @@ import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.view.View;
 
-public abstract class Controller<T extends View> implements ErrorEvent.ErrorHandler{
+public abstract class Controller<T extends View> implements ErrorEvent.Handler {
 
     protected final T view;
 

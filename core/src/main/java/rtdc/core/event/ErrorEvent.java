@@ -2,11 +2,10 @@ package rtdc.core.event;
 
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.ObjectProperty;
-import rtdc.core.model.User;
 
-public class ErrorEvent extends Event<ErrorEvent.ErrorHandler> {
+public class ErrorEvent extends Event<ErrorEvent.Handler> {
 
-    public static final EventType<ErrorHandler> TYPE = new EventType<ErrorHandler>("errorEvent");
+    public static final EventType<Handler> TYPE = new EventType<Handler>("errorEvent");
 
     public enum Properties implements ObjectProperty<ErrorEvent>{
         description
@@ -14,7 +13,7 @@ public class ErrorEvent extends Event<ErrorEvent.ErrorHandler> {
 
     private final String description;
 
-    public interface ErrorHandler extends EventHandler{ public void onError(ErrorEvent event);}
+    public interface Handler extends EventHandler{ public void onError(ErrorEvent event);}
 
 
     public ErrorEvent(String description){
@@ -31,7 +30,7 @@ public class ErrorEvent extends Event<ErrorEvent.ErrorHandler> {
 
 
     public void fire(){
-        for(ErrorHandler handler: getHandlers(TYPE))
+        for(Handler handler: getHandlers(TYPE))
             handler.onError(this);
     }
 

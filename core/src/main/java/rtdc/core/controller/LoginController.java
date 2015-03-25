@@ -6,7 +6,7 @@ import rtdc.core.event.Event;
 import rtdc.core.service.Service;
 import rtdc.core.view.LoginView;
 
-public class LoginController extends Controller<LoginView> implements AuthenticationEvent.AuthenticationHandler{
+public class LoginController extends Controller<LoginView> implements AuthenticationEvent.Handler {
 
 
     public LoginController(LoginView view){

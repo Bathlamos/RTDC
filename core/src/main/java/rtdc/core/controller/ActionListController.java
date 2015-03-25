@@ -5,16 +5,14 @@ import rtdc.core.event.Event;
 import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
-import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
 import rtdc.core.view.ActionListView;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ActionListController implements FetchActionsEvent.FetchActionsHandler{
+public class ActionListController implements FetchActionsEvent.Handler {
 
     private ActionListView view;
     private ImmutableSet<Action> actions;

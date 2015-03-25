@@ -2,12 +2,9 @@ package rtdc.core.controller;
 
 import com.google.common.collect.ImmutableSet;
 import rtdc.core.event.Event;
-import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.event.FetchUsersEvent;
-import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
-import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
 import rtdc.core.view.UserListView;
 
@@ -15,7 +12,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserListController extends Controller<UserListView> implements FetchUsersEvent.FetchUsersHandler{
+public class UserListController extends Controller<UserListView> implements FetchUsersEvent.Handler {
 
     private ImmutableSet<User> user = ImmutableSet.of();
 
