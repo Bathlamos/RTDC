@@ -21,10 +21,14 @@ public abstract class RootObject {
         return arrayList;
     }
 
-    protected JSONArray toJsonArray(Iterable<? extends RootObject> iterable){
+    protected JSONArray toJsonArray(Iterable iterable){
         JSONArray array = new JSONArray();
-        for(RootObject o: iterable)
-            array.put(o.toJsonObject());
+        for(Object o: iterable) {
+            if(o instanceof RootObject)
+                array.put(((RootObject) o).toJsonObject());
+            else
+                array.put(o);
+        }
         return array;
     }
 
@@ -40,7 +44,9 @@ public abstract class RootObject {
             Object o = getValue(p);
             if(o == null)
                 ;//Do nothing ~> we want the JSON to be light
-            if(o instanceof RootObject)
+            else if(o instanceof Iterable)
+                object.put(p.name(), toJsonArray((Iterable) o));
+            else if(o instanceof RootObject)
                 object.put(p.name(), ((RootObject) o).toJsonObject());
             else
                 object.put(p.name(), o);

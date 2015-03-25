@@ -54,4 +54,9 @@ public class GwtHttpRequest implements HttpRequest{
             exception.printStackTrace();
         }
     }
+
+    @Override
+    public void setContentType(String contentType) {
+        builder.setHeader("Content-Type", contentType);
+    }
 }

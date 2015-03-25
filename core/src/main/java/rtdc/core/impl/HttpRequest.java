@@ -12,4 +12,6 @@ public interface HttpRequest {
 
     public void execute(AsyncCallback<HttpResponse> response);
 
+    public void setContentType(String contentType);
+
 }

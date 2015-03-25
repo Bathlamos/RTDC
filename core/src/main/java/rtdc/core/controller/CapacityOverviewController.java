@@ -33,5 +33,4 @@ public class CapacityOverviewController extends Controller<UnitListView> impleme
         view.setUnits(sortUnits(Unit.Properties.name));
     }
 
-
 }

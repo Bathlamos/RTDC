@@ -4,6 +4,7 @@ import android.content.Context;
 import com.android.volley.*;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,6 +28,8 @@ public class AndroidHttpRequest implements HttpRequest {
 
     private String url;
     private int requestMethod;
+    private String contentType;
+    private String requestBody = "";
     private Map<String, String> params = new HashMap<String, String>(),
         headers = new HashMap<String, String>();
 
@@ -74,8 +77,15 @@ public class AndroidHttpRequest implements HttpRequest {
             paramsAsValuePairs.add(new BasicNameValuePair(param.getKey(), param.getValue()));
         if(requestMethod == 0)
             url += "?" + URLEncodedUtils.format(paramsAsValuePairs, "UTF-8");
+        else
+            requestBody = URLEncodedUtils.format(paramsAsValuePairs, "UTF-8");
 
-        getRequestQueue().add(new JsonObjectRequest(requestMethod, url, URLEncodedUtils.format(paramsAsValuePairs, "UTF-8"), listener, errorListener));
+        getRequestQueue().add(new JsonObjectRequest(requestMethod, url, listener, errorListener));
+    }
+
+    @Override
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
     public static RequestQueue getRequestQueue() {
@@ -87,11 +97,11 @@ public class AndroidHttpRequest implements HttpRequest {
         return mRequestQueue;
     }
 
-    private final class JsonObjectRequest extends JsonRequest<String> {
+    private final class JsonObjectRequest extends StringRequest {
 
-        public JsonObjectRequest(int method, String url, String requestBody, Response.Listener<String> listener,
+        public JsonObjectRequest(int method, String url, Response.Listener<String> listener,
                                  Response.ErrorListener errorListener) {
-            super(method, url, requestBody, listener, errorListener);
+            super(method, url, listener, errorListener);
         }
 
         @Override
@@ -107,8 +117,23 @@ public class AndroidHttpRequest implements HttpRequest {
         }
 
         @Override
+        protected Map<String, String> getPostParams() throws AuthFailureError {
+            return params;
+        }
+
+        @Override
+        public byte[] getBody() throws AuthFailureError {
+            return requestBody.getBytes();
+        }
+
+        @Override
         protected Map<String, String> getParams() throws AuthFailureError {
             return params;
+        }
+
+        @Override
+        public String getBodyContentType() {
+            return contentType;
         }
 
         @Override
