@@ -1,32 +1,24 @@
 package rtdc.core.view;
 
+import com.google.common.collect.ImmutableSet;
+import rtdc.core.impl.UiDropdownList;
+import rtdc.core.impl.UiElement;
+
+import java.util.Date;
+
 public interface AddActionView extends View {
 
-    String getUnitAsString();
-    void setUnitAsString(String value);
-    void setErrorForUnit(String error);
+    UiDropdownList<String> getUnitUiElement();
 
-    String getStatusAsString();
-    void setStatusAsString(String value);
-    void setErrorForStatus(String error);
+    UiElement<String> getStatusUiElement();
 
-    String getRoleAsString();
-    void setRoleAsString(String value);
-    void setErrorForRole(String error);
+    UiElement<String> getRoleUiElement();
 
-    String getActionAsString();
-    void setActionAsString(String value);
-    void setErrorForAction(String error);
+    UiElement<String> getActionUiElement();
 
-    String getTargetAsString();
-    void setTargetAsString(String value);
-    void setErrorForTarget(String error);
+    UiElement<String> getTargetUiElement();
 
-    String getDeadlineAsString();
-    void setDeadlineAsString(String value);
-    void setErrorForDeadline(String error);
+    UiElement<Date> getDeadlineUiElement();
 
-    String getNotesAsString();
-    void setNotesAsString(String value);
-    void setErrorForNotes(String error);
+    UiElement<String> getDescriptionUiElement();
 }

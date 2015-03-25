@@ -29,7 +29,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
-            <Spinner
+            <View
+                    class="rtdc.android.impl.AndroidUiDropdownList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/unitSpinner"/>
@@ -39,9 +40,11 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/action_status"
-                android:id="@+id/statusText" android:paddingTop="15dp"/>
+                android:id="@+id/statusText"
+                android:paddingTop="15dp"/>
 
-            <Spinner
+            <View
+                    class="rtdc.android.impl.AndroidUiDropdownList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/statusSpinner"/>
@@ -54,7 +57,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:paddingTop="15dp"/>
 
-            <EditText
+            <View
+                    class="rtdc.android.impl.AndroidUiString"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -69,7 +73,8 @@
                 android:id="@+id/actionText"
                 android:paddingTop="15dp"/>
 
-            <Spinner
+            <View
+                    class="rtdc.android.impl.AndroidUiDropdownList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/actionSpinner"/>
@@ -82,7 +87,8 @@
                 android:id="@+id/targetText"
                 android:paddingTop="15dp"/>
 
-            <EditText
+            <View
+                    class="rtdc.android.impl.AndroidUiString"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
@@ -98,7 +104,8 @@
                 android:id="@+id/deadlineText"
                 android:paddingTop="15dp"/>
 
-            <EditText
+            <View
+                    class="rtdc.android.impl.AndroidUiString"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -109,16 +116,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/notes"
-                    android:id="@+id/notesText"
+                    android:text="@string/description"
+                    android:id="@+id/descriptionText"
                     android:paddingTop="15dp"/>
 
-            <EditText
+            <View
+                    class="rtdc.android.impl.AndroidUiString"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:inputType="textMultiLine"
                     android:ems="10"
-                    android:id="@+id/notesEdit" android:gravity="top|left"/>
+                    android:id="@+id/descriptionEdit"
+                    android:gravity="top|left"/>
         </LinearLayout>
     </ScrollView>
 

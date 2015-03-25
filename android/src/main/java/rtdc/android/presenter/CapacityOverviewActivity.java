@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import rtdc.android.MyActivity;
+import rtdc.android.AdminActivity;
 import rtdc.android.R;
 import rtdc.core.controller.CapacityOverviewController;
 import rtdc.core.impl.NumberAwareStringComparator;
@@ -151,7 +151,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
                 adapter.notifyDataSetChanged();
                 return true;
             case R.id.action_go_to_manage:
-                Intent intent = new Intent(this, MyActivity.class);
+                Intent intent = new Intent(this, AdminActivity.class);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);

@@ -19,7 +19,7 @@
     <string name="action_target">Target</string>
     <string name="action_target_hint">Patient and/or Room</string>
     <string name="deadline">Deadline</string>
-    <string name="notes">Notes</string>
+    <string name="description">Description</string>
     <string name="title_activity_create_action">Create Action</string>
     <string-array name="action_status">
         <item>In Progress</item>

@@ -74,12 +74,6 @@ public class LoginActivity extends AbstractActivity implements LoginView {
         mPasswordView.setText(password);
     }
 
-    @Override
-    public void saveAuthenticationToken(String token) {
-        Logger.getLogger("RTDC").log(Level.INFO, "Saving authentication token : " + token);
-        Rtdc.getAppPrefs().edit().putString(Rtdc.AUTH_TOKEN_KEY, token).commit();
-    }
-
 }
 
 

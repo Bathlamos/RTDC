@@ -21,7 +21,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.Light" >
         <activity
-            android:name=".MyActivity"
+            android:name=".AdminActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
@@ -37,23 +37,23 @@
         <activity
             android:name=".presenter.CreateUserActivity"
             android:label="@string/title_activity_create_user"
-            android:parentActivityName=".MyActivity"
+            android:parentActivityName=".AdminActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize|stateHidden" >
 
             <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MyActivity" />
+                android:value=".AdminActivity" />
         </activity>
         <activity
             android:name=".presenter.CreateUnitActivity"
             android:label="@string/title_activity_create_unit"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName=".MyActivity" >
+            android:parentActivityName=".AdminActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="rtdc.android.MyActivity" />
+                android:value=".AdminActivity" />
         </activity>
         <activity
             android:name=".presenter.CapacityOverviewActivity"

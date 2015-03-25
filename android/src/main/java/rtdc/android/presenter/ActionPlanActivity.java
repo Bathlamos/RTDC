@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
-import rtdc.android.MyActivity;
+import rtdc.android.AdminActivity;
 import rtdc.android.R;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
@@ -52,7 +52,7 @@ public class ActionPlanActivity extends Activity implements ActionListView {
                 startActivity(intent);
                 return true;
             case R.id.action_go_to_manage:
-                intent = new Intent(this, MyActivity.class);
+                intent = new Intent(this, AdminActivity.class);
                 startActivity(intent);
                 return true;
             default:

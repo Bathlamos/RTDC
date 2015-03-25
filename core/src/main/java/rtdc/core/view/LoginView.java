@@ -7,7 +7,4 @@ public interface LoginView extends View {
 
     String getPassword();
     void setPassword(String password);
-
-    void saveAuthenticationToken(String token);
-
 }
