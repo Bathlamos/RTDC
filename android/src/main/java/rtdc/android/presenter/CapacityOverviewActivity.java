@@ -44,12 +44,6 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         context = this.getBaseContext();
         unitListView = (ListView) findViewById(R.id.CapacityListView);
 
-        // Comment this out when connected to server ------
-        addUnits(5);
-        adapter = new UnitListAdapter();
-        ((AdapterView)unitListView).setAdapter(adapter);
-        // ------------------------------------------------
-
         TextView unitNameHeader = (TextView) findViewById(R.id.unitNameHeader);
         unitNameHeader.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,20 +271,6 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
                     }
                 }
             }
-        }
-    }
-
-    private void addUnits(int x) {
-        Random rand = new Random();
-        for(int i = 0; i < x; i++) {
-            Unit sampleUnit = new Unit();
-            sampleUnit.setName((i+1)+"E".toString());
-            sampleUnit.setAvailableBeds(rand.nextInt((15 - 0) + 1) + 0);
-            sampleUnit.setPotentialDc(rand.nextInt((15 - 0) + 1) + 0);
-            sampleUnit.setDcByDeadline(rand.nextInt((15 - 0) + 1) + 0);
-            sampleUnit.setTotalAdmits(rand.nextInt((15 - 0) + 1) + 0);
-            sampleUnit.setAdmitsByDeadline(rand.nextInt((15 - 0) + 1) + 0);
-            this.units.add(sampleUnit);
         }
     }
 
