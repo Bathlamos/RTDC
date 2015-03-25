@@ -7,6 +7,7 @@
         <g:TextBox ui:field="surname" text="Aumonttt"/>
         <g:TextBox ui:field="role" text="Pure awesomeness"/>
         <g:TextBox ui:field="email" text="plegault@live.ca"/>
+        <g:TextBox ui:field="phone" text="613-555-1234"/>
         <g:TextBox ui:field="permission" text="ADMIN"/>
         <g:Button ui:field="addUser" text="Add User"/>
     </g:FlowPanel>

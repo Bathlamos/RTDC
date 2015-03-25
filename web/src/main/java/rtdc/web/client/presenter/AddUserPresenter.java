@@ -20,7 +20,7 @@ public class AddUserPresenter extends Composite implements AddUserView {
     private AddUserController controller = new AddUserController(this);
 
     @UiField
-    TextBox username, firstname, surname, permission, email, role;
+    TextBox username, firstname, surname, permission, email, role,  phone;
     @UiField
     PasswordTextBox password;
     @UiField
@@ -90,6 +90,16 @@ public class AddUserPresenter extends Composite implements AddUserView {
     @Override
     public void setEmailAsString(String value) {
         email.setText(value);
+    }
+
+    @Override
+    public long getPhoneAsLong() {
+        return Long.valueOf(phone.getText());
+    }
+
+    @Override
+    public void setPhoneAsLong(long value) {
+        phone.setText(String.valueOf(value));
     }
 
     @Override
