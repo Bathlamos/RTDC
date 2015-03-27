@@ -3,7 +3,7 @@ package rtdc.core.model;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 
-public class User extends RootObject implements ValidationEnabled<User.Properties> {
+public class User extends RootObject {
 
     public enum Properties implements ObjectProperty<User> {
         id,
@@ -66,16 +66,6 @@ public class User extends RootObject implements ValidationEnabled<User.Propertie
             case unit: return unit;
         }
         return null;
-    }
-
-    @Override
-    public boolean validate(Properties property) throws ValidationException {
-        SimpleValidator validator = new SimpleValidator();
-        switch(property){
-            case username: return validator.expectNotEmpty(getUsername());
-            case email: return validator.expectEmail(getEmail());
-        }
-        return true;
     }
 
     public int getId() {
