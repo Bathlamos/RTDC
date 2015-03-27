@@ -10,11 +10,11 @@ public interface AddActionView extends View {
 
     UiDropdownList<String> getUnitUiElement();
 
-    UiElement<String> getStatusUiElement();
+    UiDropdownList<String> getStatusUiElement();
 
     UiElement<String> getRoleUiElement();
 
-    UiElement<String> getActionUiElement();
+    UiDropdownList<String> getTaskUiElement();
 
     UiElement<String> getTargetUiElement();
 

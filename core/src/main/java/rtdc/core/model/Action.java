@@ -19,6 +19,18 @@ public class Action extends RootObject{
         description
     }
 
+    public enum Status {
+        inProgress,
+        completed,
+        failed
+    }
+
+    public enum Task {
+        pushForDischarge,
+        offServicingTo,
+        holdFor
+    }
+
     private int id;
     private Unit unit;
     private String status;

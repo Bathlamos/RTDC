@@ -29,8 +29,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
-            <View
-                    class="rtdc.android.impl.AndroidUiDropdownList"
+            <rtdc.android.impl.AndroidUiDropdownList
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/unitSpinner"/>
@@ -43,8 +42,7 @@
                 android:id="@+id/statusText"
                 android:paddingTop="15dp"/>
 
-            <View
-                    class="rtdc.android.impl.AndroidUiDropdownList"
+            <rtdc.android.impl.AndroidUiDropdownList
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/statusSpinner"/>
@@ -57,8 +55,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:paddingTop="15dp"/>
 
-            <View
-                    class="rtdc.android.impl.AndroidUiString"
+            <rtdc.android.impl.AndroidUiString
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -73,8 +70,7 @@
                 android:id="@+id/actionText"
                 android:paddingTop="15dp"/>
 
-            <View
-                    class="rtdc.android.impl.AndroidUiDropdownList"
+            <rtdc.android.impl.AndroidUiDropdownList
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/actionSpinner"/>
@@ -87,8 +83,7 @@
                 android:id="@+id/targetText"
                 android:paddingTop="15dp"/>
 
-            <View
-                    class="rtdc.android.impl.AndroidUiString"
+            <rtdc.android.impl.AndroidUiString
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
@@ -104,8 +99,7 @@
                 android:id="@+id/deadlineText"
                 android:paddingTop="15dp"/>
 
-            <View
-                    class="rtdc.android.impl.AndroidUiString"
+            <rtdc.android.impl.AndroidUiDate
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -120,8 +114,7 @@
                     android:id="@+id/descriptionText"
                     android:paddingTop="15dp"/>
 
-            <View
-                    class="rtdc.android.impl.AndroidUiString"
+            <rtdc.android.impl.AndroidUiString
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:inputType="textMultiLine"

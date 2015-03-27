@@ -8,41 +8,54 @@ import com.google.common.collect.ImmutableSet;
 import rtdc.core.impl.UiDropdownList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<T> {
 
     private final ArrayAdapter<T> adapter;
-    private final ArrayList<T> data = new ArrayList<T>();
 
     public AndroidUiDropdownList(Context context) {
-        this(context, null);
+        super(context);
+
+        adapter = new ArrayAdapter<T>(context, android.R.layout.simple_spinner_item);
+        setAdapter(adapter);
     }
 
     public AndroidUiDropdownList(Context context, AttributeSet attrs) {
-        super(context, attrs, com.android.internal.R.attr.editTextStyle);
-        adapter = new ArrayAdapter<T>(context, android.R.layout.simple_spinner_item, data);
+        super(context, attrs);
+        adapter = new ArrayAdapter<T>(context, android.R.layout.simple_spinner_item);
+        setAdapter(adapter);
+    }
+
+    public AndroidUiDropdownList(Context context, AttributeSet attrs, int defStyle){
+        super(context, attrs, defStyle);
+        adapter = new ArrayAdapter<T>(context, android.R.layout.simple_spinner_item);
         setAdapter(adapter);
     }
 
     @Override
-    public T getValue() {
-        return data.get(getSelectedItemPosition());
+    public int getSelectedIndex(){
+        return getSelectedItemPosition();
     }
 
     @Override
-    public void setList(ImmutableSet<T> elements) {
-        data.clear();
-        data.addAll(elements);
+    public T getValue() {
+        return adapter.getItem(getSelectedItemPosition());
+    }
+
+    @Override
+    public void setList(List<T> elements) {
+        adapter.clear();
+        adapter.addAll(elements);
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void setValue(T value) {
-        for(int i = 0; i < data.size(); i++)
-            if(data.get(i) == value) {
-                setSelection(i);
-                break;
-            }
+        int position = adapter.getPosition(value);
+
+        if(position != -1)
+            setSelection(position);
     }
 
     @Override

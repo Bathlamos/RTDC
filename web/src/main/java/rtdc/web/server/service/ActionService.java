@@ -25,7 +25,7 @@ import java.util.Set;
 public class ActionService {
 
     @GET
-    public String getUsers(@Context HttpServletRequest req){
+    public String get(@Context HttpServletRequest req){
         //AuthService.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -47,7 +47,7 @@ public class ActionService {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    public String updateUser(@Context HttpServletRequest req, @FormParam("action" )String actionString){
+    public String update(@Context HttpServletRequest req, @FormParam("action" )String actionString){
         //AuthService.hasRole(req, ADMIN);
         Action action = new Action(new JSONObject(actionString));
 
@@ -76,7 +76,7 @@ public class ActionService {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
+    public String delete(@Context HttpServletRequest req, @PathParam("id") int id){
         //AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

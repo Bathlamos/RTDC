@@ -2,29 +2,44 @@ package rtdc.core.controller;
 
 import com.google.common.collect.ImmutableSet;
 import rtdc.core.event.Event;
-import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.event.FetchUnitsEvent;
-import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
 import rtdc.core.view.AddActionView;
-import rtdc.core.view.AddUnitView;
+
+import java.util.ArrayList;
 
 public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler{
 
-    private ImmutableSet<Unit> units = ImmutableSet.of();
+    private ArrayList<Unit> units = new ArrayList<>();
 
     public AddActionController(AddActionView view){
         super(view);
         Event.subscribe(FetchUnitsEvent.TYPE, this);
         Service.getUnits();
+
+        ArrayList<String> tasks = new ArrayList<>();
+        for(Action.Task task: Action.Task.values())
+            tasks.add(task.name());
+        view.getTaskUiElement().setList(tasks);
+
+        ArrayList<String> statuses = new ArrayList<>();
+        for(Action.Status status: Action.Status.values())
+            statuses.add(status.name());
+        view.getStatusUiElement().setList(statuses);
     }
 
     public void addAction() {
 
         Action action = new Action();
-        action.setTask(view.getActionAsString());
+        action.setTask(view.getTaskUiElement().getValue());
+        action.setRoleResponsible(view.getRoleUiElement().getValue());
+        action.setTarget(view.getTargetUiElement().getValue());
+        action.setDeadline(view.getDeadlineUiElement().getValue());
+        action.setDescription(view.getDescriptionUiElement().getValue());
+        action.setStatus(view.getStatusUiElement().getValue());
+        action.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
 
 
         /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
@@ -41,6 +56,12 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
-        units = event.getUnits();
+        units = new ArrayList<>(event.getUnits());
+        ArrayList<String> unitNames = new ArrayList<>(units.size());
+
+        for(Unit unit: units)
+            unitNames.add(unit.getName());
+
+        view.getUnitUiElement().setList(unitNames);
     }
 }

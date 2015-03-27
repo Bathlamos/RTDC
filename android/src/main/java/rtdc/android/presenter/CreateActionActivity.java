@@ -1,19 +1,9 @@
 package rtdc.android.presenter;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TimePicker;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiDate;
 import rtdc.android.impl.AndroidUiDropdownList;
@@ -21,14 +11,9 @@ import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddActionController;
 import rtdc.core.impl.UiDropdownList;
 import rtdc.core.impl.UiElement;
-import rtdc.core.json.JSONObject;
-import rtdc.core.model.Action;
-import rtdc.core.model.Unit;
 import rtdc.core.view.AddActionView;
-import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.Date;
-import java.util.List;
 
 public class CreateActionActivity extends AbstractActivity implements AddActionView {
 
@@ -36,14 +21,12 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
 
     private AndroidUiString roleEdit, targetEdit, descriptionEdit;
     private AndroidUiDate deadlineEdit;
-    private AndroidUiDropdownList unitSpinner, statusSpinner, actionSpinner;
+    private AndroidUiDropdownList unitSpinner, statusSpinner, taskSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_action);
-
-        controller = new AddActionController(this);
 
         roleEdit = (AndroidUiString) findViewById(R.id.roleEdit);
         targetEdit = (AndroidUiString) findViewById(R.id.targetEdit);
@@ -51,16 +34,11 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
         descriptionEdit = (AndroidUiString) findViewById(R.id.descriptionEdit);
 
         unitSpinner = (AndroidUiDropdownList) findViewById(R.id.unitSpinner);
-
         statusSpinner = (AndroidUiDropdownList) findViewById(R.id.statusSpinner);
-        ArrayAdapter<CharSequence> satusAdapter = ArrayAdapter.createFromResource(this, R.array.action_status, android.R.layout.simple_spinner_item);
-        satusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        statusSpinner.setAdapter(satusAdapter);
+        taskSpinner = (AndroidUiDropdownList) findViewById(R.id.actionSpinner);
 
-        actionSpinner = (AndroidUiDropdownList) findViewById(R.id.actionSpinner);
-        ArrayAdapter<CharSequence> actionAdapter = ArrayAdapter.createFromResource(this, R.array.actions, android.R.layout.simple_spinner_item);
-        actionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        actionSpinner.setAdapter(actionAdapter);
+        if(controller == null)
+            controller = new AddActionController(this);
     }
 
 
@@ -95,7 +73,7 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     }
 
     @Override
-    public UiElement<String> getStatusUiElement() {
+    public UiDropdownList<String> getStatusUiElement() {
         return statusSpinner;
     }
 
@@ -105,8 +83,8 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     }
 
     @Override
-    public UiElement<String> getActionUiElement() {
-        return actionSpinner;
+    public UiDropdownList<String> getTaskUiElement() {
+        return taskSpinner;
     }
 
     @Override

@@ -5,6 +5,7 @@ import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class RootObject {
 
@@ -48,6 +49,8 @@ public abstract class RootObject {
                 object.put(p.name(), toJsonArray((Iterable) o));
             else if(o instanceof RootObject)
                 object.put(p.name(), ((RootObject) o).toJsonObject());
+            else if(o instanceof Date)
+                object.put(p.name(), ((Date) o).getTime());
             else
                 object.put(p.name(), o);
         }

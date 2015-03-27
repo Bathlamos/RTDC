@@ -57,11 +57,6 @@ public class LoginPresenter extends Composite implements LoginView {
     }
 
     @Override
-    public void saveAuthenticationToken(String token) {
-        Window.alert("TODO::SavingToken:" + token);
-    }
-
-    @Override
     public void displayPermanentError(String title, String error) {
         Window.alert(title + " : " + error);
     }

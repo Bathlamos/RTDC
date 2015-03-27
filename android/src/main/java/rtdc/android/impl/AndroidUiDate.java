@@ -17,15 +17,21 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
     private final Context context;
 
     public AndroidUiDate(Context context) {
-        this(context, null);
+        super(context);
+        this.context = context;
+        setOnFocusChangeListener(this);
     }
 
     public AndroidUiDate(Context context, AttributeSet attrs) {
-        super(context, attrs, com.android.internal.R.attr.editTextStyle);
+        super(context, attrs);
         this.context = context;
-
         setOnFocusChangeListener(this);
+    }
 
+    public AndroidUiDate(Context context, AttributeSet attrs, int defStyle){
+        super(context, attrs, defStyle);
+        this.context = context;
+        setOnFocusChangeListener(this);
     }
 
     @Override
