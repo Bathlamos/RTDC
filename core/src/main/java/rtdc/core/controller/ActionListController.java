@@ -8,14 +8,12 @@ import rtdc.core.model.SimpleComparator;
 import rtdc.core.service.Service;
 import rtdc.core.view.ActionListView;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ActionListController implements FetchActionsEvent.Handler {
 
     private ActionListView view;
-    private ImmutableSet<Action> actions;
+    private Set<Action> actions;
 
     public ActionListController(ActionListView view){
         this.view = view;
@@ -29,10 +27,14 @@ public class ActionListController implements FetchActionsEvent.Handler {
         return sortedActions;
     }
 
+    public void deleteAction(Action action) {
+        actions.remove(action);
+        Service.deleteAction(action.getId());
+    }
 
     @Override
     public void onActionsFetched(FetchActionsEvent event) {
-        actions = event.getActions();
+        actions = new HashSet<>(event.getActions());
         view.setActions(sortActions(Action.Properties.task));
     }
 }

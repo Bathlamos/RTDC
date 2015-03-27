@@ -15,10 +15,10 @@ import java.util.*;
 
 public class ActionPlanActivity extends Activity implements ActionListView {
 
-    List<Action> actions = new ArrayList<Action>();
-    ListView actionListView;
-    ArrayAdapter<Action> adapter;
-    int editActionId;
+    private List<Action> actions = new ArrayList<Action>();
+    private ListView actionListView;
+    private ArrayAdapter<Action> adapter;
+    private Action actionSelected;
     private ActionListController controller;
 
     Context context;
@@ -63,9 +63,8 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId( ) == R.id.optionsMenuBtn) {
-            Action action = actions.get(Integer.parseInt(v.getTag().toString()));
-            editActionId = action.getId();
-            menu.setHeaderTitle(action.getTask() + ": " + action.getTarget() + " "+editActionId);
+            actionSelected = actions.get(Integer.parseInt(v.getTag().toString()));
+            menu.setHeaderTitle(actionSelected.getTask() + ": " + actionSelected.getTarget() + " "+ actionSelected.getId());
             menu.add(0, 1, 0, "Edit");
             menu.add(0, 2, 0, "Delete");
         }
@@ -76,13 +75,12 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         switch(item.getItemId()) {
             case 1:
                 Intent intent = new Intent(this, CreateActionActivity.class);
-                intent.putExtra("actionId", editActionId);
+                intent.putExtra("actionId", actionSelected.getId());
                 startActivity(intent);
                 break;
             case 2:
-                // TODO - Delete from database
-                deleteAction(editActionId);
-                adapter.notifyDataSetChanged();
+                controller.deleteAction(actionSelected);
+                adapter.remove(actionSelected);
                 Toast.makeText(this, "Action Deleted", Toast.LENGTH_SHORT).show();
                 break;
         }

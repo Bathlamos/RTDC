@@ -46,7 +46,7 @@ public final class Service {
     }
 
     public static void deleteUnit(int unitId){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units/id", DELETE);
         req.addParameter("id", unitId + "");
         executeRequest(req);
     }
@@ -64,7 +64,7 @@ public final class Service {
     }
 
     public static void deleteUser(int userId){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users/id", DELETE);
         req.addParameter("id", userId + "");
         executeRequest(req);
     }
@@ -81,8 +81,7 @@ public final class Service {
     }
 
     public static void deleteAction(int actionId){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET);
-        req.addParameter("id", actionId + "");
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions/" + actionId, DELETE);
         executeRequest(req);
     }
     
@@ -110,5 +109,6 @@ public final class Service {
             }
         });
     }
+
 
 }
