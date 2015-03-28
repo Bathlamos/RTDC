@@ -62,7 +62,8 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        controller = new UserListController(this);
+        if(controller == null)
+            controller = new UserListController(this);
     }
 
     @Override

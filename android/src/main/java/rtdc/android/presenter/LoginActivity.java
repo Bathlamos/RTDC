@@ -22,13 +22,15 @@ public class LoginActivity extends AbstractActivity implements LoginView {
     private AutoCompleteTextView mEmailView;
     private AndroidTextValidationWidget mPasswordView;
 
-    private LoginController controller = new LoginController(this);
+    private LoginController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if(controller == null)
+            controller = new LoginController(this);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 

@@ -43,7 +43,8 @@ public class CreateUnitActivity extends Activity implements AddUnitView{
             totalBedsEdit.setText(Integer.toString(currentUnit.getTotalBeds()));
         }
 
-        controller = new AddUnitController(this);
+        if(controller == null)
+            controller = new AddUnitController(this);
     }
 
 

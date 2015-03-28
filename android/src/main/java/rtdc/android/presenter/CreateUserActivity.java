@@ -86,7 +86,8 @@ public class CreateUserActivity extends Activity implements AddUserView {
             // presumably, not relevant
         }
 
-        controller = new AddUserController(this);
+        if(controller == null)
+            controller = new AddUserController(this);
     }
 
 

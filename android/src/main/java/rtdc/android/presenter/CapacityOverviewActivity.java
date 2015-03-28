@@ -40,7 +40,8 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capacity_overview);
 
-        controller = new CapacityOverviewController(this);
+        if(controller == null)
+            controller = new CapacityOverviewController(this);
         context = this.getBaseContext();
         unitListView = (ListView) findViewById(R.id.CapacityListView);
 

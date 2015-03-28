@@ -64,8 +64,8 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        controller = new CapacityOverviewController(this);
+        if(controller == null)
+            controller = new CapacityOverviewController(this);
     }
 
     @Override

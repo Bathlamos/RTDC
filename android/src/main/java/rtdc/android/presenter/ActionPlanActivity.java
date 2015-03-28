@@ -29,8 +29,8 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         setContentView(R.layout.activity_action_plan);
 
         setTitle(getTitle()+" - 2E Unit");
-
-        controller = new ActionListController(this);
+        if(controller == null)
+            controller = new ActionListController(this);
         context = this.getBaseContext();
         actionListView = (ListView) findViewById(R.id.ActionListView);
     }
