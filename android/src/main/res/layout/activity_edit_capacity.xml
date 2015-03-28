@@ -1,0 +1,106 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              tools:context="rtdc.android.presenter.EditCapacityActivity">
+
+    <ScrollView
+        android:id="@+id/createActionForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/availableBedsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/available_beds"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
+
+            <rtdc.android.impl.AndroidUiString
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/available_beds"
+                    android:ems="10"
+                    android:id="@+id/availableBedsEdit"/>
+
+            <TextView
+                    android:id="@+id/potentialDCText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/potential_dc"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="8dp"/>
+
+            <rtdc.android.impl.AndroidUiString
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/potential_dc"
+                    android:ems="10"
+                    android:id="@+id/potentialDCEdit"/>
+
+            <TextView
+                    android:id="@+id/DCByDeadlineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dc_by_2pm"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="8dp"/>
+
+            <rtdc.android.impl.AndroidUiString
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/dc_by_2pm"
+                    android:ems="10"
+                    android:id="@+id/DCByDeadlineEdit"/>
+
+            <TextView
+                    android:id="@+id/totalAdmitsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_admits"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="8dp"/>
+
+            <rtdc.android.impl.AndroidUiString
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/total_admits"
+                    android:ems="10"
+                    android:id="@+id/totalAdmitsEdit"/>
+
+            <TextView
+                    android:id="@+id/admitsByDeadlineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/admits_by_2pm"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_marginTop="8dp"/>
+
+            <rtdc.android.impl.AndroidUiString
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/admits_by_2pm"
+                    android:ems="10"
+                    android:id="@+id/admitsByDeadlineEdit"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

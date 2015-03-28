@@ -28,7 +28,6 @@
             android:name=".presenter.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -59,6 +58,11 @@
             android:name=".presenter.CapacityOverviewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_capacity_overview" >
+        </activity>
+        <activity
+                android:name=".presenter.EditCapacityActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/title_activity_create_action" >
         </activity>
         <activity
                 android:name=".presenter.CreateActionActivity"
