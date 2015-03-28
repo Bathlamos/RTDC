@@ -1,5 +1,6 @@
 package rtdc.android.presenter;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +29,10 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_plan);
 
-        setTitle(getTitle()+" - 2E Unit");
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        setTitle("Action Plan - Medicine Unit");
         if(controller == null)
             controller = new ActionListController(this);
         context = this.getBaseContext();
@@ -64,7 +68,7 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId( ) == R.id.optionsMenuBtn) {
             actionSelected = actions.get(Integer.parseInt(v.getTag().toString()));
-            menu.setHeaderTitle(actionSelected.getTask() + ": " + actionSelected.getTarget() + " "+ actionSelected.getId());
+            menu.setHeaderTitle(actionSelected.getTask() + ": " + actionSelected.getTarget());
             menu.add(0, 1, 0, "Edit");
             menu.add(0, 2, 0, "Delete");
         }

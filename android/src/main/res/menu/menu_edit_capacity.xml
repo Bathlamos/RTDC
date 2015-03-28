@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="rtdc.android.presenter.EditCapacityActivity">
+
+    <item android:id="@+id/action_discard_capacity"
+          android:title="@string/cancel"
+          android:icon="@drawable/ic_action_cancel"
+          android:showAsAction="ifRoom|withText"/>
+
+    <item android:id="@+id/action_save_capacity"
+          android:title="@string/action_save"
+          android:icon="@drawable/ic_action_save"
+          android:showAsAction="ifRoom|withText"/>
+
+</menu>

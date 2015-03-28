@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent" android:minHeight="48dp">
 
     <Space
             android:layout_width="0dp"
@@ -11,91 +11,11 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="UnitName"
+            android:text=""
             android:id="@+id/unitName"
             android:layout_weight="3" android:textStyle="bold" android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp" android:background="@android:color/transparent" android:gravity="center"/>
-
-    <Space
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
-
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="availableBeds"
-            android:id="@+id/availableBeds"
-            android:inputType="number"
-            android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical"
-            android:textColor="#000000" android:enabled="false" android:gravity="center">
-    </EditText>
-
-    <Space
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
-
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="potentialDC"
-            android:id="@+id/potentialDC"
-            android:inputType="number"
-            android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical"
-            android:textColor="#000000" android:enabled="false" android:gravity="center">
-    </EditText>
-
-    <Space
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
-
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="DCByDeadline"
-            android:id="@+id/DCByDeadline"
-            android:inputType="number"
-            android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical"
-            android:textColor="#000000" android:enabled="false" android:gravity="center">
-    </EditText>
-
-    <Space
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
-
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="totalAdmits"
-            android:id="@+id/totalAdmits"
-            android:inputType="number"
-            android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical"
-            android:textColor="#000000" android:enabled="false" android:gravity="center">
-    </EditText>
-
-    <Space
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
-
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="admitsByDeadline"
-            android:id="@+id/admitsByDeadline"
-            android:inputType="number"
-            android:background="@android:color/transparent"
-            android:layout_weight="2" android:layout_gravity="center_vertical"
-            android:textColor="#000000" android:enabled="false" android:gravity="center">
-    </EditText>
+            android:layout_marginLeft="5dp" android:background="@android:color/transparent" android:gravity="center"
+            android:textSize="16dp"/>
 
     <Space
             android:layout_width="0dp"
@@ -105,16 +25,94 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="StatusAtDeadline"
+            android:text=""
+            android:id="@+id/availableBeds"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center" android:textSize="18dp"
+            android:textIsSelectable="false"/>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/potentialDC"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center" android:textSize="18dp"/>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/DCByDeadline"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center" android:textSize="18dp"/>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/totalAdmits"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center" android:textSize="18dp"/>
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/admitsByDeadline"
+            android:background="@android:color/transparent"
+            android:layout_weight="2" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:enabled="false" android:gravity="center" android:textSize="18dp"/>
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8" android:layout_gravity="center_vertical"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
             android:id="@+id/statusAtDeadline"
             android:layout_weight="2" android:layout_gravity="center_vertical"
             android:textColor="#000000" android:enabled="false" android:background="@android:color/transparent"
-            android:gravity="center"/>
+            android:gravity="center" android:textSize="18dp"/>
 
     <Space
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
+
+
+        <ImageButton
+                android:id="@+id/optionsMenuBtn"
+                android:onClick="onOptionsMenuClick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_options" android:baselineAlignBottom="false"
+                android:layout_gravity="center_vertical"/>
 
 </LinearLayout>

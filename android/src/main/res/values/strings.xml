@@ -3,6 +3,13 @@
 
     <string name="app_name">RTDC</string>
     <string name="title_activity_capacity_overview">Capacity Overview</string>
+    <string name="capacity_unit_name">Unit Name</string>
+    <string name="available_beds">Available Beds</string>
+    <string name="potential_dc">Potential DC</string>
+    <string name="dc_by_2pm">DC by 2PM</string>
+    <string name="total_admits">Total Admits</string>
+    <string name="admits_by_2pm">Admits by 2PM</string>
+    <string name="status_at_2pm">Status at 2PM</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="edit">Edit</string>
