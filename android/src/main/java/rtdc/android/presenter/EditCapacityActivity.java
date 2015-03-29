@@ -16,10 +16,7 @@ import rtdc.core.view.EditCapacityView;
 public class EditCapacityActivity extends AbstractActivity implements EditCapacityView {
 
     private EditCapacityController controller;
-
     private AndroidUiString availableBedsEdit, potentialDcEdit, DcByDeadlineEdit, totalAdmitsEdit, admitsByDeadlineEdit;
-
-    private Unit currentUnit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +31,6 @@ public class EditCapacityActivity extends AbstractActivity implements EditCapaci
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        currentUnit = (Unit) Cache.getInstance().retrieve("unit");
-
-        setTitle("Edit Capacity - " + currentUnit.getName());
-        availableBedsEdit.setText(Integer.toString(currentUnit.getAvailableBeds()));
-        potentialDcEdit.setText(Integer.toString(currentUnit.getPotentialDc()));
-        DcByDeadlineEdit.setText(Integer.toString(currentUnit.getDcByDeadline()));
-        totalAdmitsEdit.setText(Integer.toString(currentUnit.getTotalAdmits()));
-        admitsByDeadlineEdit.setText(Integer.toString(currentUnit.getAdmitsByDeadline()));
 
         if(controller == null)
             controller = new EditCapacityController(this);
@@ -64,10 +52,7 @@ public class EditCapacityActivity extends AbstractActivity implements EditCapaci
 
         switch(item.getItemId()) {
             case R.id.action_save_capacity:
-                Cache.getInstance().put("unit", currentUnit);
                 controller.updateCapacity();
-                Intent intent = new Intent(this, CapacityOverviewActivity.class);
-                startActivity(intent);
                 return true;
             case R.id.action_cancel_capacity:
                 finish();
