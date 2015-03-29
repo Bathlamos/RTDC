@@ -21,6 +21,10 @@ public class Cache {
     }
 
     public Object retrieve(String key){
-       return  map.remove(key);
+        return  map.remove(key);
+    }
+
+    public Object get(String key){
+        return  map.get(key);
     }
 }

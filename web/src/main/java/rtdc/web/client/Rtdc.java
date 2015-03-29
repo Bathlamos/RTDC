@@ -2,10 +2,6 @@ package rtdc.web.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.*;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import rtdc.core.Bootstrapper;
 import rtdc.web.client.impl.GwtFactory;
 import rtdc.web.client.presenter.AddUserPresenter;
@@ -27,21 +23,5 @@ public class Rtdc implements EntryPoint {
 
         RootPanel.get().add(new AddUserPresenter());
 
-    }
-
-    private static class MyAsyncCallback implements AsyncCallback<String> {
-        private Label label;
-
-        public MyAsyncCallback(Label label) {
-            this.label = label;
-        }
-
-        public void onSuccess(String result) {
-            label.getElement().setInnerHTML(result);
-        }
-
-        public void onFailure(Throwable throwable) {
-            label.setText("Failed to receive answer from server!");
-        }
     }
 }

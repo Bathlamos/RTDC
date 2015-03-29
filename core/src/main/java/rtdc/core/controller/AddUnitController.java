@@ -42,7 +42,7 @@ public class AddUnitController extends Controller<AddUnitView>{
         else {*/
             Service.updateOrSaveUnit(newUnit);
         //}
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
+        Bootstrapper.FACTORY.newDispatcher().goToAllUnits();
     }
 
     public void deleteUnit(Unit unit){

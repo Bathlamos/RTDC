@@ -7,12 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import rtdc.android.R;
-import rtdc.android.Rtdc;
-import rtdc.android.impl.AndroidTextValidationWidget;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.LoginController;
 import rtdc.core.impl.UiElement;

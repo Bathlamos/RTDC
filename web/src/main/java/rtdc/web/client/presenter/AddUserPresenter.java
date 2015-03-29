@@ -17,7 +17,7 @@ public class AddUserPresenter extends Composite implements AddUserView {
     interface LoginPresenterUiBinder extends UiBinder<FlowPanel, AddUserPresenter> {}
     private static LoginPresenterUiBinder ourUiBinder = GWT.create(LoginPresenterUiBinder.class);
 
-    private AddUserController controller = new AddUserController(this);
+    private final AddUserController controller;
 
     @UiField
     TextBox username, firstname, surname, permission, email, role,  phone;
@@ -35,6 +35,8 @@ public class AddUserPresenter extends Composite implements AddUserView {
                 controller.addUser();
             }
         });
+
+        controller = new AddUserController(this);
     }
 
     @Override

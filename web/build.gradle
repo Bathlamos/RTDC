@@ -39,10 +39,6 @@ dependencies {
     compile 'postgresql:postgresql:9.1-901-1.jdbc4'
     compile 'org.mindrot:jbcrypt:0.3m'
 
-    //We need validation API to avoid a warning from GWT
-    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA', classifier: 'sources'
-    gwt group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA', classifier: 'sources'
-
     compile group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'
     gwt group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'
     compile group: 'com.google.guava', name: 'guava-gwt', version: '18.0', classifier: 'sources'

@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import rtdc.core.controller.LoginController;
+import rtdc.core.impl.UiElement;
 import rtdc.core.view.LoginView;
 
 public class LoginPresenter extends Composite implements LoginView {
@@ -16,7 +17,7 @@ public class LoginPresenter extends Composite implements LoginView {
     interface LoginPresenterUiBinder extends UiBinder<FlowPanel, LoginPresenter> {}
     private static LoginPresenterUiBinder ourUiBinder = GWT.create(LoginPresenterUiBinder.class);
 
-    private LoginController controller = new LoginController(this);
+    private final LoginController controller;
 
     @UiField
     TextBox username;
@@ -34,26 +35,8 @@ public class LoginPresenter extends Composite implements LoginView {
                 controller.login();
             }
         });
-    }
 
-    @Override
-    public String getUsername() {
-        return username.getText();
-    }
-
-    @Override
-    public void setUsername(String username) {
-        this.username.setText(username);
-    }
-
-    @Override
-    public String getPassword() {
-        return password.getText();
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.username.setText(password);
+        controller = new LoginController(this);
     }
 
     @Override
@@ -64,5 +47,55 @@ public class LoginPresenter extends Composite implements LoginView {
     @Override
     public void displayError(String title, String error) {
         Window.alert(title + " : " + error);
+    }
+
+    @Override
+    public UiElement<String> getPasswordUiElement() {
+        return new UiElement<String>() {
+            @Override
+            public String getValue() {
+                return password.getText();
+            }
+
+            @Override
+            public void setValue(String value) {
+                password.setText(value);
+            }
+
+            @Override
+            public String getErrorMessage() {
+                return null;
+            }
+
+            @Override
+            public void setErrorMessage(String errorMessage) {
+
+            }
+        };
+    }
+
+    @Override
+    public UiElement<String> getUsernameUiElement() {
+        return new UiElement<String>() {
+            @Override
+            public String getValue() {
+                return username.getText();
+            }
+
+            @Override
+            public void setValue(String value) {
+                username.setText(value);
+            }
+
+            @Override
+            public String getErrorMessage() {
+                return null;
+            }
+
+            @Override
+            public void setErrorMessage(String errorMessage) {
+
+            }
+        };
     }
 }

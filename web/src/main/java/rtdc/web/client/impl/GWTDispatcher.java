@@ -5,17 +5,27 @@ import rtdc.core.impl.Dispatcher;
 
 public class GWTDispatcher implements Dispatcher{
     @Override
-    public void goToLogin(boolean crushHistory) {
+    public void goToLogin() {
         Window.alert("Going to login");
     }
 
     @Override
-    public void goToAllUnits(boolean crushHistory) {
+    public void goToAllUnits() {
         Window.alert("Going to units");
     }
 
     @Override
-    public void goToUnitInfo(boolean crushHistory) {
+    public void goToActionPlan() {
+        Window.alert("Going to action plan");
+    }
+
+    @Override
+    public void goToEditAction() {
+        Window.alert("Going to edit action");
+    }
+
+    @Override
+    public void goToUnitInfo() {
         Window.alert("Going to unit");
     }
 }
