@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <TabHost
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:id="@+id/tabHost">
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+            <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+            </TabWidget>
+            <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <LinearLayout
+                        android:id="@+id/tabAccounts"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+                    <fragment android:name="rtdc.android.presenter.fragments.UserFragment"
+                              android:id="@+id/users_fragment"
+                              android:layout_weight="1"
+                              android:layout_width="fill_parent"
+                              android:layout_height="fill_parent"
+                              tools:layout="@layout/fragment_user"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/tabUnits"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical">
+                    <fragment android:name="rtdc.android.presenter.fragments.UnitFragment"
+                              android:id="@+id/units_fragment"
+                              android:layout_weight="1"
+                              android:layout_width="fill_parent"
+                              android:layout_height="fill_parent"
+                              tools:layout="@layout/fragment_unit"/>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+</LinearLayout>

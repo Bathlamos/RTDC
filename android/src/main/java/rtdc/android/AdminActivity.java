@@ -1,10 +1,8 @@
 package rtdc.android;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
@@ -15,8 +13,6 @@ import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateUserActivity;
 import rtdc.android.presenter.fragments.UnitFragment;
 import rtdc.android.presenter.fragments.UserFragment;
-
-import java.io.IOException;
 import java.lang.reflect.Field;
 
 public class AdminActivity extends Activity implements UserFragment.OnFragmentInteractionListener, UnitFragment.OnFragmentInteractionListener {
@@ -30,7 +26,7 @@ public class AdminActivity extends Activity implements UserFragment.OnFragmentIn
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_admin);
 
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 

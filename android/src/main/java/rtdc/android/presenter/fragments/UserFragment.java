@@ -68,8 +68,10 @@ public class UserFragment extends Fragment implements AbsListView.OnItemClickLis
 
     @Override
     public void setUsers(List<User> users) {
-        mAdapter = new UserListAdapter(getActivity().getBaseContext(), users);
-        ((AdapterView)mListView).setAdapter(mAdapter);
+        if(controller != null) {
+            mAdapter = new UserListAdapter(getActivity().getBaseContext(), users);
+            ((AdapterView) mListView).setAdapter(mAdapter);
+        }
     }
 
     @Override
