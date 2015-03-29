@@ -28,7 +28,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class UserFragment extends Fragment implements AbsListView.OnItemClickListener, UserListView {
+public class UserFragment extends AbstractFragment implements AbsListView.OnItemClickListener, UserListView {
 
     private UserListController controller;
 

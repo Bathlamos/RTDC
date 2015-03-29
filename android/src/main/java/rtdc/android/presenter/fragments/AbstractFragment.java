@@ -1,11 +1,11 @@
-package rtdc.android.presenter;
+package rtdc.android.presenter.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import rtdc.core.view.View;
 
-public class AbstractActivity extends Activity implements View {
+public class AbstractFragment extends Fragment implements View{
 
     @Override
     public void displayPermanentError(String title, String error) {
@@ -14,7 +14,7 @@ public class AbstractActivity extends Activity implements View {
 
     @Override
     public void displayError(String title, String error) {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(getActivity().getBaseContext())
                 .setTitle(title)
                 .setMessage(error)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

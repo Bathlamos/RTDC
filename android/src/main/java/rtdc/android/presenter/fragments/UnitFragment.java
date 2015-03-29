@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class UnitFragment extends Fragment implements AbsListView.OnItemClickListener, UnitListView {
+public class UnitFragment extends AbstractFragment implements AbsListView.OnItemClickListener, UnitListView {
 
     private CapacityOverviewController controller;
 
@@ -131,7 +131,7 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
             Unit unit = (Unit) mAdapter.getItem(position);
             // TODO: Move that in controller
             Cache.getInstance().put("unit", unit);
-            Bootstrapper.FACTORY.newDispatcher().goToUnitInfo(true);
+            Bootstrapper.FACTORY.newDispatcher().goToUnitInfo();
         }
     }
 

@@ -31,7 +31,7 @@ public class AndroidDispatcher implements Dispatcher {
     }
 
     @Override
-    public void goToUnitInfo(boolean crushHistory) {
+    public void goToUnitInfo() {
         Intent intent = new Intent(Rtdc.getAppContext(), CreateUnitActivity.class);
         Rtdc.getAppContext().startActivity(intent);
     }
