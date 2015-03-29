@@ -26,6 +26,16 @@ public class GWTDispatcher implements Dispatcher{
     }
 
     @Override
+    public void goToEditUnit(Controller caller) {
+
+    }
+
+    @Override
+    public void goToEditCapacity(Controller caller) {
+
+    }
+
+    @Override
     public void goToUnitInfo(Controller caller) {
 
     }

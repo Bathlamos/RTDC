@@ -1,27 +1,20 @@
 package rtdc.android.presenter.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import rtdc.android.R;
 
-import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.core.Bootstrapper;
 import rtdc.core.controller.CapacityOverviewController;
-import rtdc.core.impl.Dispatcher;
 import rtdc.core.model.Unit;
 import rtdc.core.util.Cache;
-import rtdc.core.view.UnitListView;
+import rtdc.core.view.CapacityOverviewView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A fragment representing a list of Items.
@@ -32,7 +25,7 @@ import java.util.logging.Logger;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class UnitFragment extends AbstractFragment implements AbsListView.OnItemClickListener, UnitListView {
+public class UnitFragment extends AbstractFragment implements AbsListView.OnItemClickListener, CapacityOverviewView {
 
     private CapacityOverviewController controller;
 

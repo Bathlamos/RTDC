@@ -1,56 +1,40 @@
 package rtdc.android.presenter;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.*;
 import android.widget.*;
-import rtdc.android.AdminActivity;
 import rtdc.android.R;
+import rtdc.core.Bootstrapper;
 import rtdc.core.controller.CapacityOverviewController;
-import rtdc.core.impl.NumberAwareStringComparator;
 import rtdc.core.model.Unit;
-import rtdc.core.util.Cache;
-import rtdc.core.view.UnitListView;
+import rtdc.core.view.CapacityOverviewView;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class CapacityOverviewActivity extends AbstractActivity implements UnitListView {
+public class CapacityOverviewActivity extends AbstractActivity implements CapacityOverviewView {
 
-    List<Unit> units = new ArrayList<Unit>();
-    ListView unitListView;
-    ArrayAdapter<Unit> adapter;
-    private Unit unitSelected;
+    private ArrayAdapter<Unit> adapter;
+    private ArrayList<Unit> units = new ArrayList<Unit>();
     private CapacityOverviewController controller;
 
-    Context context;
-    private Intent editIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capacity_overview);
-        setTitle(R.string.title_activity_capacity_overview);
 
-        context = this.getBaseContext();
-        editIntent = new Intent(this, EditCapacityActivity.class);
-        unitListView = (ListView) findViewById(R.id.CapacityListView);
+        AdapterView unitListView = (AdapterView) findViewById(R.id.CapacityListView);
 
-        if(controller == null)
+        adapter = new UnitListAdapter(units);
+        unitListView.setAdapter(adapter);
+
+        if (controller == null)
             controller = new CapacityOverviewController(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_capacity_overview, menu);
         return true;
     }
@@ -61,12 +45,11 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_go_to_manage:
-                intent = new Intent(this, AdminActivity.class);
-                startActivity(intent);
+                //TODO:Improve
+                Bootstrapper.FACTORY.newDispatcher().goToAllUnits(controller); //adminActivity
                 return true;
             case R.id.action_go_to_action_plan:
-                intent = new Intent(this, ActionPlanActivity.class);
-                startActivity(intent);
+                Bootstrapper.FACTORY.newDispatcher().goToActionPlan(controller);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -78,45 +61,50 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
     }
 
     public void onHeaderItemClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.unitNameHeader:
-                Collections.sort(units, new NumberAwareStringComparator());
+                controller.sortUnits(Unit.Properties.id);
                 break;
             case R.id.availableBedsHeader:
-                units = controller.sortUnits(Unit.Properties.availableBeds);
+                controller.sortUnits(Unit.Properties.availableBeds);
                 break;
             case R.id.potentialDCHeader:
-                units = controller.sortUnits(Unit.Properties.potentialDc);
+                controller.sortUnits(Unit.Properties.potentialDc);
                 break;
             case R.id.DCByDeadlineHeader:
-                units = controller.sortUnits(Unit.Properties.dcByDeadline);
+                controller.sortUnits(Unit.Properties.dcByDeadline);
                 break;
             case R.id.totalAdmitsHeader:
-                units = controller.sortUnits(Unit.Properties.totalAdmits);
+                controller.sortUnits(Unit.Properties.totalAdmits);
                 break;
             case R.id.admitsByDeadlineHeader:
-                units = controller.sortUnits(Unit.Properties.admitsByDeadline);
+                controller.sortUnits(Unit.Properties.admitsByDeadline);
                 break;
             case R.id.statusAtDeadlineHeader:
-                units = controller.sortUnits(Unit.Properties.statusAtDeadline);
+                controller.sortUnits(Unit.Properties.statusAtDeadline);
                 break;
         }
+    }
+
+    @Override
+    public void setUnits(List<Unit> units) {
+        this.units.clear();
+        this.units.addAll(units);
         adapter.notifyDataSetChanged();
     }
 
     private class UnitListAdapter extends ArrayAdapter<Unit> {
-        public UnitListAdapter(){
+
+        public UnitListAdapter(List<Unit> units) {
             super(CapacityOverviewActivity.this, R.layout.adapter_capacity_overview, units);
         }
 
         @Override
-        public View getView(int position, View view, ViewGroup parent){
-
-            if(view == null)
+        public View getView(int position, View view, ViewGroup parent) {
+            if (view == null)
                 view = getLayoutInflater().inflate(R.layout.adapter_capacity_overview, parent, false);
 
             Unit currentUnit = units.get(position);
-
             int status = currentUnit.getAvailableBeds() + currentUnit.getDcByDeadline() - currentUnit.getAdmitsByDeadline();
 
             TextView unitName = (TextView) view.findViewById(R.id.unitName);
@@ -143,32 +131,15 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
             ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
             optionsMenuBtn.setTag(position);
             optionsMenuBtn.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
-                    unitSelected = units.get(Integer.parseInt(v.getTag().toString()));
-                    Cache.getInstance().put("unit", unitSelected);
-                    startActivity(editIntent);
+                    controller.editCapacity(units.get(Integer.parseInt(v.getTag().toString())));
                 }
+
             });
 
             return view;
         }
-    }
-
-    @Override
-    public void setUnits(List<Unit> units) {
-        this.units = units;
-        adapter = new UnitListAdapter();
-        ((AdapterView)unitListView).setAdapter(adapter);
-    }
-
-    @Override
-    public void displayPermanentError(String title, String error) {
-        Toast.makeText(this, title + "\nPermanent error: " + error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void displayError(String title, String error) {
-        Toast.makeText(this, title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
 }

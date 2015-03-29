@@ -41,6 +41,16 @@ public class AndroidDispatcher implements Dispatcher {
         startIntent(CreateActionActivity.class, caller);
     }
 
+    @Override
+    public void goToEditUnit(Controller caller) {
+        startIntent(CreateUnitActivity.class, caller);
+    }
+
+    @Override
+    public void goToEditCapacity(Controller caller) {
+        startIntent(EditCapacityActivity.class, caller);
+    }
+
     private void startIntent(Class<?> clazz, Controller caller){
         if(caller != null){
             if(caller.getView() instanceof AbstractActivity) {

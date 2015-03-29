@@ -1,19 +1,26 @@
 package rtdc.core.controller;
 
+import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
+import rtdc.core.impl.NumberAwareStringComparator;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
-import rtdc.core.view.UnitListView;
+import rtdc.core.util.Cache;
+import rtdc.core.view.CapacityOverviewView;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class CapacityOverviewController extends Controller<UnitListView> implements FetchUnitsEvent.Handler {
+public class CapacityOverviewController extends Controller<CapacityOverviewView> implements FetchUnitsEvent.Handler {
 
-    private Set<Unit> units;
+    private static final Logger logger = Logger.getLogger(CapacityOverviewController.class.getCanonicalName());
 
-    public CapacityOverviewController(UnitListView view){
+    private ArrayList<Unit> units;
+
+    public CapacityOverviewController(CapacityOverviewView view){
         super(view);
         Event.subscribe(FetchUnitsEvent.TYPE, this);
         Service.getUnits();
@@ -24,21 +31,25 @@ public class CapacityOverviewController extends Controller<UnitListView> impleme
         return "Capacity Overview";
     }
 
-    public List<Unit> sortUnits(Unit.Properties property){
-        LinkedList<Unit> sortedUnits = new LinkedList<>(units);
-        Collections.sort(sortedUnits, SimpleComparator.forProperty(property));
-        return sortedUnits;
+    public void editCapacity(Unit unit){
+        Cache.getInstance().put("unit", unit);
+        Bootstrapper.FACTORY.newDispatcher().goToEditCapacity(this);
     }
 
-    public void deleteUnit(Unit unit){
-        units.remove(unit);
-        Service.deleteUnit(unit.getId());
+    public void sortUnits(Unit.Properties property){
+        logger.log(Level.INFO, "Sorting over " + property.name());
+        ArrayList<Unit> sortedUnits = new ArrayList<>(units);
+        if(property == Unit.Properties.id)
+            Collections.sort(sortedUnits, new NumberAwareStringComparator());
+        else
+            Collections.sort(sortedUnits, SimpleComparator.forProperty(property));
+        view.setUnits(sortedUnits);
     }
 
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
-        units = new HashSet<>(event.getUnits());
-        view.setUnits(sortUnits(Unit.Properties.name));
+        units = new ArrayList<>(event.getUnits());
+        sortUnits(Unit.Properties.name);
     }
 
 }

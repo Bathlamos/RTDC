@@ -1,6 +1,5 @@
 package rtdc.core.controller;
 
-import com.google.common.collect.ImmutableSet;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.model.Action;

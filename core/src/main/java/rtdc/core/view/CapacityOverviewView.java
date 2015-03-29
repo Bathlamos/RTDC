@@ -4,7 +4,7 @@ import rtdc.core.model.Unit;
 
 import java.util.List;
 
-public interface UnitListView extends View {
+public interface CapacityOverviewView extends View {
 
     void setUnits(List<Unit> units);
 
