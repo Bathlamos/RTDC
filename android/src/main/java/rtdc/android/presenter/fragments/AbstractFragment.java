@@ -28,6 +28,6 @@ public class AbstractFragment extends Fragment implements View{
 
     @Override
     public void setTitle(String title) {
-        setTitle(title);
+        //Do nothing
     }
 }

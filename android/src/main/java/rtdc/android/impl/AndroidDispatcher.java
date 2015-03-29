@@ -1,6 +1,5 @@
 package rtdc.android.impl;
 
-
 import android.content.Intent;
 import rtdc.android.AdminActivity;
 import rtdc.android.Rtdc;
