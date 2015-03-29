@@ -8,7 +8,7 @@
         <id name="id" type="integer" column="unit_id">
             <generator class="increment"/>
         </id>
-        <many-to-one name="unit" class="rtdc.core.model.Unit" cascade="save-update" lazy="false"/>
+        <many-to-one name="unit" class="rtdc.core.model.Unit" cascade="all" lazy="false"/>
         <property name="status" column="status" type="string"/>
         <one-to-one name="personResponsible" class="rtdc.core.model.User" cascade="save-update" lazy="false"/>
         <property name="roleResponsible" column="roleResponsible" type="string"/>

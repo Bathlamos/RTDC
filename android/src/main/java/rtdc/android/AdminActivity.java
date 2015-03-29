@@ -15,10 +15,7 @@ import rtdc.android.presenter.fragments.UnitFragment;
 import rtdc.android.presenter.fragments.UserFragment;
 import java.lang.reflect.Field;
 
-public class AdminActivity extends Activity implements UserFragment.OnFragmentInteractionListener, UnitFragment.OnFragmentInteractionListener {
-    /**
-     * Called when the activity is first created.
-     */
+public class AdminActivity extends Activity {
 
     private final static int TAB_ACCOUNTS = 0;
     private final static int TAB_UNITS = 1;
@@ -92,10 +89,5 @@ public class AdminActivity extends Activity implements UserFragment.OnFragmentIn
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onFragmentInteraction(int userId) {
-
     }
 }
