@@ -66,12 +66,13 @@ public class UserService {
             transaction = session.beginTransaction();
 
             UserCredentials credentials = null;
-            if(user.getId() == 0)
+            if(user.getId() == 0) {
+                session.saveOrUpdate(user);
                 credentials = new UserCredentials();
-            else
+            }else {
+                session.merge(user);
                 credentials = (UserCredentials) session.load(UserCredentials.class, user.getId());
-
-            session.saveOrUpdate(user);
+            }
 
             credentials.setUser(user);
             credentials.setSalt(BCrypt.gensalt());
@@ -86,6 +87,7 @@ public class UserService {
         } finally {
             session.close();
         }
+
         return new ActionCompleteEvent(user.getId(), "user").toString();
     }
 
