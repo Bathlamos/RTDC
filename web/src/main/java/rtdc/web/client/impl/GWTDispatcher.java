@@ -13,4 +13,9 @@ public class GWTDispatcher implements Dispatcher{
     public void goToAllUnits(boolean crushHistory) {
         Window.alert("Going to units");
     }
+
+    @Override
+    public void goToUnitInfo(boolean crushHistory) {
+        Window.alert("Going to unit");
+    }
 }

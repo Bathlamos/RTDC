@@ -19,6 +19,7 @@ import rtdc.android.R;
 import rtdc.core.controller.AddUserController;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.User;
+import rtdc.core.util.Cache;
 import rtdc.core.view.AddUserView;
 
 import java.lang.reflect.Field;
@@ -107,6 +108,8 @@ public class CreateUserActivity extends Activity implements AddUserView {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save_new_user) {
+            if (currentUser != null)
+                Cache.getInstance().put("user", currentUser);
             controller.addUser();
             Intent intent = new Intent(this, AdminActivity.class);
             startActivity(intent);

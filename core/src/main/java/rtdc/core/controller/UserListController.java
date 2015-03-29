@@ -1,6 +1,5 @@
 package rtdc.core.controller;
 
-import com.google.common.collect.ImmutableSet;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.model.SimpleComparator;
@@ -8,13 +7,11 @@ import rtdc.core.model.User;
 import rtdc.core.service.Service;
 import rtdc.core.view.UserListView;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class UserListController extends Controller<UserListView> implements FetchUsersEvent.Handler {
 
-    private ImmutableSet<User> user = ImmutableSet.of();
+    private Set<User> users;
 
     public UserListController(UserListView view){
         super(view);
@@ -23,14 +20,19 @@ public class UserListController extends Controller<UserListView> implements Fetc
     }
 
     public List<User> sortUsers(User.Properties property){
-        LinkedList<User> sortedUsers = new LinkedList<>(user);
+        LinkedList<User> sortedUsers = new LinkedList<>(users);
         Collections.sort(sortedUsers, SimpleComparator.forProperty(property));
         return sortedUsers;
     }
 
+    public void deleteUser(User user){
+        users.remove(user);
+        Service.deleteUser(user.getId());
+    }
+
     @Override
     public void onUsersFetched(FetchUsersEvent event) {
-        user = event.getUsers();
+        users = new HashSet<>(event.getUsers());
         view.setUsers(sortUsers(User.Properties.lastName));
     }
 }
