@@ -13,6 +13,11 @@ public class AddUnitController extends Controller<AddUnitView>{
         super(view);
     }
 
+    @Override
+    String getTitle() {
+        return "Add unit";
+    }
+
     public void addUnit() {
 
         Unit newUnit = new Unit();

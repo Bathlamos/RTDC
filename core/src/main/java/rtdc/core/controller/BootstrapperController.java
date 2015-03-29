@@ -16,13 +16,18 @@ public class BootstrapperController extends Controller<BootstrapperView> {
         super(view);
     }
 
+    @Override
+    String getTitle() {
+        return "Bootstrap";
+    }
+
     public void init(){
         Logger.getLogger("RTDC").log(Level.INFO, "Authentication Token: " + view.getAuthenticationToken());
         if(view.hasAuthenticationToken()){
             Bootstrapper.AUTHENTICATION_TOKEN = view.getAuthenticationToken();
-            Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
+            Bootstrapper.FACTORY.newDispatcher().goToAllUnits();
         }else
-            Bootstrapper.FACTORY.newDispatcher().goToLogin(true);
+            Bootstrapper.FACTORY.newDispatcher().goToLogin();
     }
 
 }

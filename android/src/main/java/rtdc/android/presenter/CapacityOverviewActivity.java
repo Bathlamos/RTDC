@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CapacityOverviewActivity extends Activity implements UnitListView {
+public class CapacityOverviewActivity extends AbstractActivity implements UnitListView {
 
     List<Unit> units = new ArrayList<Unit>();
     ListView unitListView;

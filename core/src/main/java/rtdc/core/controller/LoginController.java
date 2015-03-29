@@ -13,6 +13,11 @@ public class LoginController extends Controller<LoginView> implements Authentica
         super(view);
     }
 
+    @Override
+    String getTitle() {
+        return "Login";
+    }
+
     public void login(){
         Service.authenticateUser(view.getUsername(), view.getPassword());
         Event.subscribe(AuthenticationEvent.TYPE, this);
@@ -22,6 +27,6 @@ public class LoginController extends Controller<LoginView> implements Authentica
     @Override
     public void onAuthenticate(AuthenticationEvent event) {
         Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
+        Bootstrapper.FACTORY.newDispatcher().goToAllUnits();
     }
 }

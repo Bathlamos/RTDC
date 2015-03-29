@@ -14,6 +14,11 @@ public class AddUserController extends Controller<AddUserView> implements Action
         Event.subscribe(ActionCompleteEvent.TYPE, this);
     }
 
+    @Override
+    String getTitle() {
+        return "Add User";
+    }
+
     public void addUser() {
 
         User newUser = new User();

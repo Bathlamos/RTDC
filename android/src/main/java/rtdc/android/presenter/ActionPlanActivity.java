@@ -14,7 +14,7 @@ import rtdc.core.model.Action;
 import rtdc.core.view.ActionListView;
 import java.util.*;
 
-public class ActionPlanActivity extends Activity implements ActionListView {
+public class ActionPlanActivity extends AbstractActivity implements ActionListView {
 
     private List<Action> actions = new ArrayList<Action>();
     private ListView actionListView;
@@ -32,11 +32,11 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        setTitle("Action Plan - Medicine Unit");
-        if(controller == null)
-            controller = new ActionListController(this);
         context = this.getBaseContext();
         actionListView = (ListView) findViewById(R.id.ActionListView);
+
+        if(controller == null)
+            controller = new ActionListController(this);
     }
 
     @Override
@@ -78,9 +78,7 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     public boolean onContextItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case 1:
-                Intent intent = new Intent(this, CreateActionActivity.class);
-                intent.putExtra("actionId", actionSelected.getId());
-                startActivity(intent);
+                controller.editAction(actionSelected);
                 break;
             case 2:
                 controller.deleteAction(actionSelected);
@@ -156,29 +154,10 @@ public class ActionPlanActivity extends Activity implements ActionListView {
         }
     }
 
-    private void deleteAction(int actionId) {
-        for (int i = 0; i < actions.size(); i++) {
-            if(actions.get(i).getId() == actionId) {
-                actions.remove(i);
-                break;
-            }
-        }
-    }
-
     @Override
     public void setActions(List<Action> actions) {
         this.actions = actions;
         adapter = new ActionListAdapter();
         ((AdapterView)actionListView).setAdapter(adapter);
-    }
-
-    @Override
-    public void displayPermanentError(String title, String error) {
-        Toast.makeText(this, title + "\nPermanent error: " + error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void displayError(String title, String error) {
-        Toast.makeText(this, title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
 }

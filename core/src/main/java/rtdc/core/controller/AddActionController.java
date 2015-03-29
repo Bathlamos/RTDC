@@ -30,6 +30,11 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         view.getStatusUiElement().setList(statuses);
     }
 
+    @Override
+    String getTitle() {
+        return "Add Action";
+    }
+
     public void addAction() {
 
         Action action = new Action();
@@ -50,7 +55,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         } else if (password == null || password.isEmpty() || password.length() < 4)
             view.displayError("Error", "Password needs to be at least 4 characters");
         else {*/
-            Service.updateOrSaveActions(action);
+        Service.updateOrSaveActions(action);
         //}
     }
 

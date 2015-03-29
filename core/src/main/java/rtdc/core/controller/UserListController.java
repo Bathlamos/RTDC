@@ -22,6 +22,11 @@ public class UserListController extends Controller<UserListView> implements Fetc
         Service.getUsers();
     }
 
+    @Override
+    String getTitle() {
+        return "Users";
+    }
+
     public List<User> sortUsers(User.Properties property){
         LinkedList<User> sortedUsers = new LinkedList<>(user);
         Collections.sort(sortedUsers, SimpleComparator.forProperty(property));

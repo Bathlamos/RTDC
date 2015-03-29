@@ -11,11 +11,14 @@ public abstract class Controller<T extends View> implements ErrorEvent.Handler {
     public Controller(T view){
         Event.subscribe(ErrorEvent.TYPE, this);
         this.view = view;
+        view.setTitle(getTitle());
     }
 
     @Override
     public void onError(ErrorEvent event) {
         view.displayError("Error", event.getDescription());
     }
+
+    abstract String getTitle();
 
 }

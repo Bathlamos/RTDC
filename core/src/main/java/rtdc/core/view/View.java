@@ -6,4 +6,6 @@ public interface View {
 
     void displayError(String title, String error);
 
+    void setTitle(String title);
+
 }

@@ -22,6 +22,11 @@ public class CapacityOverviewController extends Controller<UnitListView> impleme
         Service.getUnits();
     }
 
+    @Override
+    String getTitle() {
+        return "Capacity Overview";
+    }
+
     public List<Unit> sortUnits(Unit.Properties property){
         LinkedList<Unit> sortedUnits = new LinkedList<>(units);
         Collections.sort(sortedUnits, SimpleComparator.forProperty(property));

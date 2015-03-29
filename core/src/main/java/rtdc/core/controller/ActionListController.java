@@ -6,6 +6,7 @@ import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.service.Service;
+import rtdc.core.util.ControllerCache;
 import rtdc.core.view.ActionListView;
 
 import java.util.*;
@@ -25,6 +26,11 @@ public class ActionListController implements FetchActionsEvent.Handler {
         LinkedList<Action> sortedActions = new LinkedList<>(actions);
         Collections.sort(sortedActions, SimpleComparator.forProperty(property));
         return sortedActions;
+    }
+
+    public void editAction(Action action){
+        ControllerCache.put("action", action);
+
     }
 
     public void deleteAction(Action action) {

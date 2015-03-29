@@ -17,7 +17,7 @@ import rtdc.core.json.JSONObject;
 import rtdc.core.model.Unit;
 import rtdc.core.view.AddUnitView;
 
-public class EditCapacityActivity extends Activity /*implements EditCapacityView*/{
+public class EditCapacityActivity extends AbstractActivity /*implements EditCapacityView*/{
 
     //private EditCapacityController controller;
 

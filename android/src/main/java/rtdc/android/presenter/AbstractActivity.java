@@ -34,4 +34,9 @@ public class AbstractActivity extends Activity implements View {
                 .setIconAttribute(android.R.attr.alertDialogIcon)
                 .show();
     }
+
+    @Override
+    public void setTitle(String title) {
+        setTitle(title);
+    }
 }

@@ -16,7 +16,7 @@ import rtdc.core.json.JSONObject;
 import rtdc.core.model.Unit;
 import rtdc.core.view.AddUnitView;
 
-public class CreateUnitActivity extends Activity implements AddUnitView{
+public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
 
     private AddUnitController controller;
 
