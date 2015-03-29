@@ -11,8 +11,11 @@ import android.widget.*;
 import rtdc.android.R;
 
 import rtdc.android.presenter.CreateUnitActivity;
+import rtdc.core.Bootstrapper;
 import rtdc.core.controller.CapacityOverviewController;
+import rtdc.core.impl.Dispatcher;
 import rtdc.core.model.Unit;
+import rtdc.core.util.Cache;
 import rtdc.core.view.UnitListView;
 
 import java.util.ArrayList;
@@ -126,9 +129,9 @@ public class UnitFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
             Unit unit = (Unit) mAdapter.getItem(position);
-            Intent intent = new Intent(this.getActivity(), CreateUnitActivity.class);
-            intent.putExtra("unit", unit.toString());
-            startActivity(intent);
+            // TODO: Move that in controller
+            Cache.getInstance().put("unit", unit);
+            Bootstrapper.FACTORY.newDispatcher().goToUnitInfo(true);
         }
     }
 

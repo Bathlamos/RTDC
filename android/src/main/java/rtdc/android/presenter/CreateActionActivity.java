@@ -11,6 +11,8 @@ import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddActionController;
 import rtdc.core.impl.UiDropdownList;
 import rtdc.core.impl.UiElement;
+import rtdc.core.model.Action;
+import rtdc.core.util.Cache;
 import rtdc.core.view.AddActionView;
 
 import java.util.Date;
@@ -22,6 +24,8 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     private AndroidUiString roleEdit, targetEdit, descriptionEdit;
     private AndroidUiDate deadlineEdit;
     private AndroidUiDropdownList unitSpinner, statusSpinner, taskSpinner;
+
+    private Action currentAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,17 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
         unitSpinner = (AndroidUiDropdownList) findViewById(R.id.unitSpinner);
         statusSpinner = (AndroidUiDropdownList) findViewById(R.id.statusSpinner);
         taskSpinner = (AndroidUiDropdownList) findViewById(R.id.actionSpinner);
+
+        currentAction = (Action) Cache.getInstance().retrieve("action");
+        if (currentAction != null) {
+            getRoleUiElement().setValue(currentAction.getRoleResponsible());
+            getTargetUiElement().setValue(currentAction.getTarget());
+            getDeadlineUiElement().setValue(currentAction.getDeadline());
+            getDescriptionUiElement().setValue(currentAction.getDescription());
+            getUnitUiElement().setValue(currentAction.getUnit().getName());
+            getStatusUiElement().setValue(currentAction.getStatus());
+            getTaskUiElement().setValue(currentAction.getTask());
+        }
 
         if(controller == null)
             controller = new AddActionController(this);
@@ -56,9 +71,11 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_save_action:
+                if (currentAction != null)
+                    Cache.getInstance().put("action", currentAction);
+                controller.addAction();
                 intent = new Intent(this, ActionPlanActivity.class);
                 startActivity(intent);
-                controller.addAction();
                 return true;
             case R.id.action_cancel_action:
                 finish();

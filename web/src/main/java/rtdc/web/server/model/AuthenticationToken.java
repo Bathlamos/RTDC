@@ -1,5 +1,7 @@
 package rtdc.web.server.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import rtdc.core.model.User;
 
 import javax.persistence.*;
@@ -34,6 +36,7 @@ public class AuthenticationToken implements Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.ALL, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public User getUser() {
         return user;
     }

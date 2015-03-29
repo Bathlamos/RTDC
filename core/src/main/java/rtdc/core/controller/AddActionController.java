@@ -6,6 +6,7 @@ import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 import rtdc.core.view.AddActionView;
 
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     public void addAction() {
 
         Action action = new Action();
+        Action cachedAction = (Action) Cache.getInstance().retrieve("action");
+        if (cachedAction != null)
+            action.setId(cachedAction.getId());
         action.setTask(view.getTaskUiElement().getValue());
         action.setRoleResponsible(view.getRoleUiElement().getValue());
         action.setTarget(view.getTargetUiElement().getValue());

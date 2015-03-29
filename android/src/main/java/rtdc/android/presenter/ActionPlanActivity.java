@@ -11,6 +11,7 @@ import rtdc.android.AdminActivity;
 import rtdc.android.R;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
+import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
 import java.util.*;
 
@@ -75,8 +76,8 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     public boolean onContextItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case 1:
+                Cache.getInstance().put("action", actionSelected);
                 Intent intent = new Intent(this, CreateActionActivity.class);
-                intent.putExtra("actionId", actionSelected.getId());
                 startActivity(intent);
                 break;
             case 2:
