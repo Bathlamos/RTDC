@@ -1,6 +1,6 @@
 package rtdc.core.controller;
 
-import com.google.common.collect.ImmutableSet;
+import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.model.Action;
@@ -11,15 +11,19 @@ import rtdc.core.view.ActionListView;
 
 import java.util.*;
 
-public class ActionListController implements FetchActionsEvent.Handler {
+public class ActionListController extends Controller<ActionListView>implements FetchActionsEvent.Handler {
 
-    private ActionListView view;
     private Set<Action> actions;
 
     public ActionListController(ActionListView view){
-        this.view = view;
+        super(view);
         Event.subscribe(FetchActionsEvent.TYPE, this);
         Service.getActions();
+    }
+
+    @Override
+    String getTitle() {
+        return "Edit Action";
     }
 
     public List<Action> sortActions(Action.Properties property){
@@ -30,7 +34,7 @@ public class ActionListController implements FetchActionsEvent.Handler {
 
     public void editAction(Action action){
         Cache.getInstance().put("action", action);
-
+        Bootstrapper.FACTORY.newDispatcher().goToEditAction(this);
     }
 
     public void deleteAction(Action action) {
