@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="rtdc.android.presenter.EditCapacityActivity">
 
-    <item android:id="@+id/action_discard_capacity"
+    <item android:id="@+id/action_cancel_capacity"
           android:title="@string/cancel"
           android:icon="@drawable/ic_action_cancel"
           android:showAsAction="ifRoom|withText"/>

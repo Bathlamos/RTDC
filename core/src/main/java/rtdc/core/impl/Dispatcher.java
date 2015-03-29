@@ -1,6 +1,5 @@
 package rtdc.core.impl;
 
-import rtdc.core.view.View;
 
 public interface Dispatcher {
 
@@ -9,5 +8,5 @@ public interface Dispatcher {
     void goToActionPlan();
     void goToEditAction();
     void goToUnitInfo();
-
+    void goToCapacityOverview();
 }

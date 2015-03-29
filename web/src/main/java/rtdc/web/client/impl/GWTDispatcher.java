@@ -28,4 +28,10 @@ public class GWTDispatcher implements Dispatcher{
     public void goToUnitInfo() {
         Window.alert("Going to unit");
     }
+
+    @Override
+    public void goToCapacityOverview() {
+        Window.alert("Going to capacity overview");
+    }
+
 }

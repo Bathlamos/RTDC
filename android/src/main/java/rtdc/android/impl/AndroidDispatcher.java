@@ -4,6 +4,7 @@ import android.content.Intent;
 import rtdc.android.AdminActivity;
 import rtdc.android.Rtdc;
 import rtdc.android.presenter.ActionPlanActivity;
+import rtdc.android.presenter.CapacityOverviewActivity;
 import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateActionActivity;
 import rtdc.android.presenter.LoginActivity;
@@ -40,6 +41,12 @@ public class AndroidDispatcher implements Dispatcher {
     @Override
     public void goToEditAction() {
         Intent intent = new Intent(Rtdc.getAppContext(), CreateActionActivity.class);
+        Rtdc.getAppContext().startActivity(intent);
+    }
+
+    @Override
+    public void goToCapacityOverview(){
+        Intent intent = new Intent(Rtdc.getAppContext(), CapacityOverviewActivity.class);
         Rtdc.getAppContext().startActivity(intent);
     }
 }
