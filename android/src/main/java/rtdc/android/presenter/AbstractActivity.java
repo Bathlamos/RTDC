@@ -28,6 +28,6 @@ public class AbstractActivity extends Activity implements View {
 
     @Override
     public void setTitle(String title) {
-        setTitle(title);
+        super.setTitle(title);
     }
 }

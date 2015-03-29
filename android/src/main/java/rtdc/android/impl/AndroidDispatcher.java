@@ -15,6 +15,7 @@ public class AndroidDispatcher implements Dispatcher {
     @Override
     public void goToLogin() {
         Intent intent = new Intent(Rtdc.getAppContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Rtdc.getAppContext().startActivity(intent);
     }
 
