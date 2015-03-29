@@ -87,6 +87,7 @@ public class UserService {
         } finally {
             session.close();
         }
+
         return new ActionCompleteEvent(user.getId(), "user").toString();
     }
 
