@@ -9,5 +9,6 @@ public interface Dispatcher {
     void goToActionPlan(Controller caller);
     void goToEditAction(Controller caller);
     void goToUnitInfo(Controller caller);
+    void goToCapacityOverview(Controller caller);
 
 }

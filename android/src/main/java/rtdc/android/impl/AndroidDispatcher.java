@@ -12,37 +12,42 @@ import rtdc.core.impl.Dispatcher;
 public class AndroidDispatcher implements Dispatcher {
 
     @Override
-    public void goToLogin(Controller controller) {
-        startIntent(LoginActivity.class, controller);
+    public void goToLogin(Controller caller) {
+        startIntent(LoginActivity.class, caller);
     }
 
     @Override
-    public void goToAllUnits(Controller controller) {
-        startIntent(AdminActivity.class, controller);
+    public void goToAllUnits(Controller caller) {
+        startIntent(AdminActivity.class, caller);
     }
 
     @Override
-    public void goToActionPlan(Controller controller) {
-        startIntent(ActionPlanActivity.class, controller);
+    public void goToActionPlan(Controller caller) {
+        startIntent(ActionPlanActivity.class, caller);
     }
 
     @Override
-    public void goToUnitInfo(Controller controller) {
-        startIntent(CreateUnitActivity.class, controller);
-    }
-    
-    @Override
-    public void goToEditAction(Controller controller) {
-        startIntent(CreateActionActivity.class, controller);
+    public void goToUnitInfo(Controller caller) {
+        startIntent(CreateUnitActivity.class, caller);
     }
 
-    private void startIntent(Class<?> clazz, Controller controller){
-        if(controller != null){
-            if(controller.getView() instanceof AbstractActivity) {
-                AbstractActivity activity = (AbstractActivity) controller.getView();
+    @Override
+    public void goToCapacityOverview(Controller caller) {
+        startIntent(CapacityOverviewActivity.class, caller);
+    }
+
+    @Override
+    public void goToEditAction(Controller caller) {
+        startIntent(CreateActionActivity.class, caller);
+    }
+
+    private void startIntent(Class<?> clazz, Controller caller){
+        if(caller != null){
+            if(caller.getView() instanceof AbstractActivity) {
+                AbstractActivity activity = (AbstractActivity) caller.getView();
                 activity.startActivity(new Intent(activity, clazz));
-            } else if (controller.getView() instanceof AbstractFragment){
-                Activity activity = ((AbstractFragment) controller.getView()).getActivity();
+            } else if (caller.getView() instanceof AbstractFragment){
+                Activity activity = ((AbstractFragment) caller.getView()).getActivity();
                 activity.startActivity(new Intent(activity, clazz));
             }
         }else{

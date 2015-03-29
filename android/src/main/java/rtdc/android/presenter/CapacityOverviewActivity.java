@@ -16,6 +16,7 @@ import rtdc.android.R;
 import rtdc.core.controller.CapacityOverviewController;
 import rtdc.core.impl.NumberAwareStringComparator;
 import rtdc.core.model.Unit;
+import rtdc.core.util.Cache;
 import rtdc.core.view.UnitListView;
 
 import java.util.*;
@@ -31,7 +32,7 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
     private CapacityOverviewController controller;
 
     Context context;
-    Intent editIntent;
+    private Intent editIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,7 +146,7 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
                 @Override
                 public void onClick(View v) {
                     unitSelected = units.get(Integer.parseInt(v.getTag().toString()));
-                    editIntent.putExtra("unitId", unitSelected.getId());
+                    Cache.getInstance().put("unit", unitSelected);
                     startActivity(editIntent);
                 }
             });
@@ -170,50 +171,4 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
     public void displayError(String title, String error) {
         Toast.makeText(this, title + "\nError: " + error, Toast.LENGTH_SHORT).show();
     }
-
-//    // Update unit capacities with new values
-//    private void updateCapacity() {
-//
-//        String[] tag;
-//        int value;
-//
-//        for (HashMap.Entry<String, Integer> capacity : capacityValues.entrySet()) {
-//            tag = capacity.getKey().split(":");
-//
-//            Unit unit = null;
-//            for (Unit u : units) {
-//                //if (u.getId() == Integer.parseInt(tag[0])) {
-//                Logger logger = Logger.getLogger("yolo");
-//                logger.log(Level.INFO, u.getName()+" == "+tag[0]+"?");
-//                if (u.getName().equals(tag[0])) {
-//                    unit = u;
-//                    logger.log(Level.INFO, "Yes!!");
-//                    break;
-//                }
-//            }
-//
-//            value = capacity.getValue();
-//
-//            switch (Integer.parseInt(tag[1])) {
-//                case 1:
-//                    if(value != unit.getAvailableBeds()) unit.setAvailableBeds(value);
-//                    Logger logger = Logger.getLogger("sdf");
-//                    logger.log(Level.INFO, "Changed column "+tag[1]+" for unit "+tag[0]+" with value "+value);
-//                    break;
-//                case 2:
-//                    if(value != unit.getPotentialDc()) unit.setPotentialDc(value);
-//                    break;
-//                case 3:
-//                    if(value != unit.getDcByDeadline()) unit.setDcByDeadline(value);
-//                    break;
-//                case 4:
-//                    if(value != unit.getTotalAdmits()) unit.setTotalAdmits(value);
-//                    break;
-//                case 5:
-//                    if(value != unit.getAdmitsByDeadline()) unit.setAdmitsByDeadline(value);
-//                    break;
-//            }
-//        }
-//        capacityValues.clear();
-//    }
 }

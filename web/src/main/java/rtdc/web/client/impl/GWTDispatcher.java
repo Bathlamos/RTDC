@@ -29,4 +29,10 @@ public class GWTDispatcher implements Dispatcher{
     public void goToUnitInfo(Controller caller) {
 
     }
+
+    @Override
+    public void goToCapacityOverview(Controller caller) {
+
+    }
+
 }
