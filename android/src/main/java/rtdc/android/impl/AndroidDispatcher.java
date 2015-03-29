@@ -22,6 +22,7 @@ public class AndroidDispatcher implements Dispatcher {
     @Override
     public void goToAllUnits() {
         Intent intent = new Intent(Rtdc.getAppContext(), AdminActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Rtdc.getAppContext().startActivity(intent);
     }
 
