@@ -3,6 +3,11 @@
 
     <string name="app_name">RTDC</string>
     <string name="title_activity_capacity_overview">Capacity Overview</string>
+    <string name="title_activity_create_unit">Create Unit</string>
+    <string name="title_activity_action_plan">Action Plan</string>
+    <string name="title_activity_create_action">Create Action</string>
+    <string name="title_activity_admin">Administrator Functions</string>
+
     <string name="capacity_unit_name">Unit Name</string>
     <string name="available_beds">Available Beds</string>
     <string name="potential_dc">Potential DC</string>
@@ -16,8 +21,7 @@
     <string name="action_add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
-    <string name="title_activity_create_unit">Create Unit</string>
-    <string name="title_activity_action_plan">Action Plan</string>
+
     <string name="action_unit">Unit</string>
     <string name="action_status">Status</string>
     <string name="action_role">Role</string>
@@ -27,7 +31,7 @@
     <string name="action_target_hint">Patient and/or Room</string>
     <string name="deadline">Deadline</string>
     <string name="description">Description</string>
-    <string name="title_activity_create_action">Create Action</string>
+
     <string-array name="action_status">
         <item>In Progress</item>
         <item>Completed</item>

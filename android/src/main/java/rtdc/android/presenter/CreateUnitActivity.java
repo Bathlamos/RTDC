@@ -28,6 +28,7 @@ public class CreateUnitActivity extends Activity implements AddUnitView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_unit);
+        setTitle(R.string.title_activity_create_unit);
 
         unitNameEdit = (EditText) findViewById(R.id.unitNameEdit);
         totalBedsEdit = (EditText) findViewById(R.id.totalBedsEdit);

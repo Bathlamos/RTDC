@@ -2,14 +2,14 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="rtdc.android.presenter.CreateActionActivity">
 
-    <item android:id="@+id/action_save_action"
-          android:title="@string/action_save"
-          android:icon="@drawable/ic_action_save"
-          android:showAsAction="ifRoom|withText"/>
-
     <item android:id="@+id/action_cancel_action"
           android:title="@string/cancel"
           android:icon="@drawable/ic_action_cancel"
+          android:showAsAction="ifRoom|withText"/>
+
+    <item android:id="@+id/action_save_action"
+          android:title="@string/action_save"
+          android:icon="@drawable/ic_action_save"
           android:showAsAction="ifRoom|withText"/>
 
 </menu>

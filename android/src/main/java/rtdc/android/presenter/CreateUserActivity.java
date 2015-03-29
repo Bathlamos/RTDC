@@ -36,6 +36,7 @@ public class CreateUserActivity extends Activity implements AddUserView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+        setTitle(R.string.title_activity_create_user);
 
         usernameEdit = (EditText) findViewById(R.id.usernameEdit);
         passwordText = (TextView) findViewById(R.id.passwordText);

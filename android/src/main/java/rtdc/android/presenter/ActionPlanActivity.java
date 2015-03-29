@@ -28,11 +28,8 @@ public class ActionPlanActivity extends Activity implements ActionListView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_plan);
+        setTitle(getString(R.string.title_activity_action_plan) + " - Medicine Unit");
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        setTitle("Action Plan - Medicine Unit");
         if(controller == null)
             controller = new ActionListController(this);
         context = this.getBaseContext();

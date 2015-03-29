@@ -36,9 +36,7 @@ public class CapacityOverviewActivity extends Activity implements UnitListView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capacity_overview);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setTitle(R.string.title_activity_capacity_overview);
 
         if(controller == null)
             controller = new CapacityOverviewController(this);

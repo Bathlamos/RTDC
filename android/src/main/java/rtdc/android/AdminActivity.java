@@ -27,6 +27,7 @@ public class AdminActivity extends Activity implements UserFragment.OnFragmentIn
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        setTitle(R.string.title_activity_admin);
 
         TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 

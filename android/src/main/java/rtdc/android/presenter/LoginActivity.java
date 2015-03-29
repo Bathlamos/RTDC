@@ -28,6 +28,7 @@ public class LoginActivity extends AbstractActivity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle(R.string.title_activity_login);
 
         if(controller == null)
             controller = new LoginController(this);
