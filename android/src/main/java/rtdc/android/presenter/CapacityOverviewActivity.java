@@ -40,10 +40,11 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        if(controller == null)
-            controller = new CapacityOverviewController(this);
         context = this.getBaseContext();
         unitListView = (ListView) findViewById(R.id.CapacityListView);
+
+        if(controller == null)
+            controller = new CapacityOverviewController(this);
     }
 
     @Override
