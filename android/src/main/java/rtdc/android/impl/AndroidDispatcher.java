@@ -51,7 +51,7 @@ public class AndroidDispatcher implements Dispatcher {
                 activity.startActivity(new Intent(activity, clazz));
             }
         }else{
-            Intent intent = new Intent(Rtdc.getAppContext(), CreateUnitActivity.class);
+            Intent intent = new Intent(Rtdc.getAppContext(), clazz);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Rtdc.getAppContext().startActivity(intent);
         }

@@ -12,7 +12,7 @@ public abstract class Event<T extends EventHandler> extends RootObject {
     private static Map<EventType, EventAggregator> handlers = new HashMap<EventType, EventAggregator>();
 
     public static void fire(JSONObject object){
-        String type = object.optString("type");
+        String type = object.optString("_type");
         if(type == null)
             new ErrorEvent("Message type not recognized " + object.toString()).fire();
         else{
@@ -29,6 +29,9 @@ public abstract class Event<T extends EventHandler> extends RootObject {
                 e = new FetchActionsEvent(object);
             else if(type.equalsIgnoreCase(ActionCompleteEvent.TYPE.getName()))
                 e = new ActionCompleteEvent(object);
+            else if(type.equalsIgnoreCase(SessionExpiredEvent.TYPE.getName()))
+                e = new SessionExpiredEvent();
+
             if( e != null)
                 e.fire();
             else
@@ -40,6 +43,11 @@ public abstract class Event<T extends EventHandler> extends RootObject {
         if(!handlers.containsKey(eventType))
             handlers.put(eventType, new EventAggregator<T>());
         handlers.get(eventType).addHandler(eventHandler);
+    }
+
+    public static <T extends EventHandler> void unsubscribe(EventType<T> eventType, T eventHandler){
+        if(handlers.containsKey(eventType))
+            handlers.get(eventType).removeHandler(eventHandler);
     }
 
     protected <T extends EventHandler> ImmutableSet<T> getHandlers(EventType<T> type){

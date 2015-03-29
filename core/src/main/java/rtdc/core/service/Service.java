@@ -24,6 +24,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 public final class Service {
 
     private static final String URL = "http://192.168.2.49:8888/api/";
+    private static final Logger logger = Logger.getLogger(Service.class.getCanonicalName());
 
     private Service(){}
 
@@ -31,6 +32,11 @@ public final class Service {
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate", POST);
         req.addParameter("username", username);
         req.addParameter("password", password);
+        executeRequest(req);
+    }
+
+    public static void isAuthTokenValid(){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate/tokenValid", POST);
         executeRequest(req);
     }
 
@@ -87,7 +93,7 @@ public final class Service {
     
     private static void executeRequest(HttpRequest request){
         request.setContentType("application/x-www-form-urlencoded");
-        //TODO:         req.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+        request.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
         request.execute(new AsyncCallback<HttpResponse>() {
             @Override
             public void onSuccess(HttpResponse resp) {

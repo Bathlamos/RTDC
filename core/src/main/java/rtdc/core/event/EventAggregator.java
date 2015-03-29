@@ -15,6 +15,17 @@ public class EventAggregator<T> {
             handlers.add(new WeakReference<T>(object));
     }
 
+    public void removeHandler(T object){
+        if(object != null){
+            Iterator<WeakReference<T>> it = handlers.iterator();
+            while(it.hasNext()){
+                T next = it.next().get();
+                if(next == null || next == object)
+                    it.remove();
+            }
+        }
+    }
+
     //Clear at the same time
     public ImmutableSet<T> getHandlers(){
         ImmutableSet.Builder<T> builder = ImmutableSet.builder();

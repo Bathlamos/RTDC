@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.event.AuthenticationEvent;
+import rtdc.core.event.SessionExpiredEvent;
 import rtdc.core.exception.UsernamePasswordMismatchException;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
@@ -21,6 +22,35 @@ import java.util.logging.Logger;
 
 @Path("authenticate")
 public class AuthService {
+
+    private static final Logger logger = Logger.getLogger("AuthService");
+
+    @POST
+    @Path("tokenValid")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String authTokenValid(@Context HttpServletRequest req, @FormParam("authToken") String authenticationToken){
+        Session session = PersistenceConfig.getSessionFactory().openSession();
+        AuthenticationToken authToken;
+        Transaction transaction = null;
+        logger.log(Level.INFO, "Received parameter : authToken-" + authenticationToken);
+        try{
+            transaction = session.beginTransaction();
+            authToken = (AuthenticationToken) session.createCriteria(AuthenticationToken.class).add(
+                    Restrictions.eq("authToken", authenticationToken)).uniqueResult();
+            logger.log(Level.INFO, "Authentication token in database: " + authToken);
+            if(authToken == null)
+                return new SessionExpiredEvent().toString();
+            transaction.commit();
+            return new AuthenticationEvent(authToken.getUser(), authToken.getAuthenticationToken()).toString();
+        } catch (RuntimeException e) {
+            if(transaction != null)
+                transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

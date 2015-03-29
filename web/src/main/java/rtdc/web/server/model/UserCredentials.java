@@ -11,12 +11,19 @@ import java.io.Serializable;
 @Entity
 public class UserCredentials implements Serializable {
 
+    @NotNull
+    @Column(name = "passwordHash", nullable = false)
     private String passwordHash;
-    private String salt;
-    private User user;
 
     @NotNull
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "salt", nullable = false)
+    private String salt;
+
+    @Id
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
+
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -24,8 +31,6 @@ public class UserCredentials implements Serializable {
         this.passwordHash = passwordHash;
     }
 
-    @NotNull
-    @Column(name = "salt", nullable = false)
     public String getSalt() {
         return salt;
     }
@@ -33,9 +38,6 @@ public class UserCredentials implements Serializable {
         this.salt = salt;
     }
 
-    @Id
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     public User getUser() {
         return user;
     }

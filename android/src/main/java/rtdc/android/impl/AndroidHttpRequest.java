@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 public class AndroidHttpRequest implements HttpRequest {
 
     private static RequestQueue mRequestQueue;
+    private static final Logger logger = Logger.getLogger(AndroidHttpRequest.class.getCanonicalName());
 
     private String url;
     private int requestMethod;
@@ -59,7 +60,7 @@ public class AndroidHttpRequest implements HttpRequest {
         Response.Listener listener = new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
-                Logger.getLogger("RTDC").log(Level.WARNING, response);
+                logger.log(Level.WARNING, response);
                 callback.onSuccess(new AndroidHttpResponse(200, response));
             }
         };
@@ -80,7 +81,14 @@ public class AndroidHttpRequest implements HttpRequest {
         else
             requestBody = URLEncodedUtils.format(paramsAsValuePairs, "UTF-8");
 
-        getRequestQueue().add(new JsonObjectRequest(requestMethod, url, listener, errorListener));
+        JsonObjectRequest request = new JsonObjectRequest(requestMethod, url, listener, errorListener);
+
+        StringBuilder sb = new StringBuilder("Sending at " + url + " -- " + requestMethod + " body:");
+        for(Map.Entry<String, String> entry: request.getParams().entrySet())
+            sb.append("\n\t").append(entry.getKey()).append(":").append(entry.getValue());
+        logger.log(Level.INFO, sb.toString());
+
+        getRequestQueue().add(request);
     }
 
     @Override
@@ -127,7 +135,7 @@ public class AndroidHttpRequest implements HttpRequest {
         }
 
         @Override
-        protected Map<String, String> getParams() throws AuthFailureError {
+        protected Map<String, String> getParams() {
             return params;
         }
 

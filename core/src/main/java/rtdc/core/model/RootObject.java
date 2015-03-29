@@ -40,7 +40,7 @@ public abstract class RootObject {
 
     public JSONObject toJsonObject(){
         JSONObject object = new JSONObject();
-        object.put("type", getType());
+        object.put("_type", getType());
         for(ObjectProperty p: getProperties()){
             Object o = getValue(p);
             if(o == null)

@@ -6,8 +6,12 @@ import rtdc.core.event.Event;
 import rtdc.core.service.Service;
 import rtdc.core.view.LoginView;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class LoginController extends Controller<LoginView> implements AuthenticationEvent.Handler {
 
+    private static final Logger logger = Logger.getLogger(LoginController.class.getCanonicalName());
 
     public LoginController(LoginView view){
         super(view);
@@ -19,14 +23,18 @@ public class LoginController extends Controller<LoginView> implements Authentica
     }
 
     public void login(){
-        Service.authenticateUser(view.getUsernameUiElement().getValue(), view.getPasswordUiElement().getValue());
+        logger.log(Level.INFO, "Subscribing to AuthenticationEvent");
         Event.subscribe(AuthenticationEvent.TYPE, this);
+        Service.authenticateUser(view.getUsernameUiElement().getValue(), view.getPasswordUiElement().getValue());
     }
 
 
     @Override
     public void onAuthenticate(AuthenticationEvent event) {
+        logger.log(Level.INFO, "AuthenticationEvent received");
         Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
+        Bootstrapper.VIEW.saveAuthenticationToken(Bootstrapper.AUTHENTICATION_TOKEN);
         Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        Event.unsubscribe(AuthenticationEvent.TYPE, this);
     }
 }

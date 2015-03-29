@@ -12,13 +12,19 @@ import java.util.Date;
 @Entity
 public class AuthenticationToken implements Serializable {
 
-    private String authToken;
-    private Date dateSet;
-    private User user;
-
     @Id
     @NotNull
-    @Column(name = "auth_token")
+    @Column(name = "authToken")
+    private String authToken;
+
+    @NotNull
+    @Column(name = "dateSet", nullable = false)
+    private Date dateSet;
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.ALL, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
+
     public String getAuthenticationToken() {
         return authToken;
     }
@@ -26,8 +32,6 @@ public class AuthenticationToken implements Serializable {
         this.authToken = authToken;
     }
 
-    @NotNull
-    @Column(name = "date_set", nullable = false)
     public Date getDateSet() {
         return dateSet;
     }
@@ -35,8 +39,6 @@ public class AuthenticationToken implements Serializable {
         this.dateSet = dateSet;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.ALL, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     public User getUser() {
         return user;
     }
