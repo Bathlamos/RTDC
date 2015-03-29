@@ -1,9 +1,11 @@
 package rtdc.core.controller;
 
+import rtdc.core.Bootstrapper;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 import rtdc.core.view.AddUnitView;
 import rtdc.core.view.AddUserView;
 
@@ -21,6 +23,9 @@ public class AddUnitController extends Controller<AddUnitView>{
     public void addUnit() {
 
         Unit newUnit = new Unit();
+        Unit cachedUnit = (Unit) Cache.getInstance().retrieve("unit");
+        if (cachedUnit != null)
+            newUnit.setId(cachedUnit.getId());
         newUnit.setName(view.getNameAsString());
         try {
             newUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsAsString()));
@@ -37,6 +42,7 @@ public class AddUnitController extends Controller<AddUnitView>{
         else {*/
             Service.updateOrSaveUnit(newUnit);
         //}
+        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(true);
     }
 
     public void deleteUnit(Unit unit){

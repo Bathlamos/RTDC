@@ -23,7 +23,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "http://192.168.2.49:8888/api/";
+    private static final String URL = "http://192.168.2.25:8888/api/";
 
     private Service(){}
 
@@ -46,7 +46,7 @@ public final class Service {
     }
 
     public static void deleteUnit(int unitId){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units/id", DELETE);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units/" + unitId, DELETE);
         req.addParameter("id", unitId + "");
         executeRequest(req);
     }
@@ -64,7 +64,7 @@ public final class Service {
     }
 
     public static void deleteUser(int userId){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users/id", DELETE);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + userId, DELETE);
         req.addParameter("id", userId + "");
         executeRequest(req);
     }

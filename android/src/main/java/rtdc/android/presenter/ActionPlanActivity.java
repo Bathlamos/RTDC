@@ -11,6 +11,7 @@ import rtdc.android.AdminActivity;
 import rtdc.android.R;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
+import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
 import java.util.*;
 
@@ -28,9 +29,7 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_plan);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setTitle(getString(R.string.title_activity_action_plan) + " - Medicine Unit");
 
         context = this.getBaseContext();
         actionListView = (ListView) findViewById(R.id.ActionListView);
@@ -59,6 +58,10 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
                 intent = new Intent(this, AdminActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.action_go_to_cap_overview:
+                intent = new Intent(this, CapacityOverviewActivity.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -78,6 +81,7 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
     public boolean onContextItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case 1:
+                Cache.getInstance().put("action", actionSelected);
                 controller.editAction(actionSelected);
                 break;
             case 2:
@@ -141,7 +145,7 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
             target.setText(currentAction.getTarget());
 
             TextView deadline = (TextView) view.findViewById(R.id.deadline);
-            deadline.setText(currentAction.getDeadline().toString());
+            deadline.setText(currentAction.getDeadline().toString().substring(10, 16));
 
 //            TextView notes = (TextView) view.findViewById(R.id.notes);
 //            notes.setText(currentAction.getNotes());

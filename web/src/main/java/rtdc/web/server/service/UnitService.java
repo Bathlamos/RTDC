@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.json.JSONObject;
@@ -52,16 +53,16 @@ public class UnitService {
         //AuthService.hasRole(req, ADMIN);
         Unit unit = new Unit(new JSONObject(unitString));
 
+        Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
+        if(!violations.isEmpty())
+            return new ErrorEvent(violations.toString()).toString();
+
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-
-            Set<ConstraintViolation<Unit>> dbViolations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
-            if(!dbViolations.isEmpty())
-                return new ErrorEvent(dbViolations.toString()).toString();
-
             session.saveOrUpdate(unit);
+
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -70,8 +71,29 @@ public class UnitService {
         } finally {
             session.close();
         }
-        return "whooo!";
-        //return new UpdateCompleteEvent(UpdateCompleteEvent.UNIT_UPDATED, unit.getId()).toString();
+        return new ActionCompleteEvent(unit.getId(), "unit").toString();
+    }
+
+    @DELETE
+    @Path("{id}")
+    @Produces("application/json")
+    public String deleteUnit(@Context HttpServletRequest req, @PathParam("id") int id){
+        // AuthService.hasRole(req, ADMIN);
+        Session session = PersistenceConfig.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            Unit unit = (Unit) session.load(Unit.class, id);
+            session.delete(unit);
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if(transaction != null)
+                transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+        return new ActionCompleteEvent(id, "unit").toString();
     }
 
 }

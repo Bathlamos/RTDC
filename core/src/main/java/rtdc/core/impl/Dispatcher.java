@@ -8,5 +8,6 @@ public interface Dispatcher {
     void goToAllUnits();
     void goToActionPlan();
     void goToEditAction();
+    void goToUnitInfo();
 
 }

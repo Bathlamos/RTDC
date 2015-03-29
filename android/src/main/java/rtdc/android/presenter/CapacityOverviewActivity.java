@@ -31,16 +31,16 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
     private CapacityOverviewController controller;
 
     Context context;
+    Intent editIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capacity_overview);
-
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        setTitle(R.string.title_activity_capacity_overview);
 
         context = this.getBaseContext();
+        editIntent = new Intent(this, EditCapacityActivity.class);
         unitListView = (ListView) findViewById(R.id.CapacityListView);
 
         if(controller == null)
@@ -70,27 +70,6 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId( ) == R.id.optionsMenuBtn) {
-            unitSelected = units.get(Integer.parseInt(v.getTag().toString()));
-            menu.setHeaderTitle("Capacity: "+unitSelected.getName());
-            menu.add(0, 1, 0, "Edit");
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case 1:
-                Intent intent = new Intent(this, EditCapacityActivity.class);
-                intent.putExtra("unitId", unitSelected.getId());
-                startActivity(intent);
-                break;
-        }
-        return true;
     }
 
     public void onOptionsMenuClick(View v) {
@@ -162,7 +141,14 @@ public class CapacityOverviewActivity extends AbstractActivity implements UnitLi
 
             ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
             optionsMenuBtn.setTag(position);
-            registerForContextMenu(optionsMenuBtn);
+            optionsMenuBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    unitSelected = units.get(Integer.parseInt(v.getTag().toString()));
+                    editIntent.putExtra("unitId", unitSelected.getId());
+                    startActivity(editIntent);
+                }
+            });
 
             return view;
         }

@@ -19,6 +19,7 @@ import rtdc.android.R;
 import rtdc.core.controller.AddUserController;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.User;
+import rtdc.core.util.Cache;
 import rtdc.core.view.AddUserView;
 
 import java.lang.reflect.Field;
@@ -36,6 +37,7 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+        setTitle(R.string.title_activity_create_user);
 
         usernameEdit = (EditText) findViewById(R.id.usernameEdit);
         passwordText = (TextView) findViewById(R.id.passwordText);
@@ -107,6 +109,8 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save_new_user) {
+            if (currentUser != null)
+                Cache.getInstance().put("user", currentUser);
             controller.addUser();
             Intent intent = new Intent(this, AdminActivity.class);
             startActivity(intent);

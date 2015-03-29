@@ -40,15 +40,16 @@ public class EditCapacityActivity extends AbstractActivity /*implements EditCapa
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        String unitJson = intent.getStringExtra("unitId");
-        if (unitJson != null) {
-            currentUnit = new Unit(new JSONObject(unitJson));
-            setTitle("Edit Capacity - " + currentUnit.getName());
-            availableBedsEdit.setText(currentUnit.getAvailableBeds());
-            potentialDCEdit.setText(currentUnit.getPotentialDc());
-            DCByDeadlineEdit.setText(currentUnit.getDcByDeadline());
-            totalAdmitsEdit.setText(currentUnit.getTotalAdmits());
-            admitsByDeadlineEdit.setText(currentUnit.getAdmitsByDeadline());
+        String unitJson = Integer.toString(intent.getIntExtra("unitId", -1));
+
+        if (!unitJson.matches("-1")) {
+//            currentUnit = new Unit(new JSONObject(unitJson));
+            setTitle("Edit Capacity - " + unitJson);
+//            availableBedsEdit.setText(currentUnit.getAvailableBeds());
+//            potentialDCEdit.setText(currentUnit.getPotentialDc());
+//            DCByDeadlineEdit.setText(currentUnit.getDcByDeadline());
+//            totalAdmitsEdit.setText(currentUnit.getTotalAdmits());
+//            admitsByDeadlineEdit.setText(currentUnit.getAdmitsByDeadline());
         }
 
         //if(controller == null)

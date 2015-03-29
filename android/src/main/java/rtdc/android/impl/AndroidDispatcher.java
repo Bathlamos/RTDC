@@ -5,6 +5,7 @@ import android.content.Intent;
 import rtdc.android.AdminActivity;
 import rtdc.android.Rtdc;
 import rtdc.android.presenter.ActionPlanActivity;
+import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateActionActivity;
 import rtdc.android.presenter.LoginActivity;
 import rtdc.core.impl.Dispatcher;
@@ -29,6 +30,12 @@ public class AndroidDispatcher implements Dispatcher {
         Rtdc.getAppContext().startActivity(intent);
     }
 
+    @Override
+    public void goToUnitInfo(boolean crushHistory) {
+        Intent intent = new Intent(Rtdc.getAppContext(), CreateUnitActivity.class);
+        Rtdc.getAppContext().startActivity(intent);
+    }
+    
     @Override
     public void goToEditAction() {
         Intent intent = new Intent(Rtdc.getAppContext(), CreateActionActivity.class);

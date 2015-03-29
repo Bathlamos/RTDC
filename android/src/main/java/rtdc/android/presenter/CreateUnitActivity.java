@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import rtdc.android.AdminActivity;
 import rtdc.android.R;
+import rtdc.core.Bootstrapper;
 import rtdc.core.controller.AddUnitController;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Unit;
+import rtdc.core.util.Cache;
 import rtdc.core.view.AddUnitView;
 
 public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
@@ -28,6 +30,7 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_unit);
+        setTitle(R.string.title_activity_create_unit);
 
         unitNameEdit = (EditText) findViewById(R.id.unitNameEdit);
         totalBedsEdit = (EditText) findViewById(R.id.totalBedsEdit);
@@ -35,15 +38,13 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-        String unitJson = intent.getStringExtra("unit");
-        if (unitJson != null) {
-            currentUnit = new Unit(new JSONObject(unitJson));
+        currentUnit = (Unit) Cache.getInstance().retrieve("unit");
+        if (currentUnit != null) {
             unitNameEdit.setText(currentUnit.getName());
             totalBedsEdit.setText(Integer.toString(currentUnit.getTotalBeds()));
         }
 
-        if(controller == null)
+        if (controller == null)
             controller = new AddUnitController(this);
     }
 
@@ -65,9 +66,9 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save_new_unit) {
+            if (currentUnit != null)
+                Cache.getInstance().put("unit", currentUnit);
             controller.addUnit();
-            Intent intent = new Intent(this, AdminActivity.class);
-            startActivity(intent);
             return true;
         } else if (id == R.id.action_discard_unit) {
             if (currentUnit != null) {

@@ -19,14 +19,13 @@
         android:name=".Rtdc"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light" >
+        android:theme="@style/RTDCActionBarTheme" >
         <activity
             android:name=".AdminActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".presenter.LoginActivity"
-            android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +34,6 @@
         </activity>
         <activity
             android:name=".presenter.CreateUserActivity"
-            android:label="@string/title_activity_create_user"
             android:parentActivityName=".AdminActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize|stateHidden" >
@@ -47,7 +45,6 @@
         </activity>
         <activity
             android:name=".presenter.CreateUnitActivity"
-            android:label="@string/title_activity_create_unit"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".AdminActivity" >
             <meta-data
@@ -56,23 +53,19 @@
         </activity>
         <activity
             android:name=".presenter.CapacityOverviewActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_capacity_overview" >
+            android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
         <activity
                 android:name=".presenter.EditCapacityActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize"
-                android:label="@string/title_activity_create_action" >
+                android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
         <activity
                 android:name=".presenter.CreateActionActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize"
-                android:label="@string/title_activity_create_action" >
+                android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
         <activity
             android:name=".presenter.ActionPlanActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_action_plan" >
+            android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
     </application>
 

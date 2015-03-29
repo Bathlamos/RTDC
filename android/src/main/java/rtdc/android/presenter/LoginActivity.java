@@ -29,6 +29,7 @@ public class LoginActivity extends AbstractActivity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle(R.string.title_activity_login);
 
         // Set up the login form.
         mEmailView = (AndroidUiString) findViewById(R.id.email);

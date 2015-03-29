@@ -4,8 +4,8 @@
       tools:context="rtdc.android.presenter.CreateUserActivity">
 
     <item android:id="@+id/action_discard_unit"
-          android:title="@string/cancel"
-          android:icon="@drawable/ic_action_cancel"
+          android:title="@string/action_delete"
+          android:icon="@drawable/ic_action_discard"
           android:showAsAction="ifRoom|withText"/>
 
     <item android:id="@+id/action_save_new_unit"
