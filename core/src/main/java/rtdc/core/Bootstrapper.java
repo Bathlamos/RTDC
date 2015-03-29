@@ -19,9 +19,9 @@ public class Bootstrapper {
         Logger.getLogger("RTDC").log(Level.INFO, "Authentication Token: " + authenticationToken);
         if(authenticationToken != null){
             Bootstrapper.AUTHENTICATION_TOKEN = authenticationToken;
-            Bootstrapper.FACTORY.newDispatcher().goToAllUnits();
+            Bootstrapper.FACTORY.newDispatcher().goToAllUnits(null);
         }else
-            Bootstrapper.FACTORY.newDispatcher().goToLogin();
+            Bootstrapper.FACTORY.newDispatcher().goToLogin(null);
     }
 
 }

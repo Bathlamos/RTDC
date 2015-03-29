@@ -27,6 +27,6 @@ public class LoginController extends Controller<LoginView> implements Authentica
     @Override
     public void onAuthenticate(AuthenticationEvent event) {
         Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits();
+        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
     }
 }

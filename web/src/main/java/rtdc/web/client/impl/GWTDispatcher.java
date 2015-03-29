@@ -1,31 +1,32 @@
 package rtdc.web.client.impl;
 
 import com.google.gwt.user.client.Window;
+import rtdc.core.controller.Controller;
 import rtdc.core.impl.Dispatcher;
 
 public class GWTDispatcher implements Dispatcher{
     @Override
-    public void goToLogin() {
-        Window.alert("Going to login");
+    public void goToLogin(Controller caller) {
+
     }
 
     @Override
-    public void goToAllUnits() {
-        Window.alert("Going to units");
+    public void goToAllUnits(Controller caller) {
+
     }
 
     @Override
-    public void goToActionPlan() {
-        Window.alert("Going to action plan");
+    public void goToActionPlan(Controller caller) {
+
     }
 
     @Override
-    public void goToEditAction() {
-        Window.alert("Going to edit action");
+    public void goToEditAction(Controller caller) {
+
     }
 
     @Override
-    public void goToUnitInfo() {
-        Window.alert("Going to unit");
+    public void goToUnitInfo(Controller caller) {
+
     }
 }

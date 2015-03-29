@@ -1,13 +1,13 @@
 package rtdc.core.impl;
 
-import rtdc.core.view.View;
+import rtdc.core.controller.Controller;
 
 public interface Dispatcher {
 
-    void goToLogin();
-    void goToAllUnits();
-    void goToActionPlan();
-    void goToEditAction();
-    void goToUnitInfo();
+    void goToLogin(Controller caller);
+    void goToAllUnits(Controller caller);
+    void goToActionPlan(Controller caller);
+    void goToEditAction(Controller caller);
+    void goToUnitInfo(Controller caller);
 
 }

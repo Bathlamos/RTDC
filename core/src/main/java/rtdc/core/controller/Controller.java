@@ -21,4 +21,8 @@ public abstract class Controller<T extends View> implements ErrorEvent.Handler {
 
     abstract String getTitle();
 
+    public T getView(){
+        return view;
+    }
+
 }

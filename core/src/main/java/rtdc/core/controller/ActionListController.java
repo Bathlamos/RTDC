@@ -6,7 +6,7 @@ import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.service.Service;
-import rtdc.core.util.ControllerCache;
+import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
 
 import java.util.*;
@@ -29,7 +29,7 @@ public class ActionListController implements FetchActionsEvent.Handler {
     }
 
     public void editAction(Action action){
-        ControllerCache.put("action", action);
+        Cache.getInstance().put("action", action);
 
     }
 

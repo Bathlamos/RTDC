@@ -131,7 +131,7 @@ public class UnitFragment extends AbstractFragment implements AbsListView.OnItem
             Unit unit = (Unit) mAdapter.getItem(position);
             // TODO: Move that in controller
             Cache.getInstance().put("unit", unit);
-            Bootstrapper.FACTORY.newDispatcher().goToUnitInfo();
+            Bootstrapper.FACTORY.newDispatcher().goToUnitInfo(controller);
         }
     }
 
