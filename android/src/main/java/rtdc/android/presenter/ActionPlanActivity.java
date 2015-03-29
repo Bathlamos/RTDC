@@ -145,7 +145,7 @@ public class ActionPlanActivity extends Activity implements ActionListView {
             target.setText(currentAction.getTarget());
 
             TextView deadline = (TextView) view.findViewById(R.id.deadline);
-            deadline.setText(currentAction.getDeadline().toString());
+            deadline.setText(currentAction.getDeadline().toString().substring(10, 16));
 
 //            TextView notes = (TextView) view.findViewById(R.id.notes);
 //            notes.setText(currentAction.getNotes());
