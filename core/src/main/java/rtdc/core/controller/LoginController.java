@@ -19,7 +19,7 @@ public class LoginController extends Controller<LoginView> implements Authentica
     }
 
     public void login(){
-        Service.authenticateUser(view.getUsername(), view.getPassword());
+        Service.authenticateUser(view.getUsernameUiElement().getValue(), view.getPasswordUiElement().getValue());
         Event.subscribe(AuthenticationEvent.TYPE, this);
     }
 

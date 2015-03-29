@@ -1,10 +1,10 @@
 package rtdc.core.view;
 
+import rtdc.core.impl.UiElement;
+
 public interface LoginView extends View {
 
-    String getUsername();
-    void setUsername(String username);
+    UiElement<String> getUsernameUiElement();
+    UiElement<String> getPasswordUiElement();
 
-    String getPassword();
-    void setPassword(String password);
 }

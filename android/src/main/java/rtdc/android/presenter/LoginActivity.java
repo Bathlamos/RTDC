@@ -13,14 +13,15 @@ import java.util.logging.Logger;
 import rtdc.android.R;
 import rtdc.android.Rtdc;
 import rtdc.android.impl.AndroidTextValidationWidget;
+import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.LoginController;
+import rtdc.core.impl.UiElement;
 import rtdc.core.view.LoginView;
 
 public class LoginActivity extends AbstractActivity implements LoginView {
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private AndroidTextValidationWidget mPasswordView;
+    private AndroidUiString mEmailView, mPasswordView;
 
     private LoginController controller;
 
@@ -29,12 +30,10 @@ public class LoginActivity extends AbstractActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(controller == null)
-            controller = new LoginController(this);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (AndroidUiString) findViewById(R.id.email);
 
-        mPasswordView = (AndroidTextValidationWidget) findViewById(R.id.password);
+        mPasswordView = (AndroidUiString) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -50,32 +49,23 @@ public class LoginActivity extends AbstractActivity implements LoginView {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mPasswordView.isEmpty()) mPasswordView.setError("Enter password");
-                else controller.login();
+                controller.login();
             }
         });
+
+        if(controller == null)
+            controller = new LoginController(this);
     }
 
     @Override
-    public String getUsername() {
-        return mEmailView.getText().toString();
+    public UiElement<String> getUsernameUiElement() {
+        return mEmailView;
     }
 
     @Override
-    public void setUsername(String username) {
-        mEmailView.setText(username);
+    public UiElement<String> getPasswordUiElement() {
+        return mPasswordView;
     }
-
-    @Override
-    public String getPassword() {
-        return mPasswordView.getText().toString();
-    }
-
-    @Override
-    public void setPassword(String password) {
-        mPasswordView.setText(password);
-    }
-
 }
 
 
