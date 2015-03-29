@@ -39,7 +39,7 @@
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
                 android:textColor="#ffffff" android:background="@android:color/transparent"
-                android:textStyle="italic" android:gravity="center" android:textSize="14dp"/>
+                android:textStyle="italic" android:gravity="center" android:textSize="13dp"/>
 
         <Space
                 android:layout_width="0dp"
@@ -56,7 +56,7 @@
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
                 android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
-                android:textStyle="italic" android:gravity="center" android:textSize="14dp"/>
+                android:textStyle="italic" android:gravity="center" android:textSize="13dp"/>
 
         <Space
                 android:layout_width="0dp"

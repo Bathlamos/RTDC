@@ -109,10 +109,11 @@
 
         <ImageButton
                 android:id="@+id/optionsMenuBtn"
-                android:onClick="onOptionsMenuClick"
+                android:onClick="goToEditCapacity"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_action_overflow" android:baselineAlignBottom="false"
-                android:layout_gravity="center_vertical"/>
+                android:src="@drawable/ic_action_edit" android:baselineAlignBottom="false"
+                android:layout_gravity="center_vertical" android:tint="@color/RTDC_black"
+                android:scaleType="fitCenter"/>
 
 </LinearLayout>

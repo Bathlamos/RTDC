@@ -2,7 +2,7 @@
 <resources>
     <!-- the theme applied to the application or activity -->
     <style name="RTDCActionBarTheme"
-           parent="@android:style/Theme.Holo.Light">
+           parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/RTDCActionBar</item>
         <item name="android:actionMenuTextColor">@color/RTDC_white</item>
     </style>

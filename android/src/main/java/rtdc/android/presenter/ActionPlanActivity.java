@@ -57,6 +57,10 @@ public class ActionPlanActivity extends Activity implements ActionListView {
                 intent = new Intent(this, AdminActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.action_go_to_cap_overview:
+                intent = new Intent(this, CapacityOverviewActivity.class);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
