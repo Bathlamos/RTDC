@@ -19,7 +19,7 @@
         android:name=".Rtdc"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo.Light" >
+        android:theme="@style/RTDCActionBarTheme" >
         <activity
             android:name=".AdminActivity"
             android:label="@string/app_name" >

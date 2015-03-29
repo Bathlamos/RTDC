@@ -8,7 +8,7 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:paddingTop="5dp" android:paddingBottom="5dp"
-            android:paddingRight="34dp" android:minHeight="35dp" android:background="#00b1dc"
+            android:paddingRight="34dp" android:minHeight="35dp" android:background="@color/RTDC_dark_blue"
             >
         <Space
                 android:layout_width="0dp"
@@ -23,8 +23,8 @@
                 android:onClick="onHeaderItemClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ffffff" android:background="@android:color/transparent"
-                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
+                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
@@ -40,8 +40,8 @@
                 android:onClick="onHeaderItemClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ffffff" android:background="@android:color/transparent"
-                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
+                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
@@ -57,8 +57,8 @@
                 android:onClick="onHeaderItemClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ffffff" android:background="@android:color/transparent"
-                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
+                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
@@ -75,8 +75,8 @@
                 android:onClick="onHeaderItemClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ffffff" android:background="@android:color/transparent"
-                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
+                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
@@ -92,8 +92,8 @@
                 android:onClick="onHeaderItemClick"
                 android:clickable="true"
                 android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#ffffff" android:background="@android:color/transparent"
-                android:textStyle="bold" android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
+                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
+                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
 
         <Space
                 android:layout_width="0dp"
