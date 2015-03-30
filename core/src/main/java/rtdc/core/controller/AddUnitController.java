@@ -11,8 +11,16 @@ import rtdc.core.view.AddUserView;
 
 public class AddUnitController extends Controller<AddUnitView>{
 
+    private Unit currentUnit;
+
     public AddUnitController(AddUnitView view){
         super(view);
+
+        currentUnit = (Unit) Cache.getInstance().retrieve("unit");
+        if (currentUnit != null) {
+            view.setNameAsString(currentUnit.getName());
+            view.setTotalBedsAsString(Integer.toString(currentUnit.getTotalBeds()));
+        }
     }
 
     @Override
@@ -23,9 +31,8 @@ public class AddUnitController extends Controller<AddUnitView>{
     public void addUnit() {
 
         Unit newUnit = new Unit();
-        Unit cachedUnit = (Unit) Cache.getInstance().retrieve("unit");
-        if (cachedUnit != null)
-            newUnit.setId(cachedUnit.getId());
+        if (currentUnit != null)
+            newUnit.setId(currentUnit.getId());
         newUnit.setName(view.getNameAsString());
         try {
             newUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsAsString()));
@@ -45,7 +52,9 @@ public class AddUnitController extends Controller<AddUnitView>{
         Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
     }
 
-    public void deleteUnit(Unit unit){
-        Service.deleteUnit(unit.getId());
+    public void deleteUnit(){
+        if (currentUnit != null)
+            Service.deleteUnit(currentUnit.getId());
+        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
     }
 }

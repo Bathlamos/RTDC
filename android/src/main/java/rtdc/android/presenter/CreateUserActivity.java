@@ -29,7 +29,6 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
 
     private EditText usernameEdit, passwordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
     private Spinner roleSpinner, permissionSpinner;
-    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +57,6 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        Intent intent = getIntent();
-        String userJson = intent.getStringExtra("user");
-        if (userJson != null) {
-            currentUser = new User(new JSONObject(userJson));
-            setUsernameAsString(currentUser.getUsername());
-            setEmailAsString(currentUser.getEmail());
-            setFirstnameAsString(currentUser.getFirstName());
-            setSurnameAsString(currentUser.getLastName());
-            phoneEdit.setText(Long.toString(currentUser.getPhone()));
-            setRoleAsString(currentUser.getRole());
-            setPermissionAsString(currentUser.getPermission());
-        }
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -102,31 +88,18 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_save_new_user) {
-            if (currentUser != null)
-                Cache.getInstance().put("user", currentUser);
-            controller.addUser();
-            Intent intent = new Intent(this, AdminActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_discard_user) {
-            if (currentUser != null) {
-                controller.deleteUser(currentUser);
-                // Ask for confirmation
-                Intent intent = new Intent(this, AdminActivity.class);
-                startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent(this, AdminActivity.class);
-                startActivity(intent);
-            }
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+       switch (item.getItemId()) {
+           //noinspection SimplifiableIfStatement
+           case R.id.action_save_new_user:
+               controller.addUser();
+               return true;
+           case R.id.action_discard_user:
+               //TODO: Show confirmation dialog
+               controller.deleteUser();
+               return true;
+           default:
+               return super.onOptionsItemSelected(item);
+       }
     }
 
     @Override
