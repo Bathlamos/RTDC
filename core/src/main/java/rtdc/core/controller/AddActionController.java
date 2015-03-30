@@ -26,8 +26,13 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         view.getTaskUiElement().setList(tasks);
 
         ArrayList<String> statuses = new ArrayList<>();
-        for(Action.Status status: Action.Status.values())
-            statuses.add(status.name());
+        for(Action.Status status: Action.Status.values()) {
+            switch(status){
+                case completed: statuses.add("Completed");
+                case failed: statuses.add("Failed");
+                case inProgress: statuses.add("In progress");
+            }
+        }
         view.getStatusUiElement().setList(statuses);
     }
 
