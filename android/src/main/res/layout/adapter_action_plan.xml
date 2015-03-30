@@ -3,13 +3,13 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:baselineAligned="false" android:focusableInTouchMode="false">
+              android:baselineAligned="false" android:focusableInTouchMode="false" >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:background="#E1E1E1" android:paddingTop="5dp"
-              android:paddingBottom="5dp" android:minHeight="48dp">
+              android:layout_height="wrap_content" android:paddingTop="5dp"
+              android:paddingBottom="5dp" android:minHeight="48dp" android:background="#FFFFFF">
 
         <Space
                 android:layout_width="0dp"
@@ -90,7 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
-        
+
         <ImageButton
                 android:id="@+id/optionsMenuBtn"
                 android:onClick="onOptionsMenuClick"
@@ -104,23 +104,28 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="horizontal"
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content" android:padding="7dp" android:background="#ffffff"
-                  android:minHeight="48dp">
-    <TextView
+                  android:layout_height="wrap_content" android:padding="7dp"
+                  android:minHeight="48dp" android:background="#E1E1E1">
+        <Space android:layout_width="10dp" android:layout_height="45dp"/>
+        <TextView
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Notes"
+            android:text="Description"
             android:id="@+id/notesTitle"
             android:layout_weight="1" android:layout_gravity="center_vertical"
             android:textColor="#000000" android:background="@android:color/transparent"
             android:textStyle="bold" android:gravity="center" android:textSize="14dp"/>
 
-    <TextView
+        <Space
+                android:layout_width="10dp"
+                android:layout_height="45dp"
+                />
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/notes"
+            android:id="@+id/description"
             android:layout_weight="4" android:layout_gravity="center_vertical"
             android:textColor="#000000" android:background="@android:color/transparent"
             android:textStyle="italic" android:textSize="14dp" android:gravity="left|center_vertical"/>

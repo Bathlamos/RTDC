@@ -151,8 +151,8 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
             TextView deadline = (TextView) view.findViewById(R.id.deadline);
             deadline.setText(currentAction.getDeadline().toString().substring(10, 16));
 
-            TextView notes = (TextView) view.findViewById(R.id.notes);
-            notes.setText(currentAction.getDescription());
+            TextView description = (TextView) view.findViewById(R.id.description);
+            description.setText(currentAction.getDescription());
 
             ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
             optionsMenuBtn.setTag(position);
