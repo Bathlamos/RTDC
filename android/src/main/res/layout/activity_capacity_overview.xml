@@ -7,7 +7,7 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:background="@color/RTDC_dark_blue" android:minHeight="35dp"
+            android:layout_height="50dp" android:background="@color/RTDC_dark_blue" android:minHeight="35dp"
             android:paddingRight="34dp">
         <Space
                 android:layout_width="0dp"
@@ -15,7 +15,7 @@
                 android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/capacity_unit_name"
                 android:id="@+id/unitNameHeader"
                 android:onClick="onHeaderItemClick"
@@ -31,7 +31,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/available_beds"
                 android:id="@+id/availableBedsHeader"
@@ -48,7 +48,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/potential_dc"
                 android:id="@+id/potentialDCHeader"
@@ -66,7 +66,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/dc_by_2pm"
                 android:id="@+id/DCByDeadlineHeader"
@@ -83,7 +83,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/total_admits"
                 android:id="@+id/totalAdmitsHeader"
@@ -100,7 +100,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/admits_by_2pm"
                 android:id="@+id/admitsByDeadlineHeader"
@@ -117,7 +117,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/status_at_2pm"
                 android:id="@+id/statusAtDeadlineHeader"

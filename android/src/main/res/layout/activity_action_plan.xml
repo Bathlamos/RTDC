@@ -7,7 +7,7 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:paddingTop="5dp" android:paddingBottom="5dp"
+            android:layout_height="50dp" android:paddingTop="5dp" android:paddingBottom="5dp"
             android:paddingRight="34dp" android:minHeight="35dp" android:background="@color/RTDC_dark_blue"
             >
         <Space
@@ -16,7 +16,7 @@
                 android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Status"
                 android:id="@+id/statusHeader"
@@ -33,7 +33,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Role"
                 android:id="@+id/roleHeader"
@@ -50,7 +50,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Action"
                 android:id="@+id/actionHeader"
@@ -68,7 +68,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Target"
                 android:id="@+id/targetHeader"
@@ -85,7 +85,7 @@
 
         <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Deadline"
                 android:id="@+id/deadlineHeader"
