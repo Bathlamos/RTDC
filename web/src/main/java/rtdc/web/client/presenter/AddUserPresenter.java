@@ -153,4 +153,7 @@ public class AddUserPresenter extends Composite implements AddUserView {
     public void displayError(String title, String error) {
         Window.alert(title + " : " + error);
     }
+
+    @Override
+    public void hideDeleteButton() {}
 }
