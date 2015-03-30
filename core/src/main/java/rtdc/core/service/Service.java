@@ -36,13 +36,11 @@ public final class Service {
     }
 
     public static void isAuthTokenValid(){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate/tokenValid", POST);
-        executeRequest(req);
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate/tokenValid", POST));
     }
 
     public static void getUnits(){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET);
-        executeRequest(req);
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET));
     }
 
     public static void updateOrSaveUnit(Unit unit){
@@ -52,14 +50,11 @@ public final class Service {
     }
 
     public static void deleteUnit(int unitId){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units/" + unitId, DELETE);
-        req.addParameter("id", unitId + "");
-        executeRequest(req);
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units/" + unitId, DELETE));
     }
 
     public static void getUsers(){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET);
-        executeRequest(req);
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET));
     }
 
     public static void updateOrSaveUser(User user, String password){
@@ -70,14 +65,11 @@ public final class Service {
     }
 
     public static void deleteUser(int userId){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + userId, DELETE);
-        req.addParameter("id", userId + "");
-        executeRequest(req);
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + userId, DELETE));
     }
 
     public static void getActions(){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET);
-        executeRequest(req);
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET));
     }
 
     public static void updateOrSaveActions(Action action){
@@ -87,8 +79,7 @@ public final class Service {
     }
 
     public static void deleteAction(int actionId){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions/" + actionId, DELETE);
-        executeRequest(req);
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions/" + actionId, DELETE));
     }
     
     private static void executeRequest(HttpRequest request){

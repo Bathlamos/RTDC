@@ -14,21 +14,16 @@ import rtdc.core.model.User;
 
 import java.util.List;
 
-
-/**
- * Created by Mathieu on 2015-02-18.
- */
 public class UnitListAdapter extends ArrayAdapter {
 
     private Context context;
-    private boolean useList = true;
 
     public UnitListAdapter(Context context, List items) {
         super(context, android.R.layout.simple_list_item_1, items);
         this.context = context;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView nameText;
         TextView secondLine;
     }
@@ -46,11 +41,7 @@ public class UnitListAdapter extends ArrayAdapter {
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            if (useList) {
-                viewToUse = mInflater.inflate(R.layout.unit_list_item, null);
-            } else {
-                viewToUse = mInflater.inflate(R.layout.unit_grid_item, null);
-            }
+            viewToUse = mInflater.inflate(R.layout.unit_list_item, null);
             holder = new ViewHolder();
             holder.nameText = (TextView)viewToUse.findViewById(R.id.unit_textView);
             holder.secondLine = (TextView) viewToUse.findViewById(R.id.unit_secondLine);
