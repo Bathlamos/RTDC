@@ -28,13 +28,18 @@ public class LoginController extends Controller<LoginView> implements Authentica
         Service.authenticateUser(view.getUsernameUiElement().getValue(), view.getPasswordUiElement().getValue());
     }
 
-
     @Override
     public void onAuthenticate(AuthenticationEvent event) {
         logger.log(Level.INFO, "AuthenticationEvent received");
         Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
         Bootstrapper.VIEW.saveAuthenticationToken(Bootstrapper.AUTHENTICATION_TOKEN);
         Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        Event.unsubscribe(AuthenticationEvent.TYPE, this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
         Event.unsubscribe(AuthenticationEvent.TYPE, this);
     }
 }

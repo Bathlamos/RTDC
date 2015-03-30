@@ -1,10 +1,13 @@
 package rtdc.android.presenter;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 import rtdc.android.R;
 import rtdc.core.controller.AddUnitController;
 import rtdc.core.view.AddUnitView;
@@ -52,8 +55,15 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
                 controller.addUnit();
                 return true;
             case R.id.action_discard_unit:
-                // TODO: Show confirmation dialog
-                controller.deleteUnit();
+                new AlertDialog.Builder(this)
+                    .setTitle("Confirm")
+                    .setMessage("Delete current unit?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            controller.deleteUnit();
+                            Toast.makeText(CreateUnitActivity.this, "Unit Deleted", Toast.LENGTH_SHORT).show();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -83,5 +93,11 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
     @Override
     public void setTotalBedsAsString(String totalBeds) {
         totalBedsEdit.setText(totalBeds);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
     }
 }

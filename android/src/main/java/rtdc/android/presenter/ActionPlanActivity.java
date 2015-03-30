@@ -1,6 +1,8 @@
 package rtdc.android.presenter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
@@ -79,8 +81,15 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
                 controller.editAction(actionSelected);
                 break;
             case 2:
-                controller.deleteAction(actionSelected);
-                Toast.makeText(this, "Action Deleted", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(this)
+                    .setTitle("Confirm")
+                    .setMessage("Delete selected action?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            controller.deleteAction(actionSelected);
+                            Toast.makeText(ActionPlanActivity.this, "Action Deleted", Toast.LENGTH_SHORT).show();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
                 break;
         }
         return true;
@@ -158,5 +167,11 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
 
             return view;
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
     }
 }

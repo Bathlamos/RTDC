@@ -55,4 +55,10 @@ public class UnitFragment extends AbstractFragment implements AbsListView.OnItem
         Unit unit = (Unit) mAdapter.getItem(position);
         controller.editUnit(unit);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
+    }
 }

@@ -52,4 +52,10 @@ public class CapacityOverviewController extends Controller<CapacityOverviewView>
         sortUnits(Unit.Properties.name);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(FetchUnitsEvent.TYPE, this);
+    }
+
 }

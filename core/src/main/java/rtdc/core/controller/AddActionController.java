@@ -99,4 +99,10 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
         view.getUnitUiElement().setList(unitNames);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(FetchUnitsEvent.TYPE, this);
+    }
 }

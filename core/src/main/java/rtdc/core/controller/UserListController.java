@@ -48,4 +48,10 @@ public class UserListController extends Controller<UserListView> implements Fetc
         users = new HashSet<>(event.getUsers());
         view.setUsers(sortUsers(User.Properties.lastName));
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(FetchUsersEvent.TYPE, this);
+    }
 }

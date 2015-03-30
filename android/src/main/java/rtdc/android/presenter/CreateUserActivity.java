@@ -1,6 +1,8 @@
 package rtdc.android.presenter;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +11,7 @@ import android.view.ViewConfiguration;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 import rtdc.android.R;
 import rtdc.core.controller.AddUserController;
 import rtdc.core.view.AddUserView;
@@ -88,8 +91,15 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
                controller.addUser();
                return true;
            case R.id.action_discard_user:
-               //TODO: Show confirmation dialog
-               controller.deleteUser();
+               new AlertDialog.Builder(this)
+                   .setTitle("Confirm")
+                   .setMessage("Delete current user?")
+                   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int whichButton) {
+                           controller.deleteUser();
+                           Toast.makeText(CreateUserActivity.this, "User Deleted", Toast.LENGTH_SHORT).show();
+                       }})
+                   .setNegativeButton(android.R.string.no, null).show();
                return true;
            default:
                return super.onOptionsItemSelected(item);
@@ -212,5 +222,11 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
     @Override
     public void setPermissionForSurname(String error) {
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
     }
 }

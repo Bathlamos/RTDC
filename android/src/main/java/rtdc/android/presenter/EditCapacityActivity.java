@@ -86,4 +86,10 @@ public class EditCapacityActivity extends AbstractActivity implements EditCapaci
     public UiElement<String> getAdmitsByDeadlineUiElement() {
         return admitsByDeadlineEdit;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
+    }
 }

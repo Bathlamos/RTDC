@@ -104,4 +104,10 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     public UiElement<String> getDescriptionUiElement() {
         return descriptionEdit;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
+    }
 }

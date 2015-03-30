@@ -67,4 +67,10 @@ public class AddUserController extends Controller<AddUserView> implements Action
         // This causes a crash
         //view.displayError("Success", "success");
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(ActionCompleteEvent.TYPE, this);
+    }
 }

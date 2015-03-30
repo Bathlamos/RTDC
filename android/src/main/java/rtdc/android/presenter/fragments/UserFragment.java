@@ -1,6 +1,5 @@
 package rtdc.android.presenter.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 import rtdc.android.R;
 
-import rtdc.android.presenter.CreateUserActivity;
 import rtdc.core.controller.UserListController;
 import rtdc.core.model.User;
 import rtdc.core.view.UserListView;
@@ -53,6 +51,12 @@ public class UserFragment extends AbstractFragment implements AbsListView.OnItem
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         User user = (User) mAdapter.getItem(position);
         controller.editUser(user);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
     }
 
 }

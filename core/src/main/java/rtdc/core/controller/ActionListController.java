@@ -47,4 +47,10 @@ public class ActionListController extends Controller<ActionListView> implements 
         actions = new ArrayList<>(event.getActions());
         sortActions(Action.Properties.task);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(FetchActionsEvent.TYPE, this);
+    }
 }

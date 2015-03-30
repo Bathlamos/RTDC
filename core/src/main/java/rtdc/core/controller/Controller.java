@@ -25,4 +25,8 @@ public abstract class Controller<T extends View> implements ErrorEvent.Handler {
         return view;
     }
 
+    public void onStop(){
+        Event.unsubscribe(ErrorEvent.TYPE, this);
+    }
+
 }

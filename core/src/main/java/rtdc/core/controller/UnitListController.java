@@ -46,4 +46,10 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
         units = new ArrayList<>(event.getUnits());
         sortUsers(Unit.Properties.name);
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(FetchUnitsEvent.TYPE, this);
+    }
 }

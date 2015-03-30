@@ -137,4 +137,10 @@ public class CapacityOverviewActivity extends AbstractActivity implements Capaci
             return view;
         }
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
+    }
 }

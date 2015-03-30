@@ -62,6 +62,12 @@ public class LoginActivity extends AbstractActivity implements LoginView {
     public UiElement<String> getPasswordUiElement() {
         return mPasswordView;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
+    }
 }
 
 
