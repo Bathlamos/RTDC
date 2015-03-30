@@ -23,17 +23,24 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         Event.subscribe(FetchUnitsEvent.TYPE, this);
         Service.getUnits();
 
+        //TODO: Switching over an enum in a for is particularly atrocious.
         ArrayList<String> tasks = new ArrayList<>();
-        for(Action.Task task: Action.Task.values())
-            tasks.add(task.name());
+        for(Action.Task task: Action.Task.values()) {
+            switch(task){
+                case holdFor: tasks.add("Hold for"); break;
+                case offServicingTo: tasks.add("Off servicing to"); break;
+                case pushForDischarge: tasks.add("Push for discharge"); break;
+            }
+        }
         view.getTaskUiElement().setList(tasks);
 
         ArrayList<String> statuses = new ArrayList<>();
         for(Action.Status status: Action.Status.values()) {
             switch(status){
-                case completed: statuses.add("Completed");
-                case failed: statuses.add("Failed");
-                case inProgress: statuses.add("In progress");
+                case completed: statuses.add("Completed"); break;
+                case failed: statuses.add("Failed"); break;
+                case inProgress: statuses.add("In progress"); break;
+                case notStarted: statuses.add("Not started"); break;
             }
         }
         view.getStatusUiElement().setList(statuses);

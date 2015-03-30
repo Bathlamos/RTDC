@@ -22,7 +22,8 @@ public class Action extends RootObject{
     public enum Status {
         inProgress,
         completed,
-        failed
+        failed,
+        notStarted
     }
 
     public enum Task {
