@@ -8,4 +8,6 @@ public interface AddUnitView extends View {
     String getTotalBedsAsString();
     void setTotalBedsAsString(String totalBeds);
 
+    void hideDeleteButton();
+
 }

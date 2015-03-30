@@ -18,8 +18,11 @@ public class AddUnitController extends Controller<AddUnitView>{
 
         currentUnit = (Unit) Cache.getInstance().retrieve("unit");
         if (currentUnit != null) {
+            view.setTitle("Edit Unit");
             view.setNameAsString(currentUnit.getName());
             view.setTotalBedsAsString(Integer.toString(currentUnit.getTotalBeds()));
+        } else {
+            view.hideDeleteButton();
         }
     }
 

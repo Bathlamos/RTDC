@@ -18,6 +18,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
         currentUser = (User) Cache.getInstance().retrieve("user");
         if (currentUser != null) {
+            view.setTitle("Edit User");
             view.setUsernameAsString(currentUser.getUsername());
             view.setEmailAsString(currentUser.getEmail());
             view.setFirstnameAsString(currentUser.getFirstName());
@@ -25,6 +26,8 @@ public class AddUserController extends Controller<AddUserView> implements Action
             view.setPhoneAsLong(currentUser.getPhone());
             view.setRoleAsString(currentUser.getRole());
             view.setPermissionAsString(currentUser.getPermission());
+        } else {
+            view.hideDeleteButton();
         }
     }
 

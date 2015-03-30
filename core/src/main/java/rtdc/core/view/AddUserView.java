@@ -35,4 +35,6 @@ public interface AddUserView extends View {
     void setPermissionAsString(String value);
     void setPermissionForSurname(String error);
 
+    void hideDeleteButton();
+
 }

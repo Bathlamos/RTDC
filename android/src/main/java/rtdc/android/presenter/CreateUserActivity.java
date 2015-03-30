@@ -1,9 +1,6 @@
 package rtdc.android.presenter;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,13 +9,8 @@ import android.view.ViewConfiguration;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-import rtdc.android.AdminActivity;
 import rtdc.android.R;
 import rtdc.core.controller.AddUserController;
-import rtdc.core.json.JSONObject;
-import rtdc.core.model.User;
-import rtdc.core.util.Cache;
 import rtdc.core.view.AddUserView;
 
 import java.lang.reflect.Field;
@@ -29,12 +21,12 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
 
     private EditText usernameEdit, passwordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
     private Spinner roleSpinner, permissionSpinner;
+    private boolean hideDeleteButton = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
-        setTitle(R.string.title_activity_create_user);
 
         usernameEdit = (EditText) findViewById(R.id.usernameEdit);
         passwordEdit = (EditText) findViewById(R.id.passwordEdit);
@@ -80,6 +72,8 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_create_user, menu);
+        MenuItem deleteUser = menu.findItem(R.id.action_discard_user);
+        if(hideDeleteButton) deleteUser.setVisible(false);
         return true;
     }
 
@@ -100,6 +94,11 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
            default:
                return super.onOptionsItemSelected(item);
        }
+    }
+
+    @Override
+    public void hideDeleteButton() {
+        hideDeleteButton = true;
     }
 
     @Override

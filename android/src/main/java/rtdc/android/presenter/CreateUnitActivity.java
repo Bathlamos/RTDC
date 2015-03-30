@@ -1,8 +1,6 @@
 package rtdc.android.presenter;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +14,7 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
     private AddUnitController controller;
 
     private EditText unitNameEdit, totalBedsEdit;
+    private boolean hideDeleteButton = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,8 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_create_unit, menu);
-
+        MenuItem deleteUnit = menu.findItem(R.id.action_discard_unit);
+        if(hideDeleteButton) deleteUnit.setVisible(false);
         return true;
     }
 
@@ -58,6 +58,11 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void hideDeleteButton() {
+        hideDeleteButton = true;
     }
 
     @Override
