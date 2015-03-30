@@ -11,7 +11,7 @@ import rtdc.core.impl.UiElement;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnFocusChangeListener {
+public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnFocusChangeListener, View.OnClickListener {
 
     private Date date = new Date();
     private final Context context;
@@ -37,21 +37,13 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if(hasFocus) {
-            Calendar currentTime = Calendar.getInstance();
-            int hour = currentTime.get(Calendar.HOUR_OF_DAY);
-            int minute = currentTime.get(Calendar.MINUTE);
-            TimePickerDialog timePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                    Date date = new Date();
-                    date.setHours(selectedHour);
-                    date.setMinutes(selectedMinute);
-                    setValue(date);
-                }
-            }, hour, minute, true);
-            timePicker.setTitle("Select Time");
-            timePicker.show();
+            showTimePicker();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        showTimePicker();
     }
 
     @Override
@@ -61,8 +53,25 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
 
     @Override
     public void setValue(Date value) {
-        this.date = date;
+        this.date = value;
         setText(date.getHours() + ":" + String.format("%02d", date.getMinutes()));
+    }
+
+    public void showTimePicker() {
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+        TimePickerDialog timePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                Date date = new Date();
+                date.setHours(selectedHour);
+                date.setMinutes(selectedMinute);
+                setValue(date);
+            }
+        }, hour, minute, true);
+        timePicker.setTitle("Select Time");
+        timePicker.show();
     }
 
     @Override
