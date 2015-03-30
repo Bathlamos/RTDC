@@ -21,6 +21,11 @@ public class GWTDispatcher implements Dispatcher{
     }
 
     @Override
+    public void goToEditUser(Controller caller) {
+
+    }
+
+    @Override
     public void goToEditAction(Controller caller) {
 
     }
@@ -32,11 +37,6 @@ public class GWTDispatcher implements Dispatcher{
 
     @Override
     public void goToEditCapacity(Controller caller) {
-
-    }
-
-    @Override
-    public void goToUnitInfo(Controller caller) {
 
     }
 
