@@ -13,7 +13,7 @@ import java.util.*;
 
 public class ActionListController extends Controller<ActionListView> implements FetchActionsEvent.Handler {
 
-    private Set<Action> actions;
+    private ArrayList<Action> actions;
 
     public ActionListController(ActionListView view){
         super(view);
@@ -26,10 +26,9 @@ public class ActionListController extends Controller<ActionListView> implements 
         return "Action Plan";
     }
 
-    public List<Action> sortActions(Action.Properties property){
-        LinkedList<Action> sortedActions = new LinkedList<>(actions);
-        Collections.sort(sortedActions, SimpleComparator.forProperty(property));
-        return sortedActions;
+    public void sortActions(Action.Properties property){
+        Collections.sort(actions, SimpleComparator.forProperty(property));
+        view.setActions(actions);
     }
 
     public void editAction(Action action){
@@ -39,12 +38,13 @@ public class ActionListController extends Controller<ActionListView> implements 
 
     public void deleteAction(Action action) {
         actions.remove(action);
+        view.setActions(actions);
         Service.deleteAction(action.getId());
     }
 
     @Override
     public void onActionsFetched(FetchActionsEvent event) {
-        actions = new HashSet<>(event.getActions());
-        view.setActions(sortActions(Action.Properties.task));
+        actions = new ArrayList<>(event.getActions());
+        sortActions(Action.Properties.task);
     }
 }
