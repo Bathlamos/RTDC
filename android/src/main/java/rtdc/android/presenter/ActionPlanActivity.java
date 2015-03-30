@@ -17,22 +17,19 @@ import java.util.*;
 
 public class ActionPlanActivity extends AbstractActivity implements ActionListView {
 
-    private List<Action> actions = new ArrayList<Action>();
-    private ListView actionListView;
-    private ArrayAdapter<Action> adapter;
+    private ActionListAdapter adapter;
+    private ArrayList<Action> actions = new ArrayList<Action>();
     private Action actionSelected;
     private ActionListController controller;
-
-    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_plan);
-        setTitle(getString(R.string.title_activity_action_plan) + " - Medicine Unit");
 
-        context = this.getBaseContext();
-        actionListView = (ListView) findViewById(R.id.ActionListView);
+        ListView actionListView = (ListView) findViewById(R.id.ActionListView);
+        adapter = new ActionListAdapter(this, actions);
+        actionListView.setAdapter(adapter);
 
         if(controller == null)
             controller = new ActionListController(this);
@@ -40,7 +37,6 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_action_plan, menu);
         return true;
     }
@@ -86,7 +82,6 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
                 break;
             case 2:
                 controller.deleteAction(actionSelected);
-                adapter.remove(actionSelected);
                 Toast.makeText(this, "Action Deleted", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -100,37 +95,46 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
     public void onHeaderItemClick(View v) {
         switch(v.getId()) {
             case R.id.statusHeader:
-                actions = controller.sortActions(Action.Properties.status);
+                controller.sortActions(Action.Properties.status);
                 break;
             case R.id.roleHeader:
-                actions = controller.sortActions(Action.Properties.roleResponsible);
+                controller.sortActions(Action.Properties.roleResponsible);
                 break;
             case R.id.actionHeader:
-                actions = controller.sortActions(Action.Properties.task);
+                controller.sortActions(Action.Properties.task);
                 break;
             case R.id.targetHeader:
-                actions = controller.sortActions(Action.Properties.target);
+                controller.sortActions(Action.Properties.target);
                 break;
             case R.id.deadlineHeader:
-                actions = controller.sortActions(Action.Properties.deadline);
+                controller.sortActions(Action.Properties.deadline);
                 break;
         }
+    }
+
+    @Override
+    public void setActions(List<Action> actions) {
+        this.actions.clear();
+        this.actions.addAll(actions);
         adapter.notifyDataSetChanged();
     }
 
-    private class ActionListAdapter extends ArrayAdapter<Action> {
-        public ActionListAdapter(){
-            super(ActionPlanActivity.this, R.layout.adapter_action_plan, actions);
+    private static class ActionListAdapter extends ArrayAdapter<Action> {
+
+        private Activity activity;
+
+        public ActionListAdapter(Activity activity, List<Action> actions){
+            super(activity, R.layout.adapter_action_plan, actions);
+            this.activity = activity;
         }
 
         @Override
         public View getView(int position, View view, ViewGroup parent){
 
-            if(view == null){
-                view = getLayoutInflater().inflate(R.layout.adapter_action_plan, parent, false);
-            }
+            if(view == null)
+                view = activity.getLayoutInflater().inflate(R.layout.adapter_action_plan, parent, false);
 
-            Action currentAction = actions.get(position);
+            Action currentAction = getItem(position);
 
             TextView status = (TextView) view.findViewById(R.id.status);
             status.setText(currentAction.getStatus());
@@ -147,21 +151,14 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
             TextView deadline = (TextView) view.findViewById(R.id.deadline);
             deadline.setText(currentAction.getDeadline().toString().substring(10, 16));
 
-            TextView notes = (TextView) view.findViewById(R.id.notes);
-            notes.setText(currentAction.getDescription());
+            TextView description = (TextView) view.findViewById(R.id.description);
+            description.setText(currentAction.getDescription());
 
             ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
             optionsMenuBtn.setTag(position);
-            registerForContextMenu(optionsMenuBtn);
+            activity.registerForContextMenu(optionsMenuBtn);
 
             return view;
         }
-    }
-
-    @Override
-    public void setActions(List<Action> actions) {
-        this.actions = actions;
-        adapter = new ActionListAdapter();
-        ((AdapterView)actionListView).setAdapter(adapter);
     }
 }
