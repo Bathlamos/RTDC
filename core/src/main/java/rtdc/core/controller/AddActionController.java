@@ -1,6 +1,7 @@
 package rtdc.core.controller;
 
 import com.google.common.collect.ImmutableSet;
+import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.model.Action;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler{
 
     private ArrayList<Unit> units = new ArrayList<>();
+
+    private Action currentAction;
 
     public AddActionController(AddActionView view){
         super(view);
@@ -29,6 +32,17 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         for(Action.Status status: Action.Status.values())
             statuses.add(status.name());
         view.getStatusUiElement().setList(statuses);
+
+        currentAction = (Action) Cache.getInstance().retrieve("action");
+        if (currentAction != null) {
+            view.getRoleUiElement().setValue(currentAction.getRoleResponsible());
+            view.getTargetUiElement().setValue(currentAction.getTarget());
+            view.getDeadlineUiElement().setValue(currentAction.getDeadline());
+            view.getDescriptionUiElement().setValue(currentAction.getDescription());
+            view.getUnitUiElement().setValue(currentAction.getUnit().getName());
+            view.getStatusUiElement().setValue(currentAction.getStatus());
+            view.getTaskUiElement().setValue(currentAction.getTask());
+        }
     }
 
     @Override
@@ -39,9 +53,8 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     public void addAction() {
 
         Action action = new Action();
-        Action cachedAction = (Action) Cache.getInstance().retrieve("action");
-        if (cachedAction != null)
-            action.setId(cachedAction.getId());
+        if (currentAction != null)
+            action.setId(currentAction.getId());
         action.setTask(view.getTaskUiElement().getValue());
         action.setRoleResponsible(view.getRoleUiElement().getValue());
         action.setTarget(view.getTargetUiElement().getValue());
@@ -49,7 +62,6 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         action.setDescription(view.getDescriptionUiElement().getValue());
         action.setStatus(view.getStatusUiElement().getValue());
         action.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
-
 
         /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
 
@@ -61,6 +73,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         else {*/
         Service.updateOrSaveActions(action);
         //}
+        Bootstrapper.FACTORY.newDispatcher().goToActionPlan(this);
     }
 
     @Override
