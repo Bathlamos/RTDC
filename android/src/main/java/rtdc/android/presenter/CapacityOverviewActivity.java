@@ -42,7 +42,6 @@ public class CapacityOverviewActivity extends AbstractActivity implements Capaci
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_go_to_manage:
                 //TODO:Improve
@@ -54,10 +53,6 @@ public class CapacityOverviewActivity extends AbstractActivity implements Capaci
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void onOptionsMenuClick(View v) {
-        openContextMenu(v);
     }
 
     public void onHeaderItemClick(View v) {
