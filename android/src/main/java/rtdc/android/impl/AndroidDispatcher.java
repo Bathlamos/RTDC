@@ -27,23 +27,23 @@ public class AndroidDispatcher implements Dispatcher {
     }
 
     @Override
-    public void goToUnitInfo(Controller caller) {
-        startIntent(CreateUnitActivity.class, caller);
-    }
-
-    @Override
     public void goToCapacityOverview(Controller caller) {
         startIntent(CapacityOverviewActivity.class, caller);
     }
 
     @Override
-    public void goToEditAction(Controller caller) {
-        startIntent(CreateActionActivity.class, caller);
+    public void goToEditUser(Controller caller) {
+        startIntent(CreateUserActivity.class, caller);
     }
 
     @Override
     public void goToEditUnit(Controller caller) {
         startIntent(CreateUnitActivity.class, caller);
+    }
+
+    @Override
+    public void goToEditAction(Controller caller) {
+        startIntent(CreateActionActivity.class, caller);
     }
 
     @Override

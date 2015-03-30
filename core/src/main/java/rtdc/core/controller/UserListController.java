@@ -1,10 +1,13 @@
 package rtdc.core.controller;
 
+import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.model.SimpleComparator;
+import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 import rtdc.core.view.UserListView;
 
 import java.util.*;
@@ -33,6 +36,11 @@ public class UserListController extends Controller<UserListView> implements Fetc
     public void deleteUser(User user){
         users.remove(user);
         Service.deleteUser(user.getId());
+    }
+
+    public void editUser(User user){
+        Cache.getInstance().put("user", user);
+        Bootstrapper.FACTORY.newDispatcher().goToEditUser(this);
     }
 
     @Override

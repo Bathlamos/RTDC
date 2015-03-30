@@ -52,9 +52,7 @@ public class UserFragment extends AbstractFragment implements AbsListView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         User user = (User) mAdapter.getItem(position);
-        Intent intent = new Intent(this.getActivity(), CreateUserActivity.class);
-        intent.putExtra("user", user.toString());
-        startActivity(intent);
+        controller.editUser(user);
     }
 
 }

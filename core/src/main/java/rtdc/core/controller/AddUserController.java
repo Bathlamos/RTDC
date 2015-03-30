@@ -61,6 +61,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
     @Override
     public void onActionComplete(ActionCompleteEvent event) {
-        view.displayError("Success", "success");
+        // This causes a crash
+        //view.displayError("Success", "success");
     }
 }
