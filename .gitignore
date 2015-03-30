@@ -15,6 +15,7 @@ out
 .idea/tasks.xml
 .idea/libraries/
 .idea/artifacts/
+*.iml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
