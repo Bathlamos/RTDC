@@ -27,8 +27,8 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         ArrayList<String> tasks = new ArrayList<>();
         for(Action.Task task: Action.Task.values()) {
             switch(task){
-                case holdFor: tasks.add("Hold for"); break;
-                case offServicingTo: tasks.add("Off servicing to"); break;
+                case holdFor: tasks.add("Hold"); break;
+                case offServicingTo: tasks.add("Off servicing"); break;
                 case pushForDischarge: tasks.add("Push for discharge"); break;
             }
         }
@@ -37,10 +37,10 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         ArrayList<String> statuses = new ArrayList<>();
         for(Action.Status status: Action.Status.values()) {
             switch(status){
+                case notStarted: statuses.add("Not started"); break;
+                case inProgress: statuses.add("In progress"); break;
                 case completed: statuses.add("Completed"); break;
                 case failed: statuses.add("Failed"); break;
-                case inProgress: statuses.add("In progress"); break;
-                case notStarted: statuses.add("Not started"); break;
             }
         }
         view.getStatusUiElement().setList(statuses);
