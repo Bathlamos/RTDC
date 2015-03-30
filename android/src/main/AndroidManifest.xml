@@ -61,7 +61,7 @@
                 android:parentActivityName=".presenter.CapacityOverviewActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".presenter.CapacityOverviewActivity" />
+                    android:value=".presenter.CapacityOverviewActivity"/>
         </activity>
         <activity
                 android:name=".presenter.CreateActionActivity"
