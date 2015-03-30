@@ -57,11 +57,19 @@
         </activity>
         <activity
                 android:name=".presenter.EditCapacityActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize" >
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:parentActivityName=".presenter.CapacityOverviewActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".presenter.CapacityOverviewActivity" />
         </activity>
         <activity
                 android:name=".presenter.CreateActionActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize" >
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:parentActivityName=".presenter.ActionPlanActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".presenter.ActionPlanActivity" />
         </activity>
         <activity
             android:name=".presenter.ActionPlanActivity"
