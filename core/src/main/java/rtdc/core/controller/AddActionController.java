@@ -47,6 +47,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
         currentAction = (Action) Cache.getInstance().retrieve("action");
         if (currentAction != null) {
+            view.setTitle("Edit Action");
             view.getRoleUiElement().setValue(currentAction.getRoleResponsible());
             view.getTargetUiElement().setValue(currentAction.getTarget());
             view.getDeadlineUiElement().setValue(currentAction.getDeadline());

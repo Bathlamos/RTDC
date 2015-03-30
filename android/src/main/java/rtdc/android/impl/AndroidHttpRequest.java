@@ -69,6 +69,7 @@ public class AndroidHttpRequest implements HttpRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 callback.onError(error.networkResponse + " : " + error.getMessage());
+                error.printStackTrace();
             }
         };
 

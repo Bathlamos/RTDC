@@ -42,17 +42,6 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
         statusSpinner = (AndroidUiDropdownList) findViewById(R.id.statusSpinner);
         taskSpinner = (AndroidUiDropdownList) findViewById(R.id.actionSpinner);
 
-        currentAction = (Action) Cache.getInstance().retrieve("action");
-        if (currentAction != null) {
-            getRoleUiElement().setValue(currentAction.getRoleResponsible());
-            getTargetUiElement().setValue(currentAction.getTarget());
-            getDeadlineUiElement().setValue(currentAction.getDeadline());
-            getDescriptionUiElement().setValue(currentAction.getDescription());
-            getUnitUiElement().setValue(currentAction.getUnit().getName());
-            getStatusUiElement().setValue(currentAction.getStatus());
-            getTaskUiElement().setValue(currentAction.getTask());
-        }
-
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
