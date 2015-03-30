@@ -20,10 +20,10 @@ public class Action extends RootObject{
     }
 
     public enum Status {
+        notStarted,
         inProgress,
         completed,
-        failed,
-        notStarted
+        failed
     }
 
     public enum Task {
@@ -47,11 +47,41 @@ public class Action extends RootObject{
     public Action(JSONObject object) {
         setId(object.optInt(Properties.id.name()));
         setUnit(new Unit(object.getJSONObject(Properties.unit.name())));
-        setStatus(object.optString(Properties.status.name()));
+
+        String status = object.optString(Properties.status.name());
+        switch (status){
+            case "inProgress":
+                setStatus("In Progress");
+                break;
+            case "completed":
+                setStatus("Completed");
+                break;
+            case "failed":
+                setStatus("Failed");
+                break;
+            case "notStarted":
+            default:
+                setStatus("Not Started");
+        }
+
         if(object.has(Properties.personResponsible.name()))
             setPersonResponsible(new User(object.getJSONObject(Properties.personResponsible.name())));
+
         setRoleResponsible(object.optString(Properties.roleResponsible.name()));
-        setTask(object.optString(Properties.task.name()));
+
+        String task = object.optString(Properties.task.name());
+        switch (task){
+            case "pushForDischarge":
+                setTask("Push for discharge");
+                break;
+            case "offServicingTo":
+                setTask("Off Servicing");
+                break;
+            case "holdFor":
+            default:
+                setTask("Hold");
+        }
+
         if(object.has(Properties.deadline.name()))
             setDeadline(new Date(object.getLong(Properties.deadline.name())));
         setTarget(object.optString(Properties.target.name()));
