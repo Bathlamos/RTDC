@@ -26,8 +26,6 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     private AndroidUiDate deadlineEdit;
     private AndroidUiDropdownList unitSpinner, statusSpinner, taskSpinner;
 
-    private Action currentAction;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +58,9 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_save_action:
-                if (currentAction != null)
-                    Cache.getInstance().put("action", currentAction);
                 controller.addAction();
-                intent = new Intent(this, ActionPlanActivity.class);
-                startActivity(intent);
                 return true;
             case R.id.action_cancel_action:
                 finish();
