@@ -1,7 +1,6 @@
 package rtdc.android.presenter;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +27,6 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
 
     private AddUserController controller;
 
-    private TextView passwordText;
     private EditText usernameEdit, passwordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
     private Spinner roleSpinner, permissionSpinner;
     private User currentUser;
@@ -40,7 +38,6 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
         setTitle(R.string.title_activity_create_user);
 
         usernameEdit = (EditText) findViewById(R.id.usernameEdit);
-        passwordText = (TextView) findViewById(R.id.passwordText);
         passwordEdit = (EditText) findViewById(R.id.passwordEdit);
         emailEdit = (EditText) findViewById(R.id.emailEdit);
         firstNameEdit = (EditText) findViewById(R.id.firstNameEdit);
