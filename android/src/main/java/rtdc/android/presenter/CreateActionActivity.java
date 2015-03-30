@@ -31,7 +31,6 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_action);
-        setTitle(R.string.title_activity_create_action);
 
         roleEdit = (AndroidUiString) findViewById(R.id.roleEdit);
         targetEdit = (AndroidUiString) findViewById(R.id.targetEdit);
