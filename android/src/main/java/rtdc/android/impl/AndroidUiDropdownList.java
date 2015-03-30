@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import com.google.common.collect.ImmutableSet;
+import rtdc.android.R;
 import rtdc.core.impl.UiDropdownList;
 
 import java.util.ArrayList;
@@ -17,19 +18,19 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
     public AndroidUiDropdownList(Context context) {
         super(context);
 
-        adapter = new ArrayAdapter<T>(context, android.R.layout.simple_spinner_item);
+        adapter = new ArrayAdapter<T>(context, R.layout.downdown_list_item);
         setAdapter(adapter);
     }
 
     public AndroidUiDropdownList(Context context, AttributeSet attrs) {
         super(context, attrs);
-        adapter = new ArrayAdapter<T>(context, android.R.layout.simple_spinner_item);
+        adapter = new ArrayAdapter<T>(context, R.layout.downdown_list_item);
         setAdapter(adapter);
     }
 
     public AndroidUiDropdownList(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
-        adapter = new ArrayAdapter<T>(context, android.R.layout.simple_spinner_item);
+        adapter = new ArrayAdapter<T>(context, R.layout.downdown_list_item);
         setAdapter(adapter);
     }
 
