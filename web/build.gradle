@@ -28,6 +28,7 @@ dependencies {
 
     //We use this notation to include the source, for GWT
     compile files(project(':core').sourceSets.main.java.srcDirs)
+    compile files(project(':core').sourceSets.main.resources.srcDirs)
     compile project(':core')
 
     compile 'com.google.gwt:gwt-servlet:2.7.0'
