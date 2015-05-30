@@ -56,6 +56,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
         <activity
+                android:name=".presenter.AbstractActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize">
+        </activity>
+        <activity
                 android:name=".presenter.EditCapacityActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:parentActivityName=".presenter.CapacityOverviewActivity">
