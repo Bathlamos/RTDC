@@ -7,4 +7,19 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    idea {
+
+        module {
+            //and some extra dirs that should be excluded by IDEA
+            excludeDirs += file('wiki')
+            excludeDirs += file('out')
+
+            //if you love browsing Javadoc
+            downloadJavadoc = true
+
+            //and hate reading sources :)
+            downloadSources = true
+        }
+    }
 }
