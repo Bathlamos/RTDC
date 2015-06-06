@@ -30,4 +30,9 @@ public class AndroidStorage implements Storage
     public String retrieve(String key) {
         return settings.getString(key, "");
     }
+
+    @Override
+    public void remove(String key) {
+        settings.edit().remove(key).commit();
+    }
 }

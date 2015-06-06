@@ -4,8 +4,10 @@ public interface Storage {
 
     String KEY_AUTH_TOKEN = "AUTH_TOKEN";
 
-    void add( String key, String data);
+    void add(String key, String data);
 
     String retrieve(String key);
+
+    void remove(String key);
 
 }

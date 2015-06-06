@@ -2,6 +2,7 @@ package rtdc.android.presenter;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,8 @@ import android.widget.ListView;
 import rtdc.android.R;
 import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.android.presenter.fragments.UserFragment;
+import rtdc.core.Bootstrapper;
+import rtdc.core.impl.Storage;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -56,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
         };
 
         //TODO: Change when permissions are implemented
-        String[] mPlanetTitles = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "User Profile", "Administration"};
+        String[] mPlanetTitles = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "User Profile", "Administration", "Sign out"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.nav_list);
 
@@ -80,6 +83,11 @@ public class MainActivity extends ActionBarActivity {
      */
     private void selectItem(int position) {
         switch(position){
+            case 5:
+                Intent intent = new Intent(this, LoginActivity.class);
+                Bootstrapper.FACTORY.getStorage().remove(Storage.KEY_AUTH_TOKEN);
+                startActivity(intent);
+                finish();
             default: fragment = new CapacityOverviewFragment();
         }
 

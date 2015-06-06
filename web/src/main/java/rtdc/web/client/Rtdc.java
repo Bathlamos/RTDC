@@ -11,7 +11,7 @@ import rtdc.web.client.presenter.LoginPresenter;
 /**
  * Entry point classes define <code>onModuleLoad()</code>
  */
-public class Rtdc implements EntryPoint, BootstrapperView{
+public class Rtdc implements EntryPoint{
 
     public static final String AUTH_TOKEN_KEY = "authTokenKey";
 
@@ -20,21 +20,11 @@ public class Rtdc implements EntryPoint, BootstrapperView{
      */
     public void onModuleLoad() {
 
-        Bootstrapper.initialize(new GwtFactory(), this);
+        Bootstrapper.initialize(new GwtFactory());
 
         RootPanel.get().add(new LoginPresenter());
 
         RootPanel.get().add(new AddUserPresenter());
 
-    }
-
-    @Override
-    public void saveAuthenticationToken(String authToken) {
-        Cookies.setCookie(AUTH_TOKEN_KEY, authToken);
-    }
-
-    @Override
-    public String getAuthenticationToken() {
-        return Cookies.getCookie(AUTH_TOKEN_KEY);
     }
 }
