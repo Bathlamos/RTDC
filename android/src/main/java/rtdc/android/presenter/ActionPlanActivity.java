@@ -9,13 +9,14 @@ import android.view.*;
 import android.widget.*;
 import rtdc.android.AdminActivity;
 import rtdc.android.R;
+import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
 import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
 import java.util.*;
 
-public class ActionPlanActivity extends AbstractActivity implements ActionListView {
+public class ActionPlanActivity extends AbstractFragment implements ActionListView {
 
     private ActionListAdapter adapter;
     private ArrayList<Action> actions = new ArrayList<Action>();
