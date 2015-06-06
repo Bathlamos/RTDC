@@ -9,7 +9,6 @@ import android.view.*;
 import android.widget.*;
 import rtdc.android.AdminActivity;
 import rtdc.android.R;
-import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
 import rtdc.core.util.Cache;
@@ -56,7 +55,7 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
                 startActivity(intent);
                 return true;
             case R.id.action_go_to_cap_overview:
-                intent = new Intent(this, CapacityOverviewActivity.class);
+                intent = new Intent(this, CapacityOverviewFragment.class);
                 startActivity(intent);
                 return true;
             default:

@@ -80,7 +80,7 @@ public class MainActivity extends ActionBarActivity {
      */
     private void selectItem(int position) {
         switch(position){
-            default: fragment = new UserFragment();
+            default: fragment = new CapacityOverviewFragment();
         }
 
         // Insert the fragment by replacing any existing fragment

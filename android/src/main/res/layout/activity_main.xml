@@ -19,11 +19,17 @@
             >
 
         <ScrollView
-                android:id="@+id/main_fragment_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/tool_bar"
                 >
+
+            <RelativeLayout
+                    android:id="@+id/main_fragment_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+            </RelativeLayout>
 
         </ScrollView>
 

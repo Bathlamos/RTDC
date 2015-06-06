@@ -8,11 +8,10 @@ import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.widget.TabHost;
 import rtdc.android.presenter.ActionPlanActivity;
-import rtdc.android.presenter.CapacityOverviewActivity;
+import rtdc.android.presenter.CapacityOverviewFragment;
 import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateUserActivity;
-import rtdc.android.presenter.fragments.UnitFragment;
-import rtdc.android.presenter.fragments.UserFragment;
+
 import java.lang.reflect.Field;
 
 public class AdminActivity extends Activity {
@@ -79,7 +78,7 @@ public class AdminActivity extends Activity {
                 }
                 return true;
             case R.id.action_go_to_cap_overview:
-                intent = new Intent(this, CapacityOverviewActivity.class);
+                intent = new Intent(this, CapacityOverviewFragment.class);
                 startActivity(intent);
                 return true;
             case R.id.action_go_to_action_plan:

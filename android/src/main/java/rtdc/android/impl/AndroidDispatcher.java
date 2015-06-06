@@ -2,7 +2,6 @@ package rtdc.android.impl;
 
 import android.app.Activity;
 import android.content.Intent;
-import rtdc.android.AdminActivity;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.presenter.*;
 import rtdc.android.presenter.fragments.AbstractFragment;
@@ -28,7 +27,7 @@ public class AndroidDispatcher implements Dispatcher {
 
     @Override
     public void goToCapacityOverview(Controller caller) {
-        startIntent(CapacityOverviewActivity.class, caller);
+        startIntent(CapacityOverviewFragment.class, caller);
     }
 
     @Override

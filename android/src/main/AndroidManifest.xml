@@ -73,7 +73,7 @@
                 android:value=".AdminActivity" />
         </activity>
         <activity
-            android:name=".presenter.CapacityOverviewActivity"
+            android:name=".presenter.CapacityOverviewFragment"
             android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
         <activity
@@ -83,10 +83,10 @@
         <activity
                 android:name=".presenter.EditCapacityActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
-                android:parentActivityName=".presenter.CapacityOverviewActivity">
+                android:parentActivityName=".presenter.CapacityOverviewFragment">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".presenter.CapacityOverviewActivity"/>
+                    android:value=".presenter.CapacityOverviewFragment"/>
         </activity>
         <activity
                 android:name=".presenter.CreateActionActivity"

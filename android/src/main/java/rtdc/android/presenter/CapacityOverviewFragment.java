@@ -1,10 +1,12 @@
 package rtdc.android.presenter;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
+import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.Bootstrapper;
 import rtdc.core.controller.CapacityOverviewController;
 import rtdc.core.model.Unit;
@@ -12,47 +14,25 @@ import rtdc.core.view.CapacityOverviewView;
 
 import java.util.*;
 
-public class CapacityOverviewActivity extends AbstractActivity implements CapacityOverviewView {
+public class CapacityOverviewFragment extends AbstractFragment implements CapacityOverviewView {
 
     private ArrayAdapter<Unit> adapter;
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private CapacityOverviewController controller;
 
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_capacity_overview);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_capacity_overview, container, false);
+        AdapterView unitListView = (AdapterView) view.findViewById(R.id.CapacityListView);
 
-        AdapterView unitListView = (AdapterView) findViewById(R.id.CapacityListView);
-
-        adapter = new UnitListAdapter(units);
+        adapter = new UnitListAdapter(units, getActivity());
         unitListView.setAdapter(adapter);
 
         if (controller == null)
             controller = new CapacityOverviewController(this);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_capacity_overview, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_go_to_manage:
-                //TODO:Improve
-                Bootstrapper.FACTORY.newDispatcher().goToAllUnits(controller); //adminActivity
-                return true;
-            case R.id.action_go_to_action_plan:
-                Bootstrapper.FACTORY.newDispatcher().goToActionPlan(controller);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        return view;
     }
 
     public void onHeaderItemClick(View v) {
@@ -90,14 +70,17 @@ public class CapacityOverviewActivity extends AbstractActivity implements Capaci
 
     private class UnitListAdapter extends ArrayAdapter<Unit> {
 
-        public UnitListAdapter(List<Unit> units) {
-            super(CapacityOverviewActivity.this, R.layout.adapter_capacity_overview, units);
+        private LayoutInflater inflater;
+
+        public UnitListAdapter(List<Unit> units, Context context) {
+            super(context, R.layout.adapter_capacity_overview, units);
+            inflater = LayoutInflater.from(context);
         }
 
         @Override
         public View getView(int position, View view, ViewGroup parent) {
             if (view == null)
-                view = getLayoutInflater().inflate(R.layout.adapter_capacity_overview, parent, false);
+                view = inflater.inflate(R.layout.adapter_capacity_overview, parent, false);
 
             Unit currentUnit = units.get(position);
             int status = currentUnit.getAvailableBeds() + currentUnit.getDcByDeadline() - currentUnit.getAdmitsByDeadline();
