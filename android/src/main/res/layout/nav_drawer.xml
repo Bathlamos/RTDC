@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- android:layout_gravity="start" tells DrawerLayout to treat
+     this as a sliding drawer on the left side for left-to-right
+     languages and on the right side for right-to-left languages.
+     The drawer is given a fixed width in dp and extends the full height of
+     the container. A solid background is used for contrast
+     with the content view. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/scrollView"
+            android:layout_width="260dp"
+            android:layout_height="match_parent"
+            android:background="@color/button_material_light"
+            android:layout_gravity="start">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <FrameLayout
+                android:id="@+id/nav_top"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                >
+
+        </FrameLayout>
+
+        <ListView
+                android:id="@+id/nav_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/nav_top" />
+    </RelativeLayout>
+</ScrollView>

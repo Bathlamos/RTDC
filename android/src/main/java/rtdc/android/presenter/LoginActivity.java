@@ -1,6 +1,9 @@
 package rtdc.android.presenter;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.*;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -24,15 +27,53 @@ public class LoginActivity extends AbstractActivity implements LoginView {
 
     private LoginController controller;
 
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        final Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
 
         setTitle(R.string.title_activity_login);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mTitle = getTitle();
+        mDrawerTitle = "Navigation Drawer";
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawerLayout,
+                toolbar,
+                R.string.action_add,
+                R.string.action_delete)
+        {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                toolbar.setTitle(mTitle);
+                invalidateOptionsMenu();
+                syncState();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                toolbar.setTitle(mDrawerTitle);
+                invalidateOptionsMenu();
+                syncState();
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+
 
         // Set up the login form.
         mEmailView = (AndroidUiString) findViewById(R.id.email);
@@ -59,6 +100,18 @@ public class LoginActivity extends AbstractActivity implements LoginView {
 
         if(controller == null)
             controller = new LoginController(this);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override

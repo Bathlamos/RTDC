@@ -14,10 +14,15 @@
         <item name="colorPrimary">@color/RTDC_light_blue</item>
         <item name="colorPrimaryDark">@color/RTDC_dark_blue</item>
 
-
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <!-- For 2.x version -->
         <!--<item name="android:actionBarStyle">@style/RTDCActionBar</item>-->
         <!--<item name="android:actionMenuTextColor">@color/RTDC_white</item>-->
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
     </style>
 
     <!-- ActionBar styles -->
