@@ -16,7 +16,7 @@ import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
 import java.util.*;
 
-public class ActionPlanActivity extends AbstractFragment implements ActionListView {
+public class ActionPlanActivity extends AbstractActivity implements ActionListView {
 
     private ActionListAdapter adapter;
     private ArrayList<Action> actions = new ArrayList<Action>();

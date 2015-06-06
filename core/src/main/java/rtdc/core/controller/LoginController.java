@@ -3,6 +3,7 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.event.Event;
+import rtdc.core.impl.Storage;
 import rtdc.core.service.Service;
 import rtdc.core.view.LoginView;
 
@@ -32,7 +33,7 @@ public class LoginController extends Controller<LoginView> implements Authentica
     public void onAuthenticate(AuthenticationEvent event) {
         logger.log(Level.INFO, "AuthenticationEvent received");
         Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
-        Bootstrapper.VIEW.saveAuthenticationToken(Bootstrapper.AUTHENTICATION_TOKEN);
+        Bootstrapper.FACTORY.getStorage().add(Storage.KEY_AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
         Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
         Event.unsubscribe(AuthenticationEvent.TYPE, this);
     }

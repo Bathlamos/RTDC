@@ -3,7 +3,7 @@ package rtdc.android.impl;
 import android.app.Activity;
 import android.content.Intent;
 import rtdc.android.AdminActivity;
-import rtdc.android.Rtdc;
+import rtdc.android.AndroidBootstrapper;
 import rtdc.android.presenter.*;
 import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.controller.Controller;
@@ -18,7 +18,7 @@ public class AndroidDispatcher implements Dispatcher {
 
     @Override
     public void goToAllUnits(Controller caller) {
-        startIntent(AdminActivity.class, caller);
+        startIntent(MainActivity.class, caller);
     }
 
     @Override
@@ -61,9 +61,9 @@ public class AndroidDispatcher implements Dispatcher {
                 activity.startActivity(new Intent(activity, clazz));
             }
         }else{
-            Intent intent = new Intent(Rtdc.getAppContext(), clazz);
+            Intent intent = new Intent(AndroidBootstrapper.getAppContext(), clazz);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            Rtdc.getAppContext().startActivity(intent);
+            AndroidBootstrapper.getAppContext().startActivity(intent);
         }
     }
 }

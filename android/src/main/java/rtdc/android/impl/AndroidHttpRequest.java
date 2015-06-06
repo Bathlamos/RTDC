@@ -1,14 +1,12 @@
 package rtdc.android.impl;
 
-import android.content.Context;
 import com.android.volley.*;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import rtdc.android.Rtdc;
+import rtdc.android.AndroidBootstrapper;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.json.JSONException;
@@ -101,7 +99,7 @@ public class AndroidHttpRequest implements HttpRequest {
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.
-            mRequestQueue = Volley.newRequestQueue(Rtdc.getAppContext().getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(AndroidBootstrapper.getAppContext().getApplicationContext());
         }
         return mRequestQueue;
     }

@@ -4,7 +4,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.*;
 import rtdc.core.Bootstrapper;
-import rtdc.core.view.BootstrapperView;
 import rtdc.web.client.impl.GwtFactory;
 import rtdc.web.client.presenter.AddUserPresenter;
 import rtdc.web.client.presenter.LoginPresenter;

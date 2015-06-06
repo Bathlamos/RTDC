@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              tools:context="rtdc.android.presenter.LoginActivity">
+
+    <include
+            android:id="@+id/tool_bar"
+            layout="@layout/tool_bar"
+            />
+
+    <android.support.v4.widget.DrawerLayout
+            android:id="@+id/drawer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tool_bar"
+            >
+
+        <ScrollView
+                android:id="@+id/main_fragment_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tool_bar"
+                >
+
+        </ScrollView>
+
+        <include layout="@layout/nav_drawer" />
+
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>
+
+
+

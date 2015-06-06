@@ -15,11 +15,36 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- GCM -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- Prevents other applications from receiving the GCM message for RTDC -->
+    <permission android:name="rtdc.android.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
+    <uses-permission android:name="rtdc.android.permission.C2D_MESSAGE"/>
+
+
     <application
         android:name=".Rtdc"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/RTDCActionBarTheme" >
+        <activity
+                android:name=".AndroidBootstrapper"
+                android:windowSoftInputMode="adjustResize|stateHidden"
+                android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+                android:name=".presenter.MainActivity"
+                android:label="@string/app_name" >
+        </activity>
+
         <activity
             android:name=".AdminActivity"
             android:label="@string/app_name" >
@@ -27,10 +52,6 @@
         <activity
             android:name=".presenter.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".presenter.CreateUserActivity"
@@ -79,6 +100,14 @@
             android:name=".presenter.ActionPlanActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
+        <receiver android:name=".GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <category android:name="com.antoinecampbell.gcmdemo"/>
+            </intent-filter>
+        </receiver>
+        <service android:name=".GcmIntentService"></service>
     </application>
 
 </manifest>

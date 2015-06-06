@@ -6,4 +6,6 @@ public interface Factory {
 
     Dispatcher newDispatcher();
 
+    Storage getStorage();
+
 }

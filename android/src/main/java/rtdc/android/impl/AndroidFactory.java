@@ -3,6 +3,7 @@ package rtdc.android.impl;
 import rtdc.core.impl.Dispatcher;
 import rtdc.core.impl.Factory;
 import rtdc.core.impl.HttpRequest;
+import rtdc.core.impl.Storage;
 
 public class AndroidFactory implements Factory{
 
@@ -14,5 +15,10 @@ public class AndroidFactory implements Factory{
     @Override
     public Dispatcher newDispatcher() {
         return new AndroidDispatcher();
+    }
+
+    @Override
+    public Storage getStorage() {
+        return AndroidStorage.get();
     }
 }
