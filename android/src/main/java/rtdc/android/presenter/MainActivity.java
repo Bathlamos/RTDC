@@ -1,6 +1,5 @@
 package rtdc.android.presenter;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -15,9 +14,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import rtdc.android.AdminFragment;
 import rtdc.android.R;
 import rtdc.android.presenter.fragments.AbstractFragment;
-import rtdc.android.presenter.fragments.UserFragment;
 import rtdc.core.Bootstrapper;
 import rtdc.core.impl.Storage;
 
@@ -72,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
-
+    
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -85,11 +84,18 @@ public class MainActivity extends ActionBarActivity {
      */
     private void selectItem(int position) {
         switch(position){
+            case 1:
+                fragment = new ActionPlanFragment();
+                break;
+            case 4:
+                fragment = new AdminFragment();
+                break;
             case 5:
                 Intent intent = new Intent(this, LoginActivity.class);
                 Bootstrapper.FACTORY.getStorage().remove(Storage.KEY_AUTH_TOKEN);
                 startActivity(intent);
                 finish();
+                return;
             default: fragment = new CapacityOverviewFragment();
         }
 

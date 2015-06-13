@@ -5,40 +5,44 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
-import rtdc.android.AdminActivity;
 import rtdc.android.R;
+import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
 import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
 import java.util.*;
 
-public class ActionPlanActivity extends AbstractActivity implements ActionListView {
+public class ActionPlanFragment extends AbstractFragment implements ActionListView {
 
     private ActionListAdapter adapter;
     private ArrayList<Action> actions = new ArrayList<Action>();
     private Action actionSelected;
     private ActionListController controller;
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_action_plan);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_action_plan, container, false);
+        AdapterView actionListView = (AdapterView) view.findViewById(R.id.ActionListView);
 
-        ListView actionListView = (ListView) findViewById(R.id.ActionListView);
-        adapter = new ActionListAdapter(this, actions);
+        adapter = new ActionListAdapter(getActivity(), actions);
         actionListView.setAdapter(adapter);
 
         if(controller == null)
             controller = new ActionListController(this);
+
+        setHasOptionsMenu(true);
+
+        return view;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_action_plan, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_action_plan, menu);
     }
 
     @Override
@@ -47,15 +51,7 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
         Intent intent;
         switch (item.getItemId()) {
             case R.id.addAction:
-                intent = new Intent(this, CreateActionActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_go_to_manage:
-                intent = new Intent(this, AdminActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_go_to_cap_overview:
-                intent = new Intent(this, CapacityOverviewFragment.class);
+                intent = new Intent(getActivity(), CreateActionActivity.class);
                 startActivity(intent);
                 return true;
             default:
@@ -81,22 +77,18 @@ public class ActionPlanActivity extends AbstractActivity implements ActionListVi
                 controller.editAction(actionSelected);
                 break;
             case 2:
-                new AlertDialog.Builder(this)
+                new AlertDialog.Builder(getActivity())
                     .setTitle("Confirm")
                     .setMessage("Delete selected action?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             controller.deleteAction(actionSelected);
-                            Toast.makeText(ActionPlanActivity.this, "Action Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Action Deleted", Toast.LENGTH_SHORT).show();
                         }})
                     .setNegativeButton(android.R.string.no, null).show();
                 break;
         }
         return true;
-    }
-
-    public void onOptionsMenuClick(View v) {
-        openContextMenu(v);
     }
 
     public void onHeaderItemClick(View v) {

@@ -32,9 +32,6 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
 
-        Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
-
         usernameEdit = (EditText) findViewById(R.id.usernameEdit);
         passwordEdit = (EditText) findViewById(R.id.passwordEdit);
         emailEdit = (EditText) findViewById(R.id.emailEdit);
@@ -53,9 +50,6 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
                 android.R.layout.simple_spinner_item);
         permissionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         permissionSpinner.setAdapter(permissionsAdapter);
-
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);

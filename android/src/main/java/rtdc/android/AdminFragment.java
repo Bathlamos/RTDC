@@ -3,29 +3,28 @@ package rtdc.android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewConfiguration;
+import android.support.annotation.Nullable;
+import android.view.*;
 import android.widget.TabHost;
-import rtdc.android.presenter.ActionPlanActivity;
+import rtdc.android.presenter.ActionPlanFragment;
 import rtdc.android.presenter.CapacityOverviewFragment;
 import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateUserActivity;
+import rtdc.android.presenter.fragments.AbstractFragment;
 
 import java.lang.reflect.Field;
 
-public class AdminActivity extends Activity {
+public class AdminFragment extends AbstractFragment {
 
     private final static int TAB_ACCOUNTS = 0;
     private final static int TAB_UNITS = 1;
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
-        setTitle(R.string.title_activity_admin);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_admin, container, false);
 
-        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+        TabHost tabHost = (TabHost) view.findViewById(R.id.tabHost);
 
         tabHost.setup();
 
@@ -41,7 +40,7 @@ public class AdminActivity extends Activity {
 
         // This is to force the display of the overlay button in the action bar
         try {
-            ViewConfiguration config = ViewConfiguration.get(this);
+            ViewConfiguration config = ViewConfiguration.get(getActivity());
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
 
             if (menuKeyField != null) {
@@ -52,13 +51,15 @@ public class AdminActivity extends Activity {
         catch (Exception e) {
             // presumably, not relevant
         }
+
+        setHasOptionsMenu(true);
+
+        return view;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_activity, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main_activity, menu);
     }
 
     @Override
@@ -67,23 +68,15 @@ public class AdminActivity extends Activity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_add:
-                TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+                TabHost tabHost = (TabHost) getView().findViewById(R.id.tabHost);
                 if (tabHost.getCurrentTab() == TAB_ACCOUNTS) {
-                    intent = new Intent(this, CreateUserActivity.class);
+                    intent = new Intent(getActivity(), CreateUserActivity.class);
                     startActivity(intent);
 
                 } else if (tabHost.getCurrentTab() == TAB_UNITS) {
-                    intent = new Intent(this, CreateUnitActivity.class);
+                    intent = new Intent(getActivity(), CreateUnitActivity.class);
                     startActivity(intent);
                 }
-                return true;
-            case R.id.action_go_to_cap_overview:
-                intent = new Intent(this, CapacityOverviewFragment.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_go_to_action_plan:
-                intent = new Intent(this, ActionPlanActivity.class);
-                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
