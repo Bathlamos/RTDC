@@ -26,11 +26,6 @@ public class LoginActivity extends AbstractActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
-
-        setTitle(R.string.title_activity_login);
-
         // Set up the login form.
         mEmailView = (AndroidUiString) findViewById(R.id.email);
 
@@ -38,11 +33,8 @@ public class LoginActivity extends AbstractActivity implements LoginView {
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    controller.login();
-                    return true;
-                }
-                return false;
+                controller.login();
+                return true;
             }
         });
 
