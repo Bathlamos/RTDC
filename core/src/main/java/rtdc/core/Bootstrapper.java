@@ -44,7 +44,6 @@ public class Bootstrapper{
 
     };
 
-
     public static void initialize(Factory factory){
         if(initialized)
             throw new RuntimeException("Bootstraper.initialize() has already been called.");
@@ -55,7 +54,7 @@ public class Bootstrapper{
         AUTHENTICATION_TOKEN = factory.getStorage().retrieve(Storage.KEY_AUTH_TOKEN);
 
         logger.log(Level.INFO, "Authentication Token: " + AUTHENTICATION_TOKEN);
-        if(AUTHENTICATION_TOKEN == null) {
+        if(AUTHENTICATION_TOKEN == null || AUTHENTICATION_TOKEN.isEmpty()) {
             logger.log(Level.INFO, "Now going to login");
             Bootstrapper.FACTORY.newDispatcher().goToLogin(null);
         }else {

@@ -3,6 +3,8 @@ package rtdc.android.presenter.fragments;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import rtdc.android.AndroidBootstrapper;
+import rtdc.android.Rtdc;
 import rtdc.core.view.View;
 
 public class AbstractFragment extends Fragment implements View{
@@ -14,7 +16,7 @@ public class AbstractFragment extends Fragment implements View{
 
     @Override
     public void displayError(String title, String error) {
-        new AlertDialog.Builder(getActivity().getBaseContext())
+        new AlertDialog.Builder(AndroidBootstrapper.getAppContext())
                 .setTitle(title)
                 .setMessage(error)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
