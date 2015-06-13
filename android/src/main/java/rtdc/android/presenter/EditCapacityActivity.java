@@ -29,9 +29,6 @@ public class EditCapacityActivity extends AbstractActivity implements EditCapaci
         totalAdmitsEdit = (AndroidUiString) findViewById(R.id.totalAdmitsEdit);
         admitsByDeadlineEdit = (AndroidUiString) findViewById(R.id.admitsByDeadlineEdit);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         if(controller == null)
             controller = new EditCapacityController(this);
     }

@@ -22,7 +22,7 @@ public class AndroidDispatcher implements Dispatcher {
 
     @Override
     public void goToActionPlan(Controller caller) {
-        startIntent(ActionPlanActivity.class, caller);
+        startIntent(ActionPlanFragment.class, caller);
     }
 
     @Override

@@ -28,9 +28,6 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
         unitNameEdit = (EditText) findViewById(R.id.unitNameEdit);
         totalBedsEdit = (EditText) findViewById(R.id.totalBedsEdit);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         if (controller == null)
             controller = new AddUnitController(this);
     }
