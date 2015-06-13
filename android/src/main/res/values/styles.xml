@@ -44,7 +44,16 @@
     <color name="RTDC_black">#333333</color>
     <color name="RTDC_red">#cc0000</color>
 
-    <color name="ColorPrimary">#FF5722</color>
-    <color name="ColorPrimaryDark">#E64A19</color>
+    <color name="ColorPrimary">#33b5e5</color>
+    <color name="ColorPrimaryDark">#0099cc</color>
+
+    <style name="PrimaryButton" parent="@android:style/Widget.Button">
+        <item name="android:background">@color/RTDC_dark_blue</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
 
 </resources>

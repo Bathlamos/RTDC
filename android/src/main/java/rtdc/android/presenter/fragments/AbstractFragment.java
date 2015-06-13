@@ -3,6 +3,8 @@ package rtdc.android.presenter.fragments;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.view.Menu;
+import android.view.MenuInflater;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.Rtdc;
 import rtdc.core.view.View;
@@ -32,4 +34,5 @@ public class AbstractFragment extends Fragment implements View{
     public void setTitle(String title) {
         //Do nothing
     }
+    
 }

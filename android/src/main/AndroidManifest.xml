@@ -51,7 +51,8 @@
         </activity>
         <activity
             android:name=".presenter.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:noHistory="true">
         </activity>
         <activity
             android:name=".presenter.CreateUserActivity"
