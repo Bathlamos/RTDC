@@ -17,6 +17,8 @@ public class LoginController extends Controller<LoginView> implements Authentica
 
     public LoginController(LoginView view){
         super(view);
+
+        view.getUsernameUiElement().setFocus(true);
     }
 
     @Override
@@ -30,6 +32,8 @@ public class LoginController extends Controller<LoginView> implements Authentica
 
         String username = view.getUsernameUiElement().getValue();
         String password = view.getPasswordUiElement().getValue();
+
+        view.clearError();
 
         if(username.isEmpty()) {
             view.getUsernameUiElement().setErrorMessage("Username cannot be empty");
@@ -55,5 +59,5 @@ public class LoginController extends Controller<LoginView> implements Authentica
         super.onStop();
         Event.unsubscribe(AuthenticationEvent.TYPE, this);
     }
-    
+
 }

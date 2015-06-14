@@ -7,6 +7,7 @@ import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
 import rtdc.android.presenter.fragments.AbstractFragment;
+import rtdc.android.widget.DataTable;
 import rtdc.core.Bootstrapper;
 import rtdc.core.controller.CapacityOverviewController;
 import rtdc.core.model.Unit;
@@ -24,10 +25,20 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_capacity_overview, container, false);
-        AdapterView unitListView = (AdapterView) view.findViewById(R.id.CapacityListView);
+        DataTable dataTable = (DataTable) view.findViewById(R.id.capacity_overview_data_table);
 
         adapter = new UnitListAdapter(units, getActivity());
-        unitListView.setAdapter(adapter);
+
+
+        DataTable.Builder<Unit> builder = dataTable.builder(adapter);
+        builder.addColumn(R.string.unit_name);
+        builder.addColumn(R.string.available_beds);
+        builder.addColumn(R.string.potential_dc);
+        builder.addColumn(R.string.dc_by_2pm);
+        builder.addColumn(R.string.total_admits);
+        builder.addColumn(R.string.admits_by_2pm);
+        builder.addColumn(R.string.status_at_2pm);
+        builder.buid();
 
         if (controller == null)
             controller = new CapacityOverviewController(this);
@@ -35,31 +46,31 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
         return view;
     }
 
-    public void onHeaderItemClick(View v) {
-        switch (v.getId()) {
-            case R.id.unitNameHeader:
-                controller.sortUnits(Unit.Properties.id);
-                break;
-            case R.id.availableBedsHeader:
-                controller.sortUnits(Unit.Properties.availableBeds);
-                break;
-            case R.id.potentialDCHeader:
-                controller.sortUnits(Unit.Properties.potentialDc);
-                break;
-            case R.id.DCByDeadlineHeader:
-                controller.sortUnits(Unit.Properties.dcByDeadline);
-                break;
-            case R.id.totalAdmitsHeader:
-                controller.sortUnits(Unit.Properties.totalAdmits);
-                break;
-            case R.id.admitsByDeadlineHeader:
-                controller.sortUnits(Unit.Properties.admitsByDeadline);
-                break;
-            case R.id.statusAtDeadlineHeader:
-                controller.sortUnits(Unit.Properties.statusAtDeadline);
-                break;
-        }
-    }
+//    public void onHeaderItemClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.unitNameHeader:
+//                controller.sortUnits(Unit.Properties.id);
+//                break;
+//            case R.id.availableBedsHeader:
+//                controller.sortUnits(Unit.Properties.availableBeds);
+//                break;
+//            case R.id.potentialDCHeader:
+//                controller.sortUnits(Unit.Properties.potentialDc);
+//                break;
+//            case R.id.DCByDeadlineHeader:
+//                controller.sortUnits(Unit.Properties.dcByDeadline);
+//                break;
+//            case R.id.totalAdmitsHeader:
+//                controller.sortUnits(Unit.Properties.totalAdmits);
+//                break;
+//            case R.id.admitsByDeadlineHeader:
+//                controller.sortUnits(Unit.Properties.admitsByDeadline);
+//                break;
+//            case R.id.statusAtDeadlineHeader:
+//                controller.sortUnits(Unit.Properties.statusAtDeadline);
+//                break;
+//        }
+//    }
 
     @Override
     public void setUnits(List<Unit> units) {

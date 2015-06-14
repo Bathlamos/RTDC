@@ -4,16 +4,18 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-        <rtdc.android.widget.DataTable android:layout_width="fill_parent"
-                                       android:layout_height="fill_parent"
-                android:id="@+id/capacity_overview_data_table"/>
-
-    <!--<LinearLayout
+    <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="50dp" android:background="@color/RTDC_dark_blue" android:minHeight="35dp"
-            android:paddingRight="34dp">
-        <Space
+            android:id="@+id/list_view_header"
+            android:layout_height="50dp"
+            android:background="@color/RTDC_dark_blue">
+
+            <Space
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
+        <!--<Space
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
@@ -127,11 +129,13 @@
         <Space
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
+                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>-->
 
     </LinearLayout>
     <ListView
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/CapacityListView" android:layout_gravity="center_horizontal" android:choiceMode="none"/>-->
+            android:id="@+id/list_view"
+            android:layout_gravity="center_horizontal"
+            android:choiceMode="none"/>
 </LinearLayout>
