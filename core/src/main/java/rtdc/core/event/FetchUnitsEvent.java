@@ -9,7 +9,7 @@ public class FetchUnitsEvent extends Event<FetchUnitsEvent.Handler> {
 
     public static final EventType<Handler> TYPE = new EventType<Handler>("fetchUnitsEvent");
 
-    public interface Handler extends EventHandler{ public void onUnitsFetched(FetchUnitsEvent event);}
+    public interface Handler extends EventHandler{ void onUnitsFetched(FetchUnitsEvent event);}
 
     public enum Properties implements ObjectProperty<FetchUnitsEvent>{
         units

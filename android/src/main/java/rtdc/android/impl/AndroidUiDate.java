@@ -83,4 +83,10 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
     public void setErrorMessage(String errorMessage) {
         //Does nothing
     }
+
+    @Override
+    public void setFocus(boolean hasFocus) {
+        if(hasFocus)
+            requestFocus();
+    }
 }

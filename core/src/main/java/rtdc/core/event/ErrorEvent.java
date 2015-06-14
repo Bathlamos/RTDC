@@ -13,7 +13,7 @@ public class ErrorEvent extends Event<ErrorEvent.Handler> {
 
     private final String description;
 
-    public interface Handler extends EventHandler{ public void onError(ErrorEvent event);}
+    public interface Handler extends EventHandler{ void onError(ErrorEvent event);}
 
 
     public ErrorEvent(String description){

@@ -12,11 +12,6 @@ import rtdc.core.view.View;
 public class AbstractFragment extends Fragment implements View{
 
     @Override
-    public void displayPermanentError(String title, String error) {
-        displayError(title, error);
-    }
-
-    @Override
     public void displayError(String title, String error) {
         new AlertDialog.Builder(AndroidBootstrapper.getAppContext())
                 .setTitle(title)
@@ -31,8 +26,13 @@ public class AbstractFragment extends Fragment implements View{
     }
 
     @Override
+    public void clearError() {
+        // Does nothing
+    }
+
+    @Override
     public void setTitle(String title) {
         //Do nothing
     }
-    
+
 }

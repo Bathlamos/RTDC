@@ -2,6 +2,7 @@ package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.AuthenticationEvent;
+import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.impl.Storage;
 import rtdc.core.service.Service;
@@ -10,7 +11,7 @@ import rtdc.core.view.LoginView;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginController extends Controller<LoginView> implements AuthenticationEvent.Handler {
+public class LoginController extends Controller<LoginView> implements AuthenticationEvent.Handler, ErrorEvent.Handler {
 
     private static final Logger logger = Logger.getLogger(LoginController.class.getCanonicalName());
 
@@ -26,7 +27,18 @@ public class LoginController extends Controller<LoginView> implements Authentica
     public void login(){
         logger.log(Level.INFO, "Subscribing to AuthenticationEvent");
         Event.subscribe(AuthenticationEvent.TYPE, this);
-        Service.authenticateUser(view.getUsernameUiElement().getValue(), view.getPasswordUiElement().getValue());
+
+        String username = view.getUsernameUiElement().getValue();
+        String password = view.getPasswordUiElement().getValue();
+
+        if(username.isEmpty()) {
+            view.getUsernameUiElement().setErrorMessage("Username cannot be empty");
+            view.getUsernameUiElement().setFocus(true);
+        } else if(password.isEmpty()) {
+            view.getPasswordUiElement().setErrorMessage("Password cannot be empty");
+            view.getPasswordUiElement().setFocus(true);
+        } else
+            Service.authenticateUser(username, password);
     }
 
     @Override
@@ -43,4 +55,5 @@ public class LoginController extends Controller<LoginView> implements Authentica
         super.onStop();
         Event.unsubscribe(AuthenticationEvent.TYPE, this);
     }
+    
 }
