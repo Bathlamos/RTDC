@@ -15,7 +15,6 @@ public class Bootstrapper{
     public static Factory FACTORY;
     public static String AUTHENTICATION_TOKEN;
 
-    private static boolean initialized = false;
     private static Logger logger = Logger.getLogger(Bootstrapper.class.getName());
 
     private static final AuthenticationEvent.Handler authHandler = new AuthenticationEvent.Handler() {
@@ -45,10 +44,6 @@ public class Bootstrapper{
     };
 
     public static void initialize(Factory factory){
-        if(initialized)
-            throw new RuntimeException("Bootstraper.initialize() has already been called.");
-        initialized = true;
-
         FACTORY = factory;
 
         AUTHENTICATION_TOKEN = factory.getStorage().retrieve(Storage.KEY_AUTH_TOKEN);

@@ -23,7 +23,7 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout., container, false);
+        View view = inflater.inflate(R.layout.fragment_capacity_overview, container, false);
         DataTable dataTable = (DataTable) view.findViewById(R.id.capacity_overview_data_table);
 
         adapter = new UnitListAdapter(units, getActivity());
