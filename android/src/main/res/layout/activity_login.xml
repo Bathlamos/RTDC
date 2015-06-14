@@ -41,6 +41,15 @@
                             android:text="@string/action_sign_in"
                             android:id="@+id/textView" android:paddingBottom="12dp"/>
 
+                    <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_action_warning"
+                            android:drawableStart="@drawable/ic_action_warning"
+                            android:padding="@dimen/label_padding"
+                            android:id="@+id/login_error_label"
+                            android:gravity="center_vertical"
+                            android:visibility="gone" style="@style/ErrorLabel" android:layout_marginBottom="5dp"/>
                     <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="fill_parent"

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiString;
@@ -18,6 +19,7 @@ public class LoginActivity extends AbstractActivity implements LoginView {
 
     // UI references.
     private AndroidUiString mEmailView, mPasswordView;
+    private TextView errorLabel;
 
     private LoginController controller;
 
@@ -28,6 +30,8 @@ public class LoginActivity extends AbstractActivity implements LoginView {
 
         // Set up the login form.
         mEmailView = (AndroidUiString) findViewById(R.id.email);
+
+        errorLabel = (TextView) findViewById(R.id.login_error_label);
 
         mPasswordView = (AndroidUiString) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -64,6 +68,17 @@ public class LoginActivity extends AbstractActivity implements LoginView {
     public void onStop() {
         super.onStop();
         controller.onStop();
+    }
+
+    @Override
+    public void displayError(String title, String error) {
+        errorLabel.setText(error);
+        errorLabel.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void clearError() {
+        errorLabel.setVisibility(View.GONE);
     }
 }
 

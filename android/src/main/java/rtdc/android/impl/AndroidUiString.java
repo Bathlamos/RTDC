@@ -31,11 +31,17 @@ public class AndroidUiString extends EditText implements UiElement<String> {
 
     @Override
     public String getErrorMessage() {
-        return "";
+        return getError().toString();
     }
 
     @Override
     public void setErrorMessage(String errorMessage) {
-        //Does nothing
+        setError(errorMessage);
+    }
+
+    @Override
+    public void setFocus(boolean hasFocus) {
+        if(hasFocus)
+            requestFocus();
     }
 }

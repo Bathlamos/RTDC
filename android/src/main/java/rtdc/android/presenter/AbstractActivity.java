@@ -13,13 +13,6 @@ import rtdc.core.view.View;
 
 public class AbstractActivity extends ActionBarActivity implements View {
 
-    private Toolbar toolbar;
-
-    @Override
-    public void displayPermanentError(String title, String error) {
-        displayError(title, error);
-    }
-
     @Override
     public void displayError(String title, String error) {
         new AlertDialog.Builder(this)
@@ -32,6 +25,11 @@ public class AbstractActivity extends ActionBarActivity implements View {
                 })
                 .setIconAttribute(android.R.attr.alertDialogIcon)
                 .show();
+    }
+
+    @Override
+    public void clearError() {
+        // Does nothing (because we have an alert)
     }
 
     @Override

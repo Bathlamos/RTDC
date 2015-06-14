@@ -2,10 +2,12 @@ package rtdc.core.impl;
 
 public interface UiElement<T> {
 
-    public T getValue();
-    public void setValue(T value);
+    T getValue();
+    void setValue(T value);
 
-    public String getErrorMessage();
-    public void setErrorMessage(String errorMessage);
+    String getErrorMessage();
+    void setErrorMessage(String errorMessage);
+
+    void setFocus(boolean hasFocus);
 
 }

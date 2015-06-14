@@ -69,4 +69,10 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
         //Does nothing
     }
 
+    @Override
+    public void setFocus(boolean hasFocus) {
+        if(hasFocus)
+            requestFocus();
+    }
+
 }
