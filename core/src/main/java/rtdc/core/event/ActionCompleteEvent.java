@@ -7,7 +7,7 @@ public class ActionCompleteEvent extends Event<ActionCompleteEvent.Handler> {
 
     public static final EventType<Handler> TYPE = new EventType<Handler>("actionCompleteEvent");
 
-    public interface Handler extends EventHandler{ public void onActionComplete(ActionCompleteEvent event);}
+    public interface Handler extends EventHandler{ void onActionComplete(ActionCompleteEvent event);}
 
     public enum Properties implements ObjectProperty<ActionCompleteEvent>{
         objectId,

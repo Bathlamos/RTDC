@@ -31,6 +31,8 @@ public abstract class Event<T extends EventHandler> extends RootObject {
                 e = new ActionCompleteEvent(object);
             else if(type.equalsIgnoreCase(SessionExpiredEvent.TYPE.getName()))
                 e = new SessionExpiredEvent();
+            else if(type.equalsIgnoreCase(LogoutEvent.TYPE.getName()))
+                e = new LogoutEvent();
 
             if( e != null)
                 e.fire();

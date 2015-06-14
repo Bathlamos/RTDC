@@ -16,7 +16,7 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Handler> {
     private final User user;
     private final String authenticationToken;
 
-    public interface Handler extends EventHandler{ public void onAuthenticate(AuthenticationEvent event); }
+    public interface Handler extends EventHandler{ void onAuthenticate(AuthenticationEvent event); }
 
     public AuthenticationEvent(User user, String authenticationToken){
         this.user = user;

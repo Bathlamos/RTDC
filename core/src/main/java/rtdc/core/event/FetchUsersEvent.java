@@ -10,7 +10,7 @@ public class FetchUsersEvent extends Event<FetchUsersEvent.Handler> {
 
     public static final EventType<Handler> TYPE = new EventType<Handler>("fetchUsersEvent");
 
-    public interface Handler extends EventHandler{ public void onUsersFetched(FetchUsersEvent event);}
+    public interface Handler extends EventHandler{ void onUsersFetched(FetchUsersEvent event);}
 
     public enum Properties implements ObjectProperty<FetchUsersEvent>{
         users

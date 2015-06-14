@@ -21,8 +21,7 @@ public class AuthenticationToken implements Serializable {
     @Column(name = "dateSet", nullable = false)
     private Date dateSet;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.ALL, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, optional = false)
     private User user;
 
     public String getAuthenticationToken() {

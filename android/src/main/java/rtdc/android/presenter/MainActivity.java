@@ -19,6 +19,7 @@ import rtdc.android.R;
 import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.Bootstrapper;
 import rtdc.core.impl.Storage;
+import rtdc.core.service.Service;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -93,6 +94,7 @@ public class MainActivity extends ActionBarActivity {
             case 5:
                 Intent intent = new Intent(this, LoginActivity.class);
                 Bootstrapper.FACTORY.getStorage().remove(Storage.KEY_AUTH_TOKEN);
+                Service.logout();
                 startActivity(intent);
                 finish();
                 return;

@@ -23,7 +23,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "http://local.legault.cc/api/";
+    private static final String URL = "http://192.168.2.156:8888/api/";
     private static final Logger logger = Logger.getLogger(Service.class.getCanonicalName());
 
     private Service(){}
@@ -37,6 +37,10 @@ public final class Service {
 
     public static void isAuthTokenValid(){
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate/tokenValid", POST));
+    }
+
+    public static void logout(){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate/logout", POST));
     }
 
     public static void getUnits(){
