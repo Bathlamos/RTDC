@@ -1,13 +1,10 @@
 package rtdc.android;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.TabHost;
-import rtdc.android.presenter.ActionPlanFragment;
-import rtdc.android.presenter.CapacityOverviewFragment;
 import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.android.presenter.CreateUserActivity;
 import rtdc.android.presenter.fragments.AbstractFragment;
@@ -22,7 +19,7 @@ public class AdminFragment extends AbstractFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_admin, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin, container, false);
 
         TabHost tabHost = (TabHost) view.findViewById(R.id.tabHost);
 

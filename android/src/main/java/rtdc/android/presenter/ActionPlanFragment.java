@@ -26,7 +26,7 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_action_plan, container, false);
+        View view = inflater.inflate(R.layout.fragment_action_plan, container, false);
         AdapterView actionListView = (AdapterView) view.findViewById(R.id.ActionListView);
 
         adapter = new ActionListAdapter(getActivity(), actions);

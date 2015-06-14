@@ -7,7 +7,6 @@ import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
 import rtdc.android.presenter.fragments.AbstractFragment;
-import rtdc.core.Bootstrapper;
 import rtdc.core.controller.CapacityOverviewController;
 import rtdc.core.model.Unit;
 import rtdc.core.view.CapacityOverviewView;
@@ -23,7 +22,7 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_capacity_overview, container, false);
+        View view = inflater.inflate(R.layout.fragment_capacity_overview, container, false);
         AdapterView unitListView = (AdapterView) view.findViewById(R.id.CapacityListView);
 
         adapter = new UnitListAdapter(units, getActivity());
