@@ -40,13 +40,13 @@ public class LoginPresenter extends Composite implements LoginView {
     }
 
     @Override
-    public void displayPermanentError(String title, String error) {
+    public void displayError(String title, String error) {
         Window.alert(title + " : " + error);
     }
 
     @Override
-    public void displayError(String title, String error) {
-        Window.alert(title + " : " + error);
+    public void clearError() {
+
     }
 
     @Override
@@ -69,6 +69,11 @@ public class LoginPresenter extends Composite implements LoginView {
 
             @Override
             public void setErrorMessage(String errorMessage) {
+
+            }
+
+            @Override
+            public void setFocus(boolean hasFocus) {
 
             }
         };
@@ -94,6 +99,11 @@ public class LoginPresenter extends Composite implements LoginView {
 
             @Override
             public void setErrorMessage(String errorMessage) {
+
+            }
+
+            @Override
+            public void setFocus(boolean hasFocus) {
 
             }
         };
