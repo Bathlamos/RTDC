@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
 
         title = getTitle();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.action_add, R.string.action_delete) {
@@ -118,9 +118,10 @@ public class MainActivity extends ActionBarActivity {
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
 
-        fragmentManager.beginTransaction().addToBackStack("Current Fragment")
-                    .replace(R.id.main_fragment_wrapper, fragment)
-                    .commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_wrapper, fragment)
+                .addToBackStack(null)
+                .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
