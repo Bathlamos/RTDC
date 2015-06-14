@@ -1,24 +1,20 @@
 package rtdc.android.presenter.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
 
-import rtdc.core.Bootstrapper;
-import rtdc.core.controller.CapacityOverviewController;
+import rtdc.android.presenter.CreateUnitActivity;
 import rtdc.core.controller.UnitListController;
 import rtdc.core.model.Unit;
-import rtdc.core.util.Cache;
-import rtdc.core.view.CapacityOverviewView;
 import rtdc.core.view.UnitListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnitFragment extends AbstractFragment implements AbsListView.OnItemClickListener, UnitListView {
+public class ManageUnitsFragment extends AbstractFragment implements AbsListView.OnItemClickListener, UnitListView {
 
     private UnitListController controller;
 
@@ -28,7 +24,8 @@ public class UnitFragment extends AbstractFragment implements AbsListView.OnItem
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_unit_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_manage_units, container, false);
+        setHasOptionsMenu(true);
 
         // Set the adapter
         AdapterView mListView = (AdapterView) view.findViewById(R.id.units_listView);
@@ -41,6 +38,25 @@ public class UnitFragment extends AbstractFragment implements AbsListView.OnItem
             controller = new UnitListController(this);
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_manage_units, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                intent = new Intent(getActivity(), CreateUnitActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

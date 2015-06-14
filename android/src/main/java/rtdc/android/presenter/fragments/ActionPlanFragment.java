@@ -1,4 +1,4 @@
-package rtdc.android.presenter;
+package rtdc.android.presenter.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
+import rtdc.android.presenter.CreateActionActivity;
 import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;

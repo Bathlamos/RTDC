@@ -44,11 +44,6 @@
                 android:name=".presenter.MainActivity"
                 android:label="@string/app_name" >
         </activity>
-
-        <activity
-            android:name=".AdminFragment"
-            android:label="@string/app_name" >
-        </activity>
         <activity
             android:name=".presenter.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
@@ -56,50 +51,25 @@
         </activity>
         <activity
             android:name=".presenter.CreateUserActivity"
-            android:parentActivityName=".AdminFragment"
+            android:parentActivityName=".presenter.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AdminFragment" />
         </activity>
         <activity
             android:name=".presenter.CreateUnitActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName=".AdminFragment" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AdminFragment" />
-        </activity>
-        <activity
-            android:name=".presenter.CapacityOverviewFragment"
-            android:configChanges="orientation|keyboardHidden|screenSize" >
-        </activity>
-        <activity
-                android:name=".presenter.AbstractActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize">
+            android:parentActivityName=".presenter.MainActivity" >
+
         </activity>
         <activity
                 android:name=".presenter.EditCapacityActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
-                android:parentActivityName=".presenter.CapacityOverviewFragment">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".presenter.CapacityOverviewFragment"/>
+                android:parentActivityName=".presenter.MainActivity">
         </activity>
         <activity
                 android:name=".presenter.CreateActionActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
-                android:parentActivityName=".presenter.ActionPlanFragment">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".presenter.ActionPlanFragment" />
-        </activity>
-        <activity
-            android:name=".presenter.ActionPlanFragment"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+                android:parentActivityName=".presenter.MainActivity">
         </activity>
         <receiver android:name=".GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>

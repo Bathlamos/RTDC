@@ -3,21 +3,18 @@ package rtdc.android.presenter;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import rtdc.android.AdminFragment;
+import rtdc.android.presenter.fragments.*;
 import rtdc.android.R;
-import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.Bootstrapper;
 import rtdc.core.impl.Storage;
 import rtdc.core.service.Service;
@@ -76,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //TODO: Change when permissions are implemented
-        String[] mPlanetTitles = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "User Profile", "Administration"};
+        String[] mPlanetTitles = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "User Profile", "Manage Users", "Manage Units"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.nav_list);
 
@@ -87,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        selectItem(0); // Opens the capacity overview by default
+//        selectItem(0); // Opens the capacity overview by default
     }
     
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -109,15 +106,19 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new ActionPlanFragment();
                 break;
             case 4:
-                fragment = new AdminFragment();
+                fragment = new ManageUsersFragment();
                 break;
-            default: fragment = new CapacityOverviewFragment();
+            case 5:
+                fragment = new ManageUnitsFragment();
+                break;
+            default:
+                fragment = new CapacityOverviewFragment();
         }
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getFragmentManager();
 
-        fragmentManager.beginTransaction()
+        fragmentManager.beginTransaction().addToBackStack("Current Fragment")
                     .replace(R.id.main_fragment_wrapper, fragment)
                     .commit();
 

@@ -1,4 +1,4 @@
-package rtdc.android.presenter;
+package rtdc.android.presenter.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
