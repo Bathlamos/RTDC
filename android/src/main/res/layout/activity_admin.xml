@@ -6,11 +6,6 @@
               android:layout_height="fill_parent"
         >
 
-    <include
-            android:id="@+id/tool_bar"
-            layout="@layout/tool_bar"
-            ></include>
-
     <TabHost
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:id="@+id/tabHost">

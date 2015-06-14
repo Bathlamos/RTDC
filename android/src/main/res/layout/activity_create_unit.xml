@@ -6,6 +6,11 @@
               android:orientation="vertical"
               tools:context="rtdc.android.presenter.CreateUnitActivity">
 
+    <include
+            android:id="@+id/tool_bar"
+            layout="@layout/tool_bar"
+            />
+
     <ScrollView
         android:id="@+id/createUnitForm"
         android:layout_width="match_parent"

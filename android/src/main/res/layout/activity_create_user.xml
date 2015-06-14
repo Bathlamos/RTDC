@@ -6,6 +6,10 @@
               android:orientation="vertical"
               tools:context="rtdc.android.presenter.CreateUserActivity">
 
+    <include
+            android:id="@+id/tool_bar"
+            layout="@layout/tool_bar"
+            />
 
     <ScrollView
         android:id="@+id/createUserForm"

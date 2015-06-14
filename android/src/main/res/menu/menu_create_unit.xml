@@ -1,16 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="rtdc.android.presenter.CreateUserActivity">
+      >
 
     <item android:id="@+id/action_discard_unit"
           android:title="@string/action_delete"
           android:icon="@drawable/ic_action_discard"
-          android:showAsAction="ifRoom|withText"/>
+          app:showAsAction="ifRoom|withText"/>
 
     <item android:id="@+id/action_save_new_unit"
           android:title="@string/action_save"
           android:icon="@drawable/ic_action_save"
-          android:showAsAction="ifRoom|withText"/>
+          app:showAsAction="ifRoom|withText"/>
 
 </menu>

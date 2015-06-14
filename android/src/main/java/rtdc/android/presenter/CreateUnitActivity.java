@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -24,6 +25,12 @@ public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_unit);
         setTitle(R.string.title_activity_create_unit);
+
+        // Add the action bar at the top.
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         unitNameEdit = (EditText) findViewById(R.id.unitNameEdit);
         totalBedsEdit = (EditText) findViewById(R.id.totalBedsEdit);

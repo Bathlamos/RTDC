@@ -70,6 +70,8 @@ public class MainActivity extends ActionBarActivity {
 
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        selectItem(0); // Opens the capacity overview by default
     }
     
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -84,6 +86,9 @@ public class MainActivity extends ActionBarActivity {
      */
     private void selectItem(int position) {
         switch(position){
+            case 0:
+                fragment = new CapacityOverviewFragment();
+                break;
             case 1:
                 fragment = new ActionPlanFragment();
                 break;
