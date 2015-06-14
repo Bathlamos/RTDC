@@ -5,6 +5,8 @@ import android.content.Intent;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.presenter.*;
 import rtdc.android.presenter.fragments.AbstractFragment;
+import rtdc.android.presenter.fragments.ActionPlanFragment;
+import rtdc.android.presenter.fragments.CapacityOverviewFragment;
 import rtdc.core.controller.Controller;
 import rtdc.core.impl.Dispatcher;
 

@@ -1,4 +1,4 @@
-package rtdc.android.presenter;
+package rtdc.android.presenter.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
+import rtdc.android.presenter.CreateActionActivity;
 import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
@@ -26,7 +27,7 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_action_plan, container, false);
+        View view = inflater.inflate(R.layout.fragment_action_plan, container, false);
         AdapterView actionListView = (AdapterView) view.findViewById(R.id.ActionListView);
 
         adapter = new ActionListAdapter(getActivity(), actions);

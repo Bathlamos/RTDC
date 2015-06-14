@@ -32,6 +32,12 @@ public class CreateUserActivity extends AbstractActivity implements AddUserView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
 
+        // Add the action bar at the top.
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         usernameEdit = (EditText) findViewById(R.id.usernameEdit);
         passwordEdit = (EditText) findViewById(R.id.passwordEdit);
         emailEdit = (EditText) findViewById(R.id.emailEdit);

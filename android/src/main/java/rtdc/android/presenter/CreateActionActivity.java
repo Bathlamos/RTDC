@@ -3,6 +3,7 @@ package rtdc.android.presenter;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import rtdc.android.R;
@@ -30,6 +31,12 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_action);
+
+        // Add the action bar at the top.
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         roleEdit = (AndroidUiString) findViewById(R.id.roleEdit);
         targetEdit = (AndroidUiString) findViewById(R.id.targetEdit);

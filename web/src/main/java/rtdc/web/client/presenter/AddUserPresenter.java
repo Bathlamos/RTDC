@@ -145,13 +145,13 @@ public class AddUserPresenter extends Composite implements AddUserView {
     }
 
     @Override
-    public void displayPermanentError(String title, String error) {
+    public void displayError(String title, String error) {
         Window.alert(title + " : " + error);
     }
 
     @Override
-    public void displayError(String title, String error) {
-        Window.alert(title + " : " + error);
+    public void clearError() {
+
     }
 
     @Override

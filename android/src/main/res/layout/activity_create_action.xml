@@ -5,7 +5,10 @@
               android:gravity="center_horizontal"
               android:orientation="vertical"
               tools:context="rtdc.android.presenter.CreateActionActivity">
-
+    <include
+            android:id="@+id/tool_bar"
+            layout="@layout/tool_bar"
+            />
 
     <ScrollView
         android:id="@+id/createActionForm"

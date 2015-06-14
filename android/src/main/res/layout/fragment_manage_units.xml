@@ -3,7 +3,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="rtdc.android.presenter.fragments.UserFragment">
+             tools:context="rtdc.android.presenter.fragments.ManageUsersFragment">
 
     <ListView
         android:id="@+id/units_listView"
