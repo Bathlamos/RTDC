@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import rtdc.android.AdminFragment;
 import rtdc.android.R;
@@ -60,8 +61,22 @@ public class MainActivity extends ActionBarActivity {
             }
         };
 
+        Button buttonSignOut = (Button) findViewById(R.id.button_sign_out);
+
+        buttonSignOut.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Bootstrapper.FACTORY.getStorage().remove(Storage.KEY_AUTH_TOKEN);
+                Service.logout();
+                startActivity(intent);
+                finish();
+            }
+        });
+
         //TODO: Change when permissions are implemented
-        String[] mPlanetTitles = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "User Profile", "Administration", "Sign out"};
+        String[] mPlanetTitles = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "User Profile", "Administration"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.nav_list);
 
@@ -96,13 +111,6 @@ public class MainActivity extends ActionBarActivity {
             case 4:
                 fragment = new AdminFragment();
                 break;
-            case 5:
-                Intent intent = new Intent(this, LoginActivity.class);
-                Bootstrapper.FACTORY.getStorage().remove(Storage.KEY_AUTH_TOKEN);
-                Service.logout();
-                startActivity(intent);
-                finish();
-                return;
             default: fragment = new CapacityOverviewFragment();
         }
 
