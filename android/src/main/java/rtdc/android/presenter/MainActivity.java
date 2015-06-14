@@ -1,6 +1,6 @@
 package rtdc.android.presenter;
 
-import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -27,6 +27,8 @@ public class MainActivity extends ActionBarActivity {
     private ListView mDrawerList;
     private CharSequence title;
     private AbstractFragment fragment;
+
+    private boolean isAtHome = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +100,12 @@ public class MainActivity extends ActionBarActivity {
      * Swaps fragments in the main content view
      */
     private void selectItem(int position) {
+        isAtHome = false;
+
         switch(position){
             case 0:
                 fragment = new CapacityOverviewFragment();
+                isAtHome = true;
                 break;
             case 1:
                 fragment = new ActionPlanFragment();
@@ -116,12 +121,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_fragment_wrapper, fragment)
-                .addToBackStack(null)
-                .commit();
+        transaction.replace(R.id.main_fragment_wrapper, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
@@ -139,6 +143,15 @@ public class MainActivity extends ActionBarActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(isAtHome){
+            super.onBackPressed();
+        } else {
+            selectItem(0);
+        }
     }
 }
 
