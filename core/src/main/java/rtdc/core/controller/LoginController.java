@@ -33,16 +33,16 @@ public class LoginController extends Controller<LoginView> implements Authentica
         String username = view.getUsernameUiElement().getValue();
         String password = view.getPasswordUiElement().getValue();
 
-        view.clearError();
-
         if(username.isEmpty()) {
             view.getUsernameUiElement().setErrorMessage("Username cannot be empty");
             view.getUsernameUiElement().setFocus(true);
         } else if(password.isEmpty()) {
             view.getPasswordUiElement().setErrorMessage("Password cannot be empty");
             view.getPasswordUiElement().setFocus(true);
-        } else
+        } else {
+            view.clearError();
             Service.authenticateUser(username, password);
+        }
     }
 
     @Override
