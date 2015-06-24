@@ -39,10 +39,8 @@ public class LoginController extends Controller<LoginView> implements Authentica
         } else if(password.isEmpty()) {
             view.getPasswordUiElement().setErrorMessage("Password cannot be empty");
             view.getPasswordUiElement().setFocus(true);
-        } else {
-            view.clearError();
+        } else
             Service.authenticateUser(username, password);
-        }
     }
 
     @Override
