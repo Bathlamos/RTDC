@@ -96,7 +96,7 @@
                 android:onClick="onOptionsMenuClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_options"
+                android:src="@drawable/ic_more_vert_black_24dp"
                 android:baselineAlignBottom="false"
                 android:layout_gravity="center_vertical"/>
 
