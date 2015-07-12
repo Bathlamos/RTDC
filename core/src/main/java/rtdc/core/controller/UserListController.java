@@ -29,7 +29,7 @@ public class UserListController extends Controller<UserListView> implements Fetc
 
     public List<User> sortUsers(User.Properties property){
         LinkedList<User> sortedUsers = new LinkedList<>(users);
-        Collections.sort(sortedUsers, SimpleComparator.forProperty(property));
+        Collections.sort(sortedUsers, SimpleComparator.forProperty(property).build());
         return sortedUsers;
     }
 

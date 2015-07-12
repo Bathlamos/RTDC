@@ -3,7 +3,6 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
-import rtdc.core.impl.NumberAwareStringComparator;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
@@ -36,20 +35,17 @@ public class CapacityOverviewController extends Controller<CapacityOverviewView>
         Bootstrapper.FACTORY.newDispatcher().goToEditCapacity(this);
     }
 
-    public void sortUnits(Unit.Properties property){
+    public void sortUnits(Unit.Properties property, boolean ascending){
         logger.log(Level.INFO, "Sorting over " + property.name());
         ArrayList<Unit> sortedUnits = new ArrayList<>(units);
-        if(property == Unit.Properties.id)
-            Collections.sort(sortedUnits, new NumberAwareStringComparator());
-        else
-            Collections.sort(sortedUnits, SimpleComparator.forProperty(property));
+        Collections.sort(sortedUnits, SimpleComparator.forProperty(property).setAscending(ascending).build());
         view.setUnits(sortedUnits);
     }
 
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
         units = new ArrayList<>(event.getUnits());
-        sortUnits(Unit.Properties.name);
+        sortUnits(Unit.Properties.name, true);
     }
 
     @Override

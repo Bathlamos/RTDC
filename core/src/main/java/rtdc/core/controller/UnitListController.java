@@ -32,7 +32,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
     }
 
     public void sortUsers(Unit.Properties property){
-        Collections.sort(units, SimpleComparator.forProperty(property));
+        Collections.sort(units, SimpleComparator.forProperty(property).build());
         view.setUnits(units);
     }
 

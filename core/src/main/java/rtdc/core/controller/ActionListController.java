@@ -27,7 +27,7 @@ public class ActionListController extends Controller<ActionListView> implements 
     }
 
     public void sortActions(Action.Properties property){
-        Collections.sort(actions, SimpleComparator.forProperty(property));
+        Collections.sort(actions, SimpleComparator.forProperty(property).build());
         view.setActions(actions);
     }
 
