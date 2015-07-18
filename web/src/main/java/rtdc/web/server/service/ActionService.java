@@ -70,7 +70,7 @@ public class ActionService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(action.getId(), "action").toString();
+        return new ActionCompleteEvent(action.getId(), "action", "").toString();
     }
 
     @DELETE
@@ -92,7 +92,7 @@ public class ActionService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(id, "action").toString();
+        return new ActionCompleteEvent(id, "action", "").toString();
     }
 
 }

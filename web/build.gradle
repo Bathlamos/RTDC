@@ -39,6 +39,7 @@ dependencies {
     compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.16'
     compile 'postgresql:postgresql:9.1-901-1.jdbc4'
     compile 'org.mindrot:jbcrypt:0.3m'
+    compile 'mysql:mysql-connector-java:5.1.6'
 
     compile group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'
     gwt group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'

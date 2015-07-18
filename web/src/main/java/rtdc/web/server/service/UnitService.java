@@ -71,7 +71,7 @@ public class UnitService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(unit.getId(), "unit").toString();
+        return new ActionCompleteEvent(unit.getId(), "unit", "update").toString();
     }
 
     @DELETE
@@ -93,7 +93,7 @@ public class UnitService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(id, "unit").toString();
+        return new ActionCompleteEvent(id, "unit", "delete").toString();
     }
 
 }
