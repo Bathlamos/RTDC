@@ -1,6 +1,7 @@
 package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.Session;
 import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
@@ -48,8 +49,9 @@ public class LoginController extends Controller<LoginView> implements Authentica
         logger.log(Level.INFO, "AuthenticationEvent received");
         Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
         Bootstrapper.FACTORY.getStorage().add(Storage.KEY_AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        Session.setCurrentSession(new Session(event.getUser()));
         Event.unsubscribe(AuthenticationEvent.TYPE, this);
+        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
     }
 
     @Override
