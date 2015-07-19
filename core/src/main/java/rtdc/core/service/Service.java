@@ -1,29 +1,30 @@
 package rtdc.core.service;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.Config;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
-import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
-import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
-import rtdc.core.util.Util;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Level;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "http://192.168.0.10:8888/api/";
+    private static final String URL = "http://"+ Config.SERVER_IP+":8888/api/";
     private static final Logger logger = Logger.getLogger(Service.class.getCanonicalName());
 
     private Service(){}

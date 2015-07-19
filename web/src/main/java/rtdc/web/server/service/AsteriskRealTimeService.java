@@ -1,5 +1,6 @@
 package rtdc.web.server.service;
 
+import rtdc.core.Config;
 import rtdc.core.model.User;
 
 import java.sql.*;
@@ -11,7 +12,7 @@ public class AsteriskRealTimeService {
     private static Connection getConnection(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String hostname = "192.168.0.21:3306";
+            String hostname = Config.ASTERISK_IP;
             String dbName = "asterisk_realtime";
             String dbUserName = "user";
             String dbPassword = "password";

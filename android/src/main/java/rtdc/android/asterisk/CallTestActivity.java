@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.google.common.collect.ImmutableSet;
 import rtdc.android.R;
+import rtdc.core.Config;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.model.User;
@@ -22,7 +23,7 @@ public class CallTestActivity extends Activity implements LinphoneCoreListener, 
     private LinphoneCore lc;
     private final String username = "Qwe";
     private final String password = "password";
-    private final String domain = "192.168.0.21";
+    private final String domain = Config.ASTERISK_IP;
     String callName;
 
     @Override
