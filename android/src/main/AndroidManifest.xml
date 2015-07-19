@@ -95,10 +95,6 @@
             </intent-filter>
         </receiver>
         <service android:name=".GcmIntentService"></service>
-
-        <!--Temporary, for testing calls using Liblinphone & Asterisk-->
-        <activity android:name=".asterisk.CallTestActivity">
-        </activity>
     </application>
 
 </manifest>
