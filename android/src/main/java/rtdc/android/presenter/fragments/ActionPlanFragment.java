@@ -92,26 +92,6 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
         return true;
     }
 
-    public void onHeaderItemClick(View v) {
-        switch(v.getId()) {
-            case R.id.statusHeader:
-                controller.sortActions(Action.Properties.status);
-                break;
-            case R.id.roleHeader:
-                controller.sortActions(Action.Properties.roleResponsible);
-                break;
-            case R.id.actionHeader:
-                controller.sortActions(Action.Properties.task);
-                break;
-            case R.id.targetHeader:
-                controller.sortActions(Action.Properties.target);
-                break;
-            case R.id.deadlineHeader:
-                controller.sortActions(Action.Properties.deadline);
-                break;
-        }
-    }
-
     @Override
     public void setActions(List<Action> actions) {
         this.actions.clear();
@@ -131,13 +111,32 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
         @Override
         public View getView(int position, View view, ViewGroup parent){
 
+
             if(view == null)
                 view = activity.getLayoutInflater().inflate(R.layout.adapter_action_plan, parent, false);
 
             Action currentAction = getItem(position);
 
             TextView status = (TextView) view.findViewById(R.id.status);
-            status.setText(currentAction.getStatus());
+
+            switch (currentAction.getStatus()){
+                case notStarted:
+                    status.setText(R.string.action_status_not_started);
+                    status.setBackgroundResource(R.color.RTDC_dark_blue);
+                    break;
+                case inProgress:
+                    status.setText(R.string.action_status_in_progress);
+                    status.setBackgroundResource(R.color.RTDC_yellow);
+                    break;
+                case failed:
+                    status.setText(R.string.action_status_failed);
+                    status.setBackgroundResource(R.color.RTDC_red);
+                    break;
+                case completed:
+                    status.setText(R.string.action_status_completed);
+                    status.setBackgroundResource(R.color.RTDC_green);
+                    break;
+            }
 
             TextView role = (TextView) view.findViewById(R.id.role);
             role.setText(currentAction.getRoleResponsible());
@@ -153,10 +152,6 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
 
             TextView description = (TextView) view.findViewById(R.id.description);
             description.setText(currentAction.getDescription());
-
-            ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
-            optionsMenuBtn.setTag(position);
-            activity.registerForContextMenu(optionsMenuBtn);
 
             return view;
         }

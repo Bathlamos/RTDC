@@ -33,6 +33,11 @@
     <string name="deadline">Deadline</string>
     <string name="description">Description</string>
 
+    <string name="action_status_not_started">Not Started</string>
+    <string name="action_status_in_progress">In Progress</string>
+    <string name="action_status_completed">Completed</string>
+    <string name="action_status_failed">Failed</string>
+
     <string-array name="action_status">
         <item>In Progress</item>
         <item>Completed</item>

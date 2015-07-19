@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3061432909">
+  <component name="DataSourceManagerImpl" format="xml" hash="509017725">
     <data-source source="LOCAL" name="local.legault.cc" uuid="a54819a5-632b-43ee-ab28-7d0020060f4e">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://192.168.2.49:5432/rtdc</jdbc-url>
+      <jdbc-url>jdbc:postgresql://local.legault.cc:5432/rtdc</jdbc-url>
       <libraries />
     </data-source>
   </component>

@@ -1,136 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:baselineAligned="false" android:focusableInTouchMode="false" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto" xmlns:app="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:id="@+id/action_plan">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:paddingTop="5dp"
-              android:paddingBottom="5dp" android:minHeight="48dp" android:background="#FFFFFF">
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                android:id="@+id/status"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#000000" android:background="@android:color/transparent"
-                android:gravity="center" android:textSize="14dp"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                android:id="@+id/role"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#000000" android:background="@android:color/transparent"
-                android:gravity="center" android:textSize="14dp"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                android:id="@+id/action"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#000000" android:background="@android:color/transparent"
-                android:gravity="center" android:textSize="14dp"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
-
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                android:id="@+id/target"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#000000" android:background="@android:color/transparent"
-                android:gravity="center" android:textSize="14dp"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                android:id="@+id/deadline"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="#000000" android:background="@android:color/transparent"
-                android:gravity="center" android:textSize="14dp"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
-
-        <ImageButton
-                android:id="@+id/optionsMenuBtn"
-                android:onClick="onOptionsMenuClick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_more_vert_black_24dp"
-                android:baselineAlignBottom="false"
-                android:layout_gravity="center_vertical"/>
-
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="horizontal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content" android:padding="7dp"
-                  android:minHeight="48dp" android:background="#E1E1E1">
-        <Space android:layout_width="10dp" android:layout_height="45dp"/>
-        <TextView
-            android:layout_width="0dp"
+    <android.support.v7.widget.CardView
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Description"
-            android:id="@+id/notesTitle"
-            android:layout_weight="1" android:layout_gravity="center_vertical"
-            android:textColor="#000000" android:background="@android:color/transparent"
-            android:textStyle="bold" android:gravity="center" android:textSize="14dp"/>
+            android:layout_width="fill_parent"
+            card_view:cardCornerRadius="2dp"
+            android:id="@+id/action_card_view">
 
-        <Space
-                android:layout_width="10dp"
-                android:layout_height="45dp"
-                />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/description"
-            android:layout_weight="4" android:layout_gravity="center_vertical"
-            android:textColor="#000000" android:background="@android:color/transparent"
-            android:textStyle="italic" android:textSize="14dp" android:gravity="left|center_vertical"/>
+        <GridLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:stretchMode="columnWidth"
+                android:baselineAligned="false"
+                android:layout_margin="8dp"
+                android:columnCount="3"
+                android:rowCount="3">
+            <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/action_action"
+                    android:id="@+id/action"
+                    android:textColor="@color/RTDC_dark_blue" android:background="@android:color/transparent"
+                    android:textSize="14sp" android:layout_row="0" android:layout_column="0"
+                    android:layout_gravity="center_vertical|fill" android:width="60dp"
+                    android:layout_rowSpan="3" android:gravity="center" android:textStyle="bold"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/action_role"
+                    android:id="@+id/role"
+                    android:textColor="@color/RTDC_black" android:background="@android:color/transparent"
+                    android:textSize="16sp" android:textStyle="bold"
+                    app:layout_gravity="fill" android:layout_column="1"
+                    android:layout_row="0"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/action_target"
+                      android:id="@+id/target" app:layout_gravity="fill"
+                      android:textColor="@color/RTDC_grey" android:background="@android:color/transparent"
+                      android:textSize="14sp"
+                      android:layout_row="1"
+                      android:layout_column="1"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="In publishing and graphic design, lorem ipsum (derived from Latin dolorem ipsum, translated as &quot;pain itself&quot;) is a filler text commonly used to demonstrate the graphic elements of a document or visual presentation. Replacing meaningful content with placeholder text allows viewers to focus on graphic aspects such as font, typography, and page layout without being distracted by the content. It also reduces the need for the designer to come up with meaningful text, as they can instead use quickly-generated lorem ipsum.  The lorem ipsum text is typically a scrambled section of De finibus bonorum et malorum, a 1st-century BC Latin text by Cicero, with words altered, added, and removed to make it nonsensical, improper Latin.  A variation of the ordinary lorem ipsum text has been used in typesetting since the 1960s or earlier, when it was popularized by advertisements for Letraset transfer sheets. It was introduced to the Information Age in the mid-1980s by Aldus Corporation, which employed it in graphics and word processing templates for its desktop publishing program, PageMaker, for the Apple Macinto"
+                    android:id="@+id/description"
+                    android:textColor="@color/RTDC_black" android:background="@android:color/transparent"
+                    android:textSize="14sp"
 
-    </LinearLayout>
+                    android:layout_gravity="fill" android:layout_columnSpan="3" android:layout_column="0"
+                    android:layout_row="2" android:layout_marginStart="60dp" android:layout_marginLeft="60dp" android:gravity="fill_horizontal"/>
+            <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent" android:layout_column="2" android:layout_row="0"
+                    android:layout_gravity="end">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="@string/action_status"
+                        android:id="@+id/status"
+                        android:textColor="@color/RTDC_white" android:background="@color/RTDC_red"
+                        android:textSize="14sp" android:paddingLeft="4dp"
+                        android:paddingTop="2dp" android:paddingRight="4dp" android:paddingBottom="2dp"
+                        app:layout_gravity="fill" android:layout_gravity="end"
+                        />
+            </FrameLayout>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:text="@string/deadline" android:id="@+id/deadline"
+                      android:textColor="@color/RTDC_black"
+                      android:textSize="14sp"
+                      android:paddingLeft="4dp" android:paddingTop="2dp" android:paddingRight="4dp"
+                      android:paddingBottom="2dp" android:layout_column="2" android:layout_row="1"
+                      android:layout_gravity="end"
+                      android:gravity="end"
+                    />
 
-</LinearLayout>
+        </GridLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

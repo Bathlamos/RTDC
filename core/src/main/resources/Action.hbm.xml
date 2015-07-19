@@ -9,7 +9,12 @@
             <generator class="increment"/>
         </id>
         <many-to-one name="unit" class="rtdc.core.model.Unit" cascade="all" lazy="false"/>
-        <property name="status" column="status" type="string"/>
+        <property name="status" column="status">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">rtdc.core.model.Action$Status</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
         <one-to-one name="personResponsible" class="rtdc.core.model.User" cascade="save-update" lazy="false"/>
         <property name="roleResponsible" column="roleResponsible" type="string"/>
         <property name="task" type="string">
