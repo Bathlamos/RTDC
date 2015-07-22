@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:tools="http://schemas.android.com/tools" xmlns:card_view="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
@@ -12,136 +12,203 @@
             />
 
     <ScrollView
-        android:id="@+id/createUserForm"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:id="@+id/createActionForm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideInset"
+            android:padding="16dp">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-                >
-
-            <TextView
-                android:id="@+id/employeeIdText"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/employee_id"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                />
+                android:orientation="vertical">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/username"
-                android:id="@+id/usernameEdit"/>
+            <!-- Login Details -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="@string/login_details"
+                      android:id="@+id/login_details" android:paddingLeft="8dp" android:paddingRight="8dp"
+                    />
+            <android.support.v7.widget.CardView
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    card_view:cardCornerRadius="2dp"
+                    android:id="@+id/login_details_card_view" android:layout_marginBottom="14dp" android:layout_marginTop="2dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/password"
-                android:id="@+id/passwordText"/>
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/password"
-                android:ems="10"
-                android:id="@+id/passwordEdit"/>
 
-            <TextView
-                android:id="@+id/emailText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/email_address"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                />
+                    <TextView
+                            android:id="@+id/employeeIdText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/employee_id"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:hint="@string/email_hint"
-                android:id="@+id/emailEdit"/>
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/username"
+                            android:id="@+id/usernameEdit"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/first_name"
-                android:id="@+id/firstNameText"
-                />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/password"
+                            android:id="@+id/passwordText"
+                            android:paddingTop="8dp"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="@string/first_name"
-                android:ems="10"
-                android:id="@+id/firstNameEdit"/>
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:hint="@string/password"
+                            android:ems="10"
+                            android:id="@+id/passwordEdit"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/last_name"
-                android:id="@+id/lastNameText"
-                />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="@string/last_name"
-                android:ems="10"
-                android:id="@+id/lastNameEdit"/>
+            <!-- Contact Information -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="@string/contact_information"
+                      android:id="@+id/contact_information" android:paddingLeft="8dp" android:paddingRight="8dp"
+                    />
+            <android.support.v7.widget.CardView
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    card_view:cardCornerRadius="2dp"
+                    android:id="@+id/contact_card_view" android:layout_marginBottom="14dp" android:layout_marginTop="2dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/phone_number"
-                android:id="@+id/phoneText"
-                />
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:ems="10"
-                android:id="@+id/phoneEdit"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/first_name"
+                            android:id="@+id/firstNameText"
+                            />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/role"
-                android:id="@+id/roleText"
-                />
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:hint="@string/first_name"
+                            android:ems="10"
+                            android:id="@+id/firstNameEdit"/>
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/roleSpinner"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/last_name"
+                            android:id="@+id/lastNameText"
+                            android:paddingTop="8dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/permission"
-                android:id="@+id/permissionText"/>
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:hint="@string/last_name"
+                            android:ems="10"
+                            android:id="@+id/lastNameEdit"/>
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/permissionSpinner"/>
+                    <TextView
+                            android:id="@+id/emailText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/email_address"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:paddingTop="8dp"/>
+
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:ems="10"
+                            android:hint="@string/email_hint"
+                            android:id="@+id/emailEdit"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/phone_number"
+                            android:id="@+id/phoneText"
+                            android:paddingTop="8dp"/>
+
+                    <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:ems="10"
+                            android:id="@+id/phoneEdit"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!-- Permissions -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="@string/permissions"
+                      android:id="@+id/permissions" android:paddingLeft="8dp" android:paddingRight="8dp"
+                    />
+            <android.support.v7.widget.CardView
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    card_view:cardCornerRadius="2dp"
+                    android:id="@+id/permissions_card_view" android:layout_marginBottom="14dp" android:layout_marginTop="2dp">
+
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/role"
+                            android:id="@+id/roleText"
+                            />
+
+                    <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/roleSpinner"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/permission"
+                            android:id="@+id/permissionText"
+                            android:paddingTop="8dp"/>
+
+                    <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/permissionSpinner"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
         </LinearLayout>
     </ScrollView>
 
