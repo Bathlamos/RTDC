@@ -14,6 +14,25 @@ android {
     compileSdkVersion 21
     buildToolsVersion '21.1.2'
 
+    // Add source libraries located in the jniLibs folder
+    // See http://stackoverflow.com/questions/20900814
+    productFlavors {
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+        }
+        armv7 {
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+        }
+        arm {
+            ndk {
+                abiFilter "armeabi"
+            }
+        }
+    }
 
     // workaround for "duplicate files during packaging of APK" issue
     // see https://groups.google.com/d/msg/adt-dev/bl5Rc4Szpzg/wC8cylTWuIEJ
