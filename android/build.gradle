@@ -22,16 +22,12 @@ android {
                 abiFilter "x86"
             }
         }
-        armv7 {
-            ndk {
-                abiFilter "armeabi-v7a"
-            }
-        }
         arm {
             ndk {
-                abiFilter "armeabi"
+                abiFilters "armeabi-v7a", "armeabi"
             }
         }
+
     }
 
     // workaround for "duplicate files during packaging of APK" issue
