@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:baselineAligned="false" android:focusableInTouchMode="false" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content" android:padding="7dp"
+                  android:minHeight="48dp" android:background="#16A085">
+        <Space android:layout_width="10dp" android:layout_height="45dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="JJ"
+            android:id="@+id/initials"
+            android:layout_weight="1" android:layout_gravity="center_vertical"
+            android:textColor="#000000" android:background="@android:color/transparent"
+            android:textStyle="bold" android:gravity="center" android:textSize="50dp"/>
+
+        <Space
+                android:layout_width="20px"
+                android:layout_height="20px"
+                />
+        <RelativeLayout
+                android:layout_width="269dp"
+                android:layout_height="51dp">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="John Doe"
+                    android:id="@+id/name"
+                    android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="This is the last message"
+                    android:id="@+id/lastReceivedMessage"
+                    android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="4:20pm"
+                    android:id="@+id/lastTime"
+                    android:layout_alignParentTop="true" android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+        <Space
+                android:layout_width="10dp"
+                android:layout_height="45dp"
+                />
+
+    </LinearLayout>
+
+</LinearLayout>
