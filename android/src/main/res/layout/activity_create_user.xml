@@ -57,7 +57,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/username"
-                            android:id="@+id/usernameEdit"/>
+                            android:id="@+id/usernameEdit"
+                            android:singleLine="true"/>
 
                     <TextView
                             android:layout_width="wrap_content"
