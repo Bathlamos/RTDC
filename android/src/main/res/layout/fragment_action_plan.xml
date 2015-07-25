@@ -4,105 +4,16 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp" android:paddingTop="5dp" android:paddingBottom="5dp"
-            android:paddingRight="34dp" android:minHeight="35dp" android:background="@color/RTDC_dark_blue"
-            >
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Status"
-                android:id="@+id/statusHeader"
-                android:onClick="onHeaderItemClick"
-                android:clickable="true"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
-                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Role"
-                android:id="@+id/roleHeader"
-                android:onClick="onHeaderItemClick"
-                android:clickable="true"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
-                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Action"
-                android:id="@+id/actionHeader"
-                android:onClick="onHeaderItemClick"
-                android:clickable="true"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
-                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
-
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Target"
-                android:id="@+id/targetHeader"
-                android:onClick="onHeaderItemClick"
-                android:clickable="true"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
-                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
-
-        <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Deadline"
-                android:id="@+id/deadlineHeader"
-                android:onClick="onHeaderItemClick"
-                android:clickable="true"
-                android:layout_weight="2" android:layout_gravity="center_vertical"
-                android:textColor="@color/RTDC_white" android:background="@android:color/transparent"
-                android:textSize="16dp" android:gravity="center_vertical|center_horizontal"/>
-
-        <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
-
-    </LinearLayout>
-    <ListView
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ActionListView" android:layout_gravity="center_horizontal" android:choiceMode="none"/>
+            android:id="@+id/ActionListView" android:layout_gravity="center_horizontal" android:choiceMode="none"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:paddingTop="16dp" android:paddingBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideInset"
+                />
 </LinearLayout>

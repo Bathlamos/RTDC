@@ -34,7 +34,7 @@ public class Action extends RootObject{
 
     private int id;
     private Unit unit;
-    private String status;
+    private Status status; //Can never be null
     private User personResponsible;
     private String roleResponsible;
     private String task; // this is the title
@@ -48,21 +48,7 @@ public class Action extends RootObject{
         setId(object.optInt(Properties.id.name()));
         setUnit(new Unit(object.getJSONObject(Properties.unit.name())));
 
-        String status = object.optString(Properties.status.name());
-        switch (status){
-            case "inProgress":
-                setStatus("In Progress");
-                break;
-            case "completed":
-                setStatus("Completed");
-                break;
-            case "failed":
-                setStatus("Failed");
-                break;
-            case "notStarted":
-            default:
-                setStatus("Not Started");
-        }
+        status = Status.valueOf(object.optString(Properties.status.name()));
 
         if(object.has(Properties.personResponsible.name()))
             setPersonResponsible(new User(object.getJSONObject(Properties.personResponsible.name())));
@@ -130,11 +116,11 @@ public class Action extends RootObject{
         this.unit = unit;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

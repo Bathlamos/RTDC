@@ -80,7 +80,7 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     }
 
     @Override
-    public UiDropdownList<String> getStatusUiElement() {
+    public UiDropdownList<Action.Status> getStatusUiElement() {
         return statusSpinner;
     }
 

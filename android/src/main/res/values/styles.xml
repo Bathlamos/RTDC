@@ -38,15 +38,21 @@
         <!--<item name="android:textColor">@color/RTDC_white</item>-->
     <!--</style>-->
 
-    <color name="RTDC_light_blue">#33b5e5</color>
-    <color name="RTDC_dark_blue">#0099cc</color>
+    <color name="RTDC_light_blue">#3498db</color>
+    <color name="RTDC_dark_blue">#2980b9</color>
     <color name="RTDC_white">#eeeeee</color>
     <color name="RTDC_black">#303030</color>
-    <color name="RTDC_red">#c0392b</color>
     <color name="RTDC_grey">#424242</color>
+    <color name="RTDC_grey_asbestos">#7f8c8d</color>
 
-    <color name="ColorPrimary">#3498db</color>
-    <color name="ColorPrimaryDark">#2980b9</color>
+    <color name="RTDC_red">#c0392b</color>
+    <color name="RTDC_yellow">#f39c12</color>
+    <color name="RTDC_green">#27ae60</color>
+
+    <color name="RTDC_purple">#8e44ad</color>
+
+    <color name="ColorPrimary">@color/RTDC_light_blue</color>
+    <color name="ColorPrimaryDark">@color/RTDC_dark_blue</color>
 
     <style name="PrimaryButton" parent="@android:style/Widget.Button">
         <item name="android:background">@color/RTDC_dark_blue</item>

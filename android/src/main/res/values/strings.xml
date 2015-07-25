@@ -16,6 +16,11 @@
     <string name="total_admits">Total Admits</string>
     <string name="admits_by_2pm">Admits by 2PM</string>
     <string name="status_at_2pm">Status at 2PM</string>
+
+    <string name="beds">Beds</string>
+    <string name="discharges">Discharges</string>
+    <string name="admissions">Admissions</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="edit">Edit</string>
@@ -32,6 +37,19 @@
     <string name="action_target_hint">Patient and/or Room</string>
     <string name="deadline">Deadline</string>
     <string name="description">Description</string>
+
+    <string name="action_status_not_started">Not Started</string>
+    <string name="action_status_in_progress">In Progress</string>
+    <string name="action_status_completed">Completed</string>
+    <string name="action_status_failed">Failed</string>
+
+    <string name="assignee">Assignee</string>
+    <string name="objective">Objective</string>
+
+    <string name="unit_details">Unit Details</string>
+    <string name="login_details">Login Details</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="permissions">Permissions</string>
 
     <string-array name="action_status">
         <item>In Progress</item>

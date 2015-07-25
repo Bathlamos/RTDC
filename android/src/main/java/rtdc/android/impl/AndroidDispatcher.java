@@ -24,12 +24,12 @@ public class AndroidDispatcher implements Dispatcher {
 
     @Override
     public void goToActionPlan(Controller caller) {
-        startIntent(ActionPlanFragment.class, caller);
+        startIntent(MainActivity.class, caller);
     }
 
     @Override
     public void goToCapacityOverview(Controller caller) {
-        startIntent(CapacityOverviewFragment.class, caller);
+        startIntent(MainActivity.class, caller);
     }
 
     @Override

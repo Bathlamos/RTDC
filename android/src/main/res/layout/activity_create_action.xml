@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:tools="http://schemas.android.com/tools" xmlns:card_view="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
@@ -11,120 +11,179 @@
             />
 
     <ScrollView
-        android:id="@+id/createActionForm"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:id="@+id/createActionForm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideInset"
+            android:padding="16dp">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-                >
-
-            <TextView
-                android:id="@+id/unitText"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_unit"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                />
+                android:orientation="vertical">
 
-            <rtdc.android.impl.AndroidUiDropdownList
-                    android:layout_width="match_parent"
+            <!-- Assignee -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="@string/assignee"
+                      android:id="@+id/assignee" android:paddingLeft="8dp" android:paddingRight="8dp"
+                    />
+            <android.support.v7.widget.CardView
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:id="@+id/unitSpinner"/>
+                    android:layout_width="fill_parent"
+                    card_view:cardCornerRadius="2dp"
+                    android:id="@+id/assignee_card_view" android:layout_marginBottom="14dp" android:layout_marginTop="2dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/action_status"
-                android:id="@+id/statusText"
-                android:paddingTop="15dp"/>
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
 
-            <rtdc.android.impl.AndroidUiDropdownList
-                    android:layout_width="match_parent"
+                    <TextView
+                            android:id="@+id/unitText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_unit"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            />
+
+                    <rtdc.android.impl.AndroidUiDropdownList
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/unitSpinner"/>
+
+                    <TextView
+                            android:id="@+id/roleText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/action_role"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:paddingTop="8dp"/>
+
+                    <rtdc.android.impl.AndroidUiString
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/action_role_hint"
+                            android:id="@+id/roleEdit"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!-- Action -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="@string/action_action"
+                      android:id="@+id/action" android:paddingLeft="8dp" android:paddingRight="8dp"
+                    />
+            <android.support.v7.widget.CardView
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:id="@+id/statusSpinner"/>
+                    android:layout_width="fill_parent"
+                    card_view:cardCornerRadius="2dp"
+                    android:id="@+id/action_card_view" android:layout_marginBottom="14dp" android:layout_marginTop="2dp">
 
-            <TextView
-                android:id="@+id/roleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/action_role"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:paddingTop="15dp"/>
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/action_status"
+                            android:id="@+id/statusText"/>
 
-            <rtdc.android.impl.AndroidUiString
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/action_role_hint"
-                android:id="@+id/roleEdit"/>
+                    <rtdc.android.impl.AndroidUiDropdownList
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/statusSpinner"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/action_action"
-                android:id="@+id/actionText"
-                android:paddingTop="15dp"/>
 
-            <rtdc.android.impl.AndroidUiDropdownList
-                    android:layout_width="match_parent"
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/action_action"
+                            android:id="@+id/actionText"
+                            android:paddingTop="8dp"/>
+
+                    <rtdc.android.impl.AndroidUiDropdownList
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/actionSpinner"/>
+
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/description"
+                            android:id="@+id/descriptionText"
+                            android:paddingTop="8dp"/>
+
+                    <rtdc.android.impl.AndroidUiString
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
+                            android:ems="10"
+                            android:id="@+id/descriptionEdit"
+                            android:gravity="top|left"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!-- Objective -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="@string/objective"
+                      android:id="@+id/objective" android:paddingLeft="8dp" android:paddingRight="8dp"
+                    />
+            <android.support.v7.widget.CardView
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:id="@+id/actionSpinner"/>
+                    android:layout_width="fill_parent"
+                    card_view:cardCornerRadius="2dp"
+                    android:id="@+id/objective_card_view" android:layout_marginBottom="14dp" android:layout_marginTop="2dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/action_target"
-                android:id="@+id/targetText"
-                android:paddingTop="15dp"/>
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/action_target"
+                            android:id="@+id/targetText"/>
 
-            <rtdc.android.impl.AndroidUiString
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="@string/action_target_hint"
-                android:ems="10"
-                android:id="@+id/targetEdit"/>
+                    <rtdc.android.impl.AndroidUiString
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:hint="@string/action_target_hint"
+                            android:ems="10"
+                            android:id="@+id/targetEdit"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/deadline"
-                android:id="@+id/deadlineText"
-                android:paddingTop="15dp"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="@string/deadline"
+                            android:id="@+id/deadlineText"
+                            android:paddingTop="8dp"/>
 
-            <rtdc.android.impl.AndroidUiDate
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/deadlineEdit" android:clickable="true"/>
-                android:onClick="onClick"/>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/description"
-                    android:id="@+id/descriptionText"
-                    android:paddingTop="15dp"/>
-
-            <rtdc.android.impl.AndroidUiString
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/descriptionEdit"
-                    android:gravity="top|left"/>
+                    <rtdc.android.impl.AndroidUiDate
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:id="@+id/deadlineEdit" android:clickable="true"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 
