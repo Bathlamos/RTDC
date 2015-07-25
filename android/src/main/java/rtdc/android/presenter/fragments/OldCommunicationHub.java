@@ -109,6 +109,12 @@ public class OldCommunicationHub extends AbstractFragment implements LinphoneCor
     }
 
     @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        Event.unsubscribe(FetchUsersEvent.TYPE, this);
+    }
+
+    @Override
     public void authInfoRequested(LinphoneCore linphoneCore, String s, String s1, String s2) {
 
     }
