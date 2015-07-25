@@ -10,7 +10,6 @@ import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
 import rtdc.android.presenter.CreateActionActivity;
-import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
 import rtdc.core.util.Cache;
@@ -122,19 +121,19 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
             switch (currentAction.getStatus()){
                 case notStarted:
                     status.setText(R.string.action_status_not_started);
-                    status.setBackgroundResource(R.color.RTDC_dark_blue);
+                    status.setBackgroundResource(R.drawable.rectangle_rounded_blue);
                     break;
                 case inProgress:
                     status.setText(R.string.action_status_in_progress);
-                    status.setBackgroundResource(R.color.RTDC_yellow);
+                    status.setBackgroundResource(R.drawable.rectangle_rounded_yellow);
                     break;
                 case failed:
                     status.setText(R.string.action_status_failed);
-                    status.setBackgroundResource(R.color.RTDC_red);
+                    status.setBackgroundResource(R.drawable.rectangle_rounded_red);
                     break;
                 case completed:
                     status.setText(R.string.action_status_completed);
-                    status.setBackgroundResource(R.color.RTDC_green);
+                    status.setBackgroundResource(R.drawable.rectangle_rounded_green);
                     break;
             }
 
