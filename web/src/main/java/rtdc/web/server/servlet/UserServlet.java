@@ -10,6 +10,7 @@ import rtdc.core.json.JSONObject;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.UserCredentials;
+import rtdc.web.server.service.AsteriskRealTimeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
