@@ -1,7 +1,9 @@
 package rtdc.android.presenter.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,8 +11,10 @@ import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
 import rtdc.android.presenter.CreateActionActivity;
+import rtdc.android.presenter.MainActivity;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
+import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
 import java.util.*;
 
@@ -116,6 +120,9 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
             description.setText(currentAction.getDescription());
 
             view.setOnClickListener(new View.OnClickListener() {
+
+                Action.Status newStatus;
+
                 @Override
                 public void onClick(View v) {
                     final Dialog dialog = new Dialog(getContext());
@@ -136,20 +143,19 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
                         @Override
                         public void onClick(View v) {
                             dialog.dismiss();
-                            controller.deleteAction(currentAction);
+                            new AlertDialog.Builder(getContext())
+                                    .setTitle("Confirm")
+                                    .setMessage("Are you sure you want to delete this action?")
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            controller.deleteAction(currentAction);
+                                            Toast.makeText(getContext(), "Action Deleted", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, null).show();
+
                         }
                     });
-
-                    Button doneButton = (Button) dialog.findViewById(R.id.dialog_button_action_done);
-                    doneButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-
-//                    Cache.getInstance().put("action", actionSelected);
-//                    controller.editAction(actionSelected);
 
                     dialog.show();
 
@@ -174,15 +180,19 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
                             switch (checkedId) {
                                 case R.id.radio_action_not_started:
                                     selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_dark_blue));
+                                    newStatus = Action.Status.notStarted;
                                     break;
                                 case R.id.radio_action_in_progress:
                                     selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_yellow));
+                                    newStatus = Action.Status.inProgress;
                                     break;
                                 case R.id.radio_action_completed:
                                     selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_green));
+                                    newStatus = Action.Status.completed;
                                     break;
                                 case R.id.radio_action_failed:
                                     selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_red));
+                                    newStatus = Action.Status.failed;
                                     break;
                                 default:
                                     break;
@@ -192,6 +202,18 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
                         }
                     });
 
+                    Button doneButton = (Button) dialog.findViewById(R.id.dialog_button_action_done);
+                    doneButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            currentAction.setStatus(newStatus);
+                            controller.saveAction(currentAction);
+                            dialog.dismiss();
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+
+                    newStatus = currentAction.getStatus();
                     switch (currentAction.getStatus()){
                         case notStarted:
                             statusGroup.check(R.id.radio_action_not_started);
