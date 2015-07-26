@@ -14,7 +14,7 @@ import rtdc.core.model.Unit;
 import rtdc.core.util.Cache;
 import rtdc.core.view.EditCapacityView;
 
-public class EditCapacityActivity extends AbstractActivity implements EditCapacityView {
+public class EditCapacityActivity extends AbstractDialog implements EditCapacityView {
 
     private EditCapacityController controller;
     private AndroidUiString availableBedsEdit, potentialDcEdit, DcByDeadlineEdit, totalAdmitsEdit, admitsByDeadlineEdit;

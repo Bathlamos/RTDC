@@ -13,7 +13,7 @@ import rtdc.android.R;
 import rtdc.core.controller.AddUnitController;
 import rtdc.core.view.AddUnitView;
 
-public class CreateUnitActivity extends AbstractActivity implements AddUnitView{
+public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
 
     private AddUnitController controller;
 

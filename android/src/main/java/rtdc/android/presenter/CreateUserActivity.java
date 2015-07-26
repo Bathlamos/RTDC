@@ -19,7 +19,7 @@ import rtdc.core.view.AddUserView;
 
 import java.lang.reflect.Field;
 
-public class CreateUserActivity extends AbstractActivity implements AddUserView {
+public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
     private AddUserController controller;
 

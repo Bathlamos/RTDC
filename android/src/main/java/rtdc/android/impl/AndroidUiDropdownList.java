@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.common.collect.ImmutableSet;
 import rtdc.android.R;
 import rtdc.core.impl.UiDropdownList;
+import rtdc.core.util.Stringifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<T> {
 
     private final CustomAdapter adapter;
+    private Stringifier<T> stringifier = DEFAULT_STRINGIFIER;
 
     public AndroidUiDropdownList(Context context) {
         super(context);
@@ -41,6 +43,11 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
     @Override
     public int getSelectedIndex(){
         return getSelectedItemPosition();
+    }
+
+    @Override
+    public void setStringifier(Stringifier<T> stringifier) {
+        this.stringifier = stringifier;
     }
 
     @Override
@@ -85,14 +92,6 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
             super(context, resource);
         }
 
-        public CustomAdapter(Context context, int resource, int textViewResourceId) {
-            super(context, resource, textViewResourceId);
-        }
-
-        public CustomAdapter(Context context, int resource, T[] objects) {
-            super(context, resource, objects);
-        }
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null)
@@ -102,7 +101,7 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
             T item = getItem(position);
             TextView textView = (TextView) convertView;
             if (item!= null)
-                textView.setText(item.toString() + "ll");
+                textView.setText(stringifier.toString(item));
 
             return convertView;
         }

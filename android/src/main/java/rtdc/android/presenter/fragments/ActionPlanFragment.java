@@ -84,22 +84,19 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
             final Action currentAction = getItem(position);
 
             final TextView status = (TextView) view.findViewById(R.id.status);
+            status.setText(Action.Status.getStringifier().toString(currentAction.getStatus()));
 
             switch (currentAction.getStatus()){
                 case notStarted:
-                    status.setText(R.string.action_status_not_started);
                     status.setBackgroundResource(R.drawable.rectangle_rounded_blue);
                     break;
                 case inProgress:
-                    status.setText(R.string.action_status_in_progress);
                     status.setBackgroundResource(R.drawable.rectangle_rounded_yellow);
                     break;
                 case failed:
-                    status.setText(R.string.action_status_failed);
                     status.setBackgroundResource(R.drawable.rectangle_rounded_red);
                     break;
                 case completed:
-                    status.setText(R.string.action_status_completed);
                     status.setBackgroundResource(R.drawable.rectangle_rounded_green);
                     break;
             }
@@ -108,7 +105,7 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
             role.setText(currentAction.getRoleResponsible());
 
             final TextView action = (TextView) view.findViewById(R.id.action);
-            action.setText(currentAction.getTask());
+            action.setText(Action.Task.getStringifier().toString(currentAction.getTask()));
 
             TextView target = (TextView) view.findViewById(R.id.target);
             target.setText(currentAction.getTarget());

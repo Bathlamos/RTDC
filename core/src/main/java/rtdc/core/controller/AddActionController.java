@@ -4,10 +4,12 @@ import com.google.common.collect.ImmutableSet;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
+import rtdc.core.impl.UiDropdownList;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
+import rtdc.core.util.Stringifier;
 import rtdc.core.view.AddActionView;
 
 import java.util.ArrayList;
@@ -24,18 +26,18 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         Event.subscribe(FetchUnitsEvent.TYPE, this);
         Service.getUnits();
 
-        //TODO: Switching over an enum in a for is particularly atrocious.
-        ArrayList<String> tasks = new ArrayList<>();
-        for(Action.Task task: Action.Task.values()) {
-            switch(task){
-                case holdFor: tasks.add("Hold"); break;
-                case offServicingTo: tasks.add("Off servicing"); break;
-                case pushForDischarge: tasks.add("Push for discharge"); break;
-            }
-        }
-        view.getTaskUiElement().setList(tasks);
+        view.getTaskUiElement().setList(Arrays.asList(Action.Task.values()));
+        view.getTaskUiElement().setStringifier(Action.Task.getStringifier());
 
         view.getStatusUiElement().setList(Arrays.asList(Action.Status.values()));
+        view.getStatusUiElement().setStringifier(Action.Status.getStringifier());
+
+        view.getUnitUiElement().setStringifier(new Stringifier<Unit>() {
+            @Override
+            public String toString(Unit unit) {
+                return unit == null? "": unit.getName();
+            }
+        });
 
         currentAction = (Action) Cache.getInstance().retrieve("action");
         if (currentAction != null) {
@@ -44,7 +46,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
             view.getTargetUiElement().setValue(currentAction.getTarget());
             view.getDeadlineUiElement().setValue(currentAction.getDeadline());
             view.getDescriptionUiElement().setValue(currentAction.getDescription());
-            view.getUnitUiElement().setValue(currentAction.getUnit().getName());
+            view.getUnitUiElement().setValue(currentAction.getUnit());
             view.getStatusUiElement().setValue(currentAction.getStatus());
             view.getTaskUiElement().setValue(currentAction.getTask());
         }
@@ -78,18 +80,12 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         else {*/
         Service.updateOrSaveActions(action);
         //}
-        Bootstrapper.FACTORY.newDispatcher().goToActionPlan(this);
+        view.closeDialog();
     }
 
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
-        units = new ArrayList<>(event.getUnits());
-        ArrayList<String> unitNames = new ArrayList<>(units.size());
-
-        for(Unit unit: units)
-            unitNames.add(unit.getName());
-
-        view.getUnitUiElement().setList(unitNames);
+        view.getUnitUiElement().setList(event.getUnits().asList());
     }
 
     @Override
