@@ -45,14 +45,14 @@ public class PopulateServlet {
         users.addAll(root);
 
         List<Action> actions = generateActions(RANDOM.nextInt(10), users, units);
-        actions.add(0, buildAction(units.get(1), Action.Status.inProgress, "Jennifer Joyce", Action.Task.offServicingTo.toString(),
+        actions.add(0, buildAction(units.get(1), Action.Status.inProgress, "Jennifer Joyce", Action.Task.offServicingTo,
                 "2 Patients", new Date(1437932727048l), "Negotiate with Internal Medicine unit for them to take 2 of our patients." +
                         "A surgery patient goes temporarily to the Medicine unit because we don't have enough beds in Surgery. However," +
                         "this is risky because Medicine might also be full."));
-        actions.add(1, buildAction(units.get(0), Action.Status.inProgress, "Pam Peterson", Action.Task.pushForDischarge.toString(),
+        actions.add(1, buildAction(units.get(0), Action.Status.inProgress, "Pam Peterson", Action.Task.pushForDischarge,
                 "D301, D304, D312, D319, D322", new Date(1437932727048l), "Aggressively push for all the 5 “Potential Discharges” to be " +
                         "actually discharged Without pushing, we would discharge 3; with pushing, we’ll discharge 4."));
-        actions.add(2, buildAction(units.get(1), Action.Status.completed, "Kim Kennedy", Action.Task.holdFor.toString(),
+        actions.add(2, buildAction(units.get(1), Action.Status.completed, "Kim Kennedy", Action.Task.holdFor,
                 "ED72", new Date(1437932727048l), "Kim will contact Pam, the Unit Manager of the Emergency Department to ask her to keep one " +
                         "patient to be sent to Surgery a bit longer (this patient has a broken arm; the pain is well under control, and " +
                         "there is no risk of infection: the patient can wait a few more hours before being sent by ED to Surgery)"));
@@ -134,7 +134,7 @@ public class PopulateServlet {
             action.setDescription(DF.getRandomText(RANDOM.nextInt(500)));
             action.setStatus(DF.getItem(Action.Status.values()));
             action.setTarget("Target " + DF.getRandomText(RANDOM.nextInt(10)));
-            action.setTask(DF.getItem(Action.Task.values()).name());
+            action.setTask(DF.getItem(Action.Task.values()));
             actions.add(action);
         }
 
@@ -190,7 +190,7 @@ public class PopulateServlet {
         return unit;
     }
 
-    private static Action buildAction(Unit unit, Action.Status status, String roleResponsible, String task, String target,
+    private static Action buildAction(Unit unit, Action.Status status, String roleResponsible, Action.Task task, String target,
                             Date date, String description){
         Action action = new Action();
         action.setUnit(unit);
