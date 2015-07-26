@@ -1,18 +1,16 @@
-package rtdc.web.server.service;
+package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
-import rtdc.core.event.FetchActionsEvent;
-import rtdc.core.event.FetchUsersEvent;
+import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.Action;
-import rtdc.core.model.User;
+import rtdc.core.model.Role;
+import rtdc.core.model.Unit;
 import rtdc.web.server.config.PersistenceConfig;
-import rtdc.web.server.model.UserCredentials;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -21,18 +19,19 @@ import javax.ws.rs.core.Context;
 import java.util.List;
 import java.util.Set;
 
-@Path("actions")
-public class ActionService {
+@Path("units")
+public class UnitServlet {
 
     @GET
-    public String get(@Context HttpServletRequest req){
-        //AuthService.hasRole(req, USER, ADMIN);
+    @RolesAllowed({Role.USER, Role.ADMIN})
+    public String getUnits(@Context HttpServletRequest req){
+        //AuthServlet.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
-        List<Action> actions = null;
+        List<Unit> units = null;
         try{
             transaction = session.beginTransaction();
-            actions = (List<Action>) session.createCriteria(Action.class).list();
+            units = (List<Unit>) session.createCriteria(Unit.class).list();
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -41,17 +40,18 @@ public class ActionService {
         } finally{
             session.close();
         }
-        return new FetchActionsEvent(actions).toString();
+        return new FetchUnitsEvent(units).toString();
     }
 
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    public String update(@Context HttpServletRequest req, @FormParam("action" )String actionString){
-        //AuthService.hasRole(req, ADMIN);
-        Action action = new Action(new JSONObject(actionString));
+    @RolesAllowed({Role.ADMIN})
+    public String updateUnit(@Context HttpServletRequest req, @FormParam("unit" )String unitString){
+        //AuthServlet.hasRole(req, ADMIN);
+        Unit unit = new Unit(new JSONObject(unitString));
 
-        Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
+        Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
         if(!violations.isEmpty())
             return new ErrorEvent(violations.toString()).toString();
 
@@ -59,8 +59,7 @@ public class ActionService {
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-
-            session.saveOrUpdate(action);
+            session.saveOrUpdate(unit);
 
             transaction.commit();
         } catch (RuntimeException e) {
@@ -70,20 +69,20 @@ public class ActionService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(action.getId(), "action").toString();
+        return new ActionCompleteEvent(unit.getId(), "unit").toString();
     }
 
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    public String delete(@Context HttpServletRequest req, @PathParam("id") int id){
-        //AuthService.hasRole(req, ADMIN);
+    public String deleteUnit(@Context HttpServletRequest req, @PathParam("id") int id){
+        // AuthServlet.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            Action action = (Action) session.load(Action.class, id);
-            session.delete(action);
+            Unit unit = (Unit) session.load(Unit.class, id);
+            session.delete(unit);
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -92,7 +91,7 @@ public class ActionService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(id, "action").toString();
+        return new ActionCompleteEvent(id, "unit").toString();
     }
 
 }

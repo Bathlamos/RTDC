@@ -1,4 +1,4 @@
-package rtdc.web.server.service;
+package rtdc.web.server.servlet;
 
 import rtdc.core.event.ErrorEvent;
 

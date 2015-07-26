@@ -1,16 +1,15 @@
-package rtdc.web.server.service;
+package rtdc.web.server.servlet;
 
-import com.google.common.collect.ImmutableMultimap;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
-import rtdc.core.event.FetchUnitsEvent;
+import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.Unit;
+import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
-import rtdc.core.util.Util;
+import rtdc.web.server.model.UserCredentials;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
@@ -20,21 +19,18 @@ import javax.ws.rs.core.Context;
 import java.util.List;
 import java.util.Set;
 
-import static rtdc.core.model.ApplicationPermission.ADMIN;
-import static rtdc.core.model.ApplicationPermission.USER;
-
-@Path("units")
-public class UnitService {
+@Path("users")
+public class UserServlet {
 
     @GET
-    public String getUnits(@Context HttpServletRequest req){
-        //AuthService.hasRole(req, USER, ADMIN);
+    public String getUsers(@Context HttpServletRequest req){
+        //AuthServlet.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
-        List<Unit> units = null;
+        List<User> users = null;
         try{
             transaction = session.beginTransaction();
-            units = (List<Unit>) session.createCriteria(Unit.class).list();
+            users = (List<User>) session.createCriteria(User.class).list();
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -43,26 +39,41 @@ public class UnitService {
         } finally{
             session.close();
         }
-        return new FetchUnitsEvent(units).toString();
+        return new FetchUsersEvent(users).toString();
     }
 
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    public String updateUnit(@Context HttpServletRequest req, @FormParam("unit" )String unitString){
-        //AuthService.hasRole(req, ADMIN);
-        Unit unit = new Unit(new JSONObject(unitString));
+    public String updateUser(@Context HttpServletRequest req, @FormParam("password") String password, @FormParam("user" )String userString){
+        //AuthServlet.hasRole(req, ADMIN);
+        User user = new User(new JSONObject(userString));
 
-        Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
+        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
         if(!violations.isEmpty())
             return new ErrorEvent(violations.toString()).toString();
 
+        if(password == null || password.isEmpty() || password.length() < 4)
+            return new ErrorEvent("Password must be longer than 4 characters").toString();
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            session.saveOrUpdate(unit);
 
+            UserCredentials credentials = null;
+            if(user.getId() == 0) {
+                session.saveOrUpdate(user);
+                credentials = new UserCredentials();
+            }else {
+                session.merge(user);
+                credentials = (UserCredentials) session.load(UserCredentials.class, user.getId());
+            }
+
+            credentials.setUser(user);
+            credentials.setSalt(BCrypt.gensalt());
+            credentials.setPasswordHash(BCrypt.hashpw(password, credentials.getSalt()));
+
+            session.saveOrUpdate(credentials);
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -71,20 +82,21 @@ public class UnitService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(unit.getId(), "unit").toString();
+
+        return new ActionCompleteEvent(user.getId(), "user").toString();
     }
 
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    public String deleteUnit(@Context HttpServletRequest req, @PathParam("id") int id){
-        // AuthService.hasRole(req, ADMIN);
+    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
+        //AuthServlet.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            Unit unit = (Unit) session.load(Unit.class, id);
-            session.delete(unit);
+            User user = (User) session.load(User.class, id);
+            session.delete(user);
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -93,7 +105,7 @@ public class UnitService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(id, "unit").toString();
+        return new ActionCompleteEvent(id, "user").toString();
     }
 
 }

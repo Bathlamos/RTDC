@@ -7,4 +7,6 @@ public class Config {
                 // The API key of the RTDC Tool project in the Developer Console
                 GCM_SERVER_API_KEY = "AIzaSyAwZJhcvot0V6eOCrXD7htyLS9hP4WFxEg";
 
+    public static final long SESSION_LIFETIME_IN_MS = 24 * 60 * 60 * 1000;
+
 }

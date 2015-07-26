@@ -23,7 +23,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "http://192.168.2.156:8888/api/";
+    private static final String URL = "http://192.168.2.28:8888/api/";
     private static final Logger logger = Logger.getLogger(Service.class.getCanonicalName());
 
     private Service(){}
@@ -88,7 +88,7 @@ public final class Service {
     
     private static void executeRequest(HttpRequest request){
         request.setContentType("application/x-www-form-urlencoded");
-        request.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+        request.addParameter(HttpHeadersName.AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
         request.execute(new AsyncCallback<HttpResponse>() {
             @Override
             public void onSuccess(HttpResponse resp) {
