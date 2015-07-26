@@ -69,7 +69,8 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="@string/action_role_hint"
-                            android:id="@+id/roleEdit"/>
+                            android:id="@+id/roleEdit"
+                            android:singleLine="true"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

@@ -36,21 +36,21 @@
                     <RadioButton
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
                             android:text="@string/action_status_not_started"
                             android:id="@+id/radio_action_not_started" android:textColor="@color/RTDC_black"
                             android:button="@android:color/transparent"
                             android:background="@drawable/radio_status" android:padding="16dp" android:checked="false"/>
 
                     <RadioButton android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                 android:textAppearance="?android:attr/textAppearanceSmall"
+                                 android:textAppearance="@android:style/TextAppearance.Medium"
                               android:text="@string/action_status_in_progress" android:id="@+id/radio_action_in_progress"
                               android:textColor="@color/RTDC_black" android:button="@android:color/transparent"
                                  android:background="@drawable/radio_status" android:padding="16dp"/>
 
 
                     <RadioButton android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                 android:textAppearance="?android:attr/textAppearanceSmall"
+                                 android:textAppearance="@android:style/TextAppearance.Medium"
                               android:text="@string/action_status_completed" android:id="@+id/radio_action_completed"
                               android:textColor="@color/RTDC_black" android:button="@android:color/transparent"
                                  android:background="@drawable/radio_status" android:padding="16dp"/>
@@ -58,7 +58,7 @@
 
 
                     <RadioButton android:layout_width="fill_parent" android:layout_height="wrap_content"
-                                 android:textAppearance="?android:attr/textAppearanceSmall"
+                                 android:textAppearance="@android:style/TextAppearance.Medium"
                               android:text="@string/action_status_failed" android:id="@+id/radio_action_failed"
                               android:textColor="@color/RTDC_black" android:button="@android:color/transparent"
                                  android:background="@drawable/radio_status" android:padding="16dp"/>

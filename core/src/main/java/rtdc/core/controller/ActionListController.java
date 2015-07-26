@@ -36,6 +36,10 @@ public class ActionListController extends Controller<ActionListView> implements 
         Bootstrapper.FACTORY.newDispatcher().goToEditAction(this);
     }
 
+    public void saveAction(Action action){
+        Service.updateOrSaveActions(action);
+    }
+
     public void deleteAction(Action action) {
         actions.remove(action);
         view.setActions(actions);
