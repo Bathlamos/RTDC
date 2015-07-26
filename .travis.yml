@@ -17,3 +17,7 @@ android:
 branches:
   only:
     - master
+    
+env:
+  global:
+    - MALLOC_ARENA_MAX=2
