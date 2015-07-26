@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+
+    <item android:id="@+id/action_call_action"
+          android:title="Call"
+          android:icon="@drawable/ic_phone_white_24dp"
+          app:showAsAction="ifRoom|withText"/>
+
+    <item android:id="@+id/action_video_call_action"
+          android:title="Video call"
+          android:icon="@drawable/ic_voice_chat_white_24dp"
+          app:showAsAction="ifRoom|withText"/>
+
+    <item android:id="@+id/action_message_action"
+          android:title="Message"
+          android:icon="@drawable/ic_chat_white_24dp"
+          app:showAsAction="ifRoom|withText"/>
+
+</menu>

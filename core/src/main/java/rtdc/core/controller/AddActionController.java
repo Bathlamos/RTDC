@@ -11,6 +11,7 @@ import rtdc.core.util.Cache;
 import rtdc.core.view.AddActionView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler{
 
@@ -34,16 +35,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         }
         view.getTaskUiElement().setList(tasks);
 
-        ArrayList<String> statuses = new ArrayList<>();
-        for(Action.Status status: Action.Status.values()) {
-            switch(status){
-                case notStarted: statuses.add("Not started"); break;
-                case inProgress: statuses.add("In progress"); break;
-                case completed: statuses.add("Completed"); break;
-                case failed: statuses.add("Failed"); break;
-            }
-        }
-        view.getStatusUiElement().setList(statuses);
+        view.getStatusUiElement().setList(Arrays.asList(Action.Status.values()));
 
         currentAction = (Action) Cache.getInstance().retrieve("action");
         if (currentAction != null) {

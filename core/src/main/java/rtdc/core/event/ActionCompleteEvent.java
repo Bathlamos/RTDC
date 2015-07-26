@@ -11,20 +11,24 @@ public class ActionCompleteEvent extends Event<ActionCompleteEvent.Handler> {
 
     public enum Properties implements ObjectProperty<ActionCompleteEvent>{
         objectId,
-        objectType
+        objectType,
+        action
     }
 
     private final String objectType;
     private final int objectId;
+    private final String action;
 
-    public ActionCompleteEvent(int objectId, String objectType){
+    public ActionCompleteEvent(int objectId, String objectType, String action){
         this.objectId = objectId;
         this.objectType = objectType;
+        this.action = action;
     }
 
     public ActionCompleteEvent(JSONObject object){
         objectId = object.getInt(Properties.objectId.name());
         objectType = object.getString(Properties.objectType.name());
+        action = object.getString(Properties.action.name());
     }
 
     public int getObjectId(){
@@ -34,6 +38,8 @@ public class ActionCompleteEvent extends Event<ActionCompleteEvent.Handler> {
     public String getObjectType(){
         return objectType;
     }
+
+    public String getAction() { return action; }
 
 
     public void fire(){
@@ -56,6 +62,7 @@ public class ActionCompleteEvent extends Event<ActionCompleteEvent.Handler> {
         switch((Properties) property){
             case objectId: return objectId;
             case objectType: return objectType;
+            case action: return action;
         }
         return null;
     }

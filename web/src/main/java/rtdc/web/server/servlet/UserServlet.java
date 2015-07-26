@@ -74,6 +74,7 @@ public class UserServlet {
             credentials.setPasswordHash(BCrypt.hashpw(password, credentials.getSalt()));
 
             session.saveOrUpdate(credentials);
+            AsteriskRealTimeService.addUser(user, password);
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -83,7 +84,7 @@ public class UserServlet {
             session.close();
         }
 
-        return new ActionCompleteEvent(user.getId(), "user").toString();
+        return new ActionCompleteEvent(user.getId(), "user", "update").toString();
     }
 
     @DELETE
@@ -97,6 +98,7 @@ public class UserServlet {
             transaction = session.beginTransaction();
             User user = (User) session.load(User.class, id);
             session.delete(user);
+            AsteriskRealTimeService.deleteUser(user);
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -105,7 +107,7 @@ public class UserServlet {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(id, "user").toString();
+        return new ActionCompleteEvent(id, "user", "delete").toString();
     }
 
 }

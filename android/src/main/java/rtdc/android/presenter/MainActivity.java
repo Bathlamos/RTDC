@@ -111,7 +111,8 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new ActionPlanFragment();
                 break;
             case 2:
-                fragment = new CommunicationHubFragment();
+                //fragment = new CommunicationHubFragment();
+                fragment = new OldCommunicationHub();
                 break;
             case 4:
                 fragment = new ManageUsersFragment();

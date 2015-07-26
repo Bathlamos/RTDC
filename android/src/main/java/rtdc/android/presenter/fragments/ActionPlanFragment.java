@@ -1,8 +1,7 @@
 package rtdc.android.presenter.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,19 +9,16 @@ import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
 import rtdc.android.presenter.CreateActionActivity;
-import rtdc.android.presenter.fragments.AbstractFragment;
 import rtdc.core.controller.ActionListController;
 import rtdc.core.model.Action;
-import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
 import java.util.*;
 
 public class ActionPlanFragment extends AbstractFragment implements ActionListView {
 
-    private ActionListAdapter adapter;
+    private static ActionListAdapter adapter;
     private ArrayList<Action> actions = new ArrayList<Action>();
-    private Action actionSelected;
-    private ActionListController controller;
+    private static ActionListController controller;
 
     @Nullable
     @Override
@@ -61,58 +57,6 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId( ) == R.id.optionsMenuBtn) {
-            actionSelected = actions.get(Integer.parseInt(v.getTag().toString()));
-            menu.setHeaderTitle(actionSelected.getTask() + ": " + actionSelected.getTarget());
-            menu.add(0, 1, 0, "Edit");
-            menu.add(0, 2, 0, "Delete");
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case 1:
-                Cache.getInstance().put("action", actionSelected);
-                controller.editAction(actionSelected);
-                break;
-            case 2:
-                new AlertDialog.Builder(getActivity())
-                    .setTitle("Confirm")
-                    .setMessage("Delete selected action?")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            controller.deleteAction(actionSelected);
-                            Toast.makeText(getActivity(), "Action Deleted", Toast.LENGTH_SHORT).show();
-                        }})
-                    .setNegativeButton(android.R.string.no, null).show();
-                break;
-        }
-        return true;
-    }
-
-    public void onHeaderItemClick(View v) {
-        switch(v.getId()) {
-            case R.id.statusHeader:
-                controller.sortActions(Action.Properties.status);
-                break;
-            case R.id.roleHeader:
-                controller.sortActions(Action.Properties.roleResponsible);
-                break;
-            case R.id.actionHeader:
-                controller.sortActions(Action.Properties.task);
-                break;
-            case R.id.targetHeader:
-                controller.sortActions(Action.Properties.target);
-                break;
-            case R.id.deadlineHeader:
-                controller.sortActions(Action.Properties.deadline);
-                break;
-        }
-    }
-
-    @Override
     public void setActions(List<Action> actions) {
         this.actions.clear();
         this.actions.addAll(actions);
@@ -131,18 +75,37 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
         @Override
         public View getView(int position, View view, ViewGroup parent){
 
+
             if(view == null)
                 view = activity.getLayoutInflater().inflate(R.layout.adapter_action_plan, parent, false);
 
-            Action currentAction = getItem(position);
+            final Action currentAction = getItem(position);
 
-            TextView status = (TextView) view.findViewById(R.id.status);
-            status.setText(currentAction.getStatus());
+            final TextView status = (TextView) view.findViewById(R.id.status);
+
+            switch (currentAction.getStatus()){
+                case notStarted:
+                    status.setText(R.string.action_status_not_started);
+                    status.setBackgroundResource(R.drawable.rectangle_rounded_blue);
+                    break;
+                case inProgress:
+                    status.setText(R.string.action_status_in_progress);
+                    status.setBackgroundResource(R.drawable.rectangle_rounded_yellow);
+                    break;
+                case failed:
+                    status.setText(R.string.action_status_failed);
+                    status.setBackgroundResource(R.drawable.rectangle_rounded_red);
+                    break;
+                case completed:
+                    status.setText(R.string.action_status_completed);
+                    status.setBackgroundResource(R.drawable.rectangle_rounded_green);
+                    break;
+            }
 
             TextView role = (TextView) view.findViewById(R.id.role);
             role.setText(currentAction.getRoleResponsible());
 
-            TextView action = (TextView) view.findViewById(R.id.action);
+            final TextView action = (TextView) view.findViewById(R.id.action);
             action.setText(currentAction.getTask());
 
             TextView target = (TextView) view.findViewById(R.id.target);
@@ -154,9 +117,99 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
             TextView description = (TextView) view.findViewById(R.id.description);
             description.setText(currentAction.getDescription());
 
-            ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
-            optionsMenuBtn.setTag(position);
-            activity.registerForContextMenu(optionsMenuBtn);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog dialog = new Dialog(getContext());
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_action_edit);
+
+                    Button editButton = (Button) dialog.findViewById(R.id.dialog_button_action_edit);
+                    editButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            controller.editAction(currentAction);
+                        }
+                    });
+
+                    Button deleteButton = (Button) dialog.findViewById(R.id.dialog_button_action_delete);
+                    deleteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            controller.deleteAction(currentAction);
+                        }
+                    });
+
+                    Button doneButton = (Button) dialog.findViewById(R.id.dialog_button_action_done);
+                    doneButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+//                    Cache.getInstance().put("action", actionSelected);
+//                    controller.editAction(actionSelected);
+
+                    dialog.show();
+
+                    RadioGroup statusGroup = (RadioGroup) dialog.findViewById(R.id.dialog_action_status_group);
+                    statusGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+                        private RadioButton previousStatus;
+
+                        @Override
+                        public void onCheckedChanged(RadioGroup group, int checkedId) {
+                            if (previousStatus == null) {
+                                previousStatus = (RadioButton) dialog.findViewById(checkedId);
+                            }
+
+                            previousStatus.setBackgroundResource(R.drawable.radio_status);
+                            previousStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_black));
+
+
+                            RadioButton selectedStatus = (RadioButton) dialog.findViewById(checkedId);
+                            selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_white));
+
+                            switch (checkedId) {
+                                case R.id.radio_action_not_started:
+                                    selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_dark_blue));
+                                    break;
+                                case R.id.radio_action_in_progress:
+                                    selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_yellow));
+                                    break;
+                                case R.id.radio_action_completed:
+                                    selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_green));
+                                    break;
+                                case R.id.radio_action_failed:
+                                    selectedStatus.setTextColor(getContext().getResources().getColor(R.color.RTDC_red));
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            previousStatus = selectedStatus;
+                        }
+                    });
+
+                    switch (currentAction.getStatus()){
+                        case notStarted:
+                            statusGroup.check(R.id.radio_action_not_started);
+                            break;
+                        case inProgress:
+                            statusGroup.check(R.id.radio_action_in_progress);
+                            break;
+                        case failed:
+                            statusGroup.check(R.id.radio_action_failed);
+                            break;
+                        case completed:
+                            statusGroup.check(R.id.radio_action_completed);
+                            break;
+                    }
+                }
+            });
 
             return view;
         }
