@@ -40,6 +40,8 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
         setupHeader(view, R.id.statusAtDeadlineHeader);
         ((TextView) view.findViewById(R.id.unitNameHeader)).setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_up_white_24dp, 0);
 
+        lastClicked = (TextView) view.findViewById(R.id.unitNameHeader);
+
         if (controller == null)
             controller = new CapacityOverviewController(this);
 
