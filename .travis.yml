@@ -17,3 +17,8 @@ android:
 branches:
   only:
     - master
+
+# Turn off caching to avoid any caching problems
+cache: false
+# Use the Travis Container-Based Infrastructure (see #67)
+sudo: false
