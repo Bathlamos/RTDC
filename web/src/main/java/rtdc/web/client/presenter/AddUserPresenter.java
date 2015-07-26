@@ -156,4 +156,9 @@ public class AddUserPresenter extends Composite implements AddUserView {
 
     @Override
     public void hideDeleteButton() {}
+
+    @Override
+    public void closeDialog() {
+
+    }
 }
