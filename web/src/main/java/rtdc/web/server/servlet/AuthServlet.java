@@ -4,16 +4,21 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
+import rtdc.core.Config;
 import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.event.LogoutEvent;
 import rtdc.core.event.SessionExpiredEvent;
 import rtdc.core.exception.UsernamePasswordMismatchException;
 import rtdc.core.model.User;
+import rtdc.core.service.CookiesName;
+import rtdc.core.service.HttpHeadersName;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.model.UserCredentials;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -57,8 +62,9 @@ public class AuthServlet {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public String authenticate(@Context HttpServletRequest req,
-                             @FormParam("username") String username,
-                             @FormParam("password") String password){
+                               @Context HttpServletResponse resp,
+                               @FormParam("username") String username,
+                               @FormParam("password") String password){
 
         if(username == null || username.isEmpty())
             throw new UsernamePasswordMismatchException("Username cannot be empty");
@@ -113,6 +119,10 @@ public class AuthServlet {
                     } finally {
                         session.close();
                     }
+
+                    // So that we can test the api in the browser
+                    if (Config.IS_DEBUG)
+                        resp.addCookie(new Cookie(CookiesName.AUTH_COOKIE, token.getAuthenticationToken()));
 
                     return new AuthenticationEvent(user, token.getAuthenticationToken()).toString();
                 }else

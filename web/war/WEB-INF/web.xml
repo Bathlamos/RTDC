@@ -11,7 +11,7 @@
 
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>rtdc.web.server.servlet</param-value>
+            <param-value>rtdc.web.server.servlet;rtdc.web.server.filter</param-value>
         </init-param>
     </servlet>
 

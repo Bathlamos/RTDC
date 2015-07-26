@@ -7,8 +7,10 @@ import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
+import rtdc.core.model.Role;
 import rtdc.web.server.config.PersistenceConfig;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
@@ -23,8 +25,8 @@ import java.util.Set;
 public class ActionServlet {
 
     @GET
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public String get(@Context HttpServletRequest req){
-        //AuthServlet.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Action> actions = null;
@@ -45,8 +47,8 @@ public class ActionServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public String update(@Context HttpServletRequest req, @FormParam("action" )String actionString){
-        //AuthServlet.hasRole(req, ADMIN);
         Action action = new Action(new JSONObject(actionString));
 
         Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
@@ -74,8 +76,8 @@ public class ActionServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public String delete(@Context HttpServletRequest req, @PathParam("id") int id){
-        //AuthServlet.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{

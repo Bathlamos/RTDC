@@ -46,9 +46,8 @@ public class UnitServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Role.ADMIN})
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public String updateUnit(@Context HttpServletRequest req, @FormParam("unit" )String unitString){
-        //AuthServlet.hasRole(req, ADMIN);
         Unit unit = new Unit(new JSONObject(unitString));
 
         Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
@@ -75,8 +74,8 @@ public class UnitServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public String deleteUnit(@Context HttpServletRequest req, @PathParam("id") int id){
-        // AuthServlet.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{

@@ -7,11 +7,13 @@ import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.Role;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.UserCredentials;
 import rtdc.web.server.service.AsteriskRealTimeService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -24,8 +26,8 @@ import java.util.Set;
 public class UserServlet {
 
     @GET
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public String getUsers(@Context HttpServletRequest req){
-        //AuthServlet.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<User> users = null;
@@ -46,8 +48,8 @@ public class UserServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public String updateUser(@Context HttpServletRequest req, @FormParam("password") String password, @FormParam("user" )String userString){
-        //AuthServlet.hasRole(req, ADMIN);
         User user = new User(new JSONObject(userString));
 
         Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
@@ -91,8 +93,8 @@ public class UserServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
+    @RolesAllowed({Role.USER, Role.ADMIN})
     public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
-        //AuthServlet.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{

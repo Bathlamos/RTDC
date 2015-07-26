@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import rtdc.core.Config;
+import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.AuthenticationToken;
 
@@ -14,10 +15,10 @@ public class AuthService {
 
     private AuthService(){}
 
-    public static boolean isAuthenticatedFromToken(@Nullable String authToken) {
+    public static User getAuthenticatedUser(@Nullable String authToken) {
 
         if(authToken == null)
-            return false;
+            return null;
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         AuthenticationToken authTokenObject = null;
@@ -37,8 +38,13 @@ public class AuthService {
 
         //Check the auth token for validity
         Date now = new Date();
-        return authTokenObject != null
-                && authTokenObject.getDateSet().getTime() + Config.SESSION_LIFETIME_IN_MS > now.getTime();
+        if (authTokenObject != null
+                && authTokenObject.getDateSet().getTime() + Config.SESSION_LIFETIME_IN_MS > now.getTime()) {
+
+            return authTokenObject.getUser();
+        }
+
+        return null;
     }
 
 }
