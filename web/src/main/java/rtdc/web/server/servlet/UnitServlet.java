@@ -6,7 +6,7 @@ import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.Role;
+import rtdc.core.model.Permission;
 import rtdc.core.model.Unit;
 import rtdc.web.server.config.PersistenceConfig;
 
@@ -23,7 +23,7 @@ import java.util.Set;
 public class UnitServlet {
 
     @GET
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getUnits(@Context HttpServletRequest req){
         //AuthServlet.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
@@ -46,7 +46,7 @@ public class UnitServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String updateUnit(@Context HttpServletRequest req, @FormParam("unit" )String unitString){
         Unit unit = new Unit(new JSONObject(unitString));
 
@@ -74,7 +74,7 @@ public class UnitServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String deleteUnit(@Context HttpServletRequest req, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

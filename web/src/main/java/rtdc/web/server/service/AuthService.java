@@ -3,10 +3,12 @@ package rtdc.web.server.service;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.Config;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.AuthenticationToken;
+import rtdc.web.server.model.UserCredentials;
 
 import javax.annotation.Nullable;
 import java.util.Date;
@@ -45,6 +47,14 @@ public class AuthService {
         }
 
         return null;
+    }
+
+    public static UserCredentials generateUserCredentials(User user, String password){
+        UserCredentials credentials = new UserCredentials();
+        credentials.setUser(user);
+        credentials.setSalt(BCrypt.gensalt());
+        credentials.setPasswordHash(BCrypt.hashpw(password, credentials.getSalt()));
+        return credentials;
     }
 
 }

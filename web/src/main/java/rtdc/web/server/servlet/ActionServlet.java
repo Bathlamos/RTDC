@@ -7,7 +7,7 @@ import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
-import rtdc.core.model.Role;
+import rtdc.core.model.Permission;
 import rtdc.web.server.config.PersistenceConfig;
 
 import javax.annotation.security.RolesAllowed;
@@ -25,7 +25,7 @@ import java.util.Set;
 public class ActionServlet {
 
     @GET
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String get(@Context HttpServletRequest req){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -47,7 +47,7 @@ public class ActionServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String update(@Context HttpServletRequest req, @FormParam("action" )String actionString){
         Action action = new Action(new JSONObject(actionString));
 
@@ -76,7 +76,7 @@ public class ActionServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String delete(@Context HttpServletRequest req, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

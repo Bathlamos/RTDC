@@ -7,11 +7,12 @@ import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.Role;
+import rtdc.core.model.Permission;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.UserCredentials;
 import rtdc.web.server.service.AsteriskRealTimeService;
+import rtdc.web.server.service.AuthService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ import java.util.Set;
 public class UserServlet {
 
     @GET
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getUsers(@Context HttpServletRequest req){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -48,7 +49,7 @@ public class UserServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String updateUser(@Context HttpServletRequest req, @FormParam("password") String password, @FormParam("user" )String userString){
         User user = new User(new JSONObject(userString));
 
@@ -72,11 +73,7 @@ public class UserServlet {
                 credentials = (UserCredentials) session.load(UserCredentials.class, user.getId());
             }
 
-            credentials.setUser(user);
-            credentials.setSalt(BCrypt.gensalt());
-            credentials.setPasswordHash(BCrypt.hashpw(password, credentials.getSalt()));
-
-            session.saveOrUpdate(credentials);
+            session.saveOrUpdate(AuthService.generateUserCredentials(user, password));
             AsteriskRealTimeService.addUser(user, password);
             transaction.commit();
         } catch (RuntimeException e) {
@@ -93,7 +90,7 @@ public class UserServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    @RolesAllowed({Role.USER, Role.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

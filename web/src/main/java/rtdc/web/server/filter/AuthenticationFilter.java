@@ -56,7 +56,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         }
 
         // For any other methods besides login, the authToken must be verified
-        if (!path.startsWith("authenticate")) {
+        if (!path.startsWith("authenticate") && !path.startsWith("open")) {
             String authToken = requestCtx.getHeaderString(HttpHeadersName.AUTH_TOKEN);
 
             // Also check if there are cookies with an authToken
