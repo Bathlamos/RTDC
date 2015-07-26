@@ -17,6 +17,6 @@
         <property name="phone" column="phone" type="long"/>
         <property name="permission" column="permission" type="string"/>
         <property name="role" column="role" type="string"/>
-        <one-to-one name="unit" class="rtdc.core.model.Unit" cascade="save-update" lazy="false"/>
+        <one-to-one name="unit" class="rtdc.core.model.Unit" lazy="false"/>
     </class>
 </hibernate-mapping>

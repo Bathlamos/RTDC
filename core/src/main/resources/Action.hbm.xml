@@ -8,14 +8,14 @@
         <id name="id" type="integer" column="unit_id">
             <generator class="increment"/>
         </id>
-        <many-to-one name="unit" class="rtdc.core.model.Unit" cascade="all" lazy="false"/>
+        <many-to-one name="unit" class="rtdc.core.model.Unit" lazy="false"/>
         <property name="status" column="status">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">rtdc.core.model.Action$Status</param>
                 <param name="useNamed">true</param>
             </type>
         </property>
-        <one-to-one name="personResponsible" class="rtdc.core.model.User" cascade="save-update" lazy="false"/>
+        <one-to-one name="personResponsible" class="rtdc.core.model.User" lazy="false"/>
         <property name="roleResponsible" column="roleResponsible" type="string"/>
         <property name="task" type="string">
             <column name="task" not-null="true"/>
