@@ -16,9 +16,9 @@ import java.util.*;
 
 public class ActionPlanFragment extends AbstractFragment implements ActionListView {
 
-    private static ActionListAdapter adapter;
+    private ActionListAdapter adapter;
     private ArrayList<Action> actions = new ArrayList<Action>();
-    private static ActionListController controller;
+    private ActionListController controller;
 
     @Nullable
     @Override
@@ -26,7 +26,7 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
         View view = inflater.inflate(R.layout.fragment_action_plan, container, false);
         AdapterView actionListView = (AdapterView) view.findViewById(R.id.ActionListView);
 
-        adapter = new ActionListAdapter(getActivity(), actions);
+        adapter = new ActionListAdapter(actions);
         actionListView.setAdapter(adapter);
 
         if(controller == null)
@@ -63,13 +63,11 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
         adapter.notifyDataSetChanged();
     }
 
-    private static class ActionListAdapter extends ArrayAdapter<Action> {
+    private class ActionListAdapter extends ArrayAdapter<Action> {
 
-        private Activity activity;
 
-        public ActionListAdapter(Activity activity, List<Action> actions){
-            super(activity, R.layout.adapter_action_plan, actions);
-            this.activity = activity;
+        public ActionListAdapter(List<Action> actions){
+            super(getActivity(), R.layout.adapter_action_plan, actions);
         }
 
         @Override
@@ -77,7 +75,7 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
 
 
             if(view == null)
-                view = activity.getLayoutInflater().inflate(R.layout.adapter_action_plan, parent, false);
+                view = getActivity().getLayoutInflater().inflate(R.layout.adapter_action_plan, parent, false);
 
             final Action currentAction = getItem(position);
 
