@@ -28,6 +28,8 @@
 
     <color name="RTDC_purple">#8e44ad</color>
 
+    <color name="RTDC_grey_selection">#e0e0e0</color>
+
     <color name="ColorPrimary">@color/RTDC_light_blue</color>
     <color name="ColorPrimaryDark">@color/RTDC_dark_blue</color>
 

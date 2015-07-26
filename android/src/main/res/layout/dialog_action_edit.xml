@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="@dimen/dialog_width"
+              android:layout_height="wrap_content" android:orientation="vertical">
+
+    <ScrollView
+            android:id="@+id/createActionForm"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideOverlay"
+            >
+
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/change_status"
+                    android:id="@+id/dialog_action_status" android:layout_gravity="center_horizontal" android:padding="8dp"
+                    android:textColor="@color/RTDC_grey_asbestos"/>
+
+            <RadioGroup
+                    android:id="@+id/dialog_action_status_group"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <RadioButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="@string/action_status_not_started"
+                            android:id="@+id/radio_action_not_started" android:textColor="@color/RTDC_black"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/radio_status" android:padding="16dp" android:checked="false"/>
+
+                    <RadioButton android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                 android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:text="@string/action_status_in_progress" android:id="@+id/radio_action_in_progress"
+                              android:textColor="@color/RTDC_black" android:button="@android:color/transparent"
+                                 android:background="@drawable/radio_status" android:padding="16dp"/>
+
+
+                    <RadioButton android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                 android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:text="@string/action_status_completed" android:id="@+id/radio_action_completed"
+                              android:textColor="@color/RTDC_black" android:button="@android:color/transparent"
+                                 android:background="@drawable/radio_status" android:padding="16dp"/>
+
+
+
+                    <RadioButton android:layout_width="fill_parent" android:layout_height="wrap_content"
+                                 android:textAppearance="?android:attr/textAppearanceSmall"
+                              android:text="@string/action_status_failed" android:id="@+id/radio_action_failed"
+                              android:textColor="@color/RTDC_black" android:button="@android:color/transparent"
+                                 android:background="@drawable/radio_status" android:padding="16dp"/>
+
+
+
+            </RadioGroup>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceMedium" android:text="@string/action_action"
+                  android:id="@+id/dialog_action_action" android:layout_gravity="center_horizontal" android:padding="8dp"
+                  android:textColor="@color/RTDC_grey_asbestos"/>
+
+            <Button android:layout_width="fill_parent" android:layout_height="wrap_content"
+                    android:text="@string/edit" android:id="@+id/dialog_button_action_edit"
+                    android:textColor="@color/ColorPrimary" android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical" android:padding="16dp" android:layout_gravity="center_horizontal"/>
+            <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/action_delete"
+                    android:id="@+id/dialog_button_action_delete" android:textColor="@color/RTDC_red" android:background="@android:color/transparent"
+                    android:gravity="start|center_vertical" android:padding="16dp" android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/done"
+            android:id="@+id/dialog_button_action_done" android:layout_gravity="center_horizontal"
+            style="@style/PrimaryButton" android:textSize="16sp"/>
+</LinearLayout>

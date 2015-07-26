@@ -7,4 +7,6 @@
     <dimen name="label_padding">5dp</dimen>
 
     <dimen name="rectangle_rounded_corner">3dp</dimen>
+
+    <dimen name="dialog_width">300dp</dimen>
 </resources>
