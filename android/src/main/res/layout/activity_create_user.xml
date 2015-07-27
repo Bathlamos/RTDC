@@ -18,7 +18,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:clipToPadding="false"
-            android:scrollbarStyle="outsideInset"
+            android:scrollbarStyle="outsideOverlay"
             android:padding="16dp">
 
         <LinearLayout
@@ -74,7 +74,8 @@
                             android:inputType="textPassword"
                             android:hint="@string/password"
                             android:ems="10"
-                            android:id="@+id/passwordEdit"/>
+                            android:id="@+id/passwordEdit"
+                            android:singleLine="true"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -111,7 +112,8 @@
                             android:inputType="textPersonName"
                             android:hint="@string/first_name"
                             android:ems="10"
-                            android:id="@+id/firstNameEdit"/>
+                            android:id="@+id/firstNameEdit"
+                            android:singleLine="true"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -127,7 +129,8 @@
                             android:inputType="textPersonName"
                             android:hint="@string/last_name"
                             android:ems="10"
-                            android:id="@+id/lastNameEdit"/>
+                            android:id="@+id/lastNameEdit"
+                            android:singleLine="true"/>
 
                     <TextView
                             android:id="@+id/emailText"
@@ -158,7 +161,8 @@
                             android:layout_height="wrap_content"
                             android:inputType="phone"
                             android:ems="10"
-                            android:id="@+id/phoneEdit"/>
+                            android:id="@+id/phoneEdit"
+                            android:singleLine="true"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

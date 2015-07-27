@@ -86,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-//        selectItem(0); // Opens the capacity overview by default
+        selectItem(0); // Opens the capacity overview by default
     }
     
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

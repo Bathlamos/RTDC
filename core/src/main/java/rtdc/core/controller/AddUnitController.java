@@ -58,6 +58,6 @@ public class AddUnitController extends Controller<AddUnitView>{
     public void deleteUnit(){
         if (currentUnit != null)
             Service.deleteUnit(currentUnit.getId());
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        view.closeDialog();
     }
 }

@@ -58,7 +58,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
     public void deleteUser(){
         if (currentUser != null)
             Service.deleteUser(currentUser.getId());
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        view.closeDialog();
     }
 
     @Override
