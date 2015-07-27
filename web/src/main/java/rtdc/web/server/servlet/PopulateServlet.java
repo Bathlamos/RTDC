@@ -165,7 +165,7 @@ public class PopulateServlet {
         for(int i = 0; i < numUnits - 1; i++) {
             Unit unit = new Unit();
             unit.setName(DF.getCity() + " Unit");
-            unit.setTotalAdmits(DF.getNumberBetween(10, 30));
+            unit.setTotalBeds(DF.getNumberBetween(10, 30));
             unit.setAvailableBeds(DF.getNumberUpTo(unit.getAvailableBeds() + 1));
             unit.setTotalAdmits(DF.getNumberBetween(1, 8));
             unit.setPotentialDc(DF.getNumberBetween(1, 8));
