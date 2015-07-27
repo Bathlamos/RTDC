@@ -1,9 +1,6 @@
 package rtdc.web.client.impl;
 
-import rtdc.core.impl.Dispatcher;
-import rtdc.core.impl.Factory;
-import rtdc.core.impl.HttpRequest;
-import rtdc.core.impl.Storage;
+import rtdc.core.impl.*;
 
 public final class GwtFactory implements Factory {
 
@@ -20,6 +17,11 @@ public final class GwtFactory implements Factory {
     @Override
     public Storage getStorage() {
         return GwtStorage.get();
+    }
+
+    @Override
+    public VoipController getVoipController() {
+        return GwtVoipController.get();
     }
 
 }

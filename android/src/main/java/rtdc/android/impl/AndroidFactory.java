@@ -1,9 +1,6 @@
 package rtdc.android.impl;
 
-import rtdc.core.impl.Dispatcher;
-import rtdc.core.impl.Factory;
-import rtdc.core.impl.HttpRequest;
-import rtdc.core.impl.Storage;
+import rtdc.core.impl.*;
 
 public class AndroidFactory implements Factory{
 
@@ -20,5 +17,10 @@ public class AndroidFactory implements Factory{
     @Override
     public Storage getStorage() {
         return AndroidStorage.get();
+    }
+
+    @Override
+    public VoipController getVoipController() {
+        return AndroidVoipController.get();
     }
 }

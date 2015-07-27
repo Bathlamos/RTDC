@@ -8,4 +8,6 @@ public interface Factory {
 
     Storage getStorage();
 
+    VoipController getVoipController();
+
 }

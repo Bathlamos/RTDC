@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import rtdc.android.impl.AndroidFactory;
+import rtdc.android.voip.LiblinphoneThread;
 import rtdc.core.Bootstrapper;
+import rtdc.core.Session;
 
 public class AndroidBootstrapper extends Activity {
 

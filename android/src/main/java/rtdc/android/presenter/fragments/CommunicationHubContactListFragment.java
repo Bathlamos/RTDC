@@ -17,7 +17,7 @@ import rtdc.core.view.UserListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommunicationHubFragment extends AbstractFragment implements UserListView {
+public class CommunicationHubContactListFragment extends AbstractFragment implements UserListView {
 
     private View view;
     private ArrayList<User> contacts = new ArrayList<User>();
@@ -27,7 +27,7 @@ public class CommunicationHubFragment extends AbstractFragment implements UserLi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_communication_hub_contacts, container, false);
+        view = inflater.inflate(R.layout.fragment_communication_hub_contact_list, container, false);
         setHasOptionsMenu(true);
 
         AdapterView actionListView = (AdapterView) view.findViewById(R.id.contactList);

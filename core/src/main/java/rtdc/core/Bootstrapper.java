@@ -25,6 +25,7 @@ public class Bootstrapper{
             AUTHENTICATION_TOKEN = event.getAuthenticationToken();
             FACTORY.getStorage().add(Storage.KEY_AUTH_TOKEN, AUTHENTICATION_TOKEN);
             Session.setCurrentSession(new Session(event.getUser()));
+            FACTORY.getVoipController().registerUser(event.getUser());
             FACTORY.newDispatcher().goToAllUnits(null);
             Event.unsubscribe(AuthenticationEvent.TYPE, authHandler);
             Event.unsubscribe(SessionExpiredEvent.TYPE, sessionExpiredHandler);

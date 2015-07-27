@@ -23,8 +23,10 @@
     <color name="RTDC_grey_asbestos">#7f8c8d</color>
 
     <color name="RTDC_red">#c0392b</color>
+    <color name="RTDC_dark_red">#852015</color>
     <color name="RTDC_yellow">#f39c12</color>
     <color name="RTDC_green">#27ae60</color>
+    <color name="RTDC_dark_green">#1F8249</color>
 
     <color name="RTDC_purple">#8e44ad</color>
 

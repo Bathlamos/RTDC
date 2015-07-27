@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="551dp">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="John Doe"
+            android:id="@+id/callerText"
+            android:layout_marginTop="199dp"
+            android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Incoming call"
+              android:id="@+id/incomingCallText"
+              android:layout_marginTop="24dp" android:layout_alignParentTop="true"
+              android:layout_centerHorizontal="true" android:textSize="30dp"/>
+    <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/refuseCall"
+                 android:src="@drawable/ic_call_end_white_48dp" android:background="@drawable/circle_red"
+                 android:layout_marginBottom="119dp"
+                 android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/incomingCallText"
+                 android:layout_toEndOf="@+id/incomingCallText"/>
+    <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/acceptCall"
+                 android:src="@drawable/ic_phone_white_48dp" android:background="@drawable/circle_green"
+                 android:layout_alignTop="@+id/refuseCall" android:layout_toLeftOf="@+id/incomingCallText"
+                 android:layout_toStartOf="@+id/incomingCallText"/>
+</RelativeLayout>

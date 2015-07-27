@@ -87,6 +87,18 @@
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:parentActivityName=".presenter.MainActivity">
         </activity>
+        <activity
+                android:name=".presenter.CommunicationHubInCallActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:parentActivityName=".presenter.MainActivity"
+                android:noHistory="true">
+        </activity>
+        <activity
+                android:name=".presenter.CommunicationHubReceivingCallActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:parentActivityName=".presenter.MainActivity"
+                android:noHistory="true">
+        </activity>
         <receiver android:name=".GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE"/>

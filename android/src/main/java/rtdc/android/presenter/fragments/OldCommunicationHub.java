@@ -101,7 +101,7 @@ public class OldCommunicationHub extends AbstractFragment implements LinphoneCor
                 break;
             }
         }
-        Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, callTo);
+        Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, callTo);
         if(callTo != null){
             //callTo = username.equals("6002") ? "6001" : "6002";
             LiblinphoneTest.get().call("sip:"+callTo+"@"+domain);
