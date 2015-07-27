@@ -10,8 +10,8 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 
         <init-param>
-            <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>rtdc.web.server.servlet;rtdc.web.server.filter</param-value>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>rtdc.web.server.config.ApiConfig</param-value>
         </init-param>
     </servlet>
 

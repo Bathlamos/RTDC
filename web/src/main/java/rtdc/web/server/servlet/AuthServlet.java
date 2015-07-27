@@ -9,6 +9,7 @@ import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.event.LogoutEvent;
 import rtdc.core.event.SessionExpiredEvent;
 import rtdc.core.exception.UsernamePasswordMismatchException;
+import rtdc.core.model.Permission;
 import rtdc.core.model.User;
 import rtdc.core.service.CookiesName;
 import rtdc.core.service.HttpHeadersName;
@@ -16,10 +17,12 @@ import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.model.UserCredentials;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Date;
@@ -35,16 +38,19 @@ public class AuthServlet {
     @Path("tokenValid")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public String authTokenValid(@Context HttpServletRequest req, @FormParam("authToken") String authenticationToken){
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    public String authTokenValid(@Context HttpServletRequest req){
         Session session = PersistenceConfig.getSessionFactory().openSession();
+        String authenticationToken = req.getHeader(HttpHeadersName.AUTH_TOKEN);
         AuthenticationToken authToken;
         Transaction transaction = null;
-        logger.log(Level.INFO, "Received parameter : authToken-" + authenticationToken);
+
+        logger.info("Received parameter : authToken : " + authenticationToken);
         try{
             transaction = session.beginTransaction();
             authToken = (AuthenticationToken) session.createCriteria(AuthenticationToken.class).add(
                     Restrictions.eq("authToken", authenticationToken)).uniqueResult();
-            logger.log(Level.INFO, "Authentication token in database: " + authToken);
+            logger.info("Authentication token in database: " + authToken);
             if(authToken == null)
                 return new SessionExpiredEvent().toString();
             transaction.commit();
@@ -61,8 +67,10 @@ public class AuthServlet {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String authenticate(@Context HttpServletRequest req,
                                @Context HttpServletResponse resp,
+                               @Context ContainerRequestContext context,
                                @FormParam("username") String username,
                                @FormParam("password") String password){
 
@@ -120,6 +128,8 @@ public class AuthServlet {
                         session.close();
                     }
 
+                    context.setProperty("current_user", token.getUser());
+
                     // So that we can test the api in the browser
                     if (Config.IS_DEBUG)
                         resp.addCookie(new Cookie(CookiesName.AUTH_COOKIE, token.getAuthenticationToken()));
@@ -135,6 +145,7 @@ public class AuthServlet {
     @Path("logout")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String logout(@Context HttpServletRequest req, @FormParam("authToken") String authenticationToken){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         AuthenticationToken authToken;

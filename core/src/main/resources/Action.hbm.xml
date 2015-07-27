@@ -17,8 +17,11 @@
         </property>
         <one-to-one name="personResponsible" class="rtdc.core.model.User" lazy="false"/>
         <property name="roleResponsible" column="roleResponsible" type="string"/>
-        <property name="task" type="string">
-            <column name="task" not-null="true"/>
+        <property name="task" column="task">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">rtdc.core.model.Action$Task</param>
+                <param name="useNamed">true</param>
+            </type>
         </property>
         <property name="target" column="target" type="string"/>
         <property name="deadline" column="deadline" type="java.util.Date"/>
