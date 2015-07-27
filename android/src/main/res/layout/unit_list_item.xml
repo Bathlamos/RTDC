@@ -8,9 +8,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
         android:gravity="center_vertical"
         android:text="Unit name"
         android:textSize="20sp" />
@@ -20,8 +17,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="Some details"

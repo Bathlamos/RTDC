@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.google.common.collect.ImmutableSet;
 import rtdc.android.R;
 import rtdc.core.impl.UiDropdownList;
 import rtdc.core.util.Stringifier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<T> {
@@ -24,19 +22,19 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
     public AndroidUiDropdownList(Context context) {
         super(context);
 
-        adapter = new CustomAdapter(context, R.layout.downdown_list_item);
+        adapter = new CustomAdapter(context, R.layout.dropdown_list_item);
         setAdapter(adapter);
     }
 
     public AndroidUiDropdownList(Context context, AttributeSet attrs) {
         super(context, attrs);
-        adapter = new CustomAdapter(context, R.layout.downdown_list_item);
+        adapter = new CustomAdapter(context, R.layout.dropdown_list_item);
         setAdapter(adapter);
     }
 
     public AndroidUiDropdownList(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
-        adapter = new CustomAdapter(context, R.layout.downdown_list_item);
+        adapter = new CustomAdapter(context, R.layout.dropdown_list_item);
         setAdapter(adapter);
     }
 
@@ -96,7 +94,7 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null)
                 convertView = LayoutInflater.from(this.getContext())
-                        .inflate(R.layout.downdown_list_item, parent, false);
+                        .inflate(R.layout.dropdown_list_item, parent, false);
 
             T item = getItem(position);
             TextView textView = (TextView) convertView;

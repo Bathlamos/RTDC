@@ -18,7 +18,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:clipToPadding="false"
-            android:scrollbarStyle="outsideInset"
+            android:scrollbarStyle="outsideOverlay"
             android:padding="16dp">
 
         <LinearLayout
@@ -55,7 +55,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/unit_name"
-                            android:id="@+id/unitNameEdit"/>
+                            android:id="@+id/unitNameEdit"
+                            android:singleLine="true"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -70,7 +71,8 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:ems="10"
-                            android:id="@+id/totalBedsEdit"/>
+                            android:id="@+id/totalBedsEdit"
+                            android:singleLine="true"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
