@@ -20,7 +20,7 @@ public class UserCredentials implements Serializable {
     private String salt;
 
     @Id
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 

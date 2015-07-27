@@ -52,12 +52,12 @@ public class AddUnitController extends Controller<AddUnitView>{
         else {*/
             Service.updateOrSaveUnit(newUnit);
         //}
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        view.closeDialog();
     }
 
     public void deleteUnit(){
         if (currentUnit != null)
             Service.deleteUnit(currentUnit.getId());
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        view.closeDialog();
     }
 }

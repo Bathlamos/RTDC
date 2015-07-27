@@ -89,7 +89,7 @@ public final class Service {
     
     private static void executeRequest(HttpRequest request){
         request.setContentType("application/x-www-form-urlencoded");
-        request.addParameter("authToken", Bootstrapper.AUTHENTICATION_TOKEN);
+        request.setHeader(HttpHeadersName.AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
         request.execute(new AsyncCallback<HttpResponse>() {
             @Override
             public void onSuccess(HttpResponse resp) {

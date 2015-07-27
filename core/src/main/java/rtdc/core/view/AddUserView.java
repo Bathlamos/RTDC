@@ -3,7 +3,7 @@ package rtdc.core.view;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.Unit;
 
-public interface AddUserView extends View {
+public interface AddUserView extends Dialog {
 
     String getUsernameAsString();
     void setUsernameAsString(String value);

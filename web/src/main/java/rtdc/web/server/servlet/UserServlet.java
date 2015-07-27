@@ -1,18 +1,20 @@
-package rtdc.web.server.service;
+package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
-import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.Action;
+import rtdc.core.model.Permission;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.UserCredentials;
+import rtdc.web.server.service.AsteriskRealTimeService;
+import rtdc.web.server.service.AuthService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -21,18 +23,18 @@ import javax.ws.rs.core.Context;
 import java.util.List;
 import java.util.Set;
 
-@Path("actions")
-public class ActionService {
+@Path("users")
+public class UserServlet {
 
     @GET
-    public String get(@Context HttpServletRequest req){
-        //AuthService.hasRole(req, USER, ADMIN);
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    public String getUsers(@Context HttpServletRequest req){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
-        List<Action> actions = null;
+        List<User> users = null;
         try{
             transaction = session.beginTransaction();
-            actions = (List<Action>) session.createCriteria(Action.class).list();
+            users = (List<User>) session.createCriteria(User.class).list();
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -41,27 +43,38 @@ public class ActionService {
         } finally{
             session.close();
         }
-        return new FetchActionsEvent(actions).toString();
+        return new FetchUsersEvent(users).toString();
     }
 
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    public String update(@Context HttpServletRequest req, @FormParam("action" )String actionString){
-        //AuthService.hasRole(req, ADMIN);
-        Action action = new Action(new JSONObject(actionString));
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    public String updateUser(@Context HttpServletRequest req, @FormParam("password") String password, @FormParam("user" )String userString){
+        User user = new User(new JSONObject(userString));
 
-        Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
+        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
         if(!violations.isEmpty())
             return new ErrorEvent(violations.toString()).toString();
 
+        if(password == null || password.isEmpty() || password.length() < 4)
+            return new ErrorEvent("Password must be longer than 4 characters").toString();
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
 
-            session.saveOrUpdate(action);
+            UserCredentials credentials = null;
+            if(user.getId() == 0) {
+                session.saveOrUpdate(user);
+                credentials = new UserCredentials();
+            }else {
+                session.merge(user);
+                credentials = (UserCredentials) session.load(UserCredentials.class, user.getId());
+            }
 
+            session.saveOrUpdate(AuthService.generateUserCredentials(user, password));
+            AsteriskRealTimeService.addUser(user, password);
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -70,20 +83,22 @@ public class ActionService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(action.getId(), "action", "").toString();
+
+        return new ActionCompleteEvent(user.getId(), "user", "update").toString();
     }
 
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    public String delete(@Context HttpServletRequest req, @PathParam("id") int id){
-        //AuthService.hasRole(req, ADMIN);
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            Action action = (Action) session.load(Action.class, id);
-            session.delete(action);
+            User user = (User) session.load(User.class, id);
+            session.delete(user);
+            AsteriskRealTimeService.deleteUser(user);
             transaction.commit();
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -92,7 +107,7 @@ public class ActionService {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(id, "action", "").toString();
+        return new ActionCompleteEvent(id, "user", "delete").toString();
     }
 
 }

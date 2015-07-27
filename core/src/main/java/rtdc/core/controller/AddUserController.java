@@ -52,14 +52,13 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
         Service.updateOrSaveUser(newUser, password);
 
-        //TODO: Change that to goToAllUsers someday
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        view.closeDialog();
     }
 
     public void deleteUser(){
         if (currentUser != null)
             Service.deleteUser(currentUser.getId());
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        view.closeDialog();
     }
 
     @Override

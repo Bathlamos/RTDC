@@ -2,6 +2,7 @@ package rtdc.core.model;
 
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
+import rtdc.core.util.Stringifier;
 
 import java.util.Date;
 
@@ -16,20 +17,49 @@ public class Action extends RootObject{
         task,
         target,
         deadline,
-        description
+        description;
     }
 
     public enum Status {
         notStarted,
         inProgress,
         completed,
-        failed
+        failed;
+
+        public static Stringifier<Status> getStringifier(){
+            return new Stringifier<Status>() {
+                @Override
+                public String toString(Action.Status status) {
+                    switch(status){
+                        case completed: return "Completed";
+                        case failed: return "Failed";
+                        case inProgress: return "In progress";
+                        case notStarted: return "Not started";
+                        default: return status.name();
+                    }
+                }
+            };
+        }
     }
 
     public enum Task {
         pushForDischarge,
         offServicingTo,
-        holdFor
+        holdFor;
+
+        public static Stringifier<Task> getStringifier(){
+            return new Stringifier<Task>() {
+                @Override
+                public String toString(Task task) {
+                    switch(task){
+                        case holdFor: return "Hold";
+                        case offServicingTo: return "Off servicing";
+                        case pushForDischarge: return "Push for discharge";
+                        default: return task.name();
+                    }
+                }
+            };
+        }
     }
 
     private int id;
@@ -37,7 +67,7 @@ public class Action extends RootObject{
     private Status status; //Can never be null
     private User personResponsible;
     private String roleResponsible;
-    private String task; // this is the title
+    private Task task; // this is the title
     private String target;
     private Date deadline;
     private String description;
@@ -55,18 +85,7 @@ public class Action extends RootObject{
 
         setRoleResponsible(object.optString(Properties.roleResponsible.name()));
 
-        String task = object.optString(Properties.task.name());
-        switch (task){
-            case "pushForDischarge":
-                setTask("Push for discharge");
-                break;
-            case "offServicingTo":
-                setTask("Off Servicing");
-                break;
-            case "holdFor":
-            default:
-                setTask("Hold");
-        }
+        task = Task.valueOf(object.optString(Properties.task.name()));
 
         if(object.has(Properties.deadline.name()))
             setDeadline(new Date(object.getLong(Properties.deadline.name())));
@@ -140,11 +159,11 @@ public class Action extends RootObject{
         this.roleResponsible = roleResponsible;
     }
 
-    public String getTask() {
+    public Task getTask() {
         return task;
     }
 
-    public void setTask(String task) {
+    public void setTask(Task task) {
         this.task = task;
     }
 

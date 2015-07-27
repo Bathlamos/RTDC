@@ -3,7 +3,7 @@ package rtdc.core.view;
 
 import rtdc.core.impl.UiElement;
 
-public interface EditCapacityView extends View {
+public interface EditCapacityView extends Dialog {
 
     UiElement<String> getAvailableBedsUiElement();
 

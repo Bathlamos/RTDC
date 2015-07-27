@@ -1,7 +1,5 @@
 package rtdc.android.presenter;
 
-import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,12 +12,12 @@ import rtdc.core.controller.AddActionController;
 import rtdc.core.impl.UiDropdownList;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.Action;
-import rtdc.core.util.Cache;
+import rtdc.core.model.Unit;
 import rtdc.core.view.AddActionView;
 
 import java.util.Date;
 
-public class CreateActionActivity extends AbstractActivity implements AddActionView {
+public class CreateActionActivity extends AbstractDialog implements AddActionView {
 
     private AddActionController controller;
 
@@ -75,7 +73,7 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     }
 
     @Override
-    public UiDropdownList<String> getUnitUiElement() {
+    public UiDropdownList<Unit> getUnitUiElement() {
         return unitSpinner;
     }
 
@@ -90,7 +88,7 @@ public class CreateActionActivity extends AbstractActivity implements AddActionV
     }
 
     @Override
-    public UiDropdownList<String> getTaskUiElement() {
+    public UiDropdownList<Action.Task> getTaskUiElement() {
         return taskSpinner;
     }
 

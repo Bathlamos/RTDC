@@ -1,17 +1,16 @@
-package rtdc.web.server.service;
+package rtdc.web.server.servlet;
 
-import com.google.common.collect.ImmutableMultimap;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.Permission;
 import rtdc.core.model.Unit;
 import rtdc.web.server.config.PersistenceConfig;
-import rtdc.core.util.Util;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -20,15 +19,13 @@ import javax.ws.rs.core.Context;
 import java.util.List;
 import java.util.Set;
 
-import static rtdc.core.model.ApplicationPermission.ADMIN;
-import static rtdc.core.model.ApplicationPermission.USER;
-
 @Path("units")
-public class UnitService {
+public class UnitServlet {
 
     @GET
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getUnits(@Context HttpServletRequest req){
-        //AuthService.hasRole(req, USER, ADMIN);
+        //AuthServlet.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Unit> units = null;
@@ -49,8 +46,8 @@ public class UnitService {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String updateUnit(@Context HttpServletRequest req, @FormParam("unit" )String unitString){
-        //AuthService.hasRole(req, ADMIN);
         Unit unit = new Unit(new JSONObject(unitString));
 
         Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
@@ -77,8 +74,8 @@ public class UnitService {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String deleteUnit(@Context HttpServletRequest req, @PathParam("id") int id){
-        // AuthService.hasRole(req, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
