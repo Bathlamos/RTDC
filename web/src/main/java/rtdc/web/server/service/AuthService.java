@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
 import rtdc.core.Config;
+import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.AuthenticationToken;
@@ -43,7 +44,7 @@ public class AuthService {
         if (authTokenObject != null
                 && authTokenObject.getDateSet().getTime() + Config.SESSION_LIFETIME_IN_MS > now.getTime()) {
 
-            return authTokenObject.getUser();
+            throw new SessionExpiredException("Session expired for auth token " + authTokenObject.getAuthenticationToken());
         }
 
         return null;
