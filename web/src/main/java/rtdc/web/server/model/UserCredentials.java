@@ -21,6 +21,7 @@ public class UserCredentials implements Serializable {
 
     @Id
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, optional = false)
+    @JoinColumn(name = "userId")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 

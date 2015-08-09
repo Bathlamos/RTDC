@@ -12,12 +12,6 @@ import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 import static rtdc.core.impl.HttpRequest.RequestMethod.*;
@@ -89,7 +83,8 @@ public final class Service {
     
     private static void executeRequest(HttpRequest request){
         request.setContentType("application/x-www-form-urlencoded");
-        request.setHeader(HttpHeadersName.AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
+        if(Bootstrapper.AUTHENTICATION_TOKEN != null)
+            request.setHeader(HttpHeadersName.AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
         request.execute(new AsyncCallback<HttpResponse>() {
             @Override
             public void onSuccess(HttpResponse resp) {

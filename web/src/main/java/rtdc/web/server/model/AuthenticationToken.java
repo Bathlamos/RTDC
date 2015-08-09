@@ -1,7 +1,5 @@
 package rtdc.web.server.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import rtdc.core.model.User;
 
 import javax.persistence.*;
@@ -22,6 +20,7 @@ public class AuthenticationToken implements Serializable {
     private Date dateSet;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, optional = false)
+    @JoinColumn(name="userId")
     private User user;
 
     public String getAuthenticationToken() {

@@ -16,6 +16,7 @@ import rtdc.core.service.HttpHeadersName;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.model.UserCredentials;
+import rtdc.web.server.service.AuthService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.Cookie;
@@ -70,7 +71,6 @@ public class AuthServlet {
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String authenticate(@Context HttpServletRequest req,
                                @Context HttpServletResponse resp,
-                               @Context ContainerRequestContext context,
                                @FormParam("username") String username,
                                @FormParam("password") String password){
 
@@ -103,9 +103,7 @@ public class AuthServlet {
                 //We do not have any user with that username in the database
                 throw new UsernamePasswordMismatchException("Username / password mismatch");
             else{
-                String passwordAttempt = BCrypt.hashpw(password, userCredentials.getSalt());
-
-                if(userCredentials.getPasswordHash().equals(passwordAttempt)) {
+                if(AuthService.isPasswordValid(userCredentials, password)) {
 
                     //Create an authentication token
                     AuthenticationToken token = new AuthenticationToken();
@@ -128,7 +126,7 @@ public class AuthServlet {
                         session.close();
                     }
 
-                    context.setProperty("current_user", token.getUser());
+                    req.getSession().setAttribute("current_user", token.getUser());
 
                     // So that we can test the api in the browser
                     if (Config.IS_DEBUG)

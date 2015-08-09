@@ -12,6 +12,7 @@
         <!-- Assume test is the database name -->
         <property name="hibernate.connection.url">
             jdbc:postgresql://local.legault.cc:5432/rtdc
+            <!--jdbc:postgresql://192.168.2.49:5432/rtdc-->
         </property>
         <property name="hibernate.connection.username">
             rtdc
