@@ -34,7 +34,12 @@ public class GwtVoipController implements VoipController{
 
     }
 
-    public void setSpeaker(boolean speaker){
+    public void setSpeaker(boolean enabled){
+
+    }
+
+    @Override
+    public void setVideo(boolean enabled) {
 
     }
 

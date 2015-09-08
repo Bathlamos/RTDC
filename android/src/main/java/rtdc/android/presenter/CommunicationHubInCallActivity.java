@@ -1,9 +1,6 @@
 package rtdc.android.presenter;
 
-import android.app.Activity;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
+import android.app.*;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -18,6 +15,7 @@ import android.widget.TextView;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.presenter.AbstractActivity;
+import rtdc.android.presenter.fragments.VideoCallFragment;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.core.Bootstrapper;
 
@@ -35,6 +33,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
     private int callDuration;
     private boolean speaker;
     private boolean micMuted;
+    private boolean videoEnabled;
 
     private static CommunicationHubInCallActivity currentInstance;
 
@@ -60,6 +59,28 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
                 setButtonPressed(button, micMuted);
 
                 Bootstrapper.FACTORY.getVoipController().setMicMuted(micMuted);
+            }
+        });
+
+        findViewById(R.id.videoButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AudioManager audioManager = (AudioManager) AndroidBootstrapper.getAppContext().getSystemService(
+                        AndroidBootstrapper.getAppContext().AUDIO_SERVICE);
+
+                videoEnabled = !videoEnabled;
+
+                ImageButton button = (ImageButton) view;
+                setButtonPressed(button, videoEnabled);
+
+                Bootstrapper.FACTORY.getVoipController().setVideo(videoEnabled);
+
+                // Insert the fragment by replacing any existing fragment
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.in_call_fragment_wrapper, new VideoCallFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 

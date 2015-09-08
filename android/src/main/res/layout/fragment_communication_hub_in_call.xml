@@ -48,4 +48,10 @@
                  android:layout_marginTop="41dp" android:layout_below="@+id/linearLayout"
                  android:layout_alignLeft="@+id/linearLayout" android:layout_alignStart="@+id/linearLayout"
                  android:layout_alignRight="@+id/linearLayout" android:layout_alignEnd="@+id/linearLayout"/>
+    <RelativeLayout
+            android:id="@+id/in_call_fragment_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </RelativeLayout>
 </RelativeLayout>

@@ -34,12 +34,13 @@ public class AsteriskRealTimeService {
         }
         try {
             String sipQuery = "INSERT INTO sip_buddies (" +
-                    " NAME, defaultuser, callerid, secret, context, HOST, TYPE) VALUES (" +
+                    " NAME, defaultuser, callerid, secret, context, HOST, TYPE, allow) VALUES (" +
                     " '"+user.getUsername()+"'," +                          // name
                     " '"+user.getUsername()+"'," +                          // defaultuser
                     " '"+user.getFirstName()+" "+user.getLastName()+"'," +  // callerid
                     " '"+password+"'," +                                    // secret
-                    " 'users', 'dynamic', 'friend');";                      // context, host, type
+                    " 'users', 'dynamic', 'friend'," +                      // context, host, type
+                    " 'g729;ilbc;gsm;ulaw;alaw;h263;h263p;h264;vp8');";     // allow (should be updated with which codecs we want users to be able to use)
             String extensionQuery = "INSERT INTO extensions (context, exten, priority, app, appdata) VALUES (" +
                     " 'users','"+user.getId()+"',1,'Dial','SIP/"+user.getUsername()+"');";
             connection.createStatement().executeUpdate(sipQuery);

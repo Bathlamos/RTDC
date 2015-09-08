@@ -149,10 +149,10 @@ public class OldCommunicationHub extends AbstractFragment implements LinphoneCor
 
     }
 
-    @Override
+    /*@Override
     public void textReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneAddress linphoneAddress, String s) {
 
-    }
+    }*/
 
     @Override
     public void messageReceived(LinphoneCore lc, LinphoneChatRoom cr,
@@ -171,6 +171,16 @@ public class OldCommunicationHub extends AbstractFragment implements LinphoneCor
 
     @Override
     public void ecCalibrationStatus(LinphoneCore linphoneCore, LinphoneCore.EcCalibratorStatus ecCalibratorStatus, int i, Object o) {
+
+    }
+
+    @Override
+    public void uploadProgressIndication(LinphoneCore linphoneCore, int i, int i1) {
+
+    }
+
+    @Override
+    public void uploadStateChanged(LinphoneCore linphoneCore, LinphoneCore.LogCollectionUploadState logCollectionUploadState, String s) {
 
     }
 

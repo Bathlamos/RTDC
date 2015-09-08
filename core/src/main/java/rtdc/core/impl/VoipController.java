@@ -8,7 +8,8 @@ public interface VoipController {
     public void unregisterCurrentUser();
     public void call(User user);
     public void setMicMuted(boolean mute);
-    public void setSpeaker(boolean speaker);
+    public void setSpeaker(boolean enabled);
+    public void setVideo(boolean enabled);
     public void acceptCall();
     public void declineCall();
     public void hangup();
