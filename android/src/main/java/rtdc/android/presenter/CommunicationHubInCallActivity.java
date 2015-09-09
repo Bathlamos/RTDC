@@ -34,6 +34,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
     private boolean speaker;
     private boolean micMuted;
     private boolean videoEnabled;
+    private VideoCallFragment videoCallFragment;
 
     private static CommunicationHubInCallActivity currentInstance;
 
@@ -74,13 +75,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
                 setButtonPressed(button, videoEnabled);
 
                 Bootstrapper.FACTORY.getVoipController().setVideo(videoEnabled);
-
-                // Insert the fragment by replacing any existing fragment
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                transaction.replace(R.id.in_call_fragment_wrapper, new VideoCallFragment());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                setVideoDisplay(videoEnabled);
             }
         });
 
@@ -183,6 +178,19 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
         }else {
             button.setBackgroundResource(R.drawable.circle_blue_border);
             button.setColorFilter(Color.BLACK);
+        }
+    }
+
+    public void setVideoDisplay(boolean enabled){
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        if(enabled) {
+            videoCallFragment = new VideoCallFragment();
+            transaction.replace(R.id.in_call_fragment_wrapper, videoCallFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }else{
+            transaction.remove(videoCallFragment);
+            transaction.commit();
         }
     }
 

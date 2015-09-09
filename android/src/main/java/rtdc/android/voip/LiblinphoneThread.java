@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
+import rtdc.android.asterisk.LiblinphoneTest;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
 
@@ -87,6 +88,24 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
             if(CommunicationHubInCallActivity.isActivityVisible())
                 CommunicationHubInCallActivity.getCurrentInstance().hangupCleanup();
+        }else if(state == LinphoneCall.State.CallUpdatedByRemote){
+            try {
+                // FIXME: remoteVideo is false here when remote user triggers a video call, should be true
+                boolean remoteVideo = linphoneCall.getRemoteParams().getVideoEnabled();
+                boolean localVideo = linphoneCall.getCurrentParamsCopy().getVideoEnabled();
+                Logger.getLogger(LiblinphoneThread.get().getName()).log(Level.INFO, "Remote video: " + remoteVideo + ", Local video: " + localVideo);
+                if (remoteVideo && !localVideo) {
+                    Logger.getLogger(LiblinphoneThread.get().getName()).log(Level.INFO, "Enabling video...");
+                    LinphoneCallParams params = lc.getCurrentCall().getCurrentParamsCopy();
+                    params.setVideoEnabled(true);
+                    lc.enableVideo(true, true);
+                    lc.acceptCallUpdate(linphoneCall, params);
+                    CommunicationHubInCallActivity.getCurrentInstance().setVideoDisplay(true);
+                }
+                Logger.getLogger(LiblinphoneThread.get().getName()).log(Level.INFO, "Call as been updated");
+            } catch (LinphoneCoreException e) {
+                e.printStackTrace();
+            }
         }
     }
 

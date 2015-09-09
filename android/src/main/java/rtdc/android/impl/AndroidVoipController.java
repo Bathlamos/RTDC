@@ -81,42 +81,29 @@ public class AndroidVoipController implements VoipController{
 
     @Override
     public void setVideo(boolean enabled) {
-        //LinphoneManager.getInstance().addVideo();
-        //LiblinphoneThread.get().getLinphoneCore().enableVideo(enabled, enabled);
+        LinphoneCore lc =  LiblinphoneThread.get().getLinphoneCore();
+        LinphoneCall call = lc.getCurrentCall();
 
-        LinphoneCall call = LiblinphoneThread.get().getLinphoneCore().getCurrentCall();
-        if(call != null) {
-            call.enableCamera(true);
-            /*if(this.mServiceContext.getResources().getBoolean(2131361854)) {
-                LinphoneService.instance().refreshIncallIcon(this.mLc.getCurrentCall());
-            }*/
-        }
+        if (call == null)
+            return;
 
-        LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
-        LinphoneCall lCall = lc.getCurrentCall();
-        if(lCall == null) {
-            System.out.println("Nope null");
-            //Log.e(new Object[]{"Trying to reinviteWithVideo while not in call: doing nothing"});
-            //return false;
-        } else {
-            LinphoneCallParams params = lCall.getCurrentParamsCopy();
-            if(params.getVideoEnabled()) {
-                //return false;
-            } else {
-                BandwidthManager.getInstance().updateWithProfileSettings(lc, params);
-                if(!params.getVideoEnabled()) {
-                    //return false;
-                } else {
-                    lc.updateCall(lCall, params);
-                    //return true;
-                }
-            }
-        }
-        LiblinphoneThread.get().getLinphoneCore().enableVideo(enabled, enabled);
-        //LiblinphoneThread.get().getLinphoneCore().setVideoCodecs();
-        for(int i = 0; i < LiblinphoneThread.get().getLinphoneCore().getVideoCodecs().length; i++)
-            Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, LiblinphoneThread.get().getLinphoneCore().getVideoCodecs()[i].getMime());
-        //return reinviteWithVideo();
+        LinphoneCallParams params = call.getCurrentParamsCopy();
+
+        call.enableCamera(enabled);
+
+        if (params.getVideoEnabled()) return;
+
+
+        // Check if video possible regarding bandwidth limitations
+        BandwidthManager.getInstance().updateWithProfileSettings(lc, params);
+
+        // Abort if not enough bandwidth...
+        if (!params.getVideoEnabled())
+            return;
+
+        // Not yet in video call: try to re-invite with video
+        lc.updateCall(call, params);
+        return;
     }
 
     @Override
