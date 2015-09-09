@@ -32,7 +32,6 @@ import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
@@ -50,7 +49,7 @@ import rtdc.android.voip.LiblinphoneThread;
 /**
  * @author Sylvain Berfini
  */
-public class VideoCallFragment extends AbstractFragment implements OnGestureListener, OnDoubleTapListener, CompatibilityScaleGestureListener {
+public class VideoCallFragment extends AbstractCallFragment implements OnGestureListener, OnDoubleTapListener, CompatibilityScaleGestureListener {
     private SurfaceView mVideoView;
     private SurfaceView mCaptureView;
     private AndroidVideoWindowImpl androidVideoWindowImpl;
@@ -64,7 +63,8 @@ public class VideoCallFragment extends AbstractFragment implements OnGestureList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_communication_hub_video_call, container, false);
+        View view = inflater.inflate(R.layout.fragment_in_video_call, container, false);
+        this.view = view;
 
         mVideoView = (SurfaceView) view.findViewById(R.id.videoSurface);
         mCaptureView = (SurfaceView) view.findViewById(R.id.videoCaptureSurface);
@@ -285,6 +285,11 @@ public class VideoCallFragment extends AbstractFragment implements OnGestureList
         }
 
         super.onDestroy();
+    }
+
+    @Override
+    public void hangupCleanup() {
+
     }
 
     @Override

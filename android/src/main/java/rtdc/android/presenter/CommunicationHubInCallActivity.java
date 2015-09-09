@@ -5,36 +5,31 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
-import rtdc.android.presenter.AbstractActivity;
+import rtdc.android.presenter.fragments.AbstractCallFragment;
+import rtdc.android.presenter.fragments.AudioCallFragment;
 import rtdc.android.presenter.fragments.VideoCallFragment;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.core.Bootstrapper;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class CommunicationHubInCallActivity extends AbstractActivity {
+public class CommunicationHubInCallActivity extends AbstractActivity implements View.OnClickListener{
 
     private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-    private Future timerTask;
     private static boolean activityVisible;
 
-    private int callDuration;
     private boolean speaker;
     private boolean micMuted;
     private boolean videoEnabled;
-    private VideoCallFragment videoCallFragment;
+    private AbstractCallFragment callFragment;
 
     private static CommunicationHubInCallActivity currentInstance;
 
@@ -44,83 +39,9 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         currentInstance = this;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_communication_hub_in_call);
+        setContentView(R.layout.activity_in_call);
 
-        // Display the name of the person we're in call with
-        ((TextView) findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName());
-
-        callDuration = LiblinphoneThread.get().getCurrentCall().getDuration();  // We start with the correct time
-
-        findViewById(R.id.muteButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                micMuted = !micMuted;
-
-                ImageButton button = (ImageButton) view;
-                setButtonPressed(button, micMuted);
-
-                Bootstrapper.FACTORY.getVoipController().setMicMuted(micMuted);
-            }
-        });
-
-        findViewById(R.id.videoButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AudioManager audioManager = (AudioManager) AndroidBootstrapper.getAppContext().getSystemService(
-                        AndroidBootstrapper.getAppContext().AUDIO_SERVICE);
-
-                videoEnabled = !videoEnabled;
-
-                ImageButton button = (ImageButton) view;
-                setButtonPressed(button, videoEnabled);
-
-                Bootstrapper.FACTORY.getVoipController().setVideo(videoEnabled);
-                setVideoDisplay(videoEnabled);
-            }
-        });
-
-        findViewById(R.id.speakerButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AudioManager audioManager = (AudioManager) AndroidBootstrapper.getAppContext().getSystemService(
-                        AndroidBootstrapper.getAppContext().AUDIO_SERVICE);
-
-                speaker = !speaker;
-
-                ImageButton button = (ImageButton) view;
-                setButtonPressed(button, speaker);
-
-                Bootstrapper.FACTORY.getVoipController().setSpeaker(speaker);
-                audioManager.setSpeakerphoneOn(speaker);
-            }
-        });
-
-        findViewById(R.id.endCallButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Hangup the call and clean up the interface
-
-                Bootstrapper.FACTORY.getVoipController().hangup();
-                hangupCleanup();
-            }
-        });
-
-        // Keeps track of the duration of the call, by incrementing a counter every second
-
-        timerTask = executor.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                callDuration++;
-                final String minutes = String.format("%02d", callDuration / 60);
-                final String seconds = String.format("%02d", callDuration % 60);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((TextView) findViewById(R.id.callStatus)).setText(minutes + ":" + seconds);
-                    }
-                });
-            }
-        }, 0, 1000, TimeUnit.MILLISECONDS);
+        updateDisplay();
 
         // Build the intent that will be used by the notification
 
@@ -147,7 +68,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
     }
 
     public void hangupCleanup(){
-        timerTask.cancel(true);
+        callFragment.hangupCleanup();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -181,17 +102,25 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
         }
     }
 
-    public void setVideoDisplay(boolean enabled){
+    public void updateDisplay(){
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        if(enabled) {
-            videoCallFragment = new VideoCallFragment();
-            transaction.replace(R.id.in_call_fragment_wrapper, videoCallFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+        if(videoEnabled) {
+            callFragment = new VideoCallFragment();
         }else{
-            transaction.remove(videoCallFragment);
-            transaction.commit();
+            callFragment = new AudioCallFragment();
         }
+        transaction.replace(R.id.in_call_fragment_wrapper, callFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public void displayVideo(){
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        videoEnabled = true;
+        callFragment = new VideoCallFragment();
+        transaction.replace(R.id.in_call_fragment_wrapper, callFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
@@ -212,11 +141,54 @@ public class CommunicationHubInCallActivity extends AbstractActivity {
         executor.shutdownNow();
     }
 
+    public ScheduledThreadPoolExecutor getExecutor(){
+        return executor;
+    }
+
     public static CommunicationHubInCallActivity getCurrentInstance(){
         return currentInstance;
     }
 
     public static boolean isActivityVisible() {
         return activityVisible;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.muteButton){
+            micMuted = !micMuted;
+
+            ImageButton button = (ImageButton) view;
+            setButtonPressed(button, micMuted);
+
+            Bootstrapper.FACTORY.getVoipController().setMicMuted(micMuted);
+        }else if(view.getId() == R.id.videoButton){
+            AudioManager audioManager = (AudioManager) AndroidBootstrapper.getAppContext().getSystemService(
+                    AndroidBootstrapper.getAppContext().AUDIO_SERVICE);
+
+            videoEnabled = !videoEnabled;
+
+            ImageButton button = (ImageButton) view;
+            setButtonPressed(button, videoEnabled);
+
+            Bootstrapper.FACTORY.getVoipController().setVideo(videoEnabled);
+            updateDisplay();
+        }else if(view.getId() == R.id.speakerButton){
+            AudioManager audioManager = (AudioManager) AndroidBootstrapper.getAppContext().getSystemService(
+                    AndroidBootstrapper.getAppContext().AUDIO_SERVICE);
+
+            speaker = !speaker;
+
+            ImageButton button = (ImageButton) view;
+            setButtonPressed(button, speaker);
+
+            Bootstrapper.FACTORY.getVoipController().setSpeaker(speaker);
+            audioManager.setSpeakerphoneOn(speaker);
+        }else if(view.getId() == R.id.endCallButton){
+            // Hangup the call and clean up the interface
+
+            Bootstrapper.FACTORY.getVoipController().hangup();
+            hangupCleanup();
+        }
     }
 }

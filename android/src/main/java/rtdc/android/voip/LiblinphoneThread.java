@@ -1,17 +1,14 @@
 package rtdc.android.voip;
 
-import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
-import rtdc.android.asterisk.LiblinphoneTest;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
 
 import java.nio.ByteBuffer;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -100,7 +97,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
                     params.setVideoEnabled(true);
                     lc.enableVideo(true, true);
                     lc.acceptCallUpdate(linphoneCall, params);
-                    CommunicationHubInCallActivity.getCurrentInstance().setVideoDisplay(true);
+                    CommunicationHubInCallActivity.getCurrentInstance().displayVideo();
                 }
                 Logger.getLogger(LiblinphoneThread.get().getName()).log(Level.INFO, "Call as been updated");
             } catch (LinphoneCoreException e) {
