@@ -76,7 +76,7 @@ public class AndroidVoipController implements VoipController{
 
     @Override
     public void setSpeaker(boolean enabled) {
-        LiblinphoneThread.get().getLinphoneCore().muteMic(enabled);
+        LiblinphoneThread.get().getLinphoneCore().enableSpeaker(enabled);
     }
 
     @Override
