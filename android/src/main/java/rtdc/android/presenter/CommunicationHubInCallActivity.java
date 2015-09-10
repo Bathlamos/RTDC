@@ -191,4 +191,16 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
             hangupCleanup();
         }
     }
+
+    public boolean isSpeaker() {
+        return speaker;
+    }
+
+    public boolean isMicMuted() {
+        return micMuted;
+    }
+
+    public boolean isVideoEnabled() {
+        return videoEnabled;
+    }
 }

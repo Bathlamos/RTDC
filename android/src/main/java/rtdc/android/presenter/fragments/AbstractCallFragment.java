@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import rtdc.android.R;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 
@@ -28,5 +29,11 @@ public abstract class AbstractCallFragment extends AbstractFragment{
         view.findViewById(R.id.videoButton).setOnClickListener(inCallActivity);
         view.findViewById(R.id.speakerButton).setOnClickListener(inCallActivity);
         view.findViewById(R.id.endCallButton).setOnClickListener(inCallActivity);
+
+        // Update all buttons
+
+        inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.muteButton), inCallActivity.isMicMuted());
+        inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.videoButton), inCallActivity.isVideoEnabled());
+        inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), inCallActivity.isSpeaker());
     }
 }
