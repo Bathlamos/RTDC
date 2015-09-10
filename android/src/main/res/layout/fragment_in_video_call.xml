@@ -38,8 +38,8 @@
                     android:layout_height="match_parent"
                     />
             <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/videoButton"
-                         android:src="@drawable/ic_videocam_off_white_48dp"
-                         android:background="@drawable/circle_blue" android:tint="#000000"/>
+                         android:src="@drawable/ic_videocam_white_48dp"
+                         android:background="@drawable/circle_blue" android:tint="#FFFFFF"/>
             <Space android:layout_width="30dp" android:layout_height="match_parent"/>
             <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/speakerButton"
                          android:src="@drawable/ic_volume_up_white_48dp"
