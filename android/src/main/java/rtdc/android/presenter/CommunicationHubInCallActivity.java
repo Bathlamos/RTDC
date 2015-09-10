@@ -69,12 +69,6 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
 
     public void hangupCleanup(){
         callFragment.hangupCleanup();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((TextView) findViewById(R.id.callStatus)).setText("Call ended");
-            }
-        });
 
         // Drop the notification for the call
         ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(IN_CALL_NOTIFICATION_ID);

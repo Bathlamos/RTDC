@@ -50,5 +50,11 @@ public class AudioCallFragment extends AbstractCallFragment{
 
     public void hangupCleanup() {
         timerTask.cancel(true);
+        inCallActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((TextView) view.findViewById(R.id.callStatus)).setText("Call ended");
+            }
+        });
     }
 }
