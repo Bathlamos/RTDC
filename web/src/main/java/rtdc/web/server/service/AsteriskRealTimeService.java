@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class AsteriskRealTimeService {
 
-    private static Connection getConnection(){
+    private static Connection getConnection() throws SQLException{
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String hostname = Config.ASTERISK_IP;
@@ -19,13 +19,11 @@ public class AsteriskRealTimeService {
             return DriverManager.getConnection("jdbc:mysql://"+hostname+"/"+dbName, dbUserName, dbPassword);
         } catch (ClassNotFoundException e) {
             Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.SEVERE, "MySQL JDBC Driver not found!");
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return null;
     }
 
-    public static void addUser(User user, String password){
+    public static void addUser(User user, String password) throws SQLException {
         Connection connection = getConnection();
         Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.INFO, String.valueOf(user.getId()));
         if (connection == null) {
@@ -47,6 +45,7 @@ public class AsteriskRealTimeService {
             connection.createStatement().executeUpdate(extensionQuery);
         } catch (SQLException e) {
             e.printStackTrace();
+            throw e;
         } finally {
             try {
                 connection.close();
@@ -56,7 +55,7 @@ public class AsteriskRealTimeService {
         }
     }
 
-    public static void deleteUser(User user){
+    public static void deleteUser(User user) throws SQLException{
         Connection connection = getConnection();
         Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.INFO, String.valueOf(user.getId()));
         if (connection == null) {

@@ -3,31 +3,15 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">
-            org.hibernate.dialect.PostgreSQL9Dialect
-        </property>
-        <property name="hibernate.connection.driver_class">
-            org.postgresql.Driver
-        </property>
-        <!-- Assume test is the database name -->
-        <property name="hibernate.connection.url">
-            jdbc:postgresql://local.legault.cc:5432/rtdc
-            <!--jdbc:postgresql://192.168.2.49:5432/rtdc-->
-        </property>
-        <property name="hibernate.connection.username">
-            rtdc
-        </property>
-        <property name="hibernate.connection.password">
-            #RTDC123
-        </property>
-        <property name="hibernate.current_session_context_class">
-            thread
-        </property>
-        <property name="show_sql">
-            true
-        </property>
-        <property name="hibernate.hbm2ddl.auto">
-            update
-        </property>
+        <property name="hibernate.archive.autodetection">class,hbm</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+        <property name="hibernate.connection.username">sa</property>
+        <property name="hibernate.connection.password">1</property>
+        <property name="hibernate.connection.url">jdbc:hsqldb:mem:rtdc</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
     </session-factory>
 </hibernate-configuration>

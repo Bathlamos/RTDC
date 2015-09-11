@@ -20,4 +20,8 @@
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>rtdc.web.server.config.TestData</listener-class>
+    </listener>
+
 </web-app>

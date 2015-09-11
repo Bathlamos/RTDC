@@ -1,4 +1,4 @@
-package rtdc.web.server.servlet;
+package rtdc.web.server.config;
 
 import com.google.common.collect.Lists;
 import org.fluttercode.datafactory.impl.DataFactory;
@@ -8,29 +8,28 @@ import rtdc.core.model.Action;
 import rtdc.core.model.Permission;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
-import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.service.AsteriskRealTimeService;
 import rtdc.web.server.service.AuthService;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
 
 
-@Path("open/populate")
-public class PopulateServlet {
+public class TestData implements ServletContextListener {
 
-    private static final Logger logger = Logger.getLogger(PopulateServlet.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger(TestData.class.getSimpleName());
 
     private static final Random RANDOM = new Random();
     private static final DataFactory DF = new DataFactory();
     private static final List<String> ROLES = Lists.newArrayList("Nurse", "Unit Manager", "Administrator", "Stakeholder");
     private static final List<String> PERMISSIONS = Lists.newArrayList(Permission.ADMIN, Permission.USER);
 
-    @GET
-    public void populate(){
 
+    @Override
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
         List<Unit> units = generateUnits(RANDOM.nextInt(10));
         units.add(0, buildUnit("Emergency", 16, 3, 4, 2, 10, 8));
         units.add(1, buildUnit("Surgery", 40, 6, 4, 4, 13, 10));
@@ -87,13 +86,18 @@ public class PopulateServlet {
                 AsteriskRealTimeService.addUser(user, "password");
             transaction.commit();
 
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | SQLException e) {
             if(transaction != null)
                 transaction.rollback();
-            throw e;
+            System.err.println("Some users were not added to Asterisk");
         } finally {
             session.close();
         }
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        //Do nothing
     }
 
     private static List<User> generateRootUsers(){
@@ -202,4 +206,5 @@ public class PopulateServlet {
         action.setDescription(description);
         return action;
     }
+
 }
