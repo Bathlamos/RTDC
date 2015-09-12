@@ -2,8 +2,8 @@ before_install:
  - chmod +x gradlew
  
 before_script:
-	 - echo $JAVA_OPTS
-	 - export JAVA_OPTS=-Xmx1024m
+ - echo $JAVA_OPTS
+ - export JAVA_OPTS=-Xmx1024m
 
 notifications:
   email: false
