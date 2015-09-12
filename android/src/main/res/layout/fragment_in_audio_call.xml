@@ -7,23 +7,29 @@
             android:id="@+id/in_call_fragment_wrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+        <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/endCallButton"
+                     android:src="@drawable/ic_call_end_white_48dp"
+                     android:background="@drawable/circle_red"
+                     android:layout_marginBottom="40dp"
+                     android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="00:00"
+                android:id="@+id/callStatus"
+                android:textSize="20sp"
+                android:layout_marginTop="9dp" android:layout_below="@+id/callerText"
+                android:layout_centerHorizontal="true"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="John Doe"
+                android:id="@+id/callerText"
+                android:layout_marginTop="40dp"
+                android:textSize="30sp" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
     </RelativeLayout>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="John Doe"
-            android:id="@+id/callerText"
-            android:layout_marginTop="58dp"
-            android:layout_alignParentTop="true" android:layout_centerHorizontal="true" android:textSize="36sp"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="00:00"
-            android:id="@+id/callStatus"
-            android:layout_below="@+id/callerText" android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -47,10 +53,4 @@
                      android:src="@drawable/ic_volume_up_white_48dp"
                      android:background="@drawable/circle_dark_blue" android:tint="@color/RTDC_midnight_blue"/>
     </LinearLayout>
-    <ImageButton android:layout_width="70dp" android:layout_height="50dp" android:id="@+id/endCallButton"
-                 android:src="@drawable/ic_call_end_white_48dp"
-                 android:background="@drawable/rectangle_rounded_red"
-                 android:layout_marginTop="41dp" android:layout_below="@+id/buttonLayout"
-                 android:layout_alignLeft="@+id/buttonLayout" android:layout_alignStart="@+id/buttonLayout"
-                 android:layout_alignRight="@+id/buttonLayout" android:layout_alignEnd="@+id/buttonLayout"/>
 </RelativeLayout>
