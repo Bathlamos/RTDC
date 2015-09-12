@@ -18,6 +18,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -65,6 +66,9 @@ public class UserServlet {
             session.saveOrUpdate(AuthService.generateUserCredentials(user, password));
             AsteriskRealTimeService.addUser(user, password);
             transaction.commit();
+        } catch (SQLException e) {
+            if(transaction != null)
+                transaction.rollback();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -131,6 +135,9 @@ public class UserServlet {
             session.delete(user);
             AsteriskRealTimeService.deleteUser(user);
             transaction.commit();
+        } catch (SQLException e) {
+            if(transaction != null)
+                transaction.rollback();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
