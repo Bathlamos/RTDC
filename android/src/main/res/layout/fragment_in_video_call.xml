@@ -13,13 +13,13 @@
             android:id="@+id/videoCaptureSurface"
             android:layout_width="120dp"
             android:layout_height="145dp"
-            android:layout_above="@+id/frameLayout" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_above="@+id/buttonLayout" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" android:layout_margin="5dp"/>
     <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:background="#50FFFFFF" android:id="@+id/frameLayout">
+            android:layout_alignParentStart="true" android:background="#50FFFFFF" android:id="@+id/buttonLayout">
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
