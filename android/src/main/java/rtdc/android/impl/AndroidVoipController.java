@@ -107,6 +107,22 @@ public class AndroidVoipController implements VoipController{
     }
 
     @Override
+    public void acceptRemoteVideo(){
+        LinphoneCore lc =  LiblinphoneThread.get().getLinphoneCore();
+        LinphoneCall call = lc.getCurrentCall();
+        try{
+            Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Enabling video...");
+            LinphoneCallParams params = lc.getCurrentCall().getCurrentParamsCopy();
+            params.setVideoEnabled(true);
+            lc.enableVideo(true, true);
+            lc.acceptCallUpdate(call, params);
+            CommunicationHubInCallActivity.getCurrentInstance().displayVideo();
+        } catch (LinphoneCoreException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void acceptCall() {
         try {
             LiblinphoneThread.get().getLinphoneCore().acceptCall(LiblinphoneThread.get().getCurrentCall());

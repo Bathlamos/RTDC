@@ -10,6 +10,7 @@ public interface VoipController {
     public void setMicMuted(boolean mute);
     public void setSpeaker(boolean enabled);
     public void setVideo(boolean enabled);
+    public void acceptRemoteVideo();
     public void acceptCall();
     public void declineCall();
     public void hangup();

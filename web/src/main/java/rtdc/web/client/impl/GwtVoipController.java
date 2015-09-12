@@ -44,6 +44,11 @@ public class GwtVoipController implements VoipController{
     }
 
     @Override
+    public void acceptRemoteVideo() {
+
+    }
+
+    @Override
     public void acceptCall() {
 
     }
