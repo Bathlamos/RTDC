@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+import android.graphics.Point;
+import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.RelativeLayout;
 import org.linphone.BandwidthManager;
 import org.linphone.LinphoneUtils;
 import org.linphone.compatibility.Compatibility;
@@ -32,16 +37,9 @@ import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import rtdc.android.R;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
@@ -58,6 +56,9 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     private float mZoomCenterX, mZoomCenterY;
     private CompatibilityScaleGestureDetector mScaleDetector;
     private CommunicationHubInCallActivity inCallActivity;
+
+    int _xDelta = 0;
+    int _yDelta = 0;
 
     @SuppressWarnings("deprecation") // Warning useless because value is ignored and automatically set by new APIs.
     @Override
@@ -110,7 +111,44 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
             }
         });
 
-        //switchCamera();
+        mCaptureView.setOnTouchListener(new OnTouchListener() {
+            float x, y, dx = 0, dy = 0;
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        x = event.getRawX();
+                        y = event.getRawY();
+                        dx = x - view.getX();
+                        dy = y - view.getY();
+                        break;
+                    }
+                    case MotionEvent.ACTION_MOVE: {
+                        view.setX(event.getRawX() - dx);
+                        view.setY(event.getRawY() - dy);
+                        break;
+                    }case MotionEvent.ACTION_UP: {
+                        int width = VideoCallFragment.this.view.getWidth();
+                        int height = VideoCallFragment.this.view.getHeight() - VideoCallFragment.this.view.findViewById(R.id.buttonLayout).getHeight();
+
+                        int lockX = event.getRawX() <= width / 2 ? 0 : width - view.getWidth();
+                        int lockY = event.getRawY() <= height / 2 ? 0 : height - view.getHeight();
+
+                        // The following should animate the view to translate to the correct location, but does not work
+
+                        /*TranslateAnimation anim = new TranslateAnimation(event.getRawX(), lockX, event.getRawY(), lockY);
+                        anim.setDuration(1000);
+                        anim.setFillAfter(true);
+                        view.startAnimation(anim);*/
+
+                        view.setX(lockX);
+                        view.setY(lockY);
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
 
         return view;
     }
