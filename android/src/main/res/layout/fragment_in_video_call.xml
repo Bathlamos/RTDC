@@ -13,44 +13,45 @@
             android:id="@+id/videoCaptureSurface"
             android:layout_width="120dp"
             android:layout_height="145dp"
-            android:layout_above="@+id/buttonLayout" android:layout_alignParentRight="true"
+            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" android:layout_margin="5dp"/>
-    <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:background="#50FFFFFF" android:id="@+id/buttonLayout">
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:weightSum="1"
-                android:id="@+id/linearLayout"
-                android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
-                android:layout_gravity="center" android:layout_marginBottom="5dp" android:layout_marginTop="5dp">
-            <ImageButton
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:id="@+id/muteButton"
-                    android:background="@drawable/circle_blue_border" android:src="@drawable/ic_mic_off_white_48dp"
-                    android:tint="#000000"/>
-            <Space
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    />
-            <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/videoButton"
-                         android:src="@drawable/ic_videocam_white_48dp"
-                         android:background="@drawable/circle_blue" android:tint="#FFFFFF"/>
-            <Space android:layout_width="30dp" android:layout_height="match_parent"/>
-            <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/speakerButton"
-                         android:src="@drawable/ic_volume_up_white_48dp"
-                         android:background="@drawable/circle_blue_border" android:tint="#000000"/>
-            <Space android:layout_width="30dp" android:layout_height="match_parent"/>
-            <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/endCallButton"
-                         android:src="@drawable/ic_call_end_white_48dp"
-                         android:background="@drawable/circle_red"
-                         android:layout_below="@+id/linearLayout"
-                         android:layout_alignLeft="@+id/linearLayout" android:layout_alignStart="@+id/linearLayout"
-                         android:layout_alignRight="@+id/linearLayout" android:layout_alignEnd="@+id/linearLayout"/>
-        </LinearLayout>
-    </FrameLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:weightSum="1"
+            android:id="@+id/buttonLayout"
+            android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+            android:layout_gravity="center" android:layout_marginBottom="5dp" android:layout_marginTop="5dp">
+        <ImageButton
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:id="@+id/muteButton"
+                android:background="@drawable/circle_dark_blue" android:src="@drawable/ic_mic_off_white_36dp"
+                android:tint="@color/RTDC_midnight_blue"/>
+        <Space
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+        <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/videoButton"
+                     android:src="@drawable/ic_videocam_white_48dp"
+                     android:background="@drawable/circle_blue" android:tint="#FFFFFF"/>
+        <Space android:layout_width="30dp" android:layout_height="match_parent"/>
+        <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/speakerButton"
+                     android:src="@drawable/ic_volume_up_white_48dp"
+                     android:background="@drawable/circle_dark_blue" android:tint="@color/RTDC_midnight_blue"/>
+        <Space android:layout_width="30dp" android:layout_height="match_parent"/>
+        <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/endCallButton"
+                     android:src="@drawable/ic_call_end_white_48dp"
+                     android:background="@drawable/circle_red"
+                     android:layout_below="@+id/buttonLayout"
+                     android:layout_alignLeft="@+id/buttonLayout" android:layout_alignStart="@+id/buttonLayout"
+                     android:layout_alignRight="@+id/buttonLayout" android:layout_alignEnd="@+id/buttonLayout"/>
+    </LinearLayout>
+    <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/muteIcon"
+            android:src="@drawable/ic_mic_off_white_48dp"
+            android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+            android:visibility="invisible"/>
 </RelativeLayout>

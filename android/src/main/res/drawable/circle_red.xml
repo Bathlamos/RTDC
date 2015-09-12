@@ -3,11 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:shape="oval">
 
-    <gradient android:startColor="@color/RTDC_dark_red"
-              android:endColor="@color/RTDC_red"
-              android:angle="90"/>
-
-    <stroke android:width="5px" android:color="@color/RTDC_dark_red"/>
+    <solid
+              android:color="@color/RTDC_red"/>
 
     <size
             android:width="120dp"
