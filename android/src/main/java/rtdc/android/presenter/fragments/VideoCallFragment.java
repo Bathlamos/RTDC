@@ -21,6 +21,7 @@ import android.graphics.Point;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import org.linphone.BandwidthManager;
 import org.linphone.LinphoneUtils;
@@ -66,6 +67,14 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_in_video_call, container, false);
         this.view = view;
+
+        view.findViewById(R.id.switchCameraButton).setOnClickListener(inCallActivity);
+        view.findViewById(R.id.switchCameraButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchCamera();
+            }
+        });
 
         mVideoView = (SurfaceView) view.findViewById(R.id.videoSurface);
         mCaptureView = (SurfaceView) view.findViewById(R.id.videoCaptureSurface);

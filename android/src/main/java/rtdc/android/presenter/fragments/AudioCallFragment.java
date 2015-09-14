@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
@@ -22,6 +23,9 @@ public class AudioCallFragment extends AbstractCallFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_in_audio_call, container, false);
         this.view = view;
+
+        view.findViewById(R.id.speakerButton).setOnClickListener(inCallActivity);
+        inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), inCallActivity.isSpeaker());
 
         // Display the name of the person we're in call with
         ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName());

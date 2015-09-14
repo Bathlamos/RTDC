@@ -27,13 +27,11 @@ public abstract class AbstractCallFragment extends AbstractFragment{
         super.onStart();
         view.findViewById(R.id.muteButton).setOnClickListener(inCallActivity);
         view.findViewById(R.id.videoButton).setOnClickListener(inCallActivity);
-        view.findViewById(R.id.speakerButton).setOnClickListener(inCallActivity);
         view.findViewById(R.id.endCallButton).setOnClickListener(inCallActivity);
 
         // Update all buttons
 
         inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.muteButton), inCallActivity.isMicMuted());
         inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.videoButton), inCallActivity.isVideoEnabled());
-        inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), inCallActivity.isSpeaker());
     }
 }
