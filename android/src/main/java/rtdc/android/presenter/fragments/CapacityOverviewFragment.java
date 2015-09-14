@@ -80,9 +80,8 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
             setupColumn(view, R.id.admitsByDeadline,Integer.toString(currentUnit.getAdmitsByDeadline()));
             setupColumn(view, R.id.statusAtDeadline,Integer.toString(status));
 
-            ImageButton optionsMenuBtn = (ImageButton) view.findViewById(R.id.optionsMenuBtn);
-            optionsMenuBtn.setTag(position);
-            optionsMenuBtn.setOnClickListener(new View.OnClickListener() {
+            view.setTag(position);
+            view.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
