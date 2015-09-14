@@ -43,6 +43,8 @@ dependencies {
 
     compile 'org.fluttercode.datafactory:datafactory:0.8'
 
+    testCompile 'junit:junit:4.12'
+
     compile group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'
     gwt group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'
     compile group: 'com.google.guava', name: 'guava-gwt', version: '18.0', classifier: 'sources'
