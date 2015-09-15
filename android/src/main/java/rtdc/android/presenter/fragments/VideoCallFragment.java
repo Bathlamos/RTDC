@@ -368,7 +368,14 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
     @Override
     public void hangupCleanup() {
-
+        inCallActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mVideoView.setVisibility(View.INVISIBLE);
+                mCaptureView.setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.callEndedText).setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override

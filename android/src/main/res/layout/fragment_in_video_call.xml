@@ -9,6 +9,12 @@
             android:layout_width="match_parent"
             android:id="@+id/videoSurface"/>
 
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall" android:text="Call ended"
+              android:id="@+id/callEndedText" android:textSize="20sp"
+              android:visibility="invisible"
+              android:layout_centerHorizontal="true" android:layout_alignBottom="@+id/buttonLayout"
+              android:layout_marginBottom="400dp"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -50,7 +56,8 @@
             android:visibility="invisible"/>
     <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_above="@+id/buttonLayout">
+            android:layout_height="fill_parent" android:layout_above="@+id/buttonLayout"
+            android:id="@+id/frameLayout" android:visibility="visible">
         <SurfaceView
                 android:id="@+id/videoCaptureSurface"
                 android:layout_width="120dp"
