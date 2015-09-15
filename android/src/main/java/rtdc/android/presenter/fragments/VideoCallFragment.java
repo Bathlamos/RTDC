@@ -21,6 +21,7 @@ import android.graphics.Point;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import org.linphone.BandwidthManager;
@@ -44,6 +45,9 @@ import android.view.View.OnTouchListener;
 import rtdc.android.R;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Sylvain Berfini
@@ -134,15 +138,17 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         });
 
         mCaptureView.setOnTouchListener(new OnTouchListener() {
-            float x, y, dx = 0, dy = 0;
+            float dx = 0, dy = 0;
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        x = event.getRawX();
-                        y = event.getRawY();
-                        dx = x - view.getX();
-                        dy = y - view.getY();
+                        dx = event.getRawX() - view.getX();
+                        dy = event.getRawY() - view.getY();
+
+                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                        params.gravity = Gravity.NO_GRAVITY;
+                        view.setLayoutParams(params);
                         break;
                     }
                     case MotionEvent.ACTION_MOVE: {
@@ -150,21 +156,34 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                         view.setY(event.getRawY() - dy);
                         break;
                     }case MotionEvent.ACTION_UP: {
-                        int width = VideoCallFragment.this.view.getWidth();
-                        int height = VideoCallFragment.this.view.getHeight() - VideoCallFragment.this.view.findViewById(R.id.buttonLayout).getHeight();
+                        float width = VideoCallFragment.this.view.getWidth();
+                        float height = VideoCallFragment.this.view.getHeight() - VideoCallFragment.this.view.findViewById(R.id.buttonLayout).getHeight();
 
-                        int lockX = event.getRawX() <= width / 2 ? 0 : width - view.getWidth();
-                        int lockY = event.getRawY() <= height / 2 ? 0 : height - view.getHeight();
+                        float lockX = event.getRawX() <= width / 2 ? 0 : width - view.getWidth();
+                        float lockY = event.getRawY() <= height / 2 ? 0 : height - view.getHeight();
+
+                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                        int horizontalGravity = lockX == 0 ? Gravity.LEFT: Gravity.RIGHT;
+                        int verticalGravity = lockY == 0 ? Gravity.TOP: Gravity.BOTTOM;
+                        params.gravity = (horizontalGravity | verticalGravity);
+                        view.setLayoutParams(params);
+
+                        // Need to set the position to 0, 0 or else the gravity position isn't accurate
+
+                        view.setX(0);
+                        view.setY(0);
 
                         // The following should animate the view to translate to the correct location, but does not work
 
-                        /*TranslateAnimation anim = new TranslateAnimation(event.getRawX(), lockX, event.getRawY(), lockY);
+                        /*TranslateAnimation anim = new TranslateAnimation(
+                                TranslateAnimation.RELATIVE_TO_PARENT, 0,
+                                TranslateAnimation.RELATIVE_TO_PARENT, lockX/width,
+                                TranslateAnimation.RELATIVE_TO_PARENT, 0,
+                                TranslateAnimation.RELATIVE_TO_PARENT, lockY/height);
+                        Logger.getLogger(VideoCallFragment.class.getName()).log(Level.INFO, lockX + ", " + lockY);
                         anim.setDuration(1000);
                         anim.setFillAfter(true);
                         view.startAnimation(anim);*/
-
-                        view.setX(lockX);
-                        view.setY(lockY);
                         break;
                     }
                 }
