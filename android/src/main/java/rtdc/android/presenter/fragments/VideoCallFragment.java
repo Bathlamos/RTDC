@@ -367,7 +367,12 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     }
 
     @Override
-    public void hangupCleanup() {
+    public void onCallEstablished(){
+
+    }
+
+    @Override
+    public void onCallHangup() {
         inCallActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

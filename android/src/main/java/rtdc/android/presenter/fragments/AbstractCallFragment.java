@@ -14,7 +14,8 @@ public abstract class AbstractCallFragment extends AbstractFragment{
     protected View view;
     protected CommunicationHubInCallActivity inCallActivity;
 
-    public abstract void hangupCleanup();
+    public abstract void onCallEstablished();
+    public abstract void onCallHangup();
 
     @Override
     public void onAttach(Activity activity) {

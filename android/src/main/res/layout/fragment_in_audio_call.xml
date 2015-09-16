@@ -29,6 +29,14 @@
                 android:id="@+id/callerText"
                 android:layout_marginTop="40dp"
                 android:textSize="30sp" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+        <TextView
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/ringingDots"
+                android:textSize="20sp"
+                android:text=". . . " android:layout_below="@+id/callStatus" android:layout_centerHorizontal="true"
+                android:visibility="invisible"/>
     </RelativeLayout>
     <LinearLayout
             android:orientation="horizontal"

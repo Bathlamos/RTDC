@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.presenter.fragments.AbstractCallFragment;
@@ -41,6 +40,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_call);
 
+        videoEnabled = LiblinphoneThread.get().getCurrentCall().getCurrentParamsCopy().getVideoEnabled();
         updateDisplay();
 
         // Build the intent that will be used by the notification
@@ -67,8 +67,12 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         notificationManager.notify(IN_CALL_NOTIFICATION_ID, mBuilder.build());
     }
 
-    public void hangupCleanup(){
-        callFragment.hangupCleanup();
+    public void onCallEstablished(){
+        callFragment.onCallEstablished();
+    }
+
+    public void onCallHangup(){
+        callFragment.onCallHangup();
 
         // Drop the notification for the call
         ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(IN_CALL_NOTIFICATION_ID);
@@ -182,7 +186,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
             // Hangup the call and clean up the interface
 
             Bootstrapper.FACTORY.getVoipController().hangup();
-            hangupCleanup();
+            onCallHangup();
         }
     }
 

@@ -62,6 +62,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
     @Override
     public void callState(LinphoneCore linphoneCore, LinphoneCall linphoneCall, LinphoneCall.State state, String s) {
+        Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, state + "");
         if(state == LinphoneCall.State.IncomingReceived){
 
             // We just received a call, interrupt everything and display the incoming call view
@@ -75,6 +76,11 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);
+        }else if(state == LinphoneCall.State.Connected){
+            // If we're in the In Call activity, we need to update the interface
+
+            if(CommunicationHubInCallActivity.getCurrentInstance() != null)
+                CommunicationHubInCallActivity.getCurrentInstance().onCallEstablished();
         }else if(state == LinphoneCall.State.CallEnd){
             Context context = AndroidBootstrapper.getAppContext();
 
@@ -86,7 +92,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
             // If the current activity is the In Call interface, we clean it up
 
             if(CommunicationHubInCallActivity.isActivityVisible())
-                CommunicationHubInCallActivity.getCurrentInstance().hangupCleanup();
+                CommunicationHubInCallActivity.getCurrentInstance().onCallHangup();
         }else if(state == LinphoneCall.State.CallUpdatedByRemote){
                 // FIXME: remoteVideo is false here when remote user triggers a video call, should be true
                 boolean remoteVideo = linphoneCall.getRemoteParams().getVideoEnabled();
