@@ -126,7 +126,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                     if (buttonLayout.getVisibility() == View.VISIBLE) {
                         if (inCallActivity.isMicMuted())
                             VideoCallFragment.this.view.findViewById(R.id.muteIcon).setVisibility(View.VISIBLE);
-                        buttonLayout.setVisibility(View.INVISIBLE);
+                        buttonLayout.setVisibility(View.GONE);
                     } else {
                         VideoCallFragment.this.view.findViewById(R.id.muteIcon).setVisibility(View.INVISIBLE);
                         buttonLayout.setVisibility(View.VISIBLE);
