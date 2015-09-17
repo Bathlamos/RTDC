@@ -126,8 +126,6 @@ public class AuthServlet {
                         session.close();
                     }
 
-                    req.getSession().setAttribute("current_user", token.getUser());
-
                     // So that we can test the api in the browser
                     if (Config.IS_DEBUG)
                         resp.addCookie(new Cookie(CookiesName.AUTH_COOKIE, token.getAuthenticationToken()));
