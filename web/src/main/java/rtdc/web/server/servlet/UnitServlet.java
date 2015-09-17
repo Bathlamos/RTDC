@@ -8,6 +8,7 @@ import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Permission;
 import rtdc.core.model.Unit;
+import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
 import javax.annotation.security.RolesAllowed;
@@ -19,12 +20,18 @@ import javax.ws.rs.core.Context;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Path("units")
 public class UnitServlet {
+
+    private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
 
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getUnits(@Context HttpServletRequest req){
+//        User currentUser = (User) req.getSession().getAttribute("current_user");
         //AuthServlet.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -33,6 +40,8 @@ public class UnitServlet {
             transaction = session.beginTransaction();
             units = (List<Unit>) session.createCriteria(Unit.class).list();
             transaction.commit();
+
+            log.info("UNITS: Getting all units for user...");
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -49,6 +58,7 @@ public class UnitServlet {
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String updateUnit(@Context HttpServletRequest req, @FormParam("unit" )String unitString){
         Unit unit = new Unit(new JSONObject(unitString));
+
 
         Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
         if(!violations.isEmpty())
