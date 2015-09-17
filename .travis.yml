@@ -1,5 +1,9 @@
 before_install:
  - chmod +x gradlew
+ 
+before_script:
+ - echo $JAVA_OPTS
+ - export JAVA_OPTS=-Xmx1024m
 
 notifications:
   email: false
@@ -14,9 +18,9 @@ android:
     - android-21
 
 # whitelist
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master
     
 env:
   global:

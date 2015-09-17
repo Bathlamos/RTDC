@@ -8,7 +8,7 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="50dp" android:background="@color/RTDC_dark_blue" android:minHeight="35dp"
-            android:paddingRight="34dp">
+            >
         <Space
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -123,7 +123,7 @@
         <Space
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_weight="0.5" android:layout_gravity="center_vertical"/>
+                android:layout_weight="0.3" android:layout_gravity="center_vertical"/>
 
     </LinearLayout>
     <ListView
