@@ -8,9 +8,11 @@ import rtdc.web.server.service.AuthService;
 
 import java.io.IOException;
 import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
@@ -28,6 +30,9 @@ import org.slf4j.LoggerFactory;
 public class AuthenticationFilter implements ContainerRequestFilter {
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
+
+    @Context
+    HttpServletRequest webRequest;
 
     /**
      *
@@ -74,12 +79,14 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             else {
                 // Authenticate the user
                 requestCtx.setSecurityContext(new SecurityContextImpl(user));
+
+                //Add the user to the session
+                webRequest.getSession().setAttribute("current_user", user);
             }
         }
     }
 
     private static final class SecurityContextImpl implements SecurityContext {
-
 
         private final User user;
 
