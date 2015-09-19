@@ -31,7 +31,6 @@ public class UnitServlet {
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getUnits(@Context HttpServletRequest req){
-//        User currentUser = (User) req.getSession().getAttribute("current_user");
         //AuthServlet.hasRole(req, USER, ADMIN);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -41,7 +40,8 @@ public class UnitServlet {
             units = (List<Unit>) session.createCriteria(Unit.class).list();
             transaction.commit();
 
-            log.info("UNITS: Getting all units for user...");
+            // TODO: Replace string with actual username
+            log.info("{}: UNIT: Getting all units for user.", "Username");
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -71,6 +71,9 @@ public class UnitServlet {
             session.saveOrUpdate(unit);
 
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: UNIT: Update unit values: {}", "Username", unitString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -93,6 +96,10 @@ public class UnitServlet {
             Unit unit = (Unit) session.load(Unit.class, id);
             session.delete(unit);
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.warn("{}: UNIT: Unit deleted: {}", "Username", unit.getName());
+
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

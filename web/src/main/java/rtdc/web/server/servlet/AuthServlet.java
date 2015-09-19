@@ -101,7 +101,7 @@ public class AuthServlet {
 
             if(userCredentials == null) {
                 //We do not have any user with that username in the database
-                log.warn("Failed login attempt: User does not exist: {}", username);
+                log.warn("{}: LOGIN FAILED: User does not exist.", username);
                 throw new UsernamePasswordMismatchException("Username / password mismatch");
             }else{
                 if(AuthService.isPasswordValid(userCredentials, password)) {
@@ -119,7 +119,7 @@ public class AuthServlet {
                         transaction = session.beginTransaction();
                         session.save(token);
                         transaction.commit();
-                        log.info("Login successful: User connected: {}", username);
+                        log.info("{}: LOGIN SUCCESSFUL: User is connected.", username);
                     } catch (RuntimeException e) {
                         if(transaction != null)
                             transaction.rollback();
@@ -136,7 +136,7 @@ public class AuthServlet {
 
                     return new AuthenticationEvent(user, token.getAuthenticationToken()).toString();
                 }else
-                    log.warn("Failed login attempt: Invalid password for user: {}", username);
+                    log.warn("{}: LOGIN FAILED: Invalid password.", username);
                     throw new UsernamePasswordMismatchException("Username / password mismatch");
             }
         }
@@ -162,7 +162,8 @@ public class AuthServlet {
             session.delete(authToken);
             transaction.commit();
 
-            log.info("Logout successful: User's authentication token: {}", authenticationToken);
+            // TODO: Replace string with actual username
+            log.info("{}: LOGOUT: User has been disconnected.", "Username");
             return new LogoutEvent().toString();
         } catch (RuntimeException e) {
             if(transaction != null)

@@ -2,6 +2,8 @@ package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUsersEvent;
@@ -25,6 +27,8 @@ import java.util.Set;
 @Path("users")
 public class UserServlet {
 
+    private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
+
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getUsers(@Context HttpServletRequest req){
@@ -35,6 +39,9 @@ public class UserServlet {
             transaction = session.beginTransaction();
             users = (List<User>) session.createCriteria(User.class).list();
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: USER: Getting all users for user.", "Username");
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -66,6 +73,9 @@ public class UserServlet {
             session.saveOrUpdate(AuthService.generateUserCredentials(user, password));
             AsteriskRealTimeService.addUser(user, password);
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: USER: New user added: {}", "Username", userString);
         } catch (SQLException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -97,6 +107,9 @@ public class UserServlet {
             transaction = session.beginTransaction();
             session.merge(user);
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: USER: User updated: {}", "Username", userString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -119,6 +132,9 @@ public class UserServlet {
                                       @FormParam("newPassword") String newPassword){
 
         AuthService.editPassword(req, oldPassword, userId, newPassword);
+
+        // TODO: Replace string with actual username
+        log.info("{}: USER: Password updated: {}", "Username", userId);
         return new ActionCompleteEvent(userId, "user", "update").toString();
     }
 
@@ -135,6 +151,9 @@ public class UserServlet {
             session.delete(user);
             AsteriskRealTimeService.deleteUser(user);
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.warn("{}: USER: User deleted: {}", "Username", user.getUsername());
         } catch (SQLException e) {
             if(transaction != null)
                 transaction.rollback();

@@ -2,6 +2,8 @@ package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchActionsEvent;
@@ -24,6 +26,8 @@ import java.util.Set;
 @Path("actions")
 public class ActionServlet {
 
+    private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
+
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String get(@Context HttpServletRequest req){
@@ -34,6 +38,10 @@ public class ActionServlet {
             transaction = session.beginTransaction();
             actions = (List<Action>) session.createCriteria(Action.class).list();
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            // TODO: Replace string with actual unit name
+            log.info("{}: ACTION: Getting actions for unit: {}", "Username", "Unit name");
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -59,10 +67,11 @@ public class ActionServlet {
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-
             session.saveOrUpdate(action);
-
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: ACTION: Action updated: {}", "Username", actionString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -85,6 +94,9 @@ public class ActionServlet {
             Action action = (Action) session.load(Action.class, id);
             session.delete(action);
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.warn("{}: ACTION: Action deleted: {}", "Username", action.getId());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
