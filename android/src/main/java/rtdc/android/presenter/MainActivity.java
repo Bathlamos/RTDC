@@ -159,6 +159,3 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 }
-
-
-

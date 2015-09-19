@@ -27,7 +27,7 @@ public class AndroidVoipController implements VoipController{
     public static AndroidVoipController get(){ return INST; }
 
     @Override
-    public void registerUser(User user) {
+    public void registerUser(User user) {/*
         try {
             LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
             String sipAddress = "sip:" + user.getUsername() + "@" + Config.ASTERISK_IP;
@@ -43,7 +43,7 @@ public class AndroidVoipController implements VoipController{
             currentRegisteredUser = user;
         } catch (LinphoneCoreException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
