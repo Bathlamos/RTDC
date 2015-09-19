@@ -8,11 +8,6 @@ import rtdc.web.server.service.AuthService;
 
 import java.io.IOException;
 import java.security.Principal;
-<<<<<<< HEAD
-import javax.servlet.http.HttpServletRequest;
-=======
-import java.util.logging.Logger;
->>>>>>> master
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
