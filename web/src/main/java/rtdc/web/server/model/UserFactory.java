@@ -22,7 +22,7 @@ public class UserFactory implements Factory<User> {
 
     @Override
     public void dispose(User instance) {
-        // Do nothing
+
     }
 
 }
