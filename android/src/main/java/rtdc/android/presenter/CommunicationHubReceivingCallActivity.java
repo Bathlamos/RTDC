@@ -30,6 +30,7 @@ public class CommunicationHubReceivingCallActivity extends AbstractActivity{
             @Override
             public void onClick(View view) {
                 Bootstrapper.FACTORY.getVoipController().declineCall();
+                CommunicationHubReceivingCallActivity.this.finish();
             }
         });
     }
