@@ -24,6 +24,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import org.linphone.BandwidthManager;
 import org.linphone.LinphoneUtils;
 import org.linphone.compatibility.Compatibility;
@@ -43,6 +44,7 @@ import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnTouchListener;
 import rtdc.android.R;
+import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
 
@@ -72,7 +74,6 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         View view = inflater.inflate(R.layout.fragment_in_video_call, container, false);
         this.view = view;
 
-        view.findViewById(R.id.switchCameraButton).setOnClickListener(inCallActivity);
         view.findViewById(R.id.switchCameraButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,7 +223,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 LiblinphoneThread.get().getLinphoneCore().setPreviewWindow(mCaptureView);
             }
         } catch (ArithmeticException ae) {
-            Log.e("Cannot swtich camera : no camera");
+            Log.e("Cannot switch camera : no camera");
         }
     }
 
@@ -237,6 +238,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         if (androidVideoWindowImpl != null) {
             synchronized (androidVideoWindowImpl) {
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(androidVideoWindowImpl);
+                //AndroidVoipController.get().setVideo(true);
             }
         }
 
@@ -253,6 +255,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 				 * androidVideoWindowImpl
 				 */
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(null);
+                //AndroidVoipController.get().setVideo(false);
             }
         }
 
@@ -376,9 +379,10 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         inCallActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mVideoView.setVisibility(View.INVISIBLE);
+                //mVideoView.setVisibility(View.INVISIBLE);
                 mCaptureView.setVisibility(View.INVISIBLE);
-                view.findViewById(R.id.callEndedText).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+                ((TextView)view.findViewById(R.id.callStatus)).setText("Call ended");
             }
         });
     }

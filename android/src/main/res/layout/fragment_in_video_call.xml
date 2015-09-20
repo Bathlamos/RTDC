@@ -9,12 +9,12 @@
             android:layout_width="match_parent"
             android:id="@+id/videoSurface"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:textAppearance="?android:attr/textAppearanceSmall" android:text="Call ended"
-              android:id="@+id/callEndedText" android:textSize="20sp"
-              android:visibility="invisible"
-              android:layout_centerHorizontal="true" android:layout_alignBottom="@+id/buttonLayout"
-              android:layout_marginBottom="400dp"/>
+    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+              android:textAppearance="?android:attr/textAppearanceSmall" android:text="Paused"
+              android:id="@+id/callStatus" android:textSize="30sp"
+              android:layout_centerHorizontal="true"
+              android:password="false" android:gravity="center" android:textColor="#ffffffff"
+              android:background="#60000000" android:visibility="invisible"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
