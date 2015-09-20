@@ -49,11 +49,31 @@ public class AndroidVoipController implements VoipController{
     @Override
     public void unregisterCurrentUser() {
         LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
+
+        // Set the user to be unregistered
+
+        currentProxyConfig.edit();
+        currentProxyConfig.enableRegister(false);
+        currentProxyConfig.done();
+
+        // Let the Liblinphone thread unregister
+
+        while(currentProxyConfig.getState() != LinphoneCore.RegistrationState.RegistrationCleared) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Once we've been successfully unregistered, remove all authentication info
+
         lc.removeAuthInfo(currentAuthInfo);
         lc.removeProxyConfig(currentProxyConfig);
         currentAuthInfo = null;
         currentProxyConfig = null;
         currentRegisteredUser = null;
+        Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Unregistered user from the SIP server");
     }
 
     @Override
