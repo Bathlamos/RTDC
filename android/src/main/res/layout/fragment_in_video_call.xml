@@ -47,10 +47,10 @@
                      android:layout_margin="8dp" android:layout_gravity="bottom"/>
     </LinearLayout>
     <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/muteIcon"
-            android:src="@drawable/ic_mic_off_white_36dp"
+            android:src="@drawable/ic_mic_off_white_48dp"
             android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
             android:visibility="invisible" android:layout_margin="4dp"/>
     <FrameLayout

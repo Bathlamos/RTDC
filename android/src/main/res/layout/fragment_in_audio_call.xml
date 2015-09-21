@@ -21,13 +21,14 @@
             android:layout_below="@+id/callerText"
             android:layout_centerHorizontal="true" android:padding="4dp"/>
     <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/ringingDots"
             android:textSize="20sp"
-            android:text=". . . " android:layout_below="@+id/callStatus" android:layout_centerHorizontal="true"
-            android:padding="4dp" android:gravity="center_vertical|center_horizontal" android:visibility="invisible"/>
+            android:text=". . . "
+            android:padding="4dp" android:visibility="visible"
+            android:layout_below="@+id/callStatus" android:layout_centerHorizontal="true"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
