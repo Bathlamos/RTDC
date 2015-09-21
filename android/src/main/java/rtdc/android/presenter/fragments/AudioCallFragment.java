@@ -30,7 +30,10 @@ public class AudioCallFragment extends AbstractCallFragment{
         inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), inCallActivity.isSpeaker());
 
         // Display the name of the person we're in call with
-        ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName());
+        if(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName() != null)
+            ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName());
+        else
+            ((TextView) view.findViewById(R.id.callerText)).setText("Unknown");
 
         if(LiblinphoneThread.get().getCurrentCall().getState() == LinphoneCall.State.OutgoingProgress) {
             // Display a ringing message
