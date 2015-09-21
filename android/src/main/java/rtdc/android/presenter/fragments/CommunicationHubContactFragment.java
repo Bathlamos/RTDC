@@ -48,6 +48,7 @@ public class CommunicationHubContactFragment extends AbstractFragment implements
             if(user.getUsername().equals(callName)){
                 Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling " + user.getId());
                 Bootstrapper.FACTORY.getVoipController().call(user);
+                Event.unsubscribe(FetchUsersEvent.TYPE, this);
                 return;
             }
         }
