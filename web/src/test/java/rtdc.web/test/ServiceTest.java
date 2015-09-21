@@ -4,13 +4,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import rtdc.core.Config;
 import rtdc.core.json.JSONObject;
+import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
+import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class ServiceTest {
 
@@ -19,7 +22,7 @@ public class ServiceTest {
 
     @Test
     public void authenticateUser_existingUser_getUserPlusAuthToken() {
-        // Action
+        // Action;
         JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
 
         // Assert
@@ -30,7 +33,6 @@ public class ServiceTest {
         User user = new User((JSONObject)object.get("user"));
         Assert.assertEquals("Nathaniel", user.getFirstName());
         Assert.assertEquals("Aumonttt", user.getLastName());
-        Assert.assertEquals(22, user.getId());
     }
 
     @Test
@@ -79,7 +81,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals("errorEvent",object.get("_type").toString());
+        Assert.assertEquals("errorEvent", object.get("_type").toString());
         Assert.assertEquals("Username / password mismatch", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -121,7 +123,7 @@ public class ServiceTest {
         JSONObject object2 = executeSyncRequest("authenticate/tokenValid", "", "POST", authToken);
 
         // Assert
-        Assert.assertEquals("authenticationEvent", object.get("_type").toString());
+        Assert.assertEquals("authenticationEvent", object2.get("_type").toString());
     }
 
     @Test
@@ -134,7 +136,7 @@ public class ServiceTest {
         JSONObject object2 = executeSyncRequest("authenticate/logout", "", "POST", authToken);
 
         // Assert
-        Assert.assertEquals("sessionExpiredEvent",object.get("_type").toString()); // ??
+        Assert.assertEquals("sessionExpiredEvent", object2.get("_type").toString()); // ??
     }
 
     @Test
@@ -146,10 +148,164 @@ public class ServiceTest {
         // Action
         JSONObject object2 = executeSyncRequest("units", "", "GET", authToken);
 
-
+        // Assert
+        Assert.assertNotEquals("errorEvent", object2.get("_type"));
     }
 
-    private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, String authToken) {
+    @Test
+    public void updateOrSaveUnit_newUnit_unitSaved() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        Unit testUnit = new Unit();
+        testUnit.setId(123);
+        testUnit.setName("Test Unit");
+        testUnit.setAvailableBeds(20);
+
+        // Action
+        JSONObject object2 = executeSyncRequest("units", testUnit.toString(), "PUT", authToken);
+        // Parse and get list of units
+
+        // Assert
+        //Assert.assertEquals("actionCompletedEvent", object2.get("_type"));
+        // TO-DO: Verify if unit is saved correctly?
+    }
+
+    @Test
+    public void updateOrSaveUnit_updateUnit_unitUpdated() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        JSONObject object2 = executeSyncRequest("units", "", "GET", authToken);
+
+        ArrayList<Unit> units = new ArrayList<>();
+        // Get units from object2
+
+        // Action
+        Unit unit = units.get(0);
+        unit.setName("Modified name");
+        JSONObject result = executeSyncRequest("units", unit.toString(), "PUT", authToken);
+
+        // Assert
+        //Assert.assertEquals("actionCompletedEvent", result.get("_type"));
+        // TO-DO: Verify if unit is saved correctly?
+    }
+
+    @Test
+    public void deleteUnit_unitExists_unitDeleted() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        // Action
+        int unitId = 1;
+        JSONObject result = executeSyncRequest("units/" + unitId, "", "DELETE", authToken);
+
+        // Assert
+        Assert.assertEquals("actionCompletedEvent", result.get("_type"));
+        // TO-DO: Check list of units ?
+    }
+
+    @Test
+    public void deleteUnit_unitNotFound_errorEvent() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        // Action
+        int unitId = 99999;
+        JSONObject result = executeSyncRequest("units/" + unitId, "", "DELETE", authToken);
+
+        // Assert
+        Assert.assertEquals("errorEvent", result.get("_type"));
+    }
+
+    @Test
+    public void getUsers_correctBehavior_gotAllUsers() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        // Action
+        JSONObject object2 = executeSyncRequest("users", "", "GET", authToken);
+
+        // Assert
+        Assert.assertNotEquals("errorEvent", object2.get("_type"));
+    }
+
+    @Test
+    public void updateOrSaveUser_newUser_userSaved() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        User testUser = new User();
+        testUser.setId(123456);
+        testUser.setFirstName("Test");
+        testUser.setLastName("Test");
+
+        // Action
+        JSONObject object2 = executeSyncRequest("users", testUser.toString(), "PUT", authToken);
+        // Parse and get list of units
+
+        // Assert
+        //Assert.assertEquals("actionCompletedEvent", object2.get("_type"));
+        // TO-DO: Verify if unit is saved correctly?
+    }
+
+    @Test
+    public void updateOrSaveUser_updateUser_userUpdated() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        JSONObject object2 = executeSyncRequest("users", "", "GET", authToken);
+
+        ArrayList<User> users = new ArrayList<>();
+        // Get units from object2
+
+        // Action
+        User user = users.get(0);
+        user.setFirstName("Modified name");
+        JSONObject result = executeSyncRequest("users", user.toString(), "PUT", authToken);
+
+        // Assert
+        //Assert.assertEquals("actionCompletedEvent", result.get("_type"));
+        // TO-DO: Verify if unit is saved correctly?
+    }
+
+    @Test
+    public void deleteUser_userExists_userDeleted() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        // Action
+        int userId = 1;
+        JSONObject result = executeSyncRequest("users/" + userId, "", "DELETE", authToken);
+
+        // Assert
+        Assert.assertEquals("actionCompletedEvent", result.get("_type"));
+        // TO-DO: Check list of units ?
+    }
+
+    @Test
+    public void deleteUser_userNotFound_errorMessage() {
+        // Arrange
+        JSONObject object = executeSyncRequest("authenticate", "username=Nathaniel&password=password", "POST", null);
+        String authToken = object.get("authenticationToken").toString();
+
+        // Action
+        int userId = 99999;
+        JSONObject result = executeSyncRequest("users/" + userId, "", "DELETE", authToken);
+
+        // Assert
+        Assert.assertEquals("errorEvent", result.get("_type"));
+    }
+
+    private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
         try  {
             URL urlObj = new URL(_url + service);
             HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
@@ -158,7 +314,8 @@ public class ServiceTest {
             con.setRequestProperty("User-Agent", USER_AGENT);
             con.setRequestProperty("Accept-Language", "en-us,en;q=0.5");
             if (authToken != null) {
-                con.setRequestProperty("auth_token", authToken);
+                con.setRequestProperty("AUTH_TOKEN", authToken);
+                con.setRequestProperty("auth", authToken);
             }
 
             con.setDoOutput(true);
