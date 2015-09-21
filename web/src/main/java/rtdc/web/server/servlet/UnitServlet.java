@@ -8,6 +8,7 @@ import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Permission;
 import rtdc.core.model.Unit;
+import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
 import javax.annotation.security.RolesAllowed;
@@ -19,8 +20,13 @@ import javax.ws.rs.core.Context;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Path("units")
 public class UnitServlet {
+
+    private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
 
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
@@ -33,6 +39,9 @@ public class UnitServlet {
             transaction = session.beginTransaction();
             units = (List<Unit>) session.createCriteria(Unit.class).list();
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: UNIT: Getting all units for user.", "Username");
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -50,6 +59,7 @@ public class UnitServlet {
     public String updateUnit(@Context HttpServletRequest req, @FormParam("unit" )String unitString){
         Unit unit = new Unit(new JSONObject(unitString));
 
+
         Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
         if(!violations.isEmpty())
             return new ErrorEvent(violations.toString()).toString();
@@ -61,6 +71,9 @@ public class UnitServlet {
             session.saveOrUpdate(unit);
 
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: UNIT: Update unit values: {}", "Username", unitString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -83,6 +96,10 @@ public class UnitServlet {
             Unit unit = (Unit) session.load(Unit.class, id);
             session.delete(unit);
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.warn("{}: UNIT: Unit deleted: {}", "Username", unit.getName());
+
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

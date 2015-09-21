@@ -23,17 +23,17 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
-import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Path("authenticate")
 public class AuthServlet {
 
-    private static final Logger logger = Logger.getLogger("AuthServlet");
+    private static final Logger log = LoggerFactory.getLogger(AuthServlet.class);
 
     @POST
     @Path("tokenValid")
@@ -46,12 +46,12 @@ public class AuthServlet {
         AuthenticationToken authToken;
         Transaction transaction = null;
 
-        logger.info("Received parameter : authToken : " + authenticationToken);
+        log.debug("Received parameter : authToken = {}", authenticationToken);
         try{
             transaction = session.beginTransaction();
             authToken = (AuthenticationToken) session.createCriteria(AuthenticationToken.class).add(
                     Restrictions.eq("authToken", authenticationToken)).uniqueResult();
-            logger.info("Authentication token in database: " + authToken);
+            log.debug("Authentication token in database: {}", authToken);
             if(authToken == null)
                 return new SessionExpiredEvent().toString();
             transaction.commit();
@@ -99,10 +99,11 @@ public class AuthServlet {
                 session.close();
             }
 
-            if(userCredentials == null)
+            if(userCredentials == null) {
                 //We do not have any user with that username in the database
+                log.warn("{}: LOGIN FAILED: User does not exist.", username);
                 throw new UsernamePasswordMismatchException("Username / password mismatch");
-            else{
+            }else{
                 if(AuthService.isPasswordValid(userCredentials, password)) {
 
                     //Create an authentication token
@@ -118,6 +119,7 @@ public class AuthServlet {
                         transaction = session.beginTransaction();
                         session.save(token);
                         transaction.commit();
+                        log.info("{}: LOGIN SUCCESSFUL: User is connected.", username);
                     } catch (RuntimeException e) {
                         if(transaction != null)
                             transaction.rollback();
@@ -134,6 +136,7 @@ public class AuthServlet {
 
                     return new AuthenticationEvent(user, token.getAuthenticationToken()).toString();
                 }else
+                    log.warn("{}: LOGIN FAILED: Invalid password.", username);
                     throw new UsernamePasswordMismatchException("Username / password mismatch");
             }
         }
@@ -148,16 +151,19 @@ public class AuthServlet {
         Session session = PersistenceConfig.getSessionFactory().openSession();
         AuthenticationToken authToken;
         Transaction transaction = null;
-        logger.log(Level.INFO, "Received parameter : authToken-" + authenticationToken);
+        log.debug("Received parameter : authToken = {}", authenticationToken);
         try{
             transaction = session.beginTransaction();
             authToken = (AuthenticationToken) session.createCriteria(AuthenticationToken.class).add(
                     Restrictions.eq("authToken", authenticationToken)).uniqueResult();
-            logger.log(Level.INFO, "Authentication token in database: " + authToken);
+            log.debug("Authentication token in database: {}", authToken);
             if(authToken == null)
                 return new SessionExpiredEvent().toString();
             session.delete(authToken);
             transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: LOGOUT: User has been disconnected.", "Username");
             return new LogoutEvent().toString();
         } catch (RuntimeException e) {
             if(transaction != null)
