@@ -82,6 +82,6 @@
     <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/endCallButton"
                  android:src="@drawable/ic_call_end_white_36dp"
                  android:background="@drawable/circle_red"
-                 android:layout_alignParentBottom="true" android:layout_alignRight="@+id/callStatus"
-                 android:layout_alignEnd="@+id/callStatus" android:layout_marginBottom="32dp"/>
+                 android:layout_alignParentBottom="true"
+                 android:layout_marginBottom="32dp" android:layout_centerHorizontal="true"/>
 </RelativeLayout>
