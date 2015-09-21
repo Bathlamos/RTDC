@@ -7,7 +7,7 @@
               android:nestedScrollingEnabled="true">
 
     <TextView
-        android:id="@+id/senderName"
+        android:id="@+id/senderNameTextView"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
@@ -19,11 +19,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Message"
-            android:id="@+id/message" android:layout_weight="1" android:textColor="@color/RTDC_black"
+            android:id="@+id/messageTextView" android:layout_weight="1" android:textColor="@color/RTDC_black"
             android:textSize="14dp" android:padding="7dp"/>
 
     <TextView
-        android:id="@+id/unit_secondLine"
+        android:id="@+id/timeSentTextView"
         android:layout_width="105dp"
         android:layout_height="wrap_content"
         android:singleLine="true"

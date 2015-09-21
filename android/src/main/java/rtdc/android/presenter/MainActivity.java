@@ -75,12 +75,12 @@ public class MainActivity extends ActionBarActivity {
         });
 
         //TODO: Change when permissions are implemented
-        String[] mPlanetTitles = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "User Profile", "Manage Users", "Manage Units"};
+        String[] menuItems = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "Messages", "Manage Users", "Manage Units"};
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.nav_list);
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, menuItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 
@@ -114,6 +114,9 @@ public class MainActivity extends ActionBarActivity {
                 //fragment = new CommunicationHubFragment();
                 //fragment = new OldCommunicationHub();
                 fragment = new CommunicationHubContactFragment();
+                break;
+            case 3:
+                fragment = new MessageListFragment();
                 break;
             case 4:
                 fragment = new ManageUsersFragment();

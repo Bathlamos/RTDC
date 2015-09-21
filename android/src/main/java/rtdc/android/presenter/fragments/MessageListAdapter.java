@@ -42,9 +42,9 @@ public class MessageListAdapter extends ArrayAdapter {
         if (convertView == null) {
             viewToUse = mInflater.inflate(R.layout.message_list_item, null);
             holder = new ViewHolder();
-            holder.sender = (TextView)viewToUse.findViewById(R.id.unit_textView);
-            holder.content = (TextView) viewToUse.findViewById(R.id.unit_secondLine);
-            holder.timeSent = (TextView) viewToUse.findViewById(R.id.unit_secondLine);
+            holder.sender = (TextView)viewToUse.findViewById(R.id.senderNameTextView);
+            holder.content = (TextView) viewToUse.findViewById(R.id.messageTextView);
+            holder.timeSent = (TextView) viewToUse.findViewById(R.id.timeSentTextView);
             viewToUse.setTag(holder);
         } else {
             viewToUse = convertView;
