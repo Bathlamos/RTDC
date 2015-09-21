@@ -1,28 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="551dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="John Doe"
             android:id="@+id/callerText"
-            android:layout_marginTop="199dp"
-            android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+            android:layout_marginTop="16dp"
+            android:layout_alignParentTop="true" android:layout_centerHorizontal="true" android:textSize="36sp"
+            android:padding="4dp" android:textColor="@color/RTDC_black"/>
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Incoming call"
+              android:text="Incoming call"
               android:id="@+id/incomingCallText"
-              android:layout_marginTop="24dp" android:layout_alignParentTop="true"
-              android:layout_centerHorizontal="true" android:textSize="30dp"/>
-    <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/refuseCall"
-                 android:src="@drawable/ic_call_end_white_36dp" android:background="@drawable/circle_red"
-                 android:layout_marginBottom="119dp"
-                 android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/incomingCallText"
-                 android:layout_toEndOf="@+id/incomingCallText"/>
-    <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/acceptCall"
-                 android:src="@drawable/ic_call_white_36dp" android:background="@drawable/circle_green"
-                 android:layout_alignTop="@+id/refuseCall" android:layout_toLeftOf="@+id/incomingCallText"
-                 android:layout_toStartOf="@+id/incomingCallText"/>
+              android:textSize="22sp"
+              android:layout_below="@+id/callerText" android:layout_centerHorizontal="true" android:padding="4dp"/>
+    <LinearLayout android:orientation="vertical" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true" android:layout_toLeftOf="@+id/buttonSpace"
+                  android:layout_toStartOf="@+id/incomingCallText" android:layout_marginBottom="4dp"
+                  android:id="@+id/declineLayout">
+        <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/refuseCall"
+                     android:src="@drawable/ic_call_end_white_36dp" android:background="@drawable/circle_red"
+                     android:contentDescription="Decline"
+                     android:layout_alignParentBottom="true" android:layout_toLeftOf="@+id/incomingCallText"
+                     android:layout_toStartOf="@+id/incomingCallText" android:layout_margin="4dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceSmall" android:text="Decline"
+                  android:id="@+id/declineText" android:layout_gravity="center_horizontal|bottom" android:padding="4dp"/>
+    </LinearLayout>
+    <Space
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/declineLayout" android:layout_centerHorizontal="true"
+            android:id="@+id/buttonSpace"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/buttonSpace"
+            android:layout_toEndOf="@+id/incomingCallText" android:layout_centerHorizontal="true"
+            android:layout_marginBottom="4dp" android:id="@+id/acceptLayout">
+        <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/acceptCall"
+                     android:src="@drawable/ic_call_white_36dp" android:background="@drawable/circle_green"
+                     android:layout_alignParentBottom="true" android:layout_toRightOf="@+id/callerText"
+                     android:layout_toEndOf="@+id/callerText" android:layout_margin="4dp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Accept"
+                android:id="@+id/acceptText" android:layout_gravity="center_horizontal|bottom" android:padding="4dp"/>
+    </LinearLayout>
 </RelativeLayout>

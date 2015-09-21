@@ -21,31 +21,30 @@
             android:layout_height="wrap_content" android:weightSum="1"
             android:id="@+id/buttonLayout"
             android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
-            android:layout_gravity="center" android:layout_marginBottom="5dp" android:layout_marginTop="5dp">
+            android:layout_gravity="center"
+            android:layout_margin="4dp">
         <ImageButton
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:id="@+id/muteButton"
                 android:background="@drawable/circle_dark_blue" android:src="@drawable/ic_mic_off_white_36dp"
-                android:tint="@color/RTDC_midnight_blue"/>
-        <Space
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
-                />
+                android:tint="@color/RTDC_midnight_blue" android:layout_margin="8dp" android:contentDescription="Mute"
+                android:layout_gravity="bottom"/>
         <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/videoButton"
                      android:src="@drawable/ic_videocam_white_36dp"
-                     android:background="@drawable/circle_blue" android:tint="#FFFFFF"/>
-        <Space android:layout_width="30dp" android:layout_height="match_parent"/>
+                     android:background="@drawable/circle_blue" android:tint="#FFFFFF"
+                     android:layout_margin="8dp" android:layout_gravity="bottom"/>
         <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/switchCameraButton"
                      android:src="@drawable/ic_switch_video_white_36dp"
-                     android:background="@drawable/circle_dark_blue" android:tint="@color/RTDC_midnight_blue"/>
-        <Space android:layout_width="30dp" android:layout_height="match_parent"/>
+                     android:background="@drawable/circle_dark_blue" android:tint="@color/RTDC_midnight_blue"
+                     android:layout_margin="8dp" android:layout_gravity="bottom"/>
         <ImageButton android:layout_width="70dp" android:layout_height="70dp" android:id="@+id/endCallButton"
                      android:src="@drawable/ic_call_end_white_36dp"
                      android:background="@drawable/circle_red"
                      android:layout_below="@+id/buttonLayout"
                      android:layout_alignLeft="@+id/buttonLayout" android:layout_alignStart="@+id/buttonLayout"
-                     android:layout_alignRight="@+id/buttonLayout" android:layout_alignEnd="@+id/buttonLayout"/>
+                     android:layout_alignRight="@+id/buttonLayout" android:layout_alignEnd="@+id/buttonLayout"
+                     android:layout_margin="8dp" android:layout_gravity="bottom"/>
     </LinearLayout>
     <ImageView
             android:layout_width="70dp"
@@ -53,7 +52,7 @@
             android:id="@+id/muteIcon"
             android:src="@drawable/ic_mic_off_white_36dp"
             android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
-            android:visibility="invisible"/>
+            android:visibility="invisible" android:layout_margin="4dp"/>
     <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:layout_above="@+id/buttonLayout"
