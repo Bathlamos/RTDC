@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_weight="0.68"
+                android:background="@drawable/border_right_grey">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="56dp"
+                android:weightSum="1" android:padding="10dp" android:gravity="center_vertical"
+                android:background="@drawable/border_bottom_grey">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RECENT"
+                        android:id="@+id/textView" android:textSize="14sp"
+                        android:textStyle="bold" android:textColor="@color/RTDC_grey_asbestos"
+                        />
+
+
+        </LinearLayout>
+                <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/conversationListView"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:layout_weight="0.32">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:padding="5dp" android:background="@drawable/border_bottom_grey">
+
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical" android:layout_weight="1">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="John Doe"
+                                android:id="@+id/receiverNameTextView" android:textSize="17sp"
+                                android:textColor="@color/RTDC_grey"/>
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit Manager: Emergency Unit"
+                                    android:id="@+id/receiverRoleTextView" android:textSize="12sp"
+                                    android:textColor="@color/RTDC_grey_asbestos"/>
+                    </LinearLayout>
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|right">
+                            <ImageButton
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:id="@+id/audioCallButton" android:src="@drawable/ic_phone_white_24dp"
+                                    android:adjustViewBounds="false" android:background="@null"
+                                    android:tint="@color/RTDC_dark_blue"/>
+                            <ImageButton
+                                    android:layout_width="38dp"
+                                    android:layout_height="38dp"
+                                    android:id="@+id/videoCallButton" android:src="@drawable/ic_videocam_white_24dp"
+                                    android:background="@null" android:tint="@color/RTDC_dark_blue"/>
+                    </LinearLayout>
+            </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="1">
+                    <ListView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/messageListView" android:layout_weight="1"/>
+                        <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+                                android:paddingRight="5dp" android:background="@drawable/border_top_grey">
+                                <EditText
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/messageEditText" android:layout_weight="1" android:editable="true"
+                                        android:layout_gravity="bottom"/>
+                                <ImageButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/sendButton"
+                                        android:src="@drawable/ic_send_white_24dp" android:background="@null"
+                                        android:tint="@color/RTDC_dark_blue" android:layout_gravity="center_vertical"/>
+                        </LinearLayout>
+                </LinearLayout>
+        </LinearLayout>
+</LinearLayout>
