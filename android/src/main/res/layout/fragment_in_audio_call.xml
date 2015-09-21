@@ -27,7 +27,7 @@
             android:id="@+id/ringingDots"
             android:textSize="20sp"
             android:text=". . . "
-            android:padding="4dp" android:visibility="visible"
+            android:padding="4dp" android:visibility="invisible"
             android:layout_below="@+id/callStatus" android:layout_centerHorizontal="true"/>
     <LinearLayout
             android:orientation="horizontal"
