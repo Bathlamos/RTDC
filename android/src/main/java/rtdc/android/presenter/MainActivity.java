@@ -86,7 +86,11 @@ public class MainActivity extends ActionBarActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        selectItem(0); // Opens the capacity overview by default
+        // Doing this check first prevents the fragment from being reloaded to home fragment when the screen orientation is changed
+
+        if(savedInstanceState == null){
+            selectItem(0); // Opens the capacity overview by default
+        }
     }
     
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
