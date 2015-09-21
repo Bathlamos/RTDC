@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.presenter.fragments.AbstractCallFragment;
@@ -41,6 +40,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_call);
 
+        videoEnabled = LiblinphoneThread.get().getCurrentCall().getCurrentParamsCopy().getVideoEnabled();
         updateDisplay();
 
         // Build the intent that will be used by the notification
@@ -67,20 +67,18 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         notificationManager.notify(IN_CALL_NOTIFICATION_ID, mBuilder.build());
     }
 
-    public void hangupCleanup(){
-        callFragment.hangupCleanup();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ((TextView) findViewById(R.id.callStatus)).setText("Call ended");
-            }
-        });
+    public void onCallEstablished(){
+        callFragment.onCallEstablished();
+    }
+
+    public void onCallHangup(){
+        callFragment.onCallHangup();
 
         // Drop the notification for the call
         ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(IN_CALL_NOTIFICATION_ID);
 
         //TODO: Redirect to communication hub
-        // After 3 seconds change the interface
+        // After 1.5 seconds change the interface
         executor.schedule(new Callable() {
             @Override
             public Object call() throws Exception {
@@ -89,7 +87,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
                 AndroidBootstrapper.getAppContext().startActivity(intent);
                 return null;
             }
-        }, 3000, TimeUnit.MILLISECONDS);
+        }, 1500, TimeUnit.MILLISECONDS);
     }
 
     public void setButtonPressed(ImageButton button, boolean pressed){
@@ -97,8 +95,8 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
             button.setBackgroundResource(R.drawable.circle_blue);
             button.setColorFilter(Color.WHITE);
         }else {
-            button.setBackgroundResource(R.drawable.circle_blue_border);
-            button.setColorFilter(Color.BLACK);
+            button.setBackgroundResource(R.drawable.circle_dark_blue);
+            button.setColorFilter(getResources().getColor(R.color.RTDC_midnight_blue));
         }
     }
 
@@ -188,7 +186,19 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
             // Hangup the call and clean up the interface
 
             Bootstrapper.FACTORY.getVoipController().hangup();
-            hangupCleanup();
+            onCallHangup();
         }
+    }
+
+    public boolean isSpeaker() {
+        return speaker;
+    }
+
+    public boolean isMicMuted() {
+        return micMuted;
+    }
+
+    public boolean isVideoEnabled() {
+        return videoEnabled;
     }
 }

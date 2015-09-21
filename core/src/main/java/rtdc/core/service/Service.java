@@ -36,6 +36,7 @@ public final class Service {
 
     public static void logout(){
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate/logout", POST));
+        Bootstrapper.FACTORY.getVoipController().unregisterCurrentUser();
     }
 
     public static void getUnits(){
