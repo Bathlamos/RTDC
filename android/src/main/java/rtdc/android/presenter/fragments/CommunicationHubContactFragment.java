@@ -77,13 +77,13 @@ public class CommunicationHubContactFragment extends AbstractFragment implements
                 }
             });
 
-            ImageButton videoCallButton = (ImageButton) view.findViewById(R.id.audioCallButton);
+            ImageButton videoCallButton = (ImageButton) view.findViewById(R.id.videoCallButton);
             videoCallButton.setTag(position);
             videoCallButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     User clickedUser = users.get(Integer.parseInt(v.getTag().toString()));
-                    Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling " + clickedUser.getId());
+                    Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling with video " + clickedUser.getId());
                     // TODO Start video call
 //                    Bootstrapper.FACTORY.getVoipController().call(clickedUser);
                 }
