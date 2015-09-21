@@ -38,7 +38,7 @@ public class AsteriskRealTimeService {
                     " '"+user.getFirstName()+" "+user.getLastName()+"'," +  // callerid
                     " '"+password+"'," +                                    // secret
                     " 'users', 'dynamic', 'friend'," +                      // context, host, type
-                    " 'g729;ilbc;gsm;ulaw;alaw;h263;h263p;h264;vp8');";     // allow (should be updated with which codecs we want users to be able to use)
+                    " 'g729;ilbc;gsm;ulaw;alaw;vp8');";                     // allow (should be updated with which codecs we want users to be able to use)
             String extensionQuery = "INSERT INTO extensions (context, exten, priority, app, appdata) VALUES (" +
                     " 'users','"+user.getId()+"',1,'Dial','SIP/"+user.getUsername()+"');";
             connection.createStatement().executeUpdate(sipQuery);

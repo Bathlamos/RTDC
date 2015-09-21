@@ -49,11 +49,31 @@ public class AndroidVoipController implements VoipController{
     @Override
     public void unregisterCurrentUser() {
         LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
+
+        // Set the user to be unregistered
+
+        currentProxyConfig.edit();
+        currentProxyConfig.enableRegister(false);
+        currentProxyConfig.done();
+
+        // Let the Liblinphone thread unregister
+
+        while(currentProxyConfig.getState() != LinphoneCore.RegistrationState.RegistrationCleared) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Once we've been successfully unregistered, remove all authentication info
+
         lc.removeAuthInfo(currentAuthInfo);
         lc.removeProxyConfig(currentProxyConfig);
         currentAuthInfo = null;
         currentProxyConfig = null;
         currentRegisteredUser = null;
+        Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Unregistered user from the SIP server");
     }
 
     @Override
@@ -76,7 +96,7 @@ public class AndroidVoipController implements VoipController{
 
     @Override
     public void setSpeaker(boolean enabled) {
-        LiblinphoneThread.get().getLinphoneCore().muteMic(enabled);
+        LiblinphoneThread.get().getLinphoneCore().enableSpeaker(enabled);
     }
 
     @Override
@@ -104,6 +124,22 @@ public class AndroidVoipController implements VoipController{
         // Not yet in video call: try to re-invite with video
         lc.updateCall(call, params);
         return;
+    }
+
+    @Override
+    public void acceptRemoteVideo(){
+        LinphoneCore lc =  LiblinphoneThread.get().getLinphoneCore();
+        LinphoneCall call = lc.getCurrentCall();
+        try{
+            Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Enabling video...");
+            LinphoneCallParams params = lc.getCurrentCall().getCurrentParamsCopy();
+            params.setVideoEnabled(true);
+            lc.enableVideo(true, true);
+            lc.acceptCallUpdate(call, params);
+            CommunicationHubInCallActivity.getCurrentInstance().displayVideo();
+        } catch (LinphoneCoreException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
