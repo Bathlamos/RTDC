@@ -13,19 +13,19 @@ import rtdc.core.model.Message;
 
 import java.util.List;
 
-public class MessageListAdapter extends ArrayAdapter {
+public class RecentContactsListAdapter extends ArrayAdapter {
 
     private Context context;
 
-    public MessageListAdapter(Context context, List items) {
+    public RecentContactsListAdapter(Context context, List items) {
         super(context, android.R.layout.simple_list_item_1, items);
         this.context = context;
     }
 
     private static class ViewHolder {
-        TextView sender;
-        TextView content;
-        TextView timeSent;
+        TextView receiver;
+        TextView contentPreview;
+        TextView lastTimeSent;
     }
 
     /**
@@ -41,26 +41,20 @@ public class MessageListAdapter extends ArrayAdapter {
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            viewToUse = mInflater.inflate(R.layout.message_list_item, null);
+            viewToUse = mInflater.inflate(R.layout.recent_contacts_list_item, null);
             holder = new ViewHolder();
-            holder.sender = (TextView)viewToUse.findViewById(R.id.senderNameTextView);
-            holder.content = (TextView) viewToUse.findViewById(R.id.messageTextView);
-            holder.timeSent = (TextView) viewToUse.findViewById(R.id.timeSentTextView);
+            holder.receiver = (TextView)viewToUse.findViewById(R.id.senderRecentContactsTextView);
+            holder.contentPreview = (TextView) viewToUse.findViewById(R.id.messagePreviewTextView);
+            holder.lastTimeSent = (TextView) viewToUse.findViewById(R.id.lastTimeSentTextView);
             viewToUse.setTag(holder);
         } else {
             viewToUse = convertView;
             holder = (ViewHolder) viewToUse.getTag();
         }
 
-        if (position % 2 == 0) {
-            viewToUse.setBackgroundColor(Color.parseColor("#DBEBF5"));
-        } else {
-            viewToUse.setBackgroundColor(Color.TRANSPARENT);
-        }
-
-        holder.sender.setText(message.getSender().getFirstName()+" "+message.getSender().getLastName());
-        holder.content.setText(message.getContent());
-        holder.timeSent.setText(message.getTimeSent().toString());
+        holder.receiver.setText(message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
+        holder.contentPreview.setText(message.getContent());
+        holder.lastTimeSent.setText(message.getTimeSent().toString());
 
         return viewToUse;
     }
