@@ -18,6 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 import android.graphics.Point;
+import android.media.AudioManager;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -47,6 +48,7 @@ import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
+import rtdc.core.Bootstrapper;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -122,10 +124,10 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                     //inCallActivity.displayVideoCallControlsIfHidden();
                 }
 
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     View buttonLayout = VideoCallFragment.this.view.findViewById(R.id.buttonLayout);
                     if (buttonLayout.getVisibility() == View.VISIBLE) {
-                        if (inCallActivity.isMicMuted())
+                        if (Bootstrapper.FACTORY.getVoipController().isMicMuted())
                             VideoCallFragment.this.view.findViewById(R.id.muteIcon).setVisibility(View.VISIBLE);
                         buttonLayout.setVisibility(View.GONE);
                     } else {
@@ -192,6 +194,9 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
             }
         });
 
+        // Set speaker mode on
+        AndroidVoipController.get().setSpeaker(true);
+
         return view;
     }
 
@@ -238,7 +243,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         if (androidVideoWindowImpl != null) {
             synchronized (androidVideoWindowImpl) {
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(androidVideoWindowImpl);
-                //AndroidVoipController.get().setVideo(true);
+                AndroidVoipController.get().setVideo(true);
             }
         }
 
@@ -255,7 +260,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 				 * androidVideoWindowImpl
 				 */
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(null);
-                //AndroidVoipController.get().setVideo(false);
+                AndroidVoipController.get().setVideo(false);
             }
         }
 
