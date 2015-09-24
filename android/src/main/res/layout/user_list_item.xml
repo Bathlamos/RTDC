@@ -2,21 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical" android:padding="8dp" android:background="@color/RTDC_white">
     <TextView
         android:id="@+id/username_textView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
         android:gravity="center_vertical"
         android:text="User name"
-        android:textSize="20sp" />
+        android:textSize="20sp" android:textColor="@color/RTDC_black"/>
 
     <TextView
         android:id="@+id/user_secondLine"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="Role, employee number"
