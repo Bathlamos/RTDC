@@ -8,6 +8,8 @@ import rtdc.android.AndroidBootstrapper;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
+import rtdc.android.presenter.fragments.VideoCallFragment;
+import rtdc.core.model.User;
 
 import java.nio.ByteBuffer;
 import java.util.logging.Level;
@@ -17,6 +19,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
     private LinphoneCore lc;
     private LinphoneCall currentCall;
+    private LinphoneAddress currentCallRemoteAddress;
     private boolean running;
 
     private static final LiblinphoneThread INST = new LiblinphoneThread();
@@ -60,6 +63,14 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
         return currentCall;
     }
 
+    public void setCurrentCallRemoteAddress(LinphoneAddress address){
+        currentCallRemoteAddress = address;
+    }
+
+    public LinphoneAddress getCurrentCallRemoteAddress(){
+        return currentCallRemoteAddress;
+    }
+
     @Override
     public void callState(LinphoneCore linphoneCore, LinphoneCall linphoneCall, LinphoneCall.State state, String s) {
         Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, state + "");
@@ -68,11 +79,22 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
             // We just received a call, interrupt everything and display the incoming call view
 
             currentCall = linphoneCall;
+            currentCallRemoteAddress = linphoneCall.getRemoteAddress();
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubReceivingCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);
         }else if(state == LinphoneCall.State.OutgoingProgress){
             currentCall = linphoneCall;
+            // We don't want to set the currentCallRemoteAddress value here because Asterisk doesn't send the actual remote
+            // user name when you invite someone into a call, no idea why
+            //currentCallRemoteAddress = linphoneCall.getRemoteAddress();
+
+            // Reset call options
+
+            AndroidVoipController.get().setVideo(false);
+            AndroidVoipController.get().setSpeaker(false);
+            AndroidVoipController.get().setMicMuted(false);
+
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);
@@ -81,7 +103,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
             if(CommunicationHubInCallActivity.getCurrentInstance() != null)
                 CommunicationHubInCallActivity.getCurrentInstance().onCallEstablished();
-        }else if(state == LinphoneCall.State.CallEnd){
+        }else if(state == LinphoneCall.State.CallEnd || state == LinphoneCall.State.Error || state == LinphoneCall.State.CallReleased){
             Context context = AndroidBootstrapper.getAppContext();
 
             // Remove the notification for the call
@@ -93,15 +115,36 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
             if(CommunicationHubInCallActivity.isActivityVisible())
                 CommunicationHubInCallActivity.getCurrentInstance().onCallHangup();
-        }else if(state == LinphoneCall.State.CallUpdatedByRemote){
-                // FIXME: remoteVideo is false here when remote user triggers a video call, should be true
-                boolean remoteVideo = linphoneCall.getRemoteParams().getVideoEnabled();
-                boolean localVideo = linphoneCall.getCurrentParamsCopy().getVideoEnabled();
-                Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, "Remote video: " + remoteVideo + ", Local video: " + localVideo);
-                if (remoteVideo && !localVideo) {
-                    AndroidVoipController.get().acceptRemoteVideo();
+        }
+    }
+
+    @Override
+    public void messageReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneChatMessage linphoneChatMessage) {
+        Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, "Message received: " + linphoneChatMessage.getText());
+
+        if(linphoneChatMessage.getText().startsWith("Video: ")){
+            // There was an update regarding the video of the call
+            boolean video = Boolean.valueOf(linphoneChatMessage.getText().replace("Video: ", ""));
+            AndroidVoipController.get().setRemoteVideo(video);
+            if(video){
+                if(AndroidVoipController.get().isVideoEnabled()){
+                    // Remote video is on and we're already in the video fragment. Make sure the pause screen is off
+                    CommunicationHubInCallActivity.getCurrentInstance().displayPauseVideoStatus(false);
+                }else{
+                    // Remote video is on and we're not in the video fragment. Go to the video fragment
+                    CommunicationHubInCallActivity.getCurrentInstance().displayVideo();
                 }
-                Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, "Call as been updated");
+            }else{
+                if(AndroidVoipController.get().isVideoEnabled()){
+                    // Remote video is off and and we're broadcasting video. Pause the video call
+                    CommunicationHubInCallActivity.getCurrentInstance().displayPauseVideoStatus(true);
+                }else{
+                    if(CommunicationHubInCallActivity.getCurrentInstance().getCurrentFragment() instanceof VideoCallFragment) {
+                        // Remote video is off and and we're in the video fragment. No point in staying there, go to audio fragment
+                        CommunicationHubInCallActivity.getCurrentInstance().displayAudio();
+                    }
+                }
+            }
         }
     }
 
@@ -137,16 +180,6 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
     @Override
     public void notifyPresenceReceived(LinphoneCore linphoneCore, LinphoneFriend linphoneFriend) {
-
-    }
-
-    /*@Override
-    public void textReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneAddress linphoneAddress, String s) {
-
-    }*/
-
-    @Override
-    public void messageReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneChatMessage linphoneChatMessage) {
 
     }
 

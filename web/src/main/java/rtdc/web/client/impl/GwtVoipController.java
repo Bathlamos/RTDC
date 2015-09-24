@@ -44,8 +44,28 @@ public class GwtVoipController implements VoipController{
     }
 
     @Override
-    public void acceptRemoteVideo() {
+    public boolean isVideoEnabled() {
+        return false;
+    }
 
+    @Override
+    public void setRemoteVideo(boolean enabled) {
+
+    }
+
+    @Override
+    public boolean isMicMuted() {
+        return false;
+    }
+
+    @Override
+    public boolean isSpeakerEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isReceivingRemoteVideo() {
+        return false;
     }
 
     @Override

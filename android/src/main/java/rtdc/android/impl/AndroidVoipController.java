@@ -18,9 +18,12 @@ public class AndroidVoipController implements VoipController{
 
     private static final AndroidVoipController INST = new AndroidVoipController();
 
-    private static User currentRegisteredUser;
     private static LinphoneAuthInfo currentAuthInfo;
     private static LinphoneProxyConfig currentProxyConfig;
+    private boolean speakerEnabled;
+    private boolean micMuted;
+    private boolean videoEnabled;
+    private boolean remoteVideo;
 
     private AndroidVoipController(){}
 
@@ -29,6 +32,8 @@ public class AndroidVoipController implements VoipController{
     @Override
     public void registerUser(User user) {
         try {
+            Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Registering user...");
+
             LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
             String sipAddress = "sip:" + user.getUsername() + "@" + Config.ASTERISK_IP;
             //LinphoneAddress address = LinphoneCoreFactory.instance().createLinphoneAddress(sipAddress);
@@ -40,7 +45,8 @@ public class AndroidVoipController implements VoipController{
             currentProxyConfig = lc.createProxyConfig(sipAddress, Config.ASTERISK_IP, null, true);
             currentProxyConfig.setExpires(60);
             lc.addProxyConfig(currentProxyConfig);
-            currentRegisteredUser = user;
+
+            Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Registered user " + user.getId() + " on SIP server");
         } catch (LinphoneCoreException e) {
             e.printStackTrace();
         }
@@ -72,7 +78,6 @@ public class AndroidVoipController implements VoipController{
         lc.removeProxyConfig(currentProxyConfig);
         currentAuthInfo = null;
         currentProxyConfig = null;
-        currentRegisteredUser = null;
         Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Unregistered user from the SIP server");
     }
 
@@ -80,10 +85,27 @@ public class AndroidVoipController implements VoipController{
     public void call(User user) {
         try {
             String sipAddress = "sip:" + user.getId() + "@" + Config.ASTERISK_IP;
-            LinphoneCall call = LiblinphoneThread.get().getLinphoneCore().invite(sipAddress);
+            LinphoneAddress lAddress = LiblinphoneThread.get().getLinphoneCore().interpretUrl(sipAddress);
+            lAddress.setDisplayName(user.getFirstName() + " " + user.getLastName());
+            LiblinphoneThread.get().setCurrentCallRemoteAddress(lAddress);
+
+            LinphoneCallParams params = LiblinphoneThread.get().getLinphoneCore().createDefaultCallParameters();
+
+            // Check if video possible regarding bandwidth limitations
+            BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
+
+            LinphoneCall call = LiblinphoneThread.get().getLinphoneCore().inviteAddressWithParams(lAddress, params);
+
+            try {
+                Integer.parseInt(LiblinphoneThread.get().getCurrentCallRemoteAddress().getUserName());
+                LiblinphoneThread.get().getCurrentCallRemoteAddress().setUserName(user.getUsername());
+            } catch(NumberFormatException e) {
+            }
+
+            //setVideo(false);
 
             if (call == null)
-                Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.WARNING, "Could not place call to " + sipAddress + ", aborting...");
+                Logger.getLogger(AndroidVoipController.class.getName()).log(Level.WARNING, "Could not place call to " + sipAddress + ", aborting...");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,11 +113,13 @@ public class AndroidVoipController implements VoipController{
 
     @Override
     public void setMicMuted(boolean mute) {
+        micMuted = mute;
         LiblinphoneThread.get().getLinphoneCore().muteMic(mute);
     }
 
     @Override
     public void setSpeaker(boolean enabled) {
+        speakerEnabled = enabled;
         LiblinphoneThread.get().getLinphoneCore().enableSpeaker(enabled);
     }
 
@@ -107,45 +131,63 @@ public class AndroidVoipController implements VoipController{
         if (call == null)
             return;
 
-        LinphoneCallParams params = call.getCurrentParamsCopy();
-
+        videoEnabled = enabled;
         call.enableCamera(enabled);
 
-        if (params.getVideoEnabled()) return;
+        if(enabled){
+            Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Enabling video");
+            LinphoneCallParams params = call.getCurrentParamsCopy();
+            if (!params.getVideoEnabled()) return;
 
+            //lc.enableVideo(true, true);
 
-        // Check if video possible regarding bandwidth limitations
-        BandwidthManager.getInstance().updateWithProfileSettings(lc, params);
+            String sipAddress = LiblinphoneThread.get().getCurrentCallRemoteAddress().asStringUriOnly();
+            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage("Video: true");
+            lc.getOrCreateChatRoom(sipAddress).sendChatMessage(m);
+        }else{
+            Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Disabling video");
 
-        // Abort if not enough bandwidth...
-        if (!params.getVideoEnabled())
-            return;
+            //lc.enableVideo(false, true);
 
-        // Not yet in video call: try to re-invite with video
-        lc.updateCall(call, params);
-        return;
-    }
-
-    @Override
-    public void acceptRemoteVideo(){
-        LinphoneCore lc =  LiblinphoneThread.get().getLinphoneCore();
-        LinphoneCall call = lc.getCurrentCall();
-        try{
-            Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Enabling video...");
-            LinphoneCallParams params = lc.getCurrentCall().getCurrentParamsCopy();
-            params.setVideoEnabled(true);
-            lc.enableVideo(true, true);
-            lc.acceptCallUpdate(call, params);
-            CommunicationHubInCallActivity.getCurrentInstance().displayVideo();
-        } catch (LinphoneCoreException e) {
-            e.printStackTrace();
+            String sipAddress = LiblinphoneThread.get().getCurrentCallRemoteAddress().asStringUriOnly();
+            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage("Video: false");
+            lc.getOrCreateChatRoom(sipAddress).sendChatMessage(m);
         }
     }
 
     @Override
+    public boolean isMicMuted() { return micMuted; }
+
+    @Override
+    public boolean isSpeakerEnabled() { return speakerEnabled; }
+
+    @Override
+    public boolean isVideoEnabled(){ return videoEnabled; }
+
+    @Override
+    public void setRemoteVideo(boolean enabled) { remoteVideo = true; }
+
+    @Override
+    public boolean isReceivingRemoteVideo() { return remoteVideo; }
+
+    @Override
     public void acceptCall() {
         try {
-            LiblinphoneThread.get().getLinphoneCore().acceptCall(LiblinphoneThread.get().getCurrentCall());
+            LinphoneCallParams params = LiblinphoneThread.get().getLinphoneCore().createDefaultCallParameters();
+
+            // Reset call options
+
+            setVideo(false);
+            setSpeaker(false);
+            setMicMuted(false);
+
+            // Check if video possible regarding bandwidth limitations
+            BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
+
+            LiblinphoneThread.get().getLinphoneCore().acceptCallWithParams(LiblinphoneThread.get().getCurrentCall(), params);
+
+            //setVideo(false);
+
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);

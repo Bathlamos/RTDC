@@ -11,6 +11,8 @@ import org.linphone.core.LinphoneCall;
 import rtdc.android.R;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
+import rtdc.core.Bootstrapper;
+import rtdc.core.model.User;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -27,11 +29,11 @@ public class AudioCallFragment extends AbstractCallFragment{
         this.view = view;
 
         view.findViewById(R.id.speakerButton).setOnClickListener(inCallActivity);
-        inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), inCallActivity.isSpeaker());
+        inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), Bootstrapper.FACTORY.getVoipController().isSpeakerEnabled());
 
         // Display the name of the person we're in call with
-        if(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName() != null)
-            ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName());
+        if(LiblinphoneThread.get().getCurrentCallRemoteAddress() != null)
+            ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCallRemoteAddress().getDisplayName());
         else
             ((TextView) view.findViewById(R.id.callerText)).setText("Unknown");
 
