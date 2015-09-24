@@ -65,6 +65,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     private float mZoomCenterX, mZoomCenterY;
     private CompatibilityScaleGestureDetector mScaleDetector;
     private CommunicationHubInCallActivity inCallActivity;
+    private boolean isFragmentPaused;
 
     int _xDelta = 0;
     int _yDelta = 0;
@@ -243,7 +244,9 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         if (androidVideoWindowImpl != null) {
             synchronized (androidVideoWindowImpl) {
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(androidVideoWindowImpl);
-                AndroidVoipController.get().setVideo(true);
+                if(isFragmentPaused)
+                    AndroidVoipController.get().setVideo(true);
+                isFragmentPaused = false;
             }
         }
 
@@ -261,6 +264,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 				 */
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(null);
                 AndroidVoipController.get().setVideo(false);
+                isFragmentPaused = true;
             }
         }
 
