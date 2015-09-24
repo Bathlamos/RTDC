@@ -49,7 +49,7 @@ public class TestData implements ServletContextListener {
                         "A surgery patient goes temporarily to the Medicine unit because we don't have enough beds in Surgery. However," +
                         "this is risky because Medicine might also be full."));
         actions.add(1, buildAction(units.get(0), Action.Status.inProgress, "Pam Peterson", Action.Task.pushForDischarge,
-                "D301, D304, D312, D319, D322", new Date(1437932727048l), "Aggressively push for all the 5 “Potential Discharges” to be " +
+                "D301, D304, D312, D319, D322", new Date(1437932727048l), "Aggressively push for all the 5 \"Potential Discharges\" to be " +
                         "actually discharged Without pushing, we would discharge 3; with pushing, we’ll discharge 4."));
         actions.add(2, buildAction(units.get(1), Action.Status.completed, "Kim Kennedy", Action.Task.holdFor,
                 "ED72", new Date(1437932727048l), "Kim will contact Pam, the Unit Manager of the Emergency Department to ask her to keep one " +
