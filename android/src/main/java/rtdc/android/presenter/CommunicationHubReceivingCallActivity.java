@@ -10,10 +10,13 @@ import rtdc.core.Bootstrapper;
 
 public class CommunicationHubReceivingCallActivity extends AbstractActivity{
 
-    private int callDuration = 0; // Seconds
+    private static boolean activityVisible;
+
+    private static CommunicationHubReceivingCallActivity currentInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        currentInstance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_communication_hub_receiving_call);
 
@@ -33,5 +36,31 @@ public class CommunicationHubReceivingCallActivity extends AbstractActivity{
                 CommunicationHubReceivingCallActivity.this.finish();
             }
         });
+    }
+
+    // The back button should not do anything in this activity since we need the user to choose an option
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    public static CommunicationHubReceivingCallActivity getInstance(){
+        return currentInstance;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        activityVisible = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        activityVisible = false;
+    }
+
+    public static boolean isActivityVisible() {
+        return activityVisible;
     }
 }

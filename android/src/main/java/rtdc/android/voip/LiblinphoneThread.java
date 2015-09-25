@@ -115,6 +115,12 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
             if(CommunicationHubInCallActivity.isActivityVisible())
                 CommunicationHubInCallActivity.getCurrentInstance().onCallHangup();
+
+            // If the current activity is the Incoming Call interface, we simply remove it
+
+            if(CommunicationHubReceivingCallActivity.isActivityVisible()){
+                CommunicationHubReceivingCallActivity.getInstance().finish();
+            }
         }
     }
 
