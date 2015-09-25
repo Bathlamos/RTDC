@@ -44,6 +44,9 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_call);
 
+        if(getResources().getBoolean(R.bool.isTablet))
+            AndroidVoipController.get().setSpeaker(true);
+
         if(AndroidVoipController.get().isReceivingRemoteVideo() || AndroidVoipController.get().isVideoEnabled()){
             displayVideo();
         }else{

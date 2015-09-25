@@ -23,6 +23,7 @@
     <color name="RTDC_black">#303030</color>
     <color name="RTDC_grey">#424242</color>
     <color name="RTDC_grey_asbestos">#7f8c8d</color>
+    <color name="RTDC_light_grey">#ffbababa</color>
 
     <color name="RTDC_red">#c0392b</color>
     <color name="RTDC_dark_red">#852015</color>

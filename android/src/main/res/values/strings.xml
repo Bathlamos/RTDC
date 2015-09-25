@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <bool name="isTablet">false</bool>
 
     <string name="app_name">RTDC</string>
     <string name="title_drawer_menu">RTDC</string>
