@@ -3,8 +3,6 @@ package rtdc.core.model;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 
-import java.nio.ByteBuffer;
-
 public class User extends RootObject {
 
     public enum Properties implements ObjectProperty<User> {
@@ -143,8 +141,14 @@ public class User extends RootObject {
     }
 
     public float[] getProfileColor(){
-        String fullName = getFirstName() + " " + getLastName();
-        float hue = (ByteBuffer.wrap(fullName.getBytes()).getFloat()) % 360;
+        byte [] bytes = (getFirstName() + " " + getLastName()).getBytes();
+        float hue = 0;
+        for (int i = 0; i < bytes.length; i++)
+        {
+            hue += ((long) bytes[i] & 0xffL) << (8 * i);
+            hue %= 360;
+        }
+
         float saturation = 0.8f;
         float brightness = 0.4f; //Also known as value
 
