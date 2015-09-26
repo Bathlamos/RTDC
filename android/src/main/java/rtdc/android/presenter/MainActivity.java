@@ -89,7 +89,10 @@ public class MainActivity extends ActionBarActivity {
         // Doing this check first prevents the fragment from being reloaded to home fragment when the screen orientation is changed
 
         if(savedInstanceState == null){
-            selectItem(0); // Opens the capacity overview by default
+            if(getIntent() != null)
+                onNewIntent(getIntent());
+            if(fragment == null)
+                selectItem(0); // Opens the capacity overview by default
         }
     }
     
@@ -106,7 +109,15 @@ public class MainActivity extends ActionBarActivity {
     private void selectItem(int position) {
         isAtHome = false;
 
-        switch(position){
+        goToFragment(position);
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        mDrawerLayout.closeDrawers();
+    }
+
+    public void goToFragment(int id){
+        switch(id){
             case 0:
                 fragment = new CapacityOverviewFragment();
                 isAtHome = true;
@@ -115,8 +126,6 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new ActionPlanFragment();
                 break;
             case 2:
-                //fragment = new CommunicationHubFragment();
-                //fragment = new OldCommunicationHub();
                 fragment = new CommunicationHubContactFragment();
                 break;
             case 4:
@@ -135,12 +144,14 @@ public class MainActivity extends ActionBarActivity {
         transaction.replace(R.id.main_fragment_wrapper, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
-        // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawers();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        int position = intent.getIntExtra("fragment", -1);
+        if (position != -1)
+            goToFragment(position);
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
