@@ -2,6 +2,7 @@ package rtdc.android.presenter;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.android.presenter.AbstractActivity;
@@ -36,6 +37,17 @@ public class CommunicationHubReceivingCallActivity extends AbstractActivity{
                 CommunicationHubReceivingCallActivity.this.finish();
             }
         });
+
+        // Wake up the phone if it is sleeping
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
     }
 
     // The back button should not do anything in this activity since we need the user to choose an option
