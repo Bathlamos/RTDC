@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import org.linphone.BandwidthManager;
 import org.linphone.core.LinphoneCall;
@@ -43,6 +44,10 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         currentInstance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_call);
+
+        // Force screen to stay on during the call
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if(getResources().getBoolean(R.bool.isTablet))
             AndroidVoipController.get().setSpeaker(true);
