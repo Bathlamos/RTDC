@@ -79,13 +79,13 @@
             <Button android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/action_delete"
                     android:id="@+id/dialog_button_action_delete" android:textColor="@color/RTDC_red" android:background="@android:color/transparent"
                     android:gravity="start|center_vertical" android:padding="16dp" android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+                <Button
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/done"
+                        android:id="@+id/dialog_button_action_done" android:layout_gravity="center_horizontal"
+                        style="@style/PrimaryButton" android:textSize="16sp"/>
+            </LinearLayout>
     </ScrollView>
 
-    <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/done"
-            android:id="@+id/dialog_button_action_done" android:layout_gravity="center_horizontal"
-            style="@style/PrimaryButton" android:textSize="16sp"/>
 </LinearLayout>
