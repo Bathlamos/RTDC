@@ -6,6 +6,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
@@ -14,6 +15,7 @@ import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
 import rtdc.android.presenter.MainActivity;
 import rtdc.android.presenter.fragments.VideoCallFragment;
+import rtdc.core.Session;
 import rtdc.core.model.User;
 
 import java.nio.ByteBuffer;
@@ -82,6 +84,13 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
     public void callState(LinphoneCore linphoneCore, LinphoneCall linphoneCall, LinphoneCall.State state, String s) {
         Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, state + "");
         if(state == LinphoneCall.State.IncomingReceived){
+            // Only accept the incoming call if we're not currently in a call
+
+            if(currentCall != null){
+                addMissedCallNotification(linphoneCall.getRemoteAddress().getDisplayName());
+                lc.declineCall(linphoneCall, Reason.Busy);
+                return;
+            }
 
             // We just received a call, interrupt everything and display the incoming call view
 
@@ -125,25 +134,35 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
             // If the current activity is the Incoming Call interface, we simply remove it
 
-            if(CommunicationHubReceivingCallActivity.isActivityVisible()){
+            if(CommunicationHubReceivingCallActivity.isActivityVisible())
                 CommunicationHubReceivingCallActivity.getInstance().finish();
 
+            Reason reason = linphoneCall.getErrorInfo().getReason();
+            String fromUserName = linphoneCall.getCallLog().getFrom().getUserName();
+            Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, reason + "");
+            if((!fromUserName.equals(Session.getCurrentSession().getUser().getUsername()) && reason == Reason.NotAnswered)){
                 // Add a notification for the user to let it know it missed a call
-
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(context)
-                                .setSmallIcon(R.drawable.ic_phone_missed_white_24dp)
-                                .setContentTitle("RTDC")
-                                .setContentText("Missed call from " + linphoneCall.getRemoteAddress().getDisplayName());
-                Intent intent = new Intent(context, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("fragment", 2);
-                PendingIntent inCallPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                mBuilder.setContentIntent(inCallPendingIntent);
-                mBuilder.setAutoCancel(true);
-                ((NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE)).notify(MISSED_CALL_NOTIFICATION_ID, mBuilder.build());
+                addMissedCallNotification(linphoneCall.getRemoteAddress().getDisplayName());
             }
+
+            currentCall = null;
         }
+    }
+
+    private void addMissedCallNotification(String missedCaller){
+        Context context = AndroidBootstrapper.getAppContext();
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.ic_phone_missed_white_24dp)
+                        .setContentTitle("RTDC")
+                        .setContentText("Missed call from " + missedCaller);
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("fragment", 2);
+        PendingIntent inCallPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(inCallPendingIntent);
+        mBuilder.setAutoCancel(true);
+        ((NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE)).notify(MISSED_CALL_NOTIFICATION_ID, mBuilder.build());
     }
 
     @Override
