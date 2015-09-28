@@ -20,7 +20,7 @@
                         android:layout_height="wrap_content"
                         android:text="RECENT"
                         android:id="@+id/textView" android:textSize="14sp"
-                        android:textStyle="bold" android:textColor="@color/RTDC_grey_asbestos"
+                        android:textStyle="bold" android:textColor="@color/RTDC_grey"
                         />
 
 

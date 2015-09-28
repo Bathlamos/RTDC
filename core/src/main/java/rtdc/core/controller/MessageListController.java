@@ -73,6 +73,7 @@ public class MessageListController extends Controller<MessageListView> implement
         message.setReceiver(receiver);
         message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
         message.setTimeSent(new Date());
+        message.setStatus(Message.Status.delivered);
         recentContacts.add(message);
 
         Message message2 = new Message();
@@ -82,6 +83,7 @@ public class MessageListController extends Controller<MessageListView> implement
         message2.setReceiver(receiver2);
         message2.setContent("Sounds good!");
         message2.setTimeSent(new Date());
+        message2.setStatus(Message.Status.read);
         recentContacts.add(message2);
 
         return recentContacts;
@@ -103,6 +105,20 @@ public class MessageListController extends Controller<MessageListView> implement
             message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
             message.setTimeSent(new Date());
             messageList.add(message);
+
+            if(i == 3){
+                Message message3 = new Message();
+                message3.setSender(sender);
+                message3.setContent("I'd like to discuss a few things about my new schedule");
+                message3.setTimeSent(new Date());
+                messageList.add(message3);
+
+                Message message4 = new Message();
+                message4.setSender(sender);
+                message4.setContent("Oh I forgot to mention... I'll only be available after 1 PM");
+                message4.setTimeSent(new Date());
+                messageList.add(message4);
+            }
 
             Message message2 = new Message();
             User sender2 = new User();

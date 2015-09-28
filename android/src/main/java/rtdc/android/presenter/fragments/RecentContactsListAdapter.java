@@ -3,6 +3,7 @@ package rtdc.android.presenter.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,15 @@ public class RecentContactsListAdapter extends ArrayAdapter {
         } else {
             viewToUse = convertView;
             holder = (ViewHolder) viewToUse.getTag();
+        }
+
+        if(message.getStatus() != Message.Status.read){
+            holder.receiver.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.contentPreview.setTypeface(Typeface.DEFAULT_BOLD);
+            holder.contentPreview.setTextColor(getContext().getResources().getColor(R.color.RTDC_grey));
+            holder.lastTimeSent.setTextColor(getContext().getResources().getColor(R.color.RTDC_light_blue));
+        } else {
+            viewToUse.setBackgroundColor(Color.TRANSPARENT);
         }
 
         holder.receiver.setText(message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
