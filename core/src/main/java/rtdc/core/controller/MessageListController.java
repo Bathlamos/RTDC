@@ -94,6 +94,7 @@ public class MessageListController extends Controller<MessageListView> implement
         messages = getMessages();
         sortMessages(Message.Properties.timeSent);
     }
+
     private ArrayList<Message> getMessages(){
         ArrayList<Message> messageList = new ArrayList<>();
         for(int i = 0; i < 10; i++){

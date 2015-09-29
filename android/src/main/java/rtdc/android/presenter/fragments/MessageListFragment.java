@@ -74,10 +74,24 @@ public class MessageListFragment extends AbstractFragment implements MessageList
     @Override
     public void setMessages(List<Message> messages) {
         this.messages.clear();
-        this.messages.addAll(messages);
+        this.messages.addAll(convertMessages(messages));
         messagesAdapter.notifyDataSetChanged();
     }
 
+    // Implement this method!!! ***************
+    private ArrayList<Message> convertMessages(List<Message> rawMessages){
+        ArrayList<Message> convertedMessages = new ArrayList<Message>();
+        int position = 0;
+        Message message;
+        for (int i = position+1; i < rawMessages.size(); i++){
+            String content = "";
+            if(rawMessages.get(position).getSender() == rawMessages.get(i).getSender()){
+                // convertedMessages.add(message);
+                position = i;
+            }
+        }
+        return convertedMessages;
+    }
 
     @Override
     public void onStop() {
