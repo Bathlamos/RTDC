@@ -181,7 +181,7 @@ public class AndroidVoipController implements VoipController{
     public boolean isVideoEnabled(){ return videoEnabled; }
 
     @Override
-    public void setRemoteVideo(boolean enabled) { remoteVideo = true; }
+    public void setRemoteVideo(boolean enabled) { remoteVideo = enabled; }
 
     @Override
     public boolean isReceivingRemoteVideo() { return remoteVideo; }
