@@ -94,15 +94,32 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null)
                 convertView = LayoutInflater.from(this.getContext())
+                        .inflate(R.layout.dropdown_selected_item, parent, false);
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,ViewGroup parent) {
+            if (convertView == null)
+                convertView = LayoutInflater.from(this.getContext())
                         .inflate(R.layout.dropdown_list_item, parent, false);
+            return getCustomView(position, convertView, parent);
+        }
+
+        private View getCustomView(int position, View convertView, ViewGroup parent){
+
 
             T item = getItem(position);
-            TextView textView = (TextView) convertView;
+            TextView textView = (TextView) convertView.findViewById(R.id.dropDownText);
+
+            String name = stringifier.toString(item);
+
             if (item!= null)
-                textView.setText(stringifier.toString(item));
+                textView.setText(name);
 
             return convertView;
         }
+
     }
 
 }
