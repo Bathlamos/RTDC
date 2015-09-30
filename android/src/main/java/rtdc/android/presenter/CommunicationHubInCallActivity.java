@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import org.linphone.BandwidthManager;
 import org.linphone.core.LinphoneCall;
 import org.linphone.core.LinphoneCallParams;
@@ -141,10 +142,12 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         runOnUiThread(new Runnable(){
             @Override
             public void run() {
-                if(display)
+                if(display) {
                     callFragment.getView().findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-                else
+                    ((TextView)callFragment.getView().findViewById(R.id.callStatus)).setText("Paused");
+                }else {
                     callFragment.getView().findViewById(R.id.callStatus).setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
@@ -199,9 +202,15 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
             if(videoEnabled && !(callFragment instanceof VideoCallFragment)) {
                 // We just enabled video and we're not in the video fragment yet. Go to video fragment
                 displayVideo();
+            }else if(videoEnabled && callFragment instanceof VideoCallFragment){
+                // We just turned on video and we're already in the video fragment, make sure that the video preview is visible
+                callFragment.getView().findViewById(R.id.videoCaptureSurface).setVisibility(View.VISIBLE);
             }else if(!videoEnabled && !AndroidVoipController.get().isReceivingRemoteVideo()) {
                 // We're not receiving any video from the remote user and we disabled our video. No need to stay in the video fragment
                 displayAudio();
+            }else if(!videoEnabled && callFragment instanceof VideoCallFragment){
+                // We just turned off video and we're still in the video fragment, turn the video preview invisible
+                callFragment.getView().findViewById(R.id.videoCaptureSurface).setVisibility(View.INVISIBLE);
             }
         }else if(view.getId() == R.id.speakerButton){
             boolean speaker = !Bootstrapper.FACTORY.getVoipController().isSpeakerEnabled();

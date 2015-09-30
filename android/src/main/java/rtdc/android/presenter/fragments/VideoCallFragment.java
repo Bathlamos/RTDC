@@ -198,6 +198,16 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         // Set speaker mode on
         AndroidVoipController.get().setSpeaker(true);
 
+        // If remote user isn't displaying video, we say so on screen
+        if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
+            view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+            ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+        }
+
+        // If we're not capturing video, we don't need to show the preview
+        if(!AndroidVoipController.get().isVideoEnabled())
+            mCaptureView.setVisibility(View.INVISIBLE);
+
         return view;
     }
 
