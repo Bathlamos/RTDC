@@ -25,7 +25,7 @@ public class GwtVoipController implements VoipController{
     }
 
     @Override
-    public void call(User user) {
+    public void call(User user, boolean videoEnabled) {
 
     }
 

@@ -105,12 +105,6 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
             // user name when you invite someone into a call, no idea why
             //currentCallRemoteAddress = linphoneCall.getRemoteAddress();
 
-            // Reset call options
-
-            AndroidVoipController.get().setVideo(false);
-            AndroidVoipController.get().setSpeaker(false);
-            AndroidVoipController.get().setMicMuted(false);
-
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);
@@ -170,6 +164,10 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
         Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, "Message received: " + linphoneChatMessage.getText());
 
         if(linphoneChatMessage.getText().startsWith("Video: ")){
+            // Check to make sure that if we are in a call that the one that sent the message is the one we're in a call with
+            // (It could be someone that's trying to request a video call, but we're in a call with someone already)
+            if(currentCall != null && !currentCallRemoteAddress.getUserName().equals(linphoneChatMessage.getFrom().getUserName()))
+                return;
             // There was an update regarding the video of the call
             boolean video = Boolean.valueOf(linphoneChatMessage.getText().replace("Video: ", ""));
             AndroidVoipController.get().setRemoteVideo(video);

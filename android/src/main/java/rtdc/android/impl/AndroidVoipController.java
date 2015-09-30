@@ -82,12 +82,11 @@ public class AndroidVoipController implements VoipController{
     }
 
     @Override
-    public void call(User user) {
+    public void call(User user, boolean videoEnabled) {
         try {
             String sipAddress = "sip:" + user.getId() + "@" + Config.ASTERISK_IP;
             LinphoneAddress lAddress = LiblinphoneThread.get().getLinphoneCore().interpretUrl(sipAddress);
             lAddress.setDisplayName(user.getFirstName() + " " + user.getLastName());
-            LiblinphoneThread.get().setCurrentCallRemoteAddress(lAddress);
 
             LinphoneCallParams params = LiblinphoneThread.get().getLinphoneCore().createDefaultCallParameters();
 
@@ -95,6 +94,23 @@ public class AndroidVoipController implements VoipController{
             BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
 
             LinphoneCall call = LiblinphoneThread.get().getLinphoneCore().inviteAddressWithParams(lAddress, params);
+
+            // Need to set the username of the address after the call or else Asterisk will try to initiate the call using the
+            // username instead of the user extension, which fails the call
+
+            lAddress.setUserName(user.getUsername());
+            LiblinphoneThread.get().setCurrentCallRemoteAddress(lAddress);
+
+            // Reset call options
+
+            setRemoteVideo(false);
+            setSpeaker(false);
+            setMicMuted(false);
+
+            // Even if we requested the video to be on, we need to make sure that the device is capable of doing so
+
+            if(params.getVideoEnabled())
+                setVideo(videoEnabled);
 
             try {
                 Integer.parseInt(LiblinphoneThread.get().getCurrentCallRemoteAddress().getUserName());
@@ -177,7 +193,6 @@ public class AndroidVoipController implements VoipController{
 
             // Reset call options
 
-            setVideo(false);
             setSpeaker(false);
             setMicMuted(false);
 
@@ -186,7 +201,10 @@ public class AndroidVoipController implements VoipController{
 
             LiblinphoneThread.get().getLinphoneCore().acceptCallWithParams(LiblinphoneThread.get().getCurrentCall(), params);
 
-            //setVideo(false);
+            // Even if the remote user requested video to be on, we need to make sure that the device is capable of doing so
+
+            if(params.getVideoEnabled())
+                setVideo(remoteVideo);
 
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

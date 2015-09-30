@@ -7,7 +7,7 @@ public interface VoipController {
     public void registerUser(User user);
     public void unregisterCurrentUser();
 
-    public void call(User user);
+    public void call(User user, boolean videoEnabled);
     public void acceptCall();
     public void declineCall();
 

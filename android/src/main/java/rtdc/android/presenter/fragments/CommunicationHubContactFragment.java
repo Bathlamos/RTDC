@@ -73,7 +73,7 @@ public class CommunicationHubContactFragment extends AbstractFragment implements
                 public void onClick(View v) {
                     User clickedUser = users.get(Integer.parseInt(v.getTag().toString()));
                     Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling " + clickedUser.getId());
-                    Bootstrapper.FACTORY.getVoipController().call(clickedUser);
+                    Bootstrapper.FACTORY.getVoipController().call(clickedUser, false);
                 }
             });
 
@@ -84,8 +84,7 @@ public class CommunicationHubContactFragment extends AbstractFragment implements
                 public void onClick(View v) {
                     User clickedUser = users.get(Integer.parseInt(v.getTag().toString()));
                     Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling with video " + clickedUser.getId());
-                    // TODO Start video call
-//                    Bootstrapper.FACTORY.getVoipController().call(clickedUser);
+                    Bootstrapper.FACTORY.getVoipController().call(clickedUser, true);
                 }
             });
 
