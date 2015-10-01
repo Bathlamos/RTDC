@@ -67,9 +67,6 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     private CommunicationHubInCallActivity inCallActivity;
     private boolean isFragmentPaused;
 
-    int _xDelta = 0;
-    int _yDelta = 0;
-
     @SuppressWarnings("deprecation") // Warning useless because value is ignored and automatically set by new APIs.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -144,50 +141,42 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         mCaptureView.setOnTouchListener(new OnTouchListener() {
             float dx = 0, dy = 0;
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
+            public boolean onTouch(final View view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
+                        // Find the difference from where we touched to the absolute position of the view to help with movement
                         dx = event.getRawX() - view.getX();
                         dy = event.getRawY() - view.getY();
-
-                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-                        params.gravity = Gravity.NO_GRAVITY;
-                        view.setLayoutParams(params);
                         break;
                     }
                     case MotionEvent.ACTION_MOVE: {
-                        view.setX(event.getRawX() - dx);
-                        view.setY(event.getRawY() - dy);
+                        // Move the view by setting the margings for left and top
+                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                        params.setMargins((int)(event.getRawX() - dx), (int)(event.getRawY() - dy), 0, 0);
+                        params.gravity = Gravity.NO_GRAVITY;
+                        view.setLayoutParams(params);
                         break;
                     }case MotionEvent.ACTION_UP: {
+                        // Find the absolute position we would like the view to end up at
                         float width = VideoCallFragment.this.view.getWidth();
                         float height = VideoCallFragment.this.view.getHeight() - VideoCallFragment.this.view.findViewById(R.id.buttonLayout).getHeight();
+                        float absoluteX = event.getRawX() <= width / 2 ? 0 : width - view.getWidth();
+                        float absoluteY = event.getRawY() <= height / 2 ? 0 : height - view.getHeight();
 
-                        float lockX = event.getRawX() <= width / 2 ? 0 : width - view.getWidth();
-                        float lockY = event.getRawY() <= height / 2 ? 0 : height - view.getHeight();
-
+                        // Calculate the gravity the view should have with the absolute position we found
                         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-                        int horizontalGravity = lockX == 0 ? Gravity.LEFT: Gravity.RIGHT;
-                        int verticalGravity = lockY == 0 ? Gravity.TOP: Gravity.BOTTOM;
+                        int horizontalGravity = absoluteX == 0 ? Gravity.LEFT: Gravity.RIGHT;
+                        int verticalGravity = absoluteY == 0 ? Gravity.TOP: Gravity.BOTTOM;
                         params.gravity = (horizontalGravity | verticalGravity);
+
+                        // Set the margins depending on what gravities we calculated above
+                        int left = horizontalGravity == Gravity.LEFT ? 10: 0;
+                        int right = horizontalGravity == Gravity.RIGHT ? 10: 0;
+                        int top = verticalGravity == Gravity.TOP ? 10: 0;
+                        int bottom = verticalGravity == Gravity.BOTTOM ? 10: 0;
+                        params.setMargins(left, top, right, bottom);
+
                         view.setLayoutParams(params);
-
-                        // Need to set the position to 0, 0 or else the gravity position isn't accurate
-
-                        view.setX(0);
-                        view.setY(0);
-
-                        // The following should animate the view to translate to the correct location, but does not work
-
-                        /*TranslateAnimation anim = new TranslateAnimation(
-                                TranslateAnimation.RELATIVE_TO_PARENT, 0,
-                                TranslateAnimation.RELATIVE_TO_PARENT, lockX/width,
-                                TranslateAnimation.RELATIVE_TO_PARENT, 0,
-                                TranslateAnimation.RELATIVE_TO_PARENT, lockY/height);
-                        Logger.getLogger(VideoCallFragment.class.getName()).log(Level.INFO, lockX + ", " + lockY);
-                        anim.setDuration(1000);
-                        anim.setFillAfter(true);
-                        view.startAnimation(anim);*/
                         break;
                     }
                 }
