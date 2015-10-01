@@ -10,16 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.core.model.Message;
-import rtdc.core.model.User;
 
-import java.util.Date;
 import java.util.List;
 
 public class MessageListAdapter extends ArrayAdapter {
 
     private Context context;
-    private User lastSender;
-    private Date lastTimeSent;
 
     public MessageListAdapter(Context context, List items) {
         super(context, android.R.layout.simple_list_item_1, items);
@@ -42,7 +38,6 @@ public class MessageListAdapter extends ArrayAdapter {
         ViewHolder holder = null;
         Message message = (Message)getItem(position);
         View viewToUse = null;
-        String sender, timeSent;
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
@@ -57,25 +52,15 @@ public class MessageListAdapter extends ArrayAdapter {
             holder = (ViewHolder) viewToUse.getTag();
         }
 
-        if(lastSender == message.getSender()){
-            sender =  timeSent = "";
-        } else {
-            sender = message.getSender().getFirstName()+" "+message.getSender().getLastName();
-            timeSent = message.getTimeSent().toString();
-        }
-
         if(message.getSender().getFirstName().equals("Me")) {
             viewToUse.setBackgroundColor(Color.TRANSPARENT);
         } else {
             viewToUse.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
 
-        holder.sender.setText(sender);
+        holder.sender.setText(message.getSender().getFirstName()+" "+message.getSender().getLastName());
         holder.content.setText(message.getContent());
-        holder.timeSent.setText(timeSent);
-
-        lastSender = message.getSender();
-        lastTimeSent = message.getTimeSent();
+        holder.timeSent.setText(message.getTimeSent().toString());
 
         return viewToUse;
     }
