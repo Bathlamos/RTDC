@@ -54,12 +54,13 @@ public class MainActivity extends ActionBarActivity {
         String capacityTitle = getResources().getString(R.string.title_capacity_overview);
         String actionTitle = getResources().getString(R.string.title_action_plan);
         String commTitle = getResources().getString(R.string.title_communication_hub);
+        String messagesTitle = "Messages";
         String manageUnitsTitle = getResources().getString(R.string.title_manage_units);
         String manageUsersTitle = getResources().getString(R.string.title_manage_users);
 
         AdapterView navListView = (AdapterView) findViewById(R.id.nav_list);
         //TODO: Change when permissions are implemented
-        navTitles = new ArrayList<String>(Arrays.asList(capacityTitle, actionTitle, commTitle, manageUnitsTitle, manageUsersTitle));
+        navTitles = new ArrayList<String>(Arrays.asList(capacityTitle, actionTitle, commTitle, messagesTitle, manageUnitsTitle, manageUsersTitle));
         adapter = new navAdapter(navTitles, this);
         navListView.setAdapter(adapter);
 
@@ -132,6 +133,9 @@ public class MainActivity extends ActionBarActivity {
             case 2:
                 fragment = new CommunicationHubContactFragment();
                 break;
+            case 3:
+                fragment = new MessageListFragment();
+                break;
             case 4:
                 fragment = new ManageUsersFragment();
                 break;
@@ -193,9 +197,12 @@ public class MainActivity extends ActionBarActivity {
                     iconView.setImageResource(R.drawable.ic_chat_white_24dp);
                     break;
                 case 3:
-                    iconView.setImageResource(R.drawable.ic_local_hospital_white_24dp);
+                    iconView.setImageResource(R.drawable.ic_chat_white_24dp);
                     break;
                 case 4:
+                    iconView.setImageResource(R.drawable.ic_local_hospital_white_24dp);
+                    break;
+                case 5:
                     iconView.setImageResource(R.drawable.ic_build_white_24dp);
                     break;
                 default:
