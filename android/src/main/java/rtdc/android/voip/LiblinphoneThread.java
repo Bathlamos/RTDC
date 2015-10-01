@@ -29,7 +29,8 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
     private LinphoneAddress currentCallRemoteAddress;
     private boolean running;
 
-    private final int MISSED_CALL_NOTIFICATION_ID = 2;
+    // We decrease this value each time there's a missed call so that each missed call as a unique notification ID
+    private int MISSED_CALL_NOTIFICATION_ID = Integer.MAX_VALUE;
 
     private static final LiblinphoneThread INST = new LiblinphoneThread();
 
@@ -133,7 +134,6 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
             Reason reason = linphoneCall.getErrorInfo().getReason();
             String fromUserName = linphoneCall.getCallLog().getFrom().getUserName();
-            Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, reason + "");
             if((!fromUserName.equals(Session.getCurrentSession().getUser().getUsername()) && reason == Reason.NotAnswered)){
                 // Add a notification for the user to let it know it missed a call
                 addMissedCallNotification(linphoneCall.getRemoteAddress().getDisplayName());
@@ -156,7 +156,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
         PendingIntent inCallPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(inCallPendingIntent);
         mBuilder.setAutoCancel(true);
-        ((NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE)).notify(MISSED_CALL_NOTIFICATION_ID, mBuilder.build());
+        ((NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE)).notify(MISSED_CALL_NOTIFICATION_ID--, mBuilder.build());
     }
 
     @Override
