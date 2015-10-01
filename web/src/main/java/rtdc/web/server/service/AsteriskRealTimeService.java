@@ -25,7 +25,7 @@ public class AsteriskRealTimeService {
 
     public static void addUser(User user, String password) throws SQLException {
         Connection connection = getConnection();
-        Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.INFO, String.valueOf(user.getId()));
+        Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.INFO, "Adding user " + user.getUsername() + " to Asterisk with extension " + user.getId());
         if (connection == null) {
             Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.SEVERE, user.getUsername() + " was NOT added to Asterisk!");
             return;
@@ -38,7 +38,7 @@ public class AsteriskRealTimeService {
                     " '"+user.getFirstName()+" "+user.getLastName()+"'," +  // callerid
                     " '"+password+"'," +                                    // secret
                     " 'users', 'dynamic', 'friend'," +                      // context, host, type
-                    " 'g729;ilbc;gsm;ulaw;alaw;h263;h263p;h264;vp8');";     // allow (should be updated with which codecs we want users to be able to use)
+                    " 'g729;ilbc;gsm;ulaw;alaw;vp8');";                     // allow (should be updated with which codecs we want users to be able to use)
             String extensionQuery = "INSERT INTO extensions (context, exten, priority, app, appdata) VALUES (" +
                     " 'users','"+user.getId()+"',1,'Dial','SIP/"+user.getUsername()+"');";
             connection.createStatement().executeUpdate(sipQuery);

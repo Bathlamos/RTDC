@@ -25,7 +25,7 @@ public class GwtVoipController implements VoipController{
     }
 
     @Override
-    public void call(User user) {
+    public void call(User user, boolean videoEnabled) {
 
     }
 
@@ -41,6 +41,31 @@ public class GwtVoipController implements VoipController{
     @Override
     public void setVideo(boolean enabled) {
 
+    }
+
+    @Override
+    public boolean isVideoEnabled() {
+        return false;
+    }
+
+    @Override
+    public void setRemoteVideo(boolean enabled) {
+
+    }
+
+    @Override
+    public boolean isMicMuted() {
+        return false;
+    }
+
+    @Override
+    public boolean isSpeakerEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isReceivingRemoteVideo() {
+        return false;
     }
 
     @Override

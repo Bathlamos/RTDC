@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" android:rowCount="2" android:columnCount="3" android:padding="8dp"
+                android:background="@color/RTDC_white">
+
+    <TextView android:layout_width="48dp" android:layout_height="48dp" android:text="NM" android:id="@+id/userIcon"
+              android:gravity="center_vertical|center_horizontal" android:textSize="22sp"
+              android:textColor="@color/RTDC_white" android:background="@drawable/rectangle_rounded"
+              android:layout_marginRight="8dp" android:layout_centerVertical="true"/>
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/relativeLayout"
+            android:layout_alignTop="@+id/audioCallButton" android:layout_toRightOf="@+id/userIcon"
+            android:layout_toEndOf="@+id/userIcon" android:layout_centerVertical="true">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="John Doe"
+                android:id="@+id/userNameText"
+                android:layout_gravity="center_vertical"
+                android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Unit Manager: Emergency Unit"
+                android:id="@+id/roleUnitText" android:layout_gravity="center_vertical"
+                android:layout_below="@+id/userNameText" android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+    </RelativeLayout>
+    <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/audioCallButton"
+            android:src="@drawable/ic_phone_white_24dp"
+            android:background="@drawable/circle_dark_blue"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@+id/videoCallButton"
+            android:layout_toStartOf="@+id/videoCallButton" android:layout_centerVertical="true"/>
+    <ImageButton android:layout_width="40dp" android:layout_height="40dp"
+                 android:id="@+id/videoCallButton"
+                 android:src="@drawable/ic_videocam_white_24dp" android:background="@drawable/circle_dark_blue"
+                 android:layout_gravity="center"
+                 android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                 android:layout_alignParentEnd="true" android:layout_margin="8dp"/>
+</RelativeLayout>

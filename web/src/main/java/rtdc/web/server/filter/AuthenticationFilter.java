@@ -8,13 +8,15 @@ import rtdc.web.server.service.AuthService;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.logging.Logger;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Except for /login, refuses connections without a valid auth token
@@ -25,7 +27,7 @@ import javax.ws.rs.ext.Provider;
 @PreMatching
 public class AuthenticationFilter implements ContainerRequestFilter {
 
-    private final static Logger log = Logger.getLogger(AuthenticationFilter.class.getCanonicalName());
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
 
     /**
      *
@@ -45,7 +47,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestCtx) throws IOException {
 
         String path = requestCtx.getUriInfo().getPath();
-        log.info("Filtering request path: " + path);
+        log.debug("Filtering request path: " + path);
 
         // IMPORTANT!!! First, Acknowledge any pre-flight test from browsers for this case before validating the headers
         // (CORS stuff)
@@ -63,7 +65,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             if (Config.IS_DEBUG && requestCtx.getCookies().containsKey(CookiesName.AUTH_COOKIE) && authToken == null)
                 authToken = requestCtx.getCookies().get(CookiesName.AUTH_COOKIE).getValue();
 
-            log.info("With auth token " + authToken);
+            log.debug("With auth token " + authToken);
 
             // if it isn't valid, just kick them out.
             User user = AuthService.getAuthenticatedUser(authToken);

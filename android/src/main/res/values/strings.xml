@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <bool name="isTablet">false</bool>
 
     <string name="app_name">RTDC</string>
     <string name="title_drawer_menu">RTDC</string>
-    <string name="title_activity_capacity_overview">Capacity Overview</string>
+    <string name="title_capacity_overview">Capacity Overview</string>
+    <string name="title_action_plan">Action Plan</string>
+    <string name="title_communication_hub">Communication Hub</string>
+    <string name="title_manage_users">Manage Users</string>
+    <string name="title_manage_units">Manage Units</string>
+
     <string name="title_activity_create_unit">Create Unit</string>
-    <string name="title_activity_action_plan">Action Plan</string>
     <string name="title_activity_create_action">Create Action</string>
-    <string name="title_activity_admin">Administrator Functions</string>
 
     <string name="capacity_unit_name">Unit Name</string>
     <string name="available_beds">Available Beds</string>

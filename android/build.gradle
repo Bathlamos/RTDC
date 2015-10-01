@@ -62,7 +62,7 @@ android {
 
 dependencies {
     compile project(":core")
-    compile files('libs/liblinphone.jar')
+    compile files('libs/linphone.jar')
     compile 'com.mcxiaoke.volley:library:1.0.+'
     compile 'com.android.support:appcompat-v7:21.0.0+'
     compile 'com.android.support:cardview-v7:21.0.+'

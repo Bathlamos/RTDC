@@ -17,6 +17,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+import android.graphics.Point;
+import android.media.AudioManager;
+import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import org.linphone.BandwidthManager;
 import org.linphone.LinphoneUtils;
 import org.linphone.compatibility.Compatibility;
@@ -32,19 +41,17 @@ import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import rtdc.android.R;
+import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
+import rtdc.core.Bootstrapper;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Sylvain Berfini
@@ -58,6 +65,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     private float mZoomCenterX, mZoomCenterY;
     private CompatibilityScaleGestureDetector mScaleDetector;
     private CommunicationHubInCallActivity inCallActivity;
+    private boolean isFragmentPaused;
 
     @SuppressWarnings("deprecation") // Warning useless because value is ignored and automatically set by new APIs.
     @Override
@@ -65,6 +73,13 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_in_video_call, container, false);
         this.view = view;
+
+        view.findViewById(R.id.switchCameraButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchCamera();
+            }
+        });
 
         mVideoView = (SurfaceView) view.findViewById(R.id.videoSurface);
         mCaptureView = (SurfaceView) view.findViewById(R.id.videoCaptureSurface);
@@ -106,11 +121,81 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 if (inCallActivity != null) {
                     //inCallActivity.displayVideoCallControlsIfHidden();
                 }
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    View buttonLayout = VideoCallFragment.this.view.findViewById(R.id.buttonLayout);
+                    if (buttonLayout.getVisibility() == View.VISIBLE) {
+                        if (Bootstrapper.FACTORY.getVoipController().isMicMuted())
+                            VideoCallFragment.this.view.findViewById(R.id.muteIcon).setVisibility(View.VISIBLE);
+                        buttonLayout.setVisibility(View.GONE);
+                    } else {
+                        VideoCallFragment.this.view.findViewById(R.id.muteIcon).setVisibility(View.INVISIBLE);
+                        buttonLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+
                 return true;
             }
         });
 
-        //switchCamera();
+        mCaptureView.setOnTouchListener(new OnTouchListener() {
+            float dx = 0, dy = 0;
+            @Override
+            public boolean onTouch(final View view, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        // Find the difference from where we touched to the absolute position of the view to help with movement
+                        dx = event.getRawX() - view.getX();
+                        dy = event.getRawY() - view.getY();
+                        break;
+                    }
+                    case MotionEvent.ACTION_MOVE: {
+                        // Move the view by setting the margings for left and top
+                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                        params.setMargins((int)(event.getRawX() - dx), (int)(event.getRawY() - dy), 0, 0);
+                        params.gravity = Gravity.NO_GRAVITY;
+                        view.setLayoutParams(params);
+                        break;
+                    }case MotionEvent.ACTION_UP: {
+                        // Find the absolute position we would like the view to end up at
+                        float width = VideoCallFragment.this.view.getWidth();
+                        float height = VideoCallFragment.this.view.getHeight() - VideoCallFragment.this.view.findViewById(R.id.buttonLayout).getHeight();
+                        float absoluteX = event.getRawX() <= width / 2 ? 0 : width - view.getWidth();
+                        float absoluteY = event.getRawY() <= height / 2 ? 0 : height - view.getHeight();
+
+                        // Calculate the gravity the view should have with the absolute position we found
+                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                        int horizontalGravity = absoluteX == 0 ? Gravity.LEFT: Gravity.RIGHT;
+                        int verticalGravity = absoluteY == 0 ? Gravity.TOP: Gravity.BOTTOM;
+                        params.gravity = (horizontalGravity | verticalGravity);
+
+                        // Set the margins depending on what gravities we calculated above
+                        int left = horizontalGravity == Gravity.LEFT ? 10: 0;
+                        int right = horizontalGravity == Gravity.RIGHT ? 10: 0;
+                        int top = verticalGravity == Gravity.TOP ? 10: 0;
+                        int bottom = verticalGravity == Gravity.BOTTOM ? 10: 0;
+                        params.setMargins(left, top, right, bottom);
+
+                        view.setLayoutParams(params);
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+
+        // Set speaker mode on
+        AndroidVoipController.get().setSpeaker(true);
+
+        // If remote user isn't displaying video, we say so on screen
+        if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
+            view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+            ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+        }
+
+        // If we're not capturing video, we don't need to show the preview
+        if(!AndroidVoipController.get().isVideoEnabled())
+            mCaptureView.setVisibility(View.INVISIBLE);
 
         return view;
     }
@@ -143,7 +228,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 LiblinphoneThread.get().getLinphoneCore().setPreviewWindow(mCaptureView);
             }
         } catch (ArithmeticException ae) {
-            Log.e("Cannot swtich camera : no camera");
+            Log.e("Cannot switch camera : no camera");
         }
     }
 
@@ -158,6 +243,9 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         if (androidVideoWindowImpl != null) {
             synchronized (androidVideoWindowImpl) {
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(androidVideoWindowImpl);
+                if(isFragmentPaused)
+                    AndroidVoipController.get().setVideo(true);
+                isFragmentPaused = false;
             }
         }
 
@@ -174,6 +262,8 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 				 * androidVideoWindowImpl
 				 */
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(null);
+                AndroidVoipController.get().setVideo(false);
+                isFragmentPaused = true;
             }
         }
 
@@ -288,8 +378,21 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     }
 
     @Override
-    public void hangupCleanup() {
+    public void onCallEstablished(){
 
+    }
+
+    @Override
+    public void onCallHangup() {
+        inCallActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //mVideoView.setVisibility(View.INVISIBLE);
+                mCaptureView.setVisibility(View.INVISIBLE);
+                view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+                ((TextView)view.findViewById(R.id.callStatus)).setText("Call ended");
+            }
+        });
     }
 
     @Override
