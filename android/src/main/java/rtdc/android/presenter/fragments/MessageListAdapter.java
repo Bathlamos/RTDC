@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
+import rtdc.core.Session;
 import rtdc.core.model.Message;
 
 import java.util.List;
@@ -52,13 +53,14 @@ public class MessageListAdapter extends ArrayAdapter {
             holder = (ViewHolder) viewToUse.getTag();
         }
 
-        if(message.getSender().getFirstName().equals("Me")) {
+        if(message.getSender().getId() == Session.getCurrentSession().getUser().getId()) {
             viewToUse.setBackgroundColor(Color.TRANSPARENT);
+            holder.sender.setText("Me");
         } else {
             viewToUse.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            holder.sender.setText(message.getSender().getFirstName()+" "+message.getSender().getLastName());
         }
 
-        holder.sender.setText(message.getSender().getFirstName()+" "+message.getSender().getLastName());
         holder.content.setText(message.getContent());
         holder.timeSent.setText(message.getTimeSent().toString());
 

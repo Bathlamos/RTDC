@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.core.model.Message;
+import rtdc.core.service.Service;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class RecentContactsListAdapter extends ArrayAdapter {
      * @return */
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        Message message = (Message)getItem(position);
+        final Message message = (Message)getItem(position);
         View viewToUse = null;
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -65,6 +66,13 @@ public class RecentContactsListAdapter extends ArrayAdapter {
         holder.receiver.setText(message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
         holder.contentPreview.setText(message.getContent());
         holder.lastTimeSent.setText(message.getTimeSent().toString());
+
+        viewToUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Service.getMessages(message.getSender(), message.getReceiver());
+            }
+        });
 
         return viewToUse;
     }

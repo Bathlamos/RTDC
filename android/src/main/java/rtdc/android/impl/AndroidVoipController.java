@@ -9,6 +9,7 @@ import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.core.Config;
 import rtdc.core.impl.VoipController;
+import rtdc.core.model.Message;
 import rtdc.core.model.User;
 
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ public class AndroidVoipController implements VoipController{
     public static AndroidVoipController get(){ return INST; }
 
     @Override
-    public void registerUser(User user) {/*
+    public void registerUser(User user) {
         try {
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Registering user...");
 
@@ -49,7 +50,7 @@ public class AndroidVoipController implements VoipController{
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Registered user " + user.getId() + " on SIP server");
         } catch (LinphoneCoreException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     @Override
@@ -217,6 +218,14 @@ public class AndroidVoipController implements VoipController{
     @Override
     public void declineCall() {
         LiblinphoneThread.get().getLinphoneCore().declineCall(LiblinphoneThread.get().getCurrentCall(), Reason.Declined);
+    }
+
+    @Override
+    public void sendMessage(Message message) {
+        String sipAddress = "sip:" + message.getReceiver().getUsername() + "@" + Config.ASTERISK_IP;
+        String senderName = message.getSender().getFirstName() + " " + message.getSender().getLastName();
+        LinphoneChatMessage m = LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(senderName + ":::" + message.getContent());
+        LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).sendChatMessage(m);
     }
 
     @Override

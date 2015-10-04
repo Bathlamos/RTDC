@@ -1,6 +1,7 @@
 package rtdc.web.client.impl;
 
 import rtdc.core.impl.VoipController;
+import rtdc.core.model.Message;
 import rtdc.core.model.User;
 
 /**
@@ -75,6 +76,11 @@ public class GwtVoipController implements VoipController{
 
     @Override
     public void declineCall() {
+
+    }
+
+    @Override
+    public void sendMessage(Message message) {
 
     }
 
