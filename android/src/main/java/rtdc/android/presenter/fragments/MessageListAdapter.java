@@ -11,6 +11,7 @@ import rtdc.android.R;
 import rtdc.core.Config;
 import rtdc.core.model.Message;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MessageListAdapter extends ArrayAdapter {
@@ -39,11 +40,11 @@ public class MessageListAdapter extends ArrayAdapter {
         }
 
         if(isMessageRow){
-            setupColumn(view, R.id.senderNameTextView, message.getSender().getFirstName()+" "+message.getSender().getLastName(), message.getSender().getFirstName().equals("Me"));
+            setupColumn(view, R.id.senderNameTextView, message.getSender().getFirstName(), message.getSender().getFirstName().equals("Me"));
             setupColumn(view, R.id.messageTextView, message.getContent(), message.getSender().getFirstName().equals("Me"));
-            setupColumn(view, R.id.timeSentTextView, message.getTimeSent().toString(), message.getSender().getFirstName().equals("Me"));
+            setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("MMM dd").format(message.getTimeSent()), message.getSender().getFirstName().equals("Me"));
         } else {
-            setupColumn(view, R.id.dateSeparatorTextView, message.getTimeSent().toString(), false);
+            setupColumn(view, R.id.dateSeparatorTextView, new SimpleDateFormat("EEE MMM dd").format(message.getTimeSent()), false);
         }
 
         view.setTag(position);

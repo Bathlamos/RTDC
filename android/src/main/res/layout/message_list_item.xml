@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/senderNameTextView"
-        android:layout_width="150dp"
+        android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:textSize="15sp" android:textColor="@color/RTDC_grey"
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/timeSentTextView"
-        android:layout_width="105dp"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:text="Time"
