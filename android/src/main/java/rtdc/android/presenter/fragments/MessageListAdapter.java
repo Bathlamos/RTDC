@@ -1,6 +1,5 @@
 package rtdc.android.presenter.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -9,59 +8,63 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
+import rtdc.core.Config;
 import rtdc.core.model.Message;
 
 import java.util.List;
 
 public class MessageListAdapter extends ArrayAdapter {
 
-    private Context context;
+    private LayoutInflater inflater;
+    private static final int DATE_ROW = 1;
+    private static final int MESSAGE_ROW = 0;
 
     public MessageListAdapter(Context context, List items) {
         super(context, android.R.layout.simple_list_item_1, items);
-        this.context = context;
+        inflater = LayoutInflater.from(context);
     }
 
-    private static class ViewHolder {
-        TextView sender;
-        TextView content;
-        TextView timeSent;
-    }
 
-    /**
-     *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return */
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+    @Override
+    public View getView(int position, View view, ViewGroup parent) {
         Message message = (Message)getItem(position);
-        View viewToUse = null;
+        boolean isMessageRow = getItemViewType(position) == MESSAGE_ROW;
 
-        LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
-            viewToUse = mInflater.inflate(R.layout.message_list_item, null);
-            holder = new ViewHolder();
-            holder.sender = (TextView)viewToUse.findViewById(R.id.senderNameTextView);
-            holder.content = (TextView) viewToUse.findViewById(R.id.messageTextView);
-            holder.timeSent = (TextView) viewToUse.findViewById(R.id.timeSentTextView);
-            viewToUse.setTag(holder);
-        } else {
-            viewToUse = convertView;
-            holder = (ViewHolder) viewToUse.getTag();
+        if (view == null) {
+            if(isMessageRow){
+                view = inflater.inflate(R.layout.message_list_item, parent, false);
+            } else {
+                view = inflater.inflate(R.layout.message_list_date_separator, parent, false);
+            }
         }
 
-        if(message.getSender().getFirstName().equals("Me")) {
-            viewToUse.setBackgroundColor(Color.TRANSPARENT);
+        if(isMessageRow){
+            setupColumn(view, R.id.senderNameTextView, message.getSender().getFirstName()+" "+message.getSender().getLastName(), message.getSender().getFirstName().equals("Me"));
+            setupColumn(view, R.id.messageTextView, message.getContent(), message.getSender().getFirstName().equals("Me"));
+            setupColumn(view, R.id.timeSentTextView, message.getTimeSent().toString(), message.getSender().getFirstName().equals("Me"));
         } else {
-            viewToUse.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            setupColumn(view, R.id.dateSeparatorTextView, message.getTimeSent().toString(), false);
         }
 
-        holder.sender.setText(message.getSender().getFirstName()+" "+message.getSender().getLastName());
-        holder.content.setText(message.getContent());
-        holder.timeSent.setText(message.getTimeSent().toString());
+        view.setTag(position);
 
-        return viewToUse;
+        return view;
+    }
+
+    private void setupColumn(View view, int resourceId, String text, boolean noBackgroundColor){
+        TextView textView = (TextView) view.findViewById(resourceId);
+        textView.setText(text);
+        view.setBackgroundColor(noBackgroundColor ? Color.TRANSPARENT : Color.parseColor("#FFFFFF"));
+    }
+
+    @Override
+    public int getViewTypeCount(){
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position){
+        Message message = (Message)getItem(position);
+        return message.getContent().equals(Config.COMMAND_EXEC_KEY) ? 1 : 0;
     }
 }

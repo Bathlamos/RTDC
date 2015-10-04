@@ -7,12 +7,13 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import rtdc.android.R;
+import rtdc.core.Config;
 import rtdc.core.controller.MessageListController;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.view.MessageListView;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -81,40 +82,49 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         messagesAdapter.notifyDataSetChanged();
     }
 
-    // Implement this method!!! ***************
+    // Convert raw messages to be list adapter friendly
     private ArrayList<Message> convertMessages(List<Message> rawMessages){
         ArrayList<Message> convertedMessages = new ArrayList<Message>();
-        User lastSender = null;
-        User sender = rawMessages.get(0).getSender();
-        Date lastTimeSent = null;
-        Date timeSent =  rawMessages.get(0).getTimeSent();
-        String content = rawMessages.get(0).getContent();
+        Message lm = new Message();  // Last message
         Message message = new Message();
 
-        for(Message m : rawMessages){
-            if(m.getSender() == lastSender){
-                content += "\n\n"+m.getContent();
+        for(Message m: rawMessages){
+            if(m.getSender() == lm.getSender() && isSameDay(m.getTimeSent(), lm.getTimeSent())){
+                Message lastMessage = convertedMessages.get(convertedMessages.size() - 1);
+                lastMessage.setContent(lastMessage.getContent() + "\n\n" + m.getContent());
             } else {
-                message.setSender(sender);
-                message.setTimeSent(timeSent);
-                message.setContent(content);
+                if(!isSameDay(m.getTimeSent(), lm.getTimeSent())){
+                    message.setSender(m.getSender());
+                    message.setContent(Config.COMMAND_EXEC_KEY);
+                    message.setTimeSent(m.getTimeSent());
+                    convertedMessages.add(message);
+                    message = new Message();
+                }
+                message.setSender(m.getSender());
+                message.setTimeSent(m.getTimeSent());
+                message.setContent(m.getContent());
                 convertedMessages.add(message);
                 message = new Message();
-                sender = m.getSender();
-                timeSent = m.getTimeSent();
-                content = m.getContent();
             }
 
-            lastSender = m.getSender();
-            lastTimeSent = m.getTimeSent();
+            lm = m;
         }
 
-        message.setSender(sender);
-        message.setTimeSent(timeSent);
-        message.setContent(content);
-        convertedMessages.add(message);
-
         return convertedMessages;
+    }
+
+    // Determine if 2 dates are in the same day
+    private boolean isSameDay(Date date1, Date date2){
+        if(date1 == null || date2 == null){
+            return false;
+        } else {
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+            cal1.setTime(date1);
+            cal2.setTime(date2);
+            return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                    cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+        }
     }
 
     @Override
