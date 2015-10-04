@@ -35,6 +35,7 @@ public class MessageListController extends Controller<MessageListView> implement
 
     public void sortMessages(Message.Properties property){
         Collections.sort(messages, SimpleComparator.forProperty(property).build());
+        Collections.reverse(messages);
         view.setMessages(messages);
     }
 
@@ -115,6 +116,8 @@ public class MessageListController extends Controller<MessageListView> implement
             message.setSender(sender);
             message.setContent(i + "Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
             message.setTimeSent(new Date());
+            message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
+            message.setTimeSent(new Date(2015, 9, i+1));
             messageList.add(message);
 
             if(i == 3){
@@ -122,12 +125,16 @@ public class MessageListController extends Controller<MessageListView> implement
                 message3.setSender(sender);
                 message3.setContent(i + "I'd like to discuss a few things about my new schedule");
                 message3.setTimeSent(new Date());
+                message3.setContent("I'd like to discuss a few things about my new schedule");
+                message3.setTimeSent(new Date(2015, 9, i+1));
                 messageList.add(message3);
 
                 Message message4 = new Message();
                 message4.setSender(sender);
                 message4.setContent(i + "Oh I forgot to mention... I'll only be available after 1 PM");
                 message4.setTimeSent(new Date());
+                message4.setContent("Oh I forgot to mention... I'll only be available after 1 PM");
+                message4.setTimeSent(new Date(2015, 9, i+1));
                 messageList.add(message4);
             }
 
@@ -140,6 +147,8 @@ public class MessageListController extends Controller<MessageListView> implement
             message2.setSender(sender2);
             message2.setContent(i + "Oh hi John! Sure, lets meet around 2 PM in my office.");
             message2.setTimeSent(new Date());
+            message2.setContent("Oh hi John! Sure, lets meet around 2 PM in my office.");
+            message2.setTimeSent(new Date(2015, 9, i+1));
             messageList.add(message2);
         }
         return messageList;
