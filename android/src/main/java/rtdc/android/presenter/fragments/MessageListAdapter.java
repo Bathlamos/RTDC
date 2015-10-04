@@ -42,7 +42,7 @@ public class MessageListAdapter extends ArrayAdapter {
         if(isMessageRow){
             setupColumn(view, R.id.senderNameTextView, message.getSender().getFirstName(), message.getSender().getFirstName().equals("Me"));
             setupColumn(view, R.id.messageTextView, message.getContent(), message.getSender().getFirstName().equals("Me"));
-            setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("MMM dd").format(message.getTimeSent()), message.getSender().getFirstName().equals("Me"));
+            setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("hh:mm a").format(message.getTimeSent()), message.getSender().getFirstName().equals("Me"));
         } else {
             setupColumn(view, R.id.dateSeparatorTextView, new SimpleDateFormat("EEE MMM dd").format(message.getTimeSent()), false);
         }
