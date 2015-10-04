@@ -40,21 +40,15 @@ public class MessageListAdapter extends ArrayAdapter {
             }
         }
 
-        if(message.getSender().getId() == Session.getCurrentSession().getUser().getId()) {
-            viewToUse.setBackgroundColor(Color.TRANSPARENT);
-            holder.sender.setText("Me");
+        boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
         if(isMessageRow){
-            setupColumn(view, R.id.senderNameTextView, message.getSender().getFirstName(), message.getSender().getFirstName().equals("Me"));
-            setupColumn(view, R.id.messageTextView, message.getContent(), message.getSender().getFirstName().equals("Me"));
-            setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("hh:mm a").format(message.getTimeSent()), message.getSender().getFirstName().equals("Me"));
+            setupColumn(view, R.id.senderNameTextView, sessionUser ? "Me" : message.getSender().getFirstName(), sessionUser);
+            setupColumn(view, R.id.messageTextView, message.getContent(), sessionUser);
+            setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("hh:mm a").format(message.getTimeSent()), sessionUser);
         } else {
-            viewToUse.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            holder.sender.setText(message.getSender().getFirstName()+" "+message.getSender().getLastName());
             setupColumn(view, R.id.dateSeparatorTextView, new SimpleDateFormat("EEE MMM dd").format(message.getTimeSent()), false);
         }
 
-        holder.content.setText(message.getContent());
-        holder.timeSent.setText(message.getTimeSent().toString());
         view.setTag(position);
 
         return view;

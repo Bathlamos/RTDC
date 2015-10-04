@@ -72,7 +72,7 @@ public class MessageListController extends Controller<MessageListView> implement
         receiver.setFirstName("Jonathan");
         receiver.setLastName("Ermel");
         receiver.setUsername("Qwe");
-        receiver.setId(56);
+        receiver.setId(82);
         message.setReceiver(receiver);
         message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
         message.setTimeSent(new Date());
@@ -106,11 +106,11 @@ public class MessageListController extends Controller<MessageListView> implement
             sender.setFirstName("Jonathan");
             sender.setLastName("Ermel");
             sender.setUsername("Qwe");
-            sender.setId(56);
+            sender.setId(82);
             User receiver = new User();
             receiver.setFirstName("Nathaniel");
             receiver.setLastName("Aumonttt");
-            receiver.setId(55);
+            receiver.setId(81);
             receiver.setUsername("Nathaniel");
             message.setReceiver(receiver);
             message.setSender(sender);
@@ -123,6 +123,7 @@ public class MessageListController extends Controller<MessageListView> implement
             if(i == 3){
                 Message message3 = new Message();
                 message3.setSender(sender);
+                message.setReceiver(receiver);
                 message3.setContent(i + "I'd like to discuss a few things about my new schedule");
                 message3.setTimeSent(new Date());
                 message3.setContent("I'd like to discuss a few things about my new schedule");
@@ -131,6 +132,7 @@ public class MessageListController extends Controller<MessageListView> implement
 
                 Message message4 = new Message();
                 message4.setSender(sender);
+                message.setReceiver(receiver);
                 message4.setContent(i + "Oh I forgot to mention... I'll only be available after 1 PM");
                 message4.setTimeSent(new Date());
                 message4.setContent("Oh I forgot to mention... I'll only be available after 1 PM");
@@ -142,9 +144,10 @@ public class MessageListController extends Controller<MessageListView> implement
             User sender2 = new User();
             sender2.setFirstName("Nathaniel");
             sender2.setLastName("Aumonttt");
-            sender2.setId(55);
+            sender2.setId(81);
             sender2.setUsername("Nathaniel");
             message2.setSender(sender2);
+            message2.setReceiver(sender);
             message2.setContent(i + "Oh hi John! Sure, lets meet around 2 PM in my office.");
             message2.setTimeSent(new Date());
             message2.setContent("Oh hi John! Sure, lets meet around 2 PM in my office.");

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
+import rtdc.core.event.FetchUserEvent;
 import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Permission;
@@ -50,6 +51,31 @@ public class UserServlet {
             session.close();
         }
         return new FetchUsersEvent(users).toString();
+    }
+
+    @POST
+    @Path("{id}")
+    @Consumes("application/x-www-form-urlencoded")
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    public String getUser(@Context HttpServletRequest req, @PathParam("id") String id){
+        Session session = PersistenceConfig.getSessionFactory().openSession();
+        Transaction transaction = null;
+        User user = null;
+        try{
+            transaction = session.beginTransaction();
+            user = (User) session.get(User.class, Integer.parseInt(id));
+            transaction.commit();
+
+            // TODO: Replace string with actual username
+            log.info("{}: USER: Getting user for user.", "Username");
+        } catch (RuntimeException e) {
+            if(transaction != null)
+                transaction.rollback();
+            throw e;
+        } finally{
+            session.close();
+        }
+        return new FetchUserEvent(user).toString();
     }
 
     @POST

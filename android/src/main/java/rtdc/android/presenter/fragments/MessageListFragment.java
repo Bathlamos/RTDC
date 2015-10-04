@@ -174,7 +174,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         Date lastTimeSent = null;
         Message message = new Message();
 
-        if(rawMessage.getSender() == lastSender){
+        if(rawMessage.getSender().getId() == lastSender.getId()){
             lastMessage.setContent(lastMessage.getContent() + "\n\n" + rawMessage.getContent());
             return null;
         } else {

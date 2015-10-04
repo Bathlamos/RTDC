@@ -159,7 +159,7 @@ public class AndroidVoipController implements VoipController{
             //lc.enableVideo(true, true);
 
             String sipAddress = LiblinphoneThread.get().getCurrentCallRemoteAddress().asStringUriOnly();
-            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage("Video: true");
+            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(Config.COMMAND_EXEC_KEY + "Video: true");
             lc.getOrCreateChatRoom(sipAddress).sendChatMessage(m);
         }else{
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Disabling video");
@@ -167,7 +167,7 @@ public class AndroidVoipController implements VoipController{
             //lc.enableVideo(false, true);
 
             String sipAddress = LiblinphoneThread.get().getCurrentCallRemoteAddress().asStringUriOnly();
-            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage("Video: false");
+            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(Config.COMMAND_EXEC_KEY + "Video: false");
             lc.getOrCreateChatRoom(sipAddress).sendChatMessage(m);
         }
     }
@@ -223,8 +223,8 @@ public class AndroidVoipController implements VoipController{
     @Override
     public void sendMessage(Message message) {
         String sipAddress = "sip:" + message.getReceiver().getUsername() + "@" + Config.ASTERISK_IP;
-        String senderName = message.getSender().getFirstName() + " " + message.getSender().getLastName();
-        LinphoneChatMessage m = LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(senderName + ":::" + message.getContent());
+        int senderId = message.getSender().getId();
+        LinphoneChatMessage m = LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(senderId + ":::" + message.getContent());
         LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).sendChatMessage(m);
     }
 

@@ -16,6 +16,7 @@ import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
 import rtdc.android.presenter.MainActivity;
 import rtdc.android.presenter.fragments.MessageListFragment;
 import rtdc.android.presenter.fragments.VideoCallFragment;
+import rtdc.core.Config;
 import rtdc.core.Session;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUserEvent;
@@ -28,7 +29,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LiblinphoneThread extends Thread implements LinphoneCoreListener, FetchUserEvent.Handler{
+public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
     private LinphoneCore lc;
     private LinphoneCall currentCall;
@@ -166,10 +167,10 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener, F
     }
 
     @Override
-    public void messageReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, LinphoneChatMessage linphoneChatMessage) {
+    public void messageReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, final LinphoneChatMessage linphoneChatMessage) {
         Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, "Message received: " + linphoneChatMessage.getText());
 
-        if(linphoneChatMessage.getText().startsWith("Video: ")){
+        if(linphoneChatMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
             // Check to make sure that if we are in a call that the one that sent the message is the one we're in a call with
             // (It could be someone that's trying to request a video call, but we're in a call with someone already)
             if(currentCall != null && !currentCallRemoteAddress.getUserName().equals(linphoneChatMessage.getFrom().getUserName()))
@@ -198,18 +199,30 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener, F
             }
         }else{
             if(MessageListFragment.getInstance() != null){
-                String senderName = linphoneChatMessage.getText().split(":::")[0];
-                Message message = new Message();
-                //Event.subscribe(FetchUserEvent.TYPE, this);
-                //Service.getUser(1);
-                User u = new User();
+                int senderId = Integer.parseInt(linphoneChatMessage.getText().split(":::")[0]);
+
+                FetchUserEvent.Handler handler = new FetchUserEvent.Handler() {
+                    @Override
+                    public void onUserFetched(FetchUserEvent event) {
+                        Event.unsubscribe(FetchUserEvent.TYPE, this);
+                        Message message = new Message();
+                        message.setSender(event.getUser());
+                        message.setContent(linphoneChatMessage.getText().split(":::")[1]);
+                        message.setTimeSent(new Date());
+                        message.setStatus(Message.Status.read);
+                        MessageListFragment.getInstance().addMessage(message);
+                    }
+                };
+                Event.subscribe(FetchUserEvent.TYPE, handler);
+                Service.getUser(senderId);
+                /*User u = new User();
                 u.setFirstName(senderName.split(" ")[0]);
                 u.setLastName(senderName.split(" ")[1]);
-                message.setSender(u);
-                message.setContent(linphoneChatMessage.getText().split(":::")[1]);
+                message.setSender(u);*/
+                /*message.setContent(linphoneChatMessage.getText().split(":::")[1]);
                 message.setTimeSent(new Date());
                 message.setStatus(Message.Status.read);
-                MessageListFragment.getInstance().addMessage(message);
+                MessageListFragment.getInstance().addMessage(message);*/
             }
         }
     }
@@ -342,11 +355,5 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener, F
     @Override
     public int fileTransferSend(LinphoneCore linphoneCore, LinphoneChatMessage linphoneChatMessage, LinphoneContent linphoneContent, ByteBuffer byteBuffer, int i) {
         return 0;
-    }
-
-    @Override
-    public void onUserFetched(FetchUserEvent event) {
-        Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, event.getUser() + "");
-        Event.unsubscribe(FetchUserEvent.TYPE, this);
     }
 }
