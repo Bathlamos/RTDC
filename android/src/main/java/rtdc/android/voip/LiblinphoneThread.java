@@ -20,6 +20,7 @@ import rtdc.core.Config;
 import rtdc.core.Session;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUserEvent;
+import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
@@ -199,30 +200,16 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
             }
         }else{
             if(MessageListFragment.getInstance() != null){
-                int senderId = Integer.parseInt(linphoneChatMessage.getText().split(":::")[0]);
-
-                FetchUserEvent.Handler handler = new FetchUserEvent.Handler() {
-                    @Override
-                    public void onUserFetched(FetchUserEvent event) {
-                        Event.unsubscribe(FetchUserEvent.TYPE, this);
-                        Message message = new Message();
-                        message.setSender(event.getUser());
-                        message.setContent(linphoneChatMessage.getText().split(":::")[1]);
-                        message.setTimeSent(new Date());
-                        message.setStatus(Message.Status.read);
-                        MessageListFragment.getInstance().addMessage(message);
-                    }
-                };
-                Event.subscribe(FetchUserEvent.TYPE, handler);
-                Service.getUser(senderId);
-                /*User u = new User();
-                u.setFirstName(senderName.split(" ")[0]);
-                u.setLastName(senderName.split(" ")[1]);
-                message.setSender(u);*/
-                /*message.setContent(linphoneChatMessage.getText().split(":::")[1]);
-                message.setTimeSent(new Date());
-                message.setStatus(Message.Status.read);
-                MessageListFragment.getInstance().addMessage(message);*/
+                JSONObject object = new JSONObject(linphoneChatMessage.getText());
+                Message message = new Message(object);
+                if(MessageListFragment.getInstance().getMessagingUser().getId() == message.getSenderID()) {
+                    message.setStatus(Message.Status.read);
+                    MessageListFragment.getInstance().addMessage(message);
+                }else{
+                    message.setStatus(Message.Status.delivered);
+                    MessageListFragment.getInstance().addRecentContact(message);
+                }
+                Service.saveOrUpdateMessage(message);
             }
         }
     }

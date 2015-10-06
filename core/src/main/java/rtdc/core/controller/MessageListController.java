@@ -66,34 +66,35 @@ public class MessageListController extends Controller<MessageListView> implement
     // TODO SCRAP THAT
     private ArrayList<Message> getRecentContacts(){
         ArrayList<Message> recentContacts = new ArrayList<>();
-
-        Message message = new Message();
-        User receiver = new User();
         User sender = new User();
         sender.setFirstName("Nathaniel");
         sender.setLastName("Aumonttt");
         sender.setUsername("Nathaniel");
-        sender.setId(92);
-        receiver.setFirstName("Jonathan");
-        receiver.setLastName("Ermel");
-        receiver.setUsername("Qwe");
-        receiver.setId(93);
-        message.setSender(sender);
-        message.setReceiver(receiver);
-        message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
-        message.setTimeSent(new Date());
-        message.setStatus(Message.Status.delivered);
-        recentContacts.add(message);
+        sender.setId(86);
 
         Message message2 = new Message();
         User receiver2 = new User();
         receiver2.setFirstName("Emilie");
         receiver2.setLastName("Luskberg");
+        message2.setSender(sender);
         message2.setReceiver(receiver2);
         message2.setContent("Sounds good!");
-        message2.setTimeSent(new Date());
+        message2.setTimeSent(new Date(2015, 10, 5));
         message2.setStatus(Message.Status.read);
         recentContacts.add(message2);
+
+        Message message = new Message();
+        User receiver = new User();
+        receiver.setFirstName("Jonathan");
+        receiver.setLastName("Ermel");
+        receiver.setUsername("Qwe");
+        receiver.setId(87);
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
+        message.setTimeSent(new Date(2015, 10, 6));
+        message.setStatus(Message.Status.delivered);
+        recentContacts.add(message);
 
         return recentContacts;
     }
@@ -112,11 +113,11 @@ public class MessageListController extends Controller<MessageListView> implement
             sender.setFirstName("Jonathan");
             sender.setLastName("Ermel");
             sender.setUsername("Qwe");
-            sender.setId(93);
+            sender.setId(87);
             User receiver = new User();
             receiver.setFirstName("Nathaniel");
             receiver.setLastName("Aumonttt");
-            receiver.setId(92);
+            receiver.setId(86);
             receiver.setUsername("Nathaniel");
             message.setReceiver(receiver);
             message.setSender(sender);
@@ -150,7 +151,7 @@ public class MessageListController extends Controller<MessageListView> implement
             User sender2 = new User();
             sender2.setFirstName("Nathaniel");
             sender2.setLastName("Aumonttt");
-            sender2.setId(92);
+            sender2.setId(86);
             sender2.setUsername("Nathaniel");
             message2.setSender(sender2);
             message2.setReceiver(sender);

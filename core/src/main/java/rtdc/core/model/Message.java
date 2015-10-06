@@ -40,9 +40,9 @@ public class Message extends RootObject {
 
     private int id;
     private User sender;
-    private int senderID;
+    private int senderID = -1;
     private User receiver;
-    private int receiverID;
+    private int receiverID = -1;
     private Status status;
     private Date timeSent;
     private String content;
