@@ -59,13 +59,13 @@ public class MessageListFragment extends AbstractFragment implements MessageList
                 // Force the message list view to go to the bottom
                 messageListView.setSelection(messageListView.getCount() - 1);
 
-                //Service.saveMessage(message);
+                Service.saveOrUpdateMessage(message);
 
                 ((TextView) view.findViewById(R.id.messageEditText)).setText("");
             }
         });
 
-        recentContactsAdapter = new RecentContactsListAdapter(getActivity(), recentContacts);
+        recentContactsAdapter = new RecentContactsListAdapter(getActivity(), recentContacts, this);
         recentContactsListView.setAdapter(recentContactsAdapter);
 
         messagesAdapter = new MessageListAdapter(getActivity(), messages);
@@ -119,8 +119,13 @@ public class MessageListFragment extends AbstractFragment implements MessageList
             messagingUser = messages.get(0).getSender();
         else
             messagingUser = messages.get(0).getReceiver();
+        ((TextView)view.findViewById(R.id.receiverNameTextView)).setText(messagingUser.getFirstName() + " " + messagingUser.getLastName());
+        ((TextView)view.findViewById(R.id.receiverRoleTextView)).setText(messagingUser.getRole());
 
         messagesAdapter.notifyDataSetChanged();
+
+        AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
+        recentContactsListView.setSelection(0);
     }
 
     // Convert raw messages to be list adapter friendly
@@ -185,7 +190,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         }
     }
 
-    public void addMessage(Message message){
+    public void addMessage(final Message message){
         Message convertedMessage = convertMessage(message);
         if(convertedMessage != null)
             messages.add(convertedMessage);
@@ -197,6 +202,12 @@ public class MessageListFragment extends AbstractFragment implements MessageList
                 // Force the message list view to go to the bottom
                 AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
                 messageListView.setSelection(messageListView.getCount() - 1);
+
+                // Get the currently selected recent contact message, remove it, and then place this message at the top of the list
+                /*final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
+                recentContacts.remove(recentContactsListView.getSelectedItemPosition());
+                recentContacts.add(0, message);
+                recentContactsAdapter.notifyDataSetChanged();*/
             }
         });
     }

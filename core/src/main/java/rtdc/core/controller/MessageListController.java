@@ -69,10 +69,16 @@ public class MessageListController extends Controller<MessageListView> implement
 
         Message message = new Message();
         User receiver = new User();
+        User sender = new User();
+        sender.setFirstName("Nathaniel");
+        sender.setLastName("Aumonttt");
+        sender.setUsername("Nathaniel");
+        sender.setId(92);
         receiver.setFirstName("Jonathan");
         receiver.setLastName("Ermel");
         receiver.setUsername("Qwe");
-        receiver.setId(82);
+        receiver.setId(93);
+        message.setSender(sender);
         message.setReceiver(receiver);
         message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
         message.setTimeSent(new Date());
@@ -106,11 +112,11 @@ public class MessageListController extends Controller<MessageListView> implement
             sender.setFirstName("Jonathan");
             sender.setLastName("Ermel");
             sender.setUsername("Qwe");
-            sender.setId(82);
+            sender.setId(93);
             User receiver = new User();
             receiver.setFirstName("Nathaniel");
             receiver.setLastName("Aumonttt");
-            receiver.setId(81);
+            receiver.setId(92);
             receiver.setUsername("Nathaniel");
             message.setReceiver(receiver);
             message.setSender(sender);
@@ -144,7 +150,7 @@ public class MessageListController extends Controller<MessageListView> implement
             User sender2 = new User();
             sender2.setFirstName("Nathaniel");
             sender2.setLastName("Aumonttt");
-            sender2.setId(81);
+            sender2.setId(92);
             sender2.setUsername("Nathaniel");
             message2.setSender(sender2);
             message2.setReceiver(sender);

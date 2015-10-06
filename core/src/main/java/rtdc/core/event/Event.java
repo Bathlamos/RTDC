@@ -29,6 +29,8 @@ public abstract class Event<T extends EventHandler> extends RootObject {
                 e = new FetchUserEvent(object);
             else if(type.equalsIgnoreCase(FetchActionsEvent.TYPE.getName()))
                 e = new FetchActionsEvent(object);
+            else if(type.equalsIgnoreCase(FetchMessagesEvent.TYPE.getName()))
+                e = new FetchMessagesEvent(object);
             else if(type.equalsIgnoreCase(ActionCompleteEvent.TYPE.getName()))
                 e = new ActionCompleteEvent(object);
             else if(type.equalsIgnoreCase(SessionExpiredEvent.TYPE.getName()))

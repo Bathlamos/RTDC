@@ -74,17 +74,14 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + userId, DELETE));
     }
 
-    public static void saveMessage(Message message){
+    public static void saveOrUpdateMessage(Message message){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "messages", PUT);
         req.addParameter("message", message.toString());
         executeRequest(req);
     }
 
-    public static void getMessages(User user1, User user2){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "messages", GET);
-        req.addParameter("user1", user1.toString());
-        req.addParameter("user2", user2.toString());
-        executeRequest(req);
+    public static void getMessages(int userId1, int userId2){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2, POST));
     }
 
     public static void getActions(){

@@ -10,7 +10,9 @@ public class Message extends RootObject {
     public enum Properties implements ObjectProperty<Message> {
         id,
         sender,
+        senderID,
         receiver,
+        receiverID,
         status,
         timeSent,
         content
@@ -38,7 +40,9 @@ public class Message extends RootObject {
 
     private int id;
     private User sender;
+    private int senderID;
     private User receiver;
+    private int receiverID;
     private Status status;
     private Date timeSent;
     private String content;
@@ -71,7 +75,9 @@ public class Message extends RootObject {
         switch((Properties) property){
             case id: return id;
             case sender: return sender;
+            case senderID: return senderID;
             case receiver: return receiver;
+            case receiverID: return receiverID;
             case status: return status;
             case timeSent: return timeSent;
             case content: return content;
@@ -93,14 +99,30 @@ public class Message extends RootObject {
 
     public void setSender(User sender) {
         this.sender = sender;
+        if(sender != null)
+            this.senderID = sender.getId();
     }
 
-    public User getReceiver() {
-        return receiver;
+    public int getSenderID() { return senderID; }
+
+    public void setSenderID(int senderID) {
+        this.senderID = senderID;
     }
+
+    public User getReceiver() { return receiver; }
 
     public void setReceiver(User receiver) {
         this.receiver = receiver;
+        if(receiver != null)
+            this.receiverID = receiver.getId();
+    }
+
+    public int getReceiverID() {
+        return receiverID;
+    }
+
+    public void setReceiverID(int receiverID) {
+        this.receiverID = receiverID;
     }
 
     public Status getStatus() {
