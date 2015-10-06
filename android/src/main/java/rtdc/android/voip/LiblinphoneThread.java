@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.TextView;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
@@ -177,7 +178,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
             if(currentCall != null && !currentCallRemoteAddress.getUserName().equals(linphoneChatMessage.getFrom().getUserName()))
                 return;
             // There was an update regarding the video of the call
-            boolean video = Boolean.valueOf(linphoneChatMessage.getText().replace("Video: ", ""));
+            boolean video = Boolean.valueOf(linphoneChatMessage.getText().replace(Config.COMMAND_EXEC_KEY + "Video: ", ""));
             AndroidVoipController.get().setRemoteVideo(video);
             if(video){
                 if(AndroidVoipController.get().isVideoEnabled()){
@@ -185,7 +186,10 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
                     CommunicationHubInCallActivity.getCurrentInstance().displayPauseVideoStatus(false);
                 }else{
                     // Remote video is on and we're not in the video fragment. Go to the video fragment
-                    CommunicationHubInCallActivity.getCurrentInstance().displayVideo();
+                    if(CommunicationHubInCallActivity.getCurrentInstance() != null)
+                        CommunicationHubInCallActivity.getCurrentInstance().displayVideo();
+                    else if(CommunicationHubReceivingCallActivity.getInstance() != null)
+                        ((TextView)CommunicationHubReceivingCallActivity.getInstance().findViewById(R.id.incomingCallText)).setText("Incoming video call");
                 }
             }else{
                 if(AndroidVoipController.get().isVideoEnabled()){

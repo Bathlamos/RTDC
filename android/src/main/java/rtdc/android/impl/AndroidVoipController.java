@@ -90,9 +90,7 @@ public class AndroidVoipController implements VoipController{
             lAddress.setDisplayName(user.getFirstName() + " " + user.getLastName());
 
             LinphoneCallParams params = LiblinphoneThread.get().getLinphoneCore().createDefaultCallParameters();
-
-            // Check if video possible regarding bandwidth limitations
-            BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
+            params.setVideoEnabled(videoEnabled);
 
             LinphoneCall call = LiblinphoneThread.get().getLinphoneCore().inviteAddressWithParams(lAddress, params);
 
@@ -107,19 +105,7 @@ public class AndroidVoipController implements VoipController{
             setRemoteVideo(false);
             setSpeaker(false);
             setMicMuted(false);
-
-            // Even if we requested the video to be on, we need to make sure that the device is capable of doing so
-
-            if(params.getVideoEnabled())
-                setVideo(videoEnabled);
-
-            try {
-                Integer.parseInt(LiblinphoneThread.get().getCurrentCallRemoteAddress().getUserName());
-                LiblinphoneThread.get().getCurrentCallRemoteAddress().setUserName(user.getUsername());
-            } catch(NumberFormatException e) {
-            }
-
-            //setVideo(false);
+            setVideo(videoEnabled);
 
             if (call == null)
                 Logger.getLogger(AndroidVoipController.class.getName()).log(Level.WARNING, "Could not place call to " + sipAddress + ", aborting...");
@@ -154,7 +140,14 @@ public class AndroidVoipController implements VoipController{
         if(enabled){
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Enabling video");
             LinphoneCallParams params = call.getCurrentParamsCopy();
-            if (!params.getVideoEnabled()) return;
+
+            // Check if video possible regarding bandwidth limitations
+            BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
+
+            if (!params.getVideoEnabled()){
+                Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Video cannot be enabled: not enough bandwidth");
+                return;
+            }
 
             //lc.enableVideo(true, true);
 
@@ -197,15 +190,11 @@ public class AndroidVoipController implements VoipController{
             setSpeaker(false);
             setMicMuted(false);
 
-            // Check if video possible regarding bandwidth limitations
-            BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
+            params.setVideoEnabled(true);
 
             LiblinphoneThread.get().getLinphoneCore().acceptCallWithParams(LiblinphoneThread.get().getCurrentCall(), params);
 
-            // Even if the remote user requested video to be on, we need to make sure that the device is capable of doing so
-
-            if(params.getVideoEnabled())
-                setVideo(remoteVideo);
+            setVideo(remoteVideo);
 
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
