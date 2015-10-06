@@ -3,10 +3,10 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/impl/HttpResponse.java
 //
 
-#ifndef _ImplHttpResponse_H_
-#define _ImplHttpResponse_H_
+#ifndef _HttpResponse_H_
+#define _HttpResponse_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 
 @protocol ImplHttpResponse < NSObject, JavaObject >
 
@@ -16,8 +16,10 @@
 
 @end
 
-__attribute__((always_inline)) inline void ImplHttpResponse_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ImplHttpResponse)
+
+J2OBJC_TYPE_LITERAL_HEADER(ImplHttpResponse)
 
 #define RtdcCoreImplHttpResponse ImplHttpResponse
 
-#endif // _ImplHttpResponse_H_
+#endif // _HttpResponse_H_

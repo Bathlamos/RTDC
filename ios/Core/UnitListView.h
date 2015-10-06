@@ -3,19 +3,22 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/view/UnitListView.java
 //
 
-#ifndef _RtdcCoreViewUnitListView_H_
-#define _RtdcCoreViewUnitListView_H_
+#ifndef _UnitListView_H_
+#define _UnitListView_H_
+
+#include "J2ObjC_header.h"
+#include "View.h"
 
 @protocol JavaUtilList;
 
-#import "JreEmulation.h"
-#include "View.h"
-
 @protocol RtdcCoreViewUnitListView < RtdcCoreViewView, NSObject, JavaObject >
-- (void)setUnitsWithJavaUtilList:(id<JavaUtilList>)units;
+
+- (void)setUnitsWithJavaUtilList:(id<JavaUtilList>)users;
 
 @end
 
-__attribute__((always_inline)) inline void RtdcCoreViewUnitListView_init() {}
+J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewUnitListView)
 
-#endif // _RtdcCoreViewUnitListView_H_
+J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewUnitListView)
+
+#endif // _UnitListView_H_

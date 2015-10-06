@@ -4,171 +4,346 @@
 //
 
 #include "IOSClass.h"
+#include "IOSObjectArray.h"
+#include "IOSPrimitiveArray.h"
+#include "J2ObjC_source.h"
 #include "JSONObject.h"
+#include "ObjectProperty.h"
+#include "RootObject.h"
 #include "Unit.h"
 #include "User.h"
-#include "java/util/Map.h"
-#include "java/util/Set.h"
+#include "java/lang/Enum.h"
+#include "java/lang/IllegalArgumentException.h"
+#include "java/lang/Integer.h"
+#include "java/lang/Long.h"
+
+@interface ModelUser () {
+ @public
+  jint id__;
+  NSString *username_;
+  NSString *firstName_;
+  NSString *lastName_;
+  NSString *email_;
+  NSString *permission_;
+  NSString *role_;
+  jlong phone_;
+  ModelUnit *unit_;
+}
+
+@end
+
+J2OBJC_FIELD_SETTER(ModelUser, username_, NSString *)
+J2OBJC_FIELD_SETTER(ModelUser, firstName_, NSString *)
+J2OBJC_FIELD_SETTER(ModelUser, lastName_, NSString *)
+J2OBJC_FIELD_SETTER(ModelUser, email_, NSString *)
+J2OBJC_FIELD_SETTER(ModelUser, permission_, NSString *)
+J2OBJC_FIELD_SETTER(ModelUser, role_, NSString *)
+J2OBJC_FIELD_SETTER(ModelUser, unit_, ModelUnit *)
+
+__attribute__((unused)) static void ModelUser_PropertiesEnum_initWithNSString_withInt_(ModelUser_PropertiesEnum *self, NSString *__name, jint __ordinal);
+
+__attribute__((unused)) static ModelUser_PropertiesEnum *new_ModelUser_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
 
 @implementation ModelUser
 
-NSString * ModelUser_ID_ = @"user_id";
-NSString * ModelUser_USERNAME_ = @"username";
-NSString * ModelUser_LAST_NAME_ = @"lastName";
-NSString * ModelUser_EMAIL_ = @"email";
-NSString * ModelUser_PHONE_ = @"phone";
-NSString * ModelUser_FIRST_NAME_ = @"firstName";
-NSString * ModelUser_PERMISSION_ = @"permission";
-NSString * ModelUser_ROLE_ = @"role";
-NSString * ModelUser_UNIT_ = @"unit";
-NSString * ModelUser_AUTH_TOKEN_ = @"authenticationToken";
-
-- (jint)getId {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optIntWithNSString:ModelUser_ID_];
-}
-
-- (void)setIdWithInt:(jint)id_ {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_ID_ withInt:id_];
-}
-
-- (NSString *)getUsername {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:ModelUser_USERNAME_];
-}
-
-- (void)setUsernameWithNSString:(NSString *)username {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_USERNAME_ withId:username];
-}
-
-- (NSString *)getLastName {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:ModelUser_LAST_NAME_];
-}
-
-- (void)setLastNameWithNSString:(NSString *)lastName {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_LAST_NAME_ withId:lastName];
-}
-
-- (NSString *)getFirstName {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:ModelUser_FIRST_NAME_];
-}
-
-- (void)setFirstNameWithNSString:(NSString *)firstName {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_FIRST_NAME_ withId:firstName];
-}
-
-- (NSString *)getEmail {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:ModelUser_EMAIL_];
-}
-
-- (void)setEmailWithNSString:(NSString *)email {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_EMAIL_ withId:email];
-}
-
-- (jlong)getPhone {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optLongWithNSString:ModelUser_PHONE_];
-}
-
-- (void)setPhoneWithLong:(jlong)phone {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_PHONE_ withLong:phone];
-}
-
-- (NSString *)getPermission {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:ModelUser_PERMISSION_];
-}
-
-- (void)setPermissionWithNSString:(NSString *)permission {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_PERMISSION_ withId:permission];
-}
-
-- (NSString *)getRole {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:ModelUser_ROLE_];
-}
-
-- (void)setRoleWithNSString:(NSString *)role {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_ROLE_ withId:role];
-}
-
-- (ModelUnit *)getUnit {
-  return (ModelUnit *) check_class_cast([((JSONJSONObject *) nil_chk(jsonObject_User_)) optJSONObjectWithNSString:ModelUser_UNIT_], [ModelUnit class]);
-}
-
-- (void)setUnitWithModelUnit:(ModelUnit *)unit {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_UNIT_ withId:unit];
-}
-
-- (NSString *)getAuthenticationToken {
-  return [((JSONJSONObject *) nil_chk(jsonObject_User_)) optStringWithNSString:ModelUser_AUTH_TOKEN_];
-}
-
-- (void)setAuthenticationTokenWithNSString:(NSString *)authenticationToken {
-  [((JSONJSONObject *) nil_chk(jsonObject_User_)) putWithNSString:ModelUser_AUTH_TOKEN_ withId:authenticationToken];
-}
-
-- (id<JavaUtilSet>)validatePropertyWithNSString:(NSString *)property {
-  return nil;
-}
-
-- (id<JavaUtilMap>)validateAll {
-  return nil;
-}
-
+J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  if (self = [super init]) {
-    ModelUser_setAndConsume_jsonObject_User_(self, [[JSONJSONObject alloc] init]);
-  }
+  ModelUser_init(self);
+  return self;
+}
+J2OBJC_IGNORE_DESIGNATED_END
+
+- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object {
+  ModelUser_initWithJSONJSONObject_(self, object);
   return self;
 }
 
-- (void)dealloc {
-  ModelUser_set_jsonObject_User_(self, nil);
-  [super dealloc];
+- (IOSObjectArray *)getProperties {
+  return ModelUser_PropertiesEnum_values();
 }
 
-- (void)copyAllFieldsTo:(ModelUser *)other {
-  [super copyAllFieldsTo:other];
-  ModelUser_set_jsonObject_User_(other, jsonObject_User_);
+- (NSString *)getType {
+  return @"user";
+}
+
+- (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property {
+  switch ([(ModelUser_PropertiesEnum *) check_class_cast(property, [ModelUser_PropertiesEnum class]) ordinal]) {
+    case ModelUser_Properties_id:
+    return JavaLangInteger_valueOfWithInt_(id__);
+    case ModelUser_Properties_username:
+    return username_;
+    case ModelUser_Properties_firstName:
+    return firstName_;
+    case ModelUser_Properties_lastName:
+    return lastName_;
+    case ModelUser_Properties_email:
+    return email_;
+    case ModelUser_Properties_permission:
+    return permission_;
+    case ModelUser_Properties_role:
+    return role_;
+    case ModelUser_Properties_phone:
+    return JavaLangLong_valueOfWithLong_(phone_);
+    case ModelUser_Properties_unit:
+    return unit_;
+  }
+  return nil;
+}
+
+- (jint)getId {
+  return id__;
+}
+
+- (void)setIdWithInt:(jint)id_ {
+  self->id__ = id_;
+}
+
+- (NSString *)getUsername {
+  return username_;
+}
+
+- (void)setUsernameWithNSString:(NSString *)username {
+  JreStrongAssign(&self->username_, username);
+}
+
+- (NSString *)getFirstName {
+  return firstName_;
+}
+
+- (void)setFirstNameWithNSString:(NSString *)firstName {
+  JreStrongAssign(&self->firstName_, firstName);
+}
+
+- (NSString *)getLastName {
+  return lastName_;
+}
+
+- (void)setLastNameWithNSString:(NSString *)lastName {
+  JreStrongAssign(&self->lastName_, lastName);
+}
+
+- (NSString *)getEmail {
+  return email_;
+}
+
+- (void)setEmailWithNSString:(NSString *)email {
+  JreStrongAssign(&self->email_, email);
+}
+
+- (NSString *)getPermission {
+  return permission_;
+}
+
+- (void)setPermissionWithNSString:(NSString *)permission {
+  JreStrongAssign(&self->permission_, permission);
+}
+
+- (NSString *)getRole {
+  return role_;
+}
+
+- (void)setRoleWithNSString:(NSString *)role {
+  JreStrongAssign(&self->role_, role);
+}
+
+- (jlong)getPhone {
+  return phone_;
+}
+
+- (void)setPhoneWithLong:(jlong)phone {
+  self->phone_ = phone;
+}
+
+- (ModelUnit *)getUnit {
+  return unit_;
+}
+
+- (void)setUnitWithModelUnit:(ModelUnit *)unit {
+  JreStrongAssign(&self->unit_, unit);
+}
+
+- (IOSFloatArray *)getProfileColor {
+  IOSByteArray *bytes = [(JreStrcat("$C$", [self getFirstName], ' ', [self getLastName])) getBytes];
+  jfloat hue = 0;
+  for (jint i = 0; i < ((IOSByteArray *) nil_chk(bytes))->size_; i++) {
+    JrePlusAssignFloatF(&hue, JreLShift64(((jlong) IOSByteArray_Get(bytes, i) & (jlong) 0xffLL), (8 * i)));
+    JreModAssignFloatF(&hue, 360);
+  }
+  jfloat saturation = 0.8f;
+  jfloat brightness = 0.4f;
+  return [IOSFloatArray arrayWithFloats:(jfloat[]){ hue, saturation, brightness } count:3];
+}
+
+- (void)dealloc {
+  RELEASE_(username_);
+  RELEASE_(firstName_);
+  RELEASE_(lastName_);
+  RELEASE_(email_);
+  RELEASE_(permission_);
+  RELEASE_(role_);
+  RELEASE_(unit_);
+  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "getId", NULL, "I", 0x1, NULL },
-    { "setIdWithInt:", "setId", "V", 0x1, NULL },
-    { "getUsername", NULL, "Ljava.lang.String;", 0x1, NULL },
-    { "setUsernameWithNSString:", "setUsername", "V", 0x1, NULL },
-    { "getLastName", NULL, "Ljava.lang.String;", 0x1, NULL },
-    { "setLastNameWithNSString:", "setLastName", "V", 0x1, NULL },
-    { "getFirstName", NULL, "Ljava.lang.String;", 0x1, NULL },
-    { "setFirstNameWithNSString:", "setFirstName", "V", 0x1, NULL },
-    { "getEmail", NULL, "Ljava.lang.String;", 0x1, NULL },
-    { "setEmailWithNSString:", "setEmail", "V", 0x1, NULL },
-    { "getPhone", NULL, "J", 0x1, NULL },
-    { "setPhoneWithLong:", "setPhone", "V", 0x1, NULL },
-    { "getPermission", NULL, "Ljava.lang.String;", 0x1, NULL },
-    { "setPermissionWithNSString:", "setPermission", "V", 0x1, NULL },
-    { "getRole", NULL, "Ljava.lang.String;", 0x1, NULL },
-    { "setRoleWithNSString:", "setRole", "V", 0x1, NULL },
-    { "getUnit", NULL, "Lrtdc.core.model.Unit;", 0x1, NULL },
-    { "setUnitWithModelUnit:", "setUnit", "V", 0x1, NULL },
-    { "getAuthenticationToken", NULL, "Ljava.lang.String;", 0x1, NULL },
-    { "setAuthenticationTokenWithNSString:", "setAuthenticationToken", "V", 0x1, NULL },
-    { "validatePropertyWithNSString:", "validateProperty", "Ljava.util.Set;", 0x1, NULL },
-    { "validateAll", NULL, "Ljava.util.Map;", 0x1, NULL },
-    { "init", NULL, NULL, 0x1, NULL },
+    { "init", "User", NULL, 0x1, NULL, NULL },
+    { "initWithJSONJSONObject:", "User", NULL, 0x1, NULL, NULL },
+    { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
+    { "getType", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
+    { "getId", NULL, "I", 0x1, NULL, NULL },
+    { "setIdWithInt:", "setId", "V", 0x1, NULL, NULL },
+    { "getUsername", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "setUsernameWithNSString:", "setUsername", "V", 0x1, NULL, NULL },
+    { "getFirstName", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "setFirstNameWithNSString:", "setFirstName", "V", 0x1, NULL, NULL },
+    { "getLastName", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "setLastNameWithNSString:", "setLastName", "V", 0x1, NULL, NULL },
+    { "getEmail", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "setEmailWithNSString:", "setEmail", "V", 0x1, NULL, NULL },
+    { "getPermission", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "setPermissionWithNSString:", "setPermission", "V", 0x1, NULL, NULL },
+    { "getRole", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "setRoleWithNSString:", "setRole", "V", 0x1, NULL, NULL },
+    { "getPhone", NULL, "J", 0x1, NULL, NULL },
+    { "setPhoneWithLong:", "setPhone", "V", 0x1, NULL, NULL },
+    { "getUnit", NULL, "Lrtdc.core.model.Unit;", 0x1, NULL, NULL },
+    { "setUnitWithModelUnit:", "setUnit", "V", 0x1, NULL, NULL },
+    { "getProfileColor", NULL, "[F", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "jsonObject_User_", "jsonObject", 0x4, "Lrtdc.core.json.JSONObject;", NULL,  },
-    { "ID_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_ID_,  },
-    { "USERNAME_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_USERNAME_,  },
-    { "LAST_NAME_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_LAST_NAME_,  },
-    { "EMAIL_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_EMAIL_,  },
-    { "PHONE_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_PHONE_,  },
-    { "FIRST_NAME_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_FIRST_NAME_,  },
-    { "PERMISSION_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_PERMISSION_,  },
-    { "ROLE_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_ROLE_,  },
-    { "UNIT_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_UNIT_,  },
-    { "AUTH_TOKEN_", NULL, 0x19, "Ljava.lang.String;", &ModelUser_AUTH_TOKEN_,  },
+    { "id__", "id", 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
+    { "username_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
+    { "firstName_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
+    { "lastName_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
+    { "email_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
+    { "permission_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
+    { "role_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
+    { "phone_", NULL, 0x2, "J", NULL, NULL, .constantValue.asLong = 0 },
+    { "unit_", NULL, 0x2, "Lrtdc.core.model.Unit;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _ModelUser = { "User", "rtdc.core.model", NULL, 0x1, 23, methods, 11, fields, 0, NULL};
+  static const char *inner_classes[] = {"Lrtdc.core.model.User$Properties;"};
+  static const J2ObjcClassInfo _ModelUser = { 2, "User", "rtdc.core.model", NULL, 0x1, 24, methods, 9, fields, 0, NULL, 1, inner_classes, NULL, NULL };
   return &_ModelUser;
 }
 
 @end
+
+void ModelUser_init(ModelUser *self) {
+  ModelRootObject_init(self);
+}
+
+ModelUser *new_ModelUser_init() {
+  ModelUser *self = [ModelUser alloc];
+  ModelUser_init(self);
+  return self;
+}
+
+void ModelUser_initWithJSONJSONObject_(ModelUser *self, JSONJSONObject *object) {
+  ModelRootObject_init(self);
+  [self setIdWithInt:[((JSONJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, id))) name]]];
+  [self setUsernameWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, username))) name]]];
+  [self setFirstNameWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, firstName))) name]]];
+  [self setLastNameWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, lastName))) name]]];
+  [self setEmailWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, email))) name]]];
+  [self setPermissionWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, permission))) name]]];
+  [self setRoleWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, role))) name]]];
+  [self setPhoneWithLong:[object optLongWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, phone))) name]]];
+  if ([object hasWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, unit))) name]]) [self setUnitWithModelUnit:[new_ModelUnit_initWithJSONJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelUser_PropertiesEnum, unit) name]]) autorelease]];
+}
+
+ModelUser *new_ModelUser_initWithJSONJSONObject_(JSONJSONObject *object) {
+  ModelUser *self = [ModelUser alloc];
+  ModelUser_initWithJSONJSONObject_(self, object);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelUser)
+
+J2OBJC_INITIALIZED_DEFN(ModelUser_PropertiesEnum)
+
+ModelUser_PropertiesEnum *ModelUser_PropertiesEnum_values_[9];
+
+@implementation ModelUser_PropertiesEnum
+
+- (instancetype)initWithNSString:(NSString *)__name
+                         withInt:(jint)__ordinal {
+  ModelUser_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  return self;
+}
+
+IOSObjectArray *ModelUser_PropertiesEnum_values() {
+  ModelUser_PropertiesEnum_initialize();
+  return [IOSObjectArray arrayWithObjects:ModelUser_PropertiesEnum_values_ count:9 type:ModelUser_PropertiesEnum_class_()];
+}
+
++ (IOSObjectArray *)values {
+  return ModelUser_PropertiesEnum_values();
+}
+
++ (ModelUser_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
+  return ModelUser_PropertiesEnum_valueOfWithNSString_(name);
+}
+
+ModelUser_PropertiesEnum *ModelUser_PropertiesEnum_valueOfWithNSString_(NSString *name) {
+  ModelUser_PropertiesEnum_initialize();
+  for (int i = 0; i < 9; i++) {
+    ModelUser_PropertiesEnum *e = ModelUser_PropertiesEnum_values_[i];
+    if ([name isEqual:[e name]]) {
+      return e;
+    }
+  }
+  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  return nil;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+  return [self retain];
+}
+
++ (void)initialize {
+  if (self == [ModelUser_PropertiesEnum class]) {
+    ModelUser_PropertiesEnum_id = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"id", 0);
+    ModelUser_PropertiesEnum_username = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"username", 1);
+    ModelUser_PropertiesEnum_firstName = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"firstName", 2);
+    ModelUser_PropertiesEnum_lastName = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"lastName", 3);
+    ModelUser_PropertiesEnum_email = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"email", 4);
+    ModelUser_PropertiesEnum_permission = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"permission", 5);
+    ModelUser_PropertiesEnum_role = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"role", 6);
+    ModelUser_PropertiesEnum_phone = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"phone", 7);
+    ModelUser_PropertiesEnum_unit = new_ModelUser_PropertiesEnum_initWithNSString_withInt_(@"unit", 8);
+    J2OBJC_SET_INITIALIZED(ModelUser_PropertiesEnum)
+  }
+}
+
++ (const J2ObjcClassInfo *)__metadata {
+  static const J2ObjcFieldInfo fields[] = {
+    { "id", "id", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_id, NULL, .constantValue.asLong = 0 },
+    { "username", "username", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_username, NULL, .constantValue.asLong = 0 },
+    { "firstName", "firstName", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_firstName, NULL, .constantValue.asLong = 0 },
+    { "lastName", "lastName", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_lastName, NULL, .constantValue.asLong = 0 },
+    { "email", "email", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_email, NULL, .constantValue.asLong = 0 },
+    { "permission", "permission", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_permission, NULL, .constantValue.asLong = 0 },
+    { "role", "role", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_role, NULL, .constantValue.asLong = 0 },
+    { "phone", "phone", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_phone, NULL, .constantValue.asLong = 0 },
+    { "unit", "unit", 0x4019, "Lrtdc.core.model.User$Properties;", &ModelUser_PropertiesEnum_unit, NULL, .constantValue.asLong = 0 },
+  };
+  static const char *superclass_type_args[] = {"Lrtdc.core.model.User$Properties;"};
+  static const J2ObjcClassInfo _ModelUser_PropertiesEnum = { 2, "Properties", "rtdc.core.model", "User", 0x4019, 0, NULL, 9, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/model/User$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/model/User;>;" };
+  return &_ModelUser_PropertiesEnum;
+}
+
+@end
+
+void ModelUser_PropertiesEnum_initWithNSString_withInt_(ModelUser_PropertiesEnum *self, NSString *__name, jint __ordinal) {
+  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+}
+
+ModelUser_PropertiesEnum *new_ModelUser_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
+  ModelUser_PropertiesEnum *self = [ModelUser_PropertiesEnum alloc];
+  ModelUser_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelUser_PropertiesEnum)

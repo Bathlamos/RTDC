@@ -3,20 +3,35 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/exception/UsernamePasswordMismatchException.java
 //
 
+#include "ApiException.h"
+#include "J2ObjC_source.h"
 #include "UsernamePasswordMismatchException.h"
 
 @implementation ExceptionUsernamePasswordMismatchException
 
 - (instancetype)initWithNSString:(NSString *)message {
-  return [super initWithNSString:message];
+  ExceptionUsernamePasswordMismatchException_initWithNSString_(self, message);
+  return self;
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithNSString:", "UsernamePasswordMismatchException", NULL, 0x1, NULL },
+    { "initWithNSString:", "UsernamePasswordMismatchException", NULL, 0x1, NULL, NULL },
   };
-  static const J2ObjcClassInfo _ExceptionUsernamePasswordMismatchException = { "UsernamePasswordMismatchException", "rtdc.core.exception", NULL, 0x1, 1, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _ExceptionUsernamePasswordMismatchException = { 2, "UsernamePasswordMismatchException", "rtdc.core.exception", NULL, 0x1, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_ExceptionUsernamePasswordMismatchException;
 }
 
 @end
+
+void ExceptionUsernamePasswordMismatchException_initWithNSString_(ExceptionUsernamePasswordMismatchException *self, NSString *message) {
+  ExceptionApiException_initWithNSString_(self, message);
+}
+
+ExceptionUsernamePasswordMismatchException *new_ExceptionUsernamePasswordMismatchException_initWithNSString_(NSString *message) {
+  ExceptionUsernamePasswordMismatchException *self = [ExceptionUsernamePasswordMismatchException alloc];
+  ExceptionUsernamePasswordMismatchException_initWithNSString_(self, message);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ExceptionUsernamePasswordMismatchException)

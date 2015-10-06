@@ -3,20 +3,23 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONString.java
 //
 
+#include "J2ObjC_source.h"
 #include "JSONString.h"
 
 @interface JSONJSONString : NSObject
+
 @end
 
 @implementation JSONJSONString
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "toJSONString", NULL, "Ljava.lang.String;", 0x401, NULL },
+    { "toJSONString", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _JSONJSONString = { "JSONString", "rtdc.core.json", NULL, 0x201, 1, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _JSONJSONString = { 2, "JSONString", "rtdc.core.json", NULL, 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_JSONJSONString;
 }
 
 @end
 
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(JSONJSONString)

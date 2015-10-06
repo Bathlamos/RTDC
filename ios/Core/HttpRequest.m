@@ -6,27 +6,37 @@
 #include "AsyncCallback.h"
 #include "HttpRequest.h"
 #include "IOSClass.h"
+#include "J2ObjC_source.h"
+#include "java/lang/Enum.h"
 #include "java/lang/IllegalArgumentException.h"
 
 @interface ImplHttpRequest : NSObject
+
 @end
+
+__attribute__((unused)) static void ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(ImplHttpRequest_RequestMethodEnum *self, NSString *__name, jint __ordinal);
+
+__attribute__((unused)) static ImplHttpRequest_RequestMethodEnum *new_ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
 
 @implementation ImplHttpRequest
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "addParameterWithNSString:withNSString:", "addParameter", "V", 0x401, NULL },
-    { "setHeaderWithNSString:withNSString:", "setHeader", "V", 0x401, NULL },
-    { "executeWithServiceAsyncCallback:", "execute", "V", 0x401, NULL },
+    { "addParameterWithNSString:withNSString:", "addParameter", "V", 0x401, NULL, NULL },
+    { "setHeaderWithNSString:withNSString:", "setHeader", "V", 0x401, NULL, NULL },
+    { "executeWithServiceAsyncCallback:", "execute", "V", 0x401, NULL, NULL },
+    { "setContentTypeWithNSString:", "setContentType", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _ImplHttpRequest = { "HttpRequest", "rtdc.core.impl", NULL, 0x201, 3, methods, 0, NULL, 0, NULL};
+  static const char *inner_classes[] = {"Lrtdc.core.impl.HttpRequest$RequestMethod;"};
+  static const J2ObjcClassInfo _ImplHttpRequest = { 2, "HttpRequest", "rtdc.core.impl", NULL, 0x609, 4, methods, 0, NULL, 0, NULL, 1, inner_classes, NULL, NULL };
   return &_ImplHttpRequest;
 }
 
 @end
 
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ImplHttpRequest)
 
-BOOL ImplHttpRequest_RequestMethodEnum_initialized = NO;
+J2OBJC_INITIALIZED_DEFN(ImplHttpRequest_RequestMethodEnum)
 
 ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_values_[4];
 
@@ -34,12 +44,15 @@ ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_values_[4];
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
-  return [super initWithNSString:__name withInt:__ordinal];
+  ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  return self;
 }
 
-FOUNDATION_EXPORT IOSObjectArray *ImplHttpRequest_RequestMethodEnum_values() {
-  return [IOSObjectArray arrayWithObjects:ImplHttpRequest_RequestMethodEnum_values_ count:4 type:[IOSClass classWithClass:[ImplHttpRequest_RequestMethodEnum class]]];
+IOSObjectArray *ImplHttpRequest_RequestMethodEnum_values() {
+  ImplHttpRequest_RequestMethodEnum_initialize();
+  return [IOSObjectArray arrayWithObjects:ImplHttpRequest_RequestMethodEnum_values_ count:4 type:ImplHttpRequest_RequestMethodEnum_class_()];
 }
+
 + (IOSObjectArray *)values {
   return ImplHttpRequest_RequestMethodEnum_values();
 }
@@ -49,6 +62,7 @@ FOUNDATION_EXPORT IOSObjectArray *ImplHttpRequest_RequestMethodEnum_values() {
 }
 
 ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_valueOfWithNSString_(NSString *name) {
+  ImplHttpRequest_RequestMethodEnum_initialize();
   for (int i = 0; i < 4; i++) {
     ImplHttpRequest_RequestMethodEnum *e = ImplHttpRequest_RequestMethodEnum_values_[i];
     if ([name isEqual:[e name]]) {
@@ -65,27 +79,36 @@ ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_valueOfWith
 
 + (void)initialize {
   if (self == [ImplHttpRequest_RequestMethodEnum class]) {
-    ImplHttpRequest_RequestMethodEnum_GET = [[ImplHttpRequest_RequestMethodEnum alloc] initWithNSString:@"GET" withInt:0];
-    ImplHttpRequest_RequestMethodEnum_PUT = [[ImplHttpRequest_RequestMethodEnum alloc] initWithNSString:@"PUT" withInt:1];
-    ImplHttpRequest_RequestMethodEnum_DELETE = [[ImplHttpRequest_RequestMethodEnum alloc] initWithNSString:@"DELETE" withInt:2];
-    ImplHttpRequest_RequestMethodEnum_POST = [[ImplHttpRequest_RequestMethodEnum alloc] initWithNSString:@"POST" withInt:3];
+    ImplHttpRequest_RequestMethodEnum_GET = new_ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(@"GET", 0);
+    ImplHttpRequest_RequestMethodEnum_PUT = new_ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(@"PUT", 1);
+    ImplHttpRequest_RequestMethodEnum_DELETE = new_ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(@"DELETE", 2);
+    ImplHttpRequest_RequestMethodEnum_POST = new_ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(@"POST", 3);
     J2OBJC_SET_INITIALIZED(ImplHttpRequest_RequestMethodEnum)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
-  static const J2ObjcMethodInfo methods[] = {
-    { "initWithNSString:withInt:", "init", NULL, 0x1, NULL },
-  };
   static const J2ObjcFieldInfo fields[] = {
-    { "GET", "GET", 0x4019, "Lrtdc.core.impl.HttpRequest$RequestMethod;", &ImplHttpRequest_RequestMethodEnum_GET,  },
-    { "PUT", "PUT", 0x4019, "Lrtdc.core.impl.HttpRequest$RequestMethod;", &ImplHttpRequest_RequestMethodEnum_PUT,  },
-    { "DELETE", "DELETE", 0x4019, "Lrtdc.core.impl.HttpRequest$RequestMethod;", &ImplHttpRequest_RequestMethodEnum_DELETE,  },
-    { "POST", "POST", 0x4019, "Lrtdc.core.impl.HttpRequest$RequestMethod;", &ImplHttpRequest_RequestMethodEnum_POST,  },
+    { "GET", "GET", 0x4019, "Lrtdc.core.impl.HttpRequest$RequestMethod;", &ImplHttpRequest_RequestMethodEnum_GET, NULL, .constantValue.asLong = 0 },
+    { "PUT", "PUT", 0x4019, "Lrtdc.core.impl.HttpRequest$RequestMethod;", &ImplHttpRequest_RequestMethodEnum_PUT, NULL, .constantValue.asLong = 0 },
+    { "DELETE", "DELETE", 0x4019, "Lrtdc.core.impl.HttpRequest$RequestMethod;", &ImplHttpRequest_RequestMethodEnum_DELETE, NULL, .constantValue.asLong = 0 },
+    { "POST", "POST", 0x4019, "Lrtdc.core.impl.HttpRequest$RequestMethod;", &ImplHttpRequest_RequestMethodEnum_POST, NULL, .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.impl.HttpRequest$RequestMethod;"};
-  static const J2ObjcClassInfo _ImplHttpRequest_RequestMethodEnum = { "RequestMethod", "rtdc.core.impl", "HttpRequest", 0x4019, 1, methods, 4, fields, 1, superclass_type_args};
+  static const J2ObjcClassInfo _ImplHttpRequest_RequestMethodEnum = { 2, "RequestMethod", "rtdc.core.impl", "HttpRequest", 0x4019, 0, NULL, 4, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/impl/HttpRequest$RequestMethod;>;" };
   return &_ImplHttpRequest_RequestMethodEnum;
 }
 
 @end
+
+void ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(ImplHttpRequest_RequestMethodEnum *self, NSString *__name, jint __ordinal) {
+  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+}
+
+ImplHttpRequest_RequestMethodEnum *new_ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
+  ImplHttpRequest_RequestMethodEnum *self = [ImplHttpRequest_RequestMethodEnum alloc];
+  ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ImplHttpRequest_RequestMethodEnum)

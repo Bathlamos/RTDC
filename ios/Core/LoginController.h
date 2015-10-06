@@ -3,55 +3,42 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/controller/LoginController.java
 //
 
-#ifndef _ControllerLoginController_H_
-#define _ControllerLoginController_H_
+#ifndef _LoginController_H_
+#define _LoginController_H_
 
-@class ModelUser;
+#include "AuthenticationEvent.h"
+#include "Controller.h"
+#include "ErrorEvent.h"
+#include "J2ObjC_header.h"
+
 @protocol RtdcCoreViewLoginView;
 
-#import "JreEmulation.h"
-#include "AsyncCallback.h"
+@interface ControllerLoginController : ControllerController < RtdcCoreEventAuthenticationEvent_Handler, RtdcCoreEventErrorEvent_Handler >
 
-@interface ControllerLoginController : NSObject {
- @public
-  id<RtdcCoreViewLoginView> view_;
-}
+#pragma mark Public
 
 - (instancetype)initWithRtdcCoreViewLoginView:(id<RtdcCoreViewLoginView>)view;
 
 - (void)login;
 
-- (void)dealloc;
+- (void)onAuthenticateWithRtdcCoreEventAuthenticationEvent:(RtdcCoreEventAuthenticationEvent *)event;
 
-- (void)copyAllFieldsTo:(ControllerLoginController *)other;
+- (void)onStop;
 
-@end
+#pragma mark Package-Private
 
-__attribute__((always_inline)) inline void ControllerLoginController_init() {}
-
-J2OBJC_FIELD_SETTER(ControllerLoginController, view_, id<RtdcCoreViewLoginView>)
-
-typedef ControllerLoginController RtdcCoreControllerLoginController;
-
-@interface ControllerLoginController_$1 : NSObject < ServiceAsyncCallback > {
- @public
-  ControllerLoginController *this$0_;
-}
-
-- (void)onSuccessWithId:(ModelUser *)user;
-
-- (void)onErrorWithNSString:(NSString *)message;
-
-- (instancetype)initWithControllerLoginController:(ControllerLoginController *)outer$;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(ControllerLoginController_$1 *)other;
+- (NSString *)getTitle;
 
 @end
 
-__attribute__((always_inline)) inline void ControllerLoginController_$1_init() {}
+J2OBJC_STATIC_INIT(ControllerLoginController)
 
-J2OBJC_FIELD_SETTER(ControllerLoginController_$1, this$0_, ControllerLoginController *)
+FOUNDATION_EXPORT void ControllerLoginController_initWithRtdcCoreViewLoginView_(ControllerLoginController *self, id<RtdcCoreViewLoginView> view);
 
-#endif // _ControllerLoginController_H_
+FOUNDATION_EXPORT ControllerLoginController *new_ControllerLoginController_initWithRtdcCoreViewLoginView_(id<RtdcCoreViewLoginView> view) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ControllerLoginController)
+
+@compatibility_alias RtdcCoreControllerLoginController ControllerLoginController;
+
+#endif // _LoginController_H_

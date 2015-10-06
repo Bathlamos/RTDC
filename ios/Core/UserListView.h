@@ -3,19 +3,22 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/view/UserListView.java
 //
 
-#ifndef _RtdcCoreViewUserListView_H_
-#define _RtdcCoreViewUserListView_H_
+#ifndef _UserListView_H_
+#define _UserListView_H_
+
+#include "J2ObjC_header.h"
+#include "View.h"
 
 @protocol JavaUtilList;
 
-#import "JreEmulation.h"
-#include "View.h"
-
 @protocol RtdcCoreViewUserListView < RtdcCoreViewView, NSObject, JavaObject >
+
 - (void)setUsersWithJavaUtilList:(id<JavaUtilList>)users;
 
 @end
 
-__attribute__((always_inline)) inline void RtdcCoreViewUserListView_init() {}
+J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewUserListView)
 
-#endif // _RtdcCoreViewUserListView_H_
+J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewUserListView)
+
+#endif // _UserListView_H_

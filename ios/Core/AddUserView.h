@@ -3,13 +3,14 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/view/AddUserView.java
 //
 
-#ifndef _RtdcCoreViewAddUserView_H_
-#define _RtdcCoreViewAddUserView_H_
+#ifndef _AddUserView_H_
+#define _AddUserView_H_
 
-#import "JreEmulation.h"
-#include "View.h"
+#include "Dialog.h"
+#include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewAddUserView < RtdcCoreViewView, NSObject, JavaObject >
+@protocol RtdcCoreViewAddUserView < RtdcCoreViewDialog, NSObject, JavaObject >
+
 - (NSString *)getUsernameAsString;
 
 - (void)setUsernameAsStringWithNSString:(NSString *)value;
@@ -32,6 +33,10 @@
 
 - (void)setEmailAsStringWithNSString:(NSString *)value;
 
+- (jlong)getPhoneAsLong;
+
+- (void)setPhoneAsLongWithLong:(jlong)value;
+
 - (NSString *)getRoleAsString;
 
 - (void)setRoleAsStringWithNSString:(NSString *)value;
@@ -48,8 +53,12 @@
 
 - (void)setPermissionForSurnameWithNSString:(NSString *)error;
 
+- (void)hideDeleteButton;
+
 @end
 
-__attribute__((always_inline)) inline void RtdcCoreViewAddUserView_init() {}
+J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewAddUserView)
 
-#endif // _RtdcCoreViewAddUserView_H_
+J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewAddUserView)
+
+#endif // _AddUserView_H_

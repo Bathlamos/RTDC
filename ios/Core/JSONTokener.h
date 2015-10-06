@@ -3,18 +3,16 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONTokener.java
 //
 
-#ifndef _JSONJSONTokener_H_
-#define _JSONJSONTokener_H_
+#ifndef _JSONTokener_H_
+#define _JSONTokener_H_
+
+#include "J2ObjC_header.h"
 
 @class JSONJSONException;
 
-#import "JreEmulation.h"
+@interface JSONJSONTokener : NSObject
 
-@interface JSONJSONTokener : NSObject {
- @public
-  jint myIndex_;
-  NSString *mySource_;
-}
+#pragma mark Public
 
 - (instancetype)initWithNSString:(NSString *)s;
 
@@ -40,25 +38,26 @@
 
 - (id)nextValue;
 
-- (jchar)skipToWithChar:(jchar)to;
-
 - (void)skipPastWithNSString:(NSString *)to;
+
+- (jchar)skipToWithChar:(jchar)to;
 
 - (JSONJSONException *)syntaxErrorWithNSString:(NSString *)message;
 
 - (NSString *)description;
 
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(JSONJSONTokener *)other;
-
 @end
 
-__attribute__((always_inline)) inline void JSONJSONTokener_init() {}
+J2OBJC_EMPTY_STATIC_INIT(JSONJSONTokener)
 
-J2OBJC_FIELD_SETTER(JSONJSONTokener, mySource_, NSString *)
+FOUNDATION_EXPORT void JSONJSONTokener_initWithNSString_(JSONJSONTokener *self, NSString *s);
+
+FOUNDATION_EXPORT JSONJSONTokener *new_JSONJSONTokener_initWithNSString_(NSString *s) NS_RETURNS_RETAINED;
+
 FOUNDATION_EXPORT jint JSONJSONTokener_dehexcharWithChar_(jchar c);
 
-typedef JSONJSONTokener RtdcCoreJsonJSONTokener;
+J2OBJC_TYPE_LITERAL_HEADER(JSONJSONTokener)
 
-#endif // _JSONJSONTokener_H_
+@compatibility_alias RtdcCoreJsonJSONTokener JSONJSONTokener;
+
+#endif // _JSONTokener_H_

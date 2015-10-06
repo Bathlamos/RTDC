@@ -3,31 +3,27 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/util/Util.java
 //
 
-#ifndef _UtilUtil_H_
-#define _UtilUtil_H_
+#ifndef _Util_H_
+#define _Util_H_
 
-@class JSONJSONArray;
-@protocol JavaLangIterable;
-@protocol JavaUtilList;
+#include "J2ObjC_header.h"
 
-#import "JreEmulation.h"
+@interface UtilUtil : NSObject
 
-@interface UtilUtil : NSObject {
-}
-
-+ (JSONJSONArray *)asJSONArrayWithJavaLangIterable:(id<JavaLangIterable>)list;
-
-+ (id<JavaUtilList>)asListWithJSONJSONArray:(JSONJSONArray *)array
-                           withJavaUtilList:(id<JavaUtilList>)list;
+#pragma mark Public
 
 - (instancetype)init;
 
 @end
 
-__attribute__((always_inline)) inline void UtilUtil_init() {}
-FOUNDATION_EXPORT JSONJSONArray *UtilUtil_asJSONArrayWithJavaLangIterable_(id<JavaLangIterable> list);
-FOUNDATION_EXPORT id<JavaUtilList> UtilUtil_asListWithJSONJSONArray_withJavaUtilList_(JSONJSONArray *array, id<JavaUtilList> list);
+J2OBJC_EMPTY_STATIC_INIT(UtilUtil)
 
-typedef UtilUtil RtdcCoreUtilUtil;
+FOUNDATION_EXPORT void UtilUtil_init(UtilUtil *self);
 
-#endif // _UtilUtil_H_
+FOUNDATION_EXPORT UtilUtil *new_UtilUtil_init() NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(UtilUtil)
+
+@compatibility_alias RtdcCoreUtilUtil UtilUtil;
+
+#endif // _Util_H_
