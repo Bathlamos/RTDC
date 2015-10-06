@@ -80,6 +80,24 @@ public class MessageListFragment extends AbstractFragment implements MessageList
             }
         });
 
+        // Setup audio call button
+        view.findViewById(R.id.audioCallButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                AndroidVoipController.get().call(messagingUser, false);
+            }
+        });
+
+        // Setup video call button
+        view.findViewById(R.id.videoCallButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                AndroidVoipController.get().call(messagingUser, true);
+            }
+        });
+
         recentContactsAdapter = new RecentContactsListAdapter(getActivity(), recentContacts);
         recentContactsListView.setAdapter(recentContactsAdapter);
 
