@@ -45,7 +45,7 @@ public class RecentContactsListAdapter extends ArrayAdapter {
         }
 
         boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
-        setupColumn(view, R.id.senderRecentContactsTextView, sessionUser ? "Me": message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName());
+        setupColumn(view, R.id.senderRecentContactsTextView, sessionUser ? "Me": message.getSender().getFirstName()+" "+message.getSender().getLastName());
         setupColumn(view, R.id.messagePreviewTextView, message.getContent());
         setupColumn(view, R.id.lastTimeSentTextView, message.getTimeSent().toString());
 

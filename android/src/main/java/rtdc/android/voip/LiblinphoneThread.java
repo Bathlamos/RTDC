@@ -196,10 +196,11 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
                     // Remote video is off and and we're broadcasting video. Pause the video call
                     CommunicationHubInCallActivity.getCurrentInstance().displayPauseVideoStatus(true);
                 }else{
-                    if(CommunicationHubInCallActivity.getCurrentInstance().getCurrentFragment() instanceof VideoCallFragment) {
+                    if(CommunicationHubInCallActivity.getCurrentInstance() != null && CommunicationHubInCallActivity.getCurrentInstance().getCurrentFragment() instanceof VideoCallFragment) {
                         // Remote video is off and and we're in the video fragment. No point in staying there, go to audio fragment
                         CommunicationHubInCallActivity.getCurrentInstance().displayAudio();
-                    }
+                    }else if(CommunicationHubReceivingCallActivity.getInstance() != null)
+                        ((TextView)CommunicationHubReceivingCallActivity.getInstance().findViewById(R.id.incomingCallText)).setText("Incoming call");
                 }
             }
         }else{

@@ -70,7 +70,7 @@ public class MessageListController extends Controller<MessageListView> implement
         sender.setFirstName("Nathaniel");
         sender.setLastName("Aumonttt");
         sender.setUsername("Nathaniel");
-        sender.setId(86);
+        sender.setId(19);
 
         Message message2 = new Message();
         User receiver2 = new User();
@@ -81,19 +81,19 @@ public class MessageListController extends Controller<MessageListView> implement
         message2.setContent("Sounds good!");
         message2.setTimeSent(new Date(2015, 10, 5));
         message2.setStatus(Message.Status.read);
-        recentContacts.add(message2);
+        //recentContacts.add(message2);
 
         Message message = new Message();
         User receiver = new User();
         receiver.setFirstName("Jonathan");
         receiver.setLastName("Ermel");
         receiver.setUsername("Qwe");
-        receiver.setId(87);
+        receiver.setId(20);
         message.setSender(sender);
         message.setReceiver(receiver);
         message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");
         message.setTimeSent(new Date(2015, 10, 6));
-        message.setStatus(Message.Status.delivered);
+        message.setStatus(Message.Status.read);
         recentContacts.add(message);
 
         return recentContacts;

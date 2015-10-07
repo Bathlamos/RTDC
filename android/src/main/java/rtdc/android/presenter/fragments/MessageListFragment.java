@@ -130,7 +130,33 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         if (controller == null)
             controller = new MessageListController(this);
 
-        controller.setupMessageList();
+        //controller.setupMessageList();
+
+        final Message message = recentContacts.get(0);
+        selectedRecentContactIndex = 0;
+
+        // We changed the conversation. Get all the messages for this contact and display them
+
+        User otherUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId() ? message.getReceiver() : message.getSender();
+        Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Getting conversation with " + otherUser.getFirstName() + " " + otherUser.getLastName());
+        Event.subscribe(FetchMessagesEvent.TYPE, new FetchMessagesEvent.Handler() {
+            @Override
+            public void onMessagesFetched(FetchMessagesEvent event) {
+                Event.unsubscribe(FetchMessagesEvent.TYPE, this);
+                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Conversation was fetched");
+                setMessages(event.getMessages().asList());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recentContacts.set(0, messages.get(messages.size() - 1));
+                        recentContactsAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+
+        // Send request to the server
+        Service.getMessages(message.getSender().getId(), message.getReceiver().getId());
 
         setHasOptionsMenu(true);
 

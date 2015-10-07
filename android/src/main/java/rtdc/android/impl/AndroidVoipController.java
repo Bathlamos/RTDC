@@ -90,7 +90,7 @@ public class AndroidVoipController implements VoipController{
             lAddress.setDisplayName(user.getFirstName() + " " + user.getLastName());
 
             LinphoneCallParams params = LiblinphoneThread.get().getLinphoneCore().createDefaultCallParameters();
-            params.setVideoEnabled(videoEnabled);
+            params.setVideoEnabled(true);
 
             LinphoneCall call = LiblinphoneThread.get().getLinphoneCore().inviteAddressWithParams(lAddress, params);
 

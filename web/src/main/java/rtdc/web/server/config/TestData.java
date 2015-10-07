@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import rtdc.core.model.Action;
-import rtdc.core.model.Permission;
-import rtdc.core.model.Unit;
-import rtdc.core.model.User;
+import rtdc.core.model.*;
 import rtdc.web.server.service.AsteriskRealTimeService;
 import rtdc.web.server.service.AuthService;
 
@@ -71,6 +68,14 @@ public class TestData implements ServletContextListener {
 
             for(Action action: actions)
                 session.saveOrUpdate(action);
+
+            Message demoMessage = new Message();
+            demoMessage.setSender(users.get(users.size() - 2));
+            demoMessage.setReceiver(users.get(users.size() - 1));
+            demoMessage.setContent("Hello!");
+            demoMessage.setStatus(Message.Status.read);
+            demoMessage.setTimeSent(new Date());
+            session.saveOrUpdate(demoMessage);
 
             transaction.commit();
 
