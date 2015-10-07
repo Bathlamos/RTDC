@@ -104,11 +104,13 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         recentContactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Message message = recentContacts.get(position);
+                User otherUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId() ? message.getReceiver() : message.getSender();
+                if(otherUser == null)
+                    return;
                 selectedRecentContactIndex = position;
 
                 // We changed the conversation. Get all the messages for this contact and display them
 
-                User otherUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId() ? message.getReceiver() : message.getSender();
                 Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Getting conversation with " + otherUser.getFirstName() + " " + otherUser.getLastName());
                 Event.subscribe(FetchMessagesEvent.TYPE, new FetchMessagesEvent.Handler() {
                     @Override

@@ -50,6 +50,8 @@ import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.core.Bootstrapper;
 
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,6 +68,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     private CompatibilityScaleGestureDetector mScaleDetector;
     private CommunicationHubInCallActivity inCallActivity;
     private boolean isFragmentPaused;
+    private Future ringingTask;
 
     @SuppressWarnings("deprecation") // Warning useless because value is ignored and automatically set by new APIs.
     @Override
@@ -187,10 +190,35 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         // Set speaker mode on
         AndroidVoipController.get().setSpeaker(true);
 
-        // If remote user isn't displaying video, we say so on screen
-        if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
+        if(LiblinphoneThread.get().getCurrentCall().getState() == LinphoneCall.State.OutgoingProgress) {
+            // Display a ringing message
+
             view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-            ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+            ((TextView) view.findViewById(R.id.callStatus)).setText("Ringing");
+            final TextView ringingDots = ((TextView) view.findViewById(R.id.ringingDots));
+            ringingDots.setVisibility(View.VISIBLE);
+            ringingTask = inCallActivity.getExecutor().scheduleWithFixedDelay(new Runnable(){
+                @Override
+                public void run() {
+                    inCallActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(ringingDots.getText().equals("\n\n ."))
+                                ringingDots.setText("\n\n . .");
+                            else if(ringingDots.getText().equals("\n\n . ."))
+                                ringingDots.setText("\n\n . . . ");
+                            else
+                                ringingDots.setText("\n\n .");
+                        }
+                    });
+                }
+            }, 0, 1000, TimeUnit.MILLISECONDS);
+        }else{
+            // If remote user isn't displaying video, we say so on screen
+            if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
+                view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+                ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+            }
         }
 
         // If we're not capturing video, we don't need to show the preview
@@ -379,7 +407,15 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
     @Override
     public void onCallEstablished(){
-
+        ringingTask.cancel(true);
+        view.findViewById(R.id.callStatus).setVisibility(View.INVISIBLE);
+        ((TextView) view.findViewById(R.id.callStatus)).setText("Paused");
+        view.findViewById(R.id.ringingDots).setVisibility(View.INVISIBLE);
+        // If remote user isn't displaying video, we say so on screen
+        if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
+            view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+            ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+        }
     }
 
     @Override

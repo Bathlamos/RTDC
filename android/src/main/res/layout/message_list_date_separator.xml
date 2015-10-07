@@ -4,7 +4,7 @@
               android:layout_height="45dp"
               android:orientation="horizontal" android:gravity="center">
     <View
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="1dp"
             android:background="#BDBDBD"/>
     <TextView
@@ -15,7 +15,7 @@
             android:layout_marginLeft="15dp" android:layout_marginRight="15dp"/>
 
     <View
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="1dp"
             android:background="#BDBDBD"/>
 </LinearLayout>
