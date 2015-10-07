@@ -1,5 +1,6 @@
 package rtdc.core.impl;
 
+import rtdc.core.model.Message;
 import rtdc.core.model.User;
 
 public interface VoipController {
@@ -10,6 +11,7 @@ public interface VoipController {
     public void call(User user, boolean videoEnabled);
     public void acceptCall();
     public void declineCall();
+    public void sendMessage(Message message);
 
     public void setMicMuted(boolean mute);
     public void setSpeaker(boolean enabled);

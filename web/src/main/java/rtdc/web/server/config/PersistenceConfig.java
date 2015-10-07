@@ -20,6 +20,7 @@ public class PersistenceConfig {
                     .addResource("User.hbm.xml")
                     .addResource("Unit.hbm.xml")
                     .addResource("Action.hbm.xml")
+                    .addResource("Message.hbm.xml")
                     .addAnnotatedClass(UserCredentials.class)
                     .addAnnotatedClass(AuthenticationToken.class);
             System.out.println("Hibernate Configuration loaded");

@@ -4,6 +4,9 @@ import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.view.View;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public abstract class Controller<T extends View> implements ErrorEvent.Handler {
 
     protected final T view;
@@ -16,6 +19,7 @@ public abstract class Controller<T extends View> implements ErrorEvent.Handler {
 
     @Override
     public void onError(ErrorEvent event) {
+        Logger.getLogger(Controller.class.getName()).log(Level.WARNING, event.toString());
         view.displayError("Error", event.getDescription());
     }
 

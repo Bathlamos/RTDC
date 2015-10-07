@@ -9,6 +9,7 @@ import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.core.Config;
 import rtdc.core.impl.VoipController;
+import rtdc.core.model.Message;
 import rtdc.core.model.User;
 
 import java.util.logging.Level;
@@ -89,9 +90,7 @@ public class AndroidVoipController implements VoipController{
             lAddress.setDisplayName(user.getFirstName() + " " + user.getLastName());
 
             LinphoneCallParams params = LiblinphoneThread.get().getLinphoneCore().createDefaultCallParameters();
-
-            // Check if video possible regarding bandwidth limitations
-            BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
+            params.setVideoEnabled(true);
 
             LinphoneCall call = LiblinphoneThread.get().getLinphoneCore().inviteAddressWithParams(lAddress, params);
 
@@ -106,19 +105,7 @@ public class AndroidVoipController implements VoipController{
             setRemoteVideo(false);
             setSpeaker(false);
             setMicMuted(false);
-
-            // Even if we requested the video to be on, we need to make sure that the device is capable of doing so
-
-            if(params.getVideoEnabled())
-                setVideo(videoEnabled);
-
-            try {
-                Integer.parseInt(LiblinphoneThread.get().getCurrentCallRemoteAddress().getUserName());
-                LiblinphoneThread.get().getCurrentCallRemoteAddress().setUserName(user.getUsername());
-            } catch(NumberFormatException e) {
-            }
-
-            //setVideo(false);
+            setVideo(videoEnabled);
 
             if (call == null)
                 Logger.getLogger(AndroidVoipController.class.getName()).log(Level.WARNING, "Could not place call to " + sipAddress + ", aborting...");
@@ -153,12 +140,19 @@ public class AndroidVoipController implements VoipController{
         if(enabled){
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Enabling video");
             LinphoneCallParams params = call.getCurrentParamsCopy();
-            if (!params.getVideoEnabled()) return;
+
+            // Check if video possible regarding bandwidth limitations
+            BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
+
+            if (!params.getVideoEnabled()){
+                Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Video cannot be enabled: not enough bandwidth");
+                return;
+            }
 
             //lc.enableVideo(true, true);
 
             String sipAddress = LiblinphoneThread.get().getCurrentCallRemoteAddress().asStringUriOnly();
-            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage("Video: true");
+            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(Config.COMMAND_EXEC_KEY + "Video: true");
             lc.getOrCreateChatRoom(sipAddress).sendChatMessage(m);
         }else{
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Disabling video");
@@ -166,7 +160,7 @@ public class AndroidVoipController implements VoipController{
             //lc.enableVideo(false, true);
 
             String sipAddress = LiblinphoneThread.get().getCurrentCallRemoteAddress().asStringUriOnly();
-            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage("Video: false");
+            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(Config.COMMAND_EXEC_KEY + "Video: false");
             lc.getOrCreateChatRoom(sipAddress).sendChatMessage(m);
         }
     }
@@ -196,15 +190,11 @@ public class AndroidVoipController implements VoipController{
             setSpeaker(false);
             setMicMuted(false);
 
-            // Check if video possible regarding bandwidth limitations
-            BandwidthManager.getInstance().updateWithProfileSettings(LiblinphoneThread.get().getLinphoneCore(), params);
+            params.setVideoEnabled(true);
 
             LiblinphoneThread.get().getLinphoneCore().acceptCallWithParams(LiblinphoneThread.get().getCurrentCall(), params);
 
-            // Even if the remote user requested video to be on, we need to make sure that the device is capable of doing so
-
-            if(params.getVideoEnabled())
-                setVideo(remoteVideo);
+            setVideo(remoteVideo);
 
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -217,6 +207,13 @@ public class AndroidVoipController implements VoipController{
     @Override
     public void declineCall() {
         LiblinphoneThread.get().getLinphoneCore().declineCall(LiblinphoneThread.get().getCurrentCall(), Reason.Declined);
+    }
+
+    @Override
+    public void sendMessage(Message message) {
+        String sipAddress = "sip:" + message.getReceiver().getUsername() + "@" + Config.ASTERISK_IP;
+        LinphoneChatMessage m = LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(message.toString());
+        LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).sendChatMessage(m);
     }
 
     @Override
