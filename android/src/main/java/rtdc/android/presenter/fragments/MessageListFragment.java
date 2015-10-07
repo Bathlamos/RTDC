@@ -16,6 +16,7 @@ import rtdc.core.controller.MessageListController;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchMessagesEvent;
+import rtdc.core.event.MessageSavedEvent;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
@@ -46,6 +47,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
 
+        // Setup message send button
         view.findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,22 +59,21 @@ public class MessageListFragment extends AbstractFragment implements MessageList
                 message.setTimeSent(new Date());
                 message.setContent(((TextView) view.findViewById(R.id.messageEditText)).getText().toString());
 
-                // We need to wait until the server gives the message an id before we send that it over
-                ActionCompleteEvent.Handler messageSentHandler = new ActionCompleteEvent.Handler() {
+                // We need to wait until the server gives the message an id and a universal time before we can send it
+                MessageSavedEvent.Handler messageSentHandler = new MessageSavedEvent.Handler() {
                     @Override
-                    public void onActionComplete(ActionCompleteEvent event) {
-                        if(event.getObjectType().equals("message") && event.getAction().equals("update")){
-                            Event.unsubscribe(ActionCompleteEvent.TYPE, this);
-                            message.setId(event.getObjectId());
-                            AndroidVoipController.get().sendMessage(message);
-                            addMessage(message);
+                    public void onMessageSaved(MessageSavedEvent event) {
+                        Event.unsubscribe(MessageSavedEvent.TYPE, this);
+                        message.setId(event.getMessageId());
+                        message.setTimeSent(event.getTimeSent()); // Override the time with the time of the server (to keep it universal)
+                        AndroidVoipController.get().sendMessage(message);
+                        addMessage(message);
 
-                            // Force the message list view to go to the bottom
-                            messageListView.setSelection(messageListView.getCount() - 1);
-                        }
+                        // Force the message list view to go to the bottom
+                        messageListView.setSelection(messageListView.getCount() - 1);
                     }
                 };
-                Event.subscribe(ActionCompleteEvent.TYPE, messageSentHandler);
+                Event.subscribe(MessageSavedEvent.TYPE, messageSentHandler);
 
                 Service.saveOrUpdateMessage(message);
 
@@ -101,27 +102,13 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         recentContactsAdapter = new RecentContactsListAdapter(getActivity(), recentContacts);
         recentContactsListView.setAdapter(recentContactsAdapter);
 
+        // Setup item click for the recent contact's list
         recentContactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Message message = recentContacts.get(position);
-                User otherUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId() ? message.getReceiver() : message.getSender();
-                if(otherUser == null)
-                    return;
+                Message message = recentContacts.get(position);
                 selectedRecentContactIndex = position;
 
                 // We changed the conversation. Get all the messages for this contact and display them
-
-                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Getting conversation with " + otherUser.getFirstName() + " " + otherUser.getLastName());
-                Event.subscribe(FetchMessagesEvent.TYPE, new FetchMessagesEvent.Handler() {
-                    @Override
-                    public void onMessagesFetched(FetchMessagesEvent event) {
-                        Event.unsubscribe(FetchMessagesEvent.TYPE, this);
-                        Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Conversation was fetched");
-                        setMessages(event.getMessages().asList());
-                    }
-                });
-
-                // Send request to the server
                 Service.getMessages(message.getSender().getId(), message.getReceiver().getId());
             }
         });
@@ -131,34 +118,6 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
         if (controller == null)
             controller = new MessageListController(this);
-
-        //controller.setupMessageList();
-
-        final Message message = recentContacts.get(0);
-        selectedRecentContactIndex = 0;
-
-        // We changed the conversation. Get all the messages for this contact and display them
-
-        User otherUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId() ? message.getReceiver() : message.getSender();
-        Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Getting conversation with " + otherUser.getFirstName() + " " + otherUser.getLastName());
-        Event.subscribe(FetchMessagesEvent.TYPE, new FetchMessagesEvent.Handler() {
-            @Override
-            public void onMessagesFetched(FetchMessagesEvent event) {
-                Event.unsubscribe(FetchMessagesEvent.TYPE, this);
-                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Conversation was fetched");
-                setMessages(event.getMessages().asList());
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        recentContacts.set(0, messages.get(messages.size() - 1));
-                        recentContactsAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
-
-        // Send request to the server
-        Service.getMessages(message.getSender().getId(), message.getReceiver().getId());
 
         setHasOptionsMenu(true);
 
