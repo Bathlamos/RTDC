@@ -70,7 +70,7 @@ public class MessageListController extends Controller<MessageListView> implement
         sender.setFirstName("Nathaniel");
         sender.setLastName("Aumonttt");
         sender.setUsername("Nathaniel");
-        sender.setId(19);
+        sender.setId(90);
 
         Message message2 = new Message();
         User receiver2 = new User();
@@ -88,7 +88,7 @@ public class MessageListController extends Controller<MessageListView> implement
         receiver.setFirstName("Jonathan");
         receiver.setLastName("Ermel");
         receiver.setUsername("Qwe");
-        receiver.setId(20);
+        receiver.setId(91);
         message.setSender(sender);
         message.setReceiver(receiver);
         message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");

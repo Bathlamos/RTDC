@@ -137,10 +137,10 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new MessageListFragment();
                 break;
             case 4:
-                fragment = new ManageUsersFragment();
+                fragment = new ManageUnitsFragment();
                 break;
             case 5:
-                fragment = new ManageUnitsFragment();
+                fragment = new ManageUsersFragment();
                 break;
             default:
                 fragment = new CapacityOverviewFragment();
