@@ -165,6 +165,15 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         ((TextView)view.findViewById(R.id.receiverNameTextView)).setText(messagingUser.getFirstName() + " " + messagingUser.getLastName());
         ((TextView)view.findViewById(R.id.receiverRoleTextView)).setText(messagingUser.getRole());
 
+        // If we're the receiver of the latest message and the status isn't read, we need to notify the server that we now have read it
+        Message latestMessage = messages.get(messages.size() - 1);
+        if(latestMessage.getReceiverID() == Session.getCurrentSession().getUser().getId() && latestMessage.getStatus() != Message.Status.read) {
+            messages.get(messages.size() - 1).setStatus(Message.Status.read);
+            Service.saveOrUpdateMessage(latestMessage);
+            recentContacts.get(selectedRecentContactIndex).setStatus(Message.Status.read);
+            recentContactsAdapter.notifyDataSetChanged();
+        }
+
         messagesAdapter.notifyDataSetChanged();
 
         AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
@@ -265,15 +274,20 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         for(Iterator<Message> iterator = recentContacts.iterator(); iterator.hasNext();){
             Message contact = iterator.next();
             if(contact.getSenderID() == message.getSenderID() || contact.getReceiverID() == message.getSenderID()){
-                recentContacts.remove(contact);
+                iterator.remove();
             }
         }
 
         // Add contact to the top of the list
         recentContacts.add(0, message);
-        selectedRecentContactIndex = 0;
-        recentContactsListView.setSelection(0);
-        recentContactsAdapter.notifyDataSetChanged();
+        getActivity().runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                selectedRecentContactIndex = 0;
+                recentContactsListView.setSelection(0);
+                recentContactsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public User getMessagingUser() {

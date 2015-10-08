@@ -26,7 +26,12 @@ public class MessageSavedEvent extends Event<ActionCompleteEvent.Handler> {
 
     public MessageSavedEvent(JSONObject object){
         messageId = object.getInt(Properties.messageId.name());
-        timeSent = (Date) object.get(Properties.timeSent.name());
+
+        // It is possible that the date was converted to a Long, as this is how its stored in the database
+        if(object.get(Properties.timeSent.name()) instanceof Date)
+            timeSent = (Date) object.get(Properties.timeSent.name());
+        else
+            timeSent = new Date((Long) object.get(Properties.timeSent.name()));
     }
 
     public int getMessageId(){

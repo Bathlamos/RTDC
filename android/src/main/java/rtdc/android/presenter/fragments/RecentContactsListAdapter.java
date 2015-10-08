@@ -44,12 +44,13 @@ public class RecentContactsListAdapter extends ArrayAdapter {
             view = mInflater.inflate(R.layout.recent_contacts_list_item, null);
         }
 
-        boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
-        setupColumn(view, R.id.senderRecentContactsTextView, sessionUser ? "Me": message.getSender().getFirstName()+" "+message.getSender().getLastName());
+        boolean senderIsSessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
+
+        setupColumn(view, R.id.senderRecentContactsTextView, senderIsSessionUser ? message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName(): message.getSender().getFirstName()+" "+message.getSender().getLastName());
         setupColumn(view, R.id.messagePreviewTextView, message.getContent());
         setupColumn(view, R.id.lastTimeSentTextView, message.getTimeSent().toString());
 
-        if(!sessionUser && message.getStatus() != Message.Status.read){
+        if(!senderIsSessionUser && message.getStatus() != Message.Status.read){
             ((TextView)view.findViewById(R.id.senderRecentContactsTextView)).setTypeface(Typeface.DEFAULT_BOLD);
             ((TextView)view.findViewById(R.id.messagePreviewTextView)).setTypeface(Typeface.DEFAULT_BOLD);
             ((TextView)view.findViewById(R.id.messagePreviewTextView)).setTextColor(getContext().getResources().getColor(R.color.RTDC_grey));
