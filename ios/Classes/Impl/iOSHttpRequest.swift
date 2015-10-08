@@ -3,7 +3,7 @@
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-03-02.
-//  Copyright (c) 2015 Clermont, Ermel, Fortin-Boulay, Legault & Ménard. All rights reserved.
+//  Copyright © 2015 Clermont, Ermel, Fortin-Boulay, Legault & Ménard. All rights reserved.
 //
 
 import Foundation
@@ -13,16 +13,26 @@ class iOSHttpRequest: NSObject, ImplHttpRequest {
     var request: NSMutableURLRequest
     var urlComponents: NSURLComponents
     
-    init(url: String, requestMethod: String){
+    init(url: String, requestMethod: ImplHttpRequest_RequestMethodEnum){
         urlComponents = NSURLComponents(string: url)!
-        
         request = NSMutableURLRequest()
-        request.HTTPMethod = requestMethod
+        switch(requestMethod){
+            case ImplHttpRequest_RequestMethodEnum.GET():
+                request.HTTPMethod = "GET"
+            case ImplHttpRequest_RequestMethodEnum.PUT():
+                request.HTTPMethod = "PUT"
+            case ImplHttpRequest_RequestMethodEnum.DELETE():
+                request.HTTPMethod = "DELETE"
+            case ImplHttpRequest_RequestMethodEnum.POST():
+                request.HTTPMethod = "POST"
+            default: ()
+        }
+
     }
         
     
     func addParameterWithNSString(parameter: String!, withNSString data: String!){
-        if urlComponents.query? != nil {
+        if urlComponents.query != nil {
             urlComponents.query! += "&\(parameter)=\(data)"
         } else {
             urlComponents.query = "\(parameter)=\(data)"
@@ -43,7 +53,7 @@ class iOSHttpRequest: NSObject, ImplHttpRequest {
         let task = session.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             
             if error != nil {
-                callback.onErrorWithNSString(error.localizedDescription)
+                callback.onErrorWithNSString(error!.localizedDescription)
             } else {
                 var statusCode: jint = 200 // Default status code
                 
@@ -53,13 +63,16 @@ class iOSHttpRequest: NSObject, ImplHttpRequest {
                 }
                 
                 callback.onSuccessWithId(iOSHttpResponse(statusCode: statusCode,
-                    // Converts the content data from NSData to NString
-                    content: NSString(data:data, encoding:NSUTF8StringEncoding)))
+                    content: String(data: data!, encoding: NSUTF8StringEncoding)))
             }
         })
         
         // Run the task. NOTE: NSURLSession is asynchronous by design.
         task.resume()
+        
+    }
+    
+    func setContentTypeWithNSString(contentType: String!) {
         
     }
     

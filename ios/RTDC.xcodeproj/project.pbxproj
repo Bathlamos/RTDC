@@ -87,6 +87,12 @@
 		4A17313A1BC6C2F900A09553 /* ValidationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730E91BC6C2F900A09553 /* ValidationException.m */; settings = {ASSET_TAGS = (); }; };
 		4A17313B1BC6C2F900A09553 /* View.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730EB1BC6C2F900A09553 /* View.m */; settings = {ASSET_TAGS = (); }; };
 		4A17313C1BC6C2F900A09553 /* VoipController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730ED1BC6C2F900A09553 /* VoipController.m */; settings = {ASSET_TAGS = (); }; };
+		4A17315C1BC7080F00A09553 /* iOSDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1731561BC7080F00A09553 /* iOSDispatcher.swift */; settings = {ASSET_TAGS = (); }; };
+		4A17315D1BC7080F00A09553 /* iOSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1731571BC7080F00A09553 /* iOSFactory.swift */; settings = {ASSET_TAGS = (); }; };
+		4A17315E1BC7080F00A09553 /* iOSHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1731581BC7080F00A09553 /* iOSHttpRequest.swift */; settings = {ASSET_TAGS = (); }; };
+		4A17315F1BC7080F00A09553 /* iOSHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1731591BC7080F00A09553 /* iOSHttpResponse.swift */; settings = {ASSET_TAGS = (); }; };
+		4A1731601BC7080F00A09553 /* iOSStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A17315A1BC7080F00A09553 /* iOSStorage.swift */; settings = {ASSET_TAGS = (); }; };
+		4A1731611BC7080F00A09553 /* iOSVoipController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A17315B1BC7080F00A09553 /* iOSVoipController.swift */; settings = {ASSET_TAGS = (); }; };
 		4A5DC3901BC4479E00F4E74A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5DC38F1BC4479E00F4E74A /* libz.tbd */; };
 		4A5DC3921BC447B100F4E74A /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5DC3911BC447B100F4E74A /* libicucore.tbd */; };
 		4AB16EE01A3FCA3B0003270E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB16ED71A3FCA3B0003270E /* AppDelegate.swift */; };
@@ -270,6 +276,12 @@
 		4A1730EB1BC6C2F900A09553 /* View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = View.m; path = Core/View.m; sourceTree = "<group>"; };
 		4A1730EC1BC6C2F900A09553 /* VoipController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoipController.h; path = Core/VoipController.h; sourceTree = "<group>"; };
 		4A1730ED1BC6C2F900A09553 /* VoipController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoipController.m; path = Core/VoipController.m; sourceTree = "<group>"; };
+		4A1731561BC7080F00A09553 /* iOSDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSDispatcher.swift; path = Impl/iOSDispatcher.swift; sourceTree = "<group>"; };
+		4A1731571BC7080F00A09553 /* iOSFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSFactory.swift; path = Impl/iOSFactory.swift; sourceTree = "<group>"; };
+		4A1731581BC7080F00A09553 /* iOSHttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSHttpRequest.swift; path = Impl/iOSHttpRequest.swift; sourceTree = "<group>"; };
+		4A1731591BC7080F00A09553 /* iOSHttpResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSHttpResponse.swift; path = Impl/iOSHttpResponse.swift; sourceTree = "<group>"; };
+		4A17315A1BC7080F00A09553 /* iOSStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSStorage.swift; path = Impl/iOSStorage.swift; sourceTree = "<group>"; };
+		4A17315B1BC7080F00A09553 /* iOSVoipController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = iOSVoipController.swift; path = Impl/iOSVoipController.swift; sourceTree = "<group>"; };
 		4A5DC38F1BC4479E00F4E74A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4A5DC3911BC447B100F4E74A /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		4AB16ED71A3FCA3B0003270E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -332,6 +344,8 @@
 			isa = PBXGroup;
 			children = (
 				4AB16EEB1A3FCB4F0003270E /* RTDC-Bridging-Header.h */,
+				4A17313E1BC6CDA400A09553 /* Presenter */,
+				4A17313D1BC6CD8A00A09553 /* Impl */,
 				4AB16ED71A3FCA3B0003270E /* AppDelegate.swift */,
 				4AB16EDF1A3FCA3B0003270E /* ViewController.swift */,
 				4AB16EDB1A3FCA3B0003270E /* Main.storyboard */,
@@ -350,6 +364,26 @@
 				4AB16EEF1A3FCC850003270E /* Supporting Files */,
 			);
 			path = RTDCTests;
+			sourceTree = "<group>";
+		};
+		4A17313D1BC6CD8A00A09553 /* Impl */ = {
+			isa = PBXGroup;
+			children = (
+				4A1731561BC7080F00A09553 /* iOSDispatcher.swift */,
+				4A1731571BC7080F00A09553 /* iOSFactory.swift */,
+				4A1731581BC7080F00A09553 /* iOSHttpRequest.swift */,
+				4A1731591BC7080F00A09553 /* iOSHttpResponse.swift */,
+				4A17315A1BC7080F00A09553 /* iOSStorage.swift */,
+				4A17315B1BC7080F00A09553 /* iOSVoipController.swift */,
+			);
+			name = Impl;
+			sourceTree = "<group>";
+		};
+		4A17313E1BC6CDA400A09553 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Presenter;
 			sourceTree = "<group>";
 		};
 		4AB16EEC1A3FCC1D0003270E /* Supporting Files */ = {
@@ -656,6 +690,7 @@
 				4A17310B1BC6C2F900A09553 /* EventType.m in Sources */,
 				4A17312D1BC6C2F900A09553 /* Stringifier.m in Sources */,
 				4A1731291BC6C2F900A09553 /* SessionExpiredException.m in Sources */,
+				4A17315F1BC7080F00A09553 /* iOSHttpResponse.swift in Sources */,
 				4A1731381BC6C2F900A09553 /* UsernamePasswordMismatchException.m in Sources */,
 				4A1731321BC6C2F900A09553 /* Unit.m in Sources */,
 				4A1731191BC6C2F900A09553 /* JSONString.m in Sources */,
@@ -673,12 +708,15 @@
 				4A1731131BC6C2F900A09553 /* HttpHeadersName.m in Sources */,
 				4AB16EE01A3FCA3B0003270E /* AppDelegate.swift in Sources */,
 				4A1730F21BC6C2F900A09553 /* AddActionController.m in Sources */,
+				4A17315E1BC7080F00A09553 /* iOSHttpRequest.swift in Sources */,
 				4A17311E1BC6C2F900A09553 /* LoginView.m in Sources */,
 				4A17310F1BC6C2F900A09553 /* FetchRecentContactsEvent.m in Sources */,
 				4A1730F31BC6C2F900A09553 /* AddActionView.m in Sources */,
 				4A1731281BC6C2F900A09553 /* SessionExpiredEvent.m in Sources */,
+				4A1731611BC7080F00A09553 /* iOSVoipController.swift in Sources */,
 				4A17310A1BC6C2F900A09553 /* EventHandler.m in Sources */,
 				4A17312F1BC6C2F900A09553 /* TextValidationWidget.m in Sources */,
+				4A17315D1BC7080F00A09553 /* iOSFactory.swift in Sources */,
 				4A1731301BC6C2F900A09553 /* UiDropdownList.m in Sources */,
 				4A1730F41BC6C2F900A09553 /* AddUnitController.m in Sources */,
 				4A17310C1BC6C2F900A09553 /* Factory.m in Sources */,
@@ -686,6 +724,7 @@
 				4A1730FA1BC6C2F900A09553 /* AsyncCallback.m in Sources */,
 				4AB16EE51A3FCA3B0003270E /* ViewController.swift in Sources */,
 				4A1730F11BC6C2F900A09553 /* ActionListView.m in Sources */,
+				4A17315C1BC7080F00A09553 /* iOSDispatcher.swift in Sources */,
 				4A1731051BC6C2F900A09553 /* EditCapacityController.m in Sources */,
 				4A1731021BC6C2F900A09553 /* CookiesName.m in Sources */,
 				4A1731221BC6C2F900A09553 /* MessageListView.m in Sources */,
@@ -713,6 +752,7 @@
 				4A17312B1BC6C2F900A09553 /* SimpleValidator.m in Sources */,
 				4A17311A1BC6C2F900A09553 /* JSONStringer.m in Sources */,
 				4A1731081BC6C2F900A09553 /* Event.m in Sources */,
+				4A1731601BC7080F00A09553 /* iOSStorage.swift in Sources */,
 				4A1731341BC6C2F900A09553 /* UnitListView.m in Sources */,
 				4A1731231BC6C2F900A09553 /* ObjectProperty.m in Sources */,
 			);
