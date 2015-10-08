@@ -4,37 +4,43 @@
 //
 
 #include "AddUserView.h"
+#include "J2ObjC_source.h"
 
 @interface RtdcCoreViewAddUserView : NSObject
+
 @end
 
 @implementation RtdcCoreViewAddUserView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "getUsernameAsString", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setUsernameAsStringWithNSString:", "setUsernameAsString", "V", 0x401, NULL },
-    { "setErrorForUsernameWithNSString:", "setErrorForUsername", "V", 0x401, NULL },
-    { "getSurnameAsString", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setSurnameAsStringWithNSString:", "setSurnameAsString", "V", 0x401, NULL },
-    { "setErrorForSurnameWithNSString:", "setErrorForSurname", "V", 0x401, NULL },
-    { "getFirstnameAsString", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setFirstnameAsStringWithNSString:", "setFirstnameAsString", "V", 0x401, NULL },
-    { "setErrorForFirstnameWithNSString:", "setErrorForFirstname", "V", 0x401, NULL },
-    { "getEmailAsString", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setEmailAsStringWithNSString:", "setEmailAsString", "V", 0x401, NULL },
-    { "getRoleAsString", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setRoleAsStringWithNSString:", "setRoleAsString", "V", 0x401, NULL },
-    { "getPasswordAsString", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setPasswordAsStringWithNSString:", "setPasswordAsString", "V", 0x401, NULL },
-    { "setErrorForPasswordWithNSString:", "setErrorForPassword", "V", 0x401, NULL },
-    { "getPermissionAsString", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setPermissionAsStringWithNSString:", "setPermissionAsString", "V", 0x401, NULL },
-    { "setPermissionForSurnameWithNSString:", "setPermissionForSurname", "V", 0x401, NULL },
+    { "getUsernameAsString", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
+    { "setUsernameAsStringWithNSString:", "setUsernameAsString", "V", 0x401, NULL, NULL },
+    { "setErrorForUsernameWithNSString:", "setErrorForUsername", "V", 0x401, NULL, NULL },
+    { "getSurnameAsString", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
+    { "setSurnameAsStringWithNSString:", "setSurnameAsString", "V", 0x401, NULL, NULL },
+    { "setErrorForSurnameWithNSString:", "setErrorForSurname", "V", 0x401, NULL, NULL },
+    { "getFirstnameAsString", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
+    { "setFirstnameAsStringWithNSString:", "setFirstnameAsString", "V", 0x401, NULL, NULL },
+    { "setErrorForFirstnameWithNSString:", "setErrorForFirstname", "V", 0x401, NULL, NULL },
+    { "getEmailAsString", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
+    { "setEmailAsStringWithNSString:", "setEmailAsString", "V", 0x401, NULL, NULL },
+    { "getPhoneAsLong", NULL, "J", 0x401, NULL, NULL },
+    { "setPhoneAsLongWithLong:", "setPhoneAsLong", "V", 0x401, NULL, NULL },
+    { "getRoleAsString", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
+    { "setRoleAsStringWithNSString:", "setRoleAsString", "V", 0x401, NULL, NULL },
+    { "getPasswordAsString", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
+    { "setPasswordAsStringWithNSString:", "setPasswordAsString", "V", 0x401, NULL, NULL },
+    { "setErrorForPasswordWithNSString:", "setErrorForPassword", "V", 0x401, NULL, NULL },
+    { "getPermissionAsString", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
+    { "setPermissionAsStringWithNSString:", "setPermissionAsString", "V", 0x401, NULL, NULL },
+    { "setPermissionForSurnameWithNSString:", "setPermissionForSurname", "V", 0x401, NULL, NULL },
+    { "hideDeleteButton", NULL, "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewAddUserView = { "AddUserView", "rtdc.core.view", NULL, 0x201, 19, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _RtdcCoreViewAddUserView = { 2, "AddUserView", "rtdc.core.view", NULL, 0x609, 22, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_RtdcCoreViewAddUserView;
 }
 
 @end
 
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewAddUserView)

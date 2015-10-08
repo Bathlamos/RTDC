@@ -3,13 +3,13 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/impl/HttpRequest.java
 //
 
-#ifndef _ImplHttpRequest_H_
-#define _ImplHttpRequest_H_
+#ifndef _HttpRequest_H_
+#define _HttpRequest_H_
+
+#include "J2ObjC_header.h"
+#include "java/lang/Enum.h"
 
 @protocol ServiceAsyncCallback;
-
-#import "JreEmulation.h"
-#include "java/lang/Enum.h"
 
 @protocol ImplHttpRequest < NSObject, JavaObject >
 
@@ -21,9 +21,13 @@
 
 - (void)executeWithServiceAsyncCallback:(id<ServiceAsyncCallback>)response;
 
+- (void)setContentTypeWithNSString:(NSString *)contentType;
+
 @end
 
-__attribute__((always_inline)) inline void ImplHttpRequest_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ImplHttpRequest)
+
+J2OBJC_TYPE_LITERAL_HEADER(ImplHttpRequest)
 
 #define RtdcCoreImplHttpRequest ImplHttpRequest
 
@@ -34,36 +38,36 @@ typedef NS_ENUM(NSUInteger, ImplHttpRequest_RequestMethod) {
   ImplHttpRequest_RequestMethod_POST = 3,
 };
 
-@interface ImplHttpRequest_RequestMethodEnum : JavaLangEnum < NSCopying > {
-}
+@interface ImplHttpRequest_RequestMethodEnum : JavaLangEnum < NSCopying >
 
-- (instancetype)initWithNSString:(NSString *)__name
-                         withInt:(jint)__ordinal;
+#pragma mark Package-Private
 
 + (IOSObjectArray *)values;
 FOUNDATION_EXPORT IOSObjectArray *ImplHttpRequest_RequestMethodEnum_values();
 
 + (ImplHttpRequest_RequestMethodEnum *)valueOfWithNSString:(NSString *)name;
+FOUNDATION_EXPORT ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_valueOfWithNSString_(NSString *name);
 
-FOUNDATION_EXPORT ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_valueOfWithNSString_(NSString *name);- (id)copyWithZone:(NSZone *)zone;
+- (id)copyWithZone:(NSZone *)zone;
 
 @end
 
-FOUNDATION_EXPORT BOOL ImplHttpRequest_RequestMethodEnum_initialized;
 J2OBJC_STATIC_INIT(ImplHttpRequest_RequestMethodEnum)
 
 FOUNDATION_EXPORT ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_values_[];
 
 #define ImplHttpRequest_RequestMethodEnum_GET ImplHttpRequest_RequestMethodEnum_values_[ImplHttpRequest_RequestMethod_GET]
-J2OBJC_STATIC_FIELD_GETTER(ImplHttpRequest_RequestMethodEnum, GET, ImplHttpRequest_RequestMethodEnum *)
+J2OBJC_ENUM_CONSTANT_GETTER(ImplHttpRequest_RequestMethodEnum, GET)
 
 #define ImplHttpRequest_RequestMethodEnum_PUT ImplHttpRequest_RequestMethodEnum_values_[ImplHttpRequest_RequestMethod_PUT]
-J2OBJC_STATIC_FIELD_GETTER(ImplHttpRequest_RequestMethodEnum, PUT, ImplHttpRequest_RequestMethodEnum *)
+J2OBJC_ENUM_CONSTANT_GETTER(ImplHttpRequest_RequestMethodEnum, PUT)
 
 #define ImplHttpRequest_RequestMethodEnum_DELETE ImplHttpRequest_RequestMethodEnum_values_[ImplHttpRequest_RequestMethod_DELETE]
-J2OBJC_STATIC_FIELD_GETTER(ImplHttpRequest_RequestMethodEnum, DELETE, ImplHttpRequest_RequestMethodEnum *)
+J2OBJC_ENUM_CONSTANT_GETTER(ImplHttpRequest_RequestMethodEnum, DELETE)
 
 #define ImplHttpRequest_RequestMethodEnum_POST ImplHttpRequest_RequestMethodEnum_values_[ImplHttpRequest_RequestMethod_POST]
-J2OBJC_STATIC_FIELD_GETTER(ImplHttpRequest_RequestMethodEnum, POST, ImplHttpRequest_RequestMethodEnum *)
+J2OBJC_ENUM_CONSTANT_GETTER(ImplHttpRequest_RequestMethodEnum, POST)
 
-#endif // _ImplHttpRequest_H_
+J2OBJC_TYPE_LITERAL_HEADER(ImplHttpRequest_RequestMethodEnum)
+
+#endif // _HttpRequest_H_

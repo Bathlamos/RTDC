@@ -3,18 +3,17 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONException.java
 //
 
-#ifndef _JSONJSONException_H_
-#define _JSONJSONException_H_
+#ifndef _JSONException_H_
+#define _JSONException_H_
+
+#include "J2ObjC_header.h"
+#include "java/lang/RuntimeException.h"
 
 @class JavaLangThrowable;
 
-#import "JreEmulation.h"
-#include "java/lang/RuntimeException.h"
+@interface JSONJSONException : JavaLangRuntimeException
 
-@interface JSONJSONException : JavaLangRuntimeException {
- @public
-  JavaLangThrowable *cause_;
-}
+#pragma mark Public
 
 - (instancetype)initWithNSString:(NSString *)message;
 
@@ -22,16 +21,20 @@
 
 - (JavaLangThrowable *)getCause;
 
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(JSONJSONException *)other;
-
 @end
 
-__attribute__((always_inline)) inline void JSONJSONException_init() {}
+J2OBJC_EMPTY_STATIC_INIT(JSONJSONException)
 
-J2OBJC_FIELD_SETTER(JSONJSONException, cause_, JavaLangThrowable *)
+FOUNDATION_EXPORT void JSONJSONException_initWithNSString_(JSONJSONException *self, NSString *message);
 
-typedef JSONJSONException RtdcCoreJsonJSONException;
+FOUNDATION_EXPORT JSONJSONException *new_JSONJSONException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
 
-#endif // _JSONJSONException_H_
+FOUNDATION_EXPORT void JSONJSONException_initWithJavaLangThrowable_(JSONJSONException *self, JavaLangThrowable *t);
+
+FOUNDATION_EXPORT JSONJSONException *new_JSONJSONException_initWithJavaLangThrowable_(JavaLangThrowable *t) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(JSONJSONException)
+
+@compatibility_alias RtdcCoreJsonJSONException JSONJSONException;
+
+#endif // _JSONException_H_

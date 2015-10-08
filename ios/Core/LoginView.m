@@ -3,24 +3,25 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/view/LoginView.java
 //
 
+#include "J2ObjC_source.h"
 #include "LoginView.h"
+#include "UiElement.h"
 
 @interface RtdcCoreViewLoginView : NSObject
+
 @end
 
 @implementation RtdcCoreViewLoginView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "getUsername", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setUsernameWithNSString:", "setUsername", "V", 0x401, NULL },
-    { "getPassword", NULL, "Ljava.lang.String;", 0x401, NULL },
-    { "setPasswordWithNSString:", "setPassword", "V", 0x401, NULL },
-    { "saveAuthenticationTokenWithNSString:", "saveAuthenticationToken", "V", 0x401, NULL },
+    { "getUsernameUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
+    { "getPasswordUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewLoginView = { "LoginView", "rtdc.core.view", NULL, 0x201, 5, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _RtdcCoreViewLoginView = { 2, "LoginView", "rtdc.core.view", NULL, 0x609, 2, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_RtdcCoreViewLoginView;
 }
 
 @end
 
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewLoginView)

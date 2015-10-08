@@ -3,55 +3,43 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/controller/AddUserController.java
 //
 
-#ifndef _ControllerAddUserController_H_
-#define _ControllerAddUserController_H_
+#ifndef _AddUserController_H_
+#define _AddUserController_H_
 
-@class JavaLangBoolean;
+#include "ActionCompleteEvent.h"
+#include "Controller.h"
+#include "J2ObjC_header.h"
+
 @protocol RtdcCoreViewAddUserView;
 
-#import "JreEmulation.h"
-#include "AsyncCallback.h"
+@interface ControllerAddUserController : ControllerController < RtdcCoreEventActionCompleteEvent_Handler >
 
-@interface ControllerAddUserController : NSObject {
- @public
-  id<RtdcCoreViewAddUserView> view_;
-}
+#pragma mark Public
 
 - (instancetype)initWithRtdcCoreViewAddUserView:(id<RtdcCoreViewAddUserView>)view;
 
 - (void)addUser;
 
-- (void)dealloc;
+- (void)deleteUser;
 
-- (void)copyAllFieldsTo:(ControllerAddUserController *)other;
+- (void)onActionCompleteWithRtdcCoreEventActionCompleteEvent:(RtdcCoreEventActionCompleteEvent *)event;
 
-@end
+- (void)onStop;
 
-__attribute__((always_inline)) inline void ControllerAddUserController_init() {}
+#pragma mark Package-Private
 
-J2OBJC_FIELD_SETTER(ControllerAddUserController, view_, id<RtdcCoreViewAddUserView>)
-
-typedef ControllerAddUserController RtdcCoreControllerAddUserController;
-
-@interface ControllerAddUserController_$1 : NSObject < ServiceAsyncCallback > {
- @public
-  ControllerAddUserController *this$0_;
-}
-
-- (void)onSuccessWithId:(JavaLangBoolean *)result;
-
-- (void)onErrorWithNSString:(NSString *)message;
-
-- (instancetype)initWithControllerAddUserController:(ControllerAddUserController *)outer$;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(ControllerAddUserController_$1 *)other;
+- (NSString *)getTitle;
 
 @end
 
-__attribute__((always_inline)) inline void ControllerAddUserController_$1_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ControllerAddUserController)
 
-J2OBJC_FIELD_SETTER(ControllerAddUserController_$1, this$0_, ControllerAddUserController *)
+FOUNDATION_EXPORT void ControllerAddUserController_initWithRtdcCoreViewAddUserView_(ControllerAddUserController *self, id<RtdcCoreViewAddUserView> view);
 
-#endif // _ControllerAddUserController_H_
+FOUNDATION_EXPORT ControllerAddUserController *new_ControllerAddUserController_initWithRtdcCoreViewAddUserView_(id<RtdcCoreViewAddUserView> view) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ControllerAddUserController)
+
+@compatibility_alias RtdcCoreControllerAddUserController ControllerAddUserController;
+
+#endif // _AddUserController_H_

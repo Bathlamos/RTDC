@@ -3,21 +3,31 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/impl/Dispatcher.java
 //
 
+#include "Controller.h"
 #include "Dispatcher.h"
+#include "J2ObjC_source.h"
 
 @interface ImplDispatcher : NSObject
+
 @end
 
 @implementation ImplDispatcher
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "goToLoginWithBoolean:", "goToLogin", "V", 0x401, NULL },
-    { "goToAllUnitsWithBoolean:", "goToAllUnits", "V", 0x401, NULL },
+    { "goToLoginWithControllerController:", "goToLogin", "V", 0x401, NULL, NULL },
+    { "goToAllUnitsWithControllerController:", "goToAllUnits", "V", 0x401, NULL, NULL },
+    { "goToActionPlanWithControllerController:", "goToActionPlan", "V", 0x401, NULL, NULL },
+    { "goToEditUserWithControllerController:", "goToEditUser", "V", 0x401, NULL, NULL },
+    { "goToEditUnitWithControllerController:", "goToEditUnit", "V", 0x401, NULL, NULL },
+    { "goToEditActionWithControllerController:", "goToEditAction", "V", 0x401, NULL, NULL },
+    { "goToEditCapacityWithControllerController:", "goToEditCapacity", "V", 0x401, NULL, NULL },
+    { "goToCapacityOverviewWithControllerController:", "goToCapacityOverview", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _ImplDispatcher = { "Dispatcher", "rtdc.core.impl", NULL, 0x201, 2, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _ImplDispatcher = { 2, "Dispatcher", "rtdc.core.impl", NULL, 0x609, 8, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_ImplDispatcher;
 }
 
 @end
 
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ImplDispatcher)

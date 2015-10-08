@@ -3,25 +3,24 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/view/LoginView.java
 //
 
-#ifndef _RtdcCoreViewLoginView_H_
-#define _RtdcCoreViewLoginView_H_
+#ifndef _LoginView_H_
+#define _LoginView_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 #include "View.h"
 
+@protocol ImplUiElement;
+
 @protocol RtdcCoreViewLoginView < RtdcCoreViewView, NSObject, JavaObject >
-- (NSString *)getUsername;
 
-- (void)setUsernameWithNSString:(NSString *)username;
+- (id<ImplUiElement>)getUsernameUiElement;
 
-- (NSString *)getPassword;
-
-- (void)setPasswordWithNSString:(NSString *)password;
-
-- (void)saveAuthenticationTokenWithNSString:(NSString *)token;
+- (id<ImplUiElement>)getPasswordUiElement;
 
 @end
 
-__attribute__((always_inline)) inline void RtdcCoreViewLoginView_init() {}
+J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewLoginView)
 
-#endif // _RtdcCoreViewLoginView_H_
+J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewLoginView)
+
+#endif // _LoginView_H_

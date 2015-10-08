@@ -5,93 +5,91 @@
 
 #include "AddUnitController.h"
 #include "AddUnitView.h"
-#include "IOSClass.h"
+#include "Cache.h"
+#include "Controller.h"
+#include "J2ObjC_source.h"
 #include "Service.h"
 #include "Unit.h"
-#include "java/lang/Boolean.h"
 #include "java/lang/Integer.h"
 #include "java/lang/NumberFormatException.h"
+
+@interface ControllerAddUnitController () {
+ @public
+  ModelUnit *currentUnit_;
+}
+
+@end
+
+J2OBJC_FIELD_SETTER(ControllerAddUnitController, currentUnit_, ModelUnit *)
 
 @implementation ControllerAddUnitController
 
 - (instancetype)initWithRtdcCoreViewAddUnitView:(id<RtdcCoreViewAddUnitView>)view {
-  if (self = [super init]) {
-    ControllerAddUnitController_set_view_(self, view);
-  }
+  ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(self, view);
   return self;
 }
 
+- (NSString *)getTitle {
+  return @"Add unit";
+}
+
 - (void)addUnit {
-  ModelUnit *newUnit = [[[ModelUnit alloc] init] autorelease];
+  ModelUnit *newUnit = [new_ModelUnit_init() autorelease];
+  if (currentUnit_ != nil) [newUnit setIdWithInt:[currentUnit_ getId]];
   [newUnit setNameWithNSString:[((id<RtdcCoreViewAddUnitView>) nil_chk(view_)) getNameAsString]];
   @try {
-    [newUnit setTotalBedsWithInt:JavaLangInteger_parseIntWithNSString_([view_ getTotalBedsAsString])];
+    [newUnit setTotalBedsWithInt:JavaLangInteger_parseIntWithNSString_([((id<RtdcCoreViewAddUnitView>) view_) getTotalBedsAsString])];
   }
   @catch (JavaLangNumberFormatException *e) {
   }
-  ServiceService_updateOrSaveUnitWithModelUnit_withServiceAsyncCallback_(newUnit, [[[ControllerAddUnitController_$1 alloc] initWithControllerAddUnitController:self] autorelease]);
+  ServiceService_updateOrSaveUnitWithModelUnit_(newUnit);
+  [((id<RtdcCoreViewAddUnitView>) view_) closeDialog];
+}
+
+- (void)deleteUnit {
+  if (currentUnit_ != nil) ServiceService_deleteUnitWithInt_([currentUnit_ getId]);
+  [((id<RtdcCoreViewAddUnitView>) nil_chk(view_)) closeDialog];
 }
 
 - (void)dealloc {
-  ControllerAddUnitController_set_view_(self, nil);
+  RELEASE_(currentUnit_);
   [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ControllerAddUnitController *)other {
-  [super copyAllFieldsTo:other];
-  ControllerAddUnitController_set_view_(other, view_);
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewAddUnitView:", "AddUnitController", NULL, 0x1, NULL },
-    { "addUnit", NULL, "V", 0x1, NULL },
+    { "initWithRtdcCoreViewAddUnitView:", "AddUnitController", NULL, 0x1, NULL, NULL },
+    { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
+    { "addUnit", NULL, "V", 0x1, NULL, NULL },
+    { "deleteUnit", NULL, "V", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "view_", NULL, 0x2, "Lrtdc.core.view.AddUnitView;", NULL,  },
+    { "currentUnit_", NULL, 0x2, "Lrtdc.core.model.Unit;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _ControllerAddUnitController = { "AddUnitController", "rtdc.core.controller", NULL, 0x1, 2, methods, 1, fields, 0, NULL};
+  static const char *superclass_type_args[] = {"Lrtdc.core.view.AddUnitView;"};
+  static const J2ObjcClassInfo _ControllerAddUnitController = { 2, "AddUnitController", "rtdc.core.controller", NULL, 0x1, 4, methods, 1, fields, 1, superclass_type_args, 0, NULL, NULL, "Lrtdc/core/controller/Controller<Lrtdc/core/view/AddUnitView;>;" };
   return &_ControllerAddUnitController;
 }
 
 @end
 
-@implementation ControllerAddUnitController_$1
-
-- (void)onSuccessWithId:(JavaLangBoolean *)result {
-  [((id<RtdcCoreViewAddUnitView>) nil_chk(this$0_->view_)) displayErrorWithNSString:@"Success" withNSString:@"Success"];
+void ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(ControllerAddUnitController *self, id<RtdcCoreViewAddUnitView> view) {
+  ControllerController_initWithRtdcCoreViewView_(self, view);
+  JreStrongAssign(&self->currentUnit_, (ModelUnit *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"unit"], [ModelUnit class]));
+  if (self->currentUnit_ != nil) {
+    [((id<RtdcCoreViewAddUnitView>) nil_chk(view)) setTitleWithNSString:@"Edit Unit"];
+    [view setNameAsStringWithNSString:[self->currentUnit_ getName]];
+    [view setTotalBedsAsStringWithNSString:JavaLangInteger_toStringWithInt_([self->currentUnit_ getTotalBeds])];
+  }
+  else {
+    [((id<RtdcCoreViewAddUnitView>) nil_chk(view)) hideDeleteButton];
+  }
 }
 
-- (void)onErrorWithNSString:(NSString *)message {
-  [((id<RtdcCoreViewAddUnitView>) nil_chk(this$0_->view_)) displayErrorWithNSString:@"CommError" withNSString:message];
+ControllerAddUnitController *new_ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(id<RtdcCoreViewAddUnitView> view) {
+  ControllerAddUnitController *self = [ControllerAddUnitController alloc];
+  ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(self, view);
+  return self;
 }
 
-- (instancetype)initWithControllerAddUnitController:(ControllerAddUnitController *)outer$ {
-  ControllerAddUnitController_$1_set_this$0_(self, outer$);
-  return [super init];
-}
-
-- (void)dealloc {
-  ControllerAddUnitController_$1_set_this$0_(self, nil);
-  [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ControllerAddUnitController_$1 *)other {
-  [super copyAllFieldsTo:other];
-  ControllerAddUnitController_$1_set_this$0_(other, this$0_);
-}
-
-+ (const J2ObjcClassInfo *)__metadata {
-  static const J2ObjcMethodInfo methods[] = {
-    { "onSuccessWithJavaLangBoolean:", "onSuccess", "V", 0x1, NULL },
-    { "onErrorWithNSString:", "onError", "V", 0x1, NULL },
-    { "initWithControllerAddUnitController:", "init", NULL, 0x0, NULL },
-  };
-  static const J2ObjcFieldInfo fields[] = {
-    { "this$0_", NULL, 0x1012, "Lrtdc.core.controller.AddUnitController;", NULL,  },
-  };
-  static const J2ObjcClassInfo _ControllerAddUnitController_$1 = { "$1", "rtdc.core.controller", "AddUnitController", 0x8000, 3, methods, 1, fields, 0, NULL};
-  return &_ControllerAddUnitController_$1;
-}
-
-@end
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ControllerAddUnitController)

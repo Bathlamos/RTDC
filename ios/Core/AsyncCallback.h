@@ -3,10 +3,10 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/service/AsyncCallback.java
 //
 
-#ifndef _ServiceAsyncCallback_H_
-#define _ServiceAsyncCallback_H_
+#ifndef _AsyncCallback_H_
+#define _AsyncCallback_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 
 @protocol ServiceAsyncCallback < NSObject, JavaObject >
 
@@ -16,8 +16,10 @@
 
 @end
 
-__attribute__((always_inline)) inline void ServiceAsyncCallback_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ServiceAsyncCallback)
+
+J2OBJC_TYPE_LITERAL_HEADER(ServiceAsyncCallback)
 
 #define RtdcCoreServiceAsyncCallback ServiceAsyncCallback
 
-#endif // _ServiceAsyncCallback_H_
+#endif // _AsyncCallback_H_

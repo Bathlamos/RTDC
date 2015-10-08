@@ -3,20 +3,35 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/exception/SessionExpiredException.java
 //
 
+#include "ApiException.h"
+#include "J2ObjC_source.h"
 #include "SessionExpiredException.h"
 
 @implementation ExceptionSessionExpiredException
 
 - (instancetype)initWithNSString:(NSString *)message {
-  return [super initWithNSString:message];
+  ExceptionSessionExpiredException_initWithNSString_(self, message);
+  return self;
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithNSString:", "SessionExpiredException", NULL, 0x1, NULL },
+    { "initWithNSString:", "SessionExpiredException", NULL, 0x1, NULL, NULL },
   };
-  static const J2ObjcClassInfo _ExceptionSessionExpiredException = { "SessionExpiredException", "rtdc.core.exception", NULL, 0x1, 1, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _ExceptionSessionExpiredException = { 2, "SessionExpiredException", "rtdc.core.exception", NULL, 0x1, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_ExceptionSessionExpiredException;
 }
 
 @end
+
+void ExceptionSessionExpiredException_initWithNSString_(ExceptionSessionExpiredException *self, NSString *message) {
+  ExceptionApiException_initWithNSString_(self, message);
+}
+
+ExceptionSessionExpiredException *new_ExceptionSessionExpiredException_initWithNSString_(NSString *message) {
+  ExceptionSessionExpiredException *self = [ExceptionSessionExpiredException alloc];
+  ExceptionSessionExpiredException_initWithNSString_(self, message);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ExceptionSessionExpiredException)

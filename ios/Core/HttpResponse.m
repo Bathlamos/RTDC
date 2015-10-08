@@ -4,20 +4,23 @@
 //
 
 #include "HttpResponse.h"
+#include "J2ObjC_source.h"
 
 @interface ImplHttpResponse : NSObject
+
 @end
 
 @implementation ImplHttpResponse
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "getStatusCode", NULL, "I", 0x401, NULL },
-    { "getContent", NULL, "Ljava.lang.String;", 0x401, NULL },
+    { "getStatusCode", NULL, "I", 0x401, NULL, NULL },
+    { "getContent", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _ImplHttpResponse = { "HttpResponse", "rtdc.core.impl", NULL, 0x201, 2, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _ImplHttpResponse = { 2, "HttpResponse", "rtdc.core.impl", NULL, 0x609, 2, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_ImplHttpResponse;
 }
 
 @end
 
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ImplHttpResponse)

@@ -3,21 +3,24 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/view/View.java
 //
 
-#ifndef _RtdcCoreViewView_H_
-#define _RtdcCoreViewView_H_
+#ifndef _View_H_
+#define _View_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 
 @protocol RtdcCoreViewView < NSObject, JavaObject >
-
-- (void)displayPermanentErrorWithNSString:(NSString *)title
-                             withNSString:(NSString *)error;
 
 - (void)displayErrorWithNSString:(NSString *)title
                     withNSString:(NSString *)error;
 
+- (void)clearError;
+
+- (void)setTitleWithNSString:(NSString *)title;
+
 @end
 
-__attribute__((always_inline)) inline void RtdcCoreViewView_init() {}
+J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewView)
 
-#endif // _RtdcCoreViewView_H_
+J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewView)
+
+#endif // _View_H_

@@ -3,14 +3,16 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/impl/Factory.java
 //
 
-#ifndef _ImplFactory_H_
-#define _ImplFactory_H_
+#ifndef _Factory_H_
+#define _Factory_H_
+
+#include "J2ObjC_header.h"
 
 @class ImplHttpRequest_RequestMethodEnum;
 @protocol ImplDispatcher;
 @protocol ImplHttpRequest;
-
-#import "JreEmulation.h"
+@protocol ImplStorage;
+@protocol ImplVoipController;
 
 @protocol ImplFactory < NSObject, JavaObject >
 
@@ -19,10 +21,16 @@
 
 - (id<ImplDispatcher>)newDispatcher OBJC_METHOD_FAMILY_NONE;
 
+- (id<ImplStorage>)getStorage;
+
+- (id<ImplVoipController>)getVoipController;
+
 @end
 
-__attribute__((always_inline)) inline void ImplFactory_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ImplFactory)
+
+J2OBJC_TYPE_LITERAL_HEADER(ImplFactory)
 
 #define RtdcCoreImplFactory ImplFactory
 
-#endif // _ImplFactory_H_
+#endif // _Factory_H_

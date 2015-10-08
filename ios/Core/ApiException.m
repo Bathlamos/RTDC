@@ -4,19 +4,34 @@
 //
 
 #include "ApiException.h"
+#include "J2ObjC_source.h"
+#include "java/lang/RuntimeException.h"
 
 @implementation ExceptionApiException
 
 - (instancetype)initWithNSString:(NSString *)message {
-  return [super initWithNSString:message];
+  ExceptionApiException_initWithNSString_(self, message);
+  return self;
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithNSString:", "ApiException", NULL, 0x1, NULL },
+    { "initWithNSString:", "ApiException", NULL, 0x1, NULL, NULL },
   };
-  static const J2ObjcClassInfo _ExceptionApiException = { "ApiException", "rtdc.core.exception", NULL, 0x1, 1, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _ExceptionApiException = { 2, "ApiException", "rtdc.core.exception", NULL, 0x1, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_ExceptionApiException;
 }
 
 @end
+
+void ExceptionApiException_initWithNSString_(ExceptionApiException *self, NSString *message) {
+  JavaLangRuntimeException_initWithNSString_(self, message);
+}
+
+ExceptionApiException *new_ExceptionApiException_initWithNSString_(NSString *message) {
+  ExceptionApiException *self = [ExceptionApiException alloc];
+  ExceptionApiException_initWithNSString_(self, message);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ExceptionApiException)

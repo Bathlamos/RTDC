@@ -3,10 +3,10 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONString.java
 //
 
-#ifndef _JSONJSONString_H_
-#define _JSONJSONString_H_
+#ifndef _JSONString_H_
+#define _JSONString_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 
 @protocol JSONJSONString < NSObject, JavaObject >
 
@@ -14,8 +14,10 @@
 
 @end
 
-__attribute__((always_inline)) inline void JSONJSONString_init() {}
+J2OBJC_EMPTY_STATIC_INIT(JSONJSONString)
+
+J2OBJC_TYPE_LITERAL_HEADER(JSONJSONString)
 
 #define RtdcCoreJsonJSONString JSONJSONString
 
-#endif // _JSONJSONString_H_
+#endif // _JSONString_H_

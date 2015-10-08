@@ -3,33 +3,24 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONWriter.java
 //
 
-#ifndef _JSONJSONWriter_H_
-#define _JSONJSONWriter_H_
+#ifndef _JSONWriter_H_
+#define _JSONWriter_H_
 
-@class IOSCharArray;
+#include "J2ObjC_header.h"
+
 @class JavaIoWriter;
-
-#import "JreEmulation.h"
-
-#define JSONJSONWriter_maxdepth 20
 
 @interface JSONJSONWriter : NSObject {
  @public
-  jboolean comma_;
   jchar mode_;
-  IOSCharArray *stack_;
-  jint top_;
   JavaIoWriter *writer_;
 }
 
+#pragma mark Public
+
 - (instancetype)initWithJavaIoWriter:(JavaIoWriter *)w;
 
-- (JSONJSONWriter *)appendWithNSString:(NSString *)s;
-
 - (JSONJSONWriter *)array;
-
-- (JSONJSONWriter *)endWithChar:(jchar)m
-                       withChar:(jchar)c;
 
 - (JSONJSONWriter *)endArray;
 
@@ -39,29 +30,24 @@
 
 - (JSONJSONWriter *)object;
 
-- (void)popWithChar:(jchar)c;
-
-- (void)pushWithChar:(jchar)c;
-
 - (JSONJSONWriter *)valueWithBoolean:(jboolean)b;
 
 - (JSONJSONWriter *)valueWithLong:(jlong)l;
 
 - (JSONJSONWriter *)valueWithId:(id)o;
 
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(JSONJSONWriter *)other;
-
 @end
 
-__attribute__((always_inline)) inline void JSONJSONWriter_init() {}
+J2OBJC_EMPTY_STATIC_INIT(JSONJSONWriter)
 
-J2OBJC_FIELD_SETTER(JSONJSONWriter, stack_, IOSCharArray *)
 J2OBJC_FIELD_SETTER(JSONJSONWriter, writer_, JavaIoWriter *)
 
-J2OBJC_STATIC_FIELD_GETTER(JSONJSONWriter, maxdepth, jint)
+FOUNDATION_EXPORT void JSONJSONWriter_initWithJavaIoWriter_(JSONJSONWriter *self, JavaIoWriter *w);
 
-typedef JSONJSONWriter RtdcCoreJsonJSONWriter;
+FOUNDATION_EXPORT JSONJSONWriter *new_JSONJSONWriter_initWithJavaIoWriter_(JavaIoWriter *w) NS_RETURNS_RETAINED;
 
-#endif // _JSONJSONWriter_H_
+J2OBJC_TYPE_LITERAL_HEADER(JSONJSONWriter)
+
+@compatibility_alias RtdcCoreJsonJSONWriter JSONJSONWriter;
+
+#endif // _JSONWriter_H_

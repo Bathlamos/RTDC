@@ -3,21 +3,28 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/exception/UsernamePasswordMismatchException.java
 //
 
-#ifndef _ExceptionUsernamePasswordMismatchException_H_
-#define _ExceptionUsernamePasswordMismatchException_H_
+#ifndef _UsernamePasswordMismatchException_H_
+#define _UsernamePasswordMismatchException_H_
 
-#import "JreEmulation.h"
 #include "ApiException.h"
+#include "J2ObjC_header.h"
 
-@interface ExceptionUsernamePasswordMismatchException : ExceptionApiException {
-}
+@interface ExceptionUsernamePasswordMismatchException : ExceptionApiException
+
+#pragma mark Public
 
 - (instancetype)initWithNSString:(NSString *)message;
 
 @end
 
-__attribute__((always_inline)) inline void ExceptionUsernamePasswordMismatchException_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ExceptionUsernamePasswordMismatchException)
 
-typedef ExceptionUsernamePasswordMismatchException RtdcCoreExceptionUsernamePasswordMismatchException;
+FOUNDATION_EXPORT void ExceptionUsernamePasswordMismatchException_initWithNSString_(ExceptionUsernamePasswordMismatchException *self, NSString *message);
 
-#endif // _ExceptionUsernamePasswordMismatchException_H_
+FOUNDATION_EXPORT ExceptionUsernamePasswordMismatchException *new_ExceptionUsernamePasswordMismatchException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ExceptionUsernamePasswordMismatchException)
+
+@compatibility_alias RtdcCoreExceptionUsernamePasswordMismatchException ExceptionUsernamePasswordMismatchException;
+
+#endif // _UsernamePasswordMismatchException_H_
