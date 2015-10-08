@@ -165,13 +165,17 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         ((TextView)view.findViewById(R.id.receiverNameTextView)).setText(messagingUser.getFirstName() + " " + messagingUser.getLastName());
         ((TextView)view.findViewById(R.id.receiverRoleTextView)).setText(messagingUser.getRole());
 
-        // If we're the receiver of the latest message and the status isn't read, we need to notify the server that we now have read it
-        Message latestMessage = messages.get(messages.size() - 1);
-        if(latestMessage.getReceiverID() == Session.getCurrentSession().getUser().getId() && latestMessage.getStatus() != Message.Status.read) {
-            messages.get(messages.size() - 1).setStatus(Message.Status.read);
-            Service.saveOrUpdateMessage(latestMessage);
-            recentContacts.get(selectedRecentContactIndex).setStatus(Message.Status.read);
-            recentContactsAdapter.notifyDataSetChanged();
+        // If we're the receiver and the status of some messages isn't read, we need to notify the server that we now have read them
+        for(Message message: messages){
+            Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, message.getReceiverID() + " messageReceiver");
+            if(message.getReceiverID() == Session.getCurrentSession().getUser().getId() && message.getStatus() != Message.Status.read) {
+                message.setStatus(Message.Status.read);
+                Service.saveOrUpdateMessage(message);
+                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, selectedRecentContactIndex + " selectedRecentContactIndex");
+                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, recentContacts.get(selectedRecentContactIndex).getSender() + " sender");
+                recentContacts.get(selectedRecentContactIndex).setStatus(Message.Status.read);
+                recentContactsAdapter.notifyDataSetChanged();
+            }
         }
 
         messagesAdapter.notifyDataSetChanged();

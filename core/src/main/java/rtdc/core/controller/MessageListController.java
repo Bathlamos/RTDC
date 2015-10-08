@@ -44,8 +44,7 @@ public class MessageListController extends Controller<MessageListView> implement
         view.setRecentContacts(recentContacts);
 
         // We load the messages for the most recent contact
-        Message lastMessage = recentContacts.get(recentContacts.size() - 1);
-        Service.getMessages(lastMessage.getSender().getId(), lastMessage.getReceiver().getId());
+        Service.getMessages(recentContacts.get(0).getSender().getId(), recentContacts.get(0).getReceiver().getId());
     }
 
     @Override
