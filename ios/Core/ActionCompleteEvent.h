@@ -19,6 +19,8 @@
 
 @interface EventActionCompleteEvent : EventEvent
 
++ (EventEventType *)TYPE;
+
 #pragma mark Public
 
 - (instancetype)initWithInt:(jint)objectId
@@ -77,6 +79,12 @@ typedef NS_ENUM(NSUInteger, EventActionCompleteEvent_Properties) {
 };
 
 @interface EventActionCompleteEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventActionCompleteEvent_PropertiesEnum *)objectId;
+
++ (EventActionCompleteEvent_PropertiesEnum *)objectType;
+
++ (EventActionCompleteEvent_PropertiesEnum *)action;
 
 #pragma mark Package-Private
 

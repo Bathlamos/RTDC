@@ -255,6 +255,42 @@ ModelUnit_PropertiesEnum *ModelUnit_PropertiesEnum_values_[9];
 
 @implementation ModelUnit_PropertiesEnum
 
++ (ModelUnit_PropertiesEnum *)id_ {
+  return ModelUnit_PropertiesEnum_id;
+}
+
++ (ModelUnit_PropertiesEnum *)name {
+  return ModelUnit_PropertiesEnum_name;
+}
+
++ (ModelUnit_PropertiesEnum *)totalBeds {
+  return ModelUnit_PropertiesEnum_totalBeds;
+}
+
++ (ModelUnit_PropertiesEnum *)availableBeds {
+  return ModelUnit_PropertiesEnum_availableBeds;
+}
+
++ (ModelUnit_PropertiesEnum *)potentialDc {
+  return ModelUnit_PropertiesEnum_potentialDc;
+}
+
++ (ModelUnit_PropertiesEnum *)dcByDeadline {
+  return ModelUnit_PropertiesEnum_dcByDeadline;
+}
+
++ (ModelUnit_PropertiesEnum *)totalAdmits {
+  return ModelUnit_PropertiesEnum_totalAdmits;
+}
+
++ (ModelUnit_PropertiesEnum *)admitsByDeadline {
+  return ModelUnit_PropertiesEnum_admitsByDeadline;
+}
+
++ (ModelUnit_PropertiesEnum *)statusAtDeadline {
+  return ModelUnit_PropertiesEnum_statusAtDeadline;
+}
+
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
   ModelUnit_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);

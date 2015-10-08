@@ -39,6 +39,10 @@ EventEventType *EventFetchUserEvent_TYPE_;
 
 @implementation EventFetchUserEvent
 
++ (EventEventType *)TYPE {
+  return EventFetchUserEvent_TYPE_;
+}
+
 - (instancetype)initWithModelUser:(ModelUser *)user {
   EventFetchUserEvent_initWithModelUser_(self, user);
   return self;
@@ -150,6 +154,10 @@ J2OBJC_INITIALIZED_DEFN(EventFetchUserEvent_PropertiesEnum)
 EventFetchUserEvent_PropertiesEnum *EventFetchUserEvent_PropertiesEnum_values_[1];
 
 @implementation EventFetchUserEvent_PropertiesEnum
+
++ (EventFetchUserEvent_PropertiesEnum *)user {
+  return EventFetchUserEvent_PropertiesEnum_user;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {

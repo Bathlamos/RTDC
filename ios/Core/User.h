@@ -99,6 +99,24 @@ typedef NS_ENUM(NSUInteger, ModelUser_Properties) {
 
 @interface ModelUser_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
 
++ (ModelUser_PropertiesEnum *)id_;
+
++ (ModelUser_PropertiesEnum *)username;
+
++ (ModelUser_PropertiesEnum *)firstName;
+
++ (ModelUser_PropertiesEnum *)lastName;
+
++ (ModelUser_PropertiesEnum *)email;
+
++ (ModelUser_PropertiesEnum *)permission;
+
++ (ModelUser_PropertiesEnum *)role;
+
++ (ModelUser_PropertiesEnum *)phone;
+
++ (ModelUser_PropertiesEnum *)unit;
+
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;

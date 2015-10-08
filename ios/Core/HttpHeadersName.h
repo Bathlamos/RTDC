@@ -10,6 +10,8 @@
 
 @interface ServiceHttpHeadersName : NSObject
 
++ (NSString *)AUTH_TOKEN;
+
 #pragma mark Public
 
 - (instancetype)init;

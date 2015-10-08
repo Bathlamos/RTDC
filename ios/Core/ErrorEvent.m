@@ -38,6 +38,10 @@ EventEventType *EventErrorEvent_TYPE_;
 
 @implementation EventErrorEvent
 
++ (EventEventType *)TYPE {
+  return EventErrorEvent_TYPE_;
+}
+
 - (instancetype)initWithNSString:(NSString *)description_ {
   EventErrorEvent_initWithNSString_(self, description_);
   return self;
@@ -135,6 +139,10 @@ J2OBJC_INITIALIZED_DEFN(EventErrorEvent_PropertiesEnum)
 EventErrorEvent_PropertiesEnum *EventErrorEvent_PropertiesEnum_values_[1];
 
 @implementation EventErrorEvent_PropertiesEnum
+
++ (EventErrorEvent_PropertiesEnum *)description_ {
+  return EventErrorEvent_PropertiesEnum_description;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {

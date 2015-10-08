@@ -10,6 +10,8 @@
 
 @interface ServiceCookiesName : NSObject
 
++ (NSString *)AUTH_COOKIE;
+
 #pragma mark Public
 
 - (instancetype)init;

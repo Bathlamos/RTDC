@@ -60,6 +60,10 @@ EventEventType *EventFetchMessagesEvent_TYPE_;
 
 @implementation EventFetchMessagesEvent
 
++ (EventEventType *)TYPE {
+  return EventFetchMessagesEvent_TYPE_;
+}
+
 - (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)messages {
   EventFetchMessagesEvent_initWithJavaLangIterable_(self, messages);
   return self;
@@ -171,6 +175,10 @@ J2OBJC_INITIALIZED_DEFN(EventFetchMessagesEvent_PropertiesEnum)
 EventFetchMessagesEvent_PropertiesEnum *EventFetchMessagesEvent_PropertiesEnum_values_[1];
 
 @implementation EventFetchMessagesEvent_PropertiesEnum
+
++ (EventFetchMessagesEvent_PropertiesEnum *)messages {
+  return EventFetchMessagesEvent_PropertiesEnum_messages;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {

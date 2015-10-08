@@ -40,6 +40,14 @@ typedef NS_ENUM(NSUInteger, ImplHttpRequest_RequestMethod) {
 
 @interface ImplHttpRequest_RequestMethodEnum : JavaLangEnum < NSCopying >
 
++ (ImplHttpRequest_RequestMethodEnum *)GET;
+
++ (ImplHttpRequest_RequestMethodEnum *)PUT;
+
++ (ImplHttpRequest_RequestMethodEnum *)DELETE;
+
++ (ImplHttpRequest_RequestMethodEnum *)POST;
+
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;

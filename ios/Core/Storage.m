@@ -6,13 +6,13 @@
 #include "J2ObjC_source.h"
 #include "Storage.h"
 
-@interface ImplStorage : NSObject
-
-@end
-
 NSString *ImplStorage_KEY_AUTH_TOKEN_ = @"AUTH_TOKEN";
 
 @implementation ImplStorage
+
++ (NSString *)KEY_AUTH_TOKEN {
+  return ImplStorage_KEY_AUTH_TOKEN_;
+}
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {

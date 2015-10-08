@@ -18,6 +18,8 @@
 
 @interface EventLogoutEvent : EventEvent
 
++ (EventEventType *)TYPE;
+
 #pragma mark Public
 
 - (instancetype)init;

@@ -41,6 +41,10 @@ EventEventType *EventAuthenticationEvent_TYPE_;
 
 @implementation EventAuthenticationEvent
 
++ (EventEventType *)TYPE {
+  return EventAuthenticationEvent_TYPE_;
+}
+
 - (instancetype)initWithModelUser:(ModelUser *)user
                      withNSString:(NSString *)authenticationToken {
   EventAuthenticationEvent_initWithModelUser_withNSString_(self, user, authenticationToken);
@@ -150,6 +154,14 @@ J2OBJC_INITIALIZED_DEFN(EventAuthenticationEvent_PropertiesEnum)
 EventAuthenticationEvent_PropertiesEnum *EventAuthenticationEvent_PropertiesEnum_values_[2];
 
 @implementation EventAuthenticationEvent_PropertiesEnum
+
++ (EventAuthenticationEvent_PropertiesEnum *)user {
+  return EventAuthenticationEvent_PropertiesEnum_user;
+}
+
++ (EventAuthenticationEvent_PropertiesEnum *)authenticationToken {
+  return EventAuthenticationEvent_PropertiesEnum_authenticationToken;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {

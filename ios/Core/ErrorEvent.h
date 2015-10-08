@@ -19,6 +19,8 @@
 
 @interface EventErrorEvent : EventEvent
 
++ (EventEventType *)TYPE;
+
 #pragma mark Public
 
 - (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
@@ -59,6 +61,8 @@ typedef NS_ENUM(NSUInteger, EventErrorEvent_Properties) {
 };
 
 @interface EventErrorEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventErrorEvent_PropertiesEnum *)description_;
 
 #pragma mark Package-Private
 

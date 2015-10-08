@@ -19,6 +19,12 @@
 
 @end
 
+@interface ImplStorage : NSObject
+
++ (NSString *)KEY_AUTH_TOKEN;
+
+@end
+
 J2OBJC_EMPTY_STATIC_INIT(ImplStorage)
 
 FOUNDATION_EXPORT NSString *ImplStorage_KEY_AUTH_TOKEN_;

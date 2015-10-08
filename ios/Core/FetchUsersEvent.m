@@ -60,6 +60,10 @@ EventEventType *EventFetchUsersEvent_TYPE_;
 
 @implementation EventFetchUsersEvent
 
++ (EventEventType *)TYPE {
+  return EventFetchUsersEvent_TYPE_;
+}
+
 - (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)units {
   EventFetchUsersEvent_initWithJavaLangIterable_(self, units);
   return self;
@@ -171,6 +175,10 @@ J2OBJC_INITIALIZED_DEFN(EventFetchUsersEvent_PropertiesEnum)
 EventFetchUsersEvent_PropertiesEnum *EventFetchUsersEvent_PropertiesEnum_values_[1];
 
 @implementation EventFetchUsersEvent_PropertiesEnum
+
++ (EventFetchUsersEvent_PropertiesEnum *)users {
+  return EventFetchUsersEvent_PropertiesEnum_users;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {

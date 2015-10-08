@@ -20,6 +20,8 @@
 
 @interface EventAuthenticationEvent : EventEvent
 
++ (EventEventType *)TYPE;
+
 #pragma mark Public
 
 - (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
@@ -66,6 +68,10 @@ typedef NS_ENUM(NSUInteger, EventAuthenticationEvent_Properties) {
 };
 
 @interface EventAuthenticationEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventAuthenticationEvent_PropertiesEnum *)user;
+
++ (EventAuthenticationEvent_PropertiesEnum *)authenticationToken;
 
 #pragma mark Package-Private
 

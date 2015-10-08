@@ -60,6 +60,18 @@ id JsonJSONObject_NULL__;
 
 @implementation JsonJSONObject
 
++ (JavaLangBoolean *)TRUE_ {
+  return JsonJSONObject_TRUE__;
+}
+
++ (JavaLangBoolean *)FALSE_ {
+  return JsonJSONObject_FALSE__;
+}
+
++ (id)NULL_ {
+  return JsonJSONObject_NULL__;
+}
+
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
   JsonJSONObject_init(self);

@@ -10,6 +10,10 @@ NSString *ServiceHttpHeadersName_AUTH_TOKEN_ = @"auth_token";
 
 @implementation ServiceHttpHeadersName
 
++ (NSString *)AUTH_TOKEN {
+  return ServiceHttpHeadersName_AUTH_TOKEN_;
+}
+
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
   ServiceHttpHeadersName_init(self);

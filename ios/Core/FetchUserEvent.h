@@ -20,6 +20,8 @@
 
 @interface EventFetchUserEvent : EventEvent
 
++ (EventEventType *)TYPE;
+
 #pragma mark Public
 
 - (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
@@ -70,6 +72,8 @@ typedef NS_ENUM(NSUInteger, EventFetchUserEvent_Properties) {
 };
 
 @interface EventFetchUserEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventFetchUserEvent_PropertiesEnum *)user;
 
 #pragma mark Package-Private
 

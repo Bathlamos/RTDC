@@ -94,6 +94,22 @@ typedef NS_ENUM(NSUInteger, ModelMessage_Properties) {
 
 @interface ModelMessage_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
 
++ (ModelMessage_PropertiesEnum *)id_;
+
++ (ModelMessage_PropertiesEnum *)sender;
+
++ (ModelMessage_PropertiesEnum *)senderID;
+
++ (ModelMessage_PropertiesEnum *)receiver;
+
++ (ModelMessage_PropertiesEnum *)receiverID;
+
++ (ModelMessage_PropertiesEnum *)status;
+
++ (ModelMessage_PropertiesEnum *)timeSent;
+
++ (ModelMessage_PropertiesEnum *)content;
+
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;
@@ -143,6 +159,12 @@ typedef NS_ENUM(NSUInteger, ModelMessage_Status) {
 };
 
 @interface ModelMessage_StatusEnum : JavaLangEnum < NSCopying >
+
++ (ModelMessage_StatusEnum *)sent;
+
++ (ModelMessage_StatusEnum *)delivered;
+
++ (ModelMessage_StatusEnum *)read;
 
 #pragma mark Public
 

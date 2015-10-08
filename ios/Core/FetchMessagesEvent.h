@@ -21,6 +21,8 @@
 
 @interface EventFetchMessagesEvent : EventEvent
 
++ (EventEventType *)TYPE;
+
 #pragma mark Public
 
 - (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)messages;
@@ -71,6 +73,8 @@ typedef NS_ENUM(NSUInteger, EventFetchMessagesEvent_Properties) {
 };
 
 @interface EventFetchMessagesEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventFetchMessagesEvent_PropertiesEnum *)messages;
 
 #pragma mark Package-Private
 

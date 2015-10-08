@@ -42,6 +42,10 @@ EventEventType *EventActionCompleteEvent_TYPE_;
 
 @implementation EventActionCompleteEvent
 
++ (EventEventType *)TYPE {
+  return EventActionCompleteEvent_TYPE_;
+}
+
 - (instancetype)initWithInt:(jint)objectId
                withNSString:(NSString *)objectType
                withNSString:(NSString *)action {
@@ -176,6 +180,18 @@ J2OBJC_INITIALIZED_DEFN(EventActionCompleteEvent_PropertiesEnum)
 EventActionCompleteEvent_PropertiesEnum *EventActionCompleteEvent_PropertiesEnum_values_[3];
 
 @implementation EventActionCompleteEvent_PropertiesEnum
+
++ (EventActionCompleteEvent_PropertiesEnum *)objectId {
+  return EventActionCompleteEvent_PropertiesEnum_objectId;
+}
+
++ (EventActionCompleteEvent_PropertiesEnum *)objectType {
+  return EventActionCompleteEvent_PropertiesEnum_objectType;
+}
+
++ (EventActionCompleteEvent_PropertiesEnum *)action {
+  return EventActionCompleteEvent_PropertiesEnum_action;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {

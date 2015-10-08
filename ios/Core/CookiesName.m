@@ -10,6 +10,10 @@ NSString *ServiceCookiesName_AUTH_COOKIE_ = @"auth";
 
 @implementation ServiceCookiesName
 
++ (NSString *)AUTH_COOKIE {
+  return ServiceCookiesName_AUTH_COOKIE_;
+}
+
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
   ServiceCookiesName_init(self);

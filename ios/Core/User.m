@@ -267,6 +267,42 @@ ModelUser_PropertiesEnum *ModelUser_PropertiesEnum_values_[9];
 
 @implementation ModelUser_PropertiesEnum
 
++ (ModelUser_PropertiesEnum *)id_ {
+  return ModelUser_PropertiesEnum_id;
+}
+
++ (ModelUser_PropertiesEnum *)username {
+  return ModelUser_PropertiesEnum_username;
+}
+
++ (ModelUser_PropertiesEnum *)firstName {
+  return ModelUser_PropertiesEnum_firstName;
+}
+
++ (ModelUser_PropertiesEnum *)lastName {
+  return ModelUser_PropertiesEnum_lastName;
+}
+
++ (ModelUser_PropertiesEnum *)email {
+  return ModelUser_PropertiesEnum_email;
+}
+
++ (ModelUser_PropertiesEnum *)permission {
+  return ModelUser_PropertiesEnum_permission;
+}
+
++ (ModelUser_PropertiesEnum *)role {
+  return ModelUser_PropertiesEnum_role;
+}
+
++ (ModelUser_PropertiesEnum *)phone {
+  return ModelUser_PropertiesEnum_phone;
+}
+
++ (ModelUser_PropertiesEnum *)unit {
+  return ModelUser_PropertiesEnum_unit;
+}
+
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
   ModelUser_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);

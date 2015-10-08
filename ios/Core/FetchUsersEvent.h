@@ -21,6 +21,8 @@
 
 @interface EventFetchUsersEvent : EventEvent
 
++ (EventEventType *)TYPE;
+
 #pragma mark Public
 
 - (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)units;
@@ -71,6 +73,8 @@ typedef NS_ENUM(NSUInteger, EventFetchUsersEvent_Properties) {
 };
 
 @interface EventFetchUsersEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventFetchUsersEvent_PropertiesEnum *)users;
 
 #pragma mark Package-Private
 

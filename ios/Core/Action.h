@@ -101,6 +101,24 @@ typedef NS_ENUM(NSUInteger, ModelAction_Properties) {
 
 @interface ModelAction_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
 
++ (ModelAction_PropertiesEnum *)id_;
+
++ (ModelAction_PropertiesEnum *)unit;
+
++ (ModelAction_PropertiesEnum *)status;
+
++ (ModelAction_PropertiesEnum *)personResponsible;
+
++ (ModelAction_PropertiesEnum *)roleResponsible;
+
++ (ModelAction_PropertiesEnum *)task;
+
++ (ModelAction_PropertiesEnum *)target;
+
++ (ModelAction_PropertiesEnum *)deadline;
+
++ (ModelAction_PropertiesEnum *)description_;
+
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;
@@ -155,6 +173,14 @@ typedef NS_ENUM(NSUInteger, ModelAction_Status) {
 
 @interface ModelAction_StatusEnum : JavaLangEnum < NSCopying >
 
++ (ModelAction_StatusEnum *)notStarted;
+
++ (ModelAction_StatusEnum *)inProgress;
+
++ (ModelAction_StatusEnum *)completed;
+
++ (ModelAction_StatusEnum *)failed;
+
 #pragma mark Public
 
 + (id<UtilStringifier>)getStringifier;
@@ -198,6 +224,12 @@ typedef NS_ENUM(NSUInteger, ModelAction_Task) {
 };
 
 @interface ModelAction_TaskEnum : JavaLangEnum < NSCopying >
+
++ (ModelAction_TaskEnum *)pushForDischarge;
+
++ (ModelAction_TaskEnum *)offServicingTo;
+
++ (ModelAction_TaskEnum *)holdFor;
 
 #pragma mark Public
 

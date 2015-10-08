@@ -18,6 +18,8 @@
 
 @interface EventSessionExpiredEvent : EventEvent
 
++ (EventEventType *)TYPE;
+
 #pragma mark Public
 
 - (instancetype)init;

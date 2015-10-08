@@ -96,6 +96,24 @@ typedef NS_ENUM(NSUInteger, ModelUnit_Properties) {
 
 @interface ModelUnit_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
 
++ (ModelUnit_PropertiesEnum *)id_;
+
++ (ModelUnit_PropertiesEnum *)name;
+
++ (ModelUnit_PropertiesEnum *)totalBeds;
+
++ (ModelUnit_PropertiesEnum *)availableBeds;
+
++ (ModelUnit_PropertiesEnum *)potentialDc;
+
++ (ModelUnit_PropertiesEnum *)dcByDeadline;
+
++ (ModelUnit_PropertiesEnum *)totalAdmits;
+
++ (ModelUnit_PropertiesEnum *)admitsByDeadline;
+
++ (ModelUnit_PropertiesEnum *)statusAtDeadline;
+
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;

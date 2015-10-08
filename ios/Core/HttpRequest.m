@@ -42,6 +42,22 @@ ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_values_[4];
 
 @implementation ImplHttpRequest_RequestMethodEnum
 
++ (ImplHttpRequest_RequestMethodEnum *)GET {
+  return ImplHttpRequest_RequestMethodEnum_GET;
+}
+
++ (ImplHttpRequest_RequestMethodEnum *)PUT {
+  return ImplHttpRequest_RequestMethodEnum_PUT;
+}
+
++ (ImplHttpRequest_RequestMethodEnum *)DELETE {
+  return ImplHttpRequest_RequestMethodEnum_DELETE;
+}
+
++ (ImplHttpRequest_RequestMethodEnum *)POST {
+  return ImplHttpRequest_RequestMethodEnum_POST;
+}
+
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
   ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(self, __name, __ordinal);

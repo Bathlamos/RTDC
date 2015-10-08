@@ -69,6 +69,22 @@ NSString *RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
 
 @implementation RtdcCoreBootstrapper
 
++ (id<ImplFactory>)FACTORY {
+  return RtdcCoreBootstrapper_FACTORY_;
+}
+
++ (void)setFACTORY:(id<ImplFactory>)value {
+  JreStrongAssign(&RtdcCoreBootstrapper_FACTORY_, value);
+}
+
++ (NSString *)AUTHENTICATION_TOKEN {
+  return RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
+}
+
++ (void)setAUTHENTICATION_TOKEN:(NSString *)value {
+  JreStrongAssign(&RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_, value);
+}
+
 + (void)initialize__WithImplFactory:(id<ImplFactory>)factory {
   RtdcCoreBootstrapper_initialize__WithImplFactory_(factory);
 }

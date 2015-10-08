@@ -11,6 +11,14 @@ NSString *ModelPermission_ADMIN_ = @"ADMIN";
 
 @implementation ModelPermission
 
++ (NSString *)USER {
+  return ModelPermission_USER_;
+}
+
++ (NSString *)ADMIN {
+  return ModelPermission_ADMIN_;
+}
+
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
   ModelPermission_init(self);

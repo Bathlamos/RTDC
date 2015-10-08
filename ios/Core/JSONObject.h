@@ -17,6 +17,12 @@
 
 @interface JsonJSONObject : NSObject
 
++ (JavaLangBoolean *)TRUE_;
+
++ (JavaLangBoolean *)FALSE_;
+
++ (id)NULL_;
+
 #pragma mark Public
 
 - (instancetype)init;

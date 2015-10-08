@@ -28,6 +28,10 @@ EventEventType *EventLogoutEvent_TYPE_;
 
 @implementation EventLogoutEvent
 
++ (EventEventType *)TYPE {
+  return EventLogoutEvent_TYPE_;
+}
+
 - (void)fire {
   for (id<EventLogoutEvent_Handler> __strong handler in nil_chk([self getHandlersWithEventEventType:EventLogoutEvent_TYPE_])) [((id<EventLogoutEvent_Handler>) nil_chk(handler)) onLogoutWithEventLogoutEvent:self];
 }

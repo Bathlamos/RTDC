@@ -259,6 +259,38 @@ ModelMessage_PropertiesEnum *ModelMessage_PropertiesEnum_values_[8];
 
 @implementation ModelMessage_PropertiesEnum
 
++ (ModelMessage_PropertiesEnum *)id_ {
+  return ModelMessage_PropertiesEnum_id;
+}
+
++ (ModelMessage_PropertiesEnum *)sender {
+  return ModelMessage_PropertiesEnum_sender;
+}
+
++ (ModelMessage_PropertiesEnum *)senderID {
+  return ModelMessage_PropertiesEnum_senderID;
+}
+
++ (ModelMessage_PropertiesEnum *)receiver {
+  return ModelMessage_PropertiesEnum_receiver;
+}
+
++ (ModelMessage_PropertiesEnum *)receiverID {
+  return ModelMessage_PropertiesEnum_receiverID;
+}
+
++ (ModelMessage_PropertiesEnum *)status {
+  return ModelMessage_PropertiesEnum_status;
+}
+
++ (ModelMessage_PropertiesEnum *)timeSent {
+  return ModelMessage_PropertiesEnum_timeSent;
+}
+
++ (ModelMessage_PropertiesEnum *)content {
+  return ModelMessage_PropertiesEnum_content;
+}
+
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
   ModelMessage_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
@@ -343,6 +375,18 @@ J2OBJC_INITIALIZED_DEFN(ModelMessage_StatusEnum)
 ModelMessage_StatusEnum *ModelMessage_StatusEnum_values_[3];
 
 @implementation ModelMessage_StatusEnum
+
++ (ModelMessage_StatusEnum *)sent {
+  return ModelMessage_StatusEnum_sent;
+}
+
++ (ModelMessage_StatusEnum *)delivered {
+  return ModelMessage_StatusEnum_delivered;
+}
+
++ (ModelMessage_StatusEnum *)read {
+  return ModelMessage_StatusEnum_read;
+}
 
 + (id<UtilStringifier>)getStringifier {
   return ModelMessage_StatusEnum_getStringifier();

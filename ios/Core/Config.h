@@ -13,6 +13,20 @@
 
 @interface RtdcCoreConfig : NSObject
 
++ (jboolean)IS_DEBUG;
+
++ (NSString *)GCM_SERVER_PROJECT_ID;
+
++ (NSString *)GCM_SERVER_API_KEY;
+
++ (NSString *)COMMAND_EXEC_KEY;
+
++ (NSString *)ASTERISK_IP;
+
++ (NSString *)SERVER_IP;
+
++ (jlong)SESSION_LIFETIME_IN_MS;
+
 #pragma mark Public
 
 - (instancetype)init;

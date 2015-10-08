@@ -60,6 +60,10 @@ EventEventType *EventFetchRecentContactsEvent_TYPE_;
 
 @implementation EventFetchRecentContactsEvent
 
++ (EventEventType *)TYPE {
+  return EventFetchRecentContactsEvent_TYPE_;
+}
+
 - (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)messages {
   EventFetchRecentContactsEvent_initWithJavaLangIterable_(self, messages);
   return self;
@@ -171,6 +175,10 @@ J2OBJC_INITIALIZED_DEFN(EventFetchRecentContactsEvent_PropertiesEnum)
 EventFetchRecentContactsEvent_PropertiesEnum *EventFetchRecentContactsEvent_PropertiesEnum_values_[1];
 
 @implementation EventFetchRecentContactsEvent_PropertiesEnum
+
++ (EventFetchRecentContactsEvent_PropertiesEnum *)messages {
+  return EventFetchRecentContactsEvent_PropertiesEnum_messages;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {

@@ -14,6 +14,34 @@ NSString *RtdcCoreConfig_SERVER_IP_ = @"192.168.1.4";
 
 @implementation RtdcCoreConfig
 
++ (jboolean)IS_DEBUG {
+  return RtdcCoreConfig_IS_DEBUG;
+}
+
++ (NSString *)GCM_SERVER_PROJECT_ID {
+  return RtdcCoreConfig_GCM_SERVER_PROJECT_ID_;
+}
+
++ (NSString *)GCM_SERVER_API_KEY {
+  return RtdcCoreConfig_GCM_SERVER_API_KEY_;
+}
+
++ (NSString *)COMMAND_EXEC_KEY {
+  return RtdcCoreConfig_COMMAND_EXEC_KEY_;
+}
+
++ (NSString *)ASTERISK_IP {
+  return RtdcCoreConfig_ASTERISK_IP_;
+}
+
++ (NSString *)SERVER_IP {
+  return RtdcCoreConfig_SERVER_IP_;
+}
+
++ (jlong)SESSION_LIFETIME_IN_MS {
+  return RtdcCoreConfig_SESSION_LIFETIME_IN_MS;
+}
+
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
   RtdcCoreConfig_init(self);

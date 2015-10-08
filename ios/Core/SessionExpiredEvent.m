@@ -28,6 +28,10 @@ EventEventType *EventSessionExpiredEvent_TYPE_;
 
 @implementation EventSessionExpiredEvent
 
++ (EventEventType *)TYPE {
+  return EventSessionExpiredEvent_TYPE_;
+}
+
 - (void)fire {
   for (id<EventSessionExpiredEvent_Handler> __strong handler in nil_chk([self getHandlersWithEventEventType:EventSessionExpiredEvent_TYPE_])) [((id<EventSessionExpiredEvent_Handler>) nil_chk(handler)) onSessionExpired];
 }
