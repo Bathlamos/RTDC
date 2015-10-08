@@ -30,22 +30,28 @@ public class AsteriskRealTimeService {
             Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.SEVERE, user.getUsername() + " was NOT added to Asterisk!");
             return;
         }
+        String sipQuery = "INSERT INTO sip_buddies (" +
+                " NAME, defaultuser, callerid, secret, context, HOST, TYPE, allow) VALUES (" +
+                " ?," + " ?," + " ?," + " ?," +
+                " 'users', 'dynamic', 'friend'," +                      // context, host, type
+                " 'g729;ilbc;gsm;ulaw;alaw;vp8');";                     // allow (should be updated with which codecs we want users to be able to use)
+        String extensionQuery = "INSERT INTO extensions (context, exten, priority, app, appdata) VALUES (" +
+                " 'users', ?, 1, 'Dial', ?);";
         try {
-            String sipQuery = "INSERT INTO sip_buddies (" +
-                    " NAME, defaultuser, callerid, secret, context, HOST, TYPE, allow) VALUES (" +
-                    " '"+user.getUsername()+"'," +                          // name
-                    " '"+user.getUsername()+"'," +                          // defaultuser
-                    " '"+user.getFirstName()+" "+user.getLastName()+"'," +  // callerid
-                    " '"+password+"'," +                                    // secret
-                    " 'users', 'dynamic', 'friend'," +                      // context, host, type
-                    " 'g729;ilbc;gsm;ulaw;alaw;vp8');";                     // allow (should be updated with which codecs we want users to be able to use)
-            String extensionQuery = "INSERT INTO extensions (context, exten, priority, app, appdata) VALUES (" +
-                    " 'users','"+user.getId()+"',1,'Dial','SIP/"+user.getUsername()+"');";
-            connection.createStatement().executeUpdate(sipQuery);
-            connection.createStatement().executeUpdate(extensionQuery);
+            PreparedStatement sipStatement = connection.prepareStatement(sipQuery);
+            sipStatement.setString(1, user.getUsername());                                  // name
+            sipStatement.setString(2, user.getUsername());                                  // defaultuser
+            sipStatement.setString(3, user.getFirstName() + " " + user.getLastName());      // callerid
+            sipStatement.setString(4, password);                                            // secret
+            sipStatement.executeUpdate();
+
+            PreparedStatement extensionStatement = connection.prepareStatement(extensionQuery);
+            extensionStatement.setInt(1, user.getId());                                     // exten
+            extensionStatement.setString(2, "SIP/" + user.getUsername());                   // appdata
+            extensionStatement.executeUpdate();
         } catch (SQLException e) {
+            Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.SEVERE, "SQL Query failed: " + sipQuery);
             e.printStackTrace();
-            throw e;
         } finally {
             try {
                 connection.close();
@@ -62,12 +68,18 @@ public class AsteriskRealTimeService {
             Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.SEVERE, user.getUsername() + " could not be deleted from Asterisk!");
             return;
         }
+        String sipQuery = "DELETE FROM sip_buddies WHERE NAME=?;";
+        String extensionQuery = "DELETE FROM extensions WHERE exten=?;";
         try {
-            String sipQuery = "DELETE FROM sip_buddies WHERE NAME='"+user.getUsername()+"';";
-            String extensionQuery = "DELETE FROM extensions WHERE exten='"+user.getId()+"';";
-            connection.createStatement().executeUpdate(sipQuery);
-            connection.createStatement().executeUpdate(extensionQuery);
+            PreparedStatement sipStatement = connection.prepareStatement(sipQuery);
+            sipStatement.setString(1, user.getUsername());
+            sipStatement.executeUpdate();
+
+            PreparedStatement extensionStatement = connection.prepareStatement(extensionQuery);
+            extensionStatement.setInt(1, user.getId());
+            extensionStatement.executeUpdate();
         } catch (SQLException e) {
+            Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.SEVERE, "SQL Query failed: " + sipQuery);
             e.printStackTrace();
         } finally {
             try {
