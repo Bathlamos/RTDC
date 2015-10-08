@@ -406,17 +406,22 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     }
 
     @Override
-    public void onCallEstablished(){
-        ringingTask.cancel(true);
-        view.findViewById(R.id.callStatus).setVisibility(View.INVISIBLE);
-        ((TextView) view.findViewById(R.id.callStatus)).setText("Paused");
-        view.findViewById(R.id.ringingDots).setVisibility(View.INVISIBLE);
-        // If remote user isn't displaying video, we say so on screen
-        if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
-            view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-            ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+ public void onCallEstablished() {
+    ringingTask.cancel(true);
+    inCallActivity.runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+            view.findViewById(R.id.callStatus).setVisibility(View.INVISIBLE);
+            ((TextView) view.findViewById(R.id.callStatus)).setText("Paused");
+            view.findViewById(R.id.ringingDots).setVisibility(View.INVISIBLE);
+            // If remote user isn't displaying video, we say so on screen
+            if (!AndroidVoipController.get().isReceivingRemoteVideo()) {
+                view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+                ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+            }
         }
-    }
+    });
+}
 
     @Override
     public void onCallHangup() {
@@ -426,7 +431,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 //mVideoView.setVisibility(View.INVISIBLE);
                 mCaptureView.setVisibility(View.INVISIBLE);
                 view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-                ((TextView)view.findViewById(R.id.callStatus)).setText("Call ended");
+                ((TextView) view.findViewById(R.id.callStatus)).setText("Call ended");
             }
         });
     }
