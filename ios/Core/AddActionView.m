@@ -8,11 +8,11 @@
 #include "UiDropdownList.h"
 #include "UiElement.h"
 
-@interface RtdcCoreViewAddActionView : NSObject
+@interface ViewAddActionView : NSObject
 
 @end
 
-@implementation RtdcCoreViewAddActionView
+@implementation ViewAddActionView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
@@ -24,10 +24,10 @@
     { "getDeadlineUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
     { "getDescriptionUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewAddActionView = { 2, "AddActionView", "rtdc.core.view", NULL, 0x609, 7, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreViewAddActionView;
+  static const J2ObjcClassInfo _ViewAddActionView = { 2, "AddActionView", "rtdc.core.view", NULL, 0x609, 7, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_ViewAddActionView;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewAddActionView)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ViewAddActionView)

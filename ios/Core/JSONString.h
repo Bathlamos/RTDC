@@ -8,16 +8,16 @@
 
 #include "J2ObjC_header.h"
 
-@protocol JSONJSONString < NSObject, JavaObject >
+@protocol JsonJSONString < NSObject, JavaObject >
 
 - (NSString *)toJSONString;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JSONJSONString)
+J2OBJC_EMPTY_STATIC_INIT(JsonJSONString)
 
-J2OBJC_TYPE_LITERAL_HEADER(JSONJSONString)
+J2OBJC_TYPE_LITERAL_HEADER(JsonJSONString)
 
-#define RtdcCoreJsonJSONString JSONJSONString
+#define RtdcCoreJsonJSONString JsonJSONString
 
 #endif // _JSONString_H_

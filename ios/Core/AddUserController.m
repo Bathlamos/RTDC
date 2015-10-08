@@ -25,8 +25,8 @@ J2OBJC_FIELD_SETTER(ControllerAddUserController, currentUser_, ModelUser *)
 
 @implementation ControllerAddUserController
 
-- (instancetype)initWithRtdcCoreViewAddUserView:(id<RtdcCoreViewAddUserView>)view {
-  ControllerAddUserController_initWithRtdcCoreViewAddUserView_(self, view);
+- (instancetype)initWithViewAddUserView:(id<ViewAddUserView>)view {
+  ControllerAddUserController_initWithViewAddUserView_(self, view);
   return self;
 }
 
@@ -37,29 +37,29 @@ J2OBJC_FIELD_SETTER(ControllerAddUserController, currentUser_, ModelUser *)
 - (void)addUser {
   ModelUser *newUser = [new_ModelUser_init() autorelease];
   if (currentUser_ != nil) [newUser setIdWithInt:[currentUser_ getId]];
-  [newUser setUsernameWithNSString:[((id<RtdcCoreViewAddUserView>) nil_chk(view_)) getUsernameAsString]];
-  [newUser setFirstNameWithNSString:[((id<RtdcCoreViewAddUserView>) view_) getFirstnameAsString]];
-  [newUser setLastNameWithNSString:[((id<RtdcCoreViewAddUserView>) view_) getSurnameAsString]];
-  [newUser setEmailWithNSString:[((id<RtdcCoreViewAddUserView>) view_) getEmailAsString]];
-  [newUser setPhoneWithLong:[((id<RtdcCoreViewAddUserView>) view_) getPhoneAsLong]];
-  [newUser setPermissionWithNSString:[((id<RtdcCoreViewAddUserView>) view_) getPermissionAsString]];
-  [newUser setRoleWithNSString:[((id<RtdcCoreViewAddUserView>) view_) getRoleAsString]];
-  NSString *password = [((id<RtdcCoreViewAddUserView>) view_) getPasswordAsString];
+  [newUser setUsernameWithNSString:[((id<ViewAddUserView>) nil_chk(view_)) getUsernameAsString]];
+  [newUser setFirstNameWithNSString:[((id<ViewAddUserView>) view_) getFirstnameAsString]];
+  [newUser setLastNameWithNSString:[((id<ViewAddUserView>) view_) getSurnameAsString]];
+  [newUser setEmailWithNSString:[((id<ViewAddUserView>) view_) getEmailAsString]];
+  [newUser setPhoneWithLong:[((id<ViewAddUserView>) view_) getPhoneAsLong]];
+  [newUser setPermissionWithNSString:[((id<ViewAddUserView>) view_) getPermissionAsString]];
+  [newUser setRoleWithNSString:[((id<ViewAddUserView>) view_) getRoleAsString]];
+  NSString *password = [((id<ViewAddUserView>) view_) getPasswordAsString];
   ServiceService_updateOrSaveUserWithModelUser_withNSString_(newUser, password);
-  [((id<RtdcCoreViewAddUserView>) view_) closeDialog];
+  [((id<ViewAddUserView>) view_) closeDialog];
 }
 
 - (void)deleteUser {
   if (currentUser_ != nil) ServiceService_deleteUserWithInt_([currentUser_ getId]);
-  [((id<RtdcCoreViewAddUserView>) nil_chk(view_)) closeDialog];
+  [((id<ViewAddUserView>) nil_chk(view_)) closeDialog];
 }
 
-- (void)onActionCompleteWithRtdcCoreEventActionCompleteEvent:(RtdcCoreEventActionCompleteEvent *)event {
+- (void)onActionCompleteWithEventActionCompleteEvent:(EventActionCompleteEvent *)event {
 }
 
 - (void)onStop {
   [super onStop];
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventActionCompleteEvent, TYPE_), self);
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventActionCompleteEvent, TYPE_), self);
 }
 
 - (void)dealloc {
@@ -69,11 +69,11 @@ J2OBJC_FIELD_SETTER(ControllerAddUserController, currentUser_, ModelUser *)
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewAddUserView:", "AddUserController", NULL, 0x1, NULL, NULL },
+    { "initWithViewAddUserView:", "AddUserController", NULL, 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
     { "addUser", NULL, "V", 0x1, NULL, NULL },
     { "deleteUser", NULL, "V", 0x1, NULL, NULL },
-    { "onActionCompleteWithRtdcCoreEventActionCompleteEvent:", "onActionComplete", "V", 0x1, NULL, NULL },
+    { "onActionCompleteWithEventActionCompleteEvent:", "onActionComplete", "V", 0x1, NULL, NULL },
     { "onStop", NULL, "V", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
@@ -86,12 +86,12 @@ J2OBJC_FIELD_SETTER(ControllerAddUserController, currentUser_, ModelUser *)
 
 @end
 
-void ControllerAddUserController_initWithRtdcCoreViewAddUserView_(ControllerAddUserController *self, id<RtdcCoreViewAddUserView> view) {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
-  RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventActionCompleteEvent, TYPE_), self);
+void ControllerAddUserController_initWithViewAddUserView_(ControllerAddUserController *self, id<ViewAddUserView> view) {
+  ControllerController_initWithViewView_(self, view);
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventActionCompleteEvent, TYPE_), self);
   JreStrongAssign(&self->currentUser_, (ModelUser *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"user"], [ModelUser class]));
   if (self->currentUser_ != nil) {
-    [((id<RtdcCoreViewAddUserView>) nil_chk(view)) setTitleWithNSString:@"Edit User"];
+    [((id<ViewAddUserView>) nil_chk(view)) setTitleWithNSString:@"Edit User"];
     [view setUsernameAsStringWithNSString:[self->currentUser_ getUsername]];
     [view setEmailAsStringWithNSString:[self->currentUser_ getEmail]];
     [view setFirstnameAsStringWithNSString:[self->currentUser_ getFirstName]];
@@ -101,13 +101,13 @@ void ControllerAddUserController_initWithRtdcCoreViewAddUserView_(ControllerAddU
     [view setPermissionAsStringWithNSString:[self->currentUser_ getPermission]];
   }
   else {
-    [((id<RtdcCoreViewAddUserView>) nil_chk(view)) hideDeleteButton];
+    [((id<ViewAddUserView>) nil_chk(view)) hideDeleteButton];
   }
 }
 
-ControllerAddUserController *new_ControllerAddUserController_initWithRtdcCoreViewAddUserView_(id<RtdcCoreViewAddUserView> view) {
+ControllerAddUserController *new_ControllerAddUserController_initWithViewAddUserView_(id<ViewAddUserView> view) {
   ControllerAddUserController *self = [ControllerAddUserController alloc];
-  ControllerAddUserController_initWithRtdcCoreViewAddUserView_(self, view);
+  ControllerAddUserController_initWithViewAddUserView_(self, view);
   return self;
 }
 

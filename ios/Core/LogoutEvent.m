@@ -14,30 +14,30 @@
 #include "java/lang/Enum.h"
 #include "java/lang/IllegalArgumentException.h"
 
-__attribute__((unused)) static void RtdcCoreEventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(RtdcCoreEventLogoutEvent_PropertiesEnum *self, NSString *__name, jint __ordinal);
+__attribute__((unused)) static void EventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(EventLogoutEvent_PropertiesEnum *self, NSString *__name, jint __ordinal);
 
-__attribute__((unused)) static RtdcCoreEventLogoutEvent_PropertiesEnum *new_RtdcCoreEventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
+__attribute__((unused)) static EventLogoutEvent_PropertiesEnum *new_EventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
 
-@interface RtdcCoreEventLogoutEvent_Handler : NSObject
+@interface EventLogoutEvent_Handler : NSObject
 
 @end
 
-J2OBJC_INITIALIZED_DEFN(RtdcCoreEventLogoutEvent)
+J2OBJC_INITIALIZED_DEFN(EventLogoutEvent)
 
-RtdcCoreEventEventType *RtdcCoreEventLogoutEvent_TYPE_;
+EventEventType *EventLogoutEvent_TYPE_;
 
-@implementation RtdcCoreEventLogoutEvent
+@implementation EventLogoutEvent
 
 - (void)fire {
-  for (id<RtdcCoreEventLogoutEvent_Handler> __strong handler in nil_chk([self getHandlersWithRtdcCoreEventEventType:RtdcCoreEventLogoutEvent_TYPE_])) [((id<RtdcCoreEventLogoutEvent_Handler>) nil_chk(handler)) onLogoutWithRtdcCoreEventLogoutEvent:self];
+  for (id<EventLogoutEvent_Handler> __strong handler in nil_chk([self getHandlersWithEventEventType:EventLogoutEvent_TYPE_])) [((id<EventLogoutEvent_Handler>) nil_chk(handler)) onLogoutWithEventLogoutEvent:self];
 }
 
 - (IOSObjectArray *)getProperties {
-  return RtdcCoreEventLogoutEvent_PropertiesEnum_values();
+  return EventLogoutEvent_PropertiesEnum_values();
 }
 
 - (NSString *)getType {
-  return [((RtdcCoreEventEventType *) nil_chk(RtdcCoreEventLogoutEvent_TYPE_)) getName];
+  return [((EventEventType *) nil_chk(EventLogoutEvent_TYPE_)) getName];
 }
 
 - (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property {
@@ -46,15 +46,15 @@ RtdcCoreEventEventType *RtdcCoreEventLogoutEvent_TYPE_;
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  RtdcCoreEventLogoutEvent_init(self);
+  EventLogoutEvent_init(self);
   return self;
 }
 J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
-  if (self == [RtdcCoreEventLogoutEvent class]) {
-    JreStrongAssignAndConsume(&RtdcCoreEventLogoutEvent_TYPE_, new_RtdcCoreEventEventType_initWithNSString_(@"logoutEvent"));
-    J2OBJC_SET_INITIALIZED(RtdcCoreEventLogoutEvent)
+  if (self == [EventLogoutEvent class]) {
+    JreStrongAssignAndConsume(&EventLogoutEvent_TYPE_, new_EventEventType_initWithNSString_(@"logoutEvent"));
+    J2OBJC_SET_INITIALIZED(EventLogoutEvent)
   }
 }
 
@@ -67,55 +67,55 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "init", NULL, NULL, 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &RtdcCoreEventLogoutEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/LogoutEvent$Handler;>;", .constantValue.asLong = 0 },
+    { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &EventLogoutEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/LogoutEvent$Handler;>;", .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.LogoutEvent$Handler;"};
   static const char *inner_classes[] = {"Lrtdc.core.event.LogoutEvent$Properties;", "Lrtdc.core.event.LogoutEvent$Handler;"};
-  static const J2ObjcClassInfo _RtdcCoreEventLogoutEvent = { 2, "LogoutEvent", "rtdc.core.event", NULL, 0x1, 5, methods, 1, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/LogoutEvent$Handler;>;" };
-  return &_RtdcCoreEventLogoutEvent;
+  static const J2ObjcClassInfo _EventLogoutEvent = { 2, "LogoutEvent", "rtdc.core.event", NULL, 0x1, 5, methods, 1, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/LogoutEvent$Handler;>;" };
+  return &_EventLogoutEvent;
 }
 
 @end
 
-void RtdcCoreEventLogoutEvent_init(RtdcCoreEventLogoutEvent *self) {
-  RtdcCoreEventEvent_init(self);
+void EventLogoutEvent_init(EventLogoutEvent *self) {
+  EventEvent_init(self);
 }
 
-RtdcCoreEventLogoutEvent *new_RtdcCoreEventLogoutEvent_init() {
-  RtdcCoreEventLogoutEvent *self = [RtdcCoreEventLogoutEvent alloc];
-  RtdcCoreEventLogoutEvent_init(self);
+EventLogoutEvent *new_EventLogoutEvent_init() {
+  EventLogoutEvent *self = [EventLogoutEvent alloc];
+  EventLogoutEvent_init(self);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventLogoutEvent)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventLogoutEvent)
 
-RtdcCoreEventLogoutEvent_PropertiesEnum *RtdcCoreEventLogoutEvent_PropertiesEnum_values_[0];
+EventLogoutEvent_PropertiesEnum *EventLogoutEvent_PropertiesEnum_values_[0];
 
-@implementation RtdcCoreEventLogoutEvent_PropertiesEnum
+@implementation EventLogoutEvent_PropertiesEnum
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
-  RtdcCoreEventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  EventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
   return self;
 }
 
-IOSObjectArray *RtdcCoreEventLogoutEvent_PropertiesEnum_values() {
-  RtdcCoreEventLogoutEvent_PropertiesEnum_initialize();
-  return [IOSObjectArray arrayWithObjects:RtdcCoreEventLogoutEvent_PropertiesEnum_values_ count:0 type:RtdcCoreEventLogoutEvent_PropertiesEnum_class_()];
+IOSObjectArray *EventLogoutEvent_PropertiesEnum_values() {
+  EventLogoutEvent_PropertiesEnum_initialize();
+  return [IOSObjectArray arrayWithObjects:EventLogoutEvent_PropertiesEnum_values_ count:0 type:EventLogoutEvent_PropertiesEnum_class_()];
 }
 
 + (IOSObjectArray *)values {
-  return RtdcCoreEventLogoutEvent_PropertiesEnum_values();
+  return EventLogoutEvent_PropertiesEnum_values();
 }
 
-+ (RtdcCoreEventLogoutEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
-  return RtdcCoreEventLogoutEvent_PropertiesEnum_valueOfWithNSString_(name);
++ (EventLogoutEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
+  return EventLogoutEvent_PropertiesEnum_valueOfWithNSString_(name);
 }
 
-RtdcCoreEventLogoutEvent_PropertiesEnum *RtdcCoreEventLogoutEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
-  RtdcCoreEventLogoutEvent_PropertiesEnum_initialize();
+EventLogoutEvent_PropertiesEnum *EventLogoutEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
+  EventLogoutEvent_PropertiesEnum_initialize();
   for (int i = 0; i < 0; i++) {
-    RtdcCoreEventLogoutEvent_PropertiesEnum *e = RtdcCoreEventLogoutEvent_PropertiesEnum_values_[i];
+    EventLogoutEvent_PropertiesEnum *e = EventLogoutEvent_PropertiesEnum_values_[i];
     if ([name isEqual:[e name]]) {
       return e;
     }
@@ -130,34 +130,34 @@ RtdcCoreEventLogoutEvent_PropertiesEnum *RtdcCoreEventLogoutEvent_PropertiesEnum
 
 + (const J2ObjcClassInfo *)__metadata {
   static const char *superclass_type_args[] = {"Lrtdc.core.event.LogoutEvent$Properties;"};
-  static const J2ObjcClassInfo _RtdcCoreEventLogoutEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "LogoutEvent", 0x4019, 0, NULL, 0, NULL, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/LogoutEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/LogoutEvent;>;" };
-  return &_RtdcCoreEventLogoutEvent_PropertiesEnum;
+  static const J2ObjcClassInfo _EventLogoutEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "LogoutEvent", 0x4019, 0, NULL, 0, NULL, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/LogoutEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/LogoutEvent;>;" };
+  return &_EventLogoutEvent_PropertiesEnum;
 }
 
 @end
 
-void RtdcCoreEventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(RtdcCoreEventLogoutEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
+void EventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(EventLogoutEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
   JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
-RtdcCoreEventLogoutEvent_PropertiesEnum *new_RtdcCoreEventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
-  RtdcCoreEventLogoutEvent_PropertiesEnum *self = [RtdcCoreEventLogoutEvent_PropertiesEnum alloc];
-  RtdcCoreEventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+EventLogoutEvent_PropertiesEnum *new_EventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
+  EventLogoutEvent_PropertiesEnum *self = [EventLogoutEvent_PropertiesEnum alloc];
+  EventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventLogoutEvent_PropertiesEnum)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventLogoutEvent_PropertiesEnum)
 
-@implementation RtdcCoreEventLogoutEvent_Handler
+@implementation EventLogoutEvent_Handler
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "onLogoutWithRtdcCoreEventLogoutEvent:", "onLogout", "V", 0x401, NULL, NULL },
+    { "onLogoutWithEventLogoutEvent:", "onLogout", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreEventLogoutEvent_Handler = { 2, "Handler", "rtdc.core.event", "LogoutEvent", 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreEventLogoutEvent_Handler;
+  static const J2ObjcClassInfo _EventLogoutEvent_Handler = { 2, "Handler", "rtdc.core.event", "LogoutEvent", 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_EventLogoutEvent_Handler;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreEventLogoutEvent_Handler)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(EventLogoutEvent_Handler)

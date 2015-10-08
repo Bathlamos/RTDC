@@ -12,12 +12,12 @@
 #include "ObjectProperty.h"
 #include "java/lang/Enum.h"
 
+@class EventEventType;
 @class IOSObjectArray;
-@class JSONJSONObject;
-@class RtdcCoreEventEventType;
+@class JsonJSONObject;
 @protocol ModelObjectProperty;
 
-@interface RtdcCoreEventActionCompleteEvent : RtdcCoreEventEvent
+@interface EventActionCompleteEvent : EventEvent
 
 #pragma mark Public
 
@@ -25,7 +25,7 @@
                withNSString:(NSString *)objectType
                withNSString:(NSString *)action;
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (void)fire;
 
@@ -43,64 +43,66 @@
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventActionCompleteEvent)
+J2OBJC_STATIC_INIT(EventActionCompleteEvent)
 
-FOUNDATION_EXPORT RtdcCoreEventEventType *RtdcCoreEventActionCompleteEvent_TYPE_;
-J2OBJC_STATIC_FIELD_GETTER(RtdcCoreEventActionCompleteEvent, TYPE_, RtdcCoreEventEventType *)
+FOUNDATION_EXPORT EventEventType *EventActionCompleteEvent_TYPE_;
+J2OBJC_STATIC_FIELD_GETTER(EventActionCompleteEvent, TYPE_, EventEventType *)
 
-FOUNDATION_EXPORT void RtdcCoreEventActionCompleteEvent_initWithInt_withNSString_withNSString_(RtdcCoreEventActionCompleteEvent *self, jint objectId, NSString *objectType, NSString *action);
+FOUNDATION_EXPORT void EventActionCompleteEvent_initWithInt_withNSString_withNSString_(EventActionCompleteEvent *self, jint objectId, NSString *objectType, NSString *action);
 
-FOUNDATION_EXPORT RtdcCoreEventActionCompleteEvent *new_RtdcCoreEventActionCompleteEvent_initWithInt_withNSString_withNSString_(jint objectId, NSString *objectType, NSString *action) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventActionCompleteEvent *new_EventActionCompleteEvent_initWithInt_withNSString_withNSString_(jint objectId, NSString *objectType, NSString *action) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void RtdcCoreEventActionCompleteEvent_initWithJSONJSONObject_(RtdcCoreEventActionCompleteEvent *self, JSONJSONObject *object);
+FOUNDATION_EXPORT void EventActionCompleteEvent_initWithJsonJSONObject_(EventActionCompleteEvent *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT RtdcCoreEventActionCompleteEvent *new_RtdcCoreEventActionCompleteEvent_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventActionCompleteEvent *new_EventActionCompleteEvent_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventActionCompleteEvent)
+J2OBJC_TYPE_LITERAL_HEADER(EventActionCompleteEvent)
 
-@protocol RtdcCoreEventActionCompleteEvent_Handler < RtdcCoreEventEventHandler, NSObject, JavaObject >
+@compatibility_alias RtdcCoreEventActionCompleteEvent EventActionCompleteEvent;
 
-- (void)onActionCompleteWithRtdcCoreEventActionCompleteEvent:(RtdcCoreEventActionCompleteEvent *)event;
+@protocol EventActionCompleteEvent_Handler < EventEventHandler, NSObject, JavaObject >
+
+- (void)onActionCompleteWithEventActionCompleteEvent:(EventActionCompleteEvent *)event;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventActionCompleteEvent_Handler)
+J2OBJC_EMPTY_STATIC_INIT(EventActionCompleteEvent_Handler)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventActionCompleteEvent_Handler)
+J2OBJC_TYPE_LITERAL_HEADER(EventActionCompleteEvent_Handler)
 
-typedef NS_ENUM(NSUInteger, RtdcCoreEventActionCompleteEvent_Properties) {
-  RtdcCoreEventActionCompleteEvent_Properties_objectId = 0,
-  RtdcCoreEventActionCompleteEvent_Properties_objectType = 1,
-  RtdcCoreEventActionCompleteEvent_Properties_action = 2,
+typedef NS_ENUM(NSUInteger, EventActionCompleteEvent_Properties) {
+  EventActionCompleteEvent_Properties_objectId = 0,
+  EventActionCompleteEvent_Properties_objectType = 1,
+  EventActionCompleteEvent_Properties_action = 2,
 };
 
-@interface RtdcCoreEventActionCompleteEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+@interface EventActionCompleteEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
 
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;
-FOUNDATION_EXPORT IOSObjectArray *RtdcCoreEventActionCompleteEvent_PropertiesEnum_values();
+FOUNDATION_EXPORT IOSObjectArray *EventActionCompleteEvent_PropertiesEnum_values();
 
-+ (RtdcCoreEventActionCompleteEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
-FOUNDATION_EXPORT RtdcCoreEventActionCompleteEvent_PropertiesEnum *RtdcCoreEventActionCompleteEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
++ (EventActionCompleteEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
+FOUNDATION_EXPORT EventActionCompleteEvent_PropertiesEnum *EventActionCompleteEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
 
 - (id)copyWithZone:(NSZone *)zone;
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventActionCompleteEvent_PropertiesEnum)
+J2OBJC_STATIC_INIT(EventActionCompleteEvent_PropertiesEnum)
 
-FOUNDATION_EXPORT RtdcCoreEventActionCompleteEvent_PropertiesEnum *RtdcCoreEventActionCompleteEvent_PropertiesEnum_values_[];
+FOUNDATION_EXPORT EventActionCompleteEvent_PropertiesEnum *EventActionCompleteEvent_PropertiesEnum_values_[];
 
-#define RtdcCoreEventActionCompleteEvent_PropertiesEnum_objectId RtdcCoreEventActionCompleteEvent_PropertiesEnum_values_[RtdcCoreEventActionCompleteEvent_Properties_objectId]
-J2OBJC_ENUM_CONSTANT_GETTER(RtdcCoreEventActionCompleteEvent_PropertiesEnum, objectId)
+#define EventActionCompleteEvent_PropertiesEnum_objectId EventActionCompleteEvent_PropertiesEnum_values_[EventActionCompleteEvent_Properties_objectId]
+J2OBJC_ENUM_CONSTANT_GETTER(EventActionCompleteEvent_PropertiesEnum, objectId)
 
-#define RtdcCoreEventActionCompleteEvent_PropertiesEnum_objectType RtdcCoreEventActionCompleteEvent_PropertiesEnum_values_[RtdcCoreEventActionCompleteEvent_Properties_objectType]
-J2OBJC_ENUM_CONSTANT_GETTER(RtdcCoreEventActionCompleteEvent_PropertiesEnum, objectType)
+#define EventActionCompleteEvent_PropertiesEnum_objectType EventActionCompleteEvent_PropertiesEnum_values_[EventActionCompleteEvent_Properties_objectType]
+J2OBJC_ENUM_CONSTANT_GETTER(EventActionCompleteEvent_PropertiesEnum, objectType)
 
-#define RtdcCoreEventActionCompleteEvent_PropertiesEnum_action RtdcCoreEventActionCompleteEvent_PropertiesEnum_values_[RtdcCoreEventActionCompleteEvent_Properties_action]
-J2OBJC_ENUM_CONSTANT_GETTER(RtdcCoreEventActionCompleteEvent_PropertiesEnum, action)
+#define EventActionCompleteEvent_PropertiesEnum_action EventActionCompleteEvent_PropertiesEnum_values_[EventActionCompleteEvent_Properties_action]
+J2OBJC_ENUM_CONSTANT_GETTER(EventActionCompleteEvent_PropertiesEnum, action)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventActionCompleteEvent_PropertiesEnum)
+J2OBJC_TYPE_LITERAL_HEADER(EventActionCompleteEvent_PropertiesEnum)
 
 #endif // _ActionCompleteEvent_H_

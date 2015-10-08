@@ -13,13 +13,13 @@
 @class ModelUser;
 @class ModelUser_PropertiesEnum;
 @protocol JavaUtilList;
-@protocol RtdcCoreViewUserListView;
+@protocol ViewUserListView;
 
-@interface ControllerUserListController : ControllerController < RtdcCoreEventFetchUsersEvent_Handler >
+@interface ControllerUserListController : ControllerController < EventFetchUsersEvent_Handler >
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewUserListView:(id<RtdcCoreViewUserListView>)view;
+- (instancetype)initWithViewUserListView:(id<ViewUserListView>)view;
 
 - (void)deleteUserWithModelUser:(ModelUser *)user;
 
@@ -27,7 +27,7 @@
 
 - (void)onStop;
 
-- (void)onUsersFetchedWithRtdcCoreEventFetchUsersEvent:(RtdcCoreEventFetchUsersEvent *)event;
+- (void)onUsersFetchedWithEventFetchUsersEvent:(EventFetchUsersEvent *)event;
 
 - (id<JavaUtilList>)sortUsersWithModelUser_PropertiesEnum:(ModelUser_PropertiesEnum *)property;
 
@@ -39,9 +39,9 @@
 
 J2OBJC_EMPTY_STATIC_INIT(ControllerUserListController)
 
-FOUNDATION_EXPORT void ControllerUserListController_initWithRtdcCoreViewUserListView_(ControllerUserListController *self, id<RtdcCoreViewUserListView> view);
+FOUNDATION_EXPORT void ControllerUserListController_initWithViewUserListView_(ControllerUserListController *self, id<ViewUserListView> view);
 
-FOUNDATION_EXPORT ControllerUserListController *new_ControllerUserListController_initWithRtdcCoreViewUserListView_(id<RtdcCoreViewUserListView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerUserListController *new_ControllerUserListController_initWithViewUserListView_(id<ViewUserListView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerUserListController)
 

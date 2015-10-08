@@ -21,52 +21,52 @@
 #include "java/lang/Iterable.h"
 #include "java/util/ArrayList.h"
 
-@interface RtdcCoreEventFetchUnitsEvent () {
+@interface EventFetchUnitsEvent () {
  @public
   ComGoogleCommonCollectImmutableSet *units_;
 }
 
 @end
 
-J2OBJC_FIELD_SETTER(RtdcCoreEventFetchUnitsEvent, units_, ComGoogleCommonCollectImmutableSet *)
+J2OBJC_FIELD_SETTER(EventFetchUnitsEvent, units_, ComGoogleCommonCollectImmutableSet *)
 
-@interface RtdcCoreEventFetchUnitsEvent_Handler : NSObject
+@interface EventFetchUnitsEvent_Handler : NSObject
 
 @end
 
-__attribute__((unused)) static void RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(RtdcCoreEventFetchUnitsEvent_PropertiesEnum *self, NSString *__name, jint __ordinal);
+__attribute__((unused)) static void EventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(EventFetchUnitsEvent_PropertiesEnum *self, NSString *__name, jint __ordinal);
 
-__attribute__((unused)) static RtdcCoreEventFetchUnitsEvent_PropertiesEnum *new_RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
+__attribute__((unused)) static EventFetchUnitsEvent_PropertiesEnum *new_EventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
 
-@interface RtdcCoreEventFetchUnitsEvent_$1 : NSObject < ComGoogleCommonBaseFunction >
+@interface EventFetchUnitsEvent_$1 : NSObject < ComGoogleCommonBaseFunction >
 
-- (ModelUnit *)applyWithId:(JSONJSONObject *)input;
+- (ModelUnit *)applyWithId:(JsonJSONObject *)input;
 
 - (instancetype)init;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventFetchUnitsEvent_$1)
+J2OBJC_EMPTY_STATIC_INIT(EventFetchUnitsEvent_$1)
 
-__attribute__((unused)) static void RtdcCoreEventFetchUnitsEvent_$1_init(RtdcCoreEventFetchUnitsEvent_$1 *self);
+__attribute__((unused)) static void EventFetchUnitsEvent_$1_init(EventFetchUnitsEvent_$1 *self);
 
-__attribute__((unused)) static RtdcCoreEventFetchUnitsEvent_$1 *new_RtdcCoreEventFetchUnitsEvent_$1_init() NS_RETURNS_RETAINED;
+__attribute__((unused)) static EventFetchUnitsEvent_$1 *new_EventFetchUnitsEvent_$1_init() NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventFetchUnitsEvent_$1)
+J2OBJC_TYPE_LITERAL_HEADER(EventFetchUnitsEvent_$1)
 
-J2OBJC_INITIALIZED_DEFN(RtdcCoreEventFetchUnitsEvent)
+J2OBJC_INITIALIZED_DEFN(EventFetchUnitsEvent)
 
-RtdcCoreEventEventType *RtdcCoreEventFetchUnitsEvent_TYPE_;
+EventEventType *EventFetchUnitsEvent_TYPE_;
 
-@implementation RtdcCoreEventFetchUnitsEvent
+@implementation EventFetchUnitsEvent
 
 - (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)units {
-  RtdcCoreEventFetchUnitsEvent_initWithJavaLangIterable_(self, units);
+  EventFetchUnitsEvent_initWithJavaLangIterable_(self, units);
   return self;
 }
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object {
-  RtdcCoreEventFetchUnitsEvent_initWithJSONJSONObject_(self, object);
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
+  EventFetchUnitsEvent_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -75,20 +75,20 @@ RtdcCoreEventEventType *RtdcCoreEventFetchUnitsEvent_TYPE_;
 }
 
 - (void)fire {
-  for (id<RtdcCoreEventFetchUnitsEvent_Handler> __strong handler in nil_chk([self getHandlersWithRtdcCoreEventEventType:RtdcCoreEventFetchUnitsEvent_TYPE_])) [((id<RtdcCoreEventFetchUnitsEvent_Handler>) nil_chk(handler)) onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:self];
+  for (id<EventFetchUnitsEvent_Handler> __strong handler in nil_chk([self getHandlersWithEventEventType:EventFetchUnitsEvent_TYPE_])) [((id<EventFetchUnitsEvent_Handler>) nil_chk(handler)) onUnitsFetchedWithEventFetchUnitsEvent:self];
 }
 
 - (IOSObjectArray *)getProperties {
-  return RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values();
+  return EventFetchUnitsEvent_PropertiesEnum_values();
 }
 
 - (NSString *)getType {
-  return [((RtdcCoreEventEventType *) nil_chk(RtdcCoreEventFetchUnitsEvent_TYPE_)) getName];
+  return [((EventEventType *) nil_chk(EventFetchUnitsEvent_TYPE_)) getName];
 }
 
 - (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property {
-  switch ([(RtdcCoreEventFetchUnitsEvent_PropertiesEnum *) check_class_cast(property, [RtdcCoreEventFetchUnitsEvent_PropertiesEnum class]) ordinal]) {
-    case RtdcCoreEventFetchUnitsEvent_Properties_units:
+  switch ([(EventFetchUnitsEvent_PropertiesEnum *) check_class_cast(property, [EventFetchUnitsEvent_PropertiesEnum class]) ordinal]) {
+    case EventFetchUnitsEvent_Properties_units:
     return units_;
   }
   return nil;
@@ -100,16 +100,16 @@ RtdcCoreEventEventType *RtdcCoreEventFetchUnitsEvent_TYPE_;
 }
 
 + (void)initialize {
-  if (self == [RtdcCoreEventFetchUnitsEvent class]) {
-    JreStrongAssignAndConsume(&RtdcCoreEventFetchUnitsEvent_TYPE_, new_RtdcCoreEventEventType_initWithNSString_(@"fetchUnitsEvent"));
-    J2OBJC_SET_INITIALIZED(RtdcCoreEventFetchUnitsEvent)
+  if (self == [EventFetchUnitsEvent class]) {
+    JreStrongAssignAndConsume(&EventFetchUnitsEvent_TYPE_, new_EventEventType_initWithNSString_(@"fetchUnitsEvent"));
+    J2OBJC_SET_INITIALIZED(EventFetchUnitsEvent)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithJavaLangIterable:", "FetchUnitsEvent", NULL, 0x1, NULL, NULL },
-    { "initWithJSONJSONObject:", "FetchUnitsEvent", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONObject:", "FetchUnitsEvent", NULL, 0x1, NULL, NULL },
     { "getUnits", NULL, "Lcom.google.common.collect.ImmutableSet;", 0x1, NULL, NULL },
     { "fire", NULL, "V", 0x1, NULL, NULL },
     { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
@@ -117,84 +117,84 @@ RtdcCoreEventEventType *RtdcCoreEventFetchUnitsEvent_TYPE_;
     { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &RtdcCoreEventFetchUnitsEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/FetchUnitsEvent$Handler;>;", .constantValue.asLong = 0 },
+    { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &EventFetchUnitsEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/FetchUnitsEvent$Handler;>;", .constantValue.asLong = 0 },
     { "units_", NULL, 0x12, "Lcom.google.common.collect.ImmutableSet;", NULL, "Lcom/google/common/collect/ImmutableSet<Lrtdc/core/model/Unit;>;", .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.FetchUnitsEvent$Handler;"};
   static const char *inner_classes[] = {"Lrtdc.core.event.FetchUnitsEvent$Handler;", "Lrtdc.core.event.FetchUnitsEvent$Properties;"};
-  static const J2ObjcClassInfo _RtdcCoreEventFetchUnitsEvent = { 2, "FetchUnitsEvent", "rtdc.core.event", NULL, 0x1, 7, methods, 2, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/FetchUnitsEvent$Handler;>;" };
-  return &_RtdcCoreEventFetchUnitsEvent;
+  static const J2ObjcClassInfo _EventFetchUnitsEvent = { 2, "FetchUnitsEvent", "rtdc.core.event", NULL, 0x1, 7, methods, 2, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/FetchUnitsEvent$Handler;>;" };
+  return &_EventFetchUnitsEvent;
 }
 
 @end
 
-void RtdcCoreEventFetchUnitsEvent_initWithJavaLangIterable_(RtdcCoreEventFetchUnitsEvent *self, id<JavaLangIterable> units) {
-  RtdcCoreEventEvent_init(self);
+void EventFetchUnitsEvent_initWithJavaLangIterable_(EventFetchUnitsEvent *self, id<JavaLangIterable> units) {
+  EventEvent_init(self);
   JreStrongAssign(&self->units_, ComGoogleCommonCollectImmutableSet_copyOfWithJavaLangIterable_(units));
 }
 
-RtdcCoreEventFetchUnitsEvent *new_RtdcCoreEventFetchUnitsEvent_initWithJavaLangIterable_(id<JavaLangIterable> units) {
-  RtdcCoreEventFetchUnitsEvent *self = [RtdcCoreEventFetchUnitsEvent alloc];
-  RtdcCoreEventFetchUnitsEvent_initWithJavaLangIterable_(self, units);
+EventFetchUnitsEvent *new_EventFetchUnitsEvent_initWithJavaLangIterable_(id<JavaLangIterable> units) {
+  EventFetchUnitsEvent *self = [EventFetchUnitsEvent alloc];
+  EventFetchUnitsEvent_initWithJavaLangIterable_(self, units);
   return self;
 }
 
-void RtdcCoreEventFetchUnitsEvent_initWithJSONJSONObject_(RtdcCoreEventFetchUnitsEvent *self, JSONJSONObject *object) {
-  RtdcCoreEventEvent_init(self);
-  JreStrongAssign(&self->units_, ComGoogleCommonCollectImmutableSet_copyOfWithJavaUtilCollection_([self parseJsonArrayWithJSONJSONArray:[((JSONJSONObject *) nil_chk(object)) getJSONArrayWithNSString:[((RtdcCoreEventFetchUnitsEvent_PropertiesEnum *) nil_chk(JreLoadStatic(RtdcCoreEventFetchUnitsEvent_PropertiesEnum, units))) name]] withComGoogleCommonBaseFunction:[new_RtdcCoreEventFetchUnitsEvent_$1_init() autorelease]]));
+void EventFetchUnitsEvent_initWithJsonJSONObject_(EventFetchUnitsEvent *self, JsonJSONObject *object) {
+  EventEvent_init(self);
+  JreStrongAssign(&self->units_, ComGoogleCommonCollectImmutableSet_copyOfWithJavaUtilCollection_([self parseJsonArrayWithJsonJSONArray:[((JsonJSONObject *) nil_chk(object)) getJSONArrayWithNSString:[((EventFetchUnitsEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchUnitsEvent_PropertiesEnum, units))) name]] withComGoogleCommonBaseFunction:[new_EventFetchUnitsEvent_$1_init() autorelease]]));
 }
 
-RtdcCoreEventFetchUnitsEvent *new_RtdcCoreEventFetchUnitsEvent_initWithJSONJSONObject_(JSONJSONObject *object) {
-  RtdcCoreEventFetchUnitsEvent *self = [RtdcCoreEventFetchUnitsEvent alloc];
-  RtdcCoreEventFetchUnitsEvent_initWithJSONJSONObject_(self, object);
+EventFetchUnitsEvent *new_EventFetchUnitsEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
+  EventFetchUnitsEvent *self = [EventFetchUnitsEvent alloc];
+  EventFetchUnitsEvent_initWithJsonJSONObject_(self, object);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventFetchUnitsEvent)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventFetchUnitsEvent)
 
-@implementation RtdcCoreEventFetchUnitsEvent_Handler
+@implementation EventFetchUnitsEvent_Handler
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:", "onUnitsFetched", "V", 0x401, NULL, NULL },
+    { "onUnitsFetchedWithEventFetchUnitsEvent:", "onUnitsFetched", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreEventFetchUnitsEvent_Handler = { 2, "Handler", "rtdc.core.event", "FetchUnitsEvent", 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreEventFetchUnitsEvent_Handler;
+  static const J2ObjcClassInfo _EventFetchUnitsEvent_Handler = { 2, "Handler", "rtdc.core.event", "FetchUnitsEvent", 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_EventFetchUnitsEvent_Handler;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreEventFetchUnitsEvent_Handler)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(EventFetchUnitsEvent_Handler)
 
-J2OBJC_INITIALIZED_DEFN(RtdcCoreEventFetchUnitsEvent_PropertiesEnum)
+J2OBJC_INITIALIZED_DEFN(EventFetchUnitsEvent_PropertiesEnum)
 
-RtdcCoreEventFetchUnitsEvent_PropertiesEnum *RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values_[1];
+EventFetchUnitsEvent_PropertiesEnum *EventFetchUnitsEvent_PropertiesEnum_values_[1];
 
-@implementation RtdcCoreEventFetchUnitsEvent_PropertiesEnum
+@implementation EventFetchUnitsEvent_PropertiesEnum
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
-  RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  EventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
   return self;
 }
 
-IOSObjectArray *RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values() {
-  RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initialize();
-  return [IOSObjectArray arrayWithObjects:RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values_ count:1 type:RtdcCoreEventFetchUnitsEvent_PropertiesEnum_class_()];
+IOSObjectArray *EventFetchUnitsEvent_PropertiesEnum_values() {
+  EventFetchUnitsEvent_PropertiesEnum_initialize();
+  return [IOSObjectArray arrayWithObjects:EventFetchUnitsEvent_PropertiesEnum_values_ count:1 type:EventFetchUnitsEvent_PropertiesEnum_class_()];
 }
 
 + (IOSObjectArray *)values {
-  return RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values();
+  return EventFetchUnitsEvent_PropertiesEnum_values();
 }
 
-+ (RtdcCoreEventFetchUnitsEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
-  return RtdcCoreEventFetchUnitsEvent_PropertiesEnum_valueOfWithNSString_(name);
++ (EventFetchUnitsEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
+  return EventFetchUnitsEvent_PropertiesEnum_valueOfWithNSString_(name);
 }
 
-RtdcCoreEventFetchUnitsEvent_PropertiesEnum *RtdcCoreEventFetchUnitsEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
-  RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initialize();
+EventFetchUnitsEvent_PropertiesEnum *EventFetchUnitsEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
+  EventFetchUnitsEvent_PropertiesEnum_initialize();
   for (int i = 0; i < 1; i++) {
-    RtdcCoreEventFetchUnitsEvent_PropertiesEnum *e = RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values_[i];
+    EventFetchUnitsEvent_PropertiesEnum *e = EventFetchUnitsEvent_PropertiesEnum_values_[i];
     if ([name isEqual:[e name]]) {
       return e;
     }
@@ -208,44 +208,44 @@ RtdcCoreEventFetchUnitsEvent_PropertiesEnum *RtdcCoreEventFetchUnitsEvent_Proper
 }
 
 + (void)initialize {
-  if (self == [RtdcCoreEventFetchUnitsEvent_PropertiesEnum class]) {
-    RtdcCoreEventFetchUnitsEvent_PropertiesEnum_units = new_RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(@"units", 0);
-    J2OBJC_SET_INITIALIZED(RtdcCoreEventFetchUnitsEvent_PropertiesEnum)
+  if (self == [EventFetchUnitsEvent_PropertiesEnum class]) {
+    EventFetchUnitsEvent_PropertiesEnum_units = new_EventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(@"units", 0);
+    J2OBJC_SET_INITIALIZED(EventFetchUnitsEvent_PropertiesEnum)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcFieldInfo fields[] = {
-    { "units", "units", 0x4019, "Lrtdc.core.event.FetchUnitsEvent$Properties;", &RtdcCoreEventFetchUnitsEvent_PropertiesEnum_units, NULL, .constantValue.asLong = 0 },
+    { "units", "units", 0x4019, "Lrtdc.core.event.FetchUnitsEvent$Properties;", &EventFetchUnitsEvent_PropertiesEnum_units, NULL, .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.FetchUnitsEvent$Properties;"};
-  static const J2ObjcClassInfo _RtdcCoreEventFetchUnitsEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "FetchUnitsEvent", 0x4019, 0, NULL, 1, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/FetchUnitsEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/FetchUnitsEvent;>;" };
-  return &_RtdcCoreEventFetchUnitsEvent_PropertiesEnum;
+  static const J2ObjcClassInfo _EventFetchUnitsEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "FetchUnitsEvent", 0x4019, 0, NULL, 1, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/FetchUnitsEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/FetchUnitsEvent;>;" };
+  return &_EventFetchUnitsEvent_PropertiesEnum;
 }
 
 @end
 
-void RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(RtdcCoreEventFetchUnitsEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
+void EventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(EventFetchUnitsEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
   JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
-RtdcCoreEventFetchUnitsEvent_PropertiesEnum *new_RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
-  RtdcCoreEventFetchUnitsEvent_PropertiesEnum *self = [RtdcCoreEventFetchUnitsEvent_PropertiesEnum alloc];
-  RtdcCoreEventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+EventFetchUnitsEvent_PropertiesEnum *new_EventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
+  EventFetchUnitsEvent_PropertiesEnum *self = [EventFetchUnitsEvent_PropertiesEnum alloc];
+  EventFetchUnitsEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventFetchUnitsEvent_PropertiesEnum)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventFetchUnitsEvent_PropertiesEnum)
 
-@implementation RtdcCoreEventFetchUnitsEvent_$1
+@implementation EventFetchUnitsEvent_$1
 
-- (ModelUnit *)applyWithId:(JSONJSONObject *)input {
-  return [new_ModelUnit_initWithJSONJSONObject_(input) autorelease];
+- (ModelUnit *)applyWithId:(JsonJSONObject *)input {
+  return [new_ModelUnit_initWithJsonJSONObject_(input) autorelease];
 }
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  RtdcCoreEventFetchUnitsEvent_$1_init(self);
+  EventFetchUnitsEvent_$1_init(self);
   return self;
 }
 J2OBJC_IGNORE_DESIGNATED_END
@@ -255,21 +255,21 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "applyWithId:", "apply", "Lrtdc.core.model.Unit;", 0x1, NULL, NULL },
     { "init", "", NULL, 0x0, NULL, NULL },
   };
-  static const J2ObjCEnclosingMethodInfo enclosing_method = { "RtdcCoreEventFetchUnitsEvent", "initWithJSONJSONObject:" };
-  static const J2ObjcClassInfo _RtdcCoreEventFetchUnitsEvent_$1 = { 2, "", "rtdc.core.event", "FetchUnitsEvent", 0x8008, 2, methods, 0, NULL, 0, NULL, 0, NULL, &enclosing_method, "Ljava/lang/Object;Lcom/google/common/base/Function<Lrtdc/core/json/JSONObject;Lrtdc/core/model/Unit;>;" };
-  return &_RtdcCoreEventFetchUnitsEvent_$1;
+  static const J2ObjCEnclosingMethodInfo enclosing_method = { "EventFetchUnitsEvent", "initWithJsonJSONObject:" };
+  static const J2ObjcClassInfo _EventFetchUnitsEvent_$1 = { 2, "", "rtdc.core.event", "FetchUnitsEvent", 0x8008, 2, methods, 0, NULL, 0, NULL, 0, NULL, &enclosing_method, "Ljava/lang/Object;Lcom/google/common/base/Function<Lrtdc/core/json/JSONObject;Lrtdc/core/model/Unit;>;" };
+  return &_EventFetchUnitsEvent_$1;
 }
 
 @end
 
-void RtdcCoreEventFetchUnitsEvent_$1_init(RtdcCoreEventFetchUnitsEvent_$1 *self) {
+void EventFetchUnitsEvent_$1_init(EventFetchUnitsEvent_$1 *self) {
   NSObject_init(self);
 }
 
-RtdcCoreEventFetchUnitsEvent_$1 *new_RtdcCoreEventFetchUnitsEvent_$1_init() {
-  RtdcCoreEventFetchUnitsEvent_$1 *self = [RtdcCoreEventFetchUnitsEvent_$1 alloc];
-  RtdcCoreEventFetchUnitsEvent_$1_init(self);
+EventFetchUnitsEvent_$1 *new_EventFetchUnitsEvent_$1_init() {
+  EventFetchUnitsEvent_$1 *self = [EventFetchUnitsEvent_$1 alloc];
+  EventFetchUnitsEvent_$1_init(self);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventFetchUnitsEvent_$1)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventFetchUnitsEvent_$1)

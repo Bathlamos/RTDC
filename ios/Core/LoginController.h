@@ -11,17 +11,17 @@
 #include "ErrorEvent.h"
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewLoginView;
+@protocol ViewLoginView;
 
-@interface ControllerLoginController : ControllerController < RtdcCoreEventAuthenticationEvent_Handler, RtdcCoreEventErrorEvent_Handler >
+@interface ControllerLoginController : ControllerController < EventAuthenticationEvent_Handler, EventErrorEvent_Handler >
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewLoginView:(id<RtdcCoreViewLoginView>)view;
+- (instancetype)initWithViewLoginView:(id<ViewLoginView>)view;
 
 - (void)login;
 
-- (void)onAuthenticateWithRtdcCoreEventAuthenticationEvent:(RtdcCoreEventAuthenticationEvent *)event;
+- (void)onAuthenticateWithEventAuthenticationEvent:(EventAuthenticationEvent *)event;
 
 - (void)onStop;
 
@@ -33,9 +33,9 @@
 
 J2OBJC_STATIC_INIT(ControllerLoginController)
 
-FOUNDATION_EXPORT void ControllerLoginController_initWithRtdcCoreViewLoginView_(ControllerLoginController *self, id<RtdcCoreViewLoginView> view);
+FOUNDATION_EXPORT void ControllerLoginController_initWithViewLoginView_(ControllerLoginController *self, id<ViewLoginView> view);
 
-FOUNDATION_EXPORT ControllerLoginController *new_ControllerLoginController_initWithRtdcCoreViewLoginView_(id<RtdcCoreViewLoginView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerLoginController *new_ControllerLoginController_initWithViewLoginView_(id<ViewLoginView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerLoginController)
 

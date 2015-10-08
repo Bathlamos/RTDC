@@ -8,7 +8,7 @@
 
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewView < NSObject, JavaObject >
+@protocol ViewView < NSObject, JavaObject >
 
 - (void)displayErrorWithNSString:(NSString *)title
                     withNSString:(NSString *)error;
@@ -19,8 +19,10 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewView)
+J2OBJC_EMPTY_STATIC_INIT(ViewView)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewView)
+J2OBJC_TYPE_LITERAL_HEADER(ViewView)
+
+#define RtdcCoreViewView ViewView
 
 #endif // _View_H_

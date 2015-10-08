@@ -95,8 +95,8 @@ J2OBJC_IGNORE_DESIGNATED_BEGIN
 }
 J2OBJC_IGNORE_DESIGNATED_END
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object {
-  ModelAction_initWithJSONJSONObject_(self, object);
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
+  ModelAction_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -219,7 +219,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "init", "Action", NULL, 0x1, NULL, NULL },
-    { "initWithJSONJSONObject:", "Action", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONObject:", "Action", NULL, 0x1, NULL, NULL },
     { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
     { "getType", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
     { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
@@ -270,12 +270,12 @@ ModelAction *new_ModelAction_init() {
   return self;
 }
 
-void ModelAction_initWithJSONJSONObject_(ModelAction *self, JSONJSONObject *object) {
+void ModelAction_initWithJsonJSONObject_(ModelAction *self, JsonJSONObject *object) {
   ModelRootObject_init(self);
-  [self setIdWithInt:[((JSONJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, id))) name]]];
-  [self setUnitWithModelUnit:[new_ModelUnit_initWithJSONJSONObject_([object getJSONObjectWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, unit))) name]]) autorelease]];
+  [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, id))) name]]];
+  [self setUnitWithModelUnit:[new_ModelUnit_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, unit))) name]]) autorelease]];
   JreStrongAssign(&self->status_, ModelAction_StatusEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, status))) name]]));
-  if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, personResponsible))) name]]) [self setPersonResponsibleWithModelUser:[new_ModelUser_initWithJSONJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, personResponsible) name]]) autorelease]];
+  if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, personResponsible))) name]]) [self setPersonResponsibleWithModelUser:[new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, personResponsible) name]]) autorelease]];
   [self setRoleResponsibleWithNSString:[object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, roleResponsible))) name]]];
   JreStrongAssign(&self->task_, ModelAction_TaskEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, task))) name]]));
   if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, deadline))) name]]) [self setDeadlineWithJavaUtilDate:[new_JavaUtilDate_initWithLong_([object getLongWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, deadline) name]]) autorelease]];
@@ -283,9 +283,9 @@ void ModelAction_initWithJSONJSONObject_(ModelAction *self, JSONJSONObject *obje
   [self setDescriptionWithNSString:[object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, description))) name]]];
 }
 
-ModelAction *new_ModelAction_initWithJSONJSONObject_(JSONJSONObject *object) {
+ModelAction *new_ModelAction_initWithJsonJSONObject_(JsonJSONObject *object) {
   ModelAction *self = [ModelAction alloc];
-  ModelAction_initWithJSONJSONObject_(self, object);
+  ModelAction_initWithJsonJSONObject_(self, object);
   return self;
 }
 

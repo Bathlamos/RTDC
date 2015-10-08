@@ -12,19 +12,19 @@
 
 @class ModelUnit;
 @class ModelUnit_PropertiesEnum;
-@protocol RtdcCoreViewCapacityOverviewView;
+@protocol ViewCapacityOverviewView;
 
-@interface ControllerCapacityOverviewController : ControllerController < RtdcCoreEventFetchUnitsEvent_Handler >
+@interface ControllerCapacityOverviewController : ControllerController < EventFetchUnitsEvent_Handler >
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewCapacityOverviewView:(id<RtdcCoreViewCapacityOverviewView>)view;
+- (instancetype)initWithViewCapacityOverviewView:(id<ViewCapacityOverviewView>)view;
 
 - (void)editCapacityWithModelUnit:(ModelUnit *)unit;
 
 - (void)onStop;
 
-- (void)onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:(RtdcCoreEventFetchUnitsEvent *)event;
+- (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event;
 
 - (void)sortUnitsWithModelUnit_PropertiesEnum:(ModelUnit_PropertiesEnum *)property
                                   withBoolean:(jboolean)ascending;
@@ -37,9 +37,9 @@
 
 J2OBJC_STATIC_INIT(ControllerCapacityOverviewController)
 
-FOUNDATION_EXPORT void ControllerCapacityOverviewController_initWithRtdcCoreViewCapacityOverviewView_(ControllerCapacityOverviewController *self, id<RtdcCoreViewCapacityOverviewView> view);
+FOUNDATION_EXPORT void ControllerCapacityOverviewController_initWithViewCapacityOverviewView_(ControllerCapacityOverviewController *self, id<ViewCapacityOverviewView> view);
 
-FOUNDATION_EXPORT ControllerCapacityOverviewController *new_ControllerCapacityOverviewController_initWithRtdcCoreViewCapacityOverviewView_(id<RtdcCoreViewCapacityOverviewView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerCapacityOverviewController *new_ControllerCapacityOverviewController_initWithViewCapacityOverviewView_(id<ViewCapacityOverviewView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerCapacityOverviewController)
 

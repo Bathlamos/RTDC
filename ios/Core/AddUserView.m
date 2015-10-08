@@ -6,11 +6,11 @@
 #include "AddUserView.h"
 #include "J2ObjC_source.h"
 
-@interface RtdcCoreViewAddUserView : NSObject
+@interface ViewAddUserView : NSObject
 
 @end
 
-@implementation RtdcCoreViewAddUserView
+@implementation ViewAddUserView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
@@ -37,10 +37,10 @@
     { "setPermissionForSurnameWithNSString:", "setPermissionForSurname", "V", 0x401, NULL, NULL },
     { "hideDeleteButton", NULL, "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewAddUserView = { 2, "AddUserView", "rtdc.core.view", NULL, 0x609, 22, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreViewAddUserView;
+  static const J2ObjcClassInfo _ViewAddUserView = { 2, "AddUserView", "rtdc.core.view", NULL, 0x609, 22, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_ViewAddUserView;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewAddUserView)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ViewAddUserView)

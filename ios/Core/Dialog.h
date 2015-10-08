@@ -9,14 +9,16 @@
 #include "J2ObjC_header.h"
 #include "View.h"
 
-@protocol RtdcCoreViewDialog < RtdcCoreViewView, NSObject, JavaObject >
+@protocol ViewDialog < ViewView, NSObject, JavaObject >
 
 - (void)closeDialog;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewDialog)
+J2OBJC_EMPTY_STATIC_INIT(ViewDialog)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewDialog)
+J2OBJC_TYPE_LITERAL_HEADER(ViewDialog)
+
+#define RtdcCoreViewDialog ViewDialog
 
 #endif // _Dialog_H_

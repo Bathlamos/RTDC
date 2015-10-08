@@ -9,13 +9,13 @@
 #include "Controller.h"
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewEditCapacityView;
+@protocol ViewEditCapacityView;
 
 @interface ControllerEditCapacityController : ControllerController
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewEditCapacityView:(id<RtdcCoreViewEditCapacityView>)view;
+- (instancetype)initWithViewEditCapacityView:(id<ViewEditCapacityView>)view;
 
 - (void)updateCapacity;
 
@@ -27,9 +27,9 @@
 
 J2OBJC_EMPTY_STATIC_INIT(ControllerEditCapacityController)
 
-FOUNDATION_EXPORT void ControllerEditCapacityController_initWithRtdcCoreViewEditCapacityView_(ControllerEditCapacityController *self, id<RtdcCoreViewEditCapacityView> view);
+FOUNDATION_EXPORT void ControllerEditCapacityController_initWithViewEditCapacityView_(ControllerEditCapacityController *self, id<ViewEditCapacityView> view);
 
-FOUNDATION_EXPORT ControllerEditCapacityController *new_ControllerEditCapacityController_initWithRtdcCoreViewEditCapacityView_(id<RtdcCoreViewEditCapacityView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerEditCapacityController *new_ControllerEditCapacityController_initWithViewEditCapacityView_(id<ViewEditCapacityView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerEditCapacityController)
 

@@ -11,14 +11,16 @@
 
 @protocol JavaUtilList;
 
-@protocol RtdcCoreViewUnitListView < RtdcCoreViewView, NSObject, JavaObject >
+@protocol ViewUnitListView < ViewView, NSObject, JavaObject >
 
 - (void)setUnitsWithJavaUtilList:(id<JavaUtilList>)users;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewUnitListView)
+J2OBJC_EMPTY_STATIC_INIT(ViewUnitListView)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewUnitListView)
+J2OBJC_TYPE_LITERAL_HEADER(ViewUnitListView)
+
+#define RtdcCoreViewUnitListView ViewUnitListView
 
 #endif // _UnitListView_H_

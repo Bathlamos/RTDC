@@ -53,8 +53,8 @@ J2OBJC_IGNORE_DESIGNATED_BEGIN
 }
 J2OBJC_IGNORE_DESIGNATED_END
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object {
-  ModelUser_initWithJSONJSONObject_(self, object);
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
+  ModelUser_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -188,7 +188,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "init", "User", NULL, 0x1, NULL, NULL },
-    { "initWithJSONJSONObject:", "User", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONObject:", "User", NULL, 0x1, NULL, NULL },
     { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
     { "getType", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
     { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
@@ -240,9 +240,9 @@ ModelUser *new_ModelUser_init() {
   return self;
 }
 
-void ModelUser_initWithJSONJSONObject_(ModelUser *self, JSONJSONObject *object) {
+void ModelUser_initWithJsonJSONObject_(ModelUser *self, JsonJSONObject *object) {
   ModelRootObject_init(self);
-  [self setIdWithInt:[((JSONJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, id))) name]]];
+  [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, id))) name]]];
   [self setUsernameWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, username))) name]]];
   [self setFirstNameWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, firstName))) name]]];
   [self setLastNameWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, lastName))) name]]];
@@ -250,12 +250,12 @@ void ModelUser_initWithJSONJSONObject_(ModelUser *self, JSONJSONObject *object) 
   [self setPermissionWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, permission))) name]]];
   [self setRoleWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, role))) name]]];
   [self setPhoneWithLong:[object optLongWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, phone))) name]]];
-  if ([object hasWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, unit))) name]]) [self setUnitWithModelUnit:[new_ModelUnit_initWithJSONJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelUser_PropertiesEnum, unit) name]]) autorelease]];
+  if ([object hasWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, unit))) name]]) [self setUnitWithModelUnit:[new_ModelUnit_initWithJsonJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelUser_PropertiesEnum, unit) name]]) autorelease]];
 }
 
-ModelUser *new_ModelUser_initWithJSONJSONObject_(JSONJSONObject *object) {
+ModelUser *new_ModelUser_initWithJsonJSONObject_(JsonJSONObject *object) {
   ModelUser *self = [ModelUser alloc];
-  ModelUser_initWithJSONJSONObject_(self, object);
+  ModelUser_initWithJsonJSONObject_(self, object);
   return self;
 }
 

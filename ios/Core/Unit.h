@@ -12,7 +12,7 @@
 #include "java/lang/Enum.h"
 
 @class IOSObjectArray;
-@class JSONJSONObject;
+@class JsonJSONObject;
 @class ModelUnit_PropertiesEnum;
 @protocol ModelObjectProperty;
 
@@ -22,7 +22,7 @@
 
 - (instancetype)init;
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (jint)getAdmitsByDeadline;
 
@@ -74,9 +74,9 @@ FOUNDATION_EXPORT void ModelUnit_init(ModelUnit *self);
 
 FOUNDATION_EXPORT ModelUnit *new_ModelUnit_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void ModelUnit_initWithJSONJSONObject_(ModelUnit *self, JSONJSONObject *object);
+FOUNDATION_EXPORT void ModelUnit_initWithJsonJSONObject_(ModelUnit *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT ModelUnit *new_ModelUnit_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ModelUnit *new_ModelUnit_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ModelUnit)
 

@@ -41,8 +41,8 @@ J2OBJC_INITIALIZED_DEFN(ControllerCapacityOverviewController)
 
 @implementation ControllerCapacityOverviewController
 
-- (instancetype)initWithRtdcCoreViewCapacityOverviewView:(id<RtdcCoreViewCapacityOverviewView>)view {
-  ControllerCapacityOverviewController_initWithRtdcCoreViewCapacityOverviewView_(self, view);
+- (instancetype)initWithViewCapacityOverviewView:(id<ViewCapacityOverviewView>)view {
+  ControllerCapacityOverviewController_initWithViewCapacityOverviewView_(self, view);
   return self;
 }
 
@@ -60,17 +60,17 @@ J2OBJC_INITIALIZED_DEFN(ControllerCapacityOverviewController)
   [((JavaUtilLoggingLogger *) nil_chk(ControllerCapacityOverviewController_logger_)) logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:JreStrcat("$$", @"Sorting over ", [((ModelUnit_PropertiesEnum *) nil_chk(property)) name])];
   JavaUtilArrayList *sortedUnits = [new_JavaUtilArrayList_initWithJavaUtilCollection_(units_) autorelease];
   JavaUtilCollections_sortWithJavaUtilList_withJavaUtilComparator_(sortedUnits, [((ModelSimpleComparator_Builder *) nil_chk([((ModelSimpleComparator_Builder *) nil_chk(ModelSimpleComparator_forPropertyWithModelObjectProperty_(property))) setAscendingWithBoolean:ascending])) build]);
-  [((id<RtdcCoreViewCapacityOverviewView>) nil_chk(view_)) setUnitsWithJavaUtilList:sortedUnits];
+  [((id<ViewCapacityOverviewView>) nil_chk(view_)) setUnitsWithJavaUtilList:sortedUnits];
 }
 
-- (void)onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:(RtdcCoreEventFetchUnitsEvent *)event {
-  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((RtdcCoreEventFetchUnitsEvent *) nil_chk(event)) getUnits]));
+- (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event {
+  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchUnitsEvent *) nil_chk(event)) getUnits]));
   [self sortUnitsWithModelUnit_PropertiesEnum:JreLoadStatic(ModelUnit_PropertiesEnum, name) withBoolean:true];
 }
 
 - (void)onStop {
   [super onStop];
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchUnitsEvent, TYPE_), self);
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
 }
 
 - (void)dealloc {
@@ -87,11 +87,11 @@ J2OBJC_INITIALIZED_DEFN(ControllerCapacityOverviewController)
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewCapacityOverviewView:", "CapacityOverviewController", NULL, 0x1, NULL, NULL },
+    { "initWithViewCapacityOverviewView:", "CapacityOverviewController", NULL, 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
     { "editCapacityWithModelUnit:", "editCapacity", "V", 0x1, NULL, NULL },
     { "sortUnitsWithModelUnit_PropertiesEnum:withBoolean:", "sortUnits", "V", 0x1, NULL, NULL },
-    { "onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:", "onUnitsFetched", "V", 0x1, NULL, NULL },
+    { "onUnitsFetchedWithEventFetchUnitsEvent:", "onUnitsFetched", "V", 0x1, NULL, NULL },
     { "onStop", NULL, "V", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
@@ -105,15 +105,15 @@ J2OBJC_INITIALIZED_DEFN(ControllerCapacityOverviewController)
 
 @end
 
-void ControllerCapacityOverviewController_initWithRtdcCoreViewCapacityOverviewView_(ControllerCapacityOverviewController *self, id<RtdcCoreViewCapacityOverviewView> view) {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
-  RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchUnitsEvent, TYPE_), self);
+void ControllerCapacityOverviewController_initWithViewCapacityOverviewView_(ControllerCapacityOverviewController *self, id<ViewCapacityOverviewView> view) {
+  ControllerController_initWithViewView_(self, view);
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
   ServiceService_getUnits();
 }
 
-ControllerCapacityOverviewController *new_ControllerCapacityOverviewController_initWithRtdcCoreViewCapacityOverviewView_(id<RtdcCoreViewCapacityOverviewView> view) {
+ControllerCapacityOverviewController *new_ControllerCapacityOverviewController_initWithViewCapacityOverviewView_(id<ViewCapacityOverviewView> view) {
   ControllerCapacityOverviewController *self = [ControllerCapacityOverviewController alloc];
-  ControllerCapacityOverviewController_initWithRtdcCoreViewCapacityOverviewView_(self, view);
+  ControllerCapacityOverviewController_initWithViewCapacityOverviewView_(self, view);
   return self;
 }
 

@@ -13,18 +13,18 @@
 #include "java/io/Writer.h"
 #include "java/lang/Long.h"
 
-#define JSONJSONWriter_maxdepth 20
+#define JsonJSONWriter_maxdepth 20
 
-@interface JSONJSONWriter () {
+@interface JsonJSONWriter () {
  @public
   jboolean comma_;
   IOSCharArray *stack_;
   jint top_;
 }
 
-- (JSONJSONWriter *)appendWithNSString:(NSString *)s;
+- (JsonJSONWriter *)appendWithNSString:(NSString *)s;
 
-- (JSONJSONWriter *)endWithChar:(jchar)m
+- (JsonJSONWriter *)endWithChar:(jchar)m
                        withChar:(jchar)c;
 
 - (void)popWithChar:(jchar)c;
@@ -33,105 +33,105 @@
 
 @end
 
-J2OBJC_FIELD_SETTER(JSONJSONWriter, stack_, IOSCharArray *)
+J2OBJC_FIELD_SETTER(JsonJSONWriter, stack_, IOSCharArray *)
 
-J2OBJC_STATIC_FIELD_GETTER(JSONJSONWriter, maxdepth, jint)
+J2OBJC_STATIC_FIELD_GETTER(JsonJSONWriter, maxdepth, jint)
 
-__attribute__((unused)) static JSONJSONWriter *JSONJSONWriter_appendWithNSString_(JSONJSONWriter *self, NSString *s);
+__attribute__((unused)) static JsonJSONWriter *JsonJSONWriter_appendWithNSString_(JsonJSONWriter *self, NSString *s);
 
-__attribute__((unused)) static JSONJSONWriter *JSONJSONWriter_endWithChar_withChar_(JSONJSONWriter *self, jchar m, jchar c);
+__attribute__((unused)) static JsonJSONWriter *JsonJSONWriter_endWithChar_withChar_(JsonJSONWriter *self, jchar m, jchar c);
 
-__attribute__((unused)) static void JSONJSONWriter_popWithChar_(JSONJSONWriter *self, jchar c);
+__attribute__((unused)) static void JsonJSONWriter_popWithChar_(JsonJSONWriter *self, jchar c);
 
-__attribute__((unused)) static void JSONJSONWriter_pushWithChar_(JSONJSONWriter *self, jchar c);
+__attribute__((unused)) static void JsonJSONWriter_pushWithChar_(JsonJSONWriter *self, jchar c);
 
-@implementation JSONJSONWriter
+@implementation JsonJSONWriter
 
 - (instancetype)initWithJavaIoWriter:(JavaIoWriter *)w {
-  JSONJSONWriter_initWithJavaIoWriter_(self, w);
+  JsonJSONWriter_initWithJavaIoWriter_(self, w);
   return self;
 }
 
-- (JSONJSONWriter *)appendWithNSString:(NSString *)s {
-  return JSONJSONWriter_appendWithNSString_(self, s);
+- (JsonJSONWriter *)appendWithNSString:(NSString *)s {
+  return JsonJSONWriter_appendWithNSString_(self, s);
 }
 
-- (JSONJSONWriter *)array {
+- (JsonJSONWriter *)array {
   if (self->mode_ == 'i' || self->mode_ == 'o' || self->mode_ == 'a') {
-    JSONJSONWriter_pushWithChar_(self, 'a');
-    JSONJSONWriter_appendWithNSString_(self, @"[");
+    JsonJSONWriter_pushWithChar_(self, 'a');
+    JsonJSONWriter_appendWithNSString_(self, @"[");
     self->comma_ = false;
     return self;
   }
-  @throw [new_JSONJSONException_initWithNSString_(@"Misplaced array.") autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(@"Misplaced array.") autorelease];
 }
 
-- (JSONJSONWriter *)endWithChar:(jchar)m
+- (JsonJSONWriter *)endWithChar:(jchar)m
                        withChar:(jchar)c {
-  return JSONJSONWriter_endWithChar_withChar_(self, m, c);
+  return JsonJSONWriter_endWithChar_withChar_(self, m, c);
 }
 
-- (JSONJSONWriter *)endArray {
-  return JSONJSONWriter_endWithChar_withChar_(self, 'a', ']');
+- (JsonJSONWriter *)endArray {
+  return JsonJSONWriter_endWithChar_withChar_(self, 'a', ']');
 }
 
-- (JSONJSONWriter *)endObject {
-  return JSONJSONWriter_endWithChar_withChar_(self, 'k', '}');
+- (JsonJSONWriter *)endObject {
+  return JsonJSONWriter_endWithChar_withChar_(self, 'k', '}');
 }
 
-- (JSONJSONWriter *)keyWithNSString:(NSString *)s {
+- (JsonJSONWriter *)keyWithNSString:(NSString *)s {
   if (s == nil) {
-    @throw [new_JSONJSONException_initWithNSString_(@"Null key.") autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(@"Null key.") autorelease];
   }
   if (self->mode_ == 'k') {
     @try {
       if (self->comma_) {
         [((JavaIoWriter *) nil_chk(self->writer_)) writeWithInt:','];
       }
-      [((JavaIoWriter *) nil_chk(self->writer_)) writeWithNSString:JSONJSONObject_quoteWithNSString_(s)];
+      [((JavaIoWriter *) nil_chk(self->writer_)) writeWithNSString:JsonJSONObject_quoteWithNSString_(s)];
       [self->writer_ writeWithInt:':'];
       self->comma_ = false;
       self->mode_ = 'o';
       return self;
     }
     @catch (JavaIoIOException *e) {
-      @throw [new_JSONJSONException_initWithJavaLangThrowable_(e) autorelease];
+      @throw [new_JsonJSONException_initWithJavaLangThrowable_(e) autorelease];
     }
   }
-  @throw [new_JSONJSONException_initWithNSString_(@"Misplaced key.") autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(@"Misplaced key.") autorelease];
 }
 
-- (JSONJSONWriter *)object {
+- (JsonJSONWriter *)object {
   if (self->mode_ == 'i') {
     self->mode_ = 'o';
   }
   if (self->mode_ == 'o' || self->mode_ == 'a') {
-    JSONJSONWriter_appendWithNSString_(self, @"{");
-    JSONJSONWriter_pushWithChar_(self, 'k');
+    JsonJSONWriter_appendWithNSString_(self, @"{");
+    JsonJSONWriter_pushWithChar_(self, 'k');
     self->comma_ = false;
     return self;
   }
-  @throw [new_JSONJSONException_initWithNSString_(@"Misplaced object.") autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(@"Misplaced object.") autorelease];
 }
 
 - (void)popWithChar:(jchar)c {
-  JSONJSONWriter_popWithChar_(self, c);
+  JsonJSONWriter_popWithChar_(self, c);
 }
 
 - (void)pushWithChar:(jchar)c {
-  JSONJSONWriter_pushWithChar_(self, c);
+  JsonJSONWriter_pushWithChar_(self, c);
 }
 
-- (JSONJSONWriter *)valueWithBoolean:(jboolean)b {
-  return JSONJSONWriter_appendWithNSString_(self, b ? @"true" : @"false");
+- (JsonJSONWriter *)valueWithBoolean:(jboolean)b {
+  return JsonJSONWriter_appendWithNSString_(self, b ? @"true" : @"false");
 }
 
-- (JSONJSONWriter *)valueWithLong:(jlong)l {
-  return JSONJSONWriter_appendWithNSString_(self, JavaLangLong_toStringWithLong_(l));
+- (JsonJSONWriter *)valueWithLong:(jlong)l {
+  return JsonJSONWriter_appendWithNSString_(self, JavaLangLong_toStringWithLong_(l));
 }
 
-- (JSONJSONWriter *)valueWithId:(id)o {
-  return JSONJSONWriter_appendWithNSString_(self, JSONJSONObject_valueToStringWithId_(o));
+- (JsonJSONWriter *)valueWithId:(id)o {
+  return JsonJSONWriter_appendWithNSString_(self, JsonJSONObject_valueToStringWithId_(o));
 }
 
 - (void)dealloc {
@@ -157,37 +157,37 @@ __attribute__((unused)) static void JSONJSONWriter_pushWithChar_(JSONJSONWriter 
     { "valueWithId:", "value", "Lrtdc.core.json.JSONWriter;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "maxdepth", "maxdepth", 0x1a, "I", NULL, NULL, .constantValue.asInt = JSONJSONWriter_maxdepth },
+    { "maxdepth", "maxdepth", 0x1a, "I", NULL, NULL, .constantValue.asInt = JsonJSONWriter_maxdepth },
     { "comma_", NULL, 0x2, "Z", NULL, NULL, .constantValue.asLong = 0 },
     { "mode_", NULL, 0x4, "C", NULL, NULL, .constantValue.asLong = 0 },
     { "stack_", NULL, 0x2, "[C", NULL, NULL, .constantValue.asLong = 0 },
     { "top_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
     { "writer_", NULL, 0x4, "Ljava.io.Writer;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _JSONJSONWriter = { 2, "JSONWriter", "rtdc.core.json", NULL, 0x1, 13, methods, 6, fields, 0, NULL, 0, NULL, NULL, NULL };
-  return &_JSONJSONWriter;
+  static const J2ObjcClassInfo _JsonJSONWriter = { 2, "JSONWriter", "rtdc.core.json", NULL, 0x1, 13, methods, 6, fields, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonJSONWriter;
 }
 
 @end
 
-void JSONJSONWriter_initWithJavaIoWriter_(JSONJSONWriter *self, JavaIoWriter *w) {
+void JsonJSONWriter_initWithJavaIoWriter_(JsonJSONWriter *self, JavaIoWriter *w) {
   NSObject_init(self);
   self->comma_ = false;
   self->mode_ = 'i';
-  JreStrongAssignAndConsume(&self->stack_, [IOSCharArray newArrayWithLength:JSONJSONWriter_maxdepth]);
+  JreStrongAssignAndConsume(&self->stack_, [IOSCharArray newArrayWithLength:JsonJSONWriter_maxdepth]);
   self->top_ = 0;
   JreStrongAssign(&self->writer_, w);
 }
 
-JSONJSONWriter *new_JSONJSONWriter_initWithJavaIoWriter_(JavaIoWriter *w) {
-  JSONJSONWriter *self = [JSONJSONWriter alloc];
-  JSONJSONWriter_initWithJavaIoWriter_(self, w);
+JsonJSONWriter *new_JsonJSONWriter_initWithJavaIoWriter_(JavaIoWriter *w) {
+  JsonJSONWriter *self = [JsonJSONWriter alloc];
+  JsonJSONWriter_initWithJavaIoWriter_(self, w);
   return self;
 }
 
-JSONJSONWriter *JSONJSONWriter_appendWithNSString_(JSONJSONWriter *self, NSString *s) {
+JsonJSONWriter *JsonJSONWriter_appendWithNSString_(JsonJSONWriter *self, NSString *s) {
   if (s == nil) {
-    @throw [new_JSONJSONException_initWithNSString_(@"Null pointer") autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(@"Null pointer") autorelease];
   }
   if (self->mode_ == 'o' || self->mode_ == 'a') {
     @try {
@@ -197,7 +197,7 @@ JSONJSONWriter *JSONJSONWriter_appendWithNSString_(JSONJSONWriter *self, NSStrin
       [((JavaIoWriter *) nil_chk(self->writer_)) writeWithNSString:s];
     }
     @catch (JavaIoIOException *e) {
-      @throw [new_JSONJSONException_initWithJavaLangThrowable_(e) autorelease];
+      @throw [new_JsonJSONException_initWithJavaLangThrowable_(e) autorelease];
     }
     if (self->mode_ == 'o') {
       self->mode_ = 'k';
@@ -205,39 +205,39 @@ JSONJSONWriter *JSONJSONWriter_appendWithNSString_(JSONJSONWriter *self, NSStrin
     self->comma_ = true;
     return self;
   }
-  @throw [new_JSONJSONException_initWithNSString_(@"Value out of sequence.") autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(@"Value out of sequence.") autorelease];
 }
 
-JSONJSONWriter *JSONJSONWriter_endWithChar_withChar_(JSONJSONWriter *self, jchar m, jchar c) {
+JsonJSONWriter *JsonJSONWriter_endWithChar_withChar_(JsonJSONWriter *self, jchar m, jchar c) {
   if (self->mode_ != m) {
-    @throw [new_JSONJSONException_initWithNSString_(m == 'o' ? @"Misplaced endObject." : @"Misplaced endArray.") autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(m == 'o' ? @"Misplaced endObject." : @"Misplaced endArray.") autorelease];
   }
-  JSONJSONWriter_popWithChar_(self, m);
+  JsonJSONWriter_popWithChar_(self, m);
   @try {
     [((JavaIoWriter *) nil_chk(self->writer_)) writeWithInt:c];
   }
   @catch (JavaIoIOException *e) {
-    @throw [new_JSONJSONException_initWithJavaLangThrowable_(e) autorelease];
+    @throw [new_JsonJSONException_initWithJavaLangThrowable_(e) autorelease];
   }
   self->comma_ = true;
   return self;
 }
 
-void JSONJSONWriter_popWithChar_(JSONJSONWriter *self, jchar c) {
+void JsonJSONWriter_popWithChar_(JsonJSONWriter *self, jchar c) {
   if (self->top_ <= 0 || IOSCharArray_Get(nil_chk(self->stack_), self->top_ - 1) != c) {
-    @throw [new_JSONJSONException_initWithNSString_(@"Nesting error.") autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(@"Nesting error.") autorelease];
   }
   self->top_ -= 1;
   self->mode_ = self->top_ == 0 ? 'd' : IOSCharArray_Get(nil_chk(self->stack_), self->top_ - 1);
 }
 
-void JSONJSONWriter_pushWithChar_(JSONJSONWriter *self, jchar c) {
-  if (self->top_ >= JSONJSONWriter_maxdepth) {
-    @throw [new_JSONJSONException_initWithNSString_(@"Nesting too deep.") autorelease];
+void JsonJSONWriter_pushWithChar_(JsonJSONWriter *self, jchar c) {
+  if (self->top_ >= JsonJSONWriter_maxdepth) {
+    @throw [new_JsonJSONException_initWithNSString_(@"Nesting too deep.") autorelease];
   }
   *IOSCharArray_GetRef(nil_chk(self->stack_), self->top_) = c;
   self->mode_ = c;
   self->top_ += 1;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JSONJSONWriter)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonJSONWriter)

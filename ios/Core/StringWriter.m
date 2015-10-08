@@ -11,26 +11,26 @@
 #include "java/io/Writer.h"
 #include "java/lang/StringBuffer.h"
 
-@interface JSONStringWriter () {
+@interface JsonStringWriter () {
  @public
   JavaLangStringBuffer *buf_;
 }
 
 @end
 
-J2OBJC_FIELD_SETTER(JSONStringWriter, buf_, JavaLangStringBuffer *)
+J2OBJC_FIELD_SETTER(JsonStringWriter, buf_, JavaLangStringBuffer *)
 
-@implementation JSONStringWriter
+@implementation JsonStringWriter
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  JSONStringWriter_init(self);
+  JsonStringWriter_init(self);
   return self;
 }
 J2OBJC_IGNORE_DESIGNATED_END
 
 - (instancetype)initWithInt:(jint)initialSize {
-  JSONStringWriter_initWithInt_(self, initialSize);
+  JsonStringWriter_initWithInt_(self, initialSize);
   return self;
 }
 
@@ -74,32 +74,32 @@ J2OBJC_IGNORE_DESIGNATED_END
   static const J2ObjcFieldInfo fields[] = {
     { "buf_", NULL, 0x12, "Ljava.lang.StringBuffer;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _JSONStringWriter = { 2, "StringWriter", "rtdc.core.json", NULL, 0x1, 7, methods, 1, fields, 0, NULL, 0, NULL, NULL, NULL };
-  return &_JSONStringWriter;
+  static const J2ObjcClassInfo _JsonStringWriter = { 2, "StringWriter", "rtdc.core.json", NULL, 0x1, 7, methods, 1, fields, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonStringWriter;
 }
 
 @end
 
-void JSONStringWriter_init(JSONStringWriter *self) {
+void JsonStringWriter_init(JsonStringWriter *self) {
   JavaIoWriter_init(self);
   JreStrongAssignAndConsume(&self->buf_, new_JavaLangStringBuffer_init());
 }
 
-JSONStringWriter *new_JSONStringWriter_init() {
-  JSONStringWriter *self = [JSONStringWriter alloc];
-  JSONStringWriter_init(self);
+JsonStringWriter *new_JsonStringWriter_init() {
+  JsonStringWriter *self = [JsonStringWriter alloc];
+  JsonStringWriter_init(self);
   return self;
 }
 
-void JSONStringWriter_initWithInt_(JSONStringWriter *self, jint initialSize) {
+void JsonStringWriter_initWithInt_(JsonStringWriter *self, jint initialSize) {
   JavaIoWriter_init(self);
   JreStrongAssignAndConsume(&self->buf_, new_JavaLangStringBuffer_initWithInt_(initialSize));
 }
 
-JSONStringWriter *new_JSONStringWriter_initWithInt_(jint initialSize) {
-  JSONStringWriter *self = [JSONStringWriter alloc];
-  JSONStringWriter_initWithInt_(self, initialSize);
+JsonStringWriter *new_JsonStringWriter_initWithInt_(jint initialSize) {
+  JsonStringWriter *self = [JsonStringWriter alloc];
+  JsonStringWriter_initWithInt_(self, initialSize);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JSONStringWriter)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonStringWriter)

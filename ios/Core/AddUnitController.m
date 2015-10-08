@@ -24,8 +24,8 @@ J2OBJC_FIELD_SETTER(ControllerAddUnitController, currentUnit_, ModelUnit *)
 
 @implementation ControllerAddUnitController
 
-- (instancetype)initWithRtdcCoreViewAddUnitView:(id<RtdcCoreViewAddUnitView>)view {
-  ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(self, view);
+- (instancetype)initWithViewAddUnitView:(id<ViewAddUnitView>)view {
+  ControllerAddUnitController_initWithViewAddUnitView_(self, view);
   return self;
 }
 
@@ -36,19 +36,19 @@ J2OBJC_FIELD_SETTER(ControllerAddUnitController, currentUnit_, ModelUnit *)
 - (void)addUnit {
   ModelUnit *newUnit = [new_ModelUnit_init() autorelease];
   if (currentUnit_ != nil) [newUnit setIdWithInt:[currentUnit_ getId]];
-  [newUnit setNameWithNSString:[((id<RtdcCoreViewAddUnitView>) nil_chk(view_)) getNameAsString]];
+  [newUnit setNameWithNSString:[((id<ViewAddUnitView>) nil_chk(view_)) getNameAsString]];
   @try {
-    [newUnit setTotalBedsWithInt:JavaLangInteger_parseIntWithNSString_([((id<RtdcCoreViewAddUnitView>) view_) getTotalBedsAsString])];
+    [newUnit setTotalBedsWithInt:JavaLangInteger_parseIntWithNSString_([((id<ViewAddUnitView>) view_) getTotalBedsAsString])];
   }
   @catch (JavaLangNumberFormatException *e) {
   }
   ServiceService_updateOrSaveUnitWithModelUnit_(newUnit);
-  [((id<RtdcCoreViewAddUnitView>) view_) closeDialog];
+  [((id<ViewAddUnitView>) view_) closeDialog];
 }
 
 - (void)deleteUnit {
   if (currentUnit_ != nil) ServiceService_deleteUnitWithInt_([currentUnit_ getId]);
-  [((id<RtdcCoreViewAddUnitView>) nil_chk(view_)) closeDialog];
+  [((id<ViewAddUnitView>) nil_chk(view_)) closeDialog];
 }
 
 - (void)dealloc {
@@ -58,7 +58,7 @@ J2OBJC_FIELD_SETTER(ControllerAddUnitController, currentUnit_, ModelUnit *)
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewAddUnitView:", "AddUnitController", NULL, 0x1, NULL, NULL },
+    { "initWithViewAddUnitView:", "AddUnitController", NULL, 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
     { "addUnit", NULL, "V", 0x1, NULL, NULL },
     { "deleteUnit", NULL, "V", 0x1, NULL, NULL },
@@ -73,22 +73,22 @@ J2OBJC_FIELD_SETTER(ControllerAddUnitController, currentUnit_, ModelUnit *)
 
 @end
 
-void ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(ControllerAddUnitController *self, id<RtdcCoreViewAddUnitView> view) {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
+void ControllerAddUnitController_initWithViewAddUnitView_(ControllerAddUnitController *self, id<ViewAddUnitView> view) {
+  ControllerController_initWithViewView_(self, view);
   JreStrongAssign(&self->currentUnit_, (ModelUnit *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"unit"], [ModelUnit class]));
   if (self->currentUnit_ != nil) {
-    [((id<RtdcCoreViewAddUnitView>) nil_chk(view)) setTitleWithNSString:@"Edit Unit"];
+    [((id<ViewAddUnitView>) nil_chk(view)) setTitleWithNSString:@"Edit Unit"];
     [view setNameAsStringWithNSString:[self->currentUnit_ getName]];
     [view setTotalBedsAsStringWithNSString:JavaLangInteger_toStringWithInt_([self->currentUnit_ getTotalBeds])];
   }
   else {
-    [((id<RtdcCoreViewAddUnitView>) nil_chk(view)) hideDeleteButton];
+    [((id<ViewAddUnitView>) nil_chk(view)) hideDeleteButton];
   }
 }
 
-ControllerAddUnitController *new_ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(id<RtdcCoreViewAddUnitView> view) {
+ControllerAddUnitController *new_ControllerAddUnitController_initWithViewAddUnitView_(id<ViewAddUnitView> view) {
   ControllerAddUnitController *self = [ControllerAddUnitController alloc];
-  ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(self, view);
+  ControllerAddUnitController_initWithViewAddUnitView_(self, view);
   return self;
 }
 

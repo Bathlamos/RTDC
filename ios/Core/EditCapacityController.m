@@ -25,8 +25,8 @@ J2OBJC_FIELD_SETTER(ControllerEditCapacityController, currentUnit_, ModelUnit *)
 
 @implementation ControllerEditCapacityController
 
-- (instancetype)initWithRtdcCoreViewEditCapacityView:(id<RtdcCoreViewEditCapacityView>)view {
-  ControllerEditCapacityController_initWithRtdcCoreViewEditCapacityView_(self, view);
+- (instancetype)initWithViewEditCapacityView:(id<ViewEditCapacityView>)view {
+  ControllerEditCapacityController_initWithViewEditCapacityView_(self, view);
   return self;
 }
 
@@ -36,16 +36,16 @@ J2OBJC_FIELD_SETTER(ControllerEditCapacityController, currentUnit_, ModelUnit *)
 
 - (void)updateCapacity {
   @try {
-    [((ModelUnit *) nil_chk(currentUnit_)) setAvailableBedsWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewEditCapacityView>) nil_chk(view_)) getAvailableBedsUiElement])) getValue])];
-    [currentUnit_ setPotentialDcWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewEditCapacityView>) view_) getPotentialDcUiElement])) getValue])];
-    [currentUnit_ setDcByDeadlineWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewEditCapacityView>) view_) getDcByDeadlineUiElement])) getValue])];
-    [currentUnit_ setTotalAdmitsWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewEditCapacityView>) view_) getTotalAdmitsUiElement])) getValue])];
-    [currentUnit_ setAdmitsByDeadlineWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewEditCapacityView>) view_) getAdmitsByDeadlineUiElement])) getValue])];
+    [((ModelUnit *) nil_chk(currentUnit_)) setAvailableBedsWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<ViewEditCapacityView>) nil_chk(view_)) getAvailableBedsUiElement])) getValue])];
+    [currentUnit_ setPotentialDcWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<ViewEditCapacityView>) view_) getPotentialDcUiElement])) getValue])];
+    [currentUnit_ setDcByDeadlineWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<ViewEditCapacityView>) view_) getDcByDeadlineUiElement])) getValue])];
+    [currentUnit_ setTotalAdmitsWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<ViewEditCapacityView>) view_) getTotalAdmitsUiElement])) getValue])];
+    [currentUnit_ setAdmitsByDeadlineWithInt:JavaLangInteger_parseIntWithNSString_([((id<ImplUiElement>) nil_chk([((id<ViewEditCapacityView>) view_) getAdmitsByDeadlineUiElement])) getValue])];
   }
   @catch (JavaLangNumberFormatException *e) {
   }
   ServiceService_updateOrSaveUnitWithModelUnit_(currentUnit_);
-  [((id<RtdcCoreViewEditCapacityView>) nil_chk(view_)) closeDialog];
+  [((id<ViewEditCapacityView>) nil_chk(view_)) closeDialog];
 }
 
 - (void)dealloc {
@@ -55,7 +55,7 @@ J2OBJC_FIELD_SETTER(ControllerEditCapacityController, currentUnit_, ModelUnit *)
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewEditCapacityView:", "EditCapacityController", NULL, 0x1, NULL, NULL },
+    { "initWithViewEditCapacityView:", "EditCapacityController", NULL, 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
     { "updateCapacity", NULL, "V", 0x1, NULL, NULL },
   };
@@ -69,10 +69,10 @@ J2OBJC_FIELD_SETTER(ControllerEditCapacityController, currentUnit_, ModelUnit *)
 
 @end
 
-void ControllerEditCapacityController_initWithRtdcCoreViewEditCapacityView_(ControllerEditCapacityController *self, id<RtdcCoreViewEditCapacityView> view) {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
+void ControllerEditCapacityController_initWithViewEditCapacityView_(ControllerEditCapacityController *self, id<ViewEditCapacityView> view) {
+  ControllerController_initWithViewView_(self, view);
   JreStrongAssign(&self->currentUnit_, (ModelUnit *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"unit"], [ModelUnit class]));
-  [((id<RtdcCoreViewEditCapacityView>) nil_chk(view)) setTitleWithNSString:JreStrcat("$$", @"Edit Capacity - ", [((ModelUnit *) nil_chk(self->currentUnit_)) getName])];
+  [((id<ViewEditCapacityView>) nil_chk(view)) setTitleWithNSString:JreStrcat("$$", @"Edit Capacity - ", [((ModelUnit *) nil_chk(self->currentUnit_)) getName])];
   [((id<ImplUiElement>) nil_chk([view getAvailableBedsUiElement])) setValueWithId:JavaLangInteger_toStringWithInt_([self->currentUnit_ getAvailableBeds])];
   [((id<ImplUiElement>) nil_chk([view getPotentialDcUiElement])) setValueWithId:JavaLangInteger_toStringWithInt_([self->currentUnit_ getPotentialDc])];
   [((id<ImplUiElement>) nil_chk([view getDcByDeadlineUiElement])) setValueWithId:JavaLangInteger_toStringWithInt_([self->currentUnit_ getDcByDeadline])];
@@ -80,9 +80,9 @@ void ControllerEditCapacityController_initWithRtdcCoreViewEditCapacityView_(Cont
   [((id<ImplUiElement>) nil_chk([view getAdmitsByDeadlineUiElement])) setValueWithId:JavaLangInteger_toStringWithInt_([self->currentUnit_ getAdmitsByDeadline])];
 }
 
-ControllerEditCapacityController *new_ControllerEditCapacityController_initWithRtdcCoreViewEditCapacityView_(id<RtdcCoreViewEditCapacityView> view) {
+ControllerEditCapacityController *new_ControllerEditCapacityController_initWithViewEditCapacityView_(id<ViewEditCapacityView> view) {
   ControllerEditCapacityController *self = [ControllerEditCapacityController alloc];
-  ControllerEditCapacityController_initWithRtdcCoreViewEditCapacityView_(self, view);
+  ControllerEditCapacityController_initWithViewEditCapacityView_(self, view);
   return self;
 }
 

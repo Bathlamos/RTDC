@@ -16,72 +16,72 @@
 #include "java/lang/StringBuffer.h"
 #include "java/util/Vector.h"
 
-@interface JSONJSONArray () {
+@interface JsonJSONArray () {
  @public
   JavaUtilVector *myArrayList_;
 }
 
 @end
 
-J2OBJC_FIELD_SETTER(JSONJSONArray, myArrayList_, JavaUtilVector *)
+J2OBJC_FIELD_SETTER(JsonJSONArray, myArrayList_, JavaUtilVector *)
 
-@implementation JSONJSONArray
+@implementation JsonJSONArray
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  JSONJSONArray_init(self);
+  JsonJSONArray_init(self);
   return self;
 }
 J2OBJC_IGNORE_DESIGNATED_END
 
-- (instancetype)initWithJSONJSONTokener:(JSONJSONTokener *)x {
-  JSONJSONArray_initWithJSONJSONTokener_(self, x);
+- (instancetype)initWithJsonJSONTokener:(JsonJSONTokener *)x {
+  JsonJSONArray_initWithJsonJSONTokener_(self, x);
   return self;
 }
 
 - (instancetype)initWithNSString:(NSString *)string {
-  JSONJSONArray_initWithNSString_(self, string);
+  JsonJSONArray_initWithNSString_(self, string);
   return self;
 }
 
 - (instancetype)initWithJavaUtilVector:(JavaUtilVector *)collection {
-  JSONJSONArray_initWithJavaUtilVector_(self, collection);
+  JsonJSONArray_initWithJavaUtilVector_(self, collection);
   return self;
 }
 
 - (id)getWithInt:(jint)index {
   id o = [self optWithInt:index];
   if (o == nil) {
-    @throw [new_JSONJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] not found.")) autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] not found.")) autorelease];
   }
   return o;
 }
 
 - (jboolean)getBooleanWithInt:(jint)index {
   id o = [self getWithInt:index];
-  if ([nil_chk(o) isEqual:JreLoadStatic(JSONJSONObject, FALSE__)] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"false"])) {
+  if ([nil_chk(o) isEqual:JreLoadStatic(JsonJSONObject, FALSE__)] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"false"])) {
     return false;
   }
-  else if ([o isEqual:JreLoadStatic(JSONJSONObject, TRUE__)] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"true"])) {
+  else if ([o isEqual:JreLoadStatic(JsonJSONObject, TRUE__)] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"true"])) {
     return true;
   }
-  @throw [new_JSONJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a Boolean.")) autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a Boolean.")) autorelease];
 }
 
-- (JSONJSONArray *)getJSONArrayWithInt:(jint)index {
+- (JsonJSONArray *)getJSONArrayWithInt:(jint)index {
   id o = [self getWithInt:index];
-  if ([o isKindOfClass:[JSONJSONArray class]]) {
-    return (JSONJSONArray *) check_class_cast(o, [JSONJSONArray class]);
+  if ([o isKindOfClass:[JsonJSONArray class]]) {
+    return (JsonJSONArray *) check_class_cast(o, [JsonJSONArray class]);
   }
-  @throw [new_JSONJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a JSONArray.")) autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a JSONArray.")) autorelease];
 }
 
-- (JSONJSONObject *)getJSONObjectWithInt:(jint)index {
+- (JsonJSONObject *)getJSONObjectWithInt:(jint)index {
   id o = [self getWithInt:index];
-  if ([o isKindOfClass:[JSONJSONObject class]]) {
-    return (JSONJSONObject *) check_class_cast(o, [JSONJSONObject class]);
+  if ([o isKindOfClass:[JsonJSONObject class]]) {
+    return (JsonJSONObject *) check_class_cast(o, [JsonJSONObject class]);
   }
-  @throw [new_JSONJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a JSONObject.")) autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a JSONObject.")) autorelease];
 }
 
 - (NSString *)getStringWithInt:(jint)index {
@@ -89,7 +89,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (jboolean)isNullWithInt:(jint)index {
-  return [nil_chk(JreLoadStatic(JSONJSONObject, NULL__)) isEqual:[self optWithInt:index]];
+  return [nil_chk(JreLoadStatic(JsonJSONObject, NULL__)) isEqual:[self optWithInt:index]];
 }
 
 - (NSString *)joinWithNSString:(NSString *)separator {
@@ -99,7 +99,7 @@ J2OBJC_IGNORE_DESIGNATED_END
     if (i > 0) {
       [sb appendWithNSString:separator];
     }
-    [sb appendWithNSString:JSONJSONObject_valueToStringWithId_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:i])];
+    [sb appendWithNSString:JsonJSONObject_valueToStringWithId_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:i])];
   }
   return [sb description];
 }
@@ -126,14 +126,14 @@ J2OBJC_IGNORE_DESIGNATED_END
   }
 }
 
-- (JSONJSONArray *)optJSONArrayWithInt:(jint)index {
+- (JsonJSONArray *)optJSONArrayWithInt:(jint)index {
   id o = [self optWithInt:index];
-  return [o isKindOfClass:[JSONJSONArray class]] ? (JSONJSONArray *) check_class_cast(o, [JSONJSONArray class]) : nil;
+  return [o isKindOfClass:[JsonJSONArray class]] ? (JsonJSONArray *) check_class_cast(o, [JsonJSONArray class]) : nil;
 }
 
-- (JSONJSONObject *)optJSONObjectWithInt:(jint)index {
+- (JsonJSONObject *)optJSONObjectWithInt:(jint)index {
   id o = [self optWithInt:index];
-  return [o isKindOfClass:[JSONJSONObject class]] ? (JSONJSONObject *) check_class_cast(o, [JSONJSONObject class]) : nil;
+  return [o isKindOfClass:[JsonJSONObject class]] ? (JsonJSONObject *) check_class_cast(o, [JsonJSONObject class]) : nil;
 }
 
 - (NSString *)optStringWithInt:(jint)index {
@@ -146,79 +146,79 @@ J2OBJC_IGNORE_DESIGNATED_END
   return o != nil ? [o description] : defaultValue;
 }
 
-- (JSONJSONArray *)putWithBoolean:(jboolean)value {
-  [self putWithId:value ? JreLoadStatic(JSONJSONObject, TRUE__) : JreLoadStatic(JSONJSONObject, FALSE__)];
+- (JsonJSONArray *)putWithBoolean:(jboolean)value {
+  [self putWithId:value ? JreLoadStatic(JsonJSONObject, TRUE__) : JreLoadStatic(JsonJSONObject, FALSE__)];
   return self;
 }
 
-- (JSONJSONArray *)putWithJavaUtilVector:(JavaUtilVector *)value {
-  [self putWithId:[new_JSONJSONArray_initWithJavaUtilVector_(value) autorelease]];
+- (JsonJSONArray *)putWithJavaUtilVector:(JavaUtilVector *)value {
+  [self putWithId:[new_JsonJSONArray_initWithJavaUtilVector_(value) autorelease]];
   return self;
 }
 
-- (JSONJSONArray *)putWithInt:(jint)value {
+- (JsonJSONArray *)putWithInt:(jint)value {
   [self putWithId:[new_JavaLangInteger_initWithInt_(value) autorelease]];
   return self;
 }
 
-- (JSONJSONArray *)putWithLong:(jlong)value {
+- (JsonJSONArray *)putWithLong:(jlong)value {
   [self putWithId:[new_JavaLangLong_initWithLong_(value) autorelease]];
   return self;
 }
 
-- (JSONJSONArray *)putWithId:(id)value {
+- (JsonJSONArray *)putWithId:(id)value {
   [((JavaUtilVector *) nil_chk(self->myArrayList_)) addElementWithId:value];
   return self;
 }
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
                   withBoolean:(jboolean)value {
-  [self putWithInt:index withId:value ? JreLoadStatic(JSONJSONObject, TRUE__) : JreLoadStatic(JSONJSONObject, FALSE__)];
+  [self putWithInt:index withId:value ? JreLoadStatic(JsonJSONObject, TRUE__) : JreLoadStatic(JsonJSONObject, FALSE__)];
   return self;
 }
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
            withJavaUtilVector:(JavaUtilVector *)value {
-  [self putWithInt:index withId:[new_JSONJSONArray_initWithJavaUtilVector_(value) autorelease]];
+  [self putWithInt:index withId:[new_JsonJSONArray_initWithJavaUtilVector_(value) autorelease]];
   return self;
 }
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
                       withInt:(jint)value {
   [self putWithInt:index withId:[new_JavaLangInteger_initWithInt_(value) autorelease]];
   return self;
 }
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
                      withLong:(jlong)value {
   [self putWithInt:index withId:[new_JavaLangLong_initWithLong_(value) autorelease]];
   return self;
 }
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
                        withId:(id)value {
-  JSONJSONObject_testValidityWithId_(value);
+  JsonJSONObject_testValidityWithId_(value);
   if (index < 0) {
-    @throw [new_JSONJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] not found.")) autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] not found.")) autorelease];
   }
   if (index < [self length]) {
     [((JavaUtilVector *) nil_chk(self->myArrayList_)) setElementAtWithId:value withInt:index];
   }
   else {
     while (index != [self length]) {
-      [self putWithId:JreLoadStatic(JSONJSONObject, NULL__)];
+      [self putWithId:JreLoadStatic(JsonJSONObject, NULL__)];
     }
     [self putWithId:value];
   }
   return self;
 }
 
-- (JSONJSONObject *)toJSONObjectWithJSONJSONArray:(JSONJSONArray *)names {
+- (JsonJSONObject *)toJSONObjectWithJsonJSONArray:(JsonJSONArray *)names {
   if (names == nil || [names length] == 0 || [self length] == 0) {
     return nil;
   }
-  JSONJSONObject *jo = [new_JSONJSONObject_init() autorelease];
-  for (jint i = 0; i < [((JSONJSONArray *) nil_chk(names)) length]; i += 1) {
+  JsonJSONObject *jo = [new_JsonJSONObject_init() autorelease];
+  for (jint i = 0; i < [((JsonJSONArray *) nil_chk(names)) length]; i += 1) {
     [jo putWithNSString:[names getStringWithInt:i] withId:[self optWithInt:i]];
   }
   return jo;
@@ -246,7 +246,7 @@ J2OBJC_IGNORE_DESIGNATED_END
   jint i;
   JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_initWithNSString_(@"[") autorelease];
   if (len == 1) {
-    [sb appendWithNSString:JSONJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:0], indentFactor, indent)];
+    [sb appendWithNSString:JsonJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:0], indentFactor, indent)];
   }
   else {
     jint newindent = indent + indentFactor;
@@ -258,7 +258,7 @@ J2OBJC_IGNORE_DESIGNATED_END
       for (jint j = 0; j < newindent; j += 1) {
         [sb appendWithChar:' '];
       }
-      [sb appendWithNSString:JSONJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:i], indentFactor, newindent)];
+      [sb appendWithNSString:JsonJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:i], indentFactor, newindent)];
     }
     [sb appendWithChar:0x000a];
     for (i = 0; i < indent; i += 1) {
@@ -277,7 +277,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "init", "JSONArray", NULL, 0x1, NULL, NULL },
-    { "initWithJSONJSONTokener:", "JSONArray", NULL, 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "initWithJsonJSONTokener:", "JSONArray", NULL, 0x1, "Lrtdc.core.json.JSONException;", NULL },
     { "initWithNSString:", "JSONArray", NULL, 0x1, "Lrtdc.core.json.JSONException;", NULL },
     { "initWithJavaUtilVector:", "JSONArray", NULL, 0x1, NULL, NULL },
     { "getWithInt:", "get", "Ljava.lang.Object;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
@@ -305,7 +305,7 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "putWithInt:withInt:", "put", "Lrtdc.core.json.JSONArray;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
     { "putWithInt:withLong:", "put", "Lrtdc.core.json.JSONArray;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
     { "putWithInt:withId:", "put", "Lrtdc.core.json.JSONArray;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
-    { "toJSONObjectWithJSONJSONArray:", "toJSONObject", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "toJSONObjectWithJsonJSONArray:", "toJSONObject", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
     { "description", "toString", "Ljava.lang.String;", 0x1, NULL, NULL },
     { "toStringWithInt:", "toString", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
     { "toStringWithInt:withInt:", "toString", "Ljava.lang.String;", 0x0, "Lrtdc.core.json.JSONException;", NULL },
@@ -313,26 +313,26 @@ J2OBJC_IGNORE_DESIGNATED_END
   static const J2ObjcFieldInfo fields[] = {
     { "myArrayList_", NULL, 0x2, "Ljava.util.Vector;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _JSONJSONArray = { 2, "JSONArray", "rtdc.core.json", NULL, 0x1, 33, methods, 1, fields, 0, NULL, 0, NULL, NULL, NULL };
-  return &_JSONJSONArray;
+  static const J2ObjcClassInfo _JsonJSONArray = { 2, "JSONArray", "rtdc.core.json", NULL, 0x1, 33, methods, 1, fields, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonJSONArray;
 }
 
 @end
 
-void JSONJSONArray_init(JSONJSONArray *self) {
+void JsonJSONArray_init(JsonJSONArray *self) {
   NSObject_init(self);
   JreStrongAssignAndConsume(&self->myArrayList_, new_JavaUtilVector_init());
 }
 
-JSONJSONArray *new_JSONJSONArray_init() {
-  JSONJSONArray *self = [JSONJSONArray alloc];
-  JSONJSONArray_init(self);
+JsonJSONArray *new_JsonJSONArray_init() {
+  JsonJSONArray *self = [JsonJSONArray alloc];
+  JsonJSONArray_init(self);
   return self;
 }
 
-void JSONJSONArray_initWithJSONJSONTokener_(JSONJSONArray *self, JSONJSONTokener *x) {
-  JSONJSONArray_init(self);
-  if ([((JSONJSONTokener *) nil_chk(x)) nextClean] != '[') {
+void JsonJSONArray_initWithJsonJSONTokener_(JsonJSONArray *self, JsonJSONTokener *x) {
+  JsonJSONArray_init(self);
+  if ([((JsonJSONTokener *) nil_chk(x)) nextClean] != '[') {
     @throw [x syntaxErrorWithNSString:@"A JSONArray text must start with '['"];
   }
   if ([x nextClean] == ']') {
@@ -364,23 +364,23 @@ void JSONJSONArray_initWithJSONJSONTokener_(JSONJSONArray *self, JSONJSONTokener
   }
 }
 
-JSONJSONArray *new_JSONJSONArray_initWithJSONJSONTokener_(JSONJSONTokener *x) {
-  JSONJSONArray *self = [JSONJSONArray alloc];
-  JSONJSONArray_initWithJSONJSONTokener_(self, x);
+JsonJSONArray *new_JsonJSONArray_initWithJsonJSONTokener_(JsonJSONTokener *x) {
+  JsonJSONArray *self = [JsonJSONArray alloc];
+  JsonJSONArray_initWithJsonJSONTokener_(self, x);
   return self;
 }
 
-void JSONJSONArray_initWithNSString_(JSONJSONArray *self, NSString *string) {
-  JSONJSONArray_initWithJSONJSONTokener_(self, [new_JSONJSONTokener_initWithNSString_(string) autorelease]);
+void JsonJSONArray_initWithNSString_(JsonJSONArray *self, NSString *string) {
+  JsonJSONArray_initWithJsonJSONTokener_(self, [new_JsonJSONTokener_initWithNSString_(string) autorelease]);
 }
 
-JSONJSONArray *new_JSONJSONArray_initWithNSString_(NSString *string) {
-  JSONJSONArray *self = [JSONJSONArray alloc];
-  JSONJSONArray_initWithNSString_(self, string);
+JsonJSONArray *new_JsonJSONArray_initWithNSString_(NSString *string) {
+  JsonJSONArray *self = [JsonJSONArray alloc];
+  JsonJSONArray_initWithNSString_(self, string);
   return self;
 }
 
-void JSONJSONArray_initWithJavaUtilVector_(JSONJSONArray *self, JavaUtilVector *collection) {
+void JsonJSONArray_initWithJavaUtilVector_(JsonJSONArray *self, JavaUtilVector *collection) {
   NSObject_init(self);
   if (collection == nil) {
     JreStrongAssignAndConsume(&self->myArrayList_, new_JavaUtilVector_init());
@@ -394,10 +394,10 @@ void JSONJSONArray_initWithJavaUtilVector_(JSONJSONArray *self, JavaUtilVector *
   }
 }
 
-JSONJSONArray *new_JSONJSONArray_initWithJavaUtilVector_(JavaUtilVector *collection) {
-  JSONJSONArray *self = [JSONJSONArray alloc];
-  JSONJSONArray_initWithJavaUtilVector_(self, collection);
+JsonJSONArray *new_JsonJSONArray_initWithJavaUtilVector_(JavaUtilVector *collection) {
+  JsonJSONArray *self = [JsonJSONArray alloc];
+  JsonJSONArray_initWithJavaUtilVector_(self, collection);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JSONJSONArray)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonJSONArray)

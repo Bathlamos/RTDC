@@ -33,8 +33,8 @@ J2OBJC_FIELD_SETTER(ControllerUnitListController, units_, JavaUtilArrayList *)
 
 @implementation ControllerUnitListController
 
-- (instancetype)initWithRtdcCoreViewUnitListView:(id<RtdcCoreViewUnitListView>)view {
-  ControllerUnitListController_initWithRtdcCoreViewUnitListView_(self, view);
+- (instancetype)initWithViewUnitListView:(id<ViewUnitListView>)view {
+  ControllerUnitListController_initWithViewUnitListView_(self, view);
   return self;
 }
 
@@ -44,7 +44,7 @@ J2OBJC_FIELD_SETTER(ControllerUnitListController, units_, JavaUtilArrayList *)
 
 - (void)sortUsersWithModelUnit_PropertiesEnum:(ModelUnit_PropertiesEnum *)property {
   JavaUtilCollections_sortWithJavaUtilList_withJavaUtilComparator_(units_, [((ModelSimpleComparator_Builder *) nil_chk(ModelSimpleComparator_forPropertyWithModelObjectProperty_(property))) build]);
-  [((id<RtdcCoreViewUnitListView>) nil_chk(view_)) setUnitsWithJavaUtilList:units_];
+  [((id<ViewUnitListView>) nil_chk(view_)) setUnitsWithJavaUtilList:units_];
 }
 
 - (void)editUnitWithModelUnit:(ModelUnit *)unit {
@@ -52,14 +52,14 @@ J2OBJC_FIELD_SETTER(ControllerUnitListController, units_, JavaUtilArrayList *)
   [((id<ImplDispatcher>) nil_chk([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newDispatcher])) goToEditUnitWithControllerController:self];
 }
 
-- (void)onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:(RtdcCoreEventFetchUnitsEvent *)event {
-  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((RtdcCoreEventFetchUnitsEvent *) nil_chk(event)) getUnits]));
+- (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event {
+  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchUnitsEvent *) nil_chk(event)) getUnits]));
   [self sortUsersWithModelUnit_PropertiesEnum:JreLoadStatic(ModelUnit_PropertiesEnum, name)];
 }
 
 - (void)onStop {
   [super onStop];
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchUnitsEvent, TYPE_), self);
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
 }
 
 - (void)dealloc {
@@ -69,11 +69,11 @@ J2OBJC_FIELD_SETTER(ControllerUnitListController, units_, JavaUtilArrayList *)
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewUnitListView:", "UnitListController", NULL, 0x1, NULL, NULL },
+    { "initWithViewUnitListView:", "UnitListController", NULL, 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
     { "sortUsersWithModelUnit_PropertiesEnum:", "sortUsers", "V", 0x1, NULL, NULL },
     { "editUnitWithModelUnit:", "editUnit", "V", 0x1, NULL, NULL },
-    { "onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:", "onUnitsFetched", "V", 0x1, NULL, NULL },
+    { "onUnitsFetchedWithEventFetchUnitsEvent:", "onUnitsFetched", "V", 0x1, NULL, NULL },
     { "onStop", NULL, "V", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
@@ -86,15 +86,15 @@ J2OBJC_FIELD_SETTER(ControllerUnitListController, units_, JavaUtilArrayList *)
 
 @end
 
-void ControllerUnitListController_initWithRtdcCoreViewUnitListView_(ControllerUnitListController *self, id<RtdcCoreViewUnitListView> view) {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
-  RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchUnitsEvent, TYPE_), self);
+void ControllerUnitListController_initWithViewUnitListView_(ControllerUnitListController *self, id<ViewUnitListView> view) {
+  ControllerController_initWithViewView_(self, view);
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
   ServiceService_getUnits();
 }
 
-ControllerUnitListController *new_ControllerUnitListController_initWithRtdcCoreViewUnitListView_(id<RtdcCoreViewUnitListView> view) {
+ControllerUnitListController *new_ControllerUnitListController_initWithViewUnitListView_(id<ViewUnitListView> view) {
   ControllerUnitListController *self = [ControllerUnitListController alloc];
-  ControllerUnitListController_initWithRtdcCoreViewUnitListView_(self, view);
+  ControllerUnitListController_initWithViewUnitListView_(self, view);
   return self;
 }
 

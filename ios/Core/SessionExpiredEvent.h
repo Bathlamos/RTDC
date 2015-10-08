@@ -12,11 +12,11 @@
 #include "ObjectProperty.h"
 #include "java/lang/Enum.h"
 
+@class EventEventType;
 @class IOSObjectArray;
-@class RtdcCoreEventEventType;
 @protocol ModelObjectProperty;
 
-@interface RtdcCoreEventSessionExpiredEvent : RtdcCoreEventEvent
+@interface EventSessionExpiredEvent : EventEvent
 
 #pragma mark Public
 
@@ -34,45 +34,47 @@
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventSessionExpiredEvent)
+J2OBJC_STATIC_INIT(EventSessionExpiredEvent)
 
-FOUNDATION_EXPORT RtdcCoreEventEventType *RtdcCoreEventSessionExpiredEvent_TYPE_;
-J2OBJC_STATIC_FIELD_GETTER(RtdcCoreEventSessionExpiredEvent, TYPE_, RtdcCoreEventEventType *)
+FOUNDATION_EXPORT EventEventType *EventSessionExpiredEvent_TYPE_;
+J2OBJC_STATIC_FIELD_GETTER(EventSessionExpiredEvent, TYPE_, EventEventType *)
 
-FOUNDATION_EXPORT void RtdcCoreEventSessionExpiredEvent_init(RtdcCoreEventSessionExpiredEvent *self);
+FOUNDATION_EXPORT void EventSessionExpiredEvent_init(EventSessionExpiredEvent *self);
 
-FOUNDATION_EXPORT RtdcCoreEventSessionExpiredEvent *new_RtdcCoreEventSessionExpiredEvent_init() NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventSessionExpiredEvent *new_EventSessionExpiredEvent_init() NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventSessionExpiredEvent)
+J2OBJC_TYPE_LITERAL_HEADER(EventSessionExpiredEvent)
 
-@interface RtdcCoreEventSessionExpiredEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+@compatibility_alias RtdcCoreEventSessionExpiredEvent EventSessionExpiredEvent;
+
+@interface EventSessionExpiredEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
 
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;
-FOUNDATION_EXPORT IOSObjectArray *RtdcCoreEventSessionExpiredEvent_PropertiesEnum_values();
+FOUNDATION_EXPORT IOSObjectArray *EventSessionExpiredEvent_PropertiesEnum_values();
 
-+ (RtdcCoreEventSessionExpiredEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
-FOUNDATION_EXPORT RtdcCoreEventSessionExpiredEvent_PropertiesEnum *RtdcCoreEventSessionExpiredEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
++ (EventSessionExpiredEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
+FOUNDATION_EXPORT EventSessionExpiredEvent_PropertiesEnum *EventSessionExpiredEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
 
 - (id)copyWithZone:(NSZone *)zone;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventSessionExpiredEvent_PropertiesEnum)
+J2OBJC_EMPTY_STATIC_INIT(EventSessionExpiredEvent_PropertiesEnum)
 
-FOUNDATION_EXPORT RtdcCoreEventSessionExpiredEvent_PropertiesEnum *RtdcCoreEventSessionExpiredEvent_PropertiesEnum_values_[];
+FOUNDATION_EXPORT EventSessionExpiredEvent_PropertiesEnum *EventSessionExpiredEvent_PropertiesEnum_values_[];
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventSessionExpiredEvent_PropertiesEnum)
+J2OBJC_TYPE_LITERAL_HEADER(EventSessionExpiredEvent_PropertiesEnum)
 
-@protocol RtdcCoreEventSessionExpiredEvent_Handler < RtdcCoreEventEventHandler, NSObject, JavaObject >
+@protocol EventSessionExpiredEvent_Handler < EventEventHandler, NSObject, JavaObject >
 
 - (void)onSessionExpired;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventSessionExpiredEvent_Handler)
+J2OBJC_EMPTY_STATIC_INIT(EventSessionExpiredEvent_Handler)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventSessionExpiredEvent_Handler)
+J2OBJC_TYPE_LITERAL_HEADER(EventSessionExpiredEvent_Handler)
 
 #endif // _SessionExpiredEvent_H_

@@ -15,36 +15,36 @@
 #include "java/lang/Enum.h"
 #include "java/lang/IllegalArgumentException.h"
 
-@interface RtdcCoreEventErrorEvent () {
+@interface EventErrorEvent () {
  @public
   NSString *description__;
 }
 
 @end
 
-J2OBJC_FIELD_SETTER(RtdcCoreEventErrorEvent, description__, NSString *)
+J2OBJC_FIELD_SETTER(EventErrorEvent, description__, NSString *)
 
-__attribute__((unused)) static void RtdcCoreEventErrorEvent_PropertiesEnum_initWithNSString_withInt_(RtdcCoreEventErrorEvent_PropertiesEnum *self, NSString *__name, jint __ordinal);
+__attribute__((unused)) static void EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(EventErrorEvent_PropertiesEnum *self, NSString *__name, jint __ordinal);
 
-__attribute__((unused)) static RtdcCoreEventErrorEvent_PropertiesEnum *new_RtdcCoreEventErrorEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
+__attribute__((unused)) static EventErrorEvent_PropertiesEnum *new_EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
 
-@interface RtdcCoreEventErrorEvent_Handler : NSObject
+@interface EventErrorEvent_Handler : NSObject
 
 @end
 
-J2OBJC_INITIALIZED_DEFN(RtdcCoreEventErrorEvent)
+J2OBJC_INITIALIZED_DEFN(EventErrorEvent)
 
-RtdcCoreEventEventType *RtdcCoreEventErrorEvent_TYPE_;
+EventEventType *EventErrorEvent_TYPE_;
 
-@implementation RtdcCoreEventErrorEvent
+@implementation EventErrorEvent
 
 - (instancetype)initWithNSString:(NSString *)description_ {
-  RtdcCoreEventErrorEvent_initWithNSString_(self, description_);
+  EventErrorEvent_initWithNSString_(self, description_);
   return self;
 }
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object {
-  RtdcCoreEventErrorEvent_initWithJSONJSONObject_(self, object);
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
+  EventErrorEvent_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -53,20 +53,20 @@ RtdcCoreEventEventType *RtdcCoreEventErrorEvent_TYPE_;
 }
 
 - (void)fire {
-  for (id<RtdcCoreEventErrorEvent_Handler> __strong handler in nil_chk([self getHandlersWithRtdcCoreEventEventType:RtdcCoreEventErrorEvent_TYPE_])) [((id<RtdcCoreEventErrorEvent_Handler>) nil_chk(handler)) onErrorWithRtdcCoreEventErrorEvent:self];
+  for (id<EventErrorEvent_Handler> __strong handler in nil_chk([self getHandlersWithEventEventType:EventErrorEvent_TYPE_])) [((id<EventErrorEvent_Handler>) nil_chk(handler)) onErrorWithEventErrorEvent:self];
 }
 
 - (IOSObjectArray *)getProperties {
-  return RtdcCoreEventErrorEvent_PropertiesEnum_values();
+  return EventErrorEvent_PropertiesEnum_values();
 }
 
 - (NSString *)getType {
-  return [((RtdcCoreEventEventType *) nil_chk(RtdcCoreEventErrorEvent_TYPE_)) getName];
+  return [((EventEventType *) nil_chk(EventErrorEvent_TYPE_)) getName];
 }
 
 - (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property {
-  switch ([(RtdcCoreEventErrorEvent_PropertiesEnum *) check_class_cast(property, [RtdcCoreEventErrorEvent_PropertiesEnum class]) ordinal]) {
-    case RtdcCoreEventErrorEvent_Properties_description:
+  switch ([(EventErrorEvent_PropertiesEnum *) check_class_cast(property, [EventErrorEvent_PropertiesEnum class]) ordinal]) {
+    case EventErrorEvent_Properties_description:
     return description__;
   }
   return nil;
@@ -78,16 +78,16 @@ RtdcCoreEventEventType *RtdcCoreEventErrorEvent_TYPE_;
 }
 
 + (void)initialize {
-  if (self == [RtdcCoreEventErrorEvent class]) {
-    JreStrongAssignAndConsume(&RtdcCoreEventErrorEvent_TYPE_, new_RtdcCoreEventEventType_initWithNSString_(@"errorEvent"));
-    J2OBJC_SET_INITIALIZED(RtdcCoreEventErrorEvent)
+  if (self == [EventErrorEvent class]) {
+    JreStrongAssignAndConsume(&EventErrorEvent_TYPE_, new_EventEventType_initWithNSString_(@"errorEvent"));
+    J2OBJC_SET_INITIALIZED(EventErrorEvent)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithNSString:", "ErrorEvent", NULL, 0x1, NULL, NULL },
-    { "initWithJSONJSONObject:", "ErrorEvent", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONObject:", "ErrorEvent", NULL, 0x1, NULL, NULL },
     { "getDescription", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
     { "fire", NULL, "V", 0x1, NULL, NULL },
     { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
@@ -95,70 +95,70 @@ RtdcCoreEventEventType *RtdcCoreEventErrorEvent_TYPE_;
     { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &RtdcCoreEventErrorEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/ErrorEvent$Handler;>;", .constantValue.asLong = 0 },
+    { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &EventErrorEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/ErrorEvent$Handler;>;", .constantValue.asLong = 0 },
     { "description__", "description", 0x12, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.ErrorEvent$Handler;"};
   static const char *inner_classes[] = {"Lrtdc.core.event.ErrorEvent$Properties;", "Lrtdc.core.event.ErrorEvent$Handler;"};
-  static const J2ObjcClassInfo _RtdcCoreEventErrorEvent = { 2, "ErrorEvent", "rtdc.core.event", NULL, 0x1, 7, methods, 2, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/ErrorEvent$Handler;>;" };
-  return &_RtdcCoreEventErrorEvent;
+  static const J2ObjcClassInfo _EventErrorEvent = { 2, "ErrorEvent", "rtdc.core.event", NULL, 0x1, 7, methods, 2, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/ErrorEvent$Handler;>;" };
+  return &_EventErrorEvent;
 }
 
 @end
 
-void RtdcCoreEventErrorEvent_initWithNSString_(RtdcCoreEventErrorEvent *self, NSString *description_) {
-  RtdcCoreEventEvent_init(self);
+void EventErrorEvent_initWithNSString_(EventErrorEvent *self, NSString *description_) {
+  EventEvent_init(self);
   JreStrongAssign(&self->description__, description_);
 }
 
-RtdcCoreEventErrorEvent *new_RtdcCoreEventErrorEvent_initWithNSString_(NSString *description_) {
-  RtdcCoreEventErrorEvent *self = [RtdcCoreEventErrorEvent alloc];
-  RtdcCoreEventErrorEvent_initWithNSString_(self, description_);
+EventErrorEvent *new_EventErrorEvent_initWithNSString_(NSString *description_) {
+  EventErrorEvent *self = [EventErrorEvent alloc];
+  EventErrorEvent_initWithNSString_(self, description_);
   return self;
 }
 
-void RtdcCoreEventErrorEvent_initWithJSONJSONObject_(RtdcCoreEventErrorEvent *self, JSONJSONObject *object) {
-  RtdcCoreEventEvent_init(self);
-  JreStrongAssign(&self->description__, [((JSONJSONObject *) nil_chk(object)) optStringWithNSString:[((RtdcCoreEventErrorEvent_PropertiesEnum *) nil_chk(JreLoadStatic(RtdcCoreEventErrorEvent_PropertiesEnum, description))) name]]);
+void EventErrorEvent_initWithJsonJSONObject_(EventErrorEvent *self, JsonJSONObject *object) {
+  EventEvent_init(self);
+  JreStrongAssign(&self->description__, [((JsonJSONObject *) nil_chk(object)) optStringWithNSString:[((EventErrorEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventErrorEvent_PropertiesEnum, description))) name]]);
 }
 
-RtdcCoreEventErrorEvent *new_RtdcCoreEventErrorEvent_initWithJSONJSONObject_(JSONJSONObject *object) {
-  RtdcCoreEventErrorEvent *self = [RtdcCoreEventErrorEvent alloc];
-  RtdcCoreEventErrorEvent_initWithJSONJSONObject_(self, object);
+EventErrorEvent *new_EventErrorEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
+  EventErrorEvent *self = [EventErrorEvent alloc];
+  EventErrorEvent_initWithJsonJSONObject_(self, object);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventErrorEvent)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventErrorEvent)
 
-J2OBJC_INITIALIZED_DEFN(RtdcCoreEventErrorEvent_PropertiesEnum)
+J2OBJC_INITIALIZED_DEFN(EventErrorEvent_PropertiesEnum)
 
-RtdcCoreEventErrorEvent_PropertiesEnum *RtdcCoreEventErrorEvent_PropertiesEnum_values_[1];
+EventErrorEvent_PropertiesEnum *EventErrorEvent_PropertiesEnum_values_[1];
 
-@implementation RtdcCoreEventErrorEvent_PropertiesEnum
+@implementation EventErrorEvent_PropertiesEnum
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
-  RtdcCoreEventErrorEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
   return self;
 }
 
-IOSObjectArray *RtdcCoreEventErrorEvent_PropertiesEnum_values() {
-  RtdcCoreEventErrorEvent_PropertiesEnum_initialize();
-  return [IOSObjectArray arrayWithObjects:RtdcCoreEventErrorEvent_PropertiesEnum_values_ count:1 type:RtdcCoreEventErrorEvent_PropertiesEnum_class_()];
+IOSObjectArray *EventErrorEvent_PropertiesEnum_values() {
+  EventErrorEvent_PropertiesEnum_initialize();
+  return [IOSObjectArray arrayWithObjects:EventErrorEvent_PropertiesEnum_values_ count:1 type:EventErrorEvent_PropertiesEnum_class_()];
 }
 
 + (IOSObjectArray *)values {
-  return RtdcCoreEventErrorEvent_PropertiesEnum_values();
+  return EventErrorEvent_PropertiesEnum_values();
 }
 
-+ (RtdcCoreEventErrorEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
-  return RtdcCoreEventErrorEvent_PropertiesEnum_valueOfWithNSString_(name);
++ (EventErrorEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
+  return EventErrorEvent_PropertiesEnum_valueOfWithNSString_(name);
 }
 
-RtdcCoreEventErrorEvent_PropertiesEnum *RtdcCoreEventErrorEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
-  RtdcCoreEventErrorEvent_PropertiesEnum_initialize();
+EventErrorEvent_PropertiesEnum *EventErrorEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
+  EventErrorEvent_PropertiesEnum_initialize();
   for (int i = 0; i < 1; i++) {
-    RtdcCoreEventErrorEvent_PropertiesEnum *e = RtdcCoreEventErrorEvent_PropertiesEnum_values_[i];
+    EventErrorEvent_PropertiesEnum *e = EventErrorEvent_PropertiesEnum_values_[i];
     if ([name isEqual:[e name]]) {
       return e;
     }
@@ -172,45 +172,45 @@ RtdcCoreEventErrorEvent_PropertiesEnum *RtdcCoreEventErrorEvent_PropertiesEnum_v
 }
 
 + (void)initialize {
-  if (self == [RtdcCoreEventErrorEvent_PropertiesEnum class]) {
-    RtdcCoreEventErrorEvent_PropertiesEnum_description = new_RtdcCoreEventErrorEvent_PropertiesEnum_initWithNSString_withInt_(@"description", 0);
-    J2OBJC_SET_INITIALIZED(RtdcCoreEventErrorEvent_PropertiesEnum)
+  if (self == [EventErrorEvent_PropertiesEnum class]) {
+    EventErrorEvent_PropertiesEnum_description = new_EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(@"description", 0);
+    J2OBJC_SET_INITIALIZED(EventErrorEvent_PropertiesEnum)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcFieldInfo fields[] = {
-    { "description", "description", 0x4019, "Lrtdc.core.event.ErrorEvent$Properties;", &RtdcCoreEventErrorEvent_PropertiesEnum_description, NULL, .constantValue.asLong = 0 },
+    { "description", "description", 0x4019, "Lrtdc.core.event.ErrorEvent$Properties;", &EventErrorEvent_PropertiesEnum_description, NULL, .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.ErrorEvent$Properties;"};
-  static const J2ObjcClassInfo _RtdcCoreEventErrorEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "ErrorEvent", 0x4019, 0, NULL, 1, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/ErrorEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/ErrorEvent;>;" };
-  return &_RtdcCoreEventErrorEvent_PropertiesEnum;
+  static const J2ObjcClassInfo _EventErrorEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "ErrorEvent", 0x4019, 0, NULL, 1, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/ErrorEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/ErrorEvent;>;" };
+  return &_EventErrorEvent_PropertiesEnum;
 }
 
 @end
 
-void RtdcCoreEventErrorEvent_PropertiesEnum_initWithNSString_withInt_(RtdcCoreEventErrorEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
+void EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(EventErrorEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
   JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
-RtdcCoreEventErrorEvent_PropertiesEnum *new_RtdcCoreEventErrorEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
-  RtdcCoreEventErrorEvent_PropertiesEnum *self = [RtdcCoreEventErrorEvent_PropertiesEnum alloc];
-  RtdcCoreEventErrorEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+EventErrorEvent_PropertiesEnum *new_EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
+  EventErrorEvent_PropertiesEnum *self = [EventErrorEvent_PropertiesEnum alloc];
+  EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventErrorEvent_PropertiesEnum)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventErrorEvent_PropertiesEnum)
 
-@implementation RtdcCoreEventErrorEvent_Handler
+@implementation EventErrorEvent_Handler
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "onErrorWithRtdcCoreEventErrorEvent:", "onError", "V", 0x401, NULL, NULL },
+    { "onErrorWithEventErrorEvent:", "onError", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreEventErrorEvent_Handler = { 2, "Handler", "rtdc.core.event", "ErrorEvent", 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreEventErrorEvent_Handler;
+  static const J2ObjcClassInfo _EventErrorEvent_Handler = { 2, "Handler", "rtdc.core.event", "ErrorEvent", 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_EventErrorEvent_Handler;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreEventErrorEvent_Handler)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(EventErrorEvent_Handler)

@@ -12,19 +12,19 @@
 
 @class ModelAction;
 @class ModelAction_PropertiesEnum;
-@protocol RtdcCoreViewActionListView;
+@protocol ViewActionListView;
 
-@interface ControllerActionListController : ControllerController < RtdcCoreEventFetchActionsEvent_Handler >
+@interface ControllerActionListController : ControllerController < EventFetchActionsEvent_Handler >
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewActionListView:(id<RtdcCoreViewActionListView>)view;
+- (instancetype)initWithViewActionListView:(id<ViewActionListView>)view;
 
 - (void)deleteActionWithModelAction:(ModelAction *)action;
 
 - (void)editActionWithModelAction:(ModelAction *)action;
 
-- (void)onActionsFetchedWithRtdcCoreEventFetchActionsEvent:(RtdcCoreEventFetchActionsEvent *)event;
+- (void)onActionsFetchedWithEventFetchActionsEvent:(EventFetchActionsEvent *)event;
 
 - (void)onStop;
 
@@ -40,9 +40,9 @@
 
 J2OBJC_EMPTY_STATIC_INIT(ControllerActionListController)
 
-FOUNDATION_EXPORT void ControllerActionListController_initWithRtdcCoreViewActionListView_(ControllerActionListController *self, id<RtdcCoreViewActionListView> view);
+FOUNDATION_EXPORT void ControllerActionListController_initWithViewActionListView_(ControllerActionListController *self, id<ViewActionListView> view);
 
-FOUNDATION_EXPORT ControllerActionListController *new_ControllerActionListController_initWithRtdcCoreViewActionListView_(id<RtdcCoreViewActionListView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerActionListController *new_ControllerActionListController_initWithViewActionListView_(id<ViewActionListView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerActionListController)
 

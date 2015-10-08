@@ -11,7 +11,7 @@
 
 @class IOSCharArray;
 
-@interface JSONStringWriter : JavaIoWriter
+@interface JsonStringWriter : JavaIoWriter
 
 #pragma mark Public
 
@@ -35,18 +35,18 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JSONStringWriter)
+J2OBJC_EMPTY_STATIC_INIT(JsonStringWriter)
 
-FOUNDATION_EXPORT void JSONStringWriter_init(JSONStringWriter *self);
+FOUNDATION_EXPORT void JsonStringWriter_init(JsonStringWriter *self);
 
-FOUNDATION_EXPORT JSONStringWriter *new_JSONStringWriter_init() NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonStringWriter *new_JsonStringWriter_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void JSONStringWriter_initWithInt_(JSONStringWriter *self, jint initialSize);
+FOUNDATION_EXPORT void JsonStringWriter_initWithInt_(JsonStringWriter *self, jint initialSize);
 
-FOUNDATION_EXPORT JSONStringWriter *new_JSONStringWriter_initWithInt_(jint initialSize) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonStringWriter *new_JsonStringWriter_initWithInt_(jint initialSize) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(JSONStringWriter)
+J2OBJC_TYPE_LITERAL_HEADER(JsonStringWriter)
 
-@compatibility_alias RtdcCoreJsonStringWriter JSONStringWriter;
+@compatibility_alias RtdcCoreJsonStringWriter JsonStringWriter;
 
 #endif // _StringWriter_H_

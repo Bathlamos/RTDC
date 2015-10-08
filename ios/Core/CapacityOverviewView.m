@@ -7,20 +7,20 @@
 #include "J2ObjC_source.h"
 #include "java/util/List.h"
 
-@interface RtdcCoreViewCapacityOverviewView : NSObject
+@interface ViewCapacityOverviewView : NSObject
 
 @end
 
-@implementation RtdcCoreViewCapacityOverviewView
+@implementation ViewCapacityOverviewView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "setUnitsWithJavaUtilList:", "setUnits", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewCapacityOverviewView = { 2, "CapacityOverviewView", "rtdc.core.view", NULL, 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreViewCapacityOverviewView;
+  static const J2ObjcClassInfo _ViewCapacityOverviewView = { 2, "CapacityOverviewView", "rtdc.core.view", NULL, 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_ViewCapacityOverviewView;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewCapacityOverviewView)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ViewCapacityOverviewView)

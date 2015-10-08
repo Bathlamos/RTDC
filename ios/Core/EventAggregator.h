@@ -11,7 +11,7 @@
 @class ComGoogleCommonCollectImmutableSet;
 @class JavaUtilHashSet;
 
-@interface RtdcCoreEventEventAggregator : NSObject {
+@interface EventEventAggregator : NSObject {
  @public
   JavaUtilHashSet *handlers_;
 }
@@ -28,14 +28,16 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventEventAggregator)
+J2OBJC_EMPTY_STATIC_INIT(EventEventAggregator)
 
-J2OBJC_FIELD_SETTER(RtdcCoreEventEventAggregator, handlers_, JavaUtilHashSet *)
+J2OBJC_FIELD_SETTER(EventEventAggregator, handlers_, JavaUtilHashSet *)
 
-FOUNDATION_EXPORT void RtdcCoreEventEventAggregator_init(RtdcCoreEventEventAggregator *self);
+FOUNDATION_EXPORT void EventEventAggregator_init(EventEventAggregator *self);
 
-FOUNDATION_EXPORT RtdcCoreEventEventAggregator *new_RtdcCoreEventEventAggregator_init() NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventEventAggregator *new_EventEventAggregator_init() NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventEventAggregator)
+J2OBJC_TYPE_LITERAL_HEADER(EventEventAggregator)
+
+@compatibility_alias RtdcCoreEventEventAggregator EventEventAggregator;
 
 #endif // _EventAggregator_H_

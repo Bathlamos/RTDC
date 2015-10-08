@@ -6,11 +6,11 @@
 #include "AddUnitView.h"
 #include "J2ObjC_source.h"
 
-@interface RtdcCoreViewAddUnitView : NSObject
+@interface ViewAddUnitView : NSObject
 
 @end
 
-@implementation RtdcCoreViewAddUnitView
+@implementation ViewAddUnitView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
@@ -20,10 +20,10 @@
     { "setTotalBedsAsStringWithNSString:", "setTotalBedsAsString", "V", 0x401, NULL, NULL },
     { "hideDeleteButton", NULL, "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewAddUnitView = { 2, "AddUnitView", "rtdc.core.view", NULL, 0x609, 5, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreViewAddUnitView;
+  static const J2ObjcClassInfo _ViewAddUnitView = { 2, "AddUnitView", "rtdc.core.view", NULL, 0x609, 5, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_ViewAddUnitView;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewAddUnitView)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ViewAddUnitView)

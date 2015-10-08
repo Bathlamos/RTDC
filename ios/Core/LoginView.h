@@ -11,7 +11,7 @@
 
 @protocol ImplUiElement;
 
-@protocol RtdcCoreViewLoginView < RtdcCoreViewView, NSObject, JavaObject >
+@protocol ViewLoginView < ViewView, NSObject, JavaObject >
 
 - (id<ImplUiElement>)getUsernameUiElement;
 
@@ -19,8 +19,10 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewLoginView)
+J2OBJC_EMPTY_STATIC_INIT(ViewLoginView)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewLoginView)
+J2OBJC_TYPE_LITERAL_HEADER(ViewLoginView)
+
+#define RtdcCoreViewLoginView ViewLoginView
 
 #endif // _LoginView_H_

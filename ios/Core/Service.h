@@ -9,6 +9,7 @@
 #include "J2ObjC_header.h"
 
 @class ModelAction;
+@class ModelMessage;
 @class ModelUnit;
 @class ModelUser;
 
@@ -27,13 +28,20 @@
 
 + (void)getActions;
 
++ (void)getMessagesWithInt:(jint)userId1
+                   withInt:(jint)userId2;
+
 + (void)getUnits;
+
++ (void)getUserWithInt:(jint)id_;
 
 + (void)getUsers;
 
 + (void)isAuthTokenValid;
 
 + (void)logout;
+
++ (void)saveOrUpdateMessageWithModelMessage:(ModelMessage *)message;
 
 + (void)updateOrSaveActionsWithModelAction:(ModelAction *)action;
 
@@ -60,9 +68,15 @@ FOUNDATION_EXPORT void ServiceService_deleteUnitWithInt_(jint unitId);
 
 FOUNDATION_EXPORT void ServiceService_getUsers();
 
+FOUNDATION_EXPORT void ServiceService_getUserWithInt_(jint id_);
+
 FOUNDATION_EXPORT void ServiceService_updateOrSaveUserWithModelUser_withNSString_(ModelUser *user, NSString *password);
 
 FOUNDATION_EXPORT void ServiceService_deleteUserWithInt_(jint userId);
+
+FOUNDATION_EXPORT void ServiceService_saveOrUpdateMessageWithModelMessage_(ModelMessage *message);
+
+FOUNDATION_EXPORT void ServiceService_getMessagesWithInt_withInt_(jint userId1, jint userId2);
 
 FOUNDATION_EXPORT void ServiceService_getActions();
 

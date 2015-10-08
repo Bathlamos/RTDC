@@ -35,15 +35,15 @@
   return 0;
 }
 
-- (JavaUtilArrayList *)parseJsonArrayWithJSONJSONArray:(JSONJSONArray *)array
+- (JavaUtilArrayList *)parseJsonArrayWithJsonJSONArray:(JsonJSONArray *)array
                        withComGoogleCommonBaseFunction:(id<ComGoogleCommonBaseFunction>)function {
   JavaUtilArrayList *arrayList = [new_JavaUtilArrayList_init() autorelease];
-  for (jint i = 0; i < [((JSONJSONArray *) nil_chk(array)) length]; i++) [arrayList addWithId:[((id<ComGoogleCommonBaseFunction>) nil_chk(function)) applyWithId:[array getJSONObjectWithInt:i]]];
+  for (jint i = 0; i < [((JsonJSONArray *) nil_chk(array)) length]; i++) [arrayList addWithId:[((id<ComGoogleCommonBaseFunction>) nil_chk(function)) applyWithId:[array getJSONObjectWithInt:i]]];
   return arrayList;
 }
 
-- (JSONJSONArray *)toJsonArrayWithJavaLangIterable:(id<JavaLangIterable>)iterable {
-  JSONJSONArray *array = [new_JSONJSONArray_init() autorelease];
+- (JsonJSONArray *)toJsonArrayWithJavaLangIterable:(id<JavaLangIterable>)iterable {
+  JsonJSONArray *array = [new_JsonJSONArray_init() autorelease];
   for (id __strong o in nil_chk(iterable)) {
     if ([o isKindOfClass:[ModelRootObject class]]) [array putWithId:[((ModelRootObject *) nil_chk(((ModelRootObject *) check_class_cast(o, [ModelRootObject class])))) toJsonObject]];
     else [array putWithId:o];
@@ -52,11 +52,11 @@
 }
 
 - (NSString *)description {
-  return [((JSONJSONObject *) nil_chk([self toJsonObject])) description];
+  return [((JsonJSONObject *) nil_chk([self toJsonObject])) description];
 }
 
-- (JSONJSONObject *)toJsonObject {
-  JSONJSONObject *object = [new_JSONJSONObject_init() autorelease];
+- (JsonJSONObject *)toJsonObject {
+  JsonJSONObject *object = [new_JsonJSONObject_init() autorelease];
   [object putWithNSString:@"_type" withId:[self getType]];
   {
     IOSObjectArray *a__ = [self getProperties];
@@ -87,7 +87,7 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x401, NULL, NULL },
     { "getType", NULL, "Ljava.lang.String;", 0x401, NULL, NULL },
     { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x401, NULL, NULL },
-    { "parseJsonArrayWithJSONJSONArray:withComGoogleCommonBaseFunction:", "parseJsonArray", "Ljava.util.ArrayList;", 0x4, NULL, "<T:Ljava/lang/Object;>(Lrtdc/core/json/JSONArray;Lcom/google/common/base/Function<Lrtdc/core/json/JSONObject;TT;>;)Ljava/util/ArrayList<TT;>;" },
+    { "parseJsonArrayWithJsonJSONArray:withComGoogleCommonBaseFunction:", "parseJsonArray", "Ljava.util.ArrayList;", 0x4, NULL, "<T:Ljava/lang/Object;>(Lrtdc/core/json/JSONArray;Lcom/google/common/base/Function<Lrtdc/core/json/JSONObject;TT;>;)Ljava/util/ArrayList<TT;>;" },
     { "toJsonArrayWithJavaLangIterable:", "toJsonArray", "Lrtdc.core.json.JSONArray;", 0x4, NULL, NULL },
     { "description", "toString", "Ljava.lang.String;", 0x1, NULL, NULL },
     { "toJsonObject", NULL, "Lrtdc.core.json.JSONObject;", 0x1, NULL, NULL },

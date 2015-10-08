@@ -7,20 +7,20 @@
 #include "UserListView.h"
 #include "java/util/List.h"
 
-@interface RtdcCoreViewUserListView : NSObject
+@interface ViewUserListView : NSObject
 
 @end
 
-@implementation RtdcCoreViewUserListView
+@implementation ViewUserListView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "setUsersWithJavaUtilList:", "setUsers", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewUserListView = { 2, "UserListView", "rtdc.core.view", NULL, 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreViewUserListView;
+  static const J2ObjcClassInfo _ViewUserListView = { 2, "UserListView", "rtdc.core.view", NULL, 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_ViewUserListView;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewUserListView)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ViewUserListView)

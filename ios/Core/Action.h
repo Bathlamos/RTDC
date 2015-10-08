@@ -12,8 +12,8 @@
 #include "java/lang/Enum.h"
 
 @class IOSObjectArray;
-@class JSONJSONObject;
 @class JavaUtilDate;
+@class JsonJSONObject;
 @class ModelAction_StatusEnum;
 @class ModelAction_TaskEnum;
 @class ModelUnit;
@@ -27,7 +27,7 @@
 
 - (instancetype)init;
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (JavaUtilDate *)getDeadline;
 
@@ -79,9 +79,9 @@ FOUNDATION_EXPORT void ModelAction_init(ModelAction *self);
 
 FOUNDATION_EXPORT ModelAction *new_ModelAction_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void ModelAction_initWithJSONJSONObject_(ModelAction *self, JSONJSONObject *object);
+FOUNDATION_EXPORT void ModelAction_initWithJsonJSONObject_(ModelAction *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT ModelAction *new_ModelAction_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ModelAction *new_ModelAction_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ModelAction)
 

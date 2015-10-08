@@ -10,27 +10,27 @@
 #include "RootObject.h"
 
 @class ComGoogleCommonCollectImmutableSet;
-@class JSONJSONObject;
-@class RtdcCoreEventEventType;
-@protocol RtdcCoreEventEventHandler;
+@class EventEventType;
+@class JsonJSONObject;
+@protocol EventEventHandler;
 
-@interface RtdcCoreEventEvent : ModelRootObject
+@interface EventEvent : ModelRootObject
 
 #pragma mark Public
 
 - (instancetype)init;
 
-+ (void)fireWithJSONJSONObject:(JSONJSONObject *)object;
++ (void)fireWithJsonJSONObject:(JsonJSONObject *)object;
 
-+ (void)subscribeWithRtdcCoreEventEventType:(RtdcCoreEventEventType *)eventType
-              withRtdcCoreEventEventHandler:(id<RtdcCoreEventEventHandler>)eventHandler;
++ (void)subscribeWithEventEventType:(EventEventType *)eventType
+              withEventEventHandler:(id<EventEventHandler>)eventHandler;
 
-+ (void)unsubscribeWithRtdcCoreEventEventType:(RtdcCoreEventEventType *)eventType
-                withRtdcCoreEventEventHandler:(id<RtdcCoreEventEventHandler>)eventHandler;
++ (void)unsubscribeWithEventEventType:(EventEventType *)eventType
+                withEventEventHandler:(id<EventEventHandler>)eventHandler;
 
 #pragma mark Protected
 
-- (ComGoogleCommonCollectImmutableSet *)getHandlersWithRtdcCoreEventEventType:(RtdcCoreEventEventType *)type;
+- (ComGoogleCommonCollectImmutableSet *)getHandlersWithEventEventType:(EventEventType *)type;
 
 #pragma mark Package-Private
 
@@ -38,16 +38,18 @@
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventEvent)
+J2OBJC_STATIC_INIT(EventEvent)
 
-FOUNDATION_EXPORT void RtdcCoreEventEvent_fireWithJSONJSONObject_(JSONJSONObject *object);
+FOUNDATION_EXPORT void EventEvent_fireWithJsonJSONObject_(JsonJSONObject *object);
 
-FOUNDATION_EXPORT void RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(RtdcCoreEventEventType *eventType, id<RtdcCoreEventEventHandler> eventHandler);
+FOUNDATION_EXPORT void EventEvent_subscribeWithEventEventType_withEventEventHandler_(EventEventType *eventType, id<EventEventHandler> eventHandler);
 
-FOUNDATION_EXPORT void RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(RtdcCoreEventEventType *eventType, id<RtdcCoreEventEventHandler> eventHandler);
+FOUNDATION_EXPORT void EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(EventEventType *eventType, id<EventEventHandler> eventHandler);
 
-FOUNDATION_EXPORT void RtdcCoreEventEvent_init(RtdcCoreEventEvent *self);
+FOUNDATION_EXPORT void EventEvent_init(EventEvent *self);
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventEvent)
+J2OBJC_TYPE_LITERAL_HEADER(EventEvent)
+
+@compatibility_alias RtdcCoreEventEvent EventEvent;
 
 #endif // _Event_H_

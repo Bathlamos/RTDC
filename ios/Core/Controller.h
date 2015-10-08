@@ -9,20 +9,20 @@
 #include "ErrorEvent.h"
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewView;
+@protocol ViewView;
 
-@interface ControllerController : NSObject < RtdcCoreEventErrorEvent_Handler > {
+@interface ControllerController : NSObject < EventErrorEvent_Handler > {
  @public
-  id<RtdcCoreViewView> view_;
+  id<ViewView> view_;
 }
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewView:(id<RtdcCoreViewView>)view;
+- (instancetype)initWithViewView:(id<ViewView>)view;
 
 - (id)getView;
 
-- (void)onErrorWithRtdcCoreEventErrorEvent:(RtdcCoreEventErrorEvent *)event;
+- (void)onErrorWithEventErrorEvent:(EventErrorEvent *)event;
 
 - (void)onStop;
 
@@ -36,7 +36,7 @@ J2OBJC_EMPTY_STATIC_INIT(ControllerController)
 
 J2OBJC_FIELD_SETTER(ControllerController, view_, id)
 
-FOUNDATION_EXPORT void ControllerController_initWithRtdcCoreViewView_(ControllerController *self, id<RtdcCoreViewView> view);
+FOUNDATION_EXPORT void ControllerController_initWithViewView_(ControllerController *self, id<ViewView> view);
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerController)
 
