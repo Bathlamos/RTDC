@@ -81,7 +81,6 @@
 		4A5DC38B1BC444CD00F4E74A /* ValidationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5DC33E1BC444CD00F4E74A /* ValidationException.m */; settings = {ASSET_TAGS = (); }; };
 		4A5DC38C1BC444CD00F4E74A /* View.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5DC3401BC444CD00F4E74A /* View.m */; settings = {ASSET_TAGS = (); }; };
 		4A5DC38D1BC444CD00F4E74A /* VoipController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5DC3421BC444CD00F4E74A /* VoipController.m */; settings = {ASSET_TAGS = (); }; };
-		4A5DC38E1BC444CD00F4E74A /* WeakReference.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5DC3441BC444CD00F4E74A /* WeakReference.m */; settings = {ASSET_TAGS = (); }; };
 		4A5DC3901BC4479E00F4E74A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5DC38F1BC4479E00F4E74A /* libz.tbd */; };
 		4A5DC3921BC447B100F4E74A /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5DC3911BC447B100F4E74A /* libicucore.tbd */; };
 		4AB16EE01A3FCA3B0003270E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB16ED71A3FCA3B0003270E /* AppDelegate.swift */; };
@@ -253,8 +252,6 @@
 		4A5DC3401BC444CD00F4E74A /* View.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = View.m; path = Core/View.m; sourceTree = "<group>"; };
 		4A5DC3411BC444CD00F4E74A /* VoipController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VoipController.h; path = Core/VoipController.h; sourceTree = "<group>"; };
 		4A5DC3421BC444CD00F4E74A /* VoipController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VoipController.m; path = Core/VoipController.m; sourceTree = "<group>"; };
-		4A5DC3431BC444CD00F4E74A /* WeakReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WeakReference.h; path = Core/WeakReference.h; sourceTree = "<group>"; };
-		4A5DC3441BC444CD00F4E74A /* WeakReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WeakReference.m; path = Core/WeakReference.m; sourceTree = "<group>"; };
 		4A5DC38F1BC4479E00F4E74A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4A5DC3911BC447B100F4E74A /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		4AB16ED71A3FCA3B0003270E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -502,8 +499,6 @@
 				4A5DC3401BC444CD00F4E74A /* View.m */,
 				4A5DC3411BC444CD00F4E74A /* VoipController.h */,
 				4A5DC3421BC444CD00F4E74A /* VoipController.m */,
-				4A5DC3431BC444CD00F4E74A /* WeakReference.h */,
-				4A5DC3441BC444CD00F4E74A /* WeakReference.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -646,7 +641,6 @@
 				4A5DC34A1BC444CD00F4E74A /* AddActionView.m in Sources */,
 				4A5DC3611BC444CD00F4E74A /* EventHandler.m in Sources */,
 				4A5DC3881BC444CD00F4E74A /* UserListView.m in Sources */,
-				4A5DC38E1BC444CD00F4E74A /* WeakReference.m in Sources */,
 				4A5DC34B1BC444CD00F4E74A /* AddUnitController.m in Sources */,
 				4A5DC3631BC444CD00F4E74A /* Factory.m in Sources */,
 				4A5DC35D1BC444CD00F4E74A /* EditCapacityView.m in Sources */,
@@ -826,6 +820,8 @@
 					"-l\"z\"",
 					"-l\"jre_emul\"",
 					"-l\"icucore\"",
+					"-lguava",
+					"-ljsr305",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = RTDC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -860,6 +856,8 @@
 					"-l\"z\"",
 					"-l\"jre_emul\"",
 					"-l\"icucore\"",
+					"-lguava",
+					"-ljsr305",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = RTDC;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -13,4 +13,4 @@ J2OBJC_HOME = ${PROJECT_DIR}/../../j2objc;
 
 HEADER_SEARCH_PATHS = $(inherited) "${J2OBJC_HOME}/include" "${DERIVED_FILES_DIR}";
 LIBRARY_SEARCH_PATHS = $(inherited) "${J2OBJC_HOME}/lib";
-OTHER_LDFLAGS = $(inherited) -l"z" -l"jre_emul" -l"icucore";
+//OTHER_LDFLAGS = $(inherited) -l"z" -l"jre_emul" -l"icucore";
