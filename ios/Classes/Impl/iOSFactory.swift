@@ -18,7 +18,7 @@ class iOSFactory: NSObject, ImplFactory {
         return iOSDispatcher()
     }
     
-    func getStorage() -> ImplStorage {
+    func getStorage() -> ImplStorageProtocol {
         return iOSStorage().get()
     }
     

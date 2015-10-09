@@ -8,27 +8,29 @@
 
 import Foundation
 
-class iOSStorage: ImplStorage {
+class iOSStorage: ImplStorage, ImplStorageProtocol {
     
-    override init(){
+    private let settings = NSUserDefaults.standardUserDefaults()
+    private var INSTANCE: iOSStorage? = nil
+    
+    func get() -> iOSStorage {
+        if INSTANCE == nil{
+            INSTANCE = iOSStorage()
+        }
         
+        return INSTANCE!
     }
     
-    func get() -> ImplStorage {
-        //That's a mistake
-        return iOSStorage()
+    func addWithNSString(key: String!, withNSString data: String!) {
+        settings.setObject(data, forKey: key)
     }
     
-    func addWithNSString(key: String!, data: String!) {
-        
-    }
-    
-    func retrieveWithNSString(key: String!) -> String! {
-        return nil;
+    func retrieveWithNSString(key: String!) -> String {
+        return settings.stringForKey(key)!
     }
     
     func removeWithNSString(key: String!) {
-        
+        settings.removeObjectForKey(key)
     }
     
 }

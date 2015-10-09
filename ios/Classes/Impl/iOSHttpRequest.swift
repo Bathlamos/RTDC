@@ -73,7 +73,7 @@ class iOSHttpRequest: NSObject, ImplHttpRequest {
     }
     
     func setContentTypeWithNSString(contentType: String!) {
-        
+        request.setValue(contentType, forHTTPHeaderField: "Content-Type")
     }
     
 }

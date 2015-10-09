@@ -10,35 +10,35 @@ import Foundation
 
 class iOSDispatcher: NSObject, ImplDispatcher {
 
-//    func goToLoginWithControllerController(caller: ControllerController) {
-//        
-//    }
-//    
-//    func goToAllUnitsWithControllerController(caller: ControllerController) {
-//        
-//    }
-//    
-//    func goToActionPlanWithControllerController(caller: ControllerController) {
-//        
-//    }
-//    
-//    func goToEditUserWithControllerController(caller: ControllerController) {
-//        
-//    }
-//    
-//    func goToEditUnitWithControllerController(caller: ControllerController) {
-//        
-//    }
-//    
-//    func goToEditActionWithControllerController(caller: ControllerController) {
-//        
-//    }
-//    
-//    func goToEditCapacityWithControllerController(caller: ControllerController) {
-//        
-//    }
-//    
-//    func goToCapacityOverviewWithControllerController(caller: ControllerController) {
-//    }
+    func goToLoginWithControllerController(caller: ControllerController) {
+        
+    }
+    
+    func goToAllUnitsWithControllerController(caller: ControllerController) {
+        
+    }
+    
+    func goToActionPlanWithControllerController(caller: ControllerController) {
+        
+    }
+    
+    func goToEditUserWithControllerController(caller: ControllerController) {
+        
+    }
+    
+    func goToEditUnitWithControllerController(caller: ControllerController) {
+        
+    }
+    
+    func goToEditActionWithControllerController(caller: ControllerController) {
+        
+    }
+    
+    func goToEditCapacityWithControllerController(caller: ControllerController) {
+        
+    }
+    
+    func goToCapacityOverviewWithControllerController(caller: ControllerController) {
+    }
     
 }
