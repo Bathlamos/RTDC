@@ -1,5 +1,6 @@
 package rtdc.core.controller;
 
+import rtdc.core.Session;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchRecentContactsEvent;
 import rtdc.core.event.FetchMessagesEvent;
@@ -22,10 +23,9 @@ public class MessageListController extends Controller<MessageListView> implement
         super(view);
         Event.subscribe(FetchRecentContactsEvent.TYPE, this);
         Event.subscribe(FetchMessagesEvent.TYPE, this);
-        // TODO Implement Service.getRecentContacts()
-        // Service.getRecentContacts();
-        recentContacts = getRecentContacts();
-        sortRecentContacts(Message.Properties.timeSent);
+        Service.getRecentContacts(Session.getCurrentSession().getUser().getId());
+        //recentContacts = getRecentContacts();
+        //sortRecentContacts(Message.Properties.timeSent);
     }
 
     @Override
@@ -42,6 +42,10 @@ public class MessageListController extends Controller<MessageListView> implement
     public void sortRecentContacts(Message.Properties property){
         Collections.sort(recentContacts, SimpleComparator.forProperty(property).build());
         view.setRecentContacts(recentContacts);
+
+        // We load the messages for the most recent contact
+        Message lastMessage = recentContacts.get(recentContacts.size() - 1);
+        Service.getMessages(lastMessage.getSender().getId(), lastMessage.getReceiver().getId());
     }
 
     @Override
@@ -70,7 +74,7 @@ public class MessageListController extends Controller<MessageListView> implement
         sender.setFirstName("Nathaniel");
         sender.setLastName("Aumonttt");
         sender.setUsername("Nathaniel");
-        sender.setId(90);
+        sender.setId(5);
 
         Message message2 = new Message();
         User receiver2 = new User();
@@ -88,7 +92,7 @@ public class MessageListController extends Controller<MessageListView> implement
         receiver.setFirstName("Jonathan");
         receiver.setLastName("Ermel");
         receiver.setUsername("Qwe");
-        receiver.setId(91);
+        receiver.setId(6);
         message.setSender(sender);
         message.setReceiver(receiver);
         message.setContent("Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?");

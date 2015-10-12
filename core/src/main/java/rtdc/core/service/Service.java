@@ -84,6 +84,10 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2, POST));
     }
 
+    public static void getRecentContacts(int userId){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId, POST));
+    }
+
     public static void getActions(){
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET));
     }

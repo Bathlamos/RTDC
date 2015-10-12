@@ -8,20 +8,6 @@
         <id name="id" type="integer" column="message_id">
             <generator class="increment"/>
         </id>
-        <!--<one-to-one name="sender" class="rtdc.core.model.User"/>
-        <one-to-one name="receiver" class="rtdc.core.model.User"/>
-        <property name="sender" column="sender" type="rtdc.core.model.User"/>
-        <property name="receiver" column="receiver" type="rtdc.core.model.User"/>-->
-        <!--<property name="sender" column="sender">
-            <type name="org.hibernate.mapping.Column">
-                <param name="columnClass">rtdc.core.model.User</param>
-            </type>
-        </property>
-        <property name="receiver" column="receiver">
-            <type name="org.hibernate.mapping.Column">
-                <param name="columnClass">rtdc.core.model.User</param>
-            </type>
-        </property>-->
         <property name="senderID" column="senderID" type="integer"/>
         <property name="receiverID" column="receiverID" type="integer"/>
         <property name="status" column="status">
