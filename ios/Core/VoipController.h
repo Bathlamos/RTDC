@@ -8,6 +8,7 @@
 
 #include "J2ObjC_header.h"
 
+@class ModelMessage;
 @class ModelUser;
 
 @protocol ImplVoipController < NSObject, JavaObject >
@@ -22,6 +23,8 @@
 - (void)acceptCall;
 
 - (void)declineCall;
+
+- (void)sendMessageWithModelMessage:(ModelMessage *)message;
 
 - (void)setMicMutedWithBoolean:(jboolean)mute;
 

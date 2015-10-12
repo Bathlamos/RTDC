@@ -12,6 +12,14 @@
 
 @interface RtdcCoreBootstrapper : NSObject
 
++ (id<ImplFactory>)FACTORY;
+
++ (void)setFACTORY:(id<ImplFactory>)value;
+
++ (NSString *)AUTHENTICATION_TOKEN;
+
++ (void)setAUTHENTICATION_TOKEN:(NSString *)value;
+
 #pragma mark Public
 
 - (instancetype)init;

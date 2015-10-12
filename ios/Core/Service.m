@@ -16,6 +16,7 @@
 #include "J2ObjC_source.h"
 #include "JSONException.h"
 #include "JSONObject.h"
+#include "Message.h"
 #include "Service.h"
 #include "Unit.h"
 #include "User.h"
@@ -30,7 +31,7 @@
 
 @end
 
-static NSString *ServiceService_URL_ = @"http://192.168.0.13:8888/api/";
+static NSString *ServiceService_URL_ = @"http://192.168.1.4:8888/api/";
 J2OBJC_STATIC_FIELD_GETTER(ServiceService, URL_, NSString *)
 
 static JavaUtilLoggingLogger *ServiceService_logger_;
@@ -100,6 +101,10 @@ J2OBJC_IGNORE_DESIGNATED_END
   ServiceService_getUsers();
 }
 
++ (void)getUserWithInt:(jint)id_ {
+  ServiceService_getUserWithInt_(id_);
+}
+
 + (void)updateOrSaveUserWithModelUser:(ModelUser *)user
                          withNSString:(NSString *)password {
   ServiceService_updateOrSaveUserWithModelUser_withNSString_(user, password);
@@ -107,6 +112,15 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)deleteUserWithInt:(jint)userId {
   ServiceService_deleteUserWithInt_(userId);
+}
+
++ (void)saveOrUpdateMessageWithModelMessage:(ModelMessage *)message {
+  ServiceService_saveOrUpdateMessageWithModelMessage_(message);
+}
+
++ (void)getMessagesWithInt:(jint)userId1
+                   withInt:(jint)userId2 {
+  ServiceService_getMessagesWithInt_withInt_(userId1, userId2);
 }
 
 + (void)getActions {
@@ -142,8 +156,11 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "updateOrSaveUnitWithModelUnit:", "updateOrSaveUnit", "V", 0x9, NULL, NULL },
     { "deleteUnitWithInt:", "deleteUnit", "V", 0x9, NULL, NULL },
     { "getUsers", NULL, "V", 0x9, NULL, NULL },
+    { "getUserWithInt:", "getUser", "V", 0x9, NULL, NULL },
     { "updateOrSaveUserWithModelUser:withNSString:", "updateOrSaveUser", "V", 0x9, NULL, NULL },
     { "deleteUserWithInt:", "deleteUser", "V", 0x9, NULL, NULL },
+    { "saveOrUpdateMessageWithModelMessage:", "saveOrUpdateMessage", "V", 0x9, NULL, NULL },
+    { "getMessagesWithInt:withInt:", "getMessages", "V", 0x9, NULL, NULL },
     { "getActions", NULL, "V", 0x9, NULL, NULL },
     { "updateOrSaveActionsWithModelAction:", "updateOrSaveActions", "V", 0x9, NULL, NULL },
     { "deleteActionWithInt:", "deleteAction", "V", 0x9, NULL, NULL },
@@ -153,7 +170,7 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "URL_", NULL, 0x1a, "Ljava.lang.String;", &ServiceService_URL_, NULL, .constantValue.asLong = 0 },
     { "logger_", NULL, 0x1a, "Ljava.util.logging.Logger;", &ServiceService_logger_, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _ServiceService = { 2, "Service", "rtdc.core.service", NULL, 0x11, 14, methods, 2, fields, 0, NULL, 0, NULL, NULL, NULL };
+  static const J2ObjcClassInfo _ServiceService = { 2, "Service", "rtdc.core.service", NULL, 0x11, 17, methods, 2, fields, 0, NULL, 0, NULL, NULL, NULL };
   return &_ServiceService;
 }
 
@@ -210,6 +227,11 @@ void ServiceService_getUsers() {
   ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"users") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, GET)]);
 }
 
+void ServiceService_getUserWithInt_(jint id_) {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$I", ServiceService_URL_, @"users/", id_) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
+}
+
 void ServiceService_updateOrSaveUserWithModelUser_withNSString_(ModelUser *user, NSString *password) {
   ServiceService_initialize();
   id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"users") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, PUT)];
@@ -221,6 +243,18 @@ void ServiceService_updateOrSaveUserWithModelUser_withNSString_(ModelUser *user,
 void ServiceService_deleteUserWithInt_(jint userId) {
   ServiceService_initialize();
   ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$I", ServiceService_URL_, @"users/", userId) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, DELETE)]);
+}
+
+void ServiceService_saveOrUpdateMessageWithModelMessage_(ModelMessage *message) {
+  ServiceService_initialize();
+  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"messages") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, PUT)];
+  [((id<ImplHttpRequest>) nil_chk(req)) addParameterWithNSString:@"message" withNSString:[((ModelMessage *) nil_chk(message)) description]];
+  ServiceService_executeRequestWithImplHttpRequest_(req);
+}
+
+void ServiceService_getMessagesWithInt_withInt_(jint userId1, jint userId2) {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$ICI", ServiceService_URL_, @"messages/", userId1, '/', userId2) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
 }
 
 void ServiceService_getActions() {
@@ -252,20 +286,20 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ServiceService)
 @implementation ServiceService_$1
 
 - (void)onSuccessWithId:(id<ImplHttpResponse>)resp {
-  if ([((id<ImplHttpResponse>) nil_chk(resp)) getStatusCode] != 200) [((RtdcCoreEventErrorEvent *) [new_RtdcCoreEventErrorEvent_initWithNSString_(JreStrcat("$IC$", @"Error code ", [resp getStatusCode], ' ', [resp getContent])) autorelease]) fire];
+  if ([((id<ImplHttpResponse>) nil_chk(resp)) getStatusCode] != 200) [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$IC$", @"Error code ", [resp getStatusCode], ' ', [resp getContent])) autorelease]) fire];
   else {
     @try {
-      JSONJSONObject *object = [new_JSONJSONObject_initWithNSString_([resp getContent]) autorelease];
-      RtdcCoreEventEvent_fireWithJSONJSONObject_(object);
+      JsonJSONObject *object = [new_JsonJSONObject_initWithNSString_([resp getContent]) autorelease];
+      EventEvent_fireWithJsonJSONObject_(object);
     }
-    @catch (JSONJSONException *e) {
-      [((RtdcCoreEventErrorEvent *) [new_RtdcCoreEventErrorEvent_initWithNSString_(JreStrcat("$$C$", @"Unrecognized output from server ", [resp getContent], ' ', [((JSONJSONException *) nil_chk(e)) getMessage])) autorelease]) fire];
+    @catch (JsonJSONException *e) {
+      [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$C$", @"Unrecognized output from server ", [resp getContent], ' ', [((JsonJSONException *) nil_chk(e)) getMessage])) autorelease]) fire];
     }
   }
 }
 
 - (void)onErrorWithNSString:(NSString *)message {
-  [((RtdcCoreEventErrorEvent *) [new_RtdcCoreEventErrorEvent_initWithNSString_(JreStrcat("$$", @"Network error ", message)) autorelease]) fire];
+  [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$", @"Network error ", message)) autorelease]) fire];
 }
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN

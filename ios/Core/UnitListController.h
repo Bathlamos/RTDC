@@ -12,19 +12,19 @@
 
 @class ModelUnit;
 @class ModelUnit_PropertiesEnum;
-@protocol RtdcCoreViewUnitListView;
+@protocol ViewUnitListView;
 
-@interface ControllerUnitListController : ControllerController < RtdcCoreEventFetchUnitsEvent_Handler >
+@interface ControllerUnitListController : ControllerController < EventFetchUnitsEvent_Handler >
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewUnitListView:(id<RtdcCoreViewUnitListView>)view;
+- (instancetype)initWithViewUnitListView:(id<ViewUnitListView>)view;
 
 - (void)editUnitWithModelUnit:(ModelUnit *)unit;
 
 - (void)onStop;
 
-- (void)onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:(RtdcCoreEventFetchUnitsEvent *)event;
+- (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event;
 
 - (void)sortUsersWithModelUnit_PropertiesEnum:(ModelUnit_PropertiesEnum *)property;
 
@@ -36,9 +36,9 @@
 
 J2OBJC_EMPTY_STATIC_INIT(ControllerUnitListController)
 
-FOUNDATION_EXPORT void ControllerUnitListController_initWithRtdcCoreViewUnitListView_(ControllerUnitListController *self, id<RtdcCoreViewUnitListView> view);
+FOUNDATION_EXPORT void ControllerUnitListController_initWithViewUnitListView_(ControllerUnitListController *self, id<ViewUnitListView> view);
 
-FOUNDATION_EXPORT ControllerUnitListController *new_ControllerUnitListController_initWithRtdcCoreViewUnitListView_(id<RtdcCoreViewUnitListView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerUnitListController *new_ControllerUnitListController_initWithViewUnitListView_(id<ViewUnitListView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerUnitListController)
 

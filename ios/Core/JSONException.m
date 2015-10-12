@@ -8,24 +8,24 @@
 #include "java/lang/RuntimeException.h"
 #include "java/lang/Throwable.h"
 
-@interface JSONJSONException () {
+@interface JsonJSONException () {
  @public
   JavaLangThrowable *cause_;
 }
 
 @end
 
-J2OBJC_FIELD_SETTER(JSONJSONException, cause_, JavaLangThrowable *)
+J2OBJC_FIELD_SETTER(JsonJSONException, cause_, JavaLangThrowable *)
 
-@implementation JSONJSONException
+@implementation JsonJSONException
 
 - (instancetype)initWithNSString:(NSString *)message {
-  JSONJSONException_initWithNSString_(self, message);
+  JsonJSONException_initWithNSString_(self, message);
   return self;
 }
 
 - (instancetype)initWithJavaLangThrowable:(JavaLangThrowable *)t {
-  JSONJSONException_initWithJavaLangThrowable_(self, t);
+  JsonJSONException_initWithJavaLangThrowable_(self, t);
   return self;
 }
 
@@ -47,31 +47,31 @@ J2OBJC_FIELD_SETTER(JSONJSONException, cause_, JavaLangThrowable *)
   static const J2ObjcFieldInfo fields[] = {
     { "cause_", NULL, 0x2, "Ljava.lang.Throwable;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _JSONJSONException = { 2, "JSONException", "rtdc.core.json", NULL, 0x1, 3, methods, 1, fields, 0, NULL, 0, NULL, NULL, NULL };
-  return &_JSONJSONException;
+  static const J2ObjcClassInfo _JsonJSONException = { 2, "JSONException", "rtdc.core.json", NULL, 0x1, 3, methods, 1, fields, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonJSONException;
 }
 
 @end
 
-void JSONJSONException_initWithNSString_(JSONJSONException *self, NSString *message) {
+void JsonJSONException_initWithNSString_(JsonJSONException *self, NSString *message) {
   JavaLangRuntimeException_initWithNSString_(self, message);
 }
 
-JSONJSONException *new_JSONJSONException_initWithNSString_(NSString *message) {
-  JSONJSONException *self = [JSONJSONException alloc];
-  JSONJSONException_initWithNSString_(self, message);
+JsonJSONException *new_JsonJSONException_initWithNSString_(NSString *message) {
+  JsonJSONException *self = [JsonJSONException alloc];
+  JsonJSONException_initWithNSString_(self, message);
   return self;
 }
 
-void JSONJSONException_initWithJavaLangThrowable_(JSONJSONException *self, JavaLangThrowable *t) {
+void JsonJSONException_initWithJavaLangThrowable_(JsonJSONException *self, JavaLangThrowable *t) {
   JavaLangRuntimeException_initWithNSString_(self, [((JavaLangThrowable *) nil_chk(t)) getMessage]);
   JreStrongAssign(&self->cause_, t);
 }
 
-JSONJSONException *new_JSONJSONException_initWithJavaLangThrowable_(JavaLangThrowable *t) {
-  JSONJSONException *self = [JSONJSONException alloc];
-  JSONJSONException_initWithJavaLangThrowable_(self, t);
+JsonJSONException *new_JsonJSONException_initWithJavaLangThrowable_(JavaLangThrowable *t) {
+  JsonJSONException *self = [JsonJSONException alloc];
+  JsonJSONException_initWithJavaLangThrowable_(self, t);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JSONJSONException)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonJSONException)

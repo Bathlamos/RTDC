@@ -11,7 +11,7 @@
 
 @protocol ImplUiElement;
 
-@protocol RtdcCoreViewEditCapacityView < RtdcCoreViewDialog, NSObject, JavaObject >
+@protocol ViewEditCapacityView < ViewDialog, NSObject, JavaObject >
 
 - (id<ImplUiElement>)getAvailableBedsUiElement;
 
@@ -25,8 +25,10 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewEditCapacityView)
+J2OBJC_EMPTY_STATIC_INIT(ViewEditCapacityView)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewEditCapacityView)
+J2OBJC_TYPE_LITERAL_HEADER(ViewEditCapacityView)
+
+#define RtdcCoreViewEditCapacityView ViewEditCapacityView
 
 #endif // _EditCapacityView_H_

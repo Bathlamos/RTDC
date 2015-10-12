@@ -4,6 +4,7 @@
 //
 
 #include "J2ObjC_source.h"
+#include "Message.h"
 #include "User.h"
 #include "VoipController.h"
 
@@ -20,6 +21,7 @@
     { "callWithModelUser:withBoolean:", "call", "V", 0x401, NULL, NULL },
     { "acceptCall", NULL, "V", 0x401, NULL, NULL },
     { "declineCall", NULL, "V", 0x401, NULL, NULL },
+    { "sendMessageWithModelMessage:", "sendMessage", "V", 0x401, NULL, NULL },
     { "setMicMutedWithBoolean:", "setMicMuted", "V", 0x401, NULL, NULL },
     { "setSpeakerWithBoolean:", "setSpeaker", "V", 0x401, NULL, NULL },
     { "setVideoWithBoolean:", "setVideo", "V", 0x401, NULL, NULL },
@@ -30,7 +32,7 @@
     { "isReceivingRemoteVideo", NULL, "Z", 0x401, NULL, NULL },
     { "hangup", NULL, "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _ImplVoipController = { 2, "VoipController", "rtdc.core.impl", NULL, 0x609, 14, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  static const J2ObjcClassInfo _ImplVoipController = { 2, "VoipController", "rtdc.core.impl", NULL, 0x609, 15, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
   return &_ImplVoipController;
 }
 

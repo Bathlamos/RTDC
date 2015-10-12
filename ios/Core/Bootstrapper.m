@@ -24,15 +24,15 @@ static JavaUtilLoggingLogger *RtdcCoreBootstrapper_logger_;
 J2OBJC_STATIC_FIELD_GETTER(RtdcCoreBootstrapper, logger_, JavaUtilLoggingLogger *)
 J2OBJC_STATIC_FIELD_SETTER(RtdcCoreBootstrapper, logger_, JavaUtilLoggingLogger *)
 
-static id<RtdcCoreEventAuthenticationEvent_Handler> RtdcCoreBootstrapper_authHandler_;
-J2OBJC_STATIC_FIELD_GETTER(RtdcCoreBootstrapper, authHandler_, id<RtdcCoreEventAuthenticationEvent_Handler>)
+static id<EventAuthenticationEvent_Handler> RtdcCoreBootstrapper_authHandler_;
+J2OBJC_STATIC_FIELD_GETTER(RtdcCoreBootstrapper, authHandler_, id<EventAuthenticationEvent_Handler>)
 
-static id<RtdcCoreEventSessionExpiredEvent_Handler> RtdcCoreBootstrapper_sessionExpiredHandler_;
-J2OBJC_STATIC_FIELD_GETTER(RtdcCoreBootstrapper, sessionExpiredHandler_, id<RtdcCoreEventSessionExpiredEvent_Handler>)
+static id<EventSessionExpiredEvent_Handler> RtdcCoreBootstrapper_sessionExpiredHandler_;
+J2OBJC_STATIC_FIELD_GETTER(RtdcCoreBootstrapper, sessionExpiredHandler_, id<EventSessionExpiredEvent_Handler>)
 
-@interface RtdcCoreBootstrapper_$1 : NSObject < RtdcCoreEventAuthenticationEvent_Handler >
+@interface RtdcCoreBootstrapper_$1 : NSObject < EventAuthenticationEvent_Handler >
 
-- (void)onAuthenticateWithRtdcCoreEventAuthenticationEvent:(RtdcCoreEventAuthenticationEvent *)event;
+- (void)onAuthenticateWithEventAuthenticationEvent:(EventAuthenticationEvent *)event;
 
 - (instancetype)init;
 
@@ -46,7 +46,7 @@ __attribute__((unused)) static RtdcCoreBootstrapper_$1 *new_RtdcCoreBootstrapper
 
 J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreBootstrapper_$1)
 
-@interface RtdcCoreBootstrapper_$2 : NSObject < RtdcCoreEventSessionExpiredEvent_Handler >
+@interface RtdcCoreBootstrapper_$2 : NSObject < EventSessionExpiredEvent_Handler >
 
 - (void)onSessionExpired;
 
@@ -68,6 +68,22 @@ id<ImplFactory> RtdcCoreBootstrapper_FACTORY_;
 NSString *RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
 
 @implementation RtdcCoreBootstrapper
+
++ (id<ImplFactory>)FACTORY {
+  return RtdcCoreBootstrapper_FACTORY_;
+}
+
++ (void)setFACTORY:(id<ImplFactory>)value {
+  JreStrongAssign(&RtdcCoreBootstrapper_FACTORY_, value);
+}
+
++ (NSString *)AUTHENTICATION_TOKEN {
+  return RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
+}
+
++ (void)setAUTHENTICATION_TOKEN:(NSString *)value {
+  JreStrongAssign(&RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_, value);
+}
 
 + (void)initialize__WithImplFactory:(id<ImplFactory>)factory {
   RtdcCoreBootstrapper_initialize__WithImplFactory_(factory);
@@ -118,8 +134,8 @@ void RtdcCoreBootstrapper_initialize__WithImplFactory_(id<ImplFactory> factory) 
   }
   else {
     [RtdcCoreBootstrapper_logger_ logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:@"Now subscribing to AuthenticationEvent and SessionExpiredEvent"];
-    RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventAuthenticationEvent, TYPE_), RtdcCoreBootstrapper_authHandler_);
-    RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventSessionExpiredEvent, TYPE_), RtdcCoreBootstrapper_sessionExpiredHandler_);
+    EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventAuthenticationEvent, TYPE_), RtdcCoreBootstrapper_authHandler_);
+    EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventSessionExpiredEvent, TYPE_), RtdcCoreBootstrapper_sessionExpiredHandler_);
     ServiceService_isAuthTokenValid();
   }
 }
@@ -138,15 +154,15 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreBootstrapper)
 
 @implementation RtdcCoreBootstrapper_$1
 
-- (void)onAuthenticateWithRtdcCoreEventAuthenticationEvent:(RtdcCoreEventAuthenticationEvent *)event {
+- (void)onAuthenticateWithEventAuthenticationEvent:(EventAuthenticationEvent *)event {
   [((JavaUtilLoggingLogger *) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, logger_))) logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:@"AuthenticationEvent received"];
-  JreStrongAssign(JreLoadStaticRef(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_), [((RtdcCoreEventAuthenticationEvent *) nil_chk(event)) getAuthenticationToken]);
+  JreStrongAssign(JreLoadStaticRef(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_), [((EventAuthenticationEvent *) nil_chk(event)) getAuthenticationToken]);
   [((id<ImplStorage>) nil_chk([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) getStorage])) addWithNSString:ImplStorage_KEY_AUTH_TOKEN_ withNSString:JreLoadStatic(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_)];
   RtdcCoreSession_setCurrentSessionWithRtdcCoreSession_([new_RtdcCoreSession_initWithModelUser_([event getUser]) autorelease]);
   [((id<ImplVoipController>) nil_chk([JreLoadStatic(RtdcCoreBootstrapper, FACTORY_) getVoipController])) registerUserWithModelUser:[event getUser]];
   [((id<ImplDispatcher>) nil_chk([JreLoadStatic(RtdcCoreBootstrapper, FACTORY_) newDispatcher])) goToAllUnitsWithControllerController:nil];
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventAuthenticationEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, authHandler_));
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventSessionExpiredEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, sessionExpiredHandler_));
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventAuthenticationEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, authHandler_));
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventSessionExpiredEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, sessionExpiredHandler_));
 }
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
@@ -158,7 +174,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "onAuthenticateWithRtdcCoreEventAuthenticationEvent:", "onAuthenticate", "V", 0x1, NULL, NULL },
+    { "onAuthenticateWithEventAuthenticationEvent:", "onAuthenticate", "V", 0x1, NULL, NULL },
     { "init", "", NULL, 0x0, NULL, NULL },
   };
   static const J2ObjcClassInfo _RtdcCoreBootstrapper_$1 = { 2, "", "rtdc.core", "Bootstrapper", 0x8008, 2, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
@@ -184,8 +200,8 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreBootstrapper_$1)
 - (void)onSessionExpired {
   [((JavaUtilLoggingLogger *) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, logger_))) logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:@"SessionExpiredEvent received"];
   [((id<ImplDispatcher>) nil_chk([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newDispatcher])) goToLoginWithControllerController:nil];
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventAuthenticationEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, authHandler_));
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventSessionExpiredEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, sessionExpiredHandler_));
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventAuthenticationEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, authHandler_));
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventSessionExpiredEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, sessionExpiredHandler_));
 }
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN

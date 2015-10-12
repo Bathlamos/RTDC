@@ -9,9 +9,9 @@
 #include "J2ObjC_header.h"
 
 @class IOSObjectArray;
-@class JSONJSONArray;
-@class JSONJSONObject;
 @class JavaUtilArrayList;
+@class JsonJSONArray;
+@class JsonJSONObject;
 @protocol ComGoogleCommonBaseFunction;
 @protocol JavaLangIterable;
 @protocol ModelObjectProperty;
@@ -28,16 +28,16 @@
 
 - (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property;
 
-- (JSONJSONObject *)toJsonObject;
+- (JsonJSONObject *)toJsonObject;
 
 - (NSString *)description;
 
 #pragma mark Protected
 
-- (JavaUtilArrayList *)parseJsonArrayWithJSONJSONArray:(JSONJSONArray *)array
+- (JavaUtilArrayList *)parseJsonArrayWithJsonJSONArray:(JsonJSONArray *)array
                        withComGoogleCommonBaseFunction:(id<ComGoogleCommonBaseFunction>)function;
 
-- (JSONJSONArray *)toJsonArrayWithJavaLangIterable:(id<JavaLangIterable>)iterable;
+- (JsonJSONArray *)toJsonArrayWithJavaLangIterable:(id<JavaLangIterable>)iterable;
 
 @end
 

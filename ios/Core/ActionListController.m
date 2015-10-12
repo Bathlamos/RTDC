@@ -33,8 +33,8 @@ J2OBJC_FIELD_SETTER(ControllerActionListController, actions_, JavaUtilArrayList 
 
 @implementation ControllerActionListController
 
-- (instancetype)initWithRtdcCoreViewActionListView:(id<RtdcCoreViewActionListView>)view {
-  ControllerActionListController_initWithRtdcCoreViewActionListView_(self, view);
+- (instancetype)initWithViewActionListView:(id<ViewActionListView>)view {
+  ControllerActionListController_initWithViewActionListView_(self, view);
   return self;
 }
 
@@ -44,7 +44,7 @@ J2OBJC_FIELD_SETTER(ControllerActionListController, actions_, JavaUtilArrayList 
 
 - (void)sortActionsWithModelAction_PropertiesEnum:(ModelAction_PropertiesEnum *)property {
   JavaUtilCollections_sortWithJavaUtilList_withJavaUtilComparator_(actions_, [((ModelSimpleComparator_Builder *) nil_chk(ModelSimpleComparator_forPropertyWithModelObjectProperty_(property))) build]);
-  [((id<RtdcCoreViewActionListView>) nil_chk(view_)) setActionsWithJavaUtilList:actions_];
+  [((id<ViewActionListView>) nil_chk(view_)) setActionsWithJavaUtilList:actions_];
 }
 
 - (void)editActionWithModelAction:(ModelAction *)action {
@@ -58,18 +58,18 @@ J2OBJC_FIELD_SETTER(ControllerActionListController, actions_, JavaUtilArrayList 
 
 - (void)deleteActionWithModelAction:(ModelAction *)action {
   [((JavaUtilArrayList *) nil_chk(actions_)) removeWithId:action];
-  [((id<RtdcCoreViewActionListView>) nil_chk(view_)) setActionsWithJavaUtilList:actions_];
+  [((id<ViewActionListView>) nil_chk(view_)) setActionsWithJavaUtilList:actions_];
   ServiceService_deleteActionWithInt_([((ModelAction *) nil_chk(action)) getId]);
 }
 
-- (void)onActionsFetchedWithRtdcCoreEventFetchActionsEvent:(RtdcCoreEventFetchActionsEvent *)event {
-  JreStrongAssignAndConsume(&actions_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((RtdcCoreEventFetchActionsEvent *) nil_chk(event)) getActions]));
+- (void)onActionsFetchedWithEventFetchActionsEvent:(EventFetchActionsEvent *)event {
+  JreStrongAssignAndConsume(&actions_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchActionsEvent *) nil_chk(event)) getActions]));
   [self sortActionsWithModelAction_PropertiesEnum:JreLoadStatic(ModelAction_PropertiesEnum, task)];
 }
 
 - (void)onStop {
   [super onStop];
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchActionsEvent, TYPE_), self);
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchActionsEvent, TYPE_), self);
 }
 
 - (void)dealloc {
@@ -79,13 +79,13 @@ J2OBJC_FIELD_SETTER(ControllerActionListController, actions_, JavaUtilArrayList 
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewActionListView:", "ActionListController", NULL, 0x1, NULL, NULL },
+    { "initWithViewActionListView:", "ActionListController", NULL, 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
     { "sortActionsWithModelAction_PropertiesEnum:", "sortActions", "V", 0x1, NULL, NULL },
     { "editActionWithModelAction:", "editAction", "V", 0x1, NULL, NULL },
     { "saveActionWithModelAction:", "saveAction", "V", 0x1, NULL, NULL },
     { "deleteActionWithModelAction:", "deleteAction", "V", 0x1, NULL, NULL },
-    { "onActionsFetchedWithRtdcCoreEventFetchActionsEvent:", "onActionsFetched", "V", 0x1, NULL, NULL },
+    { "onActionsFetchedWithEventFetchActionsEvent:", "onActionsFetched", "V", 0x1, NULL, NULL },
     { "onStop", NULL, "V", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
@@ -98,15 +98,15 @@ J2OBJC_FIELD_SETTER(ControllerActionListController, actions_, JavaUtilArrayList 
 
 @end
 
-void ControllerActionListController_initWithRtdcCoreViewActionListView_(ControllerActionListController *self, id<RtdcCoreViewActionListView> view) {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
-  RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchActionsEvent, TYPE_), self);
+void ControllerActionListController_initWithViewActionListView_(ControllerActionListController *self, id<ViewActionListView> view) {
+  ControllerController_initWithViewView_(self, view);
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchActionsEvent, TYPE_), self);
   ServiceService_getActions();
 }
 
-ControllerActionListController *new_ControllerActionListController_initWithRtdcCoreViewActionListView_(id<RtdcCoreViewActionListView> view) {
+ControllerActionListController *new_ControllerActionListController_initWithViewActionListView_(id<ViewActionListView> view) {
   ControllerActionListController *self = [ControllerActionListController alloc];
-  ControllerActionListController_initWithRtdcCoreViewActionListView_(self, view);
+  ControllerActionListController_initWithViewActionListView_(self, view);
   return self;
 }
 

@@ -13,19 +13,21 @@
 #include "java/lang/Enum.h"
 
 @class ComGoogleCommonCollectImmutableSet;
+@class EventEventType;
 @class IOSObjectArray;
-@class JSONJSONObject;
-@class RtdcCoreEventEventType;
+@class JsonJSONObject;
 @protocol JavaLangIterable;
 @protocol ModelObjectProperty;
 
-@interface RtdcCoreEventFetchUnitsEvent : RtdcCoreEventEvent
+@interface EventFetchUnitsEvent : EventEvent
+
++ (EventEventType *)TYPE;
 
 #pragma mark Public
 
 - (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)units;
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (void)fire;
 
@@ -39,56 +41,60 @@
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventFetchUnitsEvent)
+J2OBJC_STATIC_INIT(EventFetchUnitsEvent)
 
-FOUNDATION_EXPORT RtdcCoreEventEventType *RtdcCoreEventFetchUnitsEvent_TYPE_;
-J2OBJC_STATIC_FIELD_GETTER(RtdcCoreEventFetchUnitsEvent, TYPE_, RtdcCoreEventEventType *)
+FOUNDATION_EXPORT EventEventType *EventFetchUnitsEvent_TYPE_;
+J2OBJC_STATIC_FIELD_GETTER(EventFetchUnitsEvent, TYPE_, EventEventType *)
 
-FOUNDATION_EXPORT void RtdcCoreEventFetchUnitsEvent_initWithJavaLangIterable_(RtdcCoreEventFetchUnitsEvent *self, id<JavaLangIterable> units);
+FOUNDATION_EXPORT void EventFetchUnitsEvent_initWithJavaLangIterable_(EventFetchUnitsEvent *self, id<JavaLangIterable> units);
 
-FOUNDATION_EXPORT RtdcCoreEventFetchUnitsEvent *new_RtdcCoreEventFetchUnitsEvent_initWithJavaLangIterable_(id<JavaLangIterable> units) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventFetchUnitsEvent *new_EventFetchUnitsEvent_initWithJavaLangIterable_(id<JavaLangIterable> units) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void RtdcCoreEventFetchUnitsEvent_initWithJSONJSONObject_(RtdcCoreEventFetchUnitsEvent *self, JSONJSONObject *object);
+FOUNDATION_EXPORT void EventFetchUnitsEvent_initWithJsonJSONObject_(EventFetchUnitsEvent *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT RtdcCoreEventFetchUnitsEvent *new_RtdcCoreEventFetchUnitsEvent_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventFetchUnitsEvent *new_EventFetchUnitsEvent_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventFetchUnitsEvent)
+J2OBJC_TYPE_LITERAL_HEADER(EventFetchUnitsEvent)
 
-@protocol RtdcCoreEventFetchUnitsEvent_Handler < RtdcCoreEventEventHandler, NSObject, JavaObject >
+@compatibility_alias RtdcCoreEventFetchUnitsEvent EventFetchUnitsEvent;
 
-- (void)onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:(RtdcCoreEventFetchUnitsEvent *)event;
+@protocol EventFetchUnitsEvent_Handler < EventEventHandler, NSObject, JavaObject >
+
+- (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventFetchUnitsEvent_Handler)
+J2OBJC_EMPTY_STATIC_INIT(EventFetchUnitsEvent_Handler)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventFetchUnitsEvent_Handler)
+J2OBJC_TYPE_LITERAL_HEADER(EventFetchUnitsEvent_Handler)
 
-typedef NS_ENUM(NSUInteger, RtdcCoreEventFetchUnitsEvent_Properties) {
-  RtdcCoreEventFetchUnitsEvent_Properties_units = 0,
+typedef NS_ENUM(NSUInteger, EventFetchUnitsEvent_Properties) {
+  EventFetchUnitsEvent_Properties_units = 0,
 };
 
-@interface RtdcCoreEventFetchUnitsEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+@interface EventFetchUnitsEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventFetchUnitsEvent_PropertiesEnum *)units;
 
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;
-FOUNDATION_EXPORT IOSObjectArray *RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values();
+FOUNDATION_EXPORT IOSObjectArray *EventFetchUnitsEvent_PropertiesEnum_values();
 
-+ (RtdcCoreEventFetchUnitsEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
-FOUNDATION_EXPORT RtdcCoreEventFetchUnitsEvent_PropertiesEnum *RtdcCoreEventFetchUnitsEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
++ (EventFetchUnitsEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
+FOUNDATION_EXPORT EventFetchUnitsEvent_PropertiesEnum *EventFetchUnitsEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
 
 - (id)copyWithZone:(NSZone *)zone;
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventFetchUnitsEvent_PropertiesEnum)
+J2OBJC_STATIC_INIT(EventFetchUnitsEvent_PropertiesEnum)
 
-FOUNDATION_EXPORT RtdcCoreEventFetchUnitsEvent_PropertiesEnum *RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values_[];
+FOUNDATION_EXPORT EventFetchUnitsEvent_PropertiesEnum *EventFetchUnitsEvent_PropertiesEnum_values_[];
 
-#define RtdcCoreEventFetchUnitsEvent_PropertiesEnum_units RtdcCoreEventFetchUnitsEvent_PropertiesEnum_values_[RtdcCoreEventFetchUnitsEvent_Properties_units]
-J2OBJC_ENUM_CONSTANT_GETTER(RtdcCoreEventFetchUnitsEvent_PropertiesEnum, units)
+#define EventFetchUnitsEvent_PropertiesEnum_units EventFetchUnitsEvent_PropertiesEnum_values_[EventFetchUnitsEvent_Properties_units]
+J2OBJC_ENUM_CONSTANT_GETTER(EventFetchUnitsEvent_PropertiesEnum, units)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventFetchUnitsEvent_PropertiesEnum)
+J2OBJC_TYPE_LITERAL_HEADER(EventFetchUnitsEvent_PropertiesEnum)
 
 #endif // _FetchUnitsEvent_H_

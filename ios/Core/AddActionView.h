@@ -12,7 +12,7 @@
 @protocol ImplUiDropdownList;
 @protocol ImplUiElement;
 
-@protocol RtdcCoreViewAddActionView < RtdcCoreViewDialog, NSObject, JavaObject >
+@protocol ViewAddActionView < ViewDialog, NSObject, JavaObject >
 
 - (id<ImplUiDropdownList>)getUnitUiElement;
 
@@ -30,8 +30,10 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewAddActionView)
+J2OBJC_EMPTY_STATIC_INIT(ViewAddActionView)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewAddActionView)
+J2OBJC_TYPE_LITERAL_HEADER(ViewAddActionView)
+
+#define RtdcCoreViewAddActionView ViewAddActionView
 
 #endif // _AddActionView_H_

@@ -16,7 +16,7 @@
 #include "java/lang/Enum.h"
 #include "java/lang/IllegalArgumentException.h"
 
-@interface RtdcCoreEventAuthenticationEvent () {
+@interface EventAuthenticationEvent () {
  @public
   ModelUser *user_;
   NSString *authenticationToken_;
@@ -24,31 +24,35 @@
 
 @end
 
-J2OBJC_FIELD_SETTER(RtdcCoreEventAuthenticationEvent, user_, ModelUser *)
-J2OBJC_FIELD_SETTER(RtdcCoreEventAuthenticationEvent, authenticationToken_, NSString *)
+J2OBJC_FIELD_SETTER(EventAuthenticationEvent, user_, ModelUser *)
+J2OBJC_FIELD_SETTER(EventAuthenticationEvent, authenticationToken_, NSString *)
 
-__attribute__((unused)) static void RtdcCoreEventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(RtdcCoreEventAuthenticationEvent_PropertiesEnum *self, NSString *__name, jint __ordinal);
+__attribute__((unused)) static void EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(EventAuthenticationEvent_PropertiesEnum *self, NSString *__name, jint __ordinal);
 
-__attribute__((unused)) static RtdcCoreEventAuthenticationEvent_PropertiesEnum *new_RtdcCoreEventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
+__attribute__((unused)) static EventAuthenticationEvent_PropertiesEnum *new_EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
 
-@interface RtdcCoreEventAuthenticationEvent_Handler : NSObject
+@interface EventAuthenticationEvent_Handler : NSObject
 
 @end
 
-J2OBJC_INITIALIZED_DEFN(RtdcCoreEventAuthenticationEvent)
+J2OBJC_INITIALIZED_DEFN(EventAuthenticationEvent)
 
-RtdcCoreEventEventType *RtdcCoreEventAuthenticationEvent_TYPE_;
+EventEventType *EventAuthenticationEvent_TYPE_;
 
-@implementation RtdcCoreEventAuthenticationEvent
+@implementation EventAuthenticationEvent
+
++ (EventEventType *)TYPE {
+  return EventAuthenticationEvent_TYPE_;
+}
 
 - (instancetype)initWithModelUser:(ModelUser *)user
                      withNSString:(NSString *)authenticationToken {
-  RtdcCoreEventAuthenticationEvent_initWithModelUser_withNSString_(self, user, authenticationToken);
+  EventAuthenticationEvent_initWithModelUser_withNSString_(self, user, authenticationToken);
   return self;
 }
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object {
-  RtdcCoreEventAuthenticationEvent_initWithJSONJSONObject_(self, object);
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
+  EventAuthenticationEvent_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -61,22 +65,22 @@ RtdcCoreEventEventType *RtdcCoreEventAuthenticationEvent_TYPE_;
 }
 
 - (void)fire {
-  for (id<RtdcCoreEventAuthenticationEvent_Handler> __strong handler in nil_chk([self getHandlersWithRtdcCoreEventEventType:RtdcCoreEventAuthenticationEvent_TYPE_])) [((id<RtdcCoreEventAuthenticationEvent_Handler>) nil_chk(handler)) onAuthenticateWithRtdcCoreEventAuthenticationEvent:self];
+  for (id<EventAuthenticationEvent_Handler> __strong handler in nil_chk([self getHandlersWithEventEventType:EventAuthenticationEvent_TYPE_])) [((id<EventAuthenticationEvent_Handler>) nil_chk(handler)) onAuthenticateWithEventAuthenticationEvent:self];
 }
 
 - (IOSObjectArray *)getProperties {
-  return RtdcCoreEventAuthenticationEvent_PropertiesEnum_values();
+  return EventAuthenticationEvent_PropertiesEnum_values();
 }
 
 - (NSString *)getType {
-  return [((RtdcCoreEventEventType *) nil_chk(RtdcCoreEventAuthenticationEvent_TYPE_)) getName];
+  return [((EventEventType *) nil_chk(EventAuthenticationEvent_TYPE_)) getName];
 }
 
 - (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property {
-  switch ([(RtdcCoreEventAuthenticationEvent_PropertiesEnum *) check_class_cast(property, [RtdcCoreEventAuthenticationEvent_PropertiesEnum class]) ordinal]) {
-    case RtdcCoreEventAuthenticationEvent_Properties_user:
+  switch ([(EventAuthenticationEvent_PropertiesEnum *) check_class_cast(property, [EventAuthenticationEvent_PropertiesEnum class]) ordinal]) {
+    case EventAuthenticationEvent_Properties_user:
     return user_;
-    case RtdcCoreEventAuthenticationEvent_Properties_authenticationToken:
+    case EventAuthenticationEvent_Properties_authenticationToken:
     return authenticationToken_;
   }
   return nil;
@@ -89,16 +93,16 @@ RtdcCoreEventEventType *RtdcCoreEventAuthenticationEvent_TYPE_;
 }
 
 + (void)initialize {
-  if (self == [RtdcCoreEventAuthenticationEvent class]) {
-    JreStrongAssignAndConsume(&RtdcCoreEventAuthenticationEvent_TYPE_, new_RtdcCoreEventEventType_initWithNSString_(@"authenticationEvent"));
-    J2OBJC_SET_INITIALIZED(RtdcCoreEventAuthenticationEvent)
+  if (self == [EventAuthenticationEvent class]) {
+    JreStrongAssignAndConsume(&EventAuthenticationEvent_TYPE_, new_EventEventType_initWithNSString_(@"authenticationEvent"));
+    J2OBJC_SET_INITIALIZED(EventAuthenticationEvent)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithModelUser:withNSString:", "AuthenticationEvent", NULL, 0x1, NULL, NULL },
-    { "initWithJSONJSONObject:", "AuthenticationEvent", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONObject:", "AuthenticationEvent", NULL, 0x1, NULL, NULL },
     { "getUser", NULL, "Lrtdc.core.model.User;", 0x1, NULL, NULL },
     { "getAuthenticationToken", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
     { "fire", NULL, "V", 0x0, NULL, NULL },
@@ -107,73 +111,81 @@ RtdcCoreEventEventType *RtdcCoreEventAuthenticationEvent_TYPE_;
     { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &RtdcCoreEventAuthenticationEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/AuthenticationEvent$Handler;>;", .constantValue.asLong = 0 },
+    { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &EventAuthenticationEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/AuthenticationEvent$Handler;>;", .constantValue.asLong = 0 },
     { "user_", NULL, 0x12, "Lrtdc.core.model.User;", NULL, NULL, .constantValue.asLong = 0 },
     { "authenticationToken_", NULL, 0x12, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.AuthenticationEvent$Handler;"};
   static const char *inner_classes[] = {"Lrtdc.core.event.AuthenticationEvent$Properties;", "Lrtdc.core.event.AuthenticationEvent$Handler;"};
-  static const J2ObjcClassInfo _RtdcCoreEventAuthenticationEvent = { 2, "AuthenticationEvent", "rtdc.core.event", NULL, 0x1, 8, methods, 3, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/AuthenticationEvent$Handler;>;" };
-  return &_RtdcCoreEventAuthenticationEvent;
+  static const J2ObjcClassInfo _EventAuthenticationEvent = { 2, "AuthenticationEvent", "rtdc.core.event", NULL, 0x1, 8, methods, 3, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/AuthenticationEvent$Handler;>;" };
+  return &_EventAuthenticationEvent;
 }
 
 @end
 
-void RtdcCoreEventAuthenticationEvent_initWithModelUser_withNSString_(RtdcCoreEventAuthenticationEvent *self, ModelUser *user, NSString *authenticationToken) {
-  RtdcCoreEventEvent_init(self);
+void EventAuthenticationEvent_initWithModelUser_withNSString_(EventAuthenticationEvent *self, ModelUser *user, NSString *authenticationToken) {
+  EventEvent_init(self);
   JreStrongAssign(&self->user_, user);
   JreStrongAssign(&self->authenticationToken_, authenticationToken);
 }
 
-RtdcCoreEventAuthenticationEvent *new_RtdcCoreEventAuthenticationEvent_initWithModelUser_withNSString_(ModelUser *user, NSString *authenticationToken) {
-  RtdcCoreEventAuthenticationEvent *self = [RtdcCoreEventAuthenticationEvent alloc];
-  RtdcCoreEventAuthenticationEvent_initWithModelUser_withNSString_(self, user, authenticationToken);
+EventAuthenticationEvent *new_EventAuthenticationEvent_initWithModelUser_withNSString_(ModelUser *user, NSString *authenticationToken) {
+  EventAuthenticationEvent *self = [EventAuthenticationEvent alloc];
+  EventAuthenticationEvent_initWithModelUser_withNSString_(self, user, authenticationToken);
   return self;
 }
 
-void RtdcCoreEventAuthenticationEvent_initWithJSONJSONObject_(RtdcCoreEventAuthenticationEvent *self, JSONJSONObject *object) {
-  RtdcCoreEventEvent_init(self);
-  JreStrongAssignAndConsume(&self->user_, new_ModelUser_initWithJSONJSONObject_([((JSONJSONObject *) nil_chk(object)) getJSONObjectWithNSString:[((RtdcCoreEventAuthenticationEvent_PropertiesEnum *) nil_chk(JreLoadStatic(RtdcCoreEventAuthenticationEvent_PropertiesEnum, user))) name]]));
-  JreStrongAssign(&self->authenticationToken_, [object optStringWithNSString:[((RtdcCoreEventAuthenticationEvent_PropertiesEnum *) nil_chk(JreLoadStatic(RtdcCoreEventAuthenticationEvent_PropertiesEnum, authenticationToken))) name]]);
+void EventAuthenticationEvent_initWithJsonJSONObject_(EventAuthenticationEvent *self, JsonJSONObject *object) {
+  EventEvent_init(self);
+  JreStrongAssignAndConsume(&self->user_, new_ModelUser_initWithJsonJSONObject_([((JsonJSONObject *) nil_chk(object)) getJSONObjectWithNSString:[((EventAuthenticationEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventAuthenticationEvent_PropertiesEnum, user))) name]]));
+  JreStrongAssign(&self->authenticationToken_, [object optStringWithNSString:[((EventAuthenticationEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventAuthenticationEvent_PropertiesEnum, authenticationToken))) name]]);
 }
 
-RtdcCoreEventAuthenticationEvent *new_RtdcCoreEventAuthenticationEvent_initWithJSONJSONObject_(JSONJSONObject *object) {
-  RtdcCoreEventAuthenticationEvent *self = [RtdcCoreEventAuthenticationEvent alloc];
-  RtdcCoreEventAuthenticationEvent_initWithJSONJSONObject_(self, object);
+EventAuthenticationEvent *new_EventAuthenticationEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
+  EventAuthenticationEvent *self = [EventAuthenticationEvent alloc];
+  EventAuthenticationEvent_initWithJsonJSONObject_(self, object);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventAuthenticationEvent)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventAuthenticationEvent)
 
-J2OBJC_INITIALIZED_DEFN(RtdcCoreEventAuthenticationEvent_PropertiesEnum)
+J2OBJC_INITIALIZED_DEFN(EventAuthenticationEvent_PropertiesEnum)
 
-RtdcCoreEventAuthenticationEvent_PropertiesEnum *RtdcCoreEventAuthenticationEvent_PropertiesEnum_values_[2];
+EventAuthenticationEvent_PropertiesEnum *EventAuthenticationEvent_PropertiesEnum_values_[2];
 
-@implementation RtdcCoreEventAuthenticationEvent_PropertiesEnum
+@implementation EventAuthenticationEvent_PropertiesEnum
+
++ (EventAuthenticationEvent_PropertiesEnum *)user {
+  return EventAuthenticationEvent_PropertiesEnum_user;
+}
+
++ (EventAuthenticationEvent_PropertiesEnum *)authenticationToken {
+  return EventAuthenticationEvent_PropertiesEnum_authenticationToken;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
-  RtdcCoreEventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
   return self;
 }
 
-IOSObjectArray *RtdcCoreEventAuthenticationEvent_PropertiesEnum_values() {
-  RtdcCoreEventAuthenticationEvent_PropertiesEnum_initialize();
-  return [IOSObjectArray arrayWithObjects:RtdcCoreEventAuthenticationEvent_PropertiesEnum_values_ count:2 type:RtdcCoreEventAuthenticationEvent_PropertiesEnum_class_()];
+IOSObjectArray *EventAuthenticationEvent_PropertiesEnum_values() {
+  EventAuthenticationEvent_PropertiesEnum_initialize();
+  return [IOSObjectArray arrayWithObjects:EventAuthenticationEvent_PropertiesEnum_values_ count:2 type:EventAuthenticationEvent_PropertiesEnum_class_()];
 }
 
 + (IOSObjectArray *)values {
-  return RtdcCoreEventAuthenticationEvent_PropertiesEnum_values();
+  return EventAuthenticationEvent_PropertiesEnum_values();
 }
 
-+ (RtdcCoreEventAuthenticationEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
-  return RtdcCoreEventAuthenticationEvent_PropertiesEnum_valueOfWithNSString_(name);
++ (EventAuthenticationEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
+  return EventAuthenticationEvent_PropertiesEnum_valueOfWithNSString_(name);
 }
 
-RtdcCoreEventAuthenticationEvent_PropertiesEnum *RtdcCoreEventAuthenticationEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
-  RtdcCoreEventAuthenticationEvent_PropertiesEnum_initialize();
+EventAuthenticationEvent_PropertiesEnum *EventAuthenticationEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
+  EventAuthenticationEvent_PropertiesEnum_initialize();
   for (int i = 0; i < 2; i++) {
-    RtdcCoreEventAuthenticationEvent_PropertiesEnum *e = RtdcCoreEventAuthenticationEvent_PropertiesEnum_values_[i];
+    EventAuthenticationEvent_PropertiesEnum *e = EventAuthenticationEvent_PropertiesEnum_values_[i];
     if ([name isEqual:[e name]]) {
       return e;
     }
@@ -187,47 +199,47 @@ RtdcCoreEventAuthenticationEvent_PropertiesEnum *RtdcCoreEventAuthenticationEven
 }
 
 + (void)initialize {
-  if (self == [RtdcCoreEventAuthenticationEvent_PropertiesEnum class]) {
-    RtdcCoreEventAuthenticationEvent_PropertiesEnum_user = new_RtdcCoreEventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(@"user", 0);
-    RtdcCoreEventAuthenticationEvent_PropertiesEnum_authenticationToken = new_RtdcCoreEventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(@"authenticationToken", 1);
-    J2OBJC_SET_INITIALIZED(RtdcCoreEventAuthenticationEvent_PropertiesEnum)
+  if (self == [EventAuthenticationEvent_PropertiesEnum class]) {
+    EventAuthenticationEvent_PropertiesEnum_user = new_EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(@"user", 0);
+    EventAuthenticationEvent_PropertiesEnum_authenticationToken = new_EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(@"authenticationToken", 1);
+    J2OBJC_SET_INITIALIZED(EventAuthenticationEvent_PropertiesEnum)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcFieldInfo fields[] = {
-    { "user", "user", 0x4019, "Lrtdc.core.event.AuthenticationEvent$Properties;", &RtdcCoreEventAuthenticationEvent_PropertiesEnum_user, NULL, .constantValue.asLong = 0 },
-    { "authenticationToken", "authenticationToken", 0x4019, "Lrtdc.core.event.AuthenticationEvent$Properties;", &RtdcCoreEventAuthenticationEvent_PropertiesEnum_authenticationToken, NULL, .constantValue.asLong = 0 },
+    { "user", "user", 0x4019, "Lrtdc.core.event.AuthenticationEvent$Properties;", &EventAuthenticationEvent_PropertiesEnum_user, NULL, .constantValue.asLong = 0 },
+    { "authenticationToken", "authenticationToken", 0x4019, "Lrtdc.core.event.AuthenticationEvent$Properties;", &EventAuthenticationEvent_PropertiesEnum_authenticationToken, NULL, .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.AuthenticationEvent$Properties;"};
-  static const J2ObjcClassInfo _RtdcCoreEventAuthenticationEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "AuthenticationEvent", 0x4019, 0, NULL, 2, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/AuthenticationEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/AuthenticationEvent;>;" };
-  return &_RtdcCoreEventAuthenticationEvent_PropertiesEnum;
+  static const J2ObjcClassInfo _EventAuthenticationEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "AuthenticationEvent", 0x4019, 0, NULL, 2, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/AuthenticationEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/AuthenticationEvent;>;" };
+  return &_EventAuthenticationEvent_PropertiesEnum;
 }
 
 @end
 
-void RtdcCoreEventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(RtdcCoreEventAuthenticationEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
+void EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(EventAuthenticationEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
   JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
-RtdcCoreEventAuthenticationEvent_PropertiesEnum *new_RtdcCoreEventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
-  RtdcCoreEventAuthenticationEvent_PropertiesEnum *self = [RtdcCoreEventAuthenticationEvent_PropertiesEnum alloc];
-  RtdcCoreEventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+EventAuthenticationEvent_PropertiesEnum *new_EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
+  EventAuthenticationEvent_PropertiesEnum *self = [EventAuthenticationEvent_PropertiesEnum alloc];
+  EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventAuthenticationEvent_PropertiesEnum)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventAuthenticationEvent_PropertiesEnum)
 
-@implementation RtdcCoreEventAuthenticationEvent_Handler
+@implementation EventAuthenticationEvent_Handler
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "onAuthenticateWithRtdcCoreEventAuthenticationEvent:", "onAuthenticate", "V", 0x401, NULL, NULL },
+    { "onAuthenticateWithEventAuthenticationEvent:", "onAuthenticate", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreEventAuthenticationEvent_Handler = { 2, "Handler", "rtdc.core.event", "AuthenticationEvent", 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreEventAuthenticationEvent_Handler;
+  static const J2ObjcClassInfo _EventAuthenticationEvent_Handler = { 2, "Handler", "rtdc.core.event", "AuthenticationEvent", 0x609, 1, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_EventAuthenticationEvent_Handler;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreEventAuthenticationEvent_Handler)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(EventAuthenticationEvent_Handler)

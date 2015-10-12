@@ -11,14 +11,16 @@
 
 @protocol JavaUtilList;
 
-@protocol RtdcCoreViewCapacityOverviewView < RtdcCoreViewView, NSObject, JavaObject >
+@protocol ViewCapacityOverviewView < ViewView, NSObject, JavaObject >
 
 - (void)setUnitsWithJavaUtilList:(id<JavaUtilList>)units;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewCapacityOverviewView)
+J2OBJC_EMPTY_STATIC_INIT(ViewCapacityOverviewView)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewCapacityOverviewView)
+J2OBJC_TYPE_LITERAL_HEADER(ViewCapacityOverviewView)
+
+#define RtdcCoreViewCapacityOverviewView ViewCapacityOverviewView
 
 #endif // _CapacityOverviewView_H_

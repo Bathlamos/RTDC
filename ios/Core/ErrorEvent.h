@@ -12,16 +12,18 @@
 #include "ObjectProperty.h"
 #include "java/lang/Enum.h"
 
+@class EventEventType;
 @class IOSObjectArray;
-@class JSONJSONObject;
-@class RtdcCoreEventEventType;
+@class JsonJSONObject;
 @protocol ModelObjectProperty;
 
-@interface RtdcCoreEventErrorEvent : RtdcCoreEventEvent
+@interface EventErrorEvent : EventEvent
+
++ (EventEventType *)TYPE;
 
 #pragma mark Public
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (instancetype)initWithNSString:(NSString *)description_;
 
@@ -37,56 +39,60 @@
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventErrorEvent)
+J2OBJC_STATIC_INIT(EventErrorEvent)
 
-FOUNDATION_EXPORT RtdcCoreEventEventType *RtdcCoreEventErrorEvent_TYPE_;
-J2OBJC_STATIC_FIELD_GETTER(RtdcCoreEventErrorEvent, TYPE_, RtdcCoreEventEventType *)
+FOUNDATION_EXPORT EventEventType *EventErrorEvent_TYPE_;
+J2OBJC_STATIC_FIELD_GETTER(EventErrorEvent, TYPE_, EventEventType *)
 
-FOUNDATION_EXPORT void RtdcCoreEventErrorEvent_initWithNSString_(RtdcCoreEventErrorEvent *self, NSString *description_);
+FOUNDATION_EXPORT void EventErrorEvent_initWithNSString_(EventErrorEvent *self, NSString *description_);
 
-FOUNDATION_EXPORT RtdcCoreEventErrorEvent *new_RtdcCoreEventErrorEvent_initWithNSString_(NSString *description_) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventErrorEvent *new_EventErrorEvent_initWithNSString_(NSString *description_) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void RtdcCoreEventErrorEvent_initWithJSONJSONObject_(RtdcCoreEventErrorEvent *self, JSONJSONObject *object);
+FOUNDATION_EXPORT void EventErrorEvent_initWithJsonJSONObject_(EventErrorEvent *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT RtdcCoreEventErrorEvent *new_RtdcCoreEventErrorEvent_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventErrorEvent *new_EventErrorEvent_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventErrorEvent)
+J2OBJC_TYPE_LITERAL_HEADER(EventErrorEvent)
 
-typedef NS_ENUM(NSUInteger, RtdcCoreEventErrorEvent_Properties) {
-  RtdcCoreEventErrorEvent_Properties_description = 0,
+@compatibility_alias RtdcCoreEventErrorEvent EventErrorEvent;
+
+typedef NS_ENUM(NSUInteger, EventErrorEvent_Properties) {
+  EventErrorEvent_Properties_description = 0,
 };
 
-@interface RtdcCoreEventErrorEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+@interface EventErrorEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventErrorEvent_PropertiesEnum *)description_;
 
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;
-FOUNDATION_EXPORT IOSObjectArray *RtdcCoreEventErrorEvent_PropertiesEnum_values();
+FOUNDATION_EXPORT IOSObjectArray *EventErrorEvent_PropertiesEnum_values();
 
-+ (RtdcCoreEventErrorEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
-FOUNDATION_EXPORT RtdcCoreEventErrorEvent_PropertiesEnum *RtdcCoreEventErrorEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
++ (EventErrorEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
+FOUNDATION_EXPORT EventErrorEvent_PropertiesEnum *EventErrorEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
 
 - (id)copyWithZone:(NSZone *)zone;
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventErrorEvent_PropertiesEnum)
+J2OBJC_STATIC_INIT(EventErrorEvent_PropertiesEnum)
 
-FOUNDATION_EXPORT RtdcCoreEventErrorEvent_PropertiesEnum *RtdcCoreEventErrorEvent_PropertiesEnum_values_[];
+FOUNDATION_EXPORT EventErrorEvent_PropertiesEnum *EventErrorEvent_PropertiesEnum_values_[];
 
-#define RtdcCoreEventErrorEvent_PropertiesEnum_description RtdcCoreEventErrorEvent_PropertiesEnum_values_[RtdcCoreEventErrorEvent_Properties_description]
-J2OBJC_ENUM_CONSTANT_GETTER(RtdcCoreEventErrorEvent_PropertiesEnum, description)
+#define EventErrorEvent_PropertiesEnum_description EventErrorEvent_PropertiesEnum_values_[EventErrorEvent_Properties_description]
+J2OBJC_ENUM_CONSTANT_GETTER(EventErrorEvent_PropertiesEnum, description)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventErrorEvent_PropertiesEnum)
+J2OBJC_TYPE_LITERAL_HEADER(EventErrorEvent_PropertiesEnum)
 
-@protocol RtdcCoreEventErrorEvent_Handler < RtdcCoreEventEventHandler, NSObject, JavaObject >
+@protocol EventErrorEvent_Handler < EventEventHandler, NSObject, JavaObject >
 
-- (void)onErrorWithRtdcCoreEventErrorEvent:(RtdcCoreEventErrorEvent *)event;
+- (void)onErrorWithEventErrorEvent:(EventErrorEvent *)event;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventErrorEvent_Handler)
+J2OBJC_EMPTY_STATIC_INIT(EventErrorEvent_Handler)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventErrorEvent_Handler)
+J2OBJC_TYPE_LITERAL_HEADER(EventErrorEvent_Handler)
 
 #endif // _ErrorEvent_H_

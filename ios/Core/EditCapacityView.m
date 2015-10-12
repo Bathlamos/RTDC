@@ -7,11 +7,11 @@
 #include "J2ObjC_source.h"
 #include "UiElement.h"
 
-@interface RtdcCoreViewEditCapacityView : NSObject
+@interface ViewEditCapacityView : NSObject
 
 @end
 
-@implementation RtdcCoreViewEditCapacityView
+@implementation ViewEditCapacityView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
@@ -21,10 +21,10 @@
     { "getTotalAdmitsUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
     { "getAdmitsByDeadlineUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewEditCapacityView = { 2, "EditCapacityView", "rtdc.core.view", NULL, 0x609, 5, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreViewEditCapacityView;
+  static const J2ObjcClassInfo _ViewEditCapacityView = { 2, "EditCapacityView", "rtdc.core.view", NULL, 0x609, 5, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_ViewEditCapacityView;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewEditCapacityView)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ViewEditCapacityView)

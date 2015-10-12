@@ -11,7 +11,9 @@
 #include "EventHandler.h"
 #include "EventType.h"
 #include "FetchActionsEvent.h"
+#include "FetchMessagesEvent.h"
 #include "FetchUnitsEvent.h"
+#include "FetchUserEvent.h"
 #include "FetchUsersEvent.h"
 #include "J2ObjC_source.h"
 #include "JSONObject.h"
@@ -23,30 +25,30 @@
 #include "java/util/HashMap.h"
 #include "java/util/Map.h"
 
-static id<JavaUtilMap> RtdcCoreEventEvent_handlers_;
-J2OBJC_STATIC_FIELD_GETTER(RtdcCoreEventEvent, handlers_, id<JavaUtilMap>)
-J2OBJC_STATIC_FIELD_SETTER(RtdcCoreEventEvent, handlers_, id<JavaUtilMap>)
+static id<JavaUtilMap> EventEvent_handlers_;
+J2OBJC_STATIC_FIELD_GETTER(EventEvent, handlers_, id<JavaUtilMap>)
+J2OBJC_STATIC_FIELD_SETTER(EventEvent, handlers_, id<JavaUtilMap>)
 
-J2OBJC_INITIALIZED_DEFN(RtdcCoreEventEvent)
+J2OBJC_INITIALIZED_DEFN(EventEvent)
 
-@implementation RtdcCoreEventEvent
+@implementation EventEvent
 
-+ (void)fireWithJSONJSONObject:(JSONJSONObject *)object {
-  RtdcCoreEventEvent_fireWithJSONJSONObject_(object);
++ (void)fireWithJsonJSONObject:(JsonJSONObject *)object {
+  EventEvent_fireWithJsonJSONObject_(object);
 }
 
-+ (void)subscribeWithRtdcCoreEventEventType:(RtdcCoreEventEventType *)eventType
-              withRtdcCoreEventEventHandler:(id<RtdcCoreEventEventHandler>)eventHandler {
-  RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(eventType, eventHandler);
++ (void)subscribeWithEventEventType:(EventEventType *)eventType
+              withEventEventHandler:(id<EventEventHandler>)eventHandler {
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(eventType, eventHandler);
 }
 
-+ (void)unsubscribeWithRtdcCoreEventEventType:(RtdcCoreEventEventType *)eventType
-                withRtdcCoreEventEventHandler:(id<RtdcCoreEventEventHandler>)eventHandler {
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(eventType, eventHandler);
++ (void)unsubscribeWithEventEventType:(EventEventType *)eventType
+                withEventEventHandler:(id<EventEventHandler>)eventHandler {
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(eventType, eventHandler);
 }
 
-- (ComGoogleCommonCollectImmutableSet *)getHandlersWithRtdcCoreEventEventType:(RtdcCoreEventEventType *)type {
-  RtdcCoreEventEventAggregator *eventAggregator = [((id<JavaUtilMap>) nil_chk(RtdcCoreEventEvent_handlers_)) getWithId:type];
+- (ComGoogleCommonCollectImmutableSet *)getHandlersWithEventEventType:(EventEventType *)type {
+  EventEventAggregator *eventAggregator = [((id<JavaUtilMap>) nil_chk(EventEvent_handlers_)) getWithId:type];
   if (eventAggregator == nil) return ComGoogleCommonCollectImmutableSet_of();
   else return [eventAggregator getHandlers];
 }
@@ -58,68 +60,70 @@ J2OBJC_INITIALIZED_DEFN(RtdcCoreEventEvent)
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  RtdcCoreEventEvent_init(self);
+  EventEvent_init(self);
   return self;
 }
 J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
-  if (self == [RtdcCoreEventEvent class]) {
-    JreStrongAssignAndConsume(&RtdcCoreEventEvent_handlers_, new_JavaUtilHashMap_init());
-    J2OBJC_SET_INITIALIZED(RtdcCoreEventEvent)
+  if (self == [EventEvent class]) {
+    JreStrongAssignAndConsume(&EventEvent_handlers_, new_JavaUtilHashMap_init());
+    J2OBJC_SET_INITIALIZED(EventEvent)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "fireWithJSONJSONObject:", "fire", "V", 0x9, NULL, NULL },
-    { "subscribeWithRtdcCoreEventEventType:withRtdcCoreEventEventHandler:", "subscribe", "V", 0x9, NULL, "<T::Lrtdc/core/event/EventHandler;>(Lrtdc/core/event/EventType<TT;>;TT;)V" },
-    { "unsubscribeWithRtdcCoreEventEventType:withRtdcCoreEventEventHandler:", "unsubscribe", "V", 0x9, NULL, "<T::Lrtdc/core/event/EventHandler;>(Lrtdc/core/event/EventType<TT;>;TT;)V" },
-    { "getHandlersWithRtdcCoreEventEventType:", "getHandlers", "Lcom.google.common.collect.ImmutableSet;", 0x4, NULL, "<T::Lrtdc/core/event/EventHandler;>(Lrtdc/core/event/EventType<TT;>;)Lcom/google/common/collect/ImmutableSet<TT;>;" },
+    { "fireWithJsonJSONObject:", "fire", "V", 0x9, NULL, NULL },
+    { "subscribeWithEventEventType:withEventEventHandler:", "subscribe", "V", 0x9, NULL, "<T::Lrtdc/core/event/EventHandler;>(Lrtdc/core/event/EventType<TT;>;TT;)V" },
+    { "unsubscribeWithEventEventType:withEventEventHandler:", "unsubscribe", "V", 0x9, NULL, "<T::Lrtdc/core/event/EventHandler;>(Lrtdc/core/event/EventType<TT;>;TT;)V" },
+    { "getHandlersWithEventEventType:", "getHandlers", "Lcom.google.common.collect.ImmutableSet;", 0x4, NULL, "<T::Lrtdc/core/event/EventHandler;>(Lrtdc/core/event/EventType<TT;>;)Lcom/google/common/collect/ImmutableSet<TT;>;" },
     { "fire", NULL, "V", 0x400, NULL, NULL },
     { "init", NULL, NULL, 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "handlers_", NULL, 0xa, "Ljava.util.Map;", &RtdcCoreEventEvent_handlers_, "Ljava/util/Map<Lrtdc/core/event/EventType;Lrtdc/core/event/EventAggregator;>;", .constantValue.asLong = 0 },
+    { "handlers_", NULL, 0xa, "Ljava.util.Map;", &EventEvent_handlers_, "Ljava/util/Map<Lrtdc/core/event/EventType;Lrtdc/core/event/EventAggregator;>;", .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _RtdcCoreEventEvent = { 2, "Event", "rtdc.core.event", NULL, 0x401, 6, methods, 1, fields, 0, NULL, 0, NULL, NULL, "<T::Lrtdc/core/event/EventHandler;>Lrtdc/core/model/RootObject;" };
-  return &_RtdcCoreEventEvent;
+  static const J2ObjcClassInfo _EventEvent = { 2, "Event", "rtdc.core.event", NULL, 0x401, 6, methods, 1, fields, 0, NULL, 0, NULL, NULL, "<T::Lrtdc/core/event/EventHandler;>Lrtdc/core/model/RootObject;" };
+  return &_EventEvent;
 }
 
 @end
 
-void RtdcCoreEventEvent_fireWithJSONJSONObject_(JSONJSONObject *object) {
-  RtdcCoreEventEvent_initialize();
-  NSString *type = [((JSONJSONObject *) nil_chk(object)) optStringWithNSString:@"_type"];
-  if (type == nil) [((RtdcCoreEventErrorEvent *) [new_RtdcCoreEventErrorEvent_initWithNSString_(JreStrcat("$$", @"Message type not recognized ", [object description])) autorelease]) fire];
+void EventEvent_fireWithJsonJSONObject_(JsonJSONObject *object) {
+  EventEvent_initialize();
+  NSString *type = [((JsonJSONObject *) nil_chk(object)) optStringWithNSString:@"_type"];
+  if (type == nil) [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$", @"Message type not recognized ", [object description])) autorelease]) fire];
   else {
-    RtdcCoreEventEvent *e = nil;
-    if ([type equalsIgnoreCase:[((RtdcCoreEventEventType *) nil_chk(JreLoadStatic(RtdcCoreEventAuthenticationEvent, TYPE_))) getName]]) e = [new_RtdcCoreEventAuthenticationEvent_initWithJSONJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((RtdcCoreEventEventType *) nil_chk(JreLoadStatic(RtdcCoreEventErrorEvent, TYPE_))) getName]]) e = [new_RtdcCoreEventErrorEvent_initWithJSONJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((RtdcCoreEventEventType *) nil_chk(JreLoadStatic(RtdcCoreEventFetchUnitsEvent, TYPE_))) getName]]) e = [new_RtdcCoreEventFetchUnitsEvent_initWithJSONJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((RtdcCoreEventEventType *) nil_chk(JreLoadStatic(RtdcCoreEventFetchUsersEvent, TYPE_))) getName]]) e = [new_RtdcCoreEventFetchUsersEvent_initWithJSONJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((RtdcCoreEventEventType *) nil_chk(JreLoadStatic(RtdcCoreEventFetchActionsEvent, TYPE_))) getName]]) e = [new_RtdcCoreEventFetchActionsEvent_initWithJSONJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((RtdcCoreEventEventType *) nil_chk(JreLoadStatic(RtdcCoreEventActionCompleteEvent, TYPE_))) getName]]) e = [new_RtdcCoreEventActionCompleteEvent_initWithJSONJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((RtdcCoreEventEventType *) nil_chk(JreLoadStatic(RtdcCoreEventSessionExpiredEvent, TYPE_))) getName]]) e = [new_RtdcCoreEventSessionExpiredEvent_init() autorelease];
-    else if ([type equalsIgnoreCase:[((RtdcCoreEventEventType *) nil_chk(JreLoadStatic(RtdcCoreEventLogoutEvent, TYPE_))) getName]]) e = [new_RtdcCoreEventLogoutEvent_init() autorelease];
+    EventEvent *e = nil;
+    if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventAuthenticationEvent, TYPE_))) getName]]) e = [new_EventAuthenticationEvent_initWithJsonJSONObject_(object) autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventErrorEvent, TYPE_))) getName]]) e = [new_EventErrorEvent_initWithJsonJSONObject_(object) autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUnitsEvent, TYPE_))) getName]]) e = [new_EventFetchUnitsEvent_initWithJsonJSONObject_(object) autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUsersEvent, TYPE_))) getName]]) e = [new_EventFetchUsersEvent_initWithJsonJSONObject_(object) autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUserEvent, TYPE_))) getName]]) e = [new_EventFetchUserEvent_initWithJsonJSONObject_(object) autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchActionsEvent, TYPE_))) getName]]) e = [new_EventFetchActionsEvent_initWithJsonJSONObject_(object) autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchMessagesEvent, TYPE_))) getName]]) e = [new_EventFetchMessagesEvent_initWithJsonJSONObject_(object) autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventActionCompleteEvent, TYPE_))) getName]]) e = [new_EventActionCompleteEvent_initWithJsonJSONObject_(object) autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventSessionExpiredEvent, TYPE_))) getName]]) e = [new_EventSessionExpiredEvent_init() autorelease];
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventLogoutEvent, TYPE_))) getName]]) e = [new_EventLogoutEvent_init() autorelease];
     if (e != nil) [e fire];
     else @throw [new_JavaLangRuntimeException_initWithNSString_(JreStrcat("$$", @"Event has not been registred under Event.java/fire: ", [object description])) autorelease];
   }
 }
 
-void RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(RtdcCoreEventEventType *eventType, id<RtdcCoreEventEventHandler> eventHandler) {
-  RtdcCoreEventEvent_initialize();
-  if (![((id<JavaUtilMap>) nil_chk(RtdcCoreEventEvent_handlers_)) containsKeyWithId:eventType]) [RtdcCoreEventEvent_handlers_ putWithId:eventType withId:[new_RtdcCoreEventEventAggregator_init() autorelease]];
-  [((RtdcCoreEventEventAggregator *) nil_chk([RtdcCoreEventEvent_handlers_ getWithId:eventType])) addHandlerWithId:eventHandler];
+void EventEvent_subscribeWithEventEventType_withEventEventHandler_(EventEventType *eventType, id<EventEventHandler> eventHandler) {
+  EventEvent_initialize();
+  if (![((id<JavaUtilMap>) nil_chk(EventEvent_handlers_)) containsKeyWithId:eventType]) [EventEvent_handlers_ putWithId:eventType withId:[new_EventEventAggregator_init() autorelease]];
+  [((EventEventAggregator *) nil_chk([EventEvent_handlers_ getWithId:eventType])) addHandlerWithId:eventHandler];
 }
 
-void RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(RtdcCoreEventEventType *eventType, id<RtdcCoreEventEventHandler> eventHandler) {
-  RtdcCoreEventEvent_initialize();
-  if ([((id<JavaUtilMap>) nil_chk(RtdcCoreEventEvent_handlers_)) containsKeyWithId:eventType]) [((RtdcCoreEventEventAggregator *) nil_chk([RtdcCoreEventEvent_handlers_ getWithId:eventType])) removeHandlerWithId:eventHandler];
+void EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(EventEventType *eventType, id<EventEventHandler> eventHandler) {
+  EventEvent_initialize();
+  if ([((id<JavaUtilMap>) nil_chk(EventEvent_handlers_)) containsKeyWithId:eventType]) [((EventEventAggregator *) nil_chk([EventEvent_handlers_ getWithId:eventType])) removeHandlerWithId:eventHandler];
 }
 
-void RtdcCoreEventEvent_init(RtdcCoreEventEvent *self) {
+void EventEvent_init(EventEvent *self) {
   ModelRootObject_init(self);
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventEvent)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventEvent)

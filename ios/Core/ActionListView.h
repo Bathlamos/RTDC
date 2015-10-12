@@ -11,14 +11,16 @@
 
 @protocol JavaUtilList;
 
-@protocol RtdcCoreViewActionListView < RtdcCoreViewView, NSObject, JavaObject >
+@protocol ViewActionListView < ViewView, NSObject, JavaObject >
 
 - (void)setActionsWithJavaUtilList:(id<JavaUtilList>)actions;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewActionListView)
+J2OBJC_EMPTY_STATIC_INIT(ViewActionListView)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewActionListView)
+J2OBJC_TYPE_LITERAL_HEADER(ViewActionListView)
+
+#define RtdcCoreViewActionListView ViewActionListView
 
 #endif // _ActionListView_H_

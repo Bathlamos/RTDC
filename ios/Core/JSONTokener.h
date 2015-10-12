@@ -8,9 +8,9 @@
 
 #include "J2ObjC_header.h"
 
-@class JSONJSONException;
+@class JsonJSONException;
 
-@interface JSONJSONTokener : NSObject
+@interface JsonJSONTokener : NSObject
 
 #pragma mark Public
 
@@ -42,22 +42,22 @@
 
 - (jchar)skipToWithChar:(jchar)to;
 
-- (JSONJSONException *)syntaxErrorWithNSString:(NSString *)message;
+- (JsonJSONException *)syntaxErrorWithNSString:(NSString *)message;
 
 - (NSString *)description;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JSONJSONTokener)
+J2OBJC_EMPTY_STATIC_INIT(JsonJSONTokener)
 
-FOUNDATION_EXPORT void JSONJSONTokener_initWithNSString_(JSONJSONTokener *self, NSString *s);
+FOUNDATION_EXPORT void JsonJSONTokener_initWithNSString_(JsonJSONTokener *self, NSString *s);
 
-FOUNDATION_EXPORT JSONJSONTokener *new_JSONJSONTokener_initWithNSString_(NSString *s) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONTokener *new_JsonJSONTokener_initWithNSString_(NSString *s) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT jint JSONJSONTokener_dehexcharWithChar_(jchar c);
+FOUNDATION_EXPORT jint JsonJSONTokener_dehexcharWithChar_(jchar c);
 
-J2OBJC_TYPE_LITERAL_HEADER(JSONJSONTokener)
+J2OBJC_TYPE_LITERAL_HEADER(JsonJSONTokener)
 
-@compatibility_alias RtdcCoreJsonJSONTokener JSONJSONTokener;
+@compatibility_alias RtdcCoreJsonJSONTokener JsonJSONTokener;
 
 #endif // _JSONTokener_H_

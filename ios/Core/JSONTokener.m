@@ -14,7 +14,7 @@
 #include "java/lang/Long.h"
 #include "java/lang/StringBuffer.h"
 
-@interface JSONJSONTokener () {
+@interface JsonJSONTokener () {
  @public
   jint myIndex_;
   NSString *mySource_;
@@ -22,12 +22,12 @@
 
 @end
 
-J2OBJC_FIELD_SETTER(JSONJSONTokener, mySource_, NSString *)
+J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
 
-@implementation JSONJSONTokener
+@implementation JsonJSONTokener
 
 - (instancetype)initWithNSString:(NSString *)s {
-  JSONJSONTokener_initWithNSString_(self, s);
+  JsonJSONTokener_initWithNSString_(self, s);
   return self;
 }
 
@@ -38,7 +38,7 @@ J2OBJC_FIELD_SETTER(JSONJSONTokener, mySource_, NSString *)
 }
 
 + (jint)dehexcharWithChar:(jchar)c {
-  return JSONJSONTokener_dehexcharWithChar_(c);
+  return JsonJSONTokener_dehexcharWithChar_(c);
 }
 
 - (jboolean)more {
@@ -199,10 +199,10 @@ J2OBJC_FIELD_SETTER(JSONJSONTokener, mySource_, NSString *)
     return [self nextStringWithChar:c];
     case '{':
     [self back];
-    return [new_JSONJSONObject_initWithJSONJSONTokener_(self) autorelease];
+    return [new_JsonJSONObject_initWithJsonJSONTokener_(self) autorelease];
     case '[':
     [self back];
-    return [new_JSONJSONArray_initWithJSONJSONTokener_(self) autorelease];
+    return [new_JsonJSONArray_initWithJsonJSONTokener_(self) autorelease];
   }
   JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
   jchar b = c;
@@ -216,13 +216,13 @@ J2OBJC_FIELD_SETTER(JSONJSONTokener, mySource_, NSString *)
     @throw [self syntaxErrorWithNSString:@"Missing value."];
   }
   if ([((NSString *) nil_chk([s lowercaseString])) isEqual:@"true"]) {
-    return JreLoadStatic(JSONJSONObject, TRUE__);
+    return JreLoadStatic(JsonJSONObject, TRUE__);
   }
   if ([((NSString *) nil_chk([s lowercaseString])) isEqual:@"false"]) {
-    return JreLoadStatic(JSONJSONObject, FALSE__);
+    return JreLoadStatic(JsonJSONObject, FALSE__);
   }
   if ([((NSString *) nil_chk([s lowercaseString])) isEqual:@"null"]) {
-    return JreLoadStatic(JSONJSONObject, NULL__);
+    return JreLoadStatic(JsonJSONObject, NULL__);
   }
   if ((b >= '0' && b <= '9') || b == '.' || b == '-' || b == '+') {
     if (b == '0') {
@@ -281,8 +281,8 @@ J2OBJC_FIELD_SETTER(JSONJSONTokener, mySource_, NSString *)
   }
 }
 
-- (JSONJSONException *)syntaxErrorWithNSString:(NSString *)message {
-  return [new_JSONJSONException_initWithNSString_(JreStrcat("$$", message, [self description])) autorelease];
+- (JsonJSONException *)syntaxErrorWithNSString:(NSString *)message {
+  return [new_JsonJSONException_initWithNSString_(JreStrcat("$$", message, [self description])) autorelease];
 }
 
 - (NSString *)description {
@@ -317,26 +317,26 @@ J2OBJC_FIELD_SETTER(JSONJSONTokener, mySource_, NSString *)
     { "myIndex_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
     { "mySource_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _JSONJSONTokener = { 2, "JSONTokener", "rtdc.core.json", NULL, 0x1, 16, methods, 2, fields, 0, NULL, 0, NULL, NULL, NULL };
-  return &_JSONJSONTokener;
+  static const J2ObjcClassInfo _JsonJSONTokener = { 2, "JSONTokener", "rtdc.core.json", NULL, 0x1, 16, methods, 2, fields, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonJSONTokener;
 }
 
 @end
 
-void JSONJSONTokener_initWithNSString_(JSONJSONTokener *self, NSString *s) {
+void JsonJSONTokener_initWithNSString_(JsonJSONTokener *self, NSString *s) {
   NSObject_init(self);
   self->myIndex_ = 0;
   JreStrongAssign(&self->mySource_, s);
 }
 
-JSONJSONTokener *new_JSONJSONTokener_initWithNSString_(NSString *s) {
-  JSONJSONTokener *self = [JSONJSONTokener alloc];
-  JSONJSONTokener_initWithNSString_(self, s);
+JsonJSONTokener *new_JsonJSONTokener_initWithNSString_(NSString *s) {
+  JsonJSONTokener *self = [JsonJSONTokener alloc];
+  JsonJSONTokener_initWithNSString_(self, s);
   return self;
 }
 
-jint JSONJSONTokener_dehexcharWithChar_(jchar c) {
-  JSONJSONTokener_initialize();
+jint JsonJSONTokener_dehexcharWithChar_(jchar c) {
+  JsonJSONTokener_initialize();
   if (c >= '0' && c <= '9') {
     return c - '0';
   }
@@ -349,4 +349,4 @@ jint JSONJSONTokener_dehexcharWithChar_(jchar c) {
   return -1;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JSONJSONTokener)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonJSONTokener)

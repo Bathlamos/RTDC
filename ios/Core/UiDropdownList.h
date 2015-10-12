@@ -24,6 +24,8 @@
 
 @interface ImplUiDropdownList : NSObject
 
++ (id<UtilStringifier>)DEFAULT_STRINGIFIER;
+
 @end
 
 J2OBJC_STATIC_INIT(ImplUiDropdownList)

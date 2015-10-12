@@ -12,7 +12,7 @@ import UIKit
 class ViewController: UIViewController {
     
     
-    let temp = JSONJSONObject();
+    let temp = JsonJSONObject();
 
     
     override func viewDidLoad() {

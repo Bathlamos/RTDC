@@ -8,7 +8,7 @@
 
 #include "J2ObjC_header.h"
 
-@interface RtdcCoreEventEventType : NSObject
+@interface EventEventType : NSObject
 
 #pragma mark Public
 
@@ -18,12 +18,14 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventEventType)
+J2OBJC_EMPTY_STATIC_INIT(EventEventType)
 
-FOUNDATION_EXPORT void RtdcCoreEventEventType_initWithNSString_(RtdcCoreEventEventType *self, NSString *name);
+FOUNDATION_EXPORT void EventEventType_initWithNSString_(EventEventType *self, NSString *name);
 
-FOUNDATION_EXPORT RtdcCoreEventEventType *new_RtdcCoreEventEventType_initWithNSString_(NSString *name) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventEventType *new_EventEventType_initWithNSString_(NSString *name) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventEventType)
+J2OBJC_TYPE_LITERAL_HEADER(EventEventType)
+
+@compatibility_alias RtdcCoreEventEventType EventEventType;
 
 #endif // _EventType_H_

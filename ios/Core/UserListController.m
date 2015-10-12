@@ -36,8 +36,8 @@ J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
 
 @implementation ControllerUserListController
 
-- (instancetype)initWithRtdcCoreViewUserListView:(id<RtdcCoreViewUserListView>)view {
-  ControllerUserListController_initWithRtdcCoreViewUserListView_(self, view);
+- (instancetype)initWithViewUserListView:(id<ViewUserListView>)view {
+  ControllerUserListController_initWithViewUserListView_(self, view);
   return self;
 }
 
@@ -61,14 +61,14 @@ J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
   [((id<ImplDispatcher>) nil_chk([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newDispatcher])) goToEditUserWithControllerController:self];
 }
 
-- (void)onUsersFetchedWithRtdcCoreEventFetchUsersEvent:(RtdcCoreEventFetchUsersEvent *)event {
-  JreStrongAssignAndConsume(&users_, new_JavaUtilHashSet_initWithJavaUtilCollection_([((RtdcCoreEventFetchUsersEvent *) nil_chk(event)) getUsers]));
-  [((id<RtdcCoreViewUserListView>) nil_chk(view_)) setUsersWithJavaUtilList:[self sortUsersWithModelUser_PropertiesEnum:JreLoadStatic(ModelUser_PropertiesEnum, lastName)]];
+- (void)onUsersFetchedWithEventFetchUsersEvent:(EventFetchUsersEvent *)event {
+  JreStrongAssignAndConsume(&users_, new_JavaUtilHashSet_initWithJavaUtilCollection_([((EventFetchUsersEvent *) nil_chk(event)) getUsers]));
+  [((id<ViewUserListView>) nil_chk(view_)) setUsersWithJavaUtilList:[self sortUsersWithModelUser_PropertiesEnum:JreLoadStatic(ModelUser_PropertiesEnum, lastName)]];
 }
 
 - (void)onStop {
   [super onStop];
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchUsersEvent, TYPE_), self);
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUsersEvent, TYPE_), self);
 }
 
 - (void)dealloc {
@@ -78,12 +78,12 @@ J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewUserListView:", "UserListController", NULL, 0x1, NULL, NULL },
+    { "initWithViewUserListView:", "UserListController", NULL, 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
     { "sortUsersWithModelUser_PropertiesEnum:", "sortUsers", "Ljava.util.List;", 0x1, NULL, NULL },
     { "deleteUserWithModelUser:", "deleteUser", "V", 0x1, NULL, NULL },
     { "editUserWithModelUser:", "editUser", "V", 0x1, NULL, NULL },
-    { "onUsersFetchedWithRtdcCoreEventFetchUsersEvent:", "onUsersFetched", "V", 0x1, NULL, NULL },
+    { "onUsersFetchedWithEventFetchUsersEvent:", "onUsersFetched", "V", 0x1, NULL, NULL },
     { "onStop", NULL, "V", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
@@ -96,15 +96,15 @@ J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
 
 @end
 
-void ControllerUserListController_initWithRtdcCoreViewUserListView_(ControllerUserListController *self, id<RtdcCoreViewUserListView> view) {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
-  RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchUsersEvent, TYPE_), self);
+void ControllerUserListController_initWithViewUserListView_(ControllerUserListController *self, id<ViewUserListView> view) {
+  ControllerController_initWithViewView_(self, view);
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUsersEvent, TYPE_), self);
   ServiceService_getUsers();
 }
 
-ControllerUserListController *new_ControllerUserListController_initWithRtdcCoreViewUserListView_(id<RtdcCoreViewUserListView> view) {
+ControllerUserListController *new_ControllerUserListController_initWithViewUserListView_(id<ViewUserListView> view) {
   ControllerUserListController *self = [ControllerUserListController alloc];
-  ControllerUserListController_initWithRtdcCoreViewUserListView_(self, view);
+  ControllerUserListController_initWithViewUserListView_(self, view);
   return self;
 }
 

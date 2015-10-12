@@ -53,8 +53,8 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 
 @implementation ControllerAddActionController
 
-- (instancetype)initWithRtdcCoreViewAddActionView:(id<RtdcCoreViewAddActionView>)view {
-  ControllerAddActionController_initWithRtdcCoreViewAddActionView_(self, view);
+- (instancetype)initWithViewAddActionView:(id<ViewAddActionView>)view {
+  ControllerAddActionController_initWithViewAddActionView_(self, view);
   return self;
 }
 
@@ -65,25 +65,25 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 - (void)addAction {
   ModelAction *action = [new_ModelAction_init() autorelease];
   if (currentAction_ != nil) [action setIdWithInt:[currentAction_ getId]];
-  [action setTaskWithModelAction_TaskEnum:[((id<ImplUiDropdownList>) nil_chk([((id<RtdcCoreViewAddActionView>) nil_chk(view_)) getTaskUiElement])) getValue]];
-  [action setRoleResponsibleWithNSString:[((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewAddActionView>) view_) getRoleUiElement])) getValue]];
-  [action setTargetWithNSString:[((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewAddActionView>) view_) getTargetUiElement])) getValue]];
-  [action setDeadlineWithJavaUtilDate:[((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewAddActionView>) view_) getDeadlineUiElement])) getValue]];
-  [action setDescriptionWithNSString:[((id<ImplUiElement>) nil_chk([((id<RtdcCoreViewAddActionView>) view_) getDescriptionUiElement])) getValue]];
-  [action setStatusWithModelAction_StatusEnum:[((id<ImplUiDropdownList>) nil_chk([((id<RtdcCoreViewAddActionView>) view_) getStatusUiElement])) getValue]];
-  [action setUnitWithModelUnit:[((JavaUtilArrayList *) nil_chk(units_)) getWithInt:[((id<ImplUiDropdownList>) nil_chk([((id<RtdcCoreViewAddActionView>) view_) getUnitUiElement])) getSelectedIndex]]];
+  [action setTaskWithModelAction_TaskEnum:[((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getTaskUiElement])) getValue]];
+  [action setRoleResponsibleWithNSString:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getRoleUiElement])) getValue]];
+  [action setTargetWithNSString:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getTargetUiElement])) getValue]];
+  [action setDeadlineWithJavaUtilDate:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getDeadlineUiElement])) getValue]];
+  [action setDescriptionWithNSString:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getDescriptionUiElement])) getValue]];
+  [action setStatusWithModelAction_StatusEnum:[((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) view_) getStatusUiElement])) getValue]];
+  [action setUnitWithModelUnit:[((JavaUtilArrayList *) nil_chk(units_)) getWithInt:[((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) view_) getUnitUiElement])) getSelectedIndex]]];
   ServiceService_updateOrSaveActionsWithModelAction_(action);
-  [((id<RtdcCoreViewAddActionView>) view_) closeDialog];
+  [((id<ViewAddActionView>) view_) closeDialog];
 }
 
-- (void)onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:(RtdcCoreEventFetchUnitsEvent *)event {
-  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((RtdcCoreEventFetchUnitsEvent *) nil_chk(event)) getUnits]));
-  [((id<ImplUiDropdownList>) nil_chk([((id<RtdcCoreViewAddActionView>) nil_chk(view_)) getUnitUiElement])) setListWithJavaUtilList:units_];
+- (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event {
+  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchUnitsEvent *) nil_chk(event)) getUnits]));
+  [((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getUnitUiElement])) setListWithJavaUtilList:units_];
 }
 
 - (void)onStop {
   [super onStop];
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchUnitsEvent, TYPE_), self);
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
 }
 
 - (void)dealloc {
@@ -94,10 +94,10 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewAddActionView:", "AddActionController", NULL, 0x1, NULL, NULL },
+    { "initWithViewAddActionView:", "AddActionController", NULL, 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
     { "addAction", NULL, "V", 0x1, NULL, NULL },
-    { "onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:", "onUnitsFetched", "V", 0x1, NULL, NULL },
+    { "onUnitsFetchedWithEventFetchUnitsEvent:", "onUnitsFetched", "V", 0x1, NULL, NULL },
     { "onStop", NULL, "V", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
@@ -111,12 +111,12 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 
 @end
 
-void ControllerAddActionController_initWithRtdcCoreViewAddActionView_(ControllerAddActionController *self, id<RtdcCoreViewAddActionView> view) {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
+void ControllerAddActionController_initWithViewAddActionView_(ControllerAddActionController *self, id<ViewAddActionView> view) {
+  ControllerController_initWithViewView_(self, view);
   JreStrongAssignAndConsume(&self->units_, new_JavaUtilArrayList_init());
-  RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventFetchUnitsEvent, TYPE_), self);
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
   ServiceService_getUnits();
-  [((id<ImplUiDropdownList>) nil_chk([((id<RtdcCoreViewAddActionView>) nil_chk(view)) getTaskUiElement])) setListWithJavaUtilList:JavaUtilArrays_asListWithNSObjectArray_(ModelAction_TaskEnum_values())];
+  [((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) nil_chk(view)) getTaskUiElement])) setListWithJavaUtilList:JavaUtilArrays_asListWithNSObjectArray_(ModelAction_TaskEnum_values())];
   [((id<ImplUiDropdownList>) nil_chk([view getTaskUiElement])) setStringifierWithUtilStringifier:ModelAction_TaskEnum_getStringifier()];
   [((id<ImplUiDropdownList>) nil_chk([view getStatusUiElement])) setListWithJavaUtilList:JavaUtilArrays_asListWithNSObjectArray_(ModelAction_StatusEnum_values())];
   [((id<ImplUiDropdownList>) nil_chk([view getStatusUiElement])) setStringifierWithUtilStringifier:ModelAction_StatusEnum_getStringifier()];
@@ -134,9 +134,9 @@ void ControllerAddActionController_initWithRtdcCoreViewAddActionView_(Controller
   }
 }
 
-ControllerAddActionController *new_ControllerAddActionController_initWithRtdcCoreViewAddActionView_(id<RtdcCoreViewAddActionView> view) {
+ControllerAddActionController *new_ControllerAddActionController_initWithViewAddActionView_(id<ViewAddActionView> view) {
   ControllerAddActionController *self = [ControllerAddActionController alloc];
-  ControllerAddActionController_initWithRtdcCoreViewAddActionView_(self, view);
+  ControllerAddActionController_initWithViewAddActionView_(self, view);
   return self;
 }
 
@@ -160,7 +160,7 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "toStringWithId:", "toString", "Ljava.lang.String;", 0x1, NULL, NULL },
     { "init", "", NULL, 0x0, NULL, NULL },
   };
-  static const J2ObjCEnclosingMethodInfo enclosing_method = { "ControllerAddActionController", "initWithRtdcCoreViewAddActionView:" };
+  static const J2ObjCEnclosingMethodInfo enclosing_method = { "ControllerAddActionController", "initWithViewAddActionView:" };
   static const J2ObjcClassInfo _ControllerAddActionController_$1 = { 2, "", "rtdc.core.controller", "AddActionController", 0x8008, 2, methods, 0, NULL, 0, NULL, 0, NULL, &enclosing_method, "Ljava/lang/Object;Lrtdc/core/util/Stringifier<Lrtdc/core/model/Unit;>;" };
   return &_ControllerAddActionController_$1;
 }

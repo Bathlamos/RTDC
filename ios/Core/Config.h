@@ -13,6 +13,20 @@
 
 @interface RtdcCoreConfig : NSObject
 
++ (jboolean)IS_DEBUG;
+
++ (NSString *)GCM_SERVER_PROJECT_ID;
+
++ (NSString *)GCM_SERVER_API_KEY;
+
++ (NSString *)COMMAND_EXEC_KEY;
+
++ (NSString *)ASTERISK_IP;
+
++ (NSString *)SERVER_IP;
+
++ (jlong)SESSION_LIFETIME_IN_MS;
+
 #pragma mark Public
 
 - (instancetype)init;
@@ -28,6 +42,9 @@ J2OBJC_STATIC_FIELD_GETTER(RtdcCoreConfig, GCM_SERVER_PROJECT_ID_, NSString *)
 
 FOUNDATION_EXPORT NSString *RtdcCoreConfig_GCM_SERVER_API_KEY_;
 J2OBJC_STATIC_FIELD_GETTER(RtdcCoreConfig, GCM_SERVER_API_KEY_, NSString *)
+
+FOUNDATION_EXPORT NSString *RtdcCoreConfig_COMMAND_EXEC_KEY_;
+J2OBJC_STATIC_FIELD_GETTER(RtdcCoreConfig, COMMAND_EXEC_KEY_, NSString *)
 
 FOUNDATION_EXPORT NSString *RtdcCoreConfig_ASTERISK_IP_;
 J2OBJC_STATIC_FIELD_GETTER(RtdcCoreConfig, ASTERISK_IP_, NSString *)

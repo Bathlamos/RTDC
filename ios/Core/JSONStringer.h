@@ -9,7 +9,7 @@
 #include "J2ObjC_header.h"
 #include "JSONWriter.h"
 
-@interface JSONJSONStringer : JSONJSONWriter
+@interface JsonJSONStringer : JsonJSONWriter
 
 #pragma mark Public
 
@@ -19,14 +19,14 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JSONJSONStringer)
+J2OBJC_EMPTY_STATIC_INIT(JsonJSONStringer)
 
-FOUNDATION_EXPORT void JSONJSONStringer_init(JSONJSONStringer *self);
+FOUNDATION_EXPORT void JsonJSONStringer_init(JsonJSONStringer *self);
 
-FOUNDATION_EXPORT JSONJSONStringer *new_JSONJSONStringer_init() NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONStringer *new_JsonJSONStringer_init() NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(JSONJSONStringer)
+J2OBJC_TYPE_LITERAL_HEADER(JsonJSONStringer)
 
-@compatibility_alias RtdcCoreJsonJSONStringer JSONJSONStringer;
+@compatibility_alias RtdcCoreJsonJSONStringer JsonJSONStringer;
 
 #endif // _JSONStringer_H_

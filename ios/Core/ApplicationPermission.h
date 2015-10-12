@@ -10,6 +10,10 @@
 
 @interface ModelApplicationPermission : NSObject
 
++ (NSString *)USER;
+
++ (NSString *)ADMIN;
+
 #pragma mark Public
 
 - (instancetype)init;

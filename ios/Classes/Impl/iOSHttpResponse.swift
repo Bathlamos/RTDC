@@ -3,7 +3,7 @@
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-03-03.
-//  Copyright (c) 2015 Clermont, Ermel, Fortin-Boulay, Legault & Ménard. All rights reserved.
+//  Copyright © 2015 Clermont, Ermel, Fortin-Boulay, Legault & Ménard. All rights reserved.
 //
 
 import Foundation

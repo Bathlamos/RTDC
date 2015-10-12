@@ -10,7 +10,7 @@
 #include "java/util/HashSet.h"
 #include "java/util/Iterator.h"
 
-@implementation RtdcCoreEventEventAggregator
+@implementation EventEventAggregator
 
 - (void)addHandlerWithId:(id)object {
   if (object != nil) [((JavaUtilHashSet *) nil_chk(handlers_)) addWithId:[new_JavaLangRefWeakReference_initWithId_(object) autorelease]];
@@ -39,7 +39,7 @@
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  RtdcCoreEventEventAggregator_init(self);
+  EventEventAggregator_init(self);
   return self;
 }
 J2OBJC_IGNORE_DESIGNATED_END
@@ -59,21 +59,21 @@ J2OBJC_IGNORE_DESIGNATED_END
   static const J2ObjcFieldInfo fields[] = {
     { "handlers_", NULL, 0x10, "Ljava.util.HashSet;", NULL, "Ljava/util/HashSet<Ljava/lang/ref/WeakReference<TT;>;>;", .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _RtdcCoreEventEventAggregator = { 2, "EventAggregator", "rtdc.core.event", NULL, 0x1, 4, methods, 1, fields, 0, NULL, 0, NULL, NULL, "<T:Ljava/lang/Object;>Ljava/lang/Object;" };
-  return &_RtdcCoreEventEventAggregator;
+  static const J2ObjcClassInfo _EventEventAggregator = { 2, "EventAggregator", "rtdc.core.event", NULL, 0x1, 4, methods, 1, fields, 0, NULL, 0, NULL, NULL, "<T:Ljava/lang/Object;>Ljava/lang/Object;" };
+  return &_EventEventAggregator;
 }
 
 @end
 
-void RtdcCoreEventEventAggregator_init(RtdcCoreEventEventAggregator *self) {
+void EventEventAggregator_init(EventEventAggregator *self) {
   NSObject_init(self);
   JreStrongAssignAndConsume(&self->handlers_, new_JavaUtilHashSet_init());
 }
 
-RtdcCoreEventEventAggregator *new_RtdcCoreEventEventAggregator_init() {
-  RtdcCoreEventEventAggregator *self = [RtdcCoreEventEventAggregator alloc];
-  RtdcCoreEventEventAggregator_init(self);
+EventEventAggregator *new_EventEventAggregator_init() {
+  EventEventAggregator *self = [EventEventAggregator alloc];
+  EventEventAggregator_init(self);
   return self;
 }
 
-J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreEventEventAggregator)
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventEventAggregator)

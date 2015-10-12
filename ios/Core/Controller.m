@@ -7,18 +7,22 @@
 #include "ErrorEvent.h"
 #include "Event.h"
 #include "EventType.h"
+#include "IOSClass.h"
 #include "J2ObjC_source.h"
 #include "View.h"
+#include "java/util/logging/Level.h"
+#include "java/util/logging/Logger.h"
 
 @implementation ControllerController
 
-- (instancetype)initWithRtdcCoreViewView:(id<RtdcCoreViewView>)view {
-  ControllerController_initWithRtdcCoreViewView_(self, view);
+- (instancetype)initWithViewView:(id<ViewView>)view {
+  ControllerController_initWithViewView_(self, view);
   return self;
 }
 
-- (void)onErrorWithRtdcCoreEventErrorEvent:(RtdcCoreEventErrorEvent *)event {
-  [((id<RtdcCoreViewView>) nil_chk(view_)) displayErrorWithNSString:@"Error" withNSString:[((RtdcCoreEventErrorEvent *) nil_chk(event)) getDescription]];
+- (void)onErrorWithEventErrorEvent:(EventErrorEvent *)event {
+  [((JavaUtilLoggingLogger *) nil_chk(JavaUtilLoggingLogger_getLoggerWithNSString_([ControllerController_class_() getName]))) logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, WARNING_) withNSString:[((EventErrorEvent *) nil_chk(event)) description]];
+  [((id<ViewView>) nil_chk(view_)) displayErrorWithNSString:@"Error" withNSString:[event getDescription]];
 }
 
 - (NSString *)getTitle {
@@ -32,7 +36,7 @@
 }
 
 - (void)onStop {
-  RtdcCoreEventEvent_unsubscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventErrorEvent, TYPE_), self);
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventErrorEvent, TYPE_), self);
 }
 
 - (void)dealloc {
@@ -42,8 +46,8 @@
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewView:", "Controller", NULL, 0x1, NULL, "(TT;)V" },
-    { "onErrorWithRtdcCoreEventErrorEvent:", "onError", "V", 0x1, NULL, NULL },
+    { "initWithViewView:", "Controller", NULL, 0x1, NULL, "(TT;)V" },
+    { "onErrorWithEventErrorEvent:", "onError", "V", 0x1, NULL, NULL },
     { "getTitle", NULL, "Ljava.lang.String;", 0x400, NULL, NULL },
     { "getView", NULL, "TT;", 0x1, NULL, "()TT;" },
     { "onStop", NULL, "V", 0x1, NULL, NULL },
@@ -57,11 +61,11 @@
 
 @end
 
-void ControllerController_initWithRtdcCoreViewView_(ControllerController *self, id<RtdcCoreViewView> view) {
+void ControllerController_initWithViewView_(ControllerController *self, id<ViewView> view) {
   NSObject_init(self);
-  RtdcCoreEventEvent_subscribeWithRtdcCoreEventEventType_withRtdcCoreEventEventHandler_(JreLoadStatic(RtdcCoreEventErrorEvent, TYPE_), self);
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventErrorEvent, TYPE_), self);
   JreStrongAssign(&self->view_, view);
-  [((id<RtdcCoreViewView>) nil_chk(view)) setTitleWithNSString:[self getTitle]];
+  [((id<ViewView>) nil_chk(view)) setTitleWithNSString:[self getTitle]];
 }
 
 J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ControllerController)

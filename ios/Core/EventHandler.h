@@ -8,12 +8,14 @@
 
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreEventEventHandler < NSObject, JavaObject >
+@protocol EventEventHandler < NSObject, JavaObject >
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventEventHandler)
+J2OBJC_EMPTY_STATIC_INIT(EventEventHandler)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventEventHandler)
+J2OBJC_TYPE_LITERAL_HEADER(EventEventHandler)
+
+#define RtdcCoreEventEventHandler EventEventHandler
 
 #endif // _EventHandler_H_

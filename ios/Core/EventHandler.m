@@ -6,17 +6,17 @@
 #include "EventHandler.h"
 #include "J2ObjC_source.h"
 
-@interface RtdcCoreEventEventHandler : NSObject
+@interface EventEventHandler : NSObject
 
 @end
 
-@implementation RtdcCoreEventEventHandler
+@implementation EventEventHandler
 
 + (const J2ObjcClassInfo *)__metadata {
-  static const J2ObjcClassInfo _RtdcCoreEventEventHandler = { 2, "EventHandler", "rtdc.core.event", NULL, 0x609, 0, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreEventEventHandler;
+  static const J2ObjcClassInfo _EventEventHandler = { 2, "EventHandler", "rtdc.core.event", NULL, 0x609, 0, NULL, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_EventEventHandler;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreEventEventHandler)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(EventEventHandler)

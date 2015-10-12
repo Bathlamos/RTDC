@@ -10,19 +10,19 @@
 #include "FetchUnitsEvent.h"
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewAddActionView;
+@protocol ViewAddActionView;
 
-@interface ControllerAddActionController : ControllerController < RtdcCoreEventFetchUnitsEvent_Handler >
+@interface ControllerAddActionController : ControllerController < EventFetchUnitsEvent_Handler >
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewAddActionView:(id<RtdcCoreViewAddActionView>)view;
+- (instancetype)initWithViewAddActionView:(id<ViewAddActionView>)view;
 
 - (void)addAction;
 
 - (void)onStop;
 
-- (void)onUnitsFetchedWithRtdcCoreEventFetchUnitsEvent:(RtdcCoreEventFetchUnitsEvent *)event;
+- (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event;
 
 #pragma mark Package-Private
 
@@ -32,9 +32,9 @@
 
 J2OBJC_EMPTY_STATIC_INIT(ControllerAddActionController)
 
-FOUNDATION_EXPORT void ControllerAddActionController_initWithRtdcCoreViewAddActionView_(ControllerAddActionController *self, id<RtdcCoreViewAddActionView> view);
+FOUNDATION_EXPORT void ControllerAddActionController_initWithViewAddActionView_(ControllerAddActionController *self, id<ViewAddActionView> view);
 
-FOUNDATION_EXPORT ControllerAddActionController *new_ControllerAddActionController_initWithRtdcCoreViewAddActionView_(id<RtdcCoreViewAddActionView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerAddActionController *new_ControllerAddActionController_initWithViewAddActionView_(id<ViewAddActionView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController)
 

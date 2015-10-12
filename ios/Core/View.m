@@ -6,11 +6,11 @@
 #include "J2ObjC_source.h"
 #include "View.h"
 
-@interface RtdcCoreViewView : NSObject
+@interface ViewView : NSObject
 
 @end
 
-@implementation RtdcCoreViewView
+@implementation ViewView
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
@@ -18,10 +18,10 @@
     { "clearError", NULL, "V", 0x401, NULL, NULL },
     { "setTitleWithNSString:", "setTitle", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _RtdcCoreViewView = { 2, "View", "rtdc.core.view", NULL, 0x609, 3, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
-  return &_RtdcCoreViewView;
+  static const J2ObjcClassInfo _ViewView = { 2, "View", "rtdc.core.view", NULL, 0x609, 3, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_ViewView;
 }
 
 @end
 
-J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(RtdcCoreViewView)
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ViewView)

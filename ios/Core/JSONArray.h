@@ -8,17 +8,17 @@
 
 #include "J2ObjC_header.h"
 
-@class JSONJSONObject;
-@class JSONJSONTokener;
 @class JavaUtilVector;
+@class JsonJSONObject;
+@class JsonJSONTokener;
 
-@interface JSONJSONArray : NSObject
+@interface JsonJSONArray : NSObject
 
 #pragma mark Public
 
 - (instancetype)init;
 
-- (instancetype)initWithJSONJSONTokener:(JSONJSONTokener *)x;
+- (instancetype)initWithJsonJSONTokener:(JsonJSONTokener *)x;
 
 - (instancetype)initWithNSString:(NSString *)string;
 
@@ -28,9 +28,9 @@
 
 - (jboolean)getBooleanWithInt:(jint)index;
 
-- (JSONJSONArray *)getJSONArrayWithInt:(jint)index;
+- (JsonJSONArray *)getJSONArrayWithInt:(jint)index;
 
-- (JSONJSONObject *)getJSONObjectWithInt:(jint)index;
+- (JsonJSONObject *)getJSONObjectWithInt:(jint)index;
 
 - (NSString *)getStringWithInt:(jint)index;
 
@@ -47,41 +47,41 @@
 - (jboolean)optBooleanWithInt:(jint)index
                   withBoolean:(jboolean)defaultValue;
 
-- (JSONJSONArray *)optJSONArrayWithInt:(jint)index;
+- (JsonJSONArray *)optJSONArrayWithInt:(jint)index;
 
-- (JSONJSONObject *)optJSONObjectWithInt:(jint)index;
+- (JsonJSONObject *)optJSONObjectWithInt:(jint)index;
 
 - (NSString *)optStringWithInt:(jint)index;
 
 - (NSString *)optStringWithInt:(jint)index
                   withNSString:(NSString *)defaultValue;
 
-- (JSONJSONArray *)putWithBoolean:(jboolean)value;
+- (JsonJSONArray *)putWithBoolean:(jboolean)value;
 
-- (JSONJSONArray *)putWithInt:(jint)value;
+- (JsonJSONArray *)putWithInt:(jint)value;
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
                   withBoolean:(jboolean)value;
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
                       withInt:(jint)value;
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
                      withLong:(jlong)value;
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
                        withId:(id)value;
 
-- (JSONJSONArray *)putWithInt:(jint)index
+- (JsonJSONArray *)putWithInt:(jint)index
            withJavaUtilVector:(JavaUtilVector *)value;
 
-- (JSONJSONArray *)putWithLong:(jlong)value;
+- (JsonJSONArray *)putWithLong:(jlong)value;
 
-- (JSONJSONArray *)putWithId:(id)value;
+- (JsonJSONArray *)putWithId:(id)value;
 
-- (JSONJSONArray *)putWithJavaUtilVector:(JavaUtilVector *)value;
+- (JsonJSONArray *)putWithJavaUtilVector:(JavaUtilVector *)value;
 
-- (JSONJSONObject *)toJSONObjectWithJSONJSONArray:(JSONJSONArray *)names;
+- (JsonJSONObject *)toJSONObjectWithJsonJSONArray:(JsonJSONArray *)names;
 
 - (NSString *)description;
 
@@ -94,26 +94,26 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JSONJSONArray)
+J2OBJC_EMPTY_STATIC_INIT(JsonJSONArray)
 
-FOUNDATION_EXPORT void JSONJSONArray_init(JSONJSONArray *self);
+FOUNDATION_EXPORT void JsonJSONArray_init(JsonJSONArray *self);
 
-FOUNDATION_EXPORT JSONJSONArray *new_JSONJSONArray_init() NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONArray *new_JsonJSONArray_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void JSONJSONArray_initWithJSONJSONTokener_(JSONJSONArray *self, JSONJSONTokener *x);
+FOUNDATION_EXPORT void JsonJSONArray_initWithJsonJSONTokener_(JsonJSONArray *self, JsonJSONTokener *x);
 
-FOUNDATION_EXPORT JSONJSONArray *new_JSONJSONArray_initWithJSONJSONTokener_(JSONJSONTokener *x) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONArray *new_JsonJSONArray_initWithJsonJSONTokener_(JsonJSONTokener *x) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void JSONJSONArray_initWithNSString_(JSONJSONArray *self, NSString *string);
+FOUNDATION_EXPORT void JsonJSONArray_initWithNSString_(JsonJSONArray *self, NSString *string);
 
-FOUNDATION_EXPORT JSONJSONArray *new_JSONJSONArray_initWithNSString_(NSString *string) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONArray *new_JsonJSONArray_initWithNSString_(NSString *string) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void JSONJSONArray_initWithJavaUtilVector_(JSONJSONArray *self, JavaUtilVector *collection);
+FOUNDATION_EXPORT void JsonJSONArray_initWithJavaUtilVector_(JsonJSONArray *self, JavaUtilVector *collection);
 
-FOUNDATION_EXPORT JSONJSONArray *new_JSONJSONArray_initWithJavaUtilVector_(JavaUtilVector *collection) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONArray *new_JsonJSONArray_initWithJavaUtilVector_(JavaUtilVector *collection) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(JSONJSONArray)
+J2OBJC_TYPE_LITERAL_HEADER(JsonJSONArray)
 
-@compatibility_alias RtdcCoreJsonJSONArray JSONJSONArray;
+@compatibility_alias RtdcCoreJsonJSONArray JsonJSONArray;
 
 #endif // _JSONArray_H_

@@ -12,17 +12,19 @@
 #include "ObjectProperty.h"
 #include "java/lang/Enum.h"
 
+@class EventEventType;
 @class IOSObjectArray;
-@class JSONJSONObject;
+@class JsonJSONObject;
 @class ModelUser;
-@class RtdcCoreEventEventType;
 @protocol ModelObjectProperty;
 
-@interface RtdcCoreEventAuthenticationEvent : RtdcCoreEventEvent
+@interface EventAuthenticationEvent : EventEvent
+
++ (EventEventType *)TYPE;
 
 #pragma mark Public
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (instancetype)initWithModelUser:(ModelUser *)user
                      withNSString:(NSString *)authenticationToken;
@@ -43,60 +45,66 @@
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventAuthenticationEvent)
+J2OBJC_STATIC_INIT(EventAuthenticationEvent)
 
-FOUNDATION_EXPORT RtdcCoreEventEventType *RtdcCoreEventAuthenticationEvent_TYPE_;
-J2OBJC_STATIC_FIELD_GETTER(RtdcCoreEventAuthenticationEvent, TYPE_, RtdcCoreEventEventType *)
+FOUNDATION_EXPORT EventEventType *EventAuthenticationEvent_TYPE_;
+J2OBJC_STATIC_FIELD_GETTER(EventAuthenticationEvent, TYPE_, EventEventType *)
 
-FOUNDATION_EXPORT void RtdcCoreEventAuthenticationEvent_initWithModelUser_withNSString_(RtdcCoreEventAuthenticationEvent *self, ModelUser *user, NSString *authenticationToken);
+FOUNDATION_EXPORT void EventAuthenticationEvent_initWithModelUser_withNSString_(EventAuthenticationEvent *self, ModelUser *user, NSString *authenticationToken);
 
-FOUNDATION_EXPORT RtdcCoreEventAuthenticationEvent *new_RtdcCoreEventAuthenticationEvent_initWithModelUser_withNSString_(ModelUser *user, NSString *authenticationToken) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventAuthenticationEvent *new_EventAuthenticationEvent_initWithModelUser_withNSString_(ModelUser *user, NSString *authenticationToken) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void RtdcCoreEventAuthenticationEvent_initWithJSONJSONObject_(RtdcCoreEventAuthenticationEvent *self, JSONJSONObject *object);
+FOUNDATION_EXPORT void EventAuthenticationEvent_initWithJsonJSONObject_(EventAuthenticationEvent *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT RtdcCoreEventAuthenticationEvent *new_RtdcCoreEventAuthenticationEvent_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventAuthenticationEvent *new_EventAuthenticationEvent_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventAuthenticationEvent)
+J2OBJC_TYPE_LITERAL_HEADER(EventAuthenticationEvent)
 
-typedef NS_ENUM(NSUInteger, RtdcCoreEventAuthenticationEvent_Properties) {
-  RtdcCoreEventAuthenticationEvent_Properties_user = 0,
-  RtdcCoreEventAuthenticationEvent_Properties_authenticationToken = 1,
+@compatibility_alias RtdcCoreEventAuthenticationEvent EventAuthenticationEvent;
+
+typedef NS_ENUM(NSUInteger, EventAuthenticationEvent_Properties) {
+  EventAuthenticationEvent_Properties_user = 0,
+  EventAuthenticationEvent_Properties_authenticationToken = 1,
 };
 
-@interface RtdcCoreEventAuthenticationEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+@interface EventAuthenticationEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventAuthenticationEvent_PropertiesEnum *)user;
+
++ (EventAuthenticationEvent_PropertiesEnum *)authenticationToken;
 
 #pragma mark Package-Private
 
 + (IOSObjectArray *)values;
-FOUNDATION_EXPORT IOSObjectArray *RtdcCoreEventAuthenticationEvent_PropertiesEnum_values();
+FOUNDATION_EXPORT IOSObjectArray *EventAuthenticationEvent_PropertiesEnum_values();
 
-+ (RtdcCoreEventAuthenticationEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
-FOUNDATION_EXPORT RtdcCoreEventAuthenticationEvent_PropertiesEnum *RtdcCoreEventAuthenticationEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
++ (EventAuthenticationEvent_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
+FOUNDATION_EXPORT EventAuthenticationEvent_PropertiesEnum *EventAuthenticationEvent_PropertiesEnum_valueOfWithNSString_(NSString *name);
 
 - (id)copyWithZone:(NSZone *)zone;
 
 @end
 
-J2OBJC_STATIC_INIT(RtdcCoreEventAuthenticationEvent_PropertiesEnum)
+J2OBJC_STATIC_INIT(EventAuthenticationEvent_PropertiesEnum)
 
-FOUNDATION_EXPORT RtdcCoreEventAuthenticationEvent_PropertiesEnum *RtdcCoreEventAuthenticationEvent_PropertiesEnum_values_[];
+FOUNDATION_EXPORT EventAuthenticationEvent_PropertiesEnum *EventAuthenticationEvent_PropertiesEnum_values_[];
 
-#define RtdcCoreEventAuthenticationEvent_PropertiesEnum_user RtdcCoreEventAuthenticationEvent_PropertiesEnum_values_[RtdcCoreEventAuthenticationEvent_Properties_user]
-J2OBJC_ENUM_CONSTANT_GETTER(RtdcCoreEventAuthenticationEvent_PropertiesEnum, user)
+#define EventAuthenticationEvent_PropertiesEnum_user EventAuthenticationEvent_PropertiesEnum_values_[EventAuthenticationEvent_Properties_user]
+J2OBJC_ENUM_CONSTANT_GETTER(EventAuthenticationEvent_PropertiesEnum, user)
 
-#define RtdcCoreEventAuthenticationEvent_PropertiesEnum_authenticationToken RtdcCoreEventAuthenticationEvent_PropertiesEnum_values_[RtdcCoreEventAuthenticationEvent_Properties_authenticationToken]
-J2OBJC_ENUM_CONSTANT_GETTER(RtdcCoreEventAuthenticationEvent_PropertiesEnum, authenticationToken)
+#define EventAuthenticationEvent_PropertiesEnum_authenticationToken EventAuthenticationEvent_PropertiesEnum_values_[EventAuthenticationEvent_Properties_authenticationToken]
+J2OBJC_ENUM_CONSTANT_GETTER(EventAuthenticationEvent_PropertiesEnum, authenticationToken)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventAuthenticationEvent_PropertiesEnum)
+J2OBJC_TYPE_LITERAL_HEADER(EventAuthenticationEvent_PropertiesEnum)
 
-@protocol RtdcCoreEventAuthenticationEvent_Handler < RtdcCoreEventEventHandler, NSObject, JavaObject >
+@protocol EventAuthenticationEvent_Handler < EventEventHandler, NSObject, JavaObject >
 
-- (void)onAuthenticateWithRtdcCoreEventAuthenticationEvent:(RtdcCoreEventAuthenticationEvent *)event;
+- (void)onAuthenticateWithEventAuthenticationEvent:(EventAuthenticationEvent *)event;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreEventAuthenticationEvent_Handler)
+J2OBJC_EMPTY_STATIC_INIT(EventAuthenticationEvent_Handler)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreEventAuthenticationEvent_Handler)
+J2OBJC_TYPE_LITERAL_HEADER(EventAuthenticationEvent_Handler)
 
 #endif // _AuthenticationEvent_H_

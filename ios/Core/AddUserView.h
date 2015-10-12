@@ -9,7 +9,7 @@
 #include "Dialog.h"
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewAddUserView < RtdcCoreViewDialog, NSObject, JavaObject >
+@protocol ViewAddUserView < ViewDialog, NSObject, JavaObject >
 
 - (NSString *)getUsernameAsString;
 
@@ -57,8 +57,10 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewAddUserView)
+J2OBJC_EMPTY_STATIC_INIT(ViewAddUserView)
 
-J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewAddUserView)
+J2OBJC_TYPE_LITERAL_HEADER(ViewAddUserView)
+
+#define RtdcCoreViewAddUserView ViewAddUserView
 
 #endif // _AddUserView_H_

@@ -13,7 +13,7 @@
 
 @class IOSFloatArray;
 @class IOSObjectArray;
-@class JSONJSONObject;
+@class JsonJSONObject;
 @class ModelUnit;
 @protocol ModelObjectProperty;
 
@@ -23,7 +23,7 @@
 
 - (instancetype)init;
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (NSString *)getEmail;
 
@@ -77,9 +77,9 @@ FOUNDATION_EXPORT void ModelUser_init(ModelUser *self);
 
 FOUNDATION_EXPORT ModelUser *new_ModelUser_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void ModelUser_initWithJSONJSONObject_(ModelUser *self, JSONJSONObject *object);
+FOUNDATION_EXPORT void ModelUser_initWithJsonJSONObject_(ModelUser *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT ModelUser *new_ModelUser_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ModelUser *new_ModelUser_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ModelUser)
 
@@ -98,6 +98,24 @@ typedef NS_ENUM(NSUInteger, ModelUser_Properties) {
 };
 
 @interface ModelUser_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (ModelUser_PropertiesEnum *)id_;
+
++ (ModelUser_PropertiesEnum *)username;
+
++ (ModelUser_PropertiesEnum *)firstName;
+
++ (ModelUser_PropertiesEnum *)lastName;
+
++ (ModelUser_PropertiesEnum *)email;
+
++ (ModelUser_PropertiesEnum *)permission;
+
++ (ModelUser_PropertiesEnum *)role;
+
++ (ModelUser_PropertiesEnum *)phone;
+
++ (ModelUser_PropertiesEnum *)unit;
 
 #pragma mark Package-Private
 

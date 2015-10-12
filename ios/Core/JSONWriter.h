@@ -10,7 +10,7 @@
 
 @class JavaIoWriter;
 
-@interface JSONJSONWriter : NSObject {
+@interface JsonJSONWriter : NSObject {
  @public
   jchar mode_;
   JavaIoWriter *writer_;
@@ -20,34 +20,34 @@
 
 - (instancetype)initWithJavaIoWriter:(JavaIoWriter *)w;
 
-- (JSONJSONWriter *)array;
+- (JsonJSONWriter *)array;
 
-- (JSONJSONWriter *)endArray;
+- (JsonJSONWriter *)endArray;
 
-- (JSONJSONWriter *)endObject;
+- (JsonJSONWriter *)endObject;
 
-- (JSONJSONWriter *)keyWithNSString:(NSString *)s;
+- (JsonJSONWriter *)keyWithNSString:(NSString *)s;
 
-- (JSONJSONWriter *)object;
+- (JsonJSONWriter *)object;
 
-- (JSONJSONWriter *)valueWithBoolean:(jboolean)b;
+- (JsonJSONWriter *)valueWithBoolean:(jboolean)b;
 
-- (JSONJSONWriter *)valueWithLong:(jlong)l;
+- (JsonJSONWriter *)valueWithLong:(jlong)l;
 
-- (JSONJSONWriter *)valueWithId:(id)o;
+- (JsonJSONWriter *)valueWithId:(id)o;
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JSONJSONWriter)
+J2OBJC_EMPTY_STATIC_INIT(JsonJSONWriter)
 
-J2OBJC_FIELD_SETTER(JSONJSONWriter, writer_, JavaIoWriter *)
+J2OBJC_FIELD_SETTER(JsonJSONWriter, writer_, JavaIoWriter *)
 
-FOUNDATION_EXPORT void JSONJSONWriter_initWithJavaIoWriter_(JSONJSONWriter *self, JavaIoWriter *w);
+FOUNDATION_EXPORT void JsonJSONWriter_initWithJavaIoWriter_(JsonJSONWriter *self, JavaIoWriter *w);
 
-FOUNDATION_EXPORT JSONJSONWriter *new_JSONJSONWriter_initWithJavaIoWriter_(JavaIoWriter *w) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONWriter *new_JsonJSONWriter_initWithJavaIoWriter_(JavaIoWriter *w) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(JSONJSONWriter)
+J2OBJC_TYPE_LITERAL_HEADER(JsonJSONWriter)
 
-@compatibility_alias RtdcCoreJsonJSONWriter JSONJSONWriter;
+@compatibility_alias RtdcCoreJsonJSONWriter JsonJSONWriter;
 
 #endif // _JSONWriter_H_

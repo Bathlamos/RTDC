@@ -45,8 +45,8 @@ J2OBJC_IGNORE_DESIGNATED_BEGIN
 }
 J2OBJC_IGNORE_DESIGNATED_END
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object {
-  ModelUnit_initWithJSONJSONObject_(self, object);
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
+  ModelUnit_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -179,7 +179,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "init", "Unit", NULL, 0x1, NULL, NULL },
-    { "initWithJSONJSONObject:", "Unit", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONObject:", "Unit", NULL, 0x1, NULL, NULL },
     { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
     { "getType", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
     { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
@@ -229,9 +229,9 @@ ModelUnit *new_ModelUnit_init() {
   return self;
 }
 
-void ModelUnit_initWithJSONJSONObject_(ModelUnit *self, JSONJSONObject *object) {
+void ModelUnit_initWithJsonJSONObject_(ModelUnit *self, JsonJSONObject *object) {
   ModelRootObject_init(self);
-  [self setIdWithInt:[((JSONJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, id))) name]]];
+  [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, id))) name]]];
   [self setNameWithNSString:[object optStringWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, name))) name]]];
   [self setTotalBedsWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, totalBeds))) name]]];
   [self setAvailableBedsWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, availableBeds))) name]]];
@@ -241,9 +241,9 @@ void ModelUnit_initWithJSONJSONObject_(ModelUnit *self, JSONJSONObject *object) 
   [self setAdmitsByDeadlineWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, admitsByDeadline))) name]]];
 }
 
-ModelUnit *new_ModelUnit_initWithJSONJSONObject_(JSONJSONObject *object) {
+ModelUnit *new_ModelUnit_initWithJsonJSONObject_(JsonJSONObject *object) {
   ModelUnit *self = [ModelUnit alloc];
-  ModelUnit_initWithJSONJSONObject_(self, object);
+  ModelUnit_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -254,6 +254,42 @@ J2OBJC_INITIALIZED_DEFN(ModelUnit_PropertiesEnum)
 ModelUnit_PropertiesEnum *ModelUnit_PropertiesEnum_values_[9];
 
 @implementation ModelUnit_PropertiesEnum
+
++ (ModelUnit_PropertiesEnum *)id_ {
+  return ModelUnit_PropertiesEnum_id;
+}
+
++ (ModelUnit_PropertiesEnum *)name {
+  return ModelUnit_PropertiesEnum_name;
+}
+
++ (ModelUnit_PropertiesEnum *)totalBeds {
+  return ModelUnit_PropertiesEnum_totalBeds;
+}
+
++ (ModelUnit_PropertiesEnum *)availableBeds {
+  return ModelUnit_PropertiesEnum_availableBeds;
+}
+
++ (ModelUnit_PropertiesEnum *)potentialDc {
+  return ModelUnit_PropertiesEnum_potentialDc;
+}
+
++ (ModelUnit_PropertiesEnum *)dcByDeadline {
+  return ModelUnit_PropertiesEnum_dcByDeadline;
+}
+
++ (ModelUnit_PropertiesEnum *)totalAdmits {
+  return ModelUnit_PropertiesEnum_totalAdmits;
+}
+
++ (ModelUnit_PropertiesEnum *)admitsByDeadline {
+  return ModelUnit_PropertiesEnum_admitsByDeadline;
+}
+
++ (ModelUnit_PropertiesEnum *)statusAtDeadline {
+  return ModelUnit_PropertiesEnum_statusAtDeadline;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {

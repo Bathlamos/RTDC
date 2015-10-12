@@ -95,8 +95,8 @@ J2OBJC_IGNORE_DESIGNATED_BEGIN
 }
 J2OBJC_IGNORE_DESIGNATED_END
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object {
-  ModelAction_initWithJSONJSONObject_(self, object);
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
+  ModelAction_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -219,7 +219,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "init", "Action", NULL, 0x1, NULL, NULL },
-    { "initWithJSONJSONObject:", "Action", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONObject:", "Action", NULL, 0x1, NULL, NULL },
     { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
     { "getType", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
     { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
@@ -270,12 +270,12 @@ ModelAction *new_ModelAction_init() {
   return self;
 }
 
-void ModelAction_initWithJSONJSONObject_(ModelAction *self, JSONJSONObject *object) {
+void ModelAction_initWithJsonJSONObject_(ModelAction *self, JsonJSONObject *object) {
   ModelRootObject_init(self);
-  [self setIdWithInt:[((JSONJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, id))) name]]];
-  [self setUnitWithModelUnit:[new_ModelUnit_initWithJSONJSONObject_([object getJSONObjectWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, unit))) name]]) autorelease]];
+  [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, id))) name]]];
+  [self setUnitWithModelUnit:[new_ModelUnit_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, unit))) name]]) autorelease]];
   JreStrongAssign(&self->status_, ModelAction_StatusEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, status))) name]]));
-  if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, personResponsible))) name]]) [self setPersonResponsibleWithModelUser:[new_ModelUser_initWithJSONJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, personResponsible) name]]) autorelease]];
+  if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, personResponsible))) name]]) [self setPersonResponsibleWithModelUser:[new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, personResponsible) name]]) autorelease]];
   [self setRoleResponsibleWithNSString:[object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, roleResponsible))) name]]];
   JreStrongAssign(&self->task_, ModelAction_TaskEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, task))) name]]));
   if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, deadline))) name]]) [self setDeadlineWithJavaUtilDate:[new_JavaUtilDate_initWithLong_([object getLongWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, deadline) name]]) autorelease]];
@@ -283,9 +283,9 @@ void ModelAction_initWithJSONJSONObject_(ModelAction *self, JSONJSONObject *obje
   [self setDescriptionWithNSString:[object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, description))) name]]];
 }
 
-ModelAction *new_ModelAction_initWithJSONJSONObject_(JSONJSONObject *object) {
+ModelAction *new_ModelAction_initWithJsonJSONObject_(JsonJSONObject *object) {
   ModelAction *self = [ModelAction alloc];
-  ModelAction_initWithJSONJSONObject_(self, object);
+  ModelAction_initWithJsonJSONObject_(self, object);
   return self;
 }
 
@@ -296,6 +296,42 @@ J2OBJC_INITIALIZED_DEFN(ModelAction_PropertiesEnum)
 ModelAction_PropertiesEnum *ModelAction_PropertiesEnum_values_[9];
 
 @implementation ModelAction_PropertiesEnum
+
++ (ModelAction_PropertiesEnum *)id_ {
+  return ModelAction_PropertiesEnum_id;
+}
+
++ (ModelAction_PropertiesEnum *)unit {
+  return ModelAction_PropertiesEnum_unit;
+}
+
++ (ModelAction_PropertiesEnum *)status {
+  return ModelAction_PropertiesEnum_status;
+}
+
++ (ModelAction_PropertiesEnum *)personResponsible {
+  return ModelAction_PropertiesEnum_personResponsible;
+}
+
++ (ModelAction_PropertiesEnum *)roleResponsible {
+  return ModelAction_PropertiesEnum_roleResponsible;
+}
+
++ (ModelAction_PropertiesEnum *)task {
+  return ModelAction_PropertiesEnum_task;
+}
+
++ (ModelAction_PropertiesEnum *)target {
+  return ModelAction_PropertiesEnum_target;
+}
+
++ (ModelAction_PropertiesEnum *)deadline {
+  return ModelAction_PropertiesEnum_deadline;
+}
+
++ (ModelAction_PropertiesEnum *)description_ {
+  return ModelAction_PropertiesEnum_description;
+}
 
 - (instancetype)initWithNSString:(NSString *)__name
                          withInt:(jint)__ordinal {
@@ -383,6 +419,22 @@ J2OBJC_INITIALIZED_DEFN(ModelAction_StatusEnum)
 ModelAction_StatusEnum *ModelAction_StatusEnum_values_[4];
 
 @implementation ModelAction_StatusEnum
+
++ (ModelAction_StatusEnum *)notStarted {
+  return ModelAction_StatusEnum_notStarted;
+}
+
++ (ModelAction_StatusEnum *)inProgress {
+  return ModelAction_StatusEnum_inProgress;
+}
+
++ (ModelAction_StatusEnum *)completed {
+  return ModelAction_StatusEnum_completed;
+}
+
++ (ModelAction_StatusEnum *)failed {
+  return ModelAction_StatusEnum_failed;
+}
 
 + (id<UtilStringifier>)getStringifier {
   return ModelAction_StatusEnum_getStringifier();
@@ -520,6 +572,18 @@ J2OBJC_INITIALIZED_DEFN(ModelAction_TaskEnum)
 ModelAction_TaskEnum *ModelAction_TaskEnum_values_[3];
 
 @implementation ModelAction_TaskEnum
+
++ (ModelAction_TaskEnum *)pushForDischarge {
+  return ModelAction_TaskEnum_pushForDischarge;
+}
+
++ (ModelAction_TaskEnum *)offServicingTo {
+  return ModelAction_TaskEnum_offServicingTo;
+}
+
++ (ModelAction_TaskEnum *)holdFor {
+  return ModelAction_TaskEnum_holdFor;
+}
 
 + (id<UtilStringifier>)getStringifier {
   return ModelAction_TaskEnum_getStringifier();

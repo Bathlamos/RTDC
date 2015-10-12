@@ -30,6 +30,10 @@ id<UtilStringifier> ImplUiDropdownList_DEFAULT_STRINGIFIER_;
 
 @implementation ImplUiDropdownList
 
++ (id<UtilStringifier>)DEFAULT_STRINGIFIER {
+  return ImplUiDropdownList_DEFAULT_STRINGIFIER_;
+}
+
 + (void)initialize {
   if (self == [ImplUiDropdownList class]) {
     JreStrongAssignAndConsume(&ImplUiDropdownList_DEFAULT_STRINGIFIER_, new_ImplUiDropdownList_$1_init());

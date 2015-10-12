@@ -9,13 +9,13 @@
 #include "Controller.h"
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewAddUnitView;
+@protocol ViewAddUnitView;
 
 @interface ControllerAddUnitController : ControllerController
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewAddUnitView:(id<RtdcCoreViewAddUnitView>)view;
+- (instancetype)initWithViewAddUnitView:(id<ViewAddUnitView>)view;
 
 - (void)addUnit;
 
@@ -29,9 +29,9 @@
 
 J2OBJC_EMPTY_STATIC_INIT(ControllerAddUnitController)
 
-FOUNDATION_EXPORT void ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(ControllerAddUnitController *self, id<RtdcCoreViewAddUnitView> view);
+FOUNDATION_EXPORT void ControllerAddUnitController_initWithViewAddUnitView_(ControllerAddUnitController *self, id<ViewAddUnitView> view);
 
-FOUNDATION_EXPORT ControllerAddUnitController *new_ControllerAddUnitController_initWithRtdcCoreViewAddUnitView_(id<RtdcCoreViewAddUnitView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerAddUnitController *new_ControllerAddUnitController_initWithViewAddUnitView_(id<ViewAddUnitView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerAddUnitController)
 

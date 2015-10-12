@@ -10,19 +10,19 @@
 #include "Controller.h"
 #include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewAddUserView;
+@protocol ViewAddUserView;
 
-@interface ControllerAddUserController : ControllerController < RtdcCoreEventActionCompleteEvent_Handler >
+@interface ControllerAddUserController : ControllerController < EventActionCompleteEvent_Handler >
 
 #pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewAddUserView:(id<RtdcCoreViewAddUserView>)view;
+- (instancetype)initWithViewAddUserView:(id<ViewAddUserView>)view;
 
 - (void)addUser;
 
 - (void)deleteUser;
 
-- (void)onActionCompleteWithRtdcCoreEventActionCompleteEvent:(RtdcCoreEventActionCompleteEvent *)event;
+- (void)onActionCompleteWithEventActionCompleteEvent:(EventActionCompleteEvent *)event;
 
 - (void)onStop;
 
@@ -34,9 +34,9 @@
 
 J2OBJC_EMPTY_STATIC_INIT(ControllerAddUserController)
 
-FOUNDATION_EXPORT void ControllerAddUserController_initWithRtdcCoreViewAddUserView_(ControllerAddUserController *self, id<RtdcCoreViewAddUserView> view);
+FOUNDATION_EXPORT void ControllerAddUserController_initWithViewAddUserView_(ControllerAddUserController *self, id<ViewAddUserView> view);
 
-FOUNDATION_EXPORT ControllerAddUserController *new_ControllerAddUserController_initWithRtdcCoreViewAddUserView_(id<RtdcCoreViewAddUserView> view) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ControllerAddUserController *new_ControllerAddUserController_initWithViewAddUserView_(id<ViewAddUserView> view) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ControllerAddUserController)
 

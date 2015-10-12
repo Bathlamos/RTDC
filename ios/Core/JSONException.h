@@ -11,7 +11,7 @@
 
 @class JavaLangThrowable;
 
-@interface JSONJSONException : JavaLangRuntimeException
+@interface JsonJSONException : JavaLangRuntimeException
 
 #pragma mark Public
 
@@ -23,18 +23,18 @@
 
 @end
 
-J2OBJC_EMPTY_STATIC_INIT(JSONJSONException)
+J2OBJC_EMPTY_STATIC_INIT(JsonJSONException)
 
-FOUNDATION_EXPORT void JSONJSONException_initWithNSString_(JSONJSONException *self, NSString *message);
+FOUNDATION_EXPORT void JsonJSONException_initWithNSString_(JsonJSONException *self, NSString *message);
 
-FOUNDATION_EXPORT JSONJSONException *new_JSONJSONException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONException *new_JsonJSONException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void JSONJSONException_initWithJavaLangThrowable_(JSONJSONException *self, JavaLangThrowable *t);
+FOUNDATION_EXPORT void JsonJSONException_initWithJavaLangThrowable_(JsonJSONException *self, JavaLangThrowable *t);
 
-FOUNDATION_EXPORT JSONJSONException *new_JSONJSONException_initWithJavaLangThrowable_(JavaLangThrowable *t) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT JsonJSONException *new_JsonJSONException_initWithJavaLangThrowable_(JavaLangThrowable *t) NS_RETURNS_RETAINED;
 
-J2OBJC_TYPE_LITERAL_HEADER(JSONJSONException)
+J2OBJC_TYPE_LITERAL_HEADER(JsonJSONException)
 
-@compatibility_alias RtdcCoreJsonJSONException JSONJSONException;
+@compatibility_alias RtdcCoreJsonJSONException JsonJSONException;
 
 #endif // _JSONException_H_

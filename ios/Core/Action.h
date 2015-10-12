@@ -12,8 +12,8 @@
 #include "java/lang/Enum.h"
 
 @class IOSObjectArray;
-@class JSONJSONObject;
 @class JavaUtilDate;
+@class JsonJSONObject;
 @class ModelAction_StatusEnum;
 @class ModelAction_TaskEnum;
 @class ModelUnit;
@@ -27,7 +27,7 @@
 
 - (instancetype)init;
 
-- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (JavaUtilDate *)getDeadline;
 
@@ -79,9 +79,9 @@ FOUNDATION_EXPORT void ModelAction_init(ModelAction *self);
 
 FOUNDATION_EXPORT ModelAction *new_ModelAction_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT void ModelAction_initWithJSONJSONObject_(ModelAction *self, JSONJSONObject *object);
+FOUNDATION_EXPORT void ModelAction_initWithJsonJSONObject_(ModelAction *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT ModelAction *new_ModelAction_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT ModelAction *new_ModelAction_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
 J2OBJC_TYPE_LITERAL_HEADER(ModelAction)
 
@@ -100,6 +100,24 @@ typedef NS_ENUM(NSUInteger, ModelAction_Properties) {
 };
 
 @interface ModelAction_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (ModelAction_PropertiesEnum *)id_;
+
++ (ModelAction_PropertiesEnum *)unit;
+
++ (ModelAction_PropertiesEnum *)status;
+
++ (ModelAction_PropertiesEnum *)personResponsible;
+
++ (ModelAction_PropertiesEnum *)roleResponsible;
+
++ (ModelAction_PropertiesEnum *)task;
+
++ (ModelAction_PropertiesEnum *)target;
+
++ (ModelAction_PropertiesEnum *)deadline;
+
++ (ModelAction_PropertiesEnum *)description_;
 
 #pragma mark Package-Private
 
@@ -155,6 +173,14 @@ typedef NS_ENUM(NSUInteger, ModelAction_Status) {
 
 @interface ModelAction_StatusEnum : JavaLangEnum < NSCopying >
 
++ (ModelAction_StatusEnum *)notStarted;
+
++ (ModelAction_StatusEnum *)inProgress;
+
++ (ModelAction_StatusEnum *)completed;
+
++ (ModelAction_StatusEnum *)failed;
+
 #pragma mark Public
 
 + (id<UtilStringifier>)getStringifier;
@@ -198,6 +224,12 @@ typedef NS_ENUM(NSUInteger, ModelAction_Task) {
 };
 
 @interface ModelAction_TaskEnum : JavaLangEnum < NSCopying >
+
++ (ModelAction_TaskEnum *)pushForDischarge;
+
++ (ModelAction_TaskEnum *)offServicingTo;
+
++ (ModelAction_TaskEnum *)holdFor;
 
 #pragma mark Public
 
