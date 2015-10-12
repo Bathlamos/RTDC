@@ -4,23 +4,30 @@
 //
 
 #include "IOSClass.h"
+#include "J2ObjC_source.h"
 #include "JSONArray.h"
 #include "JSONException.h"
 #include "JSONObject.h"
 #include "JSONTokener.h"
-#include "java/lang/Boolean.h"
 #include "java/lang/Exception.h"
 #include "java/lang/Integer.h"
 #include "java/lang/Long.h"
 #include "java/lang/StringBuffer.h"
 
-@implementation JSONJSONTokener
+@interface JsonJSONTokener () {
+ @public
+  jint myIndex_;
+  NSString *mySource_;
+}
+
+@end
+
+J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
+
+@implementation JsonJSONTokener
 
 - (instancetype)initWithNSString:(NSString *)s {
-  if (self = [super init]) {
-    self->myIndex_ = 0;
-    JSONJSONTokener_set_mySource_(self, s);
-  }
+  JsonJSONTokener_initWithNSString_(self, s);
   return self;
 }
 
@@ -31,7 +38,7 @@
 }
 
 + (jint)dehexcharWithChar:(jchar)c {
-  return JSONJSONTokener_dehexcharWithChar_(c);
+  return JsonJSONTokener_dehexcharWithChar_(c);
 }
 
 - (jboolean)more {
@@ -109,7 +116,7 @@
 
 - (NSString *)nextStringWithChar:(jchar)quote {
   jchar c;
-  JavaLangStringBuffer *sb = [[[JavaLangStringBuffer alloc] init] autorelease];
+  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
   for (; ; ) {
     c = [self next];
     switch (c) {
@@ -155,7 +162,7 @@
 }
 
 - (NSString *)nextToWithChar:(jchar)d {
-  JavaLangStringBuffer *sb = [[[JavaLangStringBuffer alloc] init] autorelease];
+  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
   for (; ; ) {
     jchar c = [self next];
     if (c == d || c == 0 || c == 0x000a || c == 0x000d) {
@@ -170,7 +177,7 @@
 
 - (NSString *)nextToWithNSString:(NSString *)delimiters {
   jchar c;
-  JavaLangStringBuffer *sb = [[[JavaLangStringBuffer alloc] init] autorelease];
+  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
   for (; ; ) {
     c = [self next];
     if ([((NSString *) nil_chk(delimiters)) indexOf:c] >= 0 || c == 0 || c == 0x000a || c == 0x000d) {
@@ -192,12 +199,12 @@
     return [self nextStringWithChar:c];
     case '{':
     [self back];
-    return [[[JSONJSONObject alloc] initWithJSONJSONTokener:self] autorelease];
+    return [new_JsonJSONObject_initWithJsonJSONTokener_(self) autorelease];
     case '[':
     [self back];
-    return [[[JSONJSONArray alloc] initWithJSONJSONTokener:self] autorelease];
+    return [new_JsonJSONArray_initWithJsonJSONTokener_(self) autorelease];
   }
-  JavaLangStringBuffer *sb = [[[JavaLangStringBuffer alloc] init] autorelease];
+  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
   jchar b = c;
   while (c >= ' ' && [@",:]}/\\\"[{;=#" indexOf:c] < 0) {
     [sb appendWithChar:c];
@@ -209,26 +216,26 @@
     @throw [self syntaxErrorWithNSString:@"Missing value."];
   }
   if ([((NSString *) nil_chk([s lowercaseString])) isEqual:@"true"]) {
-    return JSONJSONObject_get_TRUE__();
+    return JreLoadStatic(JsonJSONObject, TRUE__);
   }
   if ([((NSString *) nil_chk([s lowercaseString])) isEqual:@"false"]) {
-    return JSONJSONObject_get_FALSE__();
+    return JreLoadStatic(JsonJSONObject, FALSE__);
   }
   if ([((NSString *) nil_chk([s lowercaseString])) isEqual:@"null"]) {
-    return JSONJSONObject_get_NULL__();
+    return JreLoadStatic(JsonJSONObject, NULL__);
   }
   if ((b >= '0' && b <= '9') || b == '.' || b == '-' || b == '+') {
     if (b == '0') {
       if (((jint) [s length]) > 2 && ([s charAtWithInt:1] == 'x' || [s charAtWithInt:1] == 'X')) {
         @try {
-          return [[[JavaLangInteger alloc] initWithInt:JavaLangInteger_parseIntWithNSString_withInt_([s substring:2], 16)] autorelease];
+          return [new_JavaLangInteger_initWithInt_(JavaLangInteger_parseIntWithNSString_withInt_([s substring:2], 16)) autorelease];
         }
         @catch (JavaLangException *e) {
         }
       }
       else {
         @try {
-          return [[[JavaLangInteger alloc] initWithInt:JavaLangInteger_parseIntWithNSString_withInt_(s, 8)] autorelease];
+          return [new_JavaLangInteger_initWithInt_(JavaLangInteger_parseIntWithNSString_withInt_(s, 8)) autorelease];
         }
         @catch (JavaLangException *e) {
         }
@@ -239,7 +246,7 @@
     }
     @catch (JavaLangException *e) {
       @try {
-        return [[[JavaLangLong alloc] initWithLong:JavaLangLong_parseLongWithNSString_(s)] autorelease];
+        return [new_JavaLangLong_initWithLong_(JavaLangLong_parseLongWithNSString_(s)) autorelease];
       }
       @catch (JavaLangException *f) {
         return s;
@@ -274,8 +281,8 @@
   }
 }
 
-- (JSONJSONException *)syntaxErrorWithNSString:(NSString *)message {
-  return [[[JSONJSONException alloc] initWithNSString:JreStrcat("$$", message, [self description])] autorelease];
+- (JsonJSONException *)syntaxErrorWithNSString:(NSString *)message {
+  return [new_JsonJSONException_initWithNSString_(JreStrcat("$$", message, [self description])) autorelease];
 }
 
 - (NSString *)description {
@@ -283,47 +290,53 @@
 }
 
 - (void)dealloc {
-  JSONJSONTokener_set_mySource_(self, nil);
+  RELEASE_(mySource_);
   [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(JSONJSONTokener *)other {
-  [super copyAllFieldsTo:other];
-  other->myIndex_ = myIndex_;
-  JSONJSONTokener_set_mySource_(other, mySource_);
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithNSString:", "JSONTokener", NULL, 0x1, NULL },
-    { "back", NULL, "V", 0x1, NULL },
-    { "dehexcharWithChar:", "dehexchar", "I", 0x9, NULL },
-    { "more", NULL, "Z", 0x1, NULL },
-    { "next", NULL, "C", 0x1, NULL },
-    { "nextWithChar:", "next", "C", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "nextWithInt:", "next", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "nextClean", NULL, "C", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "nextStringWithChar:", "nextString", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "nextToWithChar:", "nextTo", "Ljava.lang.String;", 0x1, NULL },
-    { "nextToWithNSString:", "nextTo", "Ljava.lang.String;", 0x1, NULL },
-    { "nextValue", NULL, "Ljava.lang.Object;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "skipToWithChar:", "skipTo", "C", 0x1, NULL },
-    { "skipPastWithNSString:", "skipPast", "V", 0x1, NULL },
-    { "syntaxErrorWithNSString:", "syntaxError", "Lrtdc.core.json.JSONException;", 0x1, NULL },
-    { "description", "toString", "Ljava.lang.String;", 0x1, NULL },
+    { "initWithNSString:", "JSONTokener", NULL, 0x1, NULL, NULL },
+    { "back", NULL, "V", 0x1, NULL, NULL },
+    { "dehexcharWithChar:", "dehexchar", "I", 0x9, NULL, NULL },
+    { "more", NULL, "Z", 0x1, NULL, NULL },
+    { "next", NULL, "C", 0x1, NULL, NULL },
+    { "nextWithChar:", "next", "C", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "nextWithInt:", "next", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "nextClean", NULL, "C", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "nextStringWithChar:", "nextString", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "nextToWithChar:", "nextTo", "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "nextToWithNSString:", "nextTo", "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "nextValue", NULL, "Ljava.lang.Object;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "skipToWithChar:", "skipTo", "C", 0x1, NULL, NULL },
+    { "skipPastWithNSString:", "skipPast", "V", 0x1, NULL, NULL },
+    { "syntaxErrorWithNSString:", "syntaxError", "Lrtdc.core.json.JSONException;", 0x1, NULL, NULL },
+    { "description", "toString", "Ljava.lang.String;", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "myIndex_", NULL, 0x2, "I", NULL,  },
-    { "mySource_", NULL, 0x2, "Ljava.lang.String;", NULL,  },
+    { "myIndex_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
+    { "mySource_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _JSONJSONTokener = { "JSONTokener", "rtdc.core.json", NULL, 0x1, 16, methods, 2, fields, 0, NULL};
-  return &_JSONJSONTokener;
+  static const J2ObjcClassInfo _JsonJSONTokener = { 2, "JSONTokener", "rtdc.core.json", NULL, 0x1, 16, methods, 2, fields, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonJSONTokener;
 }
 
 @end
 
-jint JSONJSONTokener_dehexcharWithChar_(jchar c) {
-  JSONJSONTokener_init();
+void JsonJSONTokener_initWithNSString_(JsonJSONTokener *self, NSString *s) {
+  NSObject_init(self);
+  self->myIndex_ = 0;
+  JreStrongAssign(&self->mySource_, s);
+}
+
+JsonJSONTokener *new_JsonJSONTokener_initWithNSString_(NSString *s) {
+  JsonJSONTokener *self = [JsonJSONTokener alloc];
+  JsonJSONTokener_initWithNSString_(self, s);
+  return self;
+}
+
+jint JsonJSONTokener_dehexcharWithChar_(jchar c) {
+  JsonJSONTokener_initialize();
   if (c >= '0' && c <= '9') {
     return c - '0';
   }
@@ -335,3 +348,5 @@ jint JSONJSONTokener_dehexcharWithChar_(jchar c) {
   }
   return -1;
 }
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonJSONTokener)

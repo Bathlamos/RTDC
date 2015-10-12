@@ -3,14 +3,15 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONStringer.java
 //
 
-#ifndef _JSONJSONStringer_H_
-#define _JSONJSONStringer_H_
+#ifndef _JSONStringer_H_
+#define _JSONStringer_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 #include "JSONWriter.h"
 
-@interface JSONJSONStringer : JSONJSONWriter {
-}
+@interface JsonJSONStringer : JsonJSONWriter
+
+#pragma mark Public
 
 - (instancetype)init;
 
@@ -18,8 +19,14 @@
 
 @end
 
-__attribute__((always_inline)) inline void JSONJSONStringer_init() {}
+J2OBJC_EMPTY_STATIC_INIT(JsonJSONStringer)
 
-typedef JSONJSONStringer RtdcCoreJsonJSONStringer;
+FOUNDATION_EXPORT void JsonJSONStringer_init(JsonJSONStringer *self);
 
-#endif // _JSONJSONStringer_H_
+FOUNDATION_EXPORT JsonJSONStringer *new_JsonJSONStringer_init() NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(JsonJSONStringer)
+
+@compatibility_alias RtdcCoreJsonJSONStringer JsonJSONStringer;
+
+#endif // _JSONStringer_H_

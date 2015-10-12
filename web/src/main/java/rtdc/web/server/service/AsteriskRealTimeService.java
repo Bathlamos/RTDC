@@ -25,7 +25,7 @@ public class AsteriskRealTimeService {
 
     public static void addUser(User user, String password) throws SQLException {
         Connection connection = getConnection();
-        Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.INFO, String.valueOf(user.getId()));
+        Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.INFO, "Adding user " + user.getUsername() + " to Asterisk with extension " + user.getId());
         if (connection == null) {
             Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.SEVERE, user.getUsername() + " was NOT added to Asterisk!");
             return;

@@ -3,90 +3,109 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/controller/UserListController.java
 //
 
-#include "IOSClass.h"
+#include "Bootstrapper.h"
+#include "Cache.h"
+#include "Controller.h"
+#include "Dispatcher.h"
+#include "Event.h"
+#include "EventType.h"
+#include "Factory.h"
+#include "FetchUsersEvent.h"
+#include "J2ObjC_source.h"
 #include "Service.h"
+#include "SimpleComparator.h"
 #include "User.h"
 #include "UserListController.h"
 #include "UserListView.h"
+#include "com/google/common/collect/ImmutableSet.h"
+#include "java/util/Collections.h"
+#include "java/util/Comparator.h"
+#include "java/util/HashSet.h"
+#include "java/util/LinkedList.h"
 #include "java/util/List.h"
+#include "java/util/Set.h"
+
+@interface ControllerUserListController () {
+ @public
+  id<JavaUtilSet> users_;
+}
+
+@end
+
+J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
 
 @implementation ControllerUserListController
 
-- (instancetype)initWithRtdcCoreViewUserListView:(id<RtdcCoreViewUserListView>)view {
-  if (self = [super init]) {
-    ControllerUserListController_set_view_(self, view);
-    ServiceService_getUsersWithServiceAsyncCallback_([[[ControllerUserListController_$1 alloc] initWithControllerUserListController:self] autorelease]);
-  }
+- (instancetype)initWithViewUserListView:(id<ViewUserListView>)view {
+  ControllerUserListController_initWithViewUserListView_(self, view);
   return self;
 }
 
-- (void)onClickUserWithModelUser:(ModelUser *)user {
+- (NSString *)getTitle {
+  return @"Users";
 }
 
-- (void)onClickNewUser {
+- (id<JavaUtilList>)sortUsersWithModelUser_PropertiesEnum:(ModelUser_PropertiesEnum *)property {
+  JavaUtilLinkedList *sortedUsers = [new_JavaUtilLinkedList_initWithJavaUtilCollection_(users_) autorelease];
+  JavaUtilCollections_sortWithJavaUtilList_withJavaUtilComparator_(sortedUsers, [((ModelSimpleComparator_Builder *) nil_chk(ModelSimpleComparator_forPropertyWithModelObjectProperty_(property))) build]);
+  return sortedUsers;
+}
+
+- (void)deleteUserWithModelUser:(ModelUser *)user {
+  [((id<JavaUtilSet>) nil_chk(users_)) removeWithId:user];
+  ServiceService_deleteUserWithInt_([((ModelUser *) nil_chk(user)) getId]);
+}
+
+- (void)editUserWithModelUser:(ModelUser *)user {
+  [((UtilCache *) nil_chk(UtilCache_getInstance())) putWithNSString:@"user" withId:user];
+  [((id<ImplDispatcher>) nil_chk([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newDispatcher])) goToEditUserWithControllerController:self];
+}
+
+- (void)onUsersFetchedWithEventFetchUsersEvent:(EventFetchUsersEvent *)event {
+  JreStrongAssignAndConsume(&users_, new_JavaUtilHashSet_initWithJavaUtilCollection_([((EventFetchUsersEvent *) nil_chk(event)) getUsers]));
+  [((id<ViewUserListView>) nil_chk(view_)) setUsersWithJavaUtilList:[self sortUsersWithModelUser_PropertiesEnum:JreLoadStatic(ModelUser_PropertiesEnum, lastName)]];
+}
+
+- (void)onStop {
+  [super onStop];
+  EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUsersEvent, TYPE_), self);
 }
 
 - (void)dealloc {
-  ControllerUserListController_set_view_(self, nil);
+  RELEASE_(users_);
   [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ControllerUserListController *)other {
-  [super copyAllFieldsTo:other];
-  ControllerUserListController_set_view_(other, view_);
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithRtdcCoreViewUserListView:", "UserListController", NULL, 0x1, NULL },
-    { "onClickUserWithModelUser:", "onClickUser", "V", 0x1, NULL },
-    { "onClickNewUser", NULL, "V", 0x1, NULL },
+    { "initWithViewUserListView:", "UserListController", NULL, 0x1, NULL, NULL },
+    { "getTitle", NULL, "Ljava.lang.String;", 0x0, NULL, NULL },
+    { "sortUsersWithModelUser_PropertiesEnum:", "sortUsers", "Ljava.util.List;", 0x1, NULL, NULL },
+    { "deleteUserWithModelUser:", "deleteUser", "V", 0x1, NULL, NULL },
+    { "editUserWithModelUser:", "editUser", "V", 0x1, NULL, NULL },
+    { "onUsersFetchedWithEventFetchUsersEvent:", "onUsersFetched", "V", 0x1, NULL, NULL },
+    { "onStop", NULL, "V", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "view_", NULL, 0x2, "Lrtdc.core.view.UserListView;", NULL,  },
+    { "users_", NULL, 0x2, "Ljava.util.Set;", NULL, "Ljava/util/Set<Lrtdc/core/model/User;>;", .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _ControllerUserListController = { "UserListController", "rtdc.core.controller", NULL, 0x1, 3, methods, 1, fields, 0, NULL};
+  static const char *superclass_type_args[] = {"Lrtdc.core.view.UserListView;"};
+  static const J2ObjcClassInfo _ControllerUserListController = { 2, "UserListController", "rtdc.core.controller", NULL, 0x1, 7, methods, 1, fields, 1, superclass_type_args, 0, NULL, NULL, "Lrtdc/core/controller/Controller<Lrtdc/core/view/UserListView;>;Lrtdc/core/event/FetchUsersEvent$Handler;" };
   return &_ControllerUserListController;
 }
 
 @end
 
-@implementation ControllerUserListController_$1
-
-- (void)onSuccessWithId:(id<JavaUtilList>)users {
-  [((id<RtdcCoreViewUserListView>) nil_chk(this$0_->view_)) setUsersWithJavaUtilList:users];
+void ControllerUserListController_initWithViewUserListView_(ControllerUserListController *self, id<ViewUserListView> view) {
+  ControllerController_initWithViewView_(self, view);
+  EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUsersEvent, TYPE_), self);
+  ServiceService_getUsers();
 }
 
-- (void)onErrorWithNSString:(NSString *)message {
-  [((id<RtdcCoreViewUserListView>) nil_chk(this$0_->view_)) displayErrorWithNSString:@"Error" withNSString:message];
+ControllerUserListController *new_ControllerUserListController_initWithViewUserListView_(id<ViewUserListView> view) {
+  ControllerUserListController *self = [ControllerUserListController alloc];
+  ControllerUserListController_initWithViewUserListView_(self, view);
+  return self;
 }
 
-- (instancetype)initWithControllerUserListController:(ControllerUserListController *)outer$ {
-  ControllerUserListController_$1_set_this$0_(self, outer$);
-  return [super init];
-}
-
-- (void)dealloc {
-  ControllerUserListController_$1_set_this$0_(self, nil);
-  [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ControllerUserListController_$1 *)other {
-  [super copyAllFieldsTo:other];
-  ControllerUserListController_$1_set_this$0_(other, this$0_);
-}
-
-+ (const J2ObjcClassInfo *)__metadata {
-  static const J2ObjcMethodInfo methods[] = {
-    { "onSuccessWithJavaUtilList:", "onSuccess", "V", 0x1, NULL },
-    { "onErrorWithNSString:", "onError", "V", 0x1, NULL },
-    { "initWithControllerUserListController:", "init", NULL, 0x0, NULL },
-  };
-  static const J2ObjcFieldInfo fields[] = {
-    { "this$0_", NULL, 0x1012, "Lrtdc.core.controller.UserListController;", NULL,  },
-  };
-  static const J2ObjcClassInfo _ControllerUserListController_$1 = { "$1", "rtdc.core.controller", "UserListController", 0x8000, 3, methods, 1, fields, 0, NULL};
-  return &_ControllerUserListController_$1;
-}
-
-@end
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ControllerUserListController)

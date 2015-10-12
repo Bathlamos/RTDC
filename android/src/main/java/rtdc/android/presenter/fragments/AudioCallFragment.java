@@ -11,6 +11,8 @@ import org.linphone.core.LinphoneCall;
 import rtdc.android.R;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
+import rtdc.core.Bootstrapper;
+import rtdc.core.model.User;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -26,12 +28,21 @@ public class AudioCallFragment extends AbstractCallFragment{
         final View view = inflater.inflate(R.layout.fragment_in_audio_call, container, false);
         this.view = view;
 
-        view.findViewById(R.id.speakerButton).setOnClickListener(inCallActivity);
-        inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), inCallActivity.isSpeaker());
+        if(!getResources().getBoolean(R.bool.isTablet)){
+            // Not a tablet, we should give the user the possibility of switching to speaker mode
+            view.findViewById(R.id.speakerButton).setOnClickListener(inCallActivity);
+            inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), Bootstrapper.FACTORY.getVoipController().isSpeakerEnabled());
+        }else{
+            // Tablets always have speaker mode on
+            ImageButton speakerButton = (ImageButton) view.findViewById(R.id.speakerButton);
+            view.findViewById(R.id.speakerLayout).setAlpha(0.5f);
+            speakerButton.setBackgroundResource(R.drawable.circle_blue);
+            speakerButton.setColorFilter(getResources().getColor(R.color.RTDC_light_grey));
+        }
 
         // Display the name of the person we're in call with
-        if(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName() != null)
-            ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCall().getCallLog().getFrom().getDisplayName());
+        if(LiblinphoneThread.get().getCurrentCallRemoteAddress() != null)
+            ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCallRemoteAddress().getDisplayName());
         else
             ((TextView) view.findViewById(R.id.callerText)).setText("Unknown");
 

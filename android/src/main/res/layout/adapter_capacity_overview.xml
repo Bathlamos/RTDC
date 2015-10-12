@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:minHeight="48dp">
+              android:layout_height="match_parent" android:minHeight="48dp" android:background="@color/RTDC_white">
 
     <Space
             android:layout_width="0dp"
@@ -11,7 +11,7 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Unit name"
             android:id="@+id/unitName"
             android:layout_weight="3" android:textStyle="bold" android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp" android:background="@android:color/transparent" android:gravity="center"
@@ -25,7 +25,7 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="5"
             android:id="@+id/availableBeds"
             android:background="@android:color/transparent"
             android:layout_weight="2" android:layout_gravity="center_vertical"
@@ -40,7 +40,7 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="4"
             android:id="@+id/potentialDC"
             android:background="@android:color/transparent"
             android:layout_weight="2" android:layout_gravity="center_vertical"
@@ -54,7 +54,7 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="3"
             android:id="@+id/DCByDeadline"
             android:background="@android:color/transparent"
             android:layout_weight="2" android:layout_gravity="center_vertical"
@@ -68,7 +68,7 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="2"
             android:id="@+id/totalAdmits"
             android:background="@android:color/transparent"
             android:layout_weight="2" android:layout_gravity="center_vertical"
@@ -81,7 +81,7 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="1"
             android:id="@+id/admitsByDeadline"
             android:background="@android:color/transparent"
             android:layout_weight="2" android:layout_gravity="center_vertical"
@@ -95,7 +95,7 @@
     <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="2"
             android:id="@+id/statusAtDeadline"
             android:layout_weight="2" android:layout_gravity="center_vertical"
             android:textColor="#000000" android:enabled="false" android:background="@android:color/transparent"

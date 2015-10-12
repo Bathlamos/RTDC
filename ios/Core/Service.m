@@ -3,368 +3,333 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/service/Service.java
 //
 
+#include "Action.h"
 #include "AsyncCallback.h"
 #include "Bootstrapper.h"
-#include "Dispatcher.h"
+#include "ErrorEvent.h"
+#include "Event.h"
 #include "Factory.h"
+#include "HttpHeadersName.h"
 #include "HttpRequest.h"
 #include "HttpResponse.h"
 #include "IOSClass.h"
-#include "JSONArray.h"
+#include "J2ObjC_source.h"
+#include "JSONException.h"
 #include "JSONObject.h"
-#include "JsonTransmissionWrapper.h"
+#include "Message.h"
 #include "Service.h"
-#include "SessionExpiredException.h"
 #include "Unit.h"
 #include "User.h"
-#include "java/lang/Boolean.h"
-#include "java/util/LinkedList.h"
-#include "java/util/Map.h"
-#include "java/util/logging/Level.h"
+#include "VoipController.h"
 #include "java/util/logging/Logger.h"
 
-__attribute__((unused)) static void ServiceService_catchSessionExpiredExceptionWithModelJsonTransmissionWrapper_(ModelJsonTransmissionWrapper *wrapper);
+@interface ServiceService ()
+
+- (instancetype)init;
+
++ (void)executeRequestWithImplHttpRequest:(id<ImplHttpRequest>)request;
+
+@end
+
+static NSString *ServiceService_URL_ = @"http://192.168.1.4:8888/api/";
+J2OBJC_STATIC_FIELD_GETTER(ServiceService, URL_, NSString *)
+
+static JavaUtilLoggingLogger *ServiceService_logger_;
+J2OBJC_STATIC_FIELD_GETTER(ServiceService, logger_, JavaUtilLoggingLogger *)
+
+__attribute__((unused)) static void ServiceService_init(ServiceService *self);
+
+__attribute__((unused)) static ServiceService *new_ServiceService_init() NS_RETURNS_RETAINED;
+
+__attribute__((unused)) static void ServiceService_executeRequestWithImplHttpRequest_(id<ImplHttpRequest> request);
+
+@interface ServiceService_$1 : NSObject < ServiceAsyncCallback >
+
+- (void)onSuccessWithId:(id<ImplHttpResponse>)resp;
+
+- (void)onErrorWithNSString:(NSString *)message;
+
+- (instancetype)init;
+
+@end
+
+J2OBJC_EMPTY_STATIC_INIT(ServiceService_$1)
+
+__attribute__((unused)) static void ServiceService_$1_init(ServiceService_$1 *self);
+
+__attribute__((unused)) static ServiceService_$1 *new_ServiceService_$1_init() NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ServiceService_$1)
+
+J2OBJC_INITIALIZED_DEFN(ServiceService)
 
 @implementation ServiceService
 
-NSString * ServiceService_URL_ = @"http://192.168.2.49:8888/api/";
-
+J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  return [super init];
+  ServiceService_init(self);
+  return self;
 }
+J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)authenticateUserWithNSString:(NSString *)username
-                        withNSString:(NSString *)password
-            withServiceAsyncCallback:(id<ServiceAsyncCallback>)callback {
-  ServiceService_authenticateUserWithNSString_withNSString_withServiceAsyncCallback_(username, password, callback);
+                        withNSString:(NSString *)password {
+  ServiceService_authenticateUserWithNSString_withNSString_(username, password);
+}
+
++ (void)isAuthTokenValid {
+  ServiceService_isAuthTokenValid();
+}
+
++ (void)logout {
+  ServiceService_logout();
+}
+
++ (void)getUnits {
+  ServiceService_getUnits();
+}
+
++ (void)updateOrSaveUnitWithModelUnit:(ModelUnit *)unit {
+  ServiceService_updateOrSaveUnitWithModelUnit_(unit);
+}
+
++ (void)deleteUnitWithInt:(jint)unitId {
+  ServiceService_deleteUnitWithInt_(unitId);
+}
+
++ (void)getUsers {
+  ServiceService_getUsers();
+}
+
++ (void)getUserWithInt:(jint)id_ {
+  ServiceService_getUserWithInt_(id_);
 }
 
 + (void)updateOrSaveUserWithModelUser:(ModelUser *)user
-                         withNSString:(NSString *)password
-             withServiceAsyncCallback:(id<ServiceAsyncCallback>)callback {
-  ServiceService_updateOrSaveUserWithModelUser_withNSString_withServiceAsyncCallback_(user, password, callback);
+                         withNSString:(NSString *)password {
+  ServiceService_updateOrSaveUserWithModelUser_withNSString_(user, password);
 }
 
-+ (void)updateOrSaveUnitWithModelUnit:(ModelUnit *)unit
-             withServiceAsyncCallback:(id<ServiceAsyncCallback>)callback {
-  ServiceService_updateOrSaveUnitWithModelUnit_withServiceAsyncCallback_(unit, callback);
++ (void)deleteUserWithInt:(jint)userId {
+  ServiceService_deleteUserWithInt_(userId);
 }
 
-+ (void)getUnitsWithServiceAsyncCallback:(id<ServiceAsyncCallback>)callback {
-  ServiceService_getUnitsWithServiceAsyncCallback_(callback);
++ (void)saveOrUpdateMessageWithModelMessage:(ModelMessage *)message {
+  ServiceService_saveOrUpdateMessageWithModelMessage_(message);
 }
 
-+ (void)getUsersWithServiceAsyncCallback:(id<ServiceAsyncCallback>)callback {
-  ServiceService_getUsersWithServiceAsyncCallback_(callback);
++ (void)getMessagesWithInt:(jint)userId1
+                   withInt:(jint)userId2 {
+  ServiceService_getMessagesWithInt_withInt_(userId1, userId2);
 }
 
-+ (void)catchSessionExpiredExceptionWithModelJsonTransmissionWrapper:(ModelJsonTransmissionWrapper *)wrapper {
-  ServiceService_catchSessionExpiredExceptionWithModelJsonTransmissionWrapper_(wrapper);
++ (void)getActions {
+  ServiceService_getActions();
+}
+
++ (void)updateOrSaveActionsWithModelAction:(ModelAction *)action {
+  ServiceService_updateOrSaveActionsWithModelAction_(action);
+}
+
++ (void)deleteActionWithInt:(jint)actionId {
+  ServiceService_deleteActionWithInt_(actionId);
+}
+
++ (void)executeRequestWithImplHttpRequest:(id<ImplHttpRequest>)request {
+  ServiceService_executeRequestWithImplHttpRequest_(request);
+}
+
++ (void)initialize {
+  if (self == [ServiceService class]) {
+    JreStrongAssign(&ServiceService_logger_, JavaUtilLoggingLogger_getLoggerWithNSString_([ServiceService_class_() getCanonicalName]));
+    J2OBJC_SET_INITIALIZED(ServiceService)
+  }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "init", "Service", NULL, 0x2, NULL },
-    { "authenticateUserWithNSString:withNSString:withServiceAsyncCallback:", "authenticateUser", "V", 0x9, NULL },
-    { "updateOrSaveUserWithModelUser:withNSString:withServiceAsyncCallback:", "updateOrSaveUser", "V", 0x9, NULL },
-    { "updateOrSaveUnitWithModelUnit:withServiceAsyncCallback:", "updateOrSaveUnit", "V", 0x9, NULL },
-    { "getUnitsWithServiceAsyncCallback:", "getUnits", "V", 0x9, NULL },
-    { "getUsersWithServiceAsyncCallback:", "getUsers", "V", 0x9, NULL },
-    { "catchSessionExpiredExceptionWithModelJsonTransmissionWrapper:", "catchSessionExpiredException", "V", 0xa, NULL },
+    { "init", "Service", NULL, 0x2, NULL, NULL },
+    { "authenticateUserWithNSString:withNSString:", "authenticateUser", "V", 0x9, NULL, NULL },
+    { "isAuthTokenValid", NULL, "V", 0x9, NULL, NULL },
+    { "logout", NULL, "V", 0x9, NULL, NULL },
+    { "getUnits", NULL, "V", 0x9, NULL, NULL },
+    { "updateOrSaveUnitWithModelUnit:", "updateOrSaveUnit", "V", 0x9, NULL, NULL },
+    { "deleteUnitWithInt:", "deleteUnit", "V", 0x9, NULL, NULL },
+    { "getUsers", NULL, "V", 0x9, NULL, NULL },
+    { "getUserWithInt:", "getUser", "V", 0x9, NULL, NULL },
+    { "updateOrSaveUserWithModelUser:withNSString:", "updateOrSaveUser", "V", 0x9, NULL, NULL },
+    { "deleteUserWithInt:", "deleteUser", "V", 0x9, NULL, NULL },
+    { "saveOrUpdateMessageWithModelMessage:", "saveOrUpdateMessage", "V", 0x9, NULL, NULL },
+    { "getMessagesWithInt:withInt:", "getMessages", "V", 0x9, NULL, NULL },
+    { "getActions", NULL, "V", 0x9, NULL, NULL },
+    { "updateOrSaveActionsWithModelAction:", "updateOrSaveActions", "V", 0x9, NULL, NULL },
+    { "deleteActionWithInt:", "deleteAction", "V", 0x9, NULL, NULL },
+    { "executeRequestWithImplHttpRequest:", "executeRequest", "V", 0xa, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "URL_", NULL, 0x1a, "Ljava.lang.String;", &ServiceService_URL_,  },
+    { "URL_", NULL, 0x1a, "Ljava.lang.String;", &ServiceService_URL_, NULL, .constantValue.asLong = 0 },
+    { "logger_", NULL, 0x1a, "Ljava.util.logging.Logger;", &ServiceService_logger_, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _ServiceService = { "Service", "rtdc.core.service", NULL, 0x11, 7, methods, 1, fields, 0, NULL};
+  static const J2ObjcClassInfo _ServiceService = { 2, "Service", "rtdc.core.service", NULL, 0x11, 17, methods, 2, fields, 0, NULL, 0, NULL, NULL, NULL };
   return &_ServiceService;
 }
 
 @end
 
-void ServiceService_authenticateUserWithNSString_withNSString_withServiceAsyncCallback_(NSString *username, NSString *password, id<ServiceAsyncCallback> callback) {
-  ServiceService_init();
-  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(RtdcCoreBootstrapper_get_FACTORY_())) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"authenticate") withImplHttpRequest_RequestMethodEnum:ImplHttpRequest_RequestMethodEnum_get_POST()];
-  [((id<ImplHttpRequest>) nil_chk(req)) setHeaderWithNSString:@"Content-type" withNSString:@"application/x-www-form-urlencoded"];
-  [req addParameterWithNSString:@"username" withNSString:username];
+void ServiceService_init(ServiceService *self) {
+  NSObject_init(self);
+}
+
+ServiceService *new_ServiceService_init() {
+  ServiceService *self = [ServiceService alloc];
+  ServiceService_init(self);
+  return self;
+}
+
+void ServiceService_authenticateUserWithNSString_withNSString_(NSString *username, NSString *password) {
+  ServiceService_initialize();
+  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"authenticate") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)];
+  [((id<ImplHttpRequest>) nil_chk(req)) addParameterWithNSString:@"username" withNSString:username];
   [req addParameterWithNSString:@"password" withNSString:password];
-  [req executeWithServiceAsyncCallback:[[[ServiceService_$1 alloc] initWithServiceAsyncCallback:callback] autorelease]];
+  ServiceService_executeRequestWithImplHttpRequest_(req);
 }
 
-void ServiceService_updateOrSaveUserWithModelUser_withNSString_withServiceAsyncCallback_(ModelUser *user, NSString *password, id<ServiceAsyncCallback> callback) {
-  ServiceService_init();
-  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(RtdcCoreBootstrapper_get_FACTORY_())) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"users") withImplHttpRequest_RequestMethodEnum:ImplHttpRequest_RequestMethodEnum_get_PUT()];
-  [((id<ImplHttpRequest>) nil_chk(req)) setHeaderWithNSString:@"Content-type" withNSString:@"application/x-www-form-urlencoded"];
-  [req addParameterWithNSString:@"authToken" withNSString:RtdcCoreBootstrapper_get_AUTHENTICATION_TOKEN_()];
-  [req addParameterWithNSString:@"user" withNSString:[((ModelUser *) nil_chk(user)) description]];
+void ServiceService_isAuthTokenValid() {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"authenticate/tokenValid") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
+}
+
+void ServiceService_logout() {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"authenticate/logout") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
+  [((id<ImplVoipController>) nil_chk([JreLoadStatic(RtdcCoreBootstrapper, FACTORY_) getVoipController])) unregisterCurrentUser];
+}
+
+void ServiceService_getUnits() {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"units") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, GET)]);
+}
+
+void ServiceService_updateOrSaveUnitWithModelUnit_(ModelUnit *unit) {
+  ServiceService_initialize();
+  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"units") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, PUT)];
+  [((id<ImplHttpRequest>) nil_chk(req)) addParameterWithNSString:@"unit" withNSString:[((ModelUnit *) nil_chk(unit)) description]];
+  ServiceService_executeRequestWithImplHttpRequest_(req);
+}
+
+void ServiceService_deleteUnitWithInt_(jint unitId) {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$I", ServiceService_URL_, @"units/", unitId) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, DELETE)]);
+}
+
+void ServiceService_getUsers() {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"users") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, GET)]);
+}
+
+void ServiceService_getUserWithInt_(jint id_) {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$I", ServiceService_URL_, @"users/", id_) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
+}
+
+void ServiceService_updateOrSaveUserWithModelUser_withNSString_(ModelUser *user, NSString *password) {
+  ServiceService_initialize();
+  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"users") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, PUT)];
+  [((id<ImplHttpRequest>) nil_chk(req)) addParameterWithNSString:@"user" withNSString:[((ModelUser *) nil_chk(user)) description]];
   [req addParameterWithNSString:@"password" withNSString:password];
-  [req executeWithServiceAsyncCallback:[[[ServiceService_$2 alloc] initWithServiceAsyncCallback:callback] autorelease]];
+  ServiceService_executeRequestWithImplHttpRequest_(req);
 }
 
-void ServiceService_updateOrSaveUnitWithModelUnit_withServiceAsyncCallback_(ModelUnit *unit, id<ServiceAsyncCallback> callback) {
-  ServiceService_init();
-  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(RtdcCoreBootstrapper_get_FACTORY_())) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"units") withImplHttpRequest_RequestMethodEnum:ImplHttpRequest_RequestMethodEnum_get_PUT()];
-  [((id<ImplHttpRequest>) nil_chk(req)) setHeaderWithNSString:@"Content-type" withNSString:@"application/x-www-form-urlencoded"];
-  [req addParameterWithNSString:@"authToken" withNSString:RtdcCoreBootstrapper_get_AUTHENTICATION_TOKEN_()];
-  [req addParameterWithNSString:@"unit" withNSString:[((ModelUnit *) nil_chk(unit)) description]];
-  [req executeWithServiceAsyncCallback:[[[ServiceService_$3 alloc] initWithServiceAsyncCallback:callback] autorelease]];
+void ServiceService_deleteUserWithInt_(jint userId) {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$I", ServiceService_URL_, @"users/", userId) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, DELETE)]);
 }
 
-void ServiceService_getUnitsWithServiceAsyncCallback_(id<ServiceAsyncCallback> callback) {
-  ServiceService_init();
-  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(RtdcCoreBootstrapper_get_FACTORY_())) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"units") withImplHttpRequest_RequestMethodEnum:ImplHttpRequest_RequestMethodEnum_get_GET()];
-  [((id<ImplHttpRequest>) nil_chk(req)) setHeaderWithNSString:@"Content-type" withNSString:@"application/x-www-form-urlencoded"];
-  [req addParameterWithNSString:@"authToken" withNSString:RtdcCoreBootstrapper_get_AUTHENTICATION_TOKEN_()];
-  [req executeWithServiceAsyncCallback:[[[ServiceService_$4 alloc] initWithServiceAsyncCallback:callback] autorelease]];
+void ServiceService_saveOrUpdateMessageWithModelMessage_(ModelMessage *message) {
+  ServiceService_initialize();
+  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"messages") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, PUT)];
+  [((id<ImplHttpRequest>) nil_chk(req)) addParameterWithNSString:@"message" withNSString:[((ModelMessage *) nil_chk(message)) description]];
+  ServiceService_executeRequestWithImplHttpRequest_(req);
 }
 
-void ServiceService_getUsersWithServiceAsyncCallback_(id<ServiceAsyncCallback> callback) {
-  ServiceService_init();
-  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(RtdcCoreBootstrapper_get_FACTORY_())) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"users") withImplHttpRequest_RequestMethodEnum:ImplHttpRequest_RequestMethodEnum_get_GET()];
-  [((id<ImplHttpRequest>) nil_chk(req)) setHeaderWithNSString:@"Content-type" withNSString:@"application/x-www-form-urlencoded"];
-  [req addParameterWithNSString:@"authToken" withNSString:RtdcCoreBootstrapper_get_AUTHENTICATION_TOKEN_()];
-  [req executeWithServiceAsyncCallback:[[[ServiceService_$5 alloc] initWithServiceAsyncCallback:callback] autorelease]];
+void ServiceService_getMessagesWithInt_withInt_(jint userId1, jint userId2) {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$ICI", ServiceService_URL_, @"messages/", userId1, '/', userId2) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
 }
 
-void ServiceService_catchSessionExpiredExceptionWithModelJsonTransmissionWrapper_(ModelJsonTransmissionWrapper *wrapper) {
-  ServiceService_init();
-  [((JavaUtilLoggingLogger *) nil_chk(JavaUtilLoggingLogger_getLoggerWithNSString_(@"RTDC"))) logWithJavaUtilLoggingLevel:JavaUtilLoggingLevel_get_INFO_() withNSString:JreStrcat("$$$", [[IOSClass classWithClass:[ExceptionSessionExpiredException class]] getSimpleName], @" : ", [((ModelJsonTransmissionWrapper *) nil_chk(wrapper)) getStatus])];
-  if ([((NSString *) nil_chk([[IOSClass classWithClass:[ExceptionSessionExpiredException class]] getSimpleName])) isEqual:[wrapper getStatus]]) {
-    RtdcCoreBootstrapper_set_AUTHENTICATION_TOKEN_(nil);
-    [((id<ImplDispatcher>) nil_chk([((id<ImplFactory>) nil_chk(RtdcCoreBootstrapper_get_FACTORY_())) newDispatcher])) goToLoginWithBoolean:YES];
-  }
+void ServiceService_getActions() {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"actions") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, GET)]);
 }
+
+void ServiceService_updateOrSaveActionsWithModelAction_(ModelAction *action) {
+  ServiceService_initialize();
+  id<ImplHttpRequest> req = [((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"actions") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, PUT)];
+  [((id<ImplHttpRequest>) nil_chk(req)) addParameterWithNSString:@"action" withNSString:[((ModelAction *) nil_chk(action)) description]];
+  ServiceService_executeRequestWithImplHttpRequest_(req);
+}
+
+void ServiceService_deleteActionWithInt_(jint actionId) {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$I", ServiceService_URL_, @"actions/", actionId) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, DELETE)]);
+}
+
+void ServiceService_executeRequestWithImplHttpRequest_(id<ImplHttpRequest> request) {
+  ServiceService_initialize();
+  [((id<ImplHttpRequest>) nil_chk(request)) setContentTypeWithNSString:@"application/x-www-form-urlencoded"];
+  if (JreLoadStatic(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_) != nil) [request setHeaderWithNSString:ServiceHttpHeadersName_AUTH_TOKEN_ withNSString:JreLoadStatic(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_)];
+  [request executeWithServiceAsyncCallback:[new_ServiceService_$1_init() autorelease]];
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ServiceService)
 
 @implementation ServiceService_$1
 
 - (void)onSuccessWithId:(id<ImplHttpResponse>)resp {
-  ModelJsonTransmissionWrapper *wrapper = [[[ModelJsonTransmissionWrapper alloc] initWithNSString:[((id<ImplHttpResponse>) nil_chk(resp)) getContent]] autorelease];
-  ServiceService_catchSessionExpiredExceptionWithModelJsonTransmissionWrapper_(wrapper);
-  if ([@"success" isEqual:[wrapper getStatus]]) {
-    ModelUser *user = [[[ModelUser alloc] init] autorelease];
-    [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onSuccessWithId:user];
+  if ([((id<ImplHttpResponse>) nil_chk(resp)) getStatusCode] != 200) [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$IC$", @"Error code ", [resp getStatusCode], ' ', [resp getContent])) autorelease]) fire];
+  else {
+    @try {
+      JsonJSONObject *object = [new_JsonJSONObject_initWithNSString_([resp getContent]) autorelease];
+      EventEvent_fireWithJsonJSONObject_(object);
+    }
+    @catch (JsonJSONException *e) {
+      [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$C$", @"Unrecognized output from server ", [resp getContent], ' ', [((JsonJSONException *) nil_chk(e)) getMessage])) autorelease]) fire];
+    }
   }
-  else [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:JreStrcat("$$$", [wrapper getStatus], @" : ", [wrapper getDescription])];
 }
 
 - (void)onErrorWithNSString:(NSString *)message {
-  [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:message];
+  [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$", @"Network error ", message)) autorelease]) fire];
 }
 
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0 {
-  ServiceService_$1_set_val$callback_(self, capture$0);
-  return [super init];
+J2OBJC_IGNORE_DESIGNATED_BEGIN
+- (instancetype)init {
+  ServiceService_$1_init(self);
+  return self;
 }
-
-- (void)dealloc {
-  ServiceService_$1_set_val$callback_(self, nil);
-  [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ServiceService_$1 *)other {
-  [super copyAllFieldsTo:other];
-  ServiceService_$1_set_val$callback_(other, val$callback_);
-}
+J2OBJC_IGNORE_DESIGNATED_END
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "onSuccessWithImplHttpResponse:", "onSuccess", "V", 0x1, NULL },
-    { "onErrorWithNSString:", "onError", "V", 0x1, NULL },
-    { "initWithServiceAsyncCallback:", "init", NULL, 0x0, NULL },
+    { "onSuccessWithId:", "onSuccess", "V", 0x1, NULL, NULL },
+    { "onErrorWithNSString:", "onError", "V", 0x1, NULL, NULL },
+    { "init", "", NULL, 0x0, NULL, NULL },
   };
-  static const J2ObjcFieldInfo fields[] = {
-    { "val$callback_", NULL, 0x1012, "Lrtdc.core.service.AsyncCallback;", NULL,  },
-  };
-  static const J2ObjcClassInfo _ServiceService_$1 = { "$1", "rtdc.core.service", "Service", 0x8000, 3, methods, 1, fields, 0, NULL};
+  static const J2ObjCEnclosingMethodInfo enclosing_method = { "ServiceService", "executeRequestWithImplHttpRequest:" };
+  static const J2ObjcClassInfo _ServiceService_$1 = { 2, "", "rtdc.core.service", "Service", 0x8008, 3, methods, 0, NULL, 0, NULL, 0, NULL, &enclosing_method, "Ljava/lang/Object;Lrtdc/core/service/AsyncCallback<Lrtdc/core/impl/HttpResponse;>;" };
   return &_ServiceService_$1;
 }
 
 @end
 
-@implementation ServiceService_$2
-
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp {
-  ModelJsonTransmissionWrapper *wrapper = [[[ModelJsonTransmissionWrapper alloc] initWithNSString:[((id<ImplHttpResponse>) nil_chk(resp)) getContent]] autorelease];
-  ServiceService_catchSessionExpiredExceptionWithModelJsonTransmissionWrapper_(wrapper);
-  if ([@"success" isEqual:[wrapper getStatus]]) [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onSuccessWithId:JavaLangBoolean_valueOfWithBoolean_(YES)];
-  else [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:JreStrcat("$$$", [wrapper getStatus], @" : ", [wrapper getDescription])];
+void ServiceService_$1_init(ServiceService_$1 *self) {
+  NSObject_init(self);
 }
 
-- (void)onErrorWithNSString:(NSString *)message {
-  [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:message];
+ServiceService_$1 *new_ServiceService_$1_init() {
+  ServiceService_$1 *self = [ServiceService_$1 alloc];
+  ServiceService_$1_init(self);
+  return self;
 }
 
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0 {
-  ServiceService_$2_set_val$callback_(self, capture$0);
-  return [super init];
-}
-
-- (void)dealloc {
-  ServiceService_$2_set_val$callback_(self, nil);
-  [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ServiceService_$2 *)other {
-  [super copyAllFieldsTo:other];
-  ServiceService_$2_set_val$callback_(other, val$callback_);
-}
-
-+ (const J2ObjcClassInfo *)__metadata {
-  static const J2ObjcMethodInfo methods[] = {
-    { "onSuccessWithImplHttpResponse:", "onSuccess", "V", 0x1, NULL },
-    { "onErrorWithNSString:", "onError", "V", 0x1, NULL },
-    { "initWithServiceAsyncCallback:", "init", NULL, 0x0, NULL },
-  };
-  static const J2ObjcFieldInfo fields[] = {
-    { "val$callback_", NULL, 0x1012, "Lrtdc.core.service.AsyncCallback;", NULL,  },
-  };
-  static const J2ObjcClassInfo _ServiceService_$2 = { "$2", "rtdc.core.service", "Service", 0x8000, 3, methods, 1, fields, 0, NULL};
-  return &_ServiceService_$2;
-}
-
-@end
-
-@implementation ServiceService_$3
-
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp {
-  ModelJsonTransmissionWrapper *wrapper = [[[ModelJsonTransmissionWrapper alloc] initWithNSString:[((id<ImplHttpResponse>) nil_chk(resp)) getContent]] autorelease];
-  ServiceService_catchSessionExpiredExceptionWithModelJsonTransmissionWrapper_(wrapper);
-  if ([@"success" isEqual:[wrapper getStatus]]) [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onSuccessWithId:JavaLangBoolean_valueOfWithBoolean_(YES)];
-  else [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:JreStrcat("$$$", [wrapper getStatus], @" : ", [wrapper getDescription])];
-}
-
-- (void)onErrorWithNSString:(NSString *)message {
-  [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:message];
-}
-
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0 {
-  ServiceService_$3_set_val$callback_(self, capture$0);
-  return [super init];
-}
-
-- (void)dealloc {
-  ServiceService_$3_set_val$callback_(self, nil);
-  [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ServiceService_$3 *)other {
-  [super copyAllFieldsTo:other];
-  ServiceService_$3_set_val$callback_(other, val$callback_);
-}
-
-+ (const J2ObjcClassInfo *)__metadata {
-  static const J2ObjcMethodInfo methods[] = {
-    { "onSuccessWithImplHttpResponse:", "onSuccess", "V", 0x1, NULL },
-    { "onErrorWithNSString:", "onError", "V", 0x1, NULL },
-    { "initWithServiceAsyncCallback:", "init", NULL, 0x0, NULL },
-  };
-  static const J2ObjcFieldInfo fields[] = {
-    { "val$callback_", NULL, 0x1012, "Lrtdc.core.service.AsyncCallback;", NULL,  },
-  };
-  static const J2ObjcClassInfo _ServiceService_$3 = { "$3", "rtdc.core.service", "Service", 0x8000, 3, methods, 1, fields, 0, NULL};
-  return &_ServiceService_$3;
-}
-
-@end
-
-@implementation ServiceService_$4
-
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp {
-  ModelJsonTransmissionWrapper *wrapper = [[[ModelJsonTransmissionWrapper alloc] initWithNSString:[((id<ImplHttpResponse>) nil_chk(resp)) getContent]] autorelease];
-  ServiceService_catchSessionExpiredExceptionWithModelJsonTransmissionWrapper_(wrapper);
-  if ([@"success" isEqual:[wrapper getStatus]]) {
-    JSONJSONArray *array = [wrapper getDataAsJSONArray];
-    JavaUtilLinkedList *units = [[[JavaUtilLinkedList alloc] init] autorelease];
-    for (jint i = [((JSONJSONArray *) nil_chk(array)) length] - 1; i >= 0; i--) {
-      ModelUnit *unit = [[[ModelUnit alloc] init] autorelease];
-      [((id<JavaUtilMap>) nil_chk([unit map])) putAllWithJavaUtilMap:[((JSONJSONObject *) nil_chk([array getJSONObjectWithInt:i])) map]];
-      [units addWithId:unit];
-    }
-    [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onSuccessWithId:units];
-  }
-  else [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:JreStrcat("$$$", [wrapper getStatus], @" : ", [wrapper getDescription])];
-}
-
-- (void)onErrorWithNSString:(NSString *)message {
-  [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:message];
-}
-
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0 {
-  ServiceService_$4_set_val$callback_(self, capture$0);
-  return [super init];
-}
-
-- (void)dealloc {
-  ServiceService_$4_set_val$callback_(self, nil);
-  [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ServiceService_$4 *)other {
-  [super copyAllFieldsTo:other];
-  ServiceService_$4_set_val$callback_(other, val$callback_);
-}
-
-+ (const J2ObjcClassInfo *)__metadata {
-  static const J2ObjcMethodInfo methods[] = {
-    { "onSuccessWithImplHttpResponse:", "onSuccess", "V", 0x1, NULL },
-    { "onErrorWithNSString:", "onError", "V", 0x1, NULL },
-    { "initWithServiceAsyncCallback:", "init", NULL, 0x0, NULL },
-  };
-  static const J2ObjcFieldInfo fields[] = {
-    { "val$callback_", NULL, 0x1012, "Lrtdc.core.service.AsyncCallback;", NULL,  },
-  };
-  static const J2ObjcClassInfo _ServiceService_$4 = { "$4", "rtdc.core.service", "Service", 0x8000, 3, methods, 1, fields, 0, NULL};
-  return &_ServiceService_$4;
-}
-
-@end
-
-@implementation ServiceService_$5
-
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp {
-  ModelJsonTransmissionWrapper *wrapper = [[[ModelJsonTransmissionWrapper alloc] initWithNSString:[((id<ImplHttpResponse>) nil_chk(resp)) getContent]] autorelease];
-  ServiceService_catchSessionExpiredExceptionWithModelJsonTransmissionWrapper_(wrapper);
-  if ([@"success" isEqual:[wrapper getStatus]]) {
-    JSONJSONArray *array = [wrapper getDataAsJSONArray];
-    JavaUtilLinkedList *users = [[[JavaUtilLinkedList alloc] init] autorelease];
-    for (jint i = [((JSONJSONArray *) nil_chk(array)) length] - 1; i >= 0; i--) {
-      ModelUser *user = [[[ModelUser alloc] init] autorelease];
-      [users addWithId:user];
-    }
-    [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onSuccessWithId:users];
-  }
-  else [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:JreStrcat("$$$", [wrapper getStatus], @" : ", [wrapper getDescription])];
-}
-
-- (void)onErrorWithNSString:(NSString *)message {
-  [((id<ServiceAsyncCallback>) nil_chk(val$callback_)) onErrorWithNSString:message];
-}
-
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0 {
-  ServiceService_$5_set_val$callback_(self, capture$0);
-  return [super init];
-}
-
-- (void)dealloc {
-  ServiceService_$5_set_val$callback_(self, nil);
-  [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(ServiceService_$5 *)other {
-  [super copyAllFieldsTo:other];
-  ServiceService_$5_set_val$callback_(other, val$callback_);
-}
-
-+ (const J2ObjcClassInfo *)__metadata {
-  static const J2ObjcMethodInfo methods[] = {
-    { "onSuccessWithImplHttpResponse:", "onSuccess", "V", 0x1, NULL },
-    { "onErrorWithNSString:", "onError", "V", 0x1, NULL },
-    { "initWithServiceAsyncCallback:", "init", NULL, 0x0, NULL },
-  };
-  static const J2ObjcFieldInfo fields[] = {
-    { "val$callback_", NULL, 0x1012, "Lrtdc.core.service.AsyncCallback;", NULL,  },
-  };
-  static const J2ObjcClassInfo _ServiceService_$5 = { "$5", "rtdc.core.service", "Service", 0x8000, 3, methods, 1, fields, 0, NULL};
-  return &_ServiceService_$5;
-}
-
-@end
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ServiceService_$1)

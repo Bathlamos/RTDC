@@ -1,6 +1,7 @@
 package rtdc.web.client.impl;
 
 import rtdc.core.impl.VoipController;
+import rtdc.core.model.Message;
 import rtdc.core.model.User;
 
 /**
@@ -25,7 +26,7 @@ public class GwtVoipController implements VoipController{
     }
 
     @Override
-    public void call(User user) {
+    public void call(User user, boolean videoEnabled) {
 
     }
 
@@ -44,8 +45,28 @@ public class GwtVoipController implements VoipController{
     }
 
     @Override
-    public void acceptRemoteVideo() {
+    public boolean isVideoEnabled() {
+        return false;
+    }
 
+    @Override
+    public void setRemoteVideo(boolean enabled) {
+
+    }
+
+    @Override
+    public boolean isMicMuted() {
+        return false;
+    }
+
+    @Override
+    public boolean isSpeakerEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isReceivingRemoteVideo() {
+        return false;
     }
 
     @Override
@@ -55,6 +76,11 @@ public class GwtVoipController implements VoipController{
 
     @Override
     public void declineCall() {
+
+    }
+
+    @Override
+    public void sendMessage(Message message) {
 
     }
 

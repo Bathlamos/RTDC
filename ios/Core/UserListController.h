@@ -3,58 +3,48 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/controller/UserListController.java
 //
 
-#ifndef _ControllerUserListController_H_
-#define _ControllerUserListController_H_
+#ifndef _UserListController_H_
+#define _UserListController_H_
+
+#include "Controller.h"
+#include "FetchUsersEvent.h"
+#include "J2ObjC_header.h"
 
 @class ModelUser;
+@class ModelUser_PropertiesEnum;
 @protocol JavaUtilList;
-@protocol RtdcCoreViewUserListView;
+@protocol ViewUserListView;
 
-#import "JreEmulation.h"
-#include "AsyncCallback.h"
+@interface ControllerUserListController : ControllerController < EventFetchUsersEvent_Handler >
 
-@interface ControllerUserListController : NSObject {
- @public
-  id<RtdcCoreViewUserListView> view_;
-}
+#pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewUserListView:(id<RtdcCoreViewUserListView>)view;
+- (instancetype)initWithViewUserListView:(id<ViewUserListView>)view;
 
-- (void)onClickUserWithModelUser:(ModelUser *)user;
+- (void)deleteUserWithModelUser:(ModelUser *)user;
 
-- (void)onClickNewUser;
+- (void)editUserWithModelUser:(ModelUser *)user;
 
-- (void)dealloc;
+- (void)onStop;
 
-- (void)copyAllFieldsTo:(ControllerUserListController *)other;
+- (void)onUsersFetchedWithEventFetchUsersEvent:(EventFetchUsersEvent *)event;
 
-@end
+- (id<JavaUtilList>)sortUsersWithModelUser_PropertiesEnum:(ModelUser_PropertiesEnum *)property;
 
-__attribute__((always_inline)) inline void ControllerUserListController_init() {}
+#pragma mark Package-Private
 
-J2OBJC_FIELD_SETTER(ControllerUserListController, view_, id<RtdcCoreViewUserListView>)
-
-typedef ControllerUserListController RtdcCoreControllerUserListController;
-
-@interface ControllerUserListController_$1 : NSObject < ServiceAsyncCallback > {
- @public
-  ControllerUserListController *this$0_;
-}
-
-- (void)onSuccessWithId:(id<JavaUtilList>)users;
-
-- (void)onErrorWithNSString:(NSString *)message;
-
-- (instancetype)initWithControllerUserListController:(ControllerUserListController *)outer$;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(ControllerUserListController_$1 *)other;
+- (NSString *)getTitle;
 
 @end
 
-__attribute__((always_inline)) inline void ControllerUserListController_$1_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ControllerUserListController)
 
-J2OBJC_FIELD_SETTER(ControllerUserListController_$1, this$0_, ControllerUserListController *)
+FOUNDATION_EXPORT void ControllerUserListController_initWithViewUserListView_(ControllerUserListController *self, id<ViewUserListView> view);
 
-#endif // _ControllerUserListController_H_
+FOUNDATION_EXPORT ControllerUserListController *new_ControllerUserListController_initWithViewUserListView_(id<ViewUserListView> view) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ControllerUserListController)
+
+@compatibility_alias RtdcCoreControllerUserListController ControllerUserListController;
+
+#endif // _UserListController_H_

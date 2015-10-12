@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import rtdc.core.model.Action;
-import rtdc.core.model.Permission;
-import rtdc.core.model.Unit;
-import rtdc.core.model.User;
+import rtdc.core.model.*;
 import rtdc.web.server.service.AsteriskRealTimeService;
 import rtdc.web.server.service.AuthService;
 
@@ -49,7 +46,7 @@ public class TestData implements ServletContextListener {
                         "A surgery patient goes temporarily to the Medicine unit because we don't have enough beds in Surgery. However," +
                         "this is risky because Medicine might also be full."));
         actions.add(1, buildAction(units.get(0), Action.Status.inProgress, "Pam Peterson", Action.Task.pushForDischarge,
-                "D301, D304, D312, D319, D322", new Date(1437932727048l), "Aggressively push for all the 5 “Potential Discharges” to be " +
+                "D301, D304, D312, D319, D322", new Date(1437932727048l), "Aggressively push for all the 5 \"Potential Discharges\" to be " +
                         "actually discharged Without pushing, we would discharge 3; with pushing, we’ll discharge 4."));
         actions.add(2, buildAction(units.get(1), Action.Status.completed, "Kim Kennedy", Action.Task.holdFor,
                 "ED72", new Date(1437932727048l), "Kim will contact Pam, the Unit Manager of the Emergency Department to ask her to keep one " +
@@ -71,6 +68,14 @@ public class TestData implements ServletContextListener {
 
             for(Action action: actions)
                 session.saveOrUpdate(action);
+
+            Message demoMessage = new Message();
+            demoMessage.setSender(users.get(users.size() - 2));
+            demoMessage.setReceiver(users.get(users.size() - 1));
+            demoMessage.setContent("Hello!");
+            demoMessage.setStatus(Message.Status.read);
+            demoMessage.setTimeSent(new Date());
+            session.saveOrUpdate(demoMessage);
 
             transaction.commit();
 

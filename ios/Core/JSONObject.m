@@ -4,6 +4,7 @@
 //
 
 #include "IOSClass.h"
+#include "J2ObjC_source.h"
 #include "JSONArray.h"
 #include "JSONException.h"
 #include "JSONObject.h"
@@ -22,91 +23,84 @@
 #include "java/util/Set.h"
 #include "java/util/Vector.h"
 
-BOOL JSONJSONObject_initialized = NO;
-
-@implementation JSONJSONObject
-
-JavaLangBoolean * JSONJSONObject_TRUE__;
-JavaLangBoolean * JSONJSONObject_FALSE__;
-id JSONJSONObject_NULL__;
-
-- (instancetype)initJSONJSONObject {
-  if (self = [super init]) {
-    JSONJSONObject_setAndConsume_myHashMap_(self, [[JavaUtilHashMap alloc] init]);
-  }
-  return self;
+@interface JsonJSONObject () {
+ @public
+  JavaUtilHashMap *myHashMap_;
 }
 
+@end
+
+J2OBJC_FIELD_SETTER(JsonJSONObject, myHashMap_, JavaUtilHashMap *)
+
+@interface JsonJSONObject_Null : NSObject
+
+- (id)clone;
+
+- (jboolean)isEqual:(id)object;
+
+- (NSString *)description;
+
+- (instancetype)init;
+
+@end
+
+J2OBJC_EMPTY_STATIC_INIT(JsonJSONObject_Null)
+
+__attribute__((unused)) static void JsonJSONObject_Null_init(JsonJSONObject_Null *self);
+
+__attribute__((unused)) static JsonJSONObject_Null *new_JsonJSONObject_Null_init() NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(JsonJSONObject_Null)
+
+J2OBJC_INITIALIZED_DEFN(JsonJSONObject)
+
+JavaLangBoolean *JsonJSONObject_TRUE__;
+JavaLangBoolean *JsonJSONObject_FALSE__;
+id JsonJSONObject_NULL__;
+
+@implementation JsonJSONObject
+
++ (JavaLangBoolean *)TRUE_ {
+  return JsonJSONObject_TRUE__;
+}
+
++ (JavaLangBoolean *)FALSE_ {
+  return JsonJSONObject_FALSE__;
+}
+
++ (id)NULL_ {
+  return JsonJSONObject_NULL__;
+}
+
+J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  return [self initJSONJSONObject];
-}
-
-- (instancetype)initJSONJSONObjectWithJSONJSONTokener:(JSONJSONTokener *)x {
-  if (self = [self initJSONJSONObject]) {
-    jchar c;
-    NSString *key;
-    if ([((JSONJSONTokener *) nil_chk(x)) nextClean] != '{') {
-      @throw [x syntaxErrorWithNSString:@"A JSONObject text must begin with '{'"];
-    }
-    for (; ; ) {
-      c = [x nextClean];
-      switch (c) {
-        case 0:
-        @throw [x syntaxErrorWithNSString:@"A JSONObject text must end with '}'"];
-        case '}':
-        return self;
-        default:
-        [x back];
-        key = [nil_chk([x nextValue]) description];
-      }
-      c = [x nextClean];
-      if (c == '=') {
-        if ([x next] != '>') {
-          [x back];
-        }
-      }
-      else if (c != ':') {
-        @throw [x syntaxErrorWithNSString:@"Expected a ':' after a key"];
-      }
-      [self putWithNSString:key withId:[x nextValue]];
-      switch ([x nextClean]) {
-        case ';':
-        case ',':
-        if ([x nextClean] == '}') {
-          return self;
-        }
-        [x back];
-        break;
-        case '}':
-        return self;
-        default:
-        @throw [x syntaxErrorWithNSString:@"Expected a ',' or '}'"];
-      }
-    }
-  }
+  JsonJSONObject_init(self);
   return self;
 }
+J2OBJC_IGNORE_DESIGNATED_END
 
-- (instancetype)initWithJSONJSONTokener:(JSONJSONTokener *)x {
-  return [self initJSONJSONObjectWithJSONJSONTokener:x];
+- (instancetype)initWithJsonJSONTokener:(JsonJSONTokener *)x {
+  JsonJSONObject_initWithJsonJSONTokener_(self, x);
+  return self;
 }
 
 - (instancetype)initWithNSString:(NSString *)string {
-  return [self initJSONJSONObjectWithJSONJSONTokener:[[[JSONJSONTokener alloc] initWithNSString:string] autorelease]];
+  JsonJSONObject_initWithNSString_(self, string);
+  return self;
 }
 
-- (JSONJSONObject *)accumulateWithNSString:(NSString *)key
+- (JsonJSONObject *)accumulateWithNSString:(NSString *)key
                                     withId:(id)value {
-  JSONJSONObject_testValidityWithId_(value);
+  JsonJSONObject_testValidityWithId_(value);
   id o = [self optWithNSString:key];
   if (o == nil) {
     [self putWithNSString:key withId:value];
   }
-  else if ([o isKindOfClass:[JSONJSONArray class]]) {
-    [((JSONJSONArray *) check_class_cast(o, [JSONJSONArray class])) putWithId:value];
+  else if ([o isKindOfClass:[JsonJSONArray class]]) {
+    [((JsonJSONArray *) check_class_cast(o, [JsonJSONArray class])) putWithId:value];
   }
   else {
-    [self putWithNSString:key withId:[((JSONJSONArray *) nil_chk([((JSONJSONArray *) [[[JSONJSONArray alloc] init] autorelease]) putWithId:o])) putWithId:value]];
+    [self putWithNSString:key withId:[((JsonJSONArray *) nil_chk([((JsonJSONArray *) [new_JsonJSONArray_init() autorelease]) putWithId:o])) putWithId:value]];
   }
   return self;
 }
@@ -114,20 +108,20 @@ id JSONJSONObject_NULL__;
 - (id)getWithNSString:(NSString *)key {
   id o = [self optWithNSString:key];
   if (o == nil) {
-    @throw [[[JSONJSONException alloc] initWithNSString:JreStrcat("$$$", @"JSONObject[", JSONJSONObject_quoteWithNSString_(key), @"] not found.")] autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$$$", @"JSONObject[", JsonJSONObject_quoteWithNSString_(key), @"] not found.")) autorelease];
   }
   return o;
 }
 
 - (jboolean)getBooleanWithNSString:(NSString *)key {
   id o = [self getWithNSString:key];
-  if ([nil_chk(o) isEqual:JSONJSONObject_FALSE__] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"false"])) {
-    return NO;
+  if ([nil_chk(o) isEqual:JsonJSONObject_FALSE__] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"false"])) {
+    return false;
   }
-  else if ([o isEqual:JSONJSONObject_TRUE__] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"true"])) {
-    return YES;
+  else if ([o isEqual:JsonJSONObject_TRUE__] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"true"])) {
+    return true;
   }
-  @throw [[[JSONJSONException alloc] initWithNSString:JreStrcat("$$$", @"JSONObject[", JSONJSONObject_quoteWithNSString_(key), @"] is not a Boolean.")] autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$$$", @"JSONObject[", JsonJSONObject_quoteWithNSString_(key), @"] is not a Boolean.")) autorelease];
 }
 
 - (jint)getIntWithNSString:(NSString *)key {
@@ -144,23 +138,23 @@ id JSONJSONObject_NULL__;
   else if ([o isKindOfClass:[JavaLangLong class]]) {
     return (jint) [((JavaLangLong *) nil_chk(((JavaLangLong *) check_class_cast(o, [JavaLangLong class])))) longLongValue];
   }
-  @throw [[[JSONJSONException alloc] initWithNSString:JreStrcat("$$$", @"JSONObject[", JSONJSONObject_quoteWithNSString_(key), @"] is not a number.")] autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$$$", @"JSONObject[", JsonJSONObject_quoteWithNSString_(key), @"] is not a number.")) autorelease];
 }
 
-- (JSONJSONArray *)getJSONArrayWithNSString:(NSString *)key {
+- (JsonJSONArray *)getJSONArrayWithNSString:(NSString *)key {
   id o = [self getWithNSString:key];
-  if ([o isKindOfClass:[JSONJSONArray class]]) {
-    return (JSONJSONArray *) check_class_cast(o, [JSONJSONArray class]);
+  if ([o isKindOfClass:[JsonJSONArray class]]) {
+    return (JsonJSONArray *) check_class_cast(o, [JsonJSONArray class]);
   }
-  @throw [[[JSONJSONException alloc] initWithNSString:JreStrcat("$$$", @"JSONObject[", JSONJSONObject_quoteWithNSString_(key), @"] is not a JSONArray.")] autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$$$", @"JSONObject[", JsonJSONObject_quoteWithNSString_(key), @"] is not a JSONArray.")) autorelease];
 }
 
-- (JSONJSONObject *)getJSONObjectWithNSString:(NSString *)key {
+- (JsonJSONObject *)getJSONObjectWithNSString:(NSString *)key {
   id o = [self getWithNSString:key];
-  if ([o isKindOfClass:[JSONJSONObject class]]) {
-    return (JSONJSONObject *) check_class_cast(o, [JSONJSONObject class]);
+  if ([o isKindOfClass:[JsonJSONObject class]]) {
+    return (JsonJSONObject *) check_class_cast(o, [JsonJSONObject class]);
   }
-  @throw [[[JSONJSONException alloc] initWithNSString:JreStrcat("$$$", @"JSONObject[", JSONJSONObject_quoteWithNSString_(key), @"] is not a JSONObject.")] autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$$$", @"JSONObject[", JsonJSONObject_quoteWithNSString_(key), @"] is not a JSONObject.")) autorelease];
 }
 
 - (jlong)getLongWithNSString:(NSString *)key {
@@ -177,7 +171,7 @@ id JSONJSONObject_NULL__;
   else if ([o isKindOfClass:[JavaLangLong class]]) {
     return [((JavaLangLong *) nil_chk(((JavaLangLong *) check_class_cast(o, [JavaLangLong class])))) longLongValue];
   }
-  @throw [[[JSONJSONException alloc] initWithNSString:JreStrcat("$$$", @"JSONObject[", JSONJSONObject_quoteWithNSString_(key), @"] is not a number.")] autorelease];
+  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$$$", @"JSONObject[", JsonJSONObject_quoteWithNSString_(key), @"] is not a number.")) autorelease];
 }
 
 - (NSString *)getStringWithNSString:(NSString *)key {
@@ -189,7 +183,7 @@ id JSONJSONObject_NULL__;
 }
 
 - (jboolean)isNullWithNSString:(NSString *)key {
-  return [nil_chk(JSONJSONObject_NULL__) isEqual:[self optWithNSString:key]];
+  return [nil_chk(JsonJSONObject_NULL__) isEqual:[self optWithNSString:key]];
 }
 
 - (id<JavaUtilSet>)keySet {
@@ -204,18 +198,18 @@ id JSONJSONObject_NULL__;
   return [((JavaUtilHashMap *) nil_chk(self->myHashMap_)) size];
 }
 
-- (JSONJSONArray *)names {
-  JSONJSONArray *ja = [[[JSONJSONArray alloc] init] autorelease];
+- (JsonJSONArray *)names {
+  JsonJSONArray *ja = [new_JsonJSONArray_init() autorelease];
   for (NSString * __strong key in nil_chk([self keySet])) [ja putWithId:key];
   return [ja length] == 0 ? nil : ja;
 }
 
 + (NSString *)trimNumberWithNSString:(NSString *)s {
-  return JSONJSONObject_trimNumberWithNSString_(s);
+  return JsonJSONObject_trimNumberWithNSString_(s);
 }
 
 + (NSString *)numberToStringWithId:(id)n {
-  return JSONJSONObject_numberToStringWithId_(n);
+  return JsonJSONObject_numberToStringWithId_(n);
 }
 
 - (id)optWithNSString:(NSString *)key {
@@ -223,7 +217,7 @@ id JSONJSONObject_NULL__;
 }
 
 - (jboolean)optBooleanWithNSString:(NSString *)key {
-  return [self optBooleanWithNSString:key withBoolean:NO];
+  return [self optBooleanWithNSString:key withBoolean:false];
 }
 
 - (jboolean)optBooleanWithNSString:(NSString *)key
@@ -236,9 +230,9 @@ id JSONJSONObject_NULL__;
   }
 }
 
-- (JSONJSONObject *)putWithNSString:(NSString *)key
+- (JsonJSONObject *)putWithNSString:(NSString *)key
                  withJavaUtilVector:(JavaUtilVector *)value {
-  [self putWithNSString:key withId:[[[JSONJSONArray alloc] initWithJavaUtilVector:value] autorelease]];
+  [self putWithNSString:key withId:[new_JsonJSONArray_initWithJavaUtilVector_(value) autorelease]];
   return self;
 }
 
@@ -256,14 +250,14 @@ id JSONJSONObject_NULL__;
   }
 }
 
-- (JSONJSONArray *)optJSONArrayWithNSString:(NSString *)key {
+- (JsonJSONArray *)optJSONArrayWithNSString:(NSString *)key {
   id o = [self optWithNSString:key];
-  return [o isKindOfClass:[JSONJSONArray class]] ? (JSONJSONArray *) check_class_cast(o, [JSONJSONArray class]) : nil;
+  return [o isKindOfClass:[JsonJSONArray class]] ? (JsonJSONArray *) check_class_cast(o, [JsonJSONArray class]) : nil;
 }
 
-- (JSONJSONObject *)optJSONObjectWithNSString:(NSString *)key {
+- (JsonJSONObject *)optJSONObjectWithNSString:(NSString *)key {
   id o = [self optWithNSString:key];
-  return [o isKindOfClass:[JSONJSONObject class]] ? (JSONJSONObject *) check_class_cast(o, [JSONJSONObject class]) : nil;
+  return [o isKindOfClass:[JsonJSONObject class]] ? (JsonJSONObject *) check_class_cast(o, [JsonJSONObject class]) : nil;
 }
 
 - (jlong)optLongWithNSString:(NSString *)key {
@@ -290,31 +284,31 @@ id JSONJSONObject_NULL__;
   return o != nil ? [o description] : defaultValue;
 }
 
-- (JSONJSONObject *)putWithNSString:(NSString *)key
+- (JsonJSONObject *)putWithNSString:(NSString *)key
                         withBoolean:(jboolean)value {
-  [self putWithNSString:key withId:value ? JSONJSONObject_TRUE__ : JSONJSONObject_FALSE__];
+  [self putWithNSString:key withId:value ? JsonJSONObject_TRUE__ : JsonJSONObject_FALSE__];
   return self;
 }
 
-- (JSONJSONObject *)putWithNSString:(NSString *)key
+- (JsonJSONObject *)putWithNSString:(NSString *)key
                             withInt:(jint)value {
-  [self putWithNSString:key withId:[[[JavaLangInteger alloc] initWithInt:value] autorelease]];
+  [self putWithNSString:key withId:[new_JavaLangInteger_initWithInt_(value) autorelease]];
   return self;
 }
 
-- (JSONJSONObject *)putWithNSString:(NSString *)key
+- (JsonJSONObject *)putWithNSString:(NSString *)key
                            withLong:(jlong)value {
-  [self putWithNSString:key withId:[[[JavaLangLong alloc] initWithLong:value] autorelease]];
+  [self putWithNSString:key withId:[new_JavaLangLong_initWithLong_(value) autorelease]];
   return self;
 }
 
-- (JSONJSONObject *)putWithNSString:(NSString *)key
+- (JsonJSONObject *)putWithNSString:(NSString *)key
                              withId:(id)value {
   if (key == nil) {
-    @throw [[[JSONJSONException alloc] initWithNSString:@"Null key."] autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(@"Null key.") autorelease];
   }
   if (value != nil) {
-    JSONJSONObject_testValidityWithId_(value);
+    JsonJSONObject_testValidityWithId_(value);
     [((JavaUtilHashMap *) nil_chk(self->myHashMap_)) putWithId:key withId:value];
   }
   else {
@@ -323,7 +317,7 @@ id JSONJSONObject_NULL__;
   return self;
 }
 
-- (JSONJSONObject *)putOptWithNSString:(NSString *)key
+- (JsonJSONObject *)putOptWithNSString:(NSString *)key
                                 withId:(id)value {
   if (key != nil && value != nil) {
     [self putWithNSString:key withId:value];
@@ -332,7 +326,7 @@ id JSONJSONObject_NULL__;
 }
 
 + (NSString *)quoteWithNSString:(NSString *)string {
-  return JSONJSONObject_quoteWithNSString_(string);
+  return JsonJSONObject_quoteWithNSString_(string);
 }
 
 - (id)removeWithNSString:(NSString *)key {
@@ -340,15 +334,15 @@ id JSONJSONObject_NULL__;
 }
 
 + (void)testValidityWithId:(id)o {
-  JSONJSONObject_testValidityWithId_(o);
+  JsonJSONObject_testValidityWithId_(o);
 }
 
-- (JSONJSONArray *)toJSONArrayWithJSONJSONArray:(JSONJSONArray *)names {
+- (JsonJSONArray *)toJSONArrayWithJsonJSONArray:(JsonJSONArray *)names {
   if (names == nil || [names length] == 0) {
     return nil;
   }
-  JSONJSONArray *ja = [[[JSONJSONArray alloc] init] autorelease];
-  for (jint i = 0; i < [((JSONJSONArray *) nil_chk(names)) length]; i += 1) {
+  JsonJSONArray *ja = [new_JsonJSONArray_init() autorelease];
+  for (jint i = 0; i < [((JsonJSONArray *) nil_chk(names)) length]; i += 1) {
     [ja putWithId:[self optWithNSString:[names getStringWithInt:i]]];
   }
   return ja;
@@ -356,12 +350,12 @@ id JSONJSONObject_NULL__;
 
 - (NSString *)description {
   @try {
-    JavaLangStringBuffer *sb = [[[JavaLangStringBuffer alloc] initWithNSString:@"{"] autorelease];
+    JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_initWithNSString_(@"{") autorelease];
     for (NSString * __strong key in nil_chk([self keySet])) {
-      if ([sb sequenceLength] > 1) [sb appendWithChar:','];
-      [sb appendWithNSString:JSONJSONObject_quoteWithNSString_(key)];
+      if ([sb length] > 1) [sb appendWithChar:','];
+      [sb appendWithNSString:JsonJSONObject_quoteWithNSString_(key)];
       [sb appendWithChar:':'];
-      [sb appendWithNSString:JSONJSONObject_valueToStringWithId_([((JavaUtilHashMap *) nil_chk(self->myHashMap_)) getWithId:key])];
+      [sb appendWithNSString:JsonJSONObject_valueToStringWithId_([((JavaUtilHashMap *) nil_chk(self->myHashMap_)) getWithId:key])];
     }
     [sb appendWithChar:'}'];
     return [sb description];
@@ -383,19 +377,19 @@ id JSONJSONObject_NULL__;
     return @"{}";
   }
   id<JavaUtilIterator> keys = [((id<JavaUtilSet>) nil_chk([self keySet])) iterator];
-  JavaLangStringBuffer *sb = [[[JavaLangStringBuffer alloc] initWithNSString:@"{"] autorelease];
+  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_initWithNSString_(@"{") autorelease];
   jint newindent = indent + indentFactor;
   id o;
   if (n == 1) {
     o = [((id<JavaUtilIterator>) nil_chk(keys)) next];
-    [sb appendWithNSString:JSONJSONObject_quoteWithNSString_([nil_chk(o) description])];
+    [sb appendWithNSString:JsonJSONObject_quoteWithNSString_([nil_chk(o) description])];
     [sb appendWithNSString:@": "];
-    [sb appendWithNSString:JSONJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilHashMap *) nil_chk(self->myHashMap_)) getWithId:o], indentFactor, indent)];
+    [sb appendWithNSString:JsonJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilHashMap *) nil_chk(self->myHashMap_)) getWithId:o], indentFactor, indent)];
   }
   else {
     while ([((id<JavaUtilIterator>) nil_chk(keys)) hasNext]) {
       o = [keys next];
-      if ([sb sequenceLength] > 1) {
+      if ([sb length] > 1) {
         [sb appendWithNSString:@",\n"];
       }
       else {
@@ -404,11 +398,11 @@ id JSONJSONObject_NULL__;
       for (i = 0; i < newindent; i += 1) {
         [sb appendWithChar:' '];
       }
-      [sb appendWithNSString:JSONJSONObject_quoteWithNSString_([nil_chk(o) description])];
+      [sb appendWithNSString:JsonJSONObject_quoteWithNSString_([nil_chk(o) description])];
       [sb appendWithNSString:@": "];
-      [sb appendWithNSString:JSONJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilHashMap *) nil_chk(self->myHashMap_)) getWithId:o], indentFactor, newindent)];
+      [sb appendWithNSString:JsonJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilHashMap *) nil_chk(self->myHashMap_)) getWithId:o], indentFactor, newindent)];
     }
-    if ([sb sequenceLength] > 1) {
+    if ([sb length] > 1) {
       [sb appendWithChar:0x000a];
       for (i = 0; i < indent; i += 1) {
         [sb appendWithChar:' '];
@@ -420,96 +414,163 @@ id JSONJSONObject_NULL__;
 }
 
 + (NSString *)valueToStringWithId:(id)value {
-  return JSONJSONObject_valueToStringWithId_(value);
+  return JsonJSONObject_valueToStringWithId_(value);
 }
 
 + (NSString *)valueToStringWithId:(id)value
                           withInt:(jint)indentFactor
                           withInt:(jint)indent {
-  return JSONJSONObject_valueToStringWithId_withInt_withInt_(value, indentFactor, indent);
+  return JsonJSONObject_valueToStringWithId_withInt_withInt_(value, indentFactor, indent);
 }
 
 - (void)dealloc {
-  JSONJSONObject_set_myHashMap_(self, nil);
+  RELEASE_(myHashMap_);
   [super dealloc];
 }
 
-- (void)copyAllFieldsTo:(JSONJSONObject *)other {
-  [super copyAllFieldsTo:other];
-  JSONJSONObject_set_myHashMap_(other, myHashMap_);
-}
-
 + (void)initialize {
-  if (self == [JSONJSONObject class]) {
-    JreStrongAssignAndConsume(&JSONJSONObject_TRUE__, nil, [[JavaLangBoolean alloc] initWithBoolean:YES]);
-    JreStrongAssignAndConsume(&JSONJSONObject_FALSE__, nil, [[JavaLangBoolean alloc] initWithBoolean:NO]);
-    JreStrongAssignAndConsume(&JSONJSONObject_NULL__, nil, [[JSONJSONObject_Null alloc] init]);
-    J2OBJC_SET_INITIALIZED(JSONJSONObject)
+  if (self == [JsonJSONObject class]) {
+    JreStrongAssignAndConsume(&JsonJSONObject_TRUE__, new_JavaLangBoolean_initWithBoolean_(true));
+    JreStrongAssignAndConsume(&JsonJSONObject_FALSE__, new_JavaLangBoolean_initWithBoolean_(false));
+    JreStrongAssignAndConsume(&JsonJSONObject_NULL__, new_JsonJSONObject_Null_init());
+    J2OBJC_SET_INITIALIZED(JsonJSONObject)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "init", "JSONObject", NULL, 0x1, NULL },
-    { "initWithJSONJSONTokener:", "JSONObject", NULL, 0x1, "Lrtdc.core.json.JSONException;" },
-    { "initWithNSString:", "JSONObject", NULL, 0x1, "Lrtdc.core.json.JSONException;" },
-    { "accumulateWithNSString:withId:", "accumulate", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "getWithNSString:", "get", "Ljava.lang.Object;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "getBooleanWithNSString:", "getBoolean", "Z", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "getIntWithNSString:", "getInt", "I", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "getJSONArrayWithNSString:", "getJSONArray", "Lrtdc.core.json.JSONArray;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "getJSONObjectWithNSString:", "getJSONObject", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "getLongWithNSString:", "getLong", "J", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "getStringWithNSString:", "getString", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "hasWithNSString:", "has", "Z", 0x1, NULL },
-    { "isNullWithNSString:", "isNull", "Z", 0x1, NULL },
-    { "keySet", NULL, "Ljava.util.Set;", 0x1, NULL },
-    { "map", NULL, "Ljava.util.Map;", 0x1, NULL },
-    { "length", NULL, "I", 0x1, NULL },
-    { "names", NULL, "Lrtdc.core.json.JSONArray;", 0x1, NULL },
-    { "trimNumberWithNSString:", "trimNumber", "Ljava.lang.String;", 0x9, NULL },
-    { "numberToStringWithId:", "numberToString", "Ljava.lang.String;", 0x9, "Lrtdc.core.json.JSONException;" },
-    { "optWithNSString:", "opt", "Ljava.lang.Object;", 0x1, NULL },
-    { "optBooleanWithNSString:", "optBoolean", "Z", 0x1, NULL },
-    { "optBooleanWithNSString:withBoolean:", "optBoolean", "Z", 0x1, NULL },
-    { "putWithNSString:withJavaUtilVector:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "optIntWithNSString:", "optInt", "I", 0x1, NULL },
-    { "optIntWithNSString:withInt:", "optInt", "I", 0x1, NULL },
-    { "optJSONArrayWithNSString:", "optJSONArray", "Lrtdc.core.json.JSONArray;", 0x1, NULL },
-    { "optJSONObjectWithNSString:", "optJSONObject", "Lrtdc.core.json.JSONObject;", 0x1, NULL },
-    { "optLongWithNSString:", "optLong", "J", 0x1, NULL },
-    { "optLongWithNSString:withLong:", "optLong", "J", 0x1, NULL },
-    { "optStringWithNSString:", "optString", "Ljava.lang.String;", 0x1, NULL },
-    { "optStringWithNSString:withNSString:", "optString", "Ljava.lang.String;", 0x1, NULL },
-    { "putWithNSString:withBoolean:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "putWithNSString:withInt:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "putWithNSString:withLong:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "putWithNSString:withId:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "putOptWithNSString:withId:", "putOpt", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "quoteWithNSString:", "quote", "Ljava.lang.String;", 0x9, NULL },
-    { "removeWithNSString:", "remove", "Ljava.lang.Object;", 0x1, NULL },
-    { "testValidityWithId:", "testValidity", "V", 0x8, "Lrtdc.core.json.JSONException;" },
-    { "toJSONArrayWithJSONJSONArray:", "toJSONArray", "Lrtdc.core.json.JSONArray;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "description", "toString", "Ljava.lang.String;", 0x1, NULL },
-    { "toStringWithInt:", "toString", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;" },
-    { "toStringWithInt:withInt:", "toString", "Ljava.lang.String;", 0x0, "Lrtdc.core.json.JSONException;" },
-    { "valueToStringWithId:", "valueToString", "Ljava.lang.String;", 0x8, "Lrtdc.core.json.JSONException;" },
-    { "valueToStringWithId:withInt:withInt:", "valueToString", "Ljava.lang.String;", 0x8, "Lrtdc.core.json.JSONException;" },
+    { "init", "JSONObject", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONTokener:", "JSONObject", NULL, 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "initWithNSString:", "JSONObject", NULL, 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "accumulateWithNSString:withId:", "accumulate", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "getWithNSString:", "get", "Ljava.lang.Object;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "getBooleanWithNSString:", "getBoolean", "Z", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "getIntWithNSString:", "getInt", "I", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "getJSONArrayWithNSString:", "getJSONArray", "Lrtdc.core.json.JSONArray;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "getJSONObjectWithNSString:", "getJSONObject", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "getLongWithNSString:", "getLong", "J", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "getStringWithNSString:", "getString", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "hasWithNSString:", "has", "Z", 0x1, NULL, NULL },
+    { "isNullWithNSString:", "isNull", "Z", 0x1, NULL, NULL },
+    { "keySet", NULL, "Ljava.util.Set;", 0x1, NULL, NULL },
+    { "map", NULL, "Ljava.util.Map;", 0x1, NULL, NULL },
+    { "length", NULL, "I", 0x1, NULL, NULL },
+    { "names", NULL, "Lrtdc.core.json.JSONArray;", 0x1, NULL, NULL },
+    { "trimNumberWithNSString:", "trimNumber", "Ljava.lang.String;", 0x9, NULL, NULL },
+    { "numberToStringWithId:", "numberToString", "Ljava.lang.String;", 0x9, "Lrtdc.core.json.JSONException;", NULL },
+    { "optWithNSString:", "opt", "Ljava.lang.Object;", 0x1, NULL, NULL },
+    { "optBooleanWithNSString:", "optBoolean", "Z", 0x1, NULL, NULL },
+    { "optBooleanWithNSString:withBoolean:", "optBoolean", "Z", 0x1, NULL, NULL },
+    { "putWithNSString:withJavaUtilVector:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "optIntWithNSString:", "optInt", "I", 0x1, NULL, NULL },
+    { "optIntWithNSString:withInt:", "optInt", "I", 0x1, NULL, NULL },
+    { "optJSONArrayWithNSString:", "optJSONArray", "Lrtdc.core.json.JSONArray;", 0x1, NULL, NULL },
+    { "optJSONObjectWithNSString:", "optJSONObject", "Lrtdc.core.json.JSONObject;", 0x1, NULL, NULL },
+    { "optLongWithNSString:", "optLong", "J", 0x1, NULL, NULL },
+    { "optLongWithNSString:withLong:", "optLong", "J", 0x1, NULL, NULL },
+    { "optStringWithNSString:", "optString", "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "optStringWithNSString:withNSString:", "optString", "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "putWithNSString:withBoolean:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "putWithNSString:withInt:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "putWithNSString:withLong:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "putWithNSString:withId:", "put", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "putOptWithNSString:withId:", "putOpt", "Lrtdc.core.json.JSONObject;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "quoteWithNSString:", "quote", "Ljava.lang.String;", 0x9, NULL, NULL },
+    { "removeWithNSString:", "remove", "Ljava.lang.Object;", 0x1, NULL, NULL },
+    { "testValidityWithId:", "testValidity", "V", 0x8, "Lrtdc.core.json.JSONException;", NULL },
+    { "toJSONArrayWithJsonJSONArray:", "toJSONArray", "Lrtdc.core.json.JSONArray;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "description", "toString", "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "toStringWithInt:", "toString", "Ljava.lang.String;", 0x1, "Lrtdc.core.json.JSONException;", NULL },
+    { "toStringWithInt:withInt:", "toString", "Ljava.lang.String;", 0x0, "Lrtdc.core.json.JSONException;", NULL },
+    { "valueToStringWithId:", "valueToString", "Ljava.lang.String;", 0x8, "Lrtdc.core.json.JSONException;", NULL },
+    { "valueToStringWithId:withInt:withInt:", "valueToString", "Ljava.lang.String;", 0x8, "Lrtdc.core.json.JSONException;", NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "TRUE__", "TRUE", 0x19, "Ljava.lang.Boolean;", &JSONJSONObject_TRUE__,  },
-    { "FALSE__", "FALSE", 0x19, "Ljava.lang.Boolean;", &JSONJSONObject_FALSE__,  },
-    { "myHashMap_", NULL, 0x2, "Ljava.util.HashMap;", NULL,  },
-    { "NULL__", "NULL", 0x19, "Ljava.lang.Object;", &JSONJSONObject_NULL__,  },
+    { "TRUE__", "TRUE", 0x19, "Ljava.lang.Boolean;", &JsonJSONObject_TRUE__, NULL, .constantValue.asLong = 0 },
+    { "FALSE__", "FALSE", 0x19, "Ljava.lang.Boolean;", &JsonJSONObject_FALSE__, NULL, .constantValue.asLong = 0 },
+    { "myHashMap_", NULL, 0x2, "Ljava.util.HashMap;", NULL, NULL, .constantValue.asLong = 0 },
+    { "NULL__", "NULL", 0x19, "Ljava.lang.Object;", &JsonJSONObject_NULL__, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _JSONJSONObject = { "JSONObject", "rtdc.core.json", NULL, 0x1, 45, methods, 4, fields, 0, NULL};
-  return &_JSONJSONObject;
+  static const char *inner_classes[] = {"Lrtdc.core.json.JSONObject$Null;"};
+  static const J2ObjcClassInfo _JsonJSONObject = { 2, "JSONObject", "rtdc.core.json", NULL, 0x1, 45, methods, 4, fields, 0, NULL, 1, inner_classes, NULL, NULL };
+  return &_JsonJSONObject;
 }
 
 @end
 
-NSString *JSONJSONObject_trimNumberWithNSString_(NSString *s) {
-  JSONJSONObject_init();
+void JsonJSONObject_init(JsonJSONObject *self) {
+  NSObject_init(self);
+  JreStrongAssignAndConsume(&self->myHashMap_, new_JavaUtilHashMap_init());
+}
+
+JsonJSONObject *new_JsonJSONObject_init() {
+  JsonJSONObject *self = [JsonJSONObject alloc];
+  JsonJSONObject_init(self);
+  return self;
+}
+
+void JsonJSONObject_initWithJsonJSONTokener_(JsonJSONObject *self, JsonJSONTokener *x) {
+  JsonJSONObject_init(self);
+  jchar c;
+  NSString *key;
+  if ([((JsonJSONTokener *) nil_chk(x)) nextClean] != '{') {
+    @throw [x syntaxErrorWithNSString:@"A JSONObject text must begin with '{'"];
+  }
+  for (; ; ) {
+    c = [x nextClean];
+    switch (c) {
+      case 0:
+      @throw [x syntaxErrorWithNSString:@"A JSONObject text must end with '}'"];
+      case '}':
+      return;
+      default:
+      [x back];
+      key = [nil_chk([x nextValue]) description];
+    }
+    c = [x nextClean];
+    if (c == '=') {
+      if ([x next] != '>') {
+        [x back];
+      }
+    }
+    else if (c != ':') {
+      @throw [x syntaxErrorWithNSString:@"Expected a ':' after a key"];
+    }
+    [self putWithNSString:key withId:[x nextValue]];
+    switch ([x nextClean]) {
+      case ';':
+      case ',':
+      if ([x nextClean] == '}') {
+        return;
+      }
+      [x back];
+      break;
+      case '}':
+      return;
+      default:
+      @throw [x syntaxErrorWithNSString:@"Expected a ',' or '}'"];
+    }
+  }
+}
+
+JsonJSONObject *new_JsonJSONObject_initWithJsonJSONTokener_(JsonJSONTokener *x) {
+  JsonJSONObject *self = [JsonJSONObject alloc];
+  JsonJSONObject_initWithJsonJSONTokener_(self, x);
+  return self;
+}
+
+void JsonJSONObject_initWithNSString_(JsonJSONObject *self, NSString *string) {
+  JsonJSONObject_initWithJsonJSONTokener_(self, [new_JsonJSONTokener_initWithNSString_(string) autorelease]);
+}
+
+JsonJSONObject *new_JsonJSONObject_initWithNSString_(NSString *string) {
+  JsonJSONObject *self = [JsonJSONObject alloc];
+  JsonJSONObject_initWithNSString_(self, string);
+  return self;
+}
+
+NSString *JsonJSONObject_trimNumberWithNSString_(NSString *s) {
+  JsonJSONObject_initialize();
   if ([((NSString *) nil_chk(s)) indexOf:'.'] > 0 && [s indexOf:'e'] < 0 && [s indexOf:'E'] < 0) {
     while ([s hasSuffix:@"0"]) {
       s = [s substring:0 endIndex:((jint) [s length]) - 1];
@@ -521,17 +582,17 @@ NSString *JSONJSONObject_trimNumberWithNSString_(NSString *s) {
   return s;
 }
 
-NSString *JSONJSONObject_numberToStringWithId_(id n) {
-  JSONJSONObject_init();
+NSString *JsonJSONObject_numberToStringWithId_(id n) {
+  JsonJSONObject_initialize();
   if (n == nil) {
-    @throw [[[JSONJSONException alloc] initWithNSString:@"Null pointer"] autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(@"Null pointer") autorelease];
   }
-  JSONJSONObject_testValidityWithId_(n);
-  return JSONJSONObject_trimNumberWithNSString_([nil_chk(n) description]);
+  JsonJSONObject_testValidityWithId_(n);
+  return JsonJSONObject_trimNumberWithNSString_([nil_chk(n) description]);
 }
 
-NSString *JSONJSONObject_quoteWithNSString_(NSString *string) {
-  JSONJSONObject_init();
+NSString *JsonJSONObject_quoteWithNSString_(NSString *string) {
+  JsonJSONObject_initialize();
   if (string == nil || ((jint) [string length]) == 0) {
     return @"\"\"";
   }
@@ -539,7 +600,7 @@ NSString *JSONJSONObject_quoteWithNSString_(NSString *string) {
   jchar c = 0;
   jint i;
   jint len = ((jint) [((NSString *) nil_chk(string)) length]);
-  JavaLangStringBuffer *sb = [[[JavaLangStringBuffer alloc] initWithInt:len + 4] autorelease];
+  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_initWithInt_(len + 4) autorelease];
   NSString *t;
   [sb appendWithChar:'"'];
   for (i = 0; i < len; i += 1) {
@@ -586,47 +647,47 @@ NSString *JSONJSONObject_quoteWithNSString_(NSString *string) {
   return [sb description];
 }
 
-void JSONJSONObject_testValidityWithId_(id o) {
-  JSONJSONObject_init();
+void JsonJSONObject_testValidityWithId_(id o) {
+  JsonJSONObject_initialize();
   if (o != nil) {
   }
 }
 
-NSString *JSONJSONObject_valueToStringWithId_(id value) {
-  JSONJSONObject_init();
+NSString *JsonJSONObject_valueToStringWithId_(id value) {
+  JsonJSONObject_initialize();
   if (value == nil || [value isEqual:nil]) {
     return @"null";
   }
-  if ([value conformsToProtocol: @protocol(JSONJSONString)]) {
+  if ([JsonJSONString_class_() isInstance:value]) {
     id o;
     @try {
-      o = [((id<JSONJSONString>) nil_chk(((id<JSONJSONString>) check_protocol_cast(value, @protocol(JSONJSONString))))) toJSONString];
+      o = [((id<JsonJSONString>) nil_chk(((id<JsonJSONString>) check_protocol_cast(value, JsonJSONString_class_())))) toJSONString];
     }
     @catch (JavaLangException *e) {
-      @throw [[[JSONJSONException alloc] initWithJavaLangThrowable:e] autorelease];
+      @throw [new_JsonJSONException_initWithJavaLangThrowable_(e) autorelease];
     }
     if ([o isKindOfClass:[NSString class]]) {
       return (NSString *) check_class_cast(o, [NSString class]);
     }
-    @throw [[[JSONJSONException alloc] initWithNSString:JreStrcat("$@", @"Bad value from toJSONString: ", o)] autorelease];
+    @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$@", @"Bad value from toJSONString: ", o)) autorelease];
   }
   if ([value isKindOfClass:[JavaLangByte class]] || [value isKindOfClass:[JavaLangShort class]] || [value isKindOfClass:[JavaLangInteger class]] || [value isKindOfClass:[JavaLangLong class]]) {
-    return JSONJSONObject_numberToStringWithId_(value);
+    return JsonJSONObject_numberToStringWithId_(value);
   }
-  if ([value isKindOfClass:[JavaLangBoolean class]] || [value isKindOfClass:[JSONJSONObject class]] || [value isKindOfClass:[JSONJSONArray class]]) {
+  if ([value isKindOfClass:[JavaLangBoolean class]] || [value isKindOfClass:[JsonJSONObject class]] || [value isKindOfClass:[JsonJSONArray class]]) {
     return [nil_chk(value) description];
   }
-  return JSONJSONObject_quoteWithNSString_([nil_chk(value) description]);
+  return JsonJSONObject_quoteWithNSString_([nil_chk(value) description]);
 }
 
-NSString *JSONJSONObject_valueToStringWithId_withInt_withInt_(id value, jint indentFactor, jint indent) {
-  JSONJSONObject_init();
+NSString *JsonJSONObject_valueToStringWithId_withInt_withInt_(id value, jint indentFactor, jint indent) {
+  JsonJSONObject_initialize();
   if (value == nil || [value isEqual:nil]) {
     return @"null";
   }
   @try {
-    if ([value conformsToProtocol: @protocol(JSONJSONString)]) {
-      id o = [((id<JSONJSONString>) nil_chk(((id<JSONJSONString>) check_protocol_cast(value, @protocol(JSONJSONString))))) toJSONString];
+    if ([JsonJSONString_class_() isInstance:value]) {
+      id o = [((id<JsonJSONString>) nil_chk(((id<JsonJSONString>) check_protocol_cast(value, JsonJSONString_class_())))) toJSONString];
       if ([o isKindOfClass:[NSString class]]) {
         return (NSString *) check_class_cast(o, [NSString class]);
       }
@@ -635,21 +696,23 @@ NSString *JSONJSONObject_valueToStringWithId_withInt_withInt_(id value, jint ind
   @catch (JavaLangException *e) {
   }
   if ([value isKindOfClass:[JavaLangByte class]] || [value isKindOfClass:[JavaLangShort class]] || [value isKindOfClass:[JavaLangInteger class]] || [value isKindOfClass:[JavaLangLong class]]) {
-    return JSONJSONObject_numberToStringWithId_(value);
+    return JsonJSONObject_numberToStringWithId_(value);
   }
   if ([value isKindOfClass:[JavaLangBoolean class]]) {
     return [nil_chk(value) description];
   }
-  if ([value isKindOfClass:[JSONJSONObject class]]) {
-    return [((JSONJSONObject *) nil_chk(((JSONJSONObject *) check_class_cast(value, [JSONJSONObject class])))) toStringWithInt:indentFactor withInt:indent];
+  if ([value isKindOfClass:[JsonJSONObject class]]) {
+    return [((JsonJSONObject *) nil_chk(((JsonJSONObject *) check_class_cast(value, [JsonJSONObject class])))) toStringWithInt:indentFactor withInt:indent];
   }
-  if ([value isKindOfClass:[JSONJSONArray class]]) {
-    return [((JSONJSONArray *) nil_chk(((JSONJSONArray *) check_class_cast(value, [JSONJSONArray class])))) toStringWithInt:indentFactor withInt:indent];
+  if ([value isKindOfClass:[JsonJSONArray class]]) {
+    return [((JsonJSONArray *) nil_chk(((JsonJSONArray *) check_class_cast(value, [JsonJSONArray class])))) toStringWithInt:indentFactor withInt:indent];
   }
-  return JSONJSONObject_quoteWithNSString_([nil_chk(value) description]);
+  return JsonJSONObject_quoteWithNSString_([nil_chk(value) description]);
 }
 
-@implementation JSONJSONObject_Null
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonJSONObject)
+
+@implementation JsonJSONObject_Null
 
 - (id)clone {
   return self;
@@ -663,19 +726,34 @@ NSString *JSONJSONObject_valueToStringWithId_withInt_withInt_(id value, jint ind
   return @"null";
 }
 
+J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  return [super init];
+  JsonJSONObject_Null_init(self);
+  return self;
 }
+J2OBJC_IGNORE_DESIGNATED_END
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "clone", NULL, "Ljava.lang.Object;", 0x14, NULL },
-    { "isEqual:", "equals", "Z", 0x1, NULL },
-    { "description", "toString", "Ljava.lang.String;", 0x1, NULL },
-    { "init", NULL, NULL, 0x2, NULL },
+    { "clone", NULL, "Ljava.lang.Object;", 0x14, NULL, NULL },
+    { "isEqual:", "equals", "Z", 0x1, NULL, NULL },
+    { "description", "toString", "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "init", NULL, NULL, 0x2, NULL, NULL },
   };
-  static const J2ObjcClassInfo _JSONJSONObject_Null = { "Null", "rtdc.core.json", "JSONObject", 0x1a, 4, methods, 0, NULL, 0, NULL};
-  return &_JSONJSONObject_Null;
+  static const J2ObjcClassInfo _JsonJSONObject_Null = { 2, "Null", "rtdc.core.json", "JSONObject", 0x1a, 4, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonJSONObject_Null;
 }
 
 @end
+
+void JsonJSONObject_Null_init(JsonJSONObject_Null *self) {
+  NSObject_init(self);
+}
+
+JsonJSONObject_Null *new_JsonJSONObject_Null_init() {
+  JsonJSONObject_Null *self = [JsonJSONObject_Null alloc];
+  JsonJSONObject_Null_init(self);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonJSONObject_Null)

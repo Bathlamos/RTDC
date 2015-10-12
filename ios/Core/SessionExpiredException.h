@@ -3,21 +3,28 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/exception/SessionExpiredException.java
 //
 
-#ifndef _ExceptionSessionExpiredException_H_
-#define _ExceptionSessionExpiredException_H_
+#ifndef _SessionExpiredException_H_
+#define _SessionExpiredException_H_
 
-#import "JreEmulation.h"
 #include "ApiException.h"
+#include "J2ObjC_header.h"
 
-@interface ExceptionSessionExpiredException : ExceptionApiException {
-}
+@interface ExceptionSessionExpiredException : ExceptionApiException
+
+#pragma mark Public
 
 - (instancetype)initWithNSString:(NSString *)message;
 
 @end
 
-__attribute__((always_inline)) inline void ExceptionSessionExpiredException_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ExceptionSessionExpiredException)
 
-typedef ExceptionSessionExpiredException RtdcCoreExceptionSessionExpiredException;
+FOUNDATION_EXPORT void ExceptionSessionExpiredException_initWithNSString_(ExceptionSessionExpiredException *self, NSString *message);
 
-#endif // _ExceptionSessionExpiredException_H_
+FOUNDATION_EXPORT ExceptionSessionExpiredException *new_ExceptionSessionExpiredException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ExceptionSessionExpiredException)
+
+@compatibility_alias RtdcCoreExceptionSessionExpiredException ExceptionSessionExpiredException;
+
+#endif // _SessionExpiredException_H_

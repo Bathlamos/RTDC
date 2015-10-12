@@ -3,21 +3,37 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/impl/Dispatcher.java
 //
 
-#ifndef _ImplDispatcher_H_
-#define _ImplDispatcher_H_
+#ifndef _Dispatcher_H_
+#define _Dispatcher_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
+
+@class ControllerController;
 
 @protocol ImplDispatcher < NSObject, JavaObject >
 
-- (void)goToLoginWithBoolean:(jboolean)crushHistory;
+- (void)goToLoginWithControllerController:(ControllerController *)caller;
 
-- (void)goToAllUnitsWithBoolean:(jboolean)crushHistory;
+- (void)goToAllUnitsWithControllerController:(ControllerController *)caller;
+
+- (void)goToActionPlanWithControllerController:(ControllerController *)caller;
+
+- (void)goToEditUserWithControllerController:(ControllerController *)caller;
+
+- (void)goToEditUnitWithControllerController:(ControllerController *)caller;
+
+- (void)goToEditActionWithControllerController:(ControllerController *)caller;
+
+- (void)goToEditCapacityWithControllerController:(ControllerController *)caller;
+
+- (void)goToCapacityOverviewWithControllerController:(ControllerController *)caller;
 
 @end
 
-__attribute__((always_inline)) inline void ImplDispatcher_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ImplDispatcher)
+
+J2OBJC_TYPE_LITERAL_HEADER(ImplDispatcher)
 
 #define RtdcCoreImplDispatcher ImplDispatcher
 
-#endif // _ImplDispatcher_H_
+#endif // _Dispatcher_H_

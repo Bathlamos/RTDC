@@ -1,6 +1,8 @@
 package rtdc.android.presenter.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -62,9 +64,15 @@ public class CommunicationHubContactFragment extends AbstractFragment implements
                 view = getActivity().getLayoutInflater().inflate(R.layout.adapter_contact, parent, false);
 
             User currentUser = users.get(position);
+            String initials = currentUser.getFirstName().substring(0, 1) + currentUser.getLastName().substring(0,1);
 
             setupColumn(view, R.id.userNameText, currentUser.getFirstName() + " " + currentUser.getLastName());
             setupColumn(view, R.id.roleUnitText, currentUser.getRole());
+            setupColumn(view, R.id.userIcon,     initials);
+
+            GradientDrawable background = (GradientDrawable) view.findViewById(R.id.userIcon).getBackground();
+            background.setColor(Color.HSVToColor(currentUser.getProfileColor()));
+            background.setCornerRadius(32);
 
             ImageButton audioCallButton = (ImageButton) view.findViewById(R.id.audioCallButton);
             audioCallButton.setTag(position);
@@ -73,7 +81,7 @@ public class CommunicationHubContactFragment extends AbstractFragment implements
                 public void onClick(View v) {
                     User clickedUser = users.get(Integer.parseInt(v.getTag().toString()));
                     Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling " + clickedUser.getId());
-                    Bootstrapper.FACTORY.getVoipController().call(clickedUser);
+                    Bootstrapper.FACTORY.getVoipController().call(clickedUser, false);
                 }
             });
 
@@ -84,8 +92,7 @@ public class CommunicationHubContactFragment extends AbstractFragment implements
                 public void onClick(View v) {
                     User clickedUser = users.get(Integer.parseInt(v.getTag().toString()));
                     Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling with video " + clickedUser.getId());
-                    // TODO Start video call
-//                    Bootstrapper.FACTORY.getVoipController().call(clickedUser);
+                    Bootstrapper.FACTORY.getVoipController().call(clickedUser, true);
                 }
             });
 

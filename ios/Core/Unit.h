@@ -3,79 +3,160 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/model/Unit.java
 //
 
-#ifndef _ModelUnit_H_
-#define _ModelUnit_H_
+#ifndef _Unit_H_
+#define _Unit_H_
 
-#import "JreEmulation.h"
-#include "JSONObject.h"
+#include "J2ObjC_header.h"
+#include "ObjectProperty.h"
+#include "RootObject.h"
+#include "java/lang/Enum.h"
 
-@interface ModelUnit : JSONJSONObject {
-}
+@class IOSObjectArray;
+@class JsonJSONObject;
+@class ModelUnit_PropertiesEnum;
+@protocol ModelObjectProperty;
+
+@interface ModelUnit : ModelRootObject
+
+#pragma mark Public
 
 - (instancetype)init;
 
-- (instancetype)initWithNSString:(NSString *)json;
-
-- (jint)getId;
-
-- (void)setIdWithInt:(jint)id_;
-
-- (NSString *)getName;
-
-- (void)setNameWithNSString:(NSString *)name;
-
-- (jint)getTotalBeds;
-
-- (void)setTotalBedsWithInt:(jint)totalBeds;
-
-- (jint)getAvailableBeds;
-
-- (void)setAvailableBedsWithInt:(jint)availableBeds;
-
-- (jint)getPotentialDc;
-
-- (void)setPotentialDcWithInt:(jint)potentialDc;
-
-- (jint)getDcByDeadline;
-
-- (void)setDcByDeadlineWithInt:(jint)dcByDeadline;
-
-- (jint)getTotalAdmits;
-
-- (void)setTotalAdmitsWithInt:(jint)totalAdmit;
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
 
 - (jint)getAdmitsByDeadline;
 
+- (jint)getAvailableBeds;
+
+- (jint)getDcByDeadline;
+
+- (jint)getId;
+
+- (NSString *)getName;
+
+- (jint)getPotentialDc;
+
+- (IOSObjectArray *)getProperties;
+
+- (jint)getStatusAtDeadline;
+
+- (jint)getTotalAdmits;
+
+- (jint)getTotalBeds;
+
+- (NSString *)getType;
+
+- (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property;
+
 - (void)setAdmitsByDeadlineWithInt:(jint)admitsByDeadline;
+
+- (void)setAvailableBedsWithInt:(jint)availableBeds;
+
+- (void)setDcByDeadlineWithInt:(jint)dcByDeadline;
+
+- (void)setIdWithInt:(jint)id_;
+
+- (void)setNameWithNSString:(NSString *)name;
+
+- (void)setPotentialDcWithInt:(jint)potentialDc;
+
+- (void)setTotalAdmitsWithInt:(jint)totalAdmits;
+
+- (void)setTotalBedsWithInt:(jint)totalBeds;
+
+- (jboolean)validateWithModelUnit_PropertiesEnum:(ModelUnit_PropertiesEnum *)property;
 
 @end
 
-__attribute__((always_inline)) inline void ModelUnit_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ModelUnit)
 
-FOUNDATION_EXPORT NSString *ModelUnit_ID_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUnit, ID_, NSString *)
+FOUNDATION_EXPORT void ModelUnit_init(ModelUnit *self);
 
-FOUNDATION_EXPORT NSString *ModelUnit_NAME_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUnit, NAME_, NSString *)
+FOUNDATION_EXPORT ModelUnit *new_ModelUnit_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT NSString *ModelUnit_TOTAL_BEDS_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUnit, TOTAL_BEDS_, NSString *)
+FOUNDATION_EXPORT void ModelUnit_initWithJsonJSONObject_(ModelUnit *self, JsonJSONObject *object);
 
-FOUNDATION_EXPORT NSString *ModelUnit_AVAILABLE_BEDS_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUnit, AVAILABLE_BEDS_, NSString *)
+FOUNDATION_EXPORT ModelUnit *new_ModelUnit_initWithJsonJSONObject_(JsonJSONObject *object) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT NSString *ModelUnit_POTENTIAL_DC_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUnit, POTENTIAL_DC_, NSString *)
+J2OBJC_TYPE_LITERAL_HEADER(ModelUnit)
 
-FOUNDATION_EXPORT NSString *ModelUnit_TOTAL_ADMITS_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUnit, TOTAL_ADMITS_, NSString *)
+@compatibility_alias RtdcCoreModelUnit ModelUnit;
 
-FOUNDATION_EXPORT NSString *ModelUnit_DC_BY_DEADLINE_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUnit, DC_BY_DEADLINE_, NSString *)
+typedef NS_ENUM(NSUInteger, ModelUnit_Properties) {
+  ModelUnit_Properties_id = 0,
+  ModelUnit_Properties_name = 1,
+  ModelUnit_Properties_totalBeds = 2,
+  ModelUnit_Properties_availableBeds = 3,
+  ModelUnit_Properties_potentialDc = 4,
+  ModelUnit_Properties_dcByDeadline = 5,
+  ModelUnit_Properties_totalAdmits = 6,
+  ModelUnit_Properties_admitsByDeadline = 7,
+  ModelUnit_Properties_statusAtDeadline = 8,
+};
 
-FOUNDATION_EXPORT NSString *ModelUnit_ADMITS_BY_DEADLINE_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUnit, ADMITS_BY_DEADLINE_, NSString *)
+@interface ModelUnit_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
 
-typedef ModelUnit RtdcCoreModelUnit;
++ (ModelUnit_PropertiesEnum *)id_;
 
-#endif // _ModelUnit_H_
++ (ModelUnit_PropertiesEnum *)name;
+
++ (ModelUnit_PropertiesEnum *)totalBeds;
+
++ (ModelUnit_PropertiesEnum *)availableBeds;
+
++ (ModelUnit_PropertiesEnum *)potentialDc;
+
++ (ModelUnit_PropertiesEnum *)dcByDeadline;
+
++ (ModelUnit_PropertiesEnum *)totalAdmits;
+
++ (ModelUnit_PropertiesEnum *)admitsByDeadline;
+
++ (ModelUnit_PropertiesEnum *)statusAtDeadline;
+
+#pragma mark Package-Private
+
++ (IOSObjectArray *)values;
+FOUNDATION_EXPORT IOSObjectArray *ModelUnit_PropertiesEnum_values();
+
++ (ModelUnit_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
+FOUNDATION_EXPORT ModelUnit_PropertiesEnum *ModelUnit_PropertiesEnum_valueOfWithNSString_(NSString *name);
+
+- (id)copyWithZone:(NSZone *)zone;
+
+@end
+
+J2OBJC_STATIC_INIT(ModelUnit_PropertiesEnum)
+
+FOUNDATION_EXPORT ModelUnit_PropertiesEnum *ModelUnit_PropertiesEnum_values_[];
+
+#define ModelUnit_PropertiesEnum_id ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_id]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, id)
+
+#define ModelUnit_PropertiesEnum_name ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_name]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, name)
+
+#define ModelUnit_PropertiesEnum_totalBeds ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_totalBeds]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, totalBeds)
+
+#define ModelUnit_PropertiesEnum_availableBeds ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_availableBeds]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, availableBeds)
+
+#define ModelUnit_PropertiesEnum_potentialDc ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_potentialDc]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, potentialDc)
+
+#define ModelUnit_PropertiesEnum_dcByDeadline ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_dcByDeadline]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, dcByDeadline)
+
+#define ModelUnit_PropertiesEnum_totalAdmits ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_totalAdmits]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, totalAdmits)
+
+#define ModelUnit_PropertiesEnum_admitsByDeadline ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_admitsByDeadline]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, admitsByDeadline)
+
+#define ModelUnit_PropertiesEnum_statusAtDeadline ModelUnit_PropertiesEnum_values_[ModelUnit_Properties_statusAtDeadline]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUnit_PropertiesEnum, statusAtDeadline)
+
+J2OBJC_TYPE_LITERAL_HEADER(ModelUnit_PropertiesEnum)
+
+#endif // _Unit_H_

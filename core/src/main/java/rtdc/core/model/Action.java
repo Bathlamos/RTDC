@@ -64,10 +64,10 @@ public class Action extends RootObject{
 
     private int id;
     private Unit unit;
-    private Status status; //Can never be null
+    private Status status; // Can never be null
     private User personResponsible;
     private String roleResponsible;
-    private Task task; // this is the title
+    private Task task; // This is the title
     private String target;
     private Date deadline;
     private String description;

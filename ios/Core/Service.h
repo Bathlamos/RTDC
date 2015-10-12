@@ -3,156 +3,89 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/service/Service.java
 //
 
-#ifndef _ServiceService_H_
-#define _ServiceService_H_
+#ifndef _Service_H_
+#define _Service_H_
 
-@class ModelJsonTransmissionWrapper;
+#include "J2ObjC_header.h"
+
+@class ModelAction;
+@class ModelMessage;
 @class ModelUnit;
 @class ModelUser;
-@protocol ImplHttpResponse;
 
-#import "JreEmulation.h"
-#include "AsyncCallback.h"
+@interface ServiceService : NSObject
 
-@interface ServiceService : NSObject {
-}
-
-- (instancetype)init;
+#pragma mark Public
 
 + (void)authenticateUserWithNSString:(NSString *)username
-                        withNSString:(NSString *)password
-            withServiceAsyncCallback:(id<ServiceAsyncCallback>)callback;
+                        withNSString:(NSString *)password;
+
++ (void)deleteActionWithInt:(jint)actionId;
+
++ (void)deleteUnitWithInt:(jint)unitId;
+
++ (void)deleteUserWithInt:(jint)userId;
+
++ (void)getActions;
+
++ (void)getMessagesWithInt:(jint)userId1
+                   withInt:(jint)userId2;
+
++ (void)getUnits;
+
++ (void)getUserWithInt:(jint)id_;
+
++ (void)getUsers;
+
++ (void)isAuthTokenValid;
+
++ (void)logout;
+
++ (void)saveOrUpdateMessageWithModelMessage:(ModelMessage *)message;
+
++ (void)updateOrSaveActionsWithModelAction:(ModelAction *)action;
+
++ (void)updateOrSaveUnitWithModelUnit:(ModelUnit *)unit;
 
 + (void)updateOrSaveUserWithModelUser:(ModelUser *)user
-                         withNSString:(NSString *)password
-             withServiceAsyncCallback:(id<ServiceAsyncCallback>)callback;
-
-+ (void)updateOrSaveUnitWithModelUnit:(ModelUnit *)unit
-             withServiceAsyncCallback:(id<ServiceAsyncCallback>)callback;
-
-+ (void)getUnitsWithServiceAsyncCallback:(id<ServiceAsyncCallback>)callback;
-
-+ (void)getUsersWithServiceAsyncCallback:(id<ServiceAsyncCallback>)callback;
-
-+ (void)catchSessionExpiredExceptionWithModelJsonTransmissionWrapper:(ModelJsonTransmissionWrapper *)wrapper;
+                         withNSString:(NSString *)password;
 
 @end
 
-__attribute__((always_inline)) inline void ServiceService_init() {}
-FOUNDATION_EXPORT void ServiceService_authenticateUserWithNSString_withNSString_withServiceAsyncCallback_(NSString *username, NSString *password, id<ServiceAsyncCallback> callback);
-FOUNDATION_EXPORT void ServiceService_updateOrSaveUserWithModelUser_withNSString_withServiceAsyncCallback_(ModelUser *user, NSString *password, id<ServiceAsyncCallback> callback);
-FOUNDATION_EXPORT void ServiceService_updateOrSaveUnitWithModelUnit_withServiceAsyncCallback_(ModelUnit *unit, id<ServiceAsyncCallback> callback);
-FOUNDATION_EXPORT void ServiceService_getUnitsWithServiceAsyncCallback_(id<ServiceAsyncCallback> callback);
-FOUNDATION_EXPORT void ServiceService_getUsersWithServiceAsyncCallback_(id<ServiceAsyncCallback> callback);
+J2OBJC_STATIC_INIT(ServiceService)
 
-FOUNDATION_EXPORT NSString *ServiceService_URL_;
-J2OBJC_STATIC_FIELD_GETTER(ServiceService, URL_, NSString *)
+FOUNDATION_EXPORT void ServiceService_authenticateUserWithNSString_withNSString_(NSString *username, NSString *password);
 
-typedef ServiceService RtdcCoreServiceService;
+FOUNDATION_EXPORT void ServiceService_isAuthTokenValid();
 
-@interface ServiceService_$1 : NSObject < ServiceAsyncCallback > {
- @public
-  id<ServiceAsyncCallback> val$callback_;
-}
+FOUNDATION_EXPORT void ServiceService_logout();
 
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp;
+FOUNDATION_EXPORT void ServiceService_getUnits();
 
-- (void)onErrorWithNSString:(NSString *)message;
+FOUNDATION_EXPORT void ServiceService_updateOrSaveUnitWithModelUnit_(ModelUnit *unit);
 
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0;
+FOUNDATION_EXPORT void ServiceService_deleteUnitWithInt_(jint unitId);
 
-- (void)dealloc;
+FOUNDATION_EXPORT void ServiceService_getUsers();
 
-- (void)copyAllFieldsTo:(ServiceService_$1 *)other;
+FOUNDATION_EXPORT void ServiceService_getUserWithInt_(jint id_);
 
-@end
+FOUNDATION_EXPORT void ServiceService_updateOrSaveUserWithModelUser_withNSString_(ModelUser *user, NSString *password);
 
-__attribute__((always_inline)) inline void ServiceService_$1_init() {}
+FOUNDATION_EXPORT void ServiceService_deleteUserWithInt_(jint userId);
 
-J2OBJC_FIELD_SETTER(ServiceService_$1, val$callback_, id<ServiceAsyncCallback>)
+FOUNDATION_EXPORT void ServiceService_saveOrUpdateMessageWithModelMessage_(ModelMessage *message);
 
-@interface ServiceService_$2 : NSObject < ServiceAsyncCallback > {
- @public
-  id<ServiceAsyncCallback> val$callback_;
-}
+FOUNDATION_EXPORT void ServiceService_getMessagesWithInt_withInt_(jint userId1, jint userId2);
 
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp;
+FOUNDATION_EXPORT void ServiceService_getActions();
 
-- (void)onErrorWithNSString:(NSString *)message;
+FOUNDATION_EXPORT void ServiceService_updateOrSaveActionsWithModelAction_(ModelAction *action);
 
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0;
+FOUNDATION_EXPORT void ServiceService_deleteActionWithInt_(jint actionId);
 
-- (void)dealloc;
+J2OBJC_TYPE_LITERAL_HEADER(ServiceService)
 
-- (void)copyAllFieldsTo:(ServiceService_$2 *)other;
+@compatibility_alias RtdcCoreServiceService ServiceService;
 
-@end
-
-__attribute__((always_inline)) inline void ServiceService_$2_init() {}
-
-J2OBJC_FIELD_SETTER(ServiceService_$2, val$callback_, id<ServiceAsyncCallback>)
-
-@interface ServiceService_$3 : NSObject < ServiceAsyncCallback > {
- @public
-  id<ServiceAsyncCallback> val$callback_;
-}
-
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp;
-
-- (void)onErrorWithNSString:(NSString *)message;
-
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(ServiceService_$3 *)other;
-
-@end
-
-__attribute__((always_inline)) inline void ServiceService_$3_init() {}
-
-J2OBJC_FIELD_SETTER(ServiceService_$3, val$callback_, id<ServiceAsyncCallback>)
-
-@interface ServiceService_$4 : NSObject < ServiceAsyncCallback > {
- @public
-  id<ServiceAsyncCallback> val$callback_;
-}
-
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp;
-
-- (void)onErrorWithNSString:(NSString *)message;
-
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(ServiceService_$4 *)other;
-
-@end
-
-__attribute__((always_inline)) inline void ServiceService_$4_init() {}
-
-J2OBJC_FIELD_SETTER(ServiceService_$4, val$callback_, id<ServiceAsyncCallback>)
-
-@interface ServiceService_$5 : NSObject < ServiceAsyncCallback > {
- @public
-  id<ServiceAsyncCallback> val$callback_;
-}
-
-- (void)onSuccessWithId:(id<ImplHttpResponse>)resp;
-
-- (void)onErrorWithNSString:(NSString *)message;
-
-- (instancetype)initWithServiceAsyncCallback:(id<ServiceAsyncCallback>)capture$0;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(ServiceService_$5 *)other;
-
-@end
-
-__attribute__((always_inline)) inline void ServiceService_$5_init() {}
-
-J2OBJC_FIELD_SETTER(ServiceService_$5, val$callback_, id<ServiceAsyncCallback>)
-
-#endif // _ServiceService_H_
+#endif // _Service_H_

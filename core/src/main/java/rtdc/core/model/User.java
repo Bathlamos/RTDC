@@ -140,4 +140,19 @@ public class User extends RootObject {
         this.unit = unit;
     }
 
+    public float[] getProfileColor(){
+        byte [] bytes = (getFirstName() + " " + getLastName()).getBytes();
+        float hue = 0;
+        for (int i = 0; i < bytes.length; i++)
+        {
+            hue += ((long) bytes[i] & 0xffL) << (8 * i);
+            hue %= 360;
+        }
+
+        float saturation = 0.8f;
+        float brightness = 0.4f; //Also known as value
+
+        return new float[]{hue, saturation,brightness};
+    }
+
 }

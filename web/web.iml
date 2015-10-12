@@ -62,6 +62,8 @@
       <configuration>
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
+          <root url="file://$MODULE_DIR$/build/gwt/out/rtdc_web" relative="/rtdc_web" />
+          <root url="file://$MODULE_DIR$/build/gwt/out/WEB-INF" relative="/WEB-INF" />
         </webroots>
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
@@ -93,9 +95,12 @@
     <orderEntry type="library" exported="" name="hibernate-validator-5.1.3.Final" level="project" />
     <orderEntry type="library" exported="" name="el-api-2.2" level="project" />
     <orderEntry type="library" exported="" name="jersey-container-servlet-2.16" level="project" />
-    <orderEntry type="library" exported="" name="postgresql-9.1-901-1.jdbc4" level="project" />
+    <orderEntry type="library" exported="" name="hsqldb-2.3.3" level="project" />
     <orderEntry type="library" exported="" name="jbcrypt-0.3m" level="project" />
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.6" level="project" />
+    <orderEntry type="library" exported="" name="datafactory-0.8" level="project" />
+    <orderEntry type="library" exported="" name="slf4j-api-1.7.12" level="project" />
+    <orderEntry type="library" exported="" name="logback-classic-1.1.3" level="project" />
     <orderEntry type="library" exported="" name="guava-18.0-sources" level="project" />
     <orderEntry type="library" exported="" name="guava-18.0" level="project" />
     <orderEntry type="library" exported="" name="guava-gwt-18.0-sources" level="project" />
@@ -113,6 +118,7 @@
     <orderEntry type="library" exported="" name="jersey-common-2.16" level="project" />
     <orderEntry type="library" exported="" name="jersey-server-2.16" level="project" />
     <orderEntry type="library" exported="" name="javax.ws.rs-api-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="logback-core-1.1.3" level="project" />
     <orderEntry type="library" exported="" name="jsr305-1.3.9" level="project" />
     <orderEntry type="library" exported="" name="xml-apis-1.0.b2" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-2.4.0-b09" level="project" />
@@ -128,7 +134,7 @@
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="validation-api-1.1.0.Final" level="project" />
     <orderEntry type="library" exported="" name="validation-api-1.1.0.Final-sources" level="project" />
-    <orderEntry type="library" exported="" name="C__Users_Jonathan_Desktop_Capstone_GitHub_RTDC_core_src_main_java" level="project" />
-    <orderEntry type="library" exported="" name="C__Users_Jonathan_Desktop_Capstone_GitHub_RTDC_core_src_main_resources" level="project" />
+    <orderEntry type="library" exported="" name="C__Users_Olivier_Clermont_IdeaProjects_RTDC_core_src_main_java" level="project" />
+    <orderEntry type="library" exported="" name="C__Users_Olivier_Clermont_IdeaProjects_RTDC_core_src_main_resources" level="project" />
   </component>
 </module>

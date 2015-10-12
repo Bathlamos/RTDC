@@ -7,9 +7,17 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import org.linphone.BandwidthManager;
+import org.linphone.core.LinphoneCall;
+import org.linphone.core.LinphoneCallParams;
+import org.linphone.core.LinphoneCore;
+import org.linphone.core.LinphoneCoreException;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
+import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.presenter.fragments.AbstractCallFragment;
 import rtdc.android.presenter.fragments.AudioCallFragment;
 import rtdc.android.presenter.fragments.VideoCallFragment;
@@ -19,15 +27,13 @@ import rtdc.core.Bootstrapper;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CommunicationHubInCallActivity extends AbstractActivity implements View.OnClickListener{
 
     private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
     private static boolean activityVisible;
-
-    private boolean speaker;
-    private boolean micMuted;
-    private boolean videoEnabled;
     private AbstractCallFragment callFragment;
 
     private static CommunicationHubInCallActivity currentInstance;
@@ -40,8 +46,18 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_call);
 
-        videoEnabled = LiblinphoneThread.get().getCurrentCall().getCurrentParamsCopy().getVideoEnabled();
-        updateDisplay();
+        // Force screen to stay on during the call
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        if(getResources().getBoolean(R.bool.isTablet))
+            AndroidVoipController.get().setSpeaker(true);
+
+        if(AndroidVoipController.get().isReceivingRemoteVideo() || AndroidVoipController.get().isVideoEnabled()){
+            displayVideo();
+        }else{
+            displayAudio();
+        }
 
         // Build the intent that will be used by the notification
 
@@ -100,25 +116,40 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         }
     }
 
-    public void updateDisplay(){
+    public void displayVideo(){
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        if(videoEnabled) {
-            callFragment = new VideoCallFragment();
-        }else{
-            callFragment = new AudioCallFragment();
-        }
+        callFragment = new VideoCallFragment();
         transaction.replace(R.id.in_call_fragment_wrapper, callFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
-    public void displayVideo(){
+    public void displayAudio(){
+        if(AndroidVoipController.get().isVideoEnabled())
+            AndroidVoipController.get().setVideo(false);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        videoEnabled = true;
-        callFragment = new VideoCallFragment();
+        callFragment = new AudioCallFragment();
         transaction.replace(R.id.in_call_fragment_wrapper, callFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public AbstractCallFragment getCurrentFragment(){
+        return callFragment;
+    }
+
+    public void displayPauseVideoStatus(final boolean display){
+        runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                if(display) {
+                    callFragment.getView().findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+                    ((TextView)callFragment.getView().findViewById(R.id.callStatus)).setText("Paused");
+                }else {
+                    callFragment.getView().findViewById(R.id.callStatus).setVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -154,51 +185,45 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.muteButton){
-            micMuted = !micMuted;
+            boolean micMuted = !Bootstrapper.FACTORY.getVoipController().isMicMuted();
 
             ImageButton button = (ImageButton) view;
             setButtonPressed(button, micMuted);
 
             Bootstrapper.FACTORY.getVoipController().setMicMuted(micMuted);
         }else if(view.getId() == R.id.videoButton){
-            AudioManager audioManager = (AudioManager) AndroidBootstrapper.getAppContext().getSystemService(
-                    AndroidBootstrapper.getAppContext().AUDIO_SERVICE);
-
-            videoEnabled = !videoEnabled;
+            boolean videoEnabled = !Bootstrapper.FACTORY.getVoipController().isVideoEnabled();
 
             ImageButton button = (ImageButton) view;
             setButtonPressed(button, videoEnabled);
 
             Bootstrapper.FACTORY.getVoipController().setVideo(videoEnabled);
-            updateDisplay();
-        }else if(view.getId() == R.id.speakerButton){
-            AudioManager audioManager = (AudioManager) AndroidBootstrapper.getAppContext().getSystemService(
-                    AndroidBootstrapper.getAppContext().AUDIO_SERVICE);
 
-            speaker = !speaker;
+            if(videoEnabled && !(callFragment instanceof VideoCallFragment)) {
+                // We just enabled video and we're not in the video fragment yet. Go to video fragment
+                displayVideo();
+            }else if(videoEnabled && callFragment instanceof VideoCallFragment){
+                // We just turned on video and we're already in the video fragment, make sure that the video preview is visible
+                callFragment.getView().findViewById(R.id.videoCaptureSurface).setVisibility(View.VISIBLE);
+            }else if(!videoEnabled && !AndroidVoipController.get().isReceivingRemoteVideo()) {
+                // We're not receiving any video from the remote user and we disabled our video. No need to stay in the video fragment
+                displayAudio();
+            }else if(!videoEnabled && callFragment instanceof VideoCallFragment){
+                // We just turned off video and we're still in the video fragment, turn the video preview invisible
+                callFragment.getView().findViewById(R.id.videoCaptureSurface).setVisibility(View.INVISIBLE);
+            }
+        }else if(view.getId() == R.id.speakerButton){
+            boolean speaker = !Bootstrapper.FACTORY.getVoipController().isSpeakerEnabled();
 
             ImageButton button = (ImageButton) view;
             setButtonPressed(button, speaker);
 
             Bootstrapper.FACTORY.getVoipController().setSpeaker(speaker);
-            audioManager.setSpeakerphoneOn(speaker);
         }else if(view.getId() == R.id.endCallButton){
             // Hangup the call and clean up the interface
 
             Bootstrapper.FACTORY.getVoipController().hangup();
             onCallHangup();
         }
-    }
-
-    public boolean isSpeaker() {
-        return speaker;
-    }
-
-    public boolean isMicMuted() {
-        return micMuted;
-    }
-
-    public boolean isVideoEnabled() {
-        return videoEnabled;
     }
 }

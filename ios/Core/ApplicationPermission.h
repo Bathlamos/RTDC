@@ -3,19 +3,24 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/model/ApplicationPermission.java
 //
 
-#ifndef _ModelApplicationPermission_H_
-#define _ModelApplicationPermission_H_
+#ifndef _ApplicationPermission_H_
+#define _ApplicationPermission_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 
-@interface ModelApplicationPermission : NSObject {
-}
+@interface ModelApplicationPermission : NSObject
+
++ (NSString *)USER;
+
++ (NSString *)ADMIN;
+
+#pragma mark Public
 
 - (instancetype)init;
 
 @end
 
-__attribute__((always_inline)) inline void ModelApplicationPermission_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ModelApplicationPermission)
 
 FOUNDATION_EXPORT NSString *ModelApplicationPermission_USER_;
 J2OBJC_STATIC_FIELD_GETTER(ModelApplicationPermission, USER_, NSString *)
@@ -23,6 +28,12 @@ J2OBJC_STATIC_FIELD_GETTER(ModelApplicationPermission, USER_, NSString *)
 FOUNDATION_EXPORT NSString *ModelApplicationPermission_ADMIN_;
 J2OBJC_STATIC_FIELD_GETTER(ModelApplicationPermission, ADMIN_, NSString *)
 
-typedef ModelApplicationPermission RtdcCoreModelApplicationPermission;
+FOUNDATION_EXPORT void ModelApplicationPermission_init(ModelApplicationPermission *self);
 
-#endif // _ModelApplicationPermission_H_
+FOUNDATION_EXPORT ModelApplicationPermission *new_ModelApplicationPermission_init() NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ModelApplicationPermission)
+
+@compatibility_alias RtdcCoreModelApplicationPermission ModelApplicationPermission;
+
+#endif // _ApplicationPermission_H_

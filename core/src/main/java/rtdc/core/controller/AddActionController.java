@@ -1,10 +1,7 @@
 package rtdc.core.controller;
 
-import com.google.common.collect.ImmutableSet;
-import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
-import rtdc.core.impl.UiDropdownList;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
@@ -85,7 +82,8 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
-        view.getUnitUiElement().setList(event.getUnits().asList());
+        units = new ArrayList<>(event.getUnits());
+        view.getUnitUiElement().setList(units);
     }
 
     @Override

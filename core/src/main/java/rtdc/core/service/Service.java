@@ -2,6 +2,7 @@ package rtdc.core.service;
 
 import rtdc.core.Bootstrapper;
 import rtdc.core.Config;
+import rtdc.core.Session;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.impl.HttpRequest;
@@ -9,6 +10,7 @@ import rtdc.core.impl.HttpResponse;
 import rtdc.core.json.JSONException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
+import rtdc.core.model.Message;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
@@ -57,6 +59,10 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET));
     }
 
+    public static void getUser(int id){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + id, POST));
+    }
+
     public static void updateOrSaveUser(User user, String password){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
         req.addParameter("user", user.toString());
@@ -66,6 +72,16 @@ public final class Service {
 
     public static void deleteUser(int userId){
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + userId, DELETE));
+    }
+
+    public static void saveOrUpdateMessage(Message message){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "messages", PUT);
+        req.addParameter("message", message.toString());
+        executeRequest(req);
+    }
+
+    public static void getMessages(int userId1, int userId2){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2, POST));
     }
 
     public static void getActions(){

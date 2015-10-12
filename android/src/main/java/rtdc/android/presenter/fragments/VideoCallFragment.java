@@ -18,6 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 import android.graphics.Point;
+import android.media.AudioManager;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -47,7 +48,10 @@ import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
+import rtdc.core.Bootstrapper;
 
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,9 +67,8 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     private float mZoomCenterX, mZoomCenterY;
     private CompatibilityScaleGestureDetector mScaleDetector;
     private CommunicationHubInCallActivity inCallActivity;
-
-    int _xDelta = 0;
-    int _yDelta = 0;
+    private boolean isFragmentPaused;
+    private Future ringingTask;
 
     @SuppressWarnings("deprecation") // Warning useless because value is ignored and automatically set by new APIs.
     @Override
@@ -122,10 +125,10 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                     //inCallActivity.displayVideoCallControlsIfHidden();
                 }
 
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     View buttonLayout = VideoCallFragment.this.view.findViewById(R.id.buttonLayout);
                     if (buttonLayout.getVisibility() == View.VISIBLE) {
-                        if (inCallActivity.isMicMuted())
+                        if (Bootstrapper.FACTORY.getVoipController().isMicMuted())
                             VideoCallFragment.this.view.findViewById(R.id.muteIcon).setVisibility(View.VISIBLE);
                         buttonLayout.setVisibility(View.GONE);
                     } else {
@@ -141,56 +144,86 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         mCaptureView.setOnTouchListener(new OnTouchListener() {
             float dx = 0, dy = 0;
             @Override
-            public boolean onTouch(View view, MotionEvent event) {
+            public boolean onTouch(final View view, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
+                        // Find the difference from where we touched to the absolute position of the view to help with movement
                         dx = event.getRawX() - view.getX();
                         dy = event.getRawY() - view.getY();
-
-                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-                        params.gravity = Gravity.NO_GRAVITY;
-                        view.setLayoutParams(params);
                         break;
                     }
                     case MotionEvent.ACTION_MOVE: {
-                        view.setX(event.getRawX() - dx);
-                        view.setY(event.getRawY() - dy);
+                        // Move the view by setting the margings for left and top
+                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                        params.setMargins((int)(event.getRawX() - dx), (int)(event.getRawY() - dy), 0, 0);
+                        params.gravity = Gravity.NO_GRAVITY;
+                        view.setLayoutParams(params);
                         break;
                     }case MotionEvent.ACTION_UP: {
+                        // Find the absolute position we would like the view to end up at
                         float width = VideoCallFragment.this.view.getWidth();
                         float height = VideoCallFragment.this.view.getHeight() - VideoCallFragment.this.view.findViewById(R.id.buttonLayout).getHeight();
+                        float absoluteX = event.getRawX() <= width / 2 ? 0 : width - view.getWidth();
+                        float absoluteY = event.getRawY() <= height / 2 ? 0 : height - view.getHeight();
 
-                        float lockX = event.getRawX() <= width / 2 ? 0 : width - view.getWidth();
-                        float lockY = event.getRawY() <= height / 2 ? 0 : height - view.getHeight();
-
+                        // Calculate the gravity the view should have with the absolute position we found
                         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-                        int horizontalGravity = lockX == 0 ? Gravity.LEFT: Gravity.RIGHT;
-                        int verticalGravity = lockY == 0 ? Gravity.TOP: Gravity.BOTTOM;
+                        int horizontalGravity = absoluteX == 0 ? Gravity.LEFT: Gravity.RIGHT;
+                        int verticalGravity = absoluteY == 0 ? Gravity.TOP: Gravity.BOTTOM;
                         params.gravity = (horizontalGravity | verticalGravity);
+
+                        // Set the margins depending on what gravities we calculated above
+                        int left = horizontalGravity == Gravity.LEFT ? 10: 0;
+                        int right = horizontalGravity == Gravity.RIGHT ? 10: 0;
+                        int top = verticalGravity == Gravity.TOP ? 10: 0;
+                        int bottom = verticalGravity == Gravity.BOTTOM ? 10: 0;
+                        params.setMargins(left, top, right, bottom);
+
                         view.setLayoutParams(params);
-
-                        // Need to set the position to 0, 0 or else the gravity position isn't accurate
-
-                        view.setX(0);
-                        view.setY(0);
-
-                        // The following should animate the view to translate to the correct location, but does not work
-
-                        /*TranslateAnimation anim = new TranslateAnimation(
-                                TranslateAnimation.RELATIVE_TO_PARENT, 0,
-                                TranslateAnimation.RELATIVE_TO_PARENT, lockX/width,
-                                TranslateAnimation.RELATIVE_TO_PARENT, 0,
-                                TranslateAnimation.RELATIVE_TO_PARENT, lockY/height);
-                        Logger.getLogger(VideoCallFragment.class.getName()).log(Level.INFO, lockX + ", " + lockY);
-                        anim.setDuration(1000);
-                        anim.setFillAfter(true);
-                        view.startAnimation(anim);*/
                         break;
                     }
                 }
                 return true;
             }
         });
+
+        // Set speaker mode on
+        AndroidVoipController.get().setSpeaker(true);
+
+        if(LiblinphoneThread.get().getCurrentCall().getState() == LinphoneCall.State.OutgoingProgress) {
+            // Display a ringing message
+
+            view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+            ((TextView) view.findViewById(R.id.callStatus)).setText("Ringing");
+            final TextView ringingDots = ((TextView) view.findViewById(R.id.ringingDots));
+            ringingDots.setVisibility(View.VISIBLE);
+            ringingTask = inCallActivity.getExecutor().scheduleWithFixedDelay(new Runnable(){
+                @Override
+                public void run() {
+                    inCallActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(ringingDots.getText().equals("\n\n ."))
+                                ringingDots.setText("\n\n . .");
+                            else if(ringingDots.getText().equals("\n\n . ."))
+                                ringingDots.setText("\n\n . . . ");
+                            else
+                                ringingDots.setText("\n\n .");
+                        }
+                    });
+                }
+            }, 0, 1000, TimeUnit.MILLISECONDS);
+        }else{
+            // If remote user isn't displaying video, we say so on screen
+            if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
+                view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+                ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+            }
+        }
+
+        // If we're not capturing video, we don't need to show the preview
+        if(!AndroidVoipController.get().isVideoEnabled())
+            mCaptureView.setVisibility(View.INVISIBLE);
 
         return view;
     }
@@ -238,7 +271,9 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         if (androidVideoWindowImpl != null) {
             synchronized (androidVideoWindowImpl) {
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(androidVideoWindowImpl);
-                //AndroidVoipController.get().setVideo(true);
+                if(isFragmentPaused)
+                    AndroidVoipController.get().setVideo(true);
+                isFragmentPaused = false;
             }
         }
 
@@ -255,7 +290,8 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 				 * androidVideoWindowImpl
 				 */
                 LiblinphoneThread.get().getLinphoneCore().setVideoWindow(null);
-                //AndroidVoipController.get().setVideo(false);
+                AndroidVoipController.get().setVideo(false);
+                isFragmentPaused = true;
             }
         }
 
@@ -371,7 +407,15 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
     @Override
     public void onCallEstablished(){
-
+        ringingTask.cancel(true);
+        view.findViewById(R.id.callStatus).setVisibility(View.INVISIBLE);
+        ((TextView) view.findViewById(R.id.callStatus)).setText("Paused");
+        view.findViewById(R.id.ringingDots).setVisibility(View.INVISIBLE);
+        // If remote user isn't displaying video, we say so on screen
+        if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
+            view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
+            ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package rtdc.android.presenter;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,27 +9,33 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.view.ViewGroup;
+import android.widget.*;
 import rtdc.android.presenter.fragments.*;
 import rtdc.android.R;
 import rtdc.core.Bootstrapper;
 import rtdc.core.impl.Storage;
 import rtdc.core.service.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends ActionBarActivity {
 
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
-
-    private ListView mDrawerList;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
     private CharSequence title;
     private AbstractFragment fragment;
 
     private boolean isAtHome = true;
+
+    private ArrayList<String> navTitles;
+    private ArrayAdapter<String> adapter;
+    private RelativeLayout lastClicked = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +49,24 @@ public class MainActivity extends ActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.action_add, R.string.action_delete) {
+        // NAVIGATION LIST VIEW
+        // TODO - Replace with enum
+        String capacityTitle = getResources().getString(R.string.title_capacity_overview);
+        String actionTitle = getResources().getString(R.string.title_action_plan);
+        String commTitle = getResources().getString(R.string.title_communication_hub);
+        String messagesTitle = "Messages";
+        String manageUnitsTitle = getResources().getString(R.string.title_manage_units);
+        String manageUsersTitle = getResources().getString(R.string.title_manage_users);
+
+        AdapterView navListView = (AdapterView) findViewById(R.id.nav_list);
+        //TODO: Change when permissions are implemented
+        navTitles = new ArrayList<String>(Arrays.asList(capacityTitle, actionTitle, commTitle, messagesTitle, manageUnitsTitle, manageUsersTitle));
+        adapter = new navAdapter(navTitles, this);
+        navListView.setAdapter(adapter);
+
+        // DRAWER MENU
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.action_add, R.string.action_delete) {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -54,7 +77,6 @@ public class MainActivity extends ActionBarActivity {
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                toolbar.setTitle(R.string.title_drawer_menu);
                 invalidateOptionsMenu();
                 syncState();
             }
@@ -74,25 +96,14 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        //TODO: Change when permissions are implemented
-        String[] mPlanetTitles = new String[]{"Capacity Overview", "Action Plan", "Communication Hub", "User Profile", "Manage Users", "Manage Units"};
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.nav_list);
+        drawerLayout.setDrawerListener(drawerToggle);
 
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        selectItem(0); // Opens the capacity overview by default
-    }
-    
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
+        // Doing this check first prevents the fragment from being reloaded to home fragment when the screen orientation is changed
+        if(savedInstanceState == null){
+            if(getIntent() != null)
+                onNewIntent(getIntent());
+            if(fragment == null)
+                selectItem(0); // Opens the capacity overview by default
         }
     }
 
@@ -102,7 +113,16 @@ public class MainActivity extends ActionBarActivity {
     private void selectItem(int position) {
         isAtHome = false;
 
-        switch(position){
+        goToFragment(position);
+
+        // Update the title, and close the drawer
+        title = navTitles.get(position);
+        setTitle(title);
+        drawerLayout.closeDrawers();
+    }
+
+    public void goToFragment(int id){
+        switch(id){
             case 0:
                 fragment = new CapacityOverviewFragment();
                 isAtHome = true;
@@ -111,15 +131,16 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new ActionPlanFragment();
                 break;
             case 2:
-                //fragment = new CommunicationHubFragment();
-                //fragment = new OldCommunicationHub();
                 fragment = new CommunicationHubContactFragment();
                 break;
+            case 3:
+                fragment = new MessageListFragment();
+                break;
             case 4:
-                fragment = new ManageUsersFragment();
+                fragment = new ManageUnitsFragment();
                 break;
             case 5:
-                fragment = new ManageUnitsFragment();
+                fragment = new ManageUsersFragment();
                 break;
             default:
                 fragment = new CapacityOverviewFragment();
@@ -131,23 +152,90 @@ public class MainActivity extends ActionBarActivity {
         transaction.replace(R.id.main_fragment_wrapper, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
-        // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
-        mDrawerLayout.closeDrawers();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        int position = intent.getIntExtra("fragment", -1);
+        if (position != -1)
+            goToFragment(position);
+    }
+
+    private class navAdapter extends ArrayAdapter<String> {
+
+        private LayoutInflater inflater;
+
+        public navAdapter(List<String> titles, Context context) {
+            super(context, R.layout.drawer_list_item, titles);
+            inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+            if (view == null)
+                view = inflater.inflate(R.layout.drawer_list_item, parent, false);
+
+            if (lastClicked == null) {
+                lastClicked = (RelativeLayout) view.findViewById(R.id.navLayout);
+                lastClicked.setBackgroundColor(getResources().getColor(R.color.RTDC_black));
+            }
+
+            String currentTitle = navTitles.get(position);
+
+            TextView textView = (TextView) view.findViewById(R.id.navTextView);
+            textView.setText(currentTitle);
+
+            ImageView iconView = (ImageView) view.findViewById(R.id.navIcon);
+            switch(position){
+                case 0:
+                    iconView.setImageResource(R.drawable.ic_hotel_white_24dp);
+                    break;
+                case 1:
+                    iconView.setImageResource(R.drawable.ic_assignment_turned_in_white_24dp);
+                    break;
+                case 2:
+                    iconView.setImageResource(R.drawable.ic_chat_white_24dp);
+                    break;
+                case 3:
+                    iconView.setImageResource(R.drawable.ic_chat_white_24dp);
+                    break;
+                case 4:
+                    iconView.setImageResource(R.drawable.ic_local_hospital_white_24dp);
+                    break;
+                case 5:
+                    iconView.setImageResource(R.drawable.ic_build_white_24dp);
+                    break;
+                default:
+                    iconView.setImageResource(R.drawable.ic_mode_edit_white_24dp);
+            }
+
+            view.setTag(position);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectItem(Integer.parseInt(v.getTag().toString()));
+                    lastClicked.setBackgroundColor(getResources().getColor(R.color.RTDC_grey));
+
+                    RelativeLayout navLayout = (RelativeLayout) v.findViewById(R.id.navLayout);
+                    navLayout.setBackgroundColor(getResources().getColor(R.color.RTDC_black));
+                    lastClicked = navLayout;
+                }
+            });
+
+            return view;
+        }
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+        drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override

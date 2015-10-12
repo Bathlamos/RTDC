@@ -6,4 +6,5 @@
     <constraint-mapping>Action-Constraints.xml</constraint-mapping>
     <constraint-mapping>User-Constraints.xml</constraint-mapping>
     <constraint-mapping>Unit-Constraints.xml</constraint-mapping>
+    <constraint-mapping>Message-Constraints.xml</constraint-mapping>
 </validation-config>

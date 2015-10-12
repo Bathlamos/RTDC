@@ -5,7 +5,8 @@ targetCompatibility = 1.7
 apply from: 'j2objc.gradle'
 
 dependencies{
-    compile 'com.google.guava:guava:14.0.1'
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.google.j2objc:j2objc-annotations:0.1'
 }
 
 j2objcConfig {
@@ -18,7 +19,8 @@ j2objcConfig {
     // NOTE this should contain ONLY j2objc generated files, other contents will be deleted
     destDir null //"${projectDir}/../Xcode/j2objc-generated"
 
-    translateFlags "-d ${projectDir}/../ios/Core -classpath ${j2objcHome}/lib/guava-14.0.1.jar " +
+    translateFlags "-d ${projectDir}/../ios/Core -classpath ${j2objcHome}/lib/j2objc_guava.jar " +
             "-sourcepath ${projectDir}/../core/src/main/java --no-package-directories " +
-            "--prefixes ${projectDir}/../core/prefixes.properties"
+            "--prefixes ${projectDir}/../core/prefixes.properties " +
+            "--static-accessor-methods"
 }
