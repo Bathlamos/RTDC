@@ -36,7 +36,8 @@ public class TestData implements ServletContextListener {
         List<User> root = generateRootUsers();
         logger.info("Adding " + root.size() + " root users");
 
-        List<User> users = generateUsers(RANDOM.nextInt(100), units);
+        //List<User> users = generateUsers(RANDOM.nextInt(100), units);
+        List<User> users = generateUsers(5, units);
         logger.info("Adding " + units.size() + " users");
         users.addAll(root);
 
@@ -69,13 +70,9 @@ public class TestData implements ServletContextListener {
             for(Action action: actions)
                 session.saveOrUpdate(action);
 
-            Message demoMessage = new Message();
-            demoMessage.setSender(users.get(users.size() - 2));
-            demoMessage.setReceiver(users.get(users.size() - 1));
-            demoMessage.setContent("Hello!");
-            demoMessage.setStatus(Message.Status.read);
-            demoMessage.setTimeSent(new Date());
-            session.saveOrUpdate(demoMessage);
+            List<Message> messages = generateMessages(users);
+            for(Message message: messages)
+                session.saveOrUpdate(message);
 
             transaction.commit();
 
@@ -166,6 +163,23 @@ public class TestData implements ServletContextListener {
         }
 
         return users;
+    }
+
+    public static List<Message> generateMessages(List<User> users){
+        List<Message> messages = new ArrayList<>();
+
+        for(int i = 0; i < users.size() - 1; i++){
+            User sender = users.get(i);
+            Message demoMessage = new Message();
+            demoMessage.setSender(sender);
+            demoMessage.setReceiver(users.get(users.size() - 1));
+            demoMessage.setContent("Hello from " + sender.getFirstName() + " " + sender.getLastName() + "!");
+            demoMessage.setStatus(Message.Status.delivered);
+            demoMessage.setTimeSent(new Date());
+            messages.add(demoMessage);
+        }
+
+        return messages;
     }
 
     private static List<Unit> generateUnits(int numUnits){
