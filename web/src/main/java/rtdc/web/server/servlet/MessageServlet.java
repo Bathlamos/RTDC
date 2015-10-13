@@ -1,7 +1,11 @@
 package rtdc.web.server.servlet;
 
+import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rtdc.core.event.*;
@@ -61,12 +65,27 @@ public class MessageServlet {
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getMessages(@Context HttpServletRequest req, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String){
+        int user1Id = Integer.parseInt(userId1String);
+        int user2Id = Integer.parseInt(userId2String);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Message> messages = null;
         try{
             transaction = session.beginTransaction();
-            messages = (List<Message>) session.createCriteria(Message.class).list();
+
+            // Only return the messages that we're sent and received by the two users given in the request
+
+            messages = (List<Message>) session.createCriteria(Message.class)
+                    .add(Restrictions.or(
+                            Restrictions.and(
+                                    Restrictions.eq("senderID", user1Id),
+                                    Restrictions.eq("receiverID", user2Id)
+                            ),
+                            Restrictions.and(
+                                    Restrictions.eq("senderID", user2Id),
+                                    Restrictions.eq("receiverID", user1Id)
+                            )
+                    )).addOrder(Order.asc("timeSent")).list();
             for(Message message: messages){
                 message.setSender((User) session.get(User.class, message.getSenderID()));
                 message.setReceiver((User) session.get(User.class, message.getReceiverID()));
@@ -82,19 +101,6 @@ public class MessageServlet {
             session.close();
         }
 
-        // Only return the messages that we're sent and received by the two users given in the request
-
-        int user1Id = Integer.parseInt(userId1String);
-        int user2Id = Integer.parseInt(userId2String);
-        for(Iterator<Message> iterator = messages.iterator(); iterator.hasNext();){
-            Message message = iterator.next();
-            if((message.getSender().getId() == user1Id && message.getReceiver().getId() == user2Id)
-                    || (message.getSender().getId() == user2Id && message.getReceiver().getId() == user1Id)){
-            }else{
-                iterator.remove();
-            }
-        }
-
         return new FetchMessagesEvent(messages).toString();
     }
 
@@ -103,12 +109,19 @@ public class MessageServlet {
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getRecentContacts(@Context HttpServletRequest req, @PathParam("userId") String userId1String){
+        int userId = Integer.parseInt(userId1String);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Message> messages = null;
         try{
             transaction = session.beginTransaction();
-            messages = (List<Message>) session.createCriteria(Message.class).list();
+
+            messages = (List<Message>) session.createCriteria(Message.class)
+                    .add(Restrictions.or(
+                            Restrictions.eq("senderID", userId),
+                            Restrictions.eq("receiverID", userId)
+                    )).addOrder(Order.desc("timeSent")).list();
+
             for(Message message: messages){
                 message.setSender((User) session.get(User.class, message.getSenderID()));
                 message.setReceiver((User) session.get(User.class, message.getReceiverID()));
@@ -127,13 +140,11 @@ public class MessageServlet {
         // Only return the most recent message for each user in conversation with our given user
 
         HashMap<Integer, Message> recentMessages = new HashMap<>();
-        int userId = Integer.parseInt(userId1String);
         for(Iterator<Message> iterator = messages.iterator(); iterator.hasNext();){
             Message message = iterator.next();
-            if(message.getSender().getId() == userId || message.getReceiver().getId() == userId){
-                User otherUser = message.getSender().getId() == userId ? message.getReceiver(): message.getSender();
+            User otherUser = message.getSender().getId() == userId ? message.getReceiver(): message.getSender();
+            if(!recentMessages.containsKey(otherUser.getId()) || message.getTimeSent().after(recentMessages.get(otherUser.getId()).getTimeSent()))
                 recentMessages.put(otherUser.getId(), message);
-            }
         }
 
         return new FetchRecentContactsEvent(recentMessages.values()).toString();
