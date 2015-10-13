@@ -51,8 +51,10 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         view.findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Message message = new Message();
+                if(((TextView) view.findViewById(R.id.messageEditText)).getText().equals(""))
+                    return;
 
+                final Message message = new Message();
                 message.setSender(Session.getCurrentSession().getUser());
                 message.setReceiver(messagingUser);
                 message.setStatus(Message.Status.sent);
