@@ -4,6 +4,7 @@ import rtdc.core.Session;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchRecentContactsEvent;
 import rtdc.core.event.FetchMessagesEvent;
+import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.model.Message;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
@@ -13,17 +14,21 @@ import rtdc.core.view.MessageListView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 
-public class MessageListController extends Controller<MessageListView> implements FetchRecentContactsEvent.Handler, FetchMessagesEvent.Handler {
+public class MessageListController extends Controller<MessageListView> implements FetchRecentContactsEvent.Handler, FetchMessagesEvent.Handler, FetchUsersEvent.Handler {
 
     private ArrayList<Message> recentContacts;
     private ArrayList<Message> messages;
+    private ArrayList<User> contacts;
 
     public MessageListController(MessageListView view){
         super(view);
         Event.subscribe(FetchRecentContactsEvent.TYPE, this);
         Event.subscribe(FetchMessagesEvent.TYPE, this);
+        Event.subscribe(FetchUsersEvent.TYPE, this);
         Service.getRecentContacts(Session.getCurrentSession().getUser().getId());
+        Service.getUsers();
         //recentContacts = getRecentContacts();
         //sortRecentContacts(Message.Properties.timeSent);
     }
@@ -48,6 +53,11 @@ public class MessageListController extends Controller<MessageListView> implement
         Service.getMessages(lastMessage.getSender().getId(), lastMessage.getReceiver().getId());
     }
 
+    public void sortContacts(User.Properties property){
+        Collections.sort(contacts, SimpleComparator.forProperty(property).build());
+        view.setContacts(contacts);
+    }
+
     @Override
     public void onMessagesFetched(FetchMessagesEvent event) {
         messages = new ArrayList<>(event.getMessages());
@@ -58,6 +68,12 @@ public class MessageListController extends Controller<MessageListView> implement
     public void onRecentContactsFetched(FetchRecentContactsEvent event) {
         recentContacts = new ArrayList<>(event.getRecentContacts());
         sortRecentContacts(Message.Properties.timeSent);
+    }
+
+    @Override
+    public void onUsersFetched(FetchUsersEvent event) {
+        contacts = new ArrayList<>(event.getUsers());
+        sortContacts(User.Properties.lastName);
     }
 
     @Override

@@ -22,8 +22,6 @@
                         android:id="@+id/textView" android:textSize="14sp"
                         android:textStyle="bold" android:textColor="@color/RTDC_grey"
                         />
-
-
         </LinearLayout>
                 <ListView
                 android:layout_width="match_parent"
@@ -32,10 +30,17 @@
 
         </LinearLayout>
 
+        <AutoCompleteTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/contactsAutoComplete"
+                android:layout_weight="0.32" android:layout_gravity="top" android:visibility="gone"
+                android:completionThreshold="1"/>
+
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent" android:layout_weight="0.32">
+                android:layout_height="match_parent" android:layout_weight="0.32" android:id="@+id/conversationLayout">
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"

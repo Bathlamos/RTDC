@@ -1,21 +1,15 @@
 package rtdc.android.presenter.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.core.Session;
 import rtdc.core.Config;
 import rtdc.core.controller.MessageListController;
-import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
-import rtdc.core.event.FetchMessagesEvent;
 import rtdc.core.event.MessageSavedEvent;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
@@ -30,12 +24,15 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
+    private ArrayAdapter<User> contactsAdapter;
     private ArrayList<Message> recentContacts = new ArrayList<Message>();
     private ArrayList<Message> messages = new ArrayList<Message>();
+    private ArrayList<User> contacts = new ArrayList<User>();
     private MessageListController controller;
     private int selectedRecentContactIndex;
     private User messagingUser;
     private View view;
+    AutoCompleteTextView contactsAutoComplete;
 
     private static MessageListFragment instance;
 
@@ -46,6 +43,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         view = inflater.inflate(R.layout.fragment_messages, container, false);
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
+        contactsAutoComplete = (AutoCompleteTextView) view.findViewById(R.id.contactsAutoComplete);
 
         // Setup message send button
         view.findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
@@ -132,11 +130,10 @@ public class MessageListFragment extends AbstractFragment implements MessageList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_compose_message:
-                //intent = new Intent(getActivity(), CreateUnitActivity.class);
-              //  startActivity(intent);
+                view.findViewById(R.id.conversationLayout).setVisibility(View.GONE);
+                view.findViewById(R.id.contactsAutoComplete).setVisibility(View.VISIBLE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -169,6 +166,15 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
         AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         recentContactsListView.setSelection(0);
+    }
+
+    @Override
+    public void setContacts(List<User> contacts){
+        this.contacts.clear();
+        this.contacts.addAll(contacts);
+        contactsAdapter = new ContactListAdapter(getActivity(), (ArrayList<User>) contacts);
+        contactsAutoComplete.setAdapter(contactsAdapter);
+        contactsAdapter.notifyDataSetChanged();
     }
 
     // Convert raw messages to be list adapter friendly
