@@ -5,7 +5,7 @@
 
 #include "AddActionView.h"
 #include "J2ObjC_source.h"
-#include "UiDropdownList.h"
+#include "UiDropdown.h"
 #include "UiElement.h"
 
 @interface ViewAddActionView : NSObject
@@ -16,10 +16,10 @@
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "getUnitUiElement", NULL, "Lrtdc.core.impl.UiDropdownList;", 0x401, NULL, NULL },
-    { "getStatusUiElement", NULL, "Lrtdc.core.impl.UiDropdownList;", 0x401, NULL, NULL },
+    { "getUnitUiElement", NULL, "Lrtdc.core.impl.UiDropdown;", 0x401, NULL, NULL },
+    { "getStatusUiElement", NULL, "Lrtdc.core.impl.UiDropdown;", 0x401, NULL, NULL },
     { "getRoleUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
-    { "getTaskUiElement", NULL, "Lrtdc.core.impl.UiDropdownList;", 0x401, NULL, NULL },
+    { "getTaskUiElement", NULL, "Lrtdc.core.impl.UiDropdown;", 0x401, NULL, NULL },
     { "getTargetUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
     { "getDeadlineUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },
     { "getDescriptionUiElement", NULL, "Lrtdc.core.impl.UiElement;", 0x401, NULL, NULL },

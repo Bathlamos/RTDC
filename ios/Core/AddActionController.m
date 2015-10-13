@@ -15,14 +15,12 @@
 #include "J2ObjC_source.h"
 #include "Service.h"
 #include "Stringifier.h"
-#include "UiDropdownList.h"
+#include "UiDropdown.h"
 #include "UiElement.h"
 #include "Unit.h"
 #include "com/google/common/collect/ImmutableSet.h"
 #include "java/util/ArrayList.h"
-#include "java/util/Arrays.h"
 #include "java/util/Date.h"
-#include "java/util/List.h"
 
 @interface ControllerAddActionController () {
  @public
@@ -65,20 +63,19 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 - (void)addAction {
   ModelAction *action = [new_ModelAction_init() autorelease];
   if (currentAction_ != nil) [action setIdWithInt:[currentAction_ getId]];
-  [action setTaskWithModelAction_TaskEnum:[((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getTaskUiElement])) getValue]];
+  [action setTaskWithModelAction_TaskEnum:[((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getTaskUiElement])) getValue]];
   [action setRoleResponsibleWithNSString:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getRoleUiElement])) getValue]];
   [action setTargetWithNSString:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getTargetUiElement])) getValue]];
   [action setDeadlineWithJavaUtilDate:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getDeadlineUiElement])) getValue]];
   [action setDescriptionWithNSString:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getDescriptionUiElement])) getValue]];
-  [action setStatusWithModelAction_StatusEnum:[((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) view_) getStatusUiElement])) getValue]];
-  [action setUnitWithModelUnit:[((JavaUtilArrayList *) nil_chk(units_)) getWithInt:[((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) view_) getUnitUiElement])) getSelectedIndex]]];
+  [action setStatusWithModelAction_StatusEnum:[((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) view_) getStatusUiElement])) getValue]];
+  [action setUnitWithModelUnit:[((JavaUtilArrayList *) nil_chk(units_)) getWithInt:[((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) view_) getUnitUiElement])) getSelectedIndex]]];
   ServiceService_updateOrSaveActionsWithModelAction_(action);
   [((id<ViewAddActionView>) view_) closeDialog];
 }
 
 - (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event {
-  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchUnitsEvent *) nil_chk(event)) getUnits]));
-  [((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getUnitUiElement])) setListWithJavaUtilList:units_];
+  [((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getUnitUiElement])) setArrayWithNSObjectArray:[((ComGoogleCommonCollectImmutableSet *) nil_chk([((EventFetchUnitsEvent *) nil_chk(event)) getUnits])) toArrayWithNSObjectArray:[IOSObjectArray arrayWithLength:[((ComGoogleCommonCollectImmutableSet *) nil_chk([event getUnits])) size] type:ModelUnit_class_()]]];
 }
 
 - (void)onStop {
@@ -116,11 +113,11 @@ void ControllerAddActionController_initWithViewAddActionView_(ControllerAddActio
   JreStrongAssignAndConsume(&self->units_, new_JavaUtilArrayList_init());
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
   ServiceService_getUnits();
-  [((id<ImplUiDropdownList>) nil_chk([((id<ViewAddActionView>) nil_chk(view)) getTaskUiElement])) setListWithJavaUtilList:JavaUtilArrays_asListWithNSObjectArray_(ModelAction_TaskEnum_values())];
-  [((id<ImplUiDropdownList>) nil_chk([view getTaskUiElement])) setStringifierWithUtilStringifier:ModelAction_TaskEnum_getStringifier()];
-  [((id<ImplUiDropdownList>) nil_chk([view getStatusUiElement])) setListWithJavaUtilList:JavaUtilArrays_asListWithNSObjectArray_(ModelAction_StatusEnum_values())];
-  [((id<ImplUiDropdownList>) nil_chk([view getStatusUiElement])) setStringifierWithUtilStringifier:ModelAction_StatusEnum_getStringifier()];
-  [((id<ImplUiDropdownList>) nil_chk([view getUnitUiElement])) setStringifierWithUtilStringifier:[new_ControllerAddActionController_$1_init() autorelease]];
+  [((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) nil_chk(view)) getTaskUiElement])) setArrayWithNSObjectArray:ModelAction_TaskEnum_values()];
+  [((id<ImplUiDropdown>) nil_chk([view getTaskUiElement])) setStringifierWithUtilStringifier:ModelAction_TaskEnum_getStringifier()];
+  [((id<ImplUiDropdown>) nil_chk([view getStatusUiElement])) setArrayWithNSObjectArray:ModelAction_StatusEnum_values()];
+  [((id<ImplUiDropdown>) nil_chk([view getStatusUiElement])) setStringifierWithUtilStringifier:ModelAction_StatusEnum_getStringifier()];
+  [((id<ImplUiDropdown>) nil_chk([view getUnitUiElement])) setStringifierWithUtilStringifier:[new_ControllerAddActionController_$1_init() autorelease]];
   JreStrongAssign(&self->currentAction_, (ModelAction *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"action"], [ModelAction class]));
   if (self->currentAction_ != nil) {
     [view setTitleWithNSString:@"Edit Action"];
@@ -128,9 +125,9 @@ void ControllerAddActionController_initWithViewAddActionView_(ControllerAddActio
     [((id<ImplUiElement>) nil_chk([view getTargetUiElement])) setValueWithId:[self->currentAction_ getTarget]];
     [((id<ImplUiElement>) nil_chk([view getDeadlineUiElement])) setValueWithId:[self->currentAction_ getDeadline]];
     [((id<ImplUiElement>) nil_chk([view getDescriptionUiElement])) setValueWithId:[self->currentAction_ getDescription]];
-    [((id<ImplUiDropdownList>) nil_chk([view getUnitUiElement])) setValueWithId:[self->currentAction_ getUnit]];
-    [((id<ImplUiDropdownList>) nil_chk([view getStatusUiElement])) setValueWithId:[self->currentAction_ getStatus]];
-    [((id<ImplUiDropdownList>) nil_chk([view getTaskUiElement])) setValueWithId:[self->currentAction_ getTask]];
+    [((id<ImplUiDropdown>) nil_chk([view getUnitUiElement])) setValueWithId:[self->currentAction_ getUnit]];
+    [((id<ImplUiDropdown>) nil_chk([view getStatusUiElement])) setValueWithId:[self->currentAction_ getStatus]];
+    [((id<ImplUiDropdown>) nil_chk([view getTaskUiElement])) setValueWithId:[self->currentAction_ getTask]];
   }
 }
 

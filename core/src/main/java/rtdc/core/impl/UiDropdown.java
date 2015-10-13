@@ -4,7 +4,7 @@ import rtdc.core.util.Stringifier;
 
 import java.util.List;
 
-public interface UiDropdownList<T> extends UiElement<T> {
+public interface UiDropdown<T> extends UiElement<T> {
 
     Stringifier DEFAULT_STRINGIFIER = new Stringifier() {
         @Override
@@ -13,7 +13,7 @@ public interface UiDropdownList<T> extends UiElement<T> {
         }
     };
 
-    void setList(List<T> elements);
+    void setArray(T[] elements);
 
     int getSelectedIndex();
 

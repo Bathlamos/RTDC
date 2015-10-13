@@ -9,30 +9,31 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import rtdc.android.R;
-import rtdc.core.impl.UiDropdownList;
+import rtdc.core.impl.UiDropdown;
 import rtdc.core.util.Stringifier;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<T> {
+public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
 
     private final CustomAdapter adapter;
     private Stringifier<T> stringifier = DEFAULT_STRINGIFIER;
 
-    public AndroidUiDropdownList(Context context) {
+    public AndroidUiDropdown(Context context) {
         super(context);
 
         adapter = new CustomAdapter(context, R.layout.dropdown_list_item);
         setAdapter(adapter);
     }
 
-    public AndroidUiDropdownList(Context context, AttributeSet attrs) {
+    public AndroidUiDropdown(Context context, AttributeSet attrs) {
         super(context, attrs);
         adapter = new CustomAdapter(context, R.layout.dropdown_list_item);
         setAdapter(adapter);
     }
 
-    public AndroidUiDropdownList(Context context, AttributeSet attrs, int defStyle){
+    public AndroidUiDropdown(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
         adapter = new CustomAdapter(context, R.layout.dropdown_list_item);
         setAdapter(adapter);
@@ -54,9 +55,9 @@ public class AndroidUiDropdownList<T> extends Spinner implements UiDropdownList<
     }
 
     @Override
-    public void setList(List<T> elements) {
+    public void setArray(T[] elements) {
         adapter.clear();
-        adapter.addAll(elements);
+        adapter.addAll(Arrays.asList(elements));
         adapter.notifyDataSetChanged();
     }
 

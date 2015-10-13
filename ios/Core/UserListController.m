@@ -18,10 +18,10 @@
 #include "UserListController.h"
 #include "UserListView.h"
 #include "com/google/common/collect/ImmutableSet.h"
+#include "java/util/ArrayList.h"
 #include "java/util/Collections.h"
 #include "java/util/Comparator.h"
 #include "java/util/HashSet.h"
-#include "java/util/LinkedList.h"
 #include "java/util/List.h"
 #include "java/util/Set.h"
 
@@ -46,7 +46,7 @@ J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
 }
 
 - (id<JavaUtilList>)sortUsersWithModelUser_PropertiesEnum:(ModelUser_PropertiesEnum *)property {
-  JavaUtilLinkedList *sortedUsers = [new_JavaUtilLinkedList_initWithJavaUtilCollection_(users_) autorelease];
+  JavaUtilArrayList *sortedUsers = [new_JavaUtilArrayList_initWithJavaUtilCollection_(users_) autorelease];
   JavaUtilCollections_sortWithJavaUtilList_withJavaUtilComparator_(sortedUsers, [((ModelSimpleComparator_Builder *) nil_chk(ModelSimpleComparator_forPropertyWithModelObjectProperty_(property))) build]);
   return sortedUsers;
 }

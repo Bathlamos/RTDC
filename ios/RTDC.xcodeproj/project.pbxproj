@@ -74,7 +74,6 @@
 		4A17312D1BC6C2F900A09553 /* Stringifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730CF1BC6C2F900A09553 /* Stringifier.m */; settings = {ASSET_TAGS = (); }; };
 		4A17312E1BC6C2F900A09553 /* StringWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730D11BC6C2F900A09553 /* StringWriter.m */; settings = {ASSET_TAGS = (); }; };
 		4A17312F1BC6C2F900A09553 /* TextValidationWidget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730D31BC6C2F900A09553 /* TextValidationWidget.m */; settings = {ASSET_TAGS = (); }; };
-		4A1731301BC6C2F900A09553 /* UiDropdownList.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730D51BC6C2F900A09553 /* UiDropdownList.m */; settings = {ASSET_TAGS = (); }; };
 		4A1731311BC6C2F900A09553 /* UiElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730D71BC6C2F900A09553 /* UiElement.m */; settings = {ASSET_TAGS = (); }; };
 		4A1731321BC6C2F900A09553 /* Unit.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730D91BC6C2F900A09553 /* Unit.m */; settings = {ASSET_TAGS = (); }; };
 		4A1731331BC6C2F900A09553 /* UnitListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A1730DB1BC6C2F900A09553 /* UnitListController.m */; settings = {ASSET_TAGS = (); }; };
@@ -101,6 +100,7 @@
 		4AB16EE51A3FCA3B0003270E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB16EDF1A3FCA3B0003270E /* ViewController.swift */; };
 		4AB16EE81A3FCA5C0003270E /* RTDCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB16EE71A3FCA5C0003270E /* RTDCTests.swift */; };
 		4AB16EEE1A3FCC520003270E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4AB16EED1A3FCC520003270E /* LaunchScreen.xib */; };
+		4AC514421BCD8CA400F28200 /* UiDropdown.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AC514411BCD8CA400F28200 /* UiDropdown.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,8 +250,6 @@
 		4A1730D11BC6C2F900A09553 /* StringWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StringWriter.m; path = Core/StringWriter.m; sourceTree = "<group>"; };
 		4A1730D21BC6C2F900A09553 /* TextValidationWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextValidationWidget.h; path = Core/TextValidationWidget.h; sourceTree = "<group>"; };
 		4A1730D31BC6C2F900A09553 /* TextValidationWidget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextValidationWidget.m; path = Core/TextValidationWidget.m; sourceTree = "<group>"; };
-		4A1730D41BC6C2F900A09553 /* UiDropdownList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UiDropdownList.h; path = Core/UiDropdownList.h; sourceTree = "<group>"; };
-		4A1730D51BC6C2F900A09553 /* UiDropdownList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UiDropdownList.m; path = Core/UiDropdownList.m; sourceTree = "<group>"; };
 		4A1730D61BC6C2F900A09553 /* UiElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UiElement.h; path = Core/UiElement.h; sourceTree = "<group>"; };
 		4A1730D71BC6C2F900A09553 /* UiElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UiElement.m; path = Core/UiElement.m; sourceTree = "<group>"; };
 		4A1730D81BC6C2F900A09553 /* Unit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Unit.h; path = Core/Unit.h; sourceTree = "<group>"; };
@@ -294,6 +292,8 @@
 		4AB16EEB1A3FCB4F0003270E /* RTDC-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTDC-Bridging-Header.h"; sourceTree = "<group>"; };
 		4AB16EED1A3FCC520003270E /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		4AB16EF01A3FD24C0003270E /* RTDCTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RTDCTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		4AC514401BCD8CA400F28200 /* UiDropdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UiDropdown.h; path = Core/UiDropdown.h; sourceTree = "<group>"; };
+		4AC514411BCD8CA400F28200 /* UiDropdown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UiDropdown.m; path = Core/UiDropdown.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -537,8 +537,8 @@
 				4A1730D11BC6C2F900A09553 /* StringWriter.m */,
 				4A1730D21BC6C2F900A09553 /* TextValidationWidget.h */,
 				4A1730D31BC6C2F900A09553 /* TextValidationWidget.m */,
-				4A1730D41BC6C2F900A09553 /* UiDropdownList.h */,
-				4A1730D51BC6C2F900A09553 /* UiDropdownList.m */,
+				4AC514401BCD8CA400F28200 /* UiDropdown.h */,
+				4AC514411BCD8CA400F28200 /* UiDropdown.m */,
 				4A1730D61BC6C2F900A09553 /* UiElement.h */,
 				4A1730D71BC6C2F900A09553 /* UiElement.m */,
 				4A1730D81BC6C2F900A09553 /* Unit.h */,
@@ -717,7 +717,6 @@
 				4A17310A1BC6C2F900A09553 /* EventHandler.m in Sources */,
 				4A17312F1BC6C2F900A09553 /* TextValidationWidget.m in Sources */,
 				4A17315D1BC7080F00A09553 /* iOSFactory.swift in Sources */,
-				4A1731301BC6C2F900A09553 /* UiDropdownList.m in Sources */,
 				4A1730F41BC6C2F900A09553 /* AddUnitController.m in Sources */,
 				4A17310C1BC6C2F900A09553 /* Factory.m in Sources */,
 				4A1731061BC6C2F900A09553 /* EditCapacityView.m in Sources */,
@@ -735,6 +734,7 @@
 				4A1730FE1BC6C2F900A09553 /* CapacityOverviewController.m in Sources */,
 				4A1731141BC6C2F900A09553 /* HttpRequest.m in Sources */,
 				4A17313B1BC6C2F900A09553 /* View.m in Sources */,
+				4AC514421BCD8CA400F28200 /* UiDropdown.m in Sources */,
 				4A1731091BC6C2F900A09553 /* EventAggregator.m in Sources */,
 				4A1731181BC6C2F900A09553 /* JSONObject.m in Sources */,
 				4A17311C1BC6C2F900A09553 /* JSONWriter.m in Sources */,

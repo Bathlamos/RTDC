@@ -31,7 +31,7 @@
 
 @end
 
-static NSString *ServiceService_URL_ = @"http://192.168.1.4:8888/api/";
+static NSString *ServiceService_URL_ = @"http://10.137.215.94:8888/api/";
 J2OBJC_STATIC_FIELD_GETTER(ServiceService, URL_, NSString *)
 
 static JavaUtilLoggingLogger *ServiceService_logger_;

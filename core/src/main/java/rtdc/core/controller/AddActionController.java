@@ -23,10 +23,10 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         Event.subscribe(FetchUnitsEvent.TYPE, this);
         Service.getUnits();
 
-        view.getTaskUiElement().setList(Arrays.asList(Action.Task.values()));
+        view.getTaskUiElement().setArray(Action.Task.values());
         view.getTaskUiElement().setStringifier(Action.Task.getStringifier());
 
-        view.getStatusUiElement().setList(Arrays.asList(Action.Status.values()));
+        view.getStatusUiElement().setArray(Action.Status.values());
         view.getStatusUiElement().setStringifier(Action.Status.getStringifier());
 
         view.getUnitUiElement().setStringifier(new Stringifier<Unit>() {
@@ -82,8 +82,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
-        units = new ArrayList<>(event.getUnits());
-        view.getUnitUiElement().setList(units);
+        view.getUnitUiElement().setArray(event.getUnits().toArray(new Unit[event.getUnits().size()]));
     }
 
     @Override

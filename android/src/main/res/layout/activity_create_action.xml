@@ -51,7 +51,7 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             />
 
-                    <rtdc.android.impl.AndroidUiDropdownList
+                    <rtdc.android.impl.AndroidUiDropdown
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/unitSpinner"/>
@@ -99,7 +99,7 @@
                             android:text="@string/action_status"
                             android:id="@+id/statusText"/>
 
-                    <rtdc.android.impl.AndroidUiDropdownList
+                    <rtdc.android.impl.AndroidUiDropdown
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/statusSpinner"/>
@@ -113,7 +113,7 @@
                             android:id="@+id/actionText"
                             android:paddingTop="8dp"/>
 
-                    <rtdc.android.impl.AndroidUiDropdownList
+                    <rtdc.android.impl.AndroidUiDropdown
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/actionSpinner"/>
