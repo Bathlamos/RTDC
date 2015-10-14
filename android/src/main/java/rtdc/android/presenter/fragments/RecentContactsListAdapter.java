@@ -13,6 +13,7 @@ import rtdc.android.R;
 import rtdc.core.Session;
 import rtdc.core.model.Message;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class RecentContactsListAdapter extends ArrayAdapter {
         boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
         setupColumn(view, R.id.senderRecentContactsTextView, sessionUser ? "Me": message.getSender().getFirstName()+" "+message.getSender().getLastName());
         setupColumn(view, R.id.messagePreviewTextView, message.getContent());
-        setupColumn(view, R.id.lastTimeSentTextView, message.getTimeSent().toString());
+        setupColumn(view, R.id.lastTimeSentTextView, new SimpleDateFormat("MMM dd, yyyy").format(message.getTimeSent()));
 
         if(!sessionUser && message.getStatus() != Message.Status.read){
             ((TextView)view.findViewById(R.id.senderRecentContactsTextView)).setTypeface(Typeface.DEFAULT_BOLD);

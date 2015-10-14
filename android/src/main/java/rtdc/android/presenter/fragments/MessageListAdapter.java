@@ -46,7 +46,7 @@ public class MessageListAdapter extends ArrayAdapter {
             setupColumn(view, R.id.messageTextView, message.getContent(), sessionUser);
             setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("hh:mm a").format(message.getTimeSent()), sessionUser);
         } else {
-            setupColumn(view, R.id.dateSeparatorTextView, new SimpleDateFormat("EEE MMM dd").format(message.getTimeSent()), false);
+            setupColumn(view, R.id.dateSeparatorTextView, new SimpleDateFormat("EEE MMM dd, yyyy").format(message.getTimeSent()), true);
         }
 
         view.setTag(position);
