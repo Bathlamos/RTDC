@@ -9,28 +9,27 @@ import rtdc.core.model.Message;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
-import rtdc.core.view.MessageListView;
+import rtdc.core.view.CommunicationHubView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 
-public class MessageListController extends Controller<MessageListView> implements FetchRecentContactsEvent.Handler, FetchMessagesEvent.Handler, FetchUsersEvent.Handler {
+public class CommunicationHubController extends Controller<CommunicationHubView> implements FetchRecentContactsEvent.Handler, FetchMessagesEvent.Handler, FetchUsersEvent.Handler {
 
     private ArrayList<Message> recentContacts;
     private ArrayList<Message> messages;
     private ArrayList<User> contacts;
 
-    public MessageListController(MessageListView view){
+    public CommunicationHubController(CommunicationHubView view){
         super(view);
         Event.subscribe(FetchRecentContactsEvent.TYPE, this);
         Event.subscribe(FetchMessagesEvent.TYPE, this);
         Event.subscribe(FetchUsersEvent.TYPE, this);
         Service.getRecentContacts(Session.getCurrentSession().getUser().getId());
         Service.getUsers();
-        //recentContacts = getRecentContacts();
-        //sortRecentContacts(Message.Properties.timeSent);
+        // recentContacts = getRecentContacts();
+        // sortRecentContacts(Message.Properties.timeSent);
     }
 
     @Override

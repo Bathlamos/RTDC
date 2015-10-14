@@ -35,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/contactsAutoComplete"
                 android:layout_weight="0.32" android:layout_gravity="top" android:visibility="gone"
-                android:completionThreshold="1"/>
+                android:completionThreshold="1"
+                android:popupBackground="@null" android:hint="Type contact name..."/>
 
         <LinearLayout
                 android:orientation="vertical"

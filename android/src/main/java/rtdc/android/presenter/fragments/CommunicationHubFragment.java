@@ -8,19 +8,19 @@ import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.core.Session;
 import rtdc.core.Config;
-import rtdc.core.controller.MessageListController;
+import rtdc.core.controller.CommunicationHubController;
 import rtdc.core.event.Event;
 import rtdc.core.event.MessageSavedEvent;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
-import rtdc.core.view.MessageListView;
+import rtdc.core.view.CommunicationHubView;
 
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MessageListFragment extends AbstractFragment implements MessageListView {
+public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView {
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
@@ -28,19 +28,19 @@ public class MessageListFragment extends AbstractFragment implements MessageList
     private ArrayList<Message> recentContacts = new ArrayList<Message>();
     private ArrayList<Message> messages = new ArrayList<Message>();
     private ArrayList<User> contacts = new ArrayList<User>();
-    private MessageListController controller;
+    private CommunicationHubController controller;
     private int selectedRecentContactIndex;
     private User messagingUser;
-    private View view;
+    public View view;
     AutoCompleteTextView contactsAutoComplete;
 
-    private static MessageListFragment instance;
+    private static CommunicationHubFragment instance;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         instance = this;
-        view = inflater.inflate(R.layout.fragment_messages, container, false);
+        view = inflater.inflate(R.layout.fragment_communication_hub, container, false);
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
         contactsAutoComplete = (AutoCompleteTextView) view.findViewById(R.id.contactsAutoComplete);
@@ -83,7 +83,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         view.findViewById(R.id.audioCallButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
                 AndroidVoipController.get().call(messagingUser, false);
             }
         });
@@ -92,7 +92,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         view.findViewById(R.id.videoCallButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
                 AndroidVoipController.get().call(messagingUser, true);
             }
         });
@@ -102,7 +102,10 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
         // Setup item click for the recent contact's list
         recentContactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View recentContactView, int position, long id) {
+                contactsAutoComplete.setVisibility(View.GONE);
+                view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
+
                 Message message = recentContacts.get(position);
                 selectedRecentContactIndex = position;
 
@@ -115,7 +118,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         messageListView.setAdapter(messagesAdapter);
 
         if (controller == null)
-            controller = new MessageListController(this);
+            controller = new CommunicationHubController(this);
 
         setHasOptionsMenu(true);
 
@@ -131,9 +134,11 @@ public class MessageListFragment extends AbstractFragment implements MessageList
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_compose_message:
+            case R.id.action_new:
                 view.findViewById(R.id.conversationLayout).setVisibility(View.GONE);
-                view.findViewById(R.id.contactsAutoComplete).setVisibility(View.VISIBLE);
+                contactsAutoComplete.setText("");
+                contactsAutoComplete.setVisibility(View.VISIBLE);
+                contactsAutoComplete.requestFocus();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -293,7 +298,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         instance = null;
     }
 
-    public static MessageListFragment getInstance(){
+    public static CommunicationHubFragment getInstance(){
         return instance;
     }
 }

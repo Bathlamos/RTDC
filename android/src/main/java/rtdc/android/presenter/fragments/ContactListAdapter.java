@@ -50,13 +50,22 @@ public class ContactListAdapter extends ArrayAdapter<User> {
         background.setColor(Color.HSVToColor(currentUser.getProfileColor()));
         background.setCornerRadius(32);
 
+        ImageButton textMessageButton = (ImageButton) view.findViewById(R.id.textMessageButton);
+        textMessageButton.setTag(position);
+        textMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO - Create new conversation
+            }
+        });
+
         ImageButton audioCallButton = (ImageButton) view.findViewById(R.id.audioCallButton);
         audioCallButton.setTag(position);
         audioCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 User clickedUser = contacts.get(Integer.parseInt(v.getTag().toString()));
-                Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling " + clickedUser.getId());
+                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling " + clickedUser.getId());
                 Bootstrapper.FACTORY.getVoipController().call(clickedUser, false);
             }
         });
@@ -67,7 +76,7 @@ public class ContactListAdapter extends ArrayAdapter<User> {
             @Override
             public void onClick(View v) {
                 User clickedUser = contacts.get(Integer.parseInt(v.getTag().toString()));
-                Logger.getLogger(CommunicationHubContactListFragment.class.getName()).log(Level.INFO, "Calling with video " + clickedUser.getId());
+                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling with video " + clickedUser.getId());
                 Bootstrapper.FACTORY.getVoipController().call(clickedUser, true);
             }
         });
