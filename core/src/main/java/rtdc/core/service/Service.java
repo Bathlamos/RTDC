@@ -80,8 +80,8 @@ public final class Service {
         executeRequest(req);
     }
 
-    public static void getMessages(int userId1, int userId2){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2, POST));
+    public static void getMessages(int userId1, int userId2, int startIndex, int length){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, POST));
     }
 
     public static void getRecentContacts(int userId){

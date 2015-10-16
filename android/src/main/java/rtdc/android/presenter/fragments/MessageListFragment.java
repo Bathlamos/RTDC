@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.core.Session;
@@ -35,6 +32,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
     private MessageListController controller;
     private int selectedRecentContactIndex;
     private User messagingUser;
+    private boolean loadingMessages;
     private View view;
 
     private static MessageListFragment instance;
@@ -108,10 +106,33 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         recentContactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Message message = recentContacts.get(position);
+
+                // We pressed on the conversation that's already loaded, don't do anything
+                if(message.getSenderID() == messagingUser.getId() || message.getReceiverID() == messagingUser.getId())
+                    return;
+
                 selectedRecentContactIndex = position;
 
                 // We changed the conversation. Get all the messages for this contact and display them
-                Service.getMessages(message.getSender().getId(), message.getReceiver().getId());
+                Service.getMessages(message.getSender().getId(), message.getReceiver().getId(), 0, controller.FETCHING_SIZE);
+            }
+        });
+
+        // The listener that takes charge of loading new messages for the conversation when we reach the top of the screen
+        ((ListView)messageListView).setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // Only get new messages if we're not loading messages already, we are currently in a conversation, we've reached
+                // the top of the listview and we have the minimum amount of messages that are being displayed
+                if(!loadingMessages && messagingUser != null && view.getChildAt(0).getTop() == 0 && controller.getMessages().size() >= 25){
+                    loadingMessages = true;
+                    Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
+                    Service.getMessages(messagingUser.getId(), Session.getCurrentSession().getUser().getId(), controller.getMessages().size()-1, controller.FETCHING_SIZE);
+                }
             }
         });
 
@@ -169,21 +190,25 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
         // If we're the receiver and the status of some messages isn't read, we need to notify the server that we now have read them
         for(Message message: messages){
-            Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, message.getReceiverID() + " messageReceiver");
             if(message.getReceiverID() == Session.getCurrentSession().getUser().getId() && message.getStatus() != Message.Status.read) {
                 message.setStatus(Message.Status.read);
                 Service.saveOrUpdateMessage(message);
-                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, selectedRecentContactIndex + " selectedRecentContactIndex");
-                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, recentContacts.get(selectedRecentContactIndex).getSender() + " sender");
                 recentContacts.get(selectedRecentContactIndex).setStatus(Message.Status.read);
                 recentContactsAdapter.notifyDataSetChanged();
             }
         }
 
+        // Force the message list view to go to the bottom
+        AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
+        messageListView.setSelection(messages.size());
+
         messagesAdapter.notifyDataSetChanged();
 
         AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         recentContactsListView.setSelection(0);
+
+        // Make sure that this parameter is reset to its default value
+        loadingMessages = false;
     }
 
     // Convert raw messages to be list adapter friendly
@@ -269,6 +294,24 @@ public class MessageListFragment extends AbstractFragment implements MessageList
                 selectedRecentContactIndex = 0;
                 recentContactsListView.setSelection(0);
                 recentContactsAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    public void addMessagesAtStart(final List<Message> messages){
+        final List<Message> convertedMessages = convertMessages(messages);
+        this.messages.addAll(0, convertedMessages);
+
+        // Update the listview and keep the selection where we we're before we loaded the new messages
+        AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
+        messagesAdapter.notifyDataSetChanged();
+        messageListView.setSelection(convertedMessages.size());
+
+        // Only say we loaded the messages after the listview as properly updated
+        messageListView.post(new Runnable() {
+            @Override
+            public void run() {
+                loadingMessages = false;
             }
         });
     }

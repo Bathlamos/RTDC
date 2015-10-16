@@ -61,12 +61,16 @@ public class MessageServlet {
     }
 
     @POST
-    @Path("{userId1}/{userId2}")
+    @Path("{userId1}/{userId2}/{startIndex}/{length}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getMessages(@Context HttpServletRequest req, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String){
+    public String getMessages(@Context HttpServletRequest req, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String,
+                              @PathParam("startIndex") String startIndexString, @PathParam("length") String lengthString){
         int user1Id = Integer.parseInt(userId1String);
         int user2Id = Integer.parseInt(userId2String);
+        int startIndex = Integer.parseInt(startIndexString);
+        int length = Integer.parseInt(lengthString);
+
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Message> messages = null;
@@ -85,7 +89,7 @@ public class MessageServlet {
                                     Restrictions.eq("senderID", user2Id),
                                     Restrictions.eq("receiverID", user1Id)
                             )
-                    )).addOrder(Order.asc("timeSent")).list();
+                    )).addOrder(Order.desc("timeSent")).list();
             for(Message message: messages){
                 message.setSender((User) session.get(User.class, message.getSenderID()));
                 message.setReceiver((User) session.get(User.class, message.getReceiverID()));
@@ -101,7 +105,18 @@ public class MessageServlet {
             session.close();
         }
 
-        return new FetchMessagesEvent(messages).toString();
+        if(messages.size() - 1 < startIndex) {
+            // The requested start index is out of bounds, return an empty list
+            return new FetchMessagesEvent(new ArrayList<Message>()).toString();
+        }else if(messages.size() - 1 < startIndex + length) {
+            // The requested length goes out of the list's bounds, we need to adjust it
+            length = messages.size() - 1 - startIndex;
+        }
+
+        List<Message> subList = messages.subList(startIndex, startIndex + length + 1);
+        // After getting the sub-list, reverse it as we want the messages to be in order from newest to oldest
+        Collections.reverse(subList);
+        return new FetchMessagesEvent(subList).toString();
     }
 
     @POST
