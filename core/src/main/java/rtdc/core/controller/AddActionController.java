@@ -83,6 +83,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
         view.getUnitUiElement().setArray(event.getUnits().toArray(new Unit[event.getUnits().size()]));
+        units = new ArrayList<>(event.getUnits());
     }
 
     @Override
