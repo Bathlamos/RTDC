@@ -63,18 +63,13 @@ J2OBJC_FIELD_SETTER(ControllerActionListController, actions_, JavaUtilArrayList 
 }
 
 - (void)onActionsFetchedWithEventFetchActionsEvent:(EventFetchActionsEvent *)event {
-  JreStrongAssignAndConsume(&actions_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchActionsEvent *) nil_chk(event)) getActions]));
+  actions_ = new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchActionsEvent *) nil_chk(event)) getActions]);
   [self sortActionsWithModelAction_PropertiesEnum:JreLoadStatic(ModelAction_PropertiesEnum, task)];
 }
 
 - (void)onStop {
   [super onStop];
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchActionsEvent, TYPE_), self);
-}
-
-- (void)dealloc {
-  RELEASE_(actions_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -99,7 +94,7 @@ J2OBJC_FIELD_SETTER(ControllerActionListController, actions_, JavaUtilArrayList 
 @end
 
 void ControllerActionListController_initWithViewActionListView_(ControllerActionListController *self, id<ViewActionListView> view) {
-  ControllerController_initWithViewView_(self, view);
+  (void) ControllerController_initWithViewView_(self, view);
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchActionsEvent, TYPE_), self);
   ServiceService_getActions();
 }

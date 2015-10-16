@@ -48,11 +48,6 @@ J2OBJC_FIELD_SETTER(ControllerEditCapacityController, currentUnit_, ModelUnit *)
   [((id<ViewEditCapacityView>) nil_chk(view_)) closeDialog];
 }
 
-- (void)dealloc {
-  RELEASE_(currentUnit_);
-  [super dealloc];
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithViewEditCapacityView:", "EditCapacityController", NULL, 0x1, NULL, NULL },
@@ -70,8 +65,8 @@ J2OBJC_FIELD_SETTER(ControllerEditCapacityController, currentUnit_, ModelUnit *)
 @end
 
 void ControllerEditCapacityController_initWithViewEditCapacityView_(ControllerEditCapacityController *self, id<ViewEditCapacityView> view) {
-  ControllerController_initWithViewView_(self, view);
-  JreStrongAssign(&self->currentUnit_, (ModelUnit *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"unit"], [ModelUnit class]));
+  (void) ControllerController_initWithViewView_(self, view);
+  self->currentUnit_ = (ModelUnit *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"unit"], [ModelUnit class]);
   [((id<ViewEditCapacityView>) nil_chk(view)) setTitleWithNSString:JreStrcat("$$", @"Edit Capacity - ", [((ModelUnit *) nil_chk(self->currentUnit_)) getName])];
   [((id<ImplUiElement>) nil_chk([view getAvailableBedsUiElement])) setValueWithId:JavaLangInteger_toStringWithInt_([self->currentUnit_ getAvailableBeds])];
   [((id<ImplUiElement>) nil_chk([view getPotentialDcUiElement])) setValueWithId:JavaLangInteger_toStringWithInt_([self->currentUnit_ getPotentialDc])];

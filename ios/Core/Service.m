@@ -141,7 +141,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
   if (self == [ServiceService class]) {
-    JreStrongAssign(&ServiceService_logger_, JavaUtilLoggingLogger_getLoggerWithNSString_([ServiceService_class_() getCanonicalName]));
+    ServiceService_logger_ = JavaUtilLoggingLogger_getLoggerWithNSString_([ServiceService_class_() getCanonicalName]);
     J2OBJC_SET_INITIALIZED(ServiceService)
   }
 }
@@ -177,7 +177,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ServiceService_init(ServiceService *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ServiceService *new_ServiceService_init() {
@@ -278,7 +278,7 @@ void ServiceService_executeRequestWithImplHttpRequest_(id<ImplHttpRequest> reque
   ServiceService_initialize();
   [((id<ImplHttpRequest>) nil_chk(request)) setContentTypeWithNSString:@"application/x-www-form-urlencoded"];
   if (JreLoadStatic(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_) != nil) [request setHeaderWithNSString:ServiceHttpHeadersName_AUTH_TOKEN_ withNSString:JreLoadStatic(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_)];
-  [request executeWithServiceAsyncCallback:[new_ServiceService_$1_init() autorelease]];
+  [request executeWithServiceAsyncCallback:new_ServiceService_$1_init()];
 }
 
 J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ServiceService)
@@ -286,20 +286,20 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ServiceService)
 @implementation ServiceService_$1
 
 - (void)onSuccessWithId:(id<ImplHttpResponse>)resp {
-  if ([((id<ImplHttpResponse>) nil_chk(resp)) getStatusCode] != 200) [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$IC$", @"Error code ", [resp getStatusCode], ' ', [resp getContent])) autorelease]) fire];
+  if ([((id<ImplHttpResponse>) nil_chk(resp)) getStatusCode] != 200) [new_EventErrorEvent_initWithNSString_(JreStrcat("$IC$", @"Error code ", [resp getStatusCode], ' ', [resp getContent])) fire];
   else {
     @try {
-      JsonJSONObject *object = [new_JsonJSONObject_initWithNSString_([resp getContent]) autorelease];
+      JsonJSONObject *object = new_JsonJSONObject_initWithNSString_([resp getContent]);
       EventEvent_fireWithJsonJSONObject_(object);
     }
     @catch (JsonJSONException *e) {
-      [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$C$", @"Unrecognized output from server ", [resp getContent], ' ', [((JsonJSONException *) nil_chk(e)) getMessage])) autorelease]) fire];
+      [new_EventErrorEvent_initWithNSString_(JreStrcat("$$C$", @"Unrecognized output from server ", [resp getContent], ' ', [((JsonJSONException *) nil_chk(e)) getMessage])) fire];
     }
   }
 }
 
 - (void)onErrorWithNSString:(NSString *)message {
-  [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$", @"Network error ", message)) autorelease]) fire];
+  [new_EventErrorEvent_initWithNSString_(JreStrcat("$$", @"Network error ", message)) fire];
 }
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
@@ -323,7 +323,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ServiceService_$1_init(ServiceService_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ServiceService_$1 *new_ServiceService_$1_init() {

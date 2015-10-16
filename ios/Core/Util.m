@@ -26,7 +26,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void UtilUtil_init(UtilUtil *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 UtilUtil *new_UtilUtil_init() {

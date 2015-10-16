@@ -39,11 +39,6 @@ J2OBJC_STATIC_FIELD_SETTER(RtdcCoreSession, currentSession_, RtdcCoreSession *)
   return RtdcCoreSession_getCurrentSession();
 }
 
-- (void)dealloc {
-  RELEASE_(user_);
-  [super dealloc];
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithModelUser:", "Session", NULL, 0x1, NULL, NULL },
@@ -62,8 +57,8 @@ J2OBJC_STATIC_FIELD_SETTER(RtdcCoreSession, currentSession_, RtdcCoreSession *)
 @end
 
 void RtdcCoreSession_initWithModelUser_(RtdcCoreSession *self, ModelUser *user) {
-  NSObject_init(self);
-  JreStrongAssign(&self->user_, user);
+  (void) NSObject_init(self);
+  self->user_ = user;
 }
 
 RtdcCoreSession *new_RtdcCoreSession_initWithModelUser_(ModelUser *user) {
@@ -74,7 +69,7 @@ RtdcCoreSession *new_RtdcCoreSession_initWithModelUser_(ModelUser *user) {
 
 void RtdcCoreSession_setCurrentSessionWithRtdcCoreSession_(RtdcCoreSession *session) {
   RtdcCoreSession_initialize();
-  JreStrongAssign(&RtdcCoreSession_currentSession_, session);
+  RtdcCoreSession_currentSession_ = session;
 }
 
 RtdcCoreSession *RtdcCoreSession_getCurrentSession() {

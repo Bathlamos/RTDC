@@ -25,7 +25,7 @@
 @end
 
 void ExceptionValidationException_initWithNSString_(ExceptionValidationException *self, NSString *message) {
-  JavaLangRuntimeException_initWithNSString_(self, message);
+  (void) JavaLangRuntimeException_initWithNSString_(self, message);
 }
 
 ExceptionValidationException *new_ExceptionValidationException_initWithNSString_(NSString *message) {

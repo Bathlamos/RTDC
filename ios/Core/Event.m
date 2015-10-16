@@ -67,7 +67,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
   if (self == [EventEvent class]) {
-    JreStrongAssignAndConsume(&EventEvent_handlers_, new_JavaUtilHashMap_init());
+    EventEvent_handlers_ = new_JavaUtilHashMap_init();
     J2OBJC_SET_INITIALIZED(EventEvent)
   }
 }
@@ -93,27 +93,27 @@ J2OBJC_IGNORE_DESIGNATED_END
 void EventEvent_fireWithJsonJSONObject_(JsonJSONObject *object) {
   EventEvent_initialize();
   NSString *type = [((JsonJSONObject *) nil_chk(object)) optStringWithNSString:@"_type"];
-  if (type == nil) [((EventErrorEvent *) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$", @"Message type not recognized ", [object description])) autorelease]) fire];
+  if (type == nil) [new_EventErrorEvent_initWithNSString_(JreStrcat("$$", @"Message type not recognized ", [object description])) fire];
   else {
     EventEvent *e = nil;
-    if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventAuthenticationEvent, TYPE_))) getName]]) e = [new_EventAuthenticationEvent_initWithJsonJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventErrorEvent, TYPE_))) getName]]) e = [new_EventErrorEvent_initWithJsonJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUnitsEvent, TYPE_))) getName]]) e = [new_EventFetchUnitsEvent_initWithJsonJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUsersEvent, TYPE_))) getName]]) e = [new_EventFetchUsersEvent_initWithJsonJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUserEvent, TYPE_))) getName]]) e = [new_EventFetchUserEvent_initWithJsonJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchActionsEvent, TYPE_))) getName]]) e = [new_EventFetchActionsEvent_initWithJsonJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchMessagesEvent, TYPE_))) getName]]) e = [new_EventFetchMessagesEvent_initWithJsonJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventActionCompleteEvent, TYPE_))) getName]]) e = [new_EventActionCompleteEvent_initWithJsonJSONObject_(object) autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventSessionExpiredEvent, TYPE_))) getName]]) e = [new_EventSessionExpiredEvent_init() autorelease];
-    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventLogoutEvent, TYPE_))) getName]]) e = [new_EventLogoutEvent_init() autorelease];
+    if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventAuthenticationEvent, TYPE_))) getName]]) e = new_EventAuthenticationEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventErrorEvent, TYPE_))) getName]]) e = new_EventErrorEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUnitsEvent, TYPE_))) getName]]) e = new_EventFetchUnitsEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUsersEvent, TYPE_))) getName]]) e = new_EventFetchUsersEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUserEvent, TYPE_))) getName]]) e = new_EventFetchUserEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchActionsEvent, TYPE_))) getName]]) e = new_EventFetchActionsEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchMessagesEvent, TYPE_))) getName]]) e = new_EventFetchMessagesEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventActionCompleteEvent, TYPE_))) getName]]) e = new_EventActionCompleteEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventSessionExpiredEvent, TYPE_))) getName]]) e = new_EventSessionExpiredEvent_init();
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventLogoutEvent, TYPE_))) getName]]) e = new_EventLogoutEvent_init();
     if (e != nil) [e fire];
-    else @throw [new_JavaLangRuntimeException_initWithNSString_(JreStrcat("$$", @"Event has not been registred under Event.java/fire: ", [object description])) autorelease];
+    else @throw new_JavaLangRuntimeException_initWithNSString_(JreStrcat("$$", @"Event has not been registred under Event.java/fire: ", [object description]));
   }
 }
 
 void EventEvent_subscribeWithEventEventType_withEventEventHandler_(EventEventType *eventType, id<EventEventHandler> eventHandler) {
   EventEvent_initialize();
-  if (![((id<JavaUtilMap>) nil_chk(EventEvent_handlers_)) containsKeyWithId:eventType]) [EventEvent_handlers_ putWithId:eventType withId:[new_EventEventAggregator_init() autorelease]];
+  if (![((id<JavaUtilMap>) nil_chk(EventEvent_handlers_)) containsKeyWithId:eventType]) (void) [EventEvent_handlers_ putWithId:eventType withId:new_EventEventAggregator_init()];
   [((EventEventAggregator *) nil_chk([EventEvent_handlers_ getWithId:eventType])) addHandlerWithId:eventHandler];
 }
 
@@ -123,7 +123,7 @@ void EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(EventEventT
 }
 
 void EventEvent_init(EventEvent *self) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
 }
 
 J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventEvent)

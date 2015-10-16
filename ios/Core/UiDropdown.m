@@ -36,7 +36,7 @@ id<UtilStringifier> ImplUiDropdown_DEFAULT_STRINGIFIER_;
 
 + (void)initialize {
   if (self == [ImplUiDropdown class]) {
-    JreStrongAssignAndConsume(&ImplUiDropdown_DEFAULT_STRINGIFIER_, new_ImplUiDropdown_$1_init());
+    ImplUiDropdown_DEFAULT_STRINGIFIER_ = new_ImplUiDropdown_$1_init();
     J2OBJC_SET_INITIALIZED(ImplUiDropdown)
   }
 }
@@ -83,7 +83,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ImplUiDropdown_$1_init(ImplUiDropdown_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ImplUiDropdown_$1 *new_ImplUiDropdown_$1_init() {

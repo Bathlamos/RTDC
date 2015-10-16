@@ -34,7 +34,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void JsonJSONStringer_init(JsonJSONStringer *self) {
-  JsonJSONWriter_initWithJavaIoWriter_(self, [new_JsonStringWriter_init() autorelease]);
+  (void) JsonJSONWriter_initWithJavaIoWriter_(self, new_JsonStringWriter_init());
 }
 
 JsonJSONStringer *new_JsonJSONStringer_init() {

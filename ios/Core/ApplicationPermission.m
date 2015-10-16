@@ -41,7 +41,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelApplicationPermission_init(ModelApplicationPermission *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ModelApplicationPermission *new_ModelApplicationPermission_init() {

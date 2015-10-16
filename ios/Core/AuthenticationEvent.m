@@ -86,15 +86,9 @@ EventEventType *EventAuthenticationEvent_TYPE_;
   return nil;
 }
 
-- (void)dealloc {
-  RELEASE_(user_);
-  RELEASE_(authenticationToken_);
-  [super dealloc];
-}
-
 + (void)initialize {
   if (self == [EventAuthenticationEvent class]) {
-    JreStrongAssignAndConsume(&EventAuthenticationEvent_TYPE_, new_EventEventType_initWithNSString_(@"authenticationEvent"));
+    EventAuthenticationEvent_TYPE_ = new_EventEventType_initWithNSString_(@"authenticationEvent");
     J2OBJC_SET_INITIALIZED(EventAuthenticationEvent)
   }
 }
@@ -124,9 +118,9 @@ EventEventType *EventAuthenticationEvent_TYPE_;
 @end
 
 void EventAuthenticationEvent_initWithModelUser_withNSString_(EventAuthenticationEvent *self, ModelUser *user, NSString *authenticationToken) {
-  EventEvent_init(self);
-  JreStrongAssign(&self->user_, user);
-  JreStrongAssign(&self->authenticationToken_, authenticationToken);
+  (void) EventEvent_init(self);
+  self->user_ = user;
+  self->authenticationToken_ = authenticationToken;
 }
 
 EventAuthenticationEvent *new_EventAuthenticationEvent_initWithModelUser_withNSString_(ModelUser *user, NSString *authenticationToken) {
@@ -136,9 +130,9 @@ EventAuthenticationEvent *new_EventAuthenticationEvent_initWithModelUser_withNSS
 }
 
 void EventAuthenticationEvent_initWithJsonJSONObject_(EventAuthenticationEvent *self, JsonJSONObject *object) {
-  EventEvent_init(self);
-  JreStrongAssignAndConsume(&self->user_, new_ModelUser_initWithJsonJSONObject_([((JsonJSONObject *) nil_chk(object)) getJSONObjectWithNSString:[((EventAuthenticationEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventAuthenticationEvent_PropertiesEnum, user))) name]]));
-  JreStrongAssign(&self->authenticationToken_, [object optStringWithNSString:[((EventAuthenticationEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventAuthenticationEvent_PropertiesEnum, authenticationToken))) name]]);
+  (void) EventEvent_init(self);
+  self->user_ = new_ModelUser_initWithJsonJSONObject_([((JsonJSONObject *) nil_chk(object)) getJSONObjectWithNSString:[((EventAuthenticationEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventAuthenticationEvent_PropertiesEnum, user))) name]]);
+  self->authenticationToken_ = [object optStringWithNSString:[((EventAuthenticationEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventAuthenticationEvent_PropertiesEnum, authenticationToken))) name]];
 }
 
 EventAuthenticationEvent *new_EventAuthenticationEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
@@ -190,12 +184,12 @@ EventAuthenticationEvent_PropertiesEnum *EventAuthenticationEvent_PropertiesEnum
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -219,7 +213,7 @@ EventAuthenticationEvent_PropertiesEnum *EventAuthenticationEvent_PropertiesEnum
 @end
 
 void EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(EventAuthenticationEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 EventAuthenticationEvent_PropertiesEnum *new_EventAuthenticationEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

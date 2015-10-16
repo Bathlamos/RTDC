@@ -10,23 +10,23 @@
 @implementation ModelSimpleValidator
 
 - (jboolean)expectNotNullWithId:(id)value {
-  if (value == nil) @throw [new_ExceptionValidationException_initWithNSString_(@"Expected a value") autorelease];
+  if (value == nil) @throw new_ExceptionValidationException_initWithNSString_(@"Expected a value");
   return true;
 }
 
 - (jboolean)expectNotEmptyWithNSString:(NSString *)value {
   [self expectNotNullWithId:value];
-  if ([((NSString *) nil_chk(value)) isEmpty]) @throw [new_ExceptionValidationException_initWithNSString_(@"Expected a non-empty value") autorelease];
+  if ([((NSString *) nil_chk(value)) isEmpty]) @throw new_ExceptionValidationException_initWithNSString_(@"Expected a non-empty value");
   return true;
 }
 
 - (jboolean)expectPositiveNumberWithInt:(jint)number {
-  if (number <= 0) @throw [new_ExceptionValidationException_initWithNSString_(@"Expected a positive number") autorelease];
+  if (number <= 0) @throw new_ExceptionValidationException_initWithNSString_(@"Expected a positive number");
   return true;
 }
 
 - (jboolean)expectEmailWithNSString:(NSString *)value {
-  if (value != nil && [value matches:@"^\\S+@\\S+\\.\\S+$"]) @throw [new_ExceptionValidationException_initWithNSString_(@"Invalid email") autorelease];
+  if (value != nil && [value matches:@"^\\S+@\\S+\\.\\S+$"]) @throw new_ExceptionValidationException_initWithNSString_(@"Invalid email");
   return true;
 }
 
@@ -52,7 +52,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelSimpleValidator_init(ModelSimpleValidator *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ModelSimpleValidator *new_ModelSimpleValidator_init() {

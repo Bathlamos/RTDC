@@ -25,7 +25,7 @@
 @end
 
 void ExceptionApiException_initWithNSString_(ExceptionApiException *self, NSString *message) {
-  JavaLangRuntimeException_initWithNSString_(self, message);
+  (void) JavaLangRuntimeException_initWithNSString_(self, message);
 }
 
 ExceptionApiException *new_ExceptionApiException_initWithNSString_(NSString *message) {

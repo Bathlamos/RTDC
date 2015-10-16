@@ -22,5 +22,5 @@ j2objcConfig {
     translateFlags "-d ${projectDir}/../ios/Core -classpath ${j2objcHome}/lib/j2objc_guava.jar " +
             "-sourcepath ${projectDir}/../core/src/main/java --no-package-directories " +
             "--prefixes ${projectDir}/../core/prefixes.properties " +
-            "--static-accessor-methods"
+            "--static-accessor-methods -use-arc"
 }

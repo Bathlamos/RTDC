@@ -98,14 +98,9 @@ EventEventType *EventFetchRecentContactsEvent_TYPE_;
   return nil;
 }
 
-- (void)dealloc {
-  RELEASE_(messages_);
-  [super dealloc];
-}
-
 + (void)initialize {
   if (self == [EventFetchRecentContactsEvent class]) {
-    JreStrongAssignAndConsume(&EventFetchRecentContactsEvent_TYPE_, new_EventEventType_initWithNSString_(@"fetchRecentContactsEvent"));
+    EventFetchRecentContactsEvent_TYPE_ = new_EventEventType_initWithNSString_(@"fetchRecentContactsEvent");
     J2OBJC_SET_INITIALIZED(EventFetchRecentContactsEvent)
   }
 }
@@ -133,8 +128,8 @@ EventEventType *EventFetchRecentContactsEvent_TYPE_;
 @end
 
 void EventFetchRecentContactsEvent_initWithJavaLangIterable_(EventFetchRecentContactsEvent *self, id<JavaLangIterable> messages) {
-  EventEvent_init(self);
-  JreStrongAssign(&self->messages_, ComGoogleCommonCollectImmutableSet_copyOfWithJavaLangIterable_(messages));
+  (void) EventEvent_init(self);
+  self->messages_ = ComGoogleCommonCollectImmutableSet_copyOfWithJavaLangIterable_(messages);
 }
 
 EventFetchRecentContactsEvent *new_EventFetchRecentContactsEvent_initWithJavaLangIterable_(id<JavaLangIterable> messages) {
@@ -144,8 +139,8 @@ EventFetchRecentContactsEvent *new_EventFetchRecentContactsEvent_initWithJavaLan
 }
 
 void EventFetchRecentContactsEvent_initWithJsonJSONObject_(EventFetchRecentContactsEvent *self, JsonJSONObject *object) {
-  EventEvent_init(self);
-  JreStrongAssign(&self->messages_, ComGoogleCommonCollectImmutableSet_copyOfWithJavaUtilCollection_([self parseJsonArrayWithJsonJSONArray:[((JsonJSONObject *) nil_chk(object)) getJSONArrayWithNSString:[((EventFetchRecentContactsEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchRecentContactsEvent_PropertiesEnum, messages))) name]] withComGoogleCommonBaseFunction:[new_EventFetchRecentContactsEvent_$1_init() autorelease]]));
+  (void) EventEvent_init(self);
+  self->messages_ = ComGoogleCommonCollectImmutableSet_copyOfWithJavaUtilCollection_([self parseJsonArrayWithJsonJSONArray:[((JsonJSONObject *) nil_chk(object)) getJSONArrayWithNSString:[((EventFetchRecentContactsEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchRecentContactsEvent_PropertiesEnum, messages))) name]] withComGoogleCommonBaseFunction:new_EventFetchRecentContactsEvent_$1_init()]);
 }
 
 EventFetchRecentContactsEvent *new_EventFetchRecentContactsEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
@@ -207,12 +202,12 @@ EventFetchRecentContactsEvent_PropertiesEnum *EventFetchRecentContactsEvent_Prop
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -234,7 +229,7 @@ EventFetchRecentContactsEvent_PropertiesEnum *EventFetchRecentContactsEvent_Prop
 @end
 
 void EventFetchRecentContactsEvent_PropertiesEnum_initWithNSString_withInt_(EventFetchRecentContactsEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 EventFetchRecentContactsEvent_PropertiesEnum *new_EventFetchRecentContactsEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
@@ -248,7 +243,7 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventFetchRecentContactsEvent_PropertiesEnum)
 @implementation EventFetchRecentContactsEvent_$1
 
 - (ModelMessage *)applyWithId:(JsonJSONObject *)input {
-  return [new_ModelMessage_initWithJsonJSONObject_(input) autorelease];
+  return new_ModelMessage_initWithJsonJSONObject_(input);
 }
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
@@ -271,7 +266,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void EventFetchRecentContactsEvent_$1_init(EventFetchRecentContactsEvent_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 EventFetchRecentContactsEvent_$1 *new_EventFetchRecentContactsEvent_$1_init() {

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1F6231371A34D252009E4BB3"
+               BlueprintIdentifier = "4A4FD6D71BD13C65005F3483"
                BuildableName = "RTDC.app"
                BlueprintName = "RTDC"
                ReferencedContainer = "container:RTDC.xcodeproj">
@@ -32,9 +32,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1F6231531A34D253009E4BB3"
+               BlueprintIdentifier = "4A4FD6EB1BD13C66005F3483"
                BuildableName = "RTDCTests.xctest"
                BlueprintName = "RTDCTests"
+               ReferencedContainer = "container:RTDC.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4A4FD6F61BD13C66005F3483"
+               BuildableName = "RTDCUITests.xctest"
+               BlueprintName = "RTDCUITests"
                ReferencedContainer = "container:RTDC.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,7 +52,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1F6231371A34D252009E4BB3"
+            BlueprintIdentifier = "4A4FD6D71BD13C65005F3483"
             BuildableName = "RTDC.app"
             BlueprintName = "RTDC"
             ReferencedContainer = "container:RTDC.xcodeproj">
@@ -65,7 +75,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1F6231371A34D252009E4BB3"
+            BlueprintIdentifier = "4A4FD6D71BD13C65005F3483"
             BuildableName = "RTDC.app"
             BlueprintName = "RTDC"
             ReferencedContainer = "container:RTDC.xcodeproj">
@@ -84,7 +94,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1F6231371A34D252009E4BB3"
+            BlueprintIdentifier = "4A4FD6D71BD13C65005F3483"
             BuildableName = "RTDC.app"
             BlueprintName = "RTDC"
             ReferencedContainer = "container:RTDC.xcodeproj">

@@ -26,11 +26,6 @@ J2OBJC_FIELD_SETTER(EventEventType, name_, NSString *)
   return name_;
 }
 
-- (void)dealloc {
-  RELEASE_(name_);
-  [super dealloc];
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithNSString:", "EventType", NULL, 0x1, NULL, NULL },
@@ -46,8 +41,8 @@ J2OBJC_FIELD_SETTER(EventEventType, name_, NSString *)
 @end
 
 void EventEventType_initWithNSString_(EventEventType *self, NSString *name) {
-  NSObject_init(self);
-  JreStrongAssign(&self->name_, name);
+  (void) NSObject_init(self);
+  self->name_ = name;
 }
 
 EventEventType *new_EventEventType_initWithNSString_(NSString *name) {

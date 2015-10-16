@@ -58,13 +58,13 @@ J2OBJC_INITIALIZED_DEFN(ControllerCapacityOverviewController)
 - (void)sortUnitsWithModelUnit_PropertiesEnum:(ModelUnit_PropertiesEnum *)property
                                   withBoolean:(jboolean)ascending {
   [((JavaUtilLoggingLogger *) nil_chk(ControllerCapacityOverviewController_logger_)) logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:JreStrcat("$$", @"Sorting over ", [((ModelUnit_PropertiesEnum *) nil_chk(property)) name])];
-  JavaUtilArrayList *sortedUnits = [new_JavaUtilArrayList_initWithJavaUtilCollection_(units_) autorelease];
+  JavaUtilArrayList *sortedUnits = new_JavaUtilArrayList_initWithJavaUtilCollection_(units_);
   JavaUtilCollections_sortWithJavaUtilList_withJavaUtilComparator_(sortedUnits, [((ModelSimpleComparator_Builder *) nil_chk([((ModelSimpleComparator_Builder *) nil_chk(ModelSimpleComparator_forPropertyWithModelObjectProperty_(property))) setAscendingWithBoolean:ascending])) build]);
   [((id<ViewCapacityOverviewView>) nil_chk(view_)) setUnitsWithJavaUtilList:sortedUnits];
 }
 
 - (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event {
-  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchUnitsEvent *) nil_chk(event)) getUnits]));
+  units_ = new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchUnitsEvent *) nil_chk(event)) getUnits]);
   [self sortUnitsWithModelUnit_PropertiesEnum:JreLoadStatic(ModelUnit_PropertiesEnum, name) withBoolean:true];
 }
 
@@ -73,14 +73,9 @@ J2OBJC_INITIALIZED_DEFN(ControllerCapacityOverviewController)
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
 }
 
-- (void)dealloc {
-  RELEASE_(units_);
-  [super dealloc];
-}
-
 + (void)initialize {
   if (self == [ControllerCapacityOverviewController class]) {
-    JreStrongAssign(&ControllerCapacityOverviewController_logger_, JavaUtilLoggingLogger_getLoggerWithNSString_([ControllerCapacityOverviewController_class_() getCanonicalName]));
+    ControllerCapacityOverviewController_logger_ = JavaUtilLoggingLogger_getLoggerWithNSString_([ControllerCapacityOverviewController_class_() getCanonicalName]);
     J2OBJC_SET_INITIALIZED(ControllerCapacityOverviewController)
   }
 }
@@ -106,7 +101,7 @@ J2OBJC_INITIALIZED_DEFN(ControllerCapacityOverviewController)
 @end
 
 void ControllerCapacityOverviewController_initWithViewCapacityOverviewView_(ControllerCapacityOverviewController *self, id<ViewCapacityOverviewView> view) {
-  ControllerController_initWithViewView_(self, view);
+  (void) ControllerController_initWithViewView_(self, view);
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
   ServiceService_getUnits();
 }
