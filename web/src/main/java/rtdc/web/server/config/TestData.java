@@ -168,13 +168,13 @@ public class TestData implements ServletContextListener {
     public static List<Message> generateMessages(List<User> users){
         List<Message> messages = new ArrayList<>();
 
-        for(int i = 0; i < 90; i++){
+        for(float i = 0; i < 90; i++){
             Message demoMessage = new Message();
             demoMessage.setSender(users.get(users.size() - 2));
             demoMessage.setReceiver(users.get(users.size() - 1));
-            demoMessage.setContent("Message " + (90 - i));
+            demoMessage.setContent("Message " + (int)(i + 1));
             demoMessage.setStatus(Message.Status.read);
-            demoMessage.setTimeSent(new Date(2015, 10, (i+1)/10, 1, i));
+            demoMessage.setTimeSent(new Date(100, 8, (int)((i/90)*10), 1, (int)((i/90)*50)));
             messages.add(demoMessage);
         }
 

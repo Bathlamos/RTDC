@@ -59,8 +59,8 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET));
     }
 
-    public static void getUser(int id){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + id, POST));
+    public static void getUser(String username){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + username, POST));
     }
 
     public static void updateOrSaveUser(User user, String password){

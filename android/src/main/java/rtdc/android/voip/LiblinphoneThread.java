@@ -21,6 +21,7 @@ import rtdc.core.Config;
 import rtdc.core.Session;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUserEvent;
+import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
@@ -133,7 +134,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
             // If the current activity is the In Call interface, we clean it up
 
-            if(CommunicationHubInCallActivity.isActivityVisible())
+            if(CommunicationHubInCallActivity.isActivityVisible() && linphoneCall == currentCall)
                 CommunicationHubInCallActivity.getCurrentInstance().onCallHangup();
 
             // If the current activity is the Incoming Call interface, we simply remove it
@@ -143,9 +144,84 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
 
             Reason reason = linphoneCall.getErrorInfo().getReason();
             String fromUserName = linphoneCall.getCallLog().getFrom().getUserName();
-            if((!fromUserName.equals(Session.getCurrentSession().getUser().getUsername()) && reason == Reason.NotAnswered)){
-                // Add a notification for the user to let it know it missed a call
-                addMissedCallNotification(linphoneCall.getRemoteAddress().getDisplayName());
+
+
+            if(state == LinphoneCall.State.CallReleased && fromUserName.equals(Session.getCurrentSession().getUser().getUsername())){
+                if(reason == Reason.IOError){
+                    // Tried to call a user that is not logged in
+
+                    FetchUserEvent.Handler handler = new FetchUserEvent.Handler() {
+                        @Override
+                        public void onUserFetched(FetchUserEvent event) {
+                            Event.unsubscribe(FetchUserEvent.TYPE, this);
+                            final Message message = new Message();
+                            message.setSender(Session.getCurrentSession().getUser());
+                            message.setTimeSent(new Date());
+                            message.setStatus(Message.Status.read);
+                            message.setReceiver(event.getUser());
+                            message.setContent(Config.COMMAND_EXEC_KEY + "Missed call");
+                            Service.saveOrUpdateMessage(message);
+                        }
+                    };
+                    Event.subscribe(FetchUserEvent.TYPE, handler);
+                    Service.getUser(currentCallRemoteAddress.getUserName());
+                }
+            }
+
+            if(state == LinphoneCall.State.CallReleased && !fromUserName.equals(Session.getCurrentSession().getUser().getUsername())){
+                final Message message = new Message();
+                message.setReceiver(Session.getCurrentSession().getUser());
+                message.setTimeSent(new Date());
+                message.setStatus(Message.Status.read);
+                if(reason == Reason.NotAnswered){
+                    // Add a notification for the user to let it know it missed a call
+                    addMissedCallNotification(linphoneCall.getRemoteAddress().getDisplayName());
+
+                    // Save a message on the server for the missed call
+
+                    FetchUserEvent.Handler handler = new FetchUserEvent.Handler() {
+                        @Override
+                        public void onUserFetched(FetchUserEvent event) {
+                            Event.unsubscribe(FetchUserEvent.TYPE, this);
+                            message.setSender(event.getUser());
+                            message.setContent(Config.COMMAND_EXEC_KEY + "Missed call");
+                            Service.saveOrUpdateMessage(message);
+                        }
+                    };
+                    Event.subscribe(FetchUserEvent.TYPE, handler);
+                    Service.getUser(currentCallRemoteAddress.getUserName());
+                }else if(reason == Reason.Declined || reason == Reason.Busy){
+                    // Save a message on the server for the declined call
+
+                    FetchUserEvent.Handler handler = new FetchUserEvent.Handler() {
+                        @Override
+                        public void onUserFetched(FetchUserEvent event) {
+                            Event.unsubscribe(FetchUserEvent.TYPE, this);
+                            message.setSender(event.getUser());
+                            message.setContent(Config.COMMAND_EXEC_KEY + "Call rejected");
+                            Service.saveOrUpdateMessage(message);
+                        }
+                    };
+                    Event.subscribe(FetchUserEvent.TYPE, handler);
+                    Service.getUser(currentCallRemoteAddress.getUserName());
+                }else if(reason == Reason.None){
+                    // Save a message on the server for the ending of the call
+
+                    final String minutes = String.format("%02d", linphoneCall.getDuration() / 60);
+                    final String seconds = String.format("%02d", linphoneCall.getDuration() % 60);
+
+                    FetchUserEvent.Handler handler = new FetchUserEvent.Handler() {
+                        @Override
+                        public void onUserFetched(FetchUserEvent event) {
+                            Event.unsubscribe(FetchUserEvent.TYPE, this);
+                            message.setSender(event.getUser());
+                            message.setContent(Config.COMMAND_EXEC_KEY + "Call ended, duration " + minutes + ":" + seconds);
+                            Service.saveOrUpdateMessage(message);
+                        }
+                    };
+                    Event.subscribe(FetchUserEvent.TYPE, handler);
+                    Service.getUser(currentCallRemoteAddress.getUserName());
+                }
             }
 
             currentCall = null;

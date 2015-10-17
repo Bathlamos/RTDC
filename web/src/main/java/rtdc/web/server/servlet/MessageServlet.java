@@ -12,6 +12,7 @@ import rtdc.core.event.*;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.Permission;
+import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
@@ -107,14 +108,14 @@ public class MessageServlet {
 
         if(messages.size() - 1 < startIndex) {
             // The requested start index is out of bounds, return an empty list
-            return new FetchMessagesEvent(new ArrayList<Message>()).toString();
+            return new FetchMessagesEvent (new ArrayList<Message>()).toString();
         }else if(messages.size() - 1 < startIndex + length) {
             // The requested length goes out of the list's bounds, we need to adjust it
             length = messages.size() - 1 - startIndex;
         }
 
         List<Message> subList = messages.subList(startIndex, startIndex + length + 1);
-        // After getting the sub-list, reverse it as we want the messages to be in order from newest to oldest
+        // After getting the sub-list, reverse it as we want the messages to be in order from oldest to newest
         Collections.reverse(subList);
         return new FetchMessagesEvent(subList).toString();
     }

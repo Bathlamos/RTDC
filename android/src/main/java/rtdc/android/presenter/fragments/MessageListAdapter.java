@@ -42,8 +42,28 @@ public class MessageListAdapter extends ArrayAdapter {
 
         boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
         if(isMessageRow){
+            String content = "";
+            if(message.getContent().contains(Config.COMMAND_EXEC_KEY) && !message.getContent().equals(Config.COMMAND_EXEC_KEY)){
+                String[] contents = message.getContent().split(Config.COMMAND_EXEC_KEY);
+                for(String part: contents){
+                    if(part.startsWith("Missed call")){
+                        if(sessionUser)
+                            part = part.replace("Missed call", "Call unanswered");
+                        else
+                            part = part.replace("Missed call", "Missed call from " + message.getSender().getFirstName());
+                    }else if(part.startsWith("Call rejected")){
+                        if(sessionUser)
+                            part = part.replace("Call rejected", "Your call was rejected; user is busy or unavailable");
+                        else
+                            part = part.replace("Call rejected", "Call rejected: busy");
+                    }
+                    content += part;
+                }
+            }else{
+                content = message.getContent();
+            }
             setupColumn(view, R.id.senderNameTextView, sessionUser ? "Me" : message.getSender().getFirstName(), sessionUser);
-            setupColumn(view, R.id.messageTextView, message.getContent(), sessionUser);
+            setupColumn(view, R.id.messageTextView, content, sessionUser);
             setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("hh:mm a").format(message.getTimeSent()), sessionUser);
         } else {
             setupColumn(view, R.id.dateSeparatorTextView, new SimpleDateFormat("EEE MMM dd").format(message.getTimeSent()), false);

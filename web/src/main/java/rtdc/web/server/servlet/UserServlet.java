@@ -2,6 +2,7 @@ package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rtdc.core.event.ActionCompleteEvent;
@@ -54,16 +55,18 @@ public class UserServlet {
     }
 
     @POST
-    @Path("{id}")
+    @Path("{username}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getUser(@Context HttpServletRequest req, @PathParam("id") String id){
+    public String getUser(@Context HttpServletRequest req, @PathParam("username") String username){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         User user = null;
         try{
             transaction = session.beginTransaction();
-            user = (User) session.get(User.class, Integer.parseInt(id));
+            List<User> userList = (List<User>) session.createCriteria(User.class).add(Restrictions.eq("username", username)).list();
+            if(!userList.isEmpty())
+                user = userList.get(0);
             transaction.commit();
 
             // TODO: Replace string with actual username
