@@ -4,7 +4,6 @@
 //
 
 #include "Cache.h"
-#include "IOSClass.h"
 #include "J2ObjC_source.h"
 #include "java/util/HashMap.h"
 
@@ -44,7 +43,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 - (void)putWithNSString:(NSString *)key
                  withId:(id)object {
-  [((JavaUtilHashMap *) nil_chk(map_)) putWithId:key withId:object];
+  (void) [((JavaUtilHashMap *) nil_chk(map_)) putWithId:key withId:object];
 }
 
 - (id)retrieveWithNSString:(NSString *)key {
@@ -55,14 +54,9 @@ J2OBJC_IGNORE_DESIGNATED_END
   return [((JavaUtilHashMap *) nil_chk(map_)) getWithId:key];
 }
 
-- (void)dealloc {
-  RELEASE_(map_);
-  [super dealloc];
-}
-
 + (void)initialize {
   if (self == [UtilCache class]) {
-    JreStrongAssign(&UtilCache_INSTANCE_, nil);
+    UtilCache_INSTANCE_ = nil;
     J2OBJC_SET_INITIALIZED(UtilCache)
   }
 }
@@ -86,8 +80,8 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void UtilCache_init(UtilCache *self) {
-  NSObject_init(self);
-  JreStrongAssignAndConsume(&self->map_, new_JavaUtilHashMap_init());
+  (void) NSObject_init(self);
+  self->map_ = new_JavaUtilHashMap_init();
 }
 
 UtilCache *new_UtilCache_init() {
@@ -98,7 +92,7 @@ UtilCache *new_UtilCache_init() {
 
 UtilCache *UtilCache_getInstance() {
   UtilCache_initialize();
-  if (UtilCache_INSTANCE_ == nil) JreStrongAssignAndConsume(&UtilCache_INSTANCE_, new_UtilCache_init());
+  if (UtilCache_INSTANCE_ == nil) UtilCache_INSTANCE_ = new_UtilCache_init();
   return UtilCache_INSTANCE_;
 }
 

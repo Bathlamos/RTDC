@@ -118,7 +118,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setSenderWithModelUser:(ModelUser *)sender {
-  JreStrongAssign(&self->sender_, sender);
+  self->sender_ = sender;
   if (sender != nil) self->senderID_ = [sender getId];
 }
 
@@ -135,7 +135,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setReceiverWithModelUser:(ModelUser *)receiver {
-  JreStrongAssign(&self->receiver_, receiver);
+  self->receiver_ = receiver;
   if (receiver != nil) self->receiverID_ = [receiver getId];
 }
 
@@ -152,7 +152,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setStatusWithModelMessage_StatusEnum:(ModelMessage_StatusEnum *)status {
-  JreStrongAssign(&self->status_, status);
+  self->status_ = status;
 }
 
 - (JavaUtilDate *)getTimeSent {
@@ -160,7 +160,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setTimeSentWithJavaUtilDate:(JavaUtilDate *)timeSent {
-  JreStrongAssign(&self->timeSent_, timeSent);
+  self->timeSent_ = timeSent;
 }
 
 - (NSString *)getContent {
@@ -168,16 +168,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setContentWithNSString:(NSString *)content {
-  JreStrongAssign(&self->content_, content);
-}
-
-- (void)dealloc {
-  RELEASE_(sender_);
-  RELEASE_(receiver_);
-  RELEASE_(status_);
-  RELEASE_(timeSent_);
-  RELEASE_(content_);
-  [super dealloc];
+  self->content_ = content;
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -222,7 +213,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelMessage_init(ModelMessage *self) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
   self->senderID_ = -1;
   self->receiverID_ = -1;
 }
@@ -234,14 +225,14 @@ ModelMessage *new_ModelMessage_init() {
 }
 
 void ModelMessage_initWithJsonJSONObject_(ModelMessage *self, JsonJSONObject *object) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
   self->senderID_ = -1;
   self->receiverID_ = -1;
   [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, id))) name]]];
-  [self setSenderWithModelUser:[new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, sender))) name]]) autorelease]];
-  [self setReceiverWithModelUser:[new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, receiver))) name]]) autorelease]];
+  [self setSenderWithModelUser:new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, sender))) name]])];
+  [self setReceiverWithModelUser:new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, receiver))) name]])];
   [self setStatusWithModelMessage_StatusEnum:ModelMessage_StatusEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, status))) name]])];
-  [self setTimeSentWithJavaUtilDate:[new_JavaUtilDate_initWithLong_([object getLongWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, timeSent))) name]]) autorelease]];
+  [self setTimeSentWithJavaUtilDate:new_JavaUtilDate_initWithLong_([object getLongWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, timeSent))) name]])];
   if ([object hasWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, content))) name]]) [self setContentWithNSString:[object optStringWithNSString:[JreLoadStatic(ModelMessage_PropertiesEnum, content) name]]];
 }
 
@@ -318,12 +309,12 @@ ModelMessage_PropertiesEnum *ModelMessage_PropertiesEnum_valueOfWithNSString_(NS
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -359,7 +350,7 @@ ModelMessage_PropertiesEnum *ModelMessage_PropertiesEnum_valueOfWithNSString_(NS
 @end
 
 void ModelMessage_PropertiesEnum_initWithNSString_withInt_(ModelMessage_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 ModelMessage_PropertiesEnum *new_ModelMessage_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
@@ -419,12 +410,12 @@ ModelMessage_StatusEnum *ModelMessage_StatusEnum_valueOfWithNSString_(NSString *
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -454,11 +445,11 @@ ModelMessage_StatusEnum *ModelMessage_StatusEnum_valueOfWithNSString_(NSString *
 
 id<UtilStringifier> ModelMessage_StatusEnum_getStringifier() {
   ModelMessage_StatusEnum_initialize();
-  return [new_ModelMessage_Status_$1_init() autorelease];
+  return new_ModelMessage_Status_$1_init();
 }
 
 void ModelMessage_StatusEnum_initWithNSString_withInt_(ModelMessage_StatusEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 ModelMessage_StatusEnum *new_ModelMessage_StatusEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
@@ -504,7 +495,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelMessage_Status_$1_init(ModelMessage_Status_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ModelMessage_Status_$1 *new_ModelMessage_Status_$1_init() {

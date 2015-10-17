@@ -35,7 +35,7 @@ J2OBJC_FIELD_SETTER(ControllerAddUserController, currentUser_, ModelUser *)
 }
 
 - (void)addUser {
-  ModelUser *newUser = [new_ModelUser_init() autorelease];
+  ModelUser *newUser = new_ModelUser_init();
   if (currentUser_ != nil) [newUser setIdWithInt:[currentUser_ getId]];
   [newUser setUsernameWithNSString:[((id<ViewAddUserView>) nil_chk(view_)) getUsernameAsString]];
   [newUser setFirstNameWithNSString:[((id<ViewAddUserView>) view_) getFirstnameAsString]];
@@ -62,11 +62,6 @@ J2OBJC_FIELD_SETTER(ControllerAddUserController, currentUser_, ModelUser *)
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventActionCompleteEvent, TYPE_), self);
 }
 
-- (void)dealloc {
-  RELEASE_(currentUser_);
-  [super dealloc];
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithViewAddUserView:", "AddUserController", NULL, 0x1, NULL, NULL },
@@ -87,9 +82,9 @@ J2OBJC_FIELD_SETTER(ControllerAddUserController, currentUser_, ModelUser *)
 @end
 
 void ControllerAddUserController_initWithViewAddUserView_(ControllerAddUserController *self, id<ViewAddUserView> view) {
-  ControllerController_initWithViewView_(self, view);
+  (void) ControllerController_initWithViewView_(self, view);
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventActionCompleteEvent, TYPE_), self);
-  JreStrongAssign(&self->currentUser_, (ModelUser *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"user"], [ModelUser class]));
+  self->currentUser_ = (ModelUser *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"user"], [ModelUser class]);
   if (self->currentUser_ != nil) {
     [((id<ViewAddUserView>) nil_chk(view)) setTitleWithNSString:@"Edit User"];
     [view setUsernameAsStringWithNSString:[self->currentUser_ getUsername]];

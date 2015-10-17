@@ -74,7 +74,7 @@ NSString *RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
 }
 
 + (void)setFACTORY:(id<ImplFactory>)value {
-  JreStrongAssign(&RtdcCoreBootstrapper_FACTORY_, value);
+  RtdcCoreBootstrapper_FACTORY_ = value;
 }
 
 + (NSString *)AUTHENTICATION_TOKEN {
@@ -82,7 +82,7 @@ NSString *RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
 }
 
 + (void)setAUTHENTICATION_TOKEN:(NSString *)value {
-  JreStrongAssign(&RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_, value);
+  RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_ = value;
 }
 
 + (void)initialize__WithImplFactory:(id<ImplFactory>)factory {
@@ -98,9 +98,9 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
   if (self == [RtdcCoreBootstrapper class]) {
-    JreStrongAssign(&RtdcCoreBootstrapper_logger_, JavaUtilLoggingLogger_getLoggerWithNSString_([RtdcCoreBootstrapper_class_() getName]));
-    JreStrongAssignAndConsume(&RtdcCoreBootstrapper_authHandler_, new_RtdcCoreBootstrapper_$1_init());
-    JreStrongAssignAndConsume(&RtdcCoreBootstrapper_sessionExpiredHandler_, new_RtdcCoreBootstrapper_$2_init());
+    RtdcCoreBootstrapper_logger_ = JavaUtilLoggingLogger_getLoggerWithNSString_([RtdcCoreBootstrapper_class_() getName]);
+    RtdcCoreBootstrapper_authHandler_ = new_RtdcCoreBootstrapper_$1_init();
+    RtdcCoreBootstrapper_sessionExpiredHandler_ = new_RtdcCoreBootstrapper_$2_init();
     J2OBJC_SET_INITIALIZED(RtdcCoreBootstrapper)
   }
 }
@@ -125,8 +125,8 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 void RtdcCoreBootstrapper_initialize__WithImplFactory_(id<ImplFactory> factory) {
   RtdcCoreBootstrapper_initialize();
-  JreStrongAssign(&RtdcCoreBootstrapper_FACTORY_, factory);
-  JreStrongAssign(&RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_, [((id<ImplStorage>) nil_chk([((id<ImplFactory>) nil_chk(factory)) getStorage])) retrieveWithNSString:ImplStorage_KEY_AUTH_TOKEN_]);
+  RtdcCoreBootstrapper_FACTORY_ = factory;
+  RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_ = [((id<ImplStorage>) nil_chk([((id<ImplFactory>) nil_chk(factory)) getStorage])) retrieveWithNSString:ImplStorage_KEY_AUTH_TOKEN_];
   [((JavaUtilLoggingLogger *) nil_chk(RtdcCoreBootstrapper_logger_)) logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:JreStrcat("$$", @"Authentication Token: ", RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_)];
   if (RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_ == nil || [RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_ isEmpty]) {
     [RtdcCoreBootstrapper_logger_ logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:@"Now going to login"];
@@ -141,7 +141,7 @@ void RtdcCoreBootstrapper_initialize__WithImplFactory_(id<ImplFactory> factory) 
 }
 
 void RtdcCoreBootstrapper_init(RtdcCoreBootstrapper *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 RtdcCoreBootstrapper *new_RtdcCoreBootstrapper_init() {
@@ -156,9 +156,9 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(RtdcCoreBootstrapper)
 
 - (void)onAuthenticateWithEventAuthenticationEvent:(EventAuthenticationEvent *)event {
   [((JavaUtilLoggingLogger *) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, logger_))) logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:@"AuthenticationEvent received"];
-  JreStrongAssign(JreLoadStaticRef(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_), [((EventAuthenticationEvent *) nil_chk(event)) getAuthenticationToken]);
+  *JreLoadStaticRef(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_) = [((EventAuthenticationEvent *) nil_chk(event)) getAuthenticationToken];
   [((id<ImplStorage>) nil_chk([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) getStorage])) addWithNSString:ImplStorage_KEY_AUTH_TOKEN_ withNSString:JreLoadStatic(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_)];
-  RtdcCoreSession_setCurrentSessionWithRtdcCoreSession_([new_RtdcCoreSession_initWithModelUser_([event getUser]) autorelease]);
+  RtdcCoreSession_setCurrentSessionWithRtdcCoreSession_(new_RtdcCoreSession_initWithModelUser_([event getUser]));
   [((id<ImplVoipController>) nil_chk([JreLoadStatic(RtdcCoreBootstrapper, FACTORY_) getVoipController])) registerUserWithModelUser:[event getUser]];
   [((id<ImplDispatcher>) nil_chk([JreLoadStatic(RtdcCoreBootstrapper, FACTORY_) newDispatcher])) goToAllUnitsWithControllerController:nil];
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventAuthenticationEvent, TYPE_), JreLoadStatic(RtdcCoreBootstrapper, authHandler_));
@@ -184,7 +184,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void RtdcCoreBootstrapper_$1_init(RtdcCoreBootstrapper_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 RtdcCoreBootstrapper_$1 *new_RtdcCoreBootstrapper_$1_init() {
@@ -223,7 +223,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void RtdcCoreBootstrapper_$2_init(RtdcCoreBootstrapper_$2 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 RtdcCoreBootstrapper_$2 *new_RtdcCoreBootstrapper_$2_init() {

@@ -85,12 +85,12 @@ ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_valueOfWith
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -118,7 +118,7 @@ ImplHttpRequest_RequestMethodEnum *ImplHttpRequest_RequestMethodEnum_valueOfWith
 @end
 
 void ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(ImplHttpRequest_RequestMethodEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 ImplHttpRequest_RequestMethodEnum *new_ImplHttpRequest_RequestMethodEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

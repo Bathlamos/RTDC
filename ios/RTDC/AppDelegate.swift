@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  Sample
+//  RTDC
 //
-//  Created by Nicolas Ménard on 2014-12-15.
-//  Copyright (c) 2014 Nicolas Ménard. All rights reserved.
+//  Created by Nicolas Ménard on 2015-10-16.
+//  Copyright © 2015 Clermont, Ermel, Fortin-Boulay, Legault & Ménard. All rights reserved.
 //
 
 import UIKit

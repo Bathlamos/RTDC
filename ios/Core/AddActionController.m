@@ -61,7 +61,7 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 }
 
 - (void)addAction {
-  ModelAction *action = [new_ModelAction_init() autorelease];
+  ModelAction *action = new_ModelAction_init();
   if (currentAction_ != nil) [action setIdWithInt:[currentAction_ getId]];
   [action setTaskWithModelAction_TaskEnum:[((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getTaskUiElement])) getValue]];
   [action setRoleResponsibleWithNSString:[((id<ImplUiElement>) nil_chk([((id<ViewAddActionView>) view_) getRoleUiElement])) getValue]];
@@ -75,18 +75,12 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 }
 
 - (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event {
-  [((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getUnitUiElement])) setArrayWithNSObjectArray:[((ComGoogleCommonCollectImmutableSet *) nil_chk([((EventFetchUnitsEvent *) nil_chk(event)) getUnits])) toArrayWithNSObjectArray:[IOSObjectArray arrayWithLength:[((ComGoogleCommonCollectImmutableSet *) nil_chk([event getUnits])) size] type:ModelUnit_class_()]]];
+  [((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getUnitUiElement])) setArrayWithNSObjectArray:[((ComGoogleCommonCollectImmutableSet *) nil_chk([((EventFetchUnitsEvent *) nil_chk(event)) getUnits])) toArrayWithNSObjectArray:[IOSObjectArray newArrayWithLength:[((ComGoogleCommonCollectImmutableSet *) nil_chk([event getUnits])) size] type:ModelUnit_class_()]]];
 }
 
 - (void)onStop {
   [super onStop];
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
-}
-
-- (void)dealloc {
-  RELEASE_(units_);
-  RELEASE_(currentAction_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -109,16 +103,16 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 @end
 
 void ControllerAddActionController_initWithViewAddActionView_(ControllerAddActionController *self, id<ViewAddActionView> view) {
-  ControllerController_initWithViewView_(self, view);
-  JreStrongAssignAndConsume(&self->units_, new_JavaUtilArrayList_init());
+  (void) ControllerController_initWithViewView_(self, view);
+  self->units_ = new_JavaUtilArrayList_init();
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
   ServiceService_getUnits();
   [((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) nil_chk(view)) getTaskUiElement])) setArrayWithNSObjectArray:ModelAction_TaskEnum_values()];
   [((id<ImplUiDropdown>) nil_chk([view getTaskUiElement])) setStringifierWithUtilStringifier:ModelAction_TaskEnum_getStringifier()];
   [((id<ImplUiDropdown>) nil_chk([view getStatusUiElement])) setArrayWithNSObjectArray:ModelAction_StatusEnum_values()];
   [((id<ImplUiDropdown>) nil_chk([view getStatusUiElement])) setStringifierWithUtilStringifier:ModelAction_StatusEnum_getStringifier()];
-  [((id<ImplUiDropdown>) nil_chk([view getUnitUiElement])) setStringifierWithUtilStringifier:[new_ControllerAddActionController_$1_init() autorelease]];
-  JreStrongAssign(&self->currentAction_, (ModelAction *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"action"], [ModelAction class]));
+  [((id<ImplUiDropdown>) nil_chk([view getUnitUiElement])) setStringifierWithUtilStringifier:new_ControllerAddActionController_$1_init()];
+  self->currentAction_ = (ModelAction *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"action"], [ModelAction class]);
   if (self->currentAction_ != nil) {
     [view setTitleWithNSString:@"Edit Action"];
     [((id<ImplUiElement>) nil_chk([view getRoleUiElement])) setValueWithId:[self->currentAction_ getRoleResponsible]];
@@ -165,7 +159,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ControllerAddActionController_$1_init(ControllerAddActionController_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ControllerAddActionController_$1 *new_ControllerAddActionController_$1_init() {

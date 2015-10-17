@@ -25,7 +25,7 @@
 @end
 
 void ExceptionSessionExpiredException_initWithNSString_(ExceptionSessionExpiredException *self, NSString *message) {
-  ExceptionApiException_initWithNSString_(self, message);
+  (void) ExceptionApiException_initWithNSString_(self, message);
 }
 
 ExceptionSessionExpiredException *new_ExceptionSessionExpiredException_initWithNSString_(NSString *message) {

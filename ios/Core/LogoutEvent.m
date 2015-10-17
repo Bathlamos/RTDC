@@ -57,7 +57,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
   if (self == [EventLogoutEvent class]) {
-    JreStrongAssignAndConsume(&EventLogoutEvent_TYPE_, new_EventEventType_initWithNSString_(@"logoutEvent"));
+    EventLogoutEvent_TYPE_ = new_EventEventType_initWithNSString_(@"logoutEvent");
     J2OBJC_SET_INITIALIZED(EventLogoutEvent)
   }
 }
@@ -82,7 +82,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void EventLogoutEvent_init(EventLogoutEvent *self) {
-  EventEvent_init(self);
+  (void) EventEvent_init(self);
 }
 
 EventLogoutEvent *new_EventLogoutEvent_init() {
@@ -124,12 +124,12 @@ EventLogoutEvent_PropertiesEnum *EventLogoutEvent_PropertiesEnum_valueOfWithNSSt
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -141,7 +141,7 @@ EventLogoutEvent_PropertiesEnum *EventLogoutEvent_PropertiesEnum_valueOfWithNSSt
 @end
 
 void EventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(EventLogoutEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 EventLogoutEvent_PropertiesEnum *new_EventLogoutEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

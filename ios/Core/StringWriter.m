@@ -37,28 +37,23 @@ J2OBJC_IGNORE_DESIGNATED_END
 - (void)writeWithCharArray:(IOSCharArray *)cbuf
                    withInt:(jint)off
                    withInt:(jint)len {
-  [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithCharArray:cbuf withInt:off withInt:len];
+  (void) [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithCharArray:cbuf withInt:off withInt:len];
 }
 
 - (void)writeWithNSString:(NSString *)str {
-  [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithNSString:str];
+  (void) [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithNSString:str];
 }
 
 - (void)writeWithNSString:(NSString *)str
                   withInt:(jint)off
                   withInt:(jint)len {
-  [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithNSString:[((NSString *) nil_chk(str)) substring:off endIndex:len]];
+  (void) [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithNSString:[((NSString *) nil_chk(str)) substring:off endIndex:len]];
 }
 
 - (void)flush {
 }
 
 - (void)close {
-}
-
-- (void)dealloc {
-  RELEASE_(buf_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -81,8 +76,8 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void JsonStringWriter_init(JsonStringWriter *self) {
-  JavaIoWriter_init(self);
-  JreStrongAssignAndConsume(&self->buf_, new_JavaLangStringBuffer_init());
+  (void) JavaIoWriter_init(self);
+  self->buf_ = new_JavaLangStringBuffer_init();
 }
 
 JsonStringWriter *new_JsonStringWriter_init() {
@@ -92,8 +87,8 @@ JsonStringWriter *new_JsonStringWriter_init() {
 }
 
 void JsonStringWriter_initWithInt_(JsonStringWriter *self, jint initialSize) {
-  JavaIoWriter_init(self);
-  JreStrongAssignAndConsume(&self->buf_, new_JavaLangStringBuffer_initWithInt_(initialSize));
+  (void) JavaIoWriter_init(self);
+  self->buf_ = new_JavaLangStringBuffer_initWithInt_(initialSize);
 }
 
 JsonStringWriter *new_JsonStringWriter_initWithInt_(jint initialSize) {

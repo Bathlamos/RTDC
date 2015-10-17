@@ -98,14 +98,9 @@ EventEventType *EventFetchActionsEvent_TYPE_;
   return nil;
 }
 
-- (void)dealloc {
-  RELEASE_(actions_);
-  [super dealloc];
-}
-
 + (void)initialize {
   if (self == [EventFetchActionsEvent class]) {
-    JreStrongAssignAndConsume(&EventFetchActionsEvent_TYPE_, new_EventEventType_initWithNSString_(@"fetchActionsEvent"));
+    EventFetchActionsEvent_TYPE_ = new_EventEventType_initWithNSString_(@"fetchActionsEvent");
     J2OBJC_SET_INITIALIZED(EventFetchActionsEvent)
   }
 }
@@ -133,8 +128,8 @@ EventEventType *EventFetchActionsEvent_TYPE_;
 @end
 
 void EventFetchActionsEvent_initWithJavaLangIterable_(EventFetchActionsEvent *self, id<JavaLangIterable> actions) {
-  EventEvent_init(self);
-  JreStrongAssign(&self->actions_, ComGoogleCommonCollectImmutableSet_copyOfWithJavaLangIterable_(actions));
+  (void) EventEvent_init(self);
+  self->actions_ = ComGoogleCommonCollectImmutableSet_copyOfWithJavaLangIterable_(actions);
 }
 
 EventFetchActionsEvent *new_EventFetchActionsEvent_initWithJavaLangIterable_(id<JavaLangIterable> actions) {
@@ -144,8 +139,8 @@ EventFetchActionsEvent *new_EventFetchActionsEvent_initWithJavaLangIterable_(id<
 }
 
 void EventFetchActionsEvent_initWithJsonJSONObject_(EventFetchActionsEvent *self, JsonJSONObject *object) {
-  EventEvent_init(self);
-  JreStrongAssign(&self->actions_, ComGoogleCommonCollectImmutableSet_copyOfWithJavaUtilCollection_([self parseJsonArrayWithJsonJSONArray:[((JsonJSONObject *) nil_chk(object)) getJSONArrayWithNSString:[((EventFetchActionsEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchActionsEvent_PropertiesEnum, actions))) name]] withComGoogleCommonBaseFunction:[new_EventFetchActionsEvent_$1_init() autorelease]]));
+  (void) EventEvent_init(self);
+  self->actions_ = ComGoogleCommonCollectImmutableSet_copyOfWithJavaUtilCollection_([self parseJsonArrayWithJsonJSONArray:[((JsonJSONObject *) nil_chk(object)) getJSONArrayWithNSString:[((EventFetchActionsEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchActionsEvent_PropertiesEnum, actions))) name]] withComGoogleCommonBaseFunction:new_EventFetchActionsEvent_$1_init()]);
 }
 
 EventFetchActionsEvent *new_EventFetchActionsEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
@@ -207,12 +202,12 @@ EventFetchActionsEvent_PropertiesEnum *EventFetchActionsEvent_PropertiesEnum_val
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -234,7 +229,7 @@ EventFetchActionsEvent_PropertiesEnum *EventFetchActionsEvent_PropertiesEnum_val
 @end
 
 void EventFetchActionsEvent_PropertiesEnum_initWithNSString_withInt_(EventFetchActionsEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 EventFetchActionsEvent_PropertiesEnum *new_EventFetchActionsEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
@@ -248,7 +243,7 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(EventFetchActionsEvent_PropertiesEnum)
 @implementation EventFetchActionsEvent_$1
 
 - (ModelAction *)applyWithId:(JsonJSONObject *)input {
-  return [new_ModelAction_initWithJsonJSONObject_(input) autorelease];
+  return new_ModelAction_initWithJsonJSONObject_(input);
 }
 
 J2OBJC_IGNORE_DESIGNATED_BEGIN
@@ -271,7 +266,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void EventFetchActionsEvent_$1_init(EventFetchActionsEvent_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 EventFetchActionsEvent_$1 *new_EventFetchActionsEvent_$1_init() {

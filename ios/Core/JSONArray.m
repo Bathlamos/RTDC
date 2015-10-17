@@ -52,7 +52,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 - (id)getWithInt:(jint)index {
   id o = [self optWithInt:index];
   if (o == nil) {
-    @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] not found.")) autorelease];
+    @throw new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] not found."));
   }
   return o;
 }
@@ -65,7 +65,7 @@ J2OBJC_IGNORE_DESIGNATED_END
   else if ([o isEqual:JreLoadStatic(JsonJSONObject, TRUE__)] || ([o isKindOfClass:[NSString class]] && [((NSString *) nil_chk([((NSString *) check_class_cast(o, [NSString class])) lowercaseString])) isEqual:@"true"])) {
     return true;
   }
-  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a Boolean.")) autorelease];
+  @throw new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a Boolean."));
 }
 
 - (JsonJSONArray *)getJSONArrayWithInt:(jint)index {
@@ -73,7 +73,7 @@ J2OBJC_IGNORE_DESIGNATED_END
   if ([o isKindOfClass:[JsonJSONArray class]]) {
     return (JsonJSONArray *) check_class_cast(o, [JsonJSONArray class]);
   }
-  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a JSONArray.")) autorelease];
+  @throw new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a JSONArray."));
 }
 
 - (JsonJSONObject *)getJSONObjectWithInt:(jint)index {
@@ -81,7 +81,7 @@ J2OBJC_IGNORE_DESIGNATED_END
   if ([o isKindOfClass:[JsonJSONObject class]]) {
     return (JsonJSONObject *) check_class_cast(o, [JsonJSONObject class]);
   }
-  @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a JSONObject.")) autorelease];
+  @throw new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] is not a JSONObject."));
 }
 
 - (NSString *)getStringWithInt:(jint)index {
@@ -94,12 +94,12 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 - (NSString *)joinWithNSString:(NSString *)separator {
   jint len = [self length];
-  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
+  JavaLangStringBuffer *sb = new_JavaLangStringBuffer_init();
   for (jint i = 0; i < len; i += 1) {
     if (i > 0) {
-      [sb appendWithNSString:separator];
+      (void) [sb appendWithNSString:separator];
     }
-    [sb appendWithNSString:JsonJSONObject_valueToStringWithId_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:i])];
+    (void) [sb appendWithNSString:JsonJSONObject_valueToStringWithId_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:i])];
   }
   return [sb description];
 }
@@ -147,22 +147,22 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (JsonJSONArray *)putWithBoolean:(jboolean)value {
-  [self putWithId:value ? JreLoadStatic(JsonJSONObject, TRUE__) : JreLoadStatic(JsonJSONObject, FALSE__)];
+  (void) [self putWithId:value ? JreLoadStatic(JsonJSONObject, TRUE__) : JreLoadStatic(JsonJSONObject, FALSE__)];
   return self;
 }
 
 - (JsonJSONArray *)putWithJavaUtilVector:(JavaUtilVector *)value {
-  [self putWithId:[new_JsonJSONArray_initWithJavaUtilVector_(value) autorelease]];
+  (void) [self putWithId:new_JsonJSONArray_initWithJavaUtilVector_(value)];
   return self;
 }
 
 - (JsonJSONArray *)putWithInt:(jint)value {
-  [self putWithId:[new_JavaLangInteger_initWithInt_(value) autorelease]];
+  (void) [self putWithId:new_JavaLangInteger_initWithInt_(value)];
   return self;
 }
 
 - (JsonJSONArray *)putWithLong:(jlong)value {
-  [self putWithId:[new_JavaLangLong_initWithLong_(value) autorelease]];
+  (void) [self putWithId:new_JavaLangLong_initWithLong_(value)];
   return self;
 }
 
@@ -173,25 +173,25 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 - (JsonJSONArray *)putWithInt:(jint)index
                   withBoolean:(jboolean)value {
-  [self putWithInt:index withId:value ? JreLoadStatic(JsonJSONObject, TRUE__) : JreLoadStatic(JsonJSONObject, FALSE__)];
+  (void) [self putWithInt:index withId:value ? JreLoadStatic(JsonJSONObject, TRUE__) : JreLoadStatic(JsonJSONObject, FALSE__)];
   return self;
 }
 
 - (JsonJSONArray *)putWithInt:(jint)index
            withJavaUtilVector:(JavaUtilVector *)value {
-  [self putWithInt:index withId:[new_JsonJSONArray_initWithJavaUtilVector_(value) autorelease]];
+  (void) [self putWithInt:index withId:new_JsonJSONArray_initWithJavaUtilVector_(value)];
   return self;
 }
 
 - (JsonJSONArray *)putWithInt:(jint)index
                       withInt:(jint)value {
-  [self putWithInt:index withId:[new_JavaLangInteger_initWithInt_(value) autorelease]];
+  (void) [self putWithInt:index withId:new_JavaLangInteger_initWithInt_(value)];
   return self;
 }
 
 - (JsonJSONArray *)putWithInt:(jint)index
                      withLong:(jlong)value {
-  [self putWithInt:index withId:[new_JavaLangLong_initWithLong_(value) autorelease]];
+  (void) [self putWithInt:index withId:new_JavaLangLong_initWithLong_(value)];
   return self;
 }
 
@@ -199,16 +199,16 @@ J2OBJC_IGNORE_DESIGNATED_END
                        withId:(id)value {
   JsonJSONObject_testValidityWithId_(value);
   if (index < 0) {
-    @throw [new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] not found.")) autorelease];
+    @throw new_JsonJSONException_initWithNSString_(JreStrcat("$I$", @"JSONArray[", index, @"] not found."));
   }
   if (index < [self length]) {
     [((JavaUtilVector *) nil_chk(self->myArrayList_)) setElementAtWithId:value withInt:index];
   }
   else {
     while (index != [self length]) {
-      [self putWithId:JreLoadStatic(JsonJSONObject, NULL__)];
+      (void) [self putWithId:JreLoadStatic(JsonJSONObject, NULL__)];
     }
-    [self putWithId:value];
+    (void) [self putWithId:value];
   }
   return self;
 }
@@ -217,9 +217,9 @@ J2OBJC_IGNORE_DESIGNATED_END
   if (names == nil || [names length] == 0 || [self length] == 0) {
     return nil;
   }
-  JsonJSONObject *jo = [new_JsonJSONObject_init() autorelease];
+  JsonJSONObject *jo = new_JsonJSONObject_init();
   for (jint i = 0; i < [((JsonJSONArray *) nil_chk(names)) length]; i += 1) {
-    [jo putWithNSString:[names getStringWithInt:i] withId:[self optWithInt:i]];
+    (void) [jo putWithNSString:[names getStringWithInt:i] withId:[self optWithInt:i]];
   }
   return jo;
 }
@@ -244,34 +244,29 @@ J2OBJC_IGNORE_DESIGNATED_END
     return @"[]";
   }
   jint i;
-  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_initWithNSString_(@"[") autorelease];
+  JavaLangStringBuffer *sb = new_JavaLangStringBuffer_initWithNSString_(@"[");
   if (len == 1) {
-    [sb appendWithNSString:JsonJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:0], indentFactor, indent)];
+    (void) [sb appendWithNSString:JsonJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:0], indentFactor, indent)];
   }
   else {
     jint newindent = indent + indentFactor;
-    [sb appendWithChar:0x000a];
+    (void) [sb appendWithChar:0x000a];
     for (i = 0; i < len; i += 1) {
       if (i > 0) {
-        [sb appendWithNSString:@",\n"];
+        (void) [sb appendWithNSString:@",\n"];
       }
       for (jint j = 0; j < newindent; j += 1) {
-        [sb appendWithChar:' '];
+        (void) [sb appendWithChar:' '];
       }
-      [sb appendWithNSString:JsonJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:i], indentFactor, newindent)];
+      (void) [sb appendWithNSString:JsonJSONObject_valueToStringWithId_withInt_withInt_([((JavaUtilVector *) nil_chk(self->myArrayList_)) elementAtWithInt:i], indentFactor, newindent)];
     }
-    [sb appendWithChar:0x000a];
+    (void) [sb appendWithChar:0x000a];
     for (i = 0; i < indent; i += 1) {
-      [sb appendWithChar:' '];
+      (void) [sb appendWithChar:' '];
     }
   }
-  [sb appendWithChar:']'];
+  (void) [sb appendWithChar:']'];
   return [sb description];
-}
-
-- (void)dealloc {
-  RELEASE_(myArrayList_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -320,8 +315,8 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void JsonJSONArray_init(JsonJSONArray *self) {
-  NSObject_init(self);
-  JreStrongAssignAndConsume(&self->myArrayList_, new_JavaUtilVector_init());
+  (void) NSObject_init(self);
+  self->myArrayList_ = new_JavaUtilVector_init();
 }
 
 JsonJSONArray *new_JsonJSONArray_init() {
@@ -331,7 +326,7 @@ JsonJSONArray *new_JsonJSONArray_init() {
 }
 
 void JsonJSONArray_initWithJsonJSONTokener_(JsonJSONArray *self, JsonJSONTokener *x) {
-  JsonJSONArray_init(self);
+  (void) JsonJSONArray_init(self);
   if ([((JsonJSONTokener *) nil_chk(x)) nextClean] != '[') {
     @throw [x syntaxErrorWithNSString:@"A JSONArray text must start with '['"];
   }
@@ -371,7 +366,7 @@ JsonJSONArray *new_JsonJSONArray_initWithJsonJSONTokener_(JsonJSONTokener *x) {
 }
 
 void JsonJSONArray_initWithNSString_(JsonJSONArray *self, NSString *string) {
-  JsonJSONArray_initWithJsonJSONTokener_(self, [new_JsonJSONTokener_initWithNSString_(string) autorelease]);
+  (void) JsonJSONArray_initWithJsonJSONTokener_(self, new_JsonJSONTokener_initWithNSString_(string));
 }
 
 JsonJSONArray *new_JsonJSONArray_initWithNSString_(NSString *string) {
@@ -381,13 +376,13 @@ JsonJSONArray *new_JsonJSONArray_initWithNSString_(NSString *string) {
 }
 
 void JsonJSONArray_initWithJavaUtilVector_(JsonJSONArray *self, JavaUtilVector *collection) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
   if (collection == nil) {
-    JreStrongAssignAndConsume(&self->myArrayList_, new_JavaUtilVector_init());
+    self->myArrayList_ = new_JavaUtilVector_init();
   }
   else {
     jint size = [collection size];
-    JreStrongAssignAndConsume(&self->myArrayList_, new_JavaUtilVector_initWithInt_(size));
+    self->myArrayList_ = new_JavaUtilVector_initWithInt_(size);
     for (jint i = 0; i < size; i++) {
       [self->myArrayList_ addElementWithId:[collection elementAtWithInt:i]];
     }

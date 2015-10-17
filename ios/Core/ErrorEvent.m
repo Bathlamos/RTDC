@@ -76,14 +76,9 @@ EventEventType *EventErrorEvent_TYPE_;
   return nil;
 }
 
-- (void)dealloc {
-  RELEASE_(description__);
-  [super dealloc];
-}
-
 + (void)initialize {
   if (self == [EventErrorEvent class]) {
-    JreStrongAssignAndConsume(&EventErrorEvent_TYPE_, new_EventEventType_initWithNSString_(@"errorEvent"));
+    EventErrorEvent_TYPE_ = new_EventEventType_initWithNSString_(@"errorEvent");
     J2OBJC_SET_INITIALIZED(EventErrorEvent)
   }
 }
@@ -111,8 +106,8 @@ EventEventType *EventErrorEvent_TYPE_;
 @end
 
 void EventErrorEvent_initWithNSString_(EventErrorEvent *self, NSString *description_) {
-  EventEvent_init(self);
-  JreStrongAssign(&self->description__, description_);
+  (void) EventEvent_init(self);
+  self->description__ = description_;
 }
 
 EventErrorEvent *new_EventErrorEvent_initWithNSString_(NSString *description_) {
@@ -122,8 +117,8 @@ EventErrorEvent *new_EventErrorEvent_initWithNSString_(NSString *description_) {
 }
 
 void EventErrorEvent_initWithJsonJSONObject_(EventErrorEvent *self, JsonJSONObject *object) {
-  EventEvent_init(self);
-  JreStrongAssign(&self->description__, [((JsonJSONObject *) nil_chk(object)) optStringWithNSString:[((EventErrorEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventErrorEvent_PropertiesEnum, description))) name]]);
+  (void) EventEvent_init(self);
+  self->description__ = [((JsonJSONObject *) nil_chk(object)) optStringWithNSString:[((EventErrorEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventErrorEvent_PropertiesEnum, description))) name]];
 }
 
 EventErrorEvent *new_EventErrorEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
@@ -171,12 +166,12 @@ EventErrorEvent_PropertiesEnum *EventErrorEvent_PropertiesEnum_valueOfWithNSStri
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -198,7 +193,7 @@ EventErrorEvent_PropertiesEnum *EventErrorEvent_PropertiesEnum_valueOfWithNSStri
 @end
 
 void EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(EventErrorEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 EventErrorEvent_PropertiesEnum *new_EventErrorEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

@@ -13,7 +13,7 @@
 @implementation EventEventAggregator
 
 - (void)addHandlerWithId:(id)object {
-  if (object != nil) [((JavaUtilHashSet *) nil_chk(handlers_)) addWithId:[new_JavaLangRefWeakReference_initWithId_(object) autorelease]];
+  if (object != nil) [((JavaUtilHashSet *) nil_chk(handlers_)) addWithId:new_JavaLangRefWeakReference_initWithId_(object)];
 }
 
 - (void)removeHandlerWithId:(id)object {
@@ -32,7 +32,7 @@
   while ([((id<JavaUtilIterator>) nil_chk(it)) hasNext]) {
     id next = [((JavaLangRefWeakReference *) nil_chk([it next])) get];
     if (next == nil) [it remove];
-    else [((ComGoogleCommonCollectImmutableSet_Builder *) nil_chk(builder)) addWithId:next];
+    else (void) [((ComGoogleCommonCollectImmutableSet_Builder *) nil_chk(builder)) addWithId:next];
   }
   return [((ComGoogleCommonCollectImmutableSet_Builder *) nil_chk(builder)) build];
 }
@@ -43,11 +43,6 @@ J2OBJC_IGNORE_DESIGNATED_BEGIN
   return self;
 }
 J2OBJC_IGNORE_DESIGNATED_END
-
-- (void)dealloc {
-  RELEASE_(handlers_);
-  [super dealloc];
-}
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
@@ -66,8 +61,8 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void EventEventAggregator_init(EventEventAggregator *self) {
-  NSObject_init(self);
-  JreStrongAssignAndConsume(&self->handlers_, new_JavaUtilHashSet_init());
+  (void) NSObject_init(self);
+  self->handlers_ = new_JavaUtilHashSet_init();
 }
 
 EventEventAggregator *new_EventEventAggregator_init() {

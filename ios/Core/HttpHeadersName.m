@@ -35,7 +35,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ServiceHttpHeadersName_init(ServiceHttpHeadersName *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ServiceHttpHeadersName *new_ServiceHttpHeadersName_init() {

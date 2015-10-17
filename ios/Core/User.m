@@ -103,7 +103,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setUsernameWithNSString:(NSString *)username {
-  JreStrongAssign(&self->username_, username);
+  self->username_ = username;
 }
 
 - (NSString *)getFirstName {
@@ -111,7 +111,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setFirstNameWithNSString:(NSString *)firstName {
-  JreStrongAssign(&self->firstName_, firstName);
+  self->firstName_ = firstName;
 }
 
 - (NSString *)getLastName {
@@ -119,7 +119,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setLastNameWithNSString:(NSString *)lastName {
-  JreStrongAssign(&self->lastName_, lastName);
+  self->lastName_ = lastName;
 }
 
 - (NSString *)getEmail {
@@ -127,7 +127,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setEmailWithNSString:(NSString *)email {
-  JreStrongAssign(&self->email_, email);
+  self->email_ = email;
 }
 
 - (NSString *)getPermission {
@@ -135,7 +135,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setPermissionWithNSString:(NSString *)permission {
-  JreStrongAssign(&self->permission_, permission);
+  self->permission_ = permission;
 }
 
 - (NSString *)getRole {
@@ -143,7 +143,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setRoleWithNSString:(NSString *)role {
-  JreStrongAssign(&self->role_, role);
+  self->role_ = role;
 }
 
 - (jlong)getPhone {
@@ -159,7 +159,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setUnitWithModelUnit:(ModelUnit *)unit {
-  JreStrongAssign(&self->unit_, unit);
+  self->unit_ = unit;
 }
 
 - (IOSFloatArray *)getProfileColor {
@@ -171,18 +171,7 @@ J2OBJC_IGNORE_DESIGNATED_END
   }
   jfloat saturation = 0.8f;
   jfloat brightness = 0.4f;
-  return [IOSFloatArray arrayWithFloats:(jfloat[]){ hue, saturation, brightness } count:3];
-}
-
-- (void)dealloc {
-  RELEASE_(username_);
-  RELEASE_(firstName_);
-  RELEASE_(lastName_);
-  RELEASE_(email_);
-  RELEASE_(permission_);
-  RELEASE_(role_);
-  RELEASE_(unit_);
-  [super dealloc];
+  return [IOSFloatArray newArrayWithFloats:(jfloat[]){ hue, saturation, brightness } count:3];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -231,7 +220,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelUser_init(ModelUser *self) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
 }
 
 ModelUser *new_ModelUser_init() {
@@ -241,7 +230,7 @@ ModelUser *new_ModelUser_init() {
 }
 
 void ModelUser_initWithJsonJSONObject_(ModelUser *self, JsonJSONObject *object) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
   [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, id))) name]]];
   [self setUsernameWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, username))) name]]];
   [self setFirstNameWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, firstName))) name]]];
@@ -250,7 +239,7 @@ void ModelUser_initWithJsonJSONObject_(ModelUser *self, JsonJSONObject *object) 
   [self setPermissionWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, permission))) name]]];
   [self setRoleWithNSString:[object optStringWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, role))) name]]];
   [self setPhoneWithLong:[object optLongWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, phone))) name]]];
-  if ([object hasWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, unit))) name]]) [self setUnitWithModelUnit:[new_ModelUnit_initWithJsonJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelUser_PropertiesEnum, unit) name]]) autorelease]];
+  if ([object hasWithNSString:[((ModelUser_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUser_PropertiesEnum, unit))) name]]) [self setUnitWithModelUnit:new_ModelUnit_initWithJsonJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelUser_PropertiesEnum, unit) name]])];
 }
 
 ModelUser *new_ModelUser_initWithJsonJSONObject_(JsonJSONObject *object) {
@@ -330,12 +319,12 @@ ModelUser_PropertiesEnum *ModelUser_PropertiesEnum_valueOfWithNSString_(NSString
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -373,7 +362,7 @@ ModelUser_PropertiesEnum *ModelUser_PropertiesEnum_valueOfWithNSString_(NSString
 @end
 
 void ModelUser_PropertiesEnum_initWithNSString_withInt_(ModelUser_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 ModelUser_PropertiesEnum *new_ModelUser_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

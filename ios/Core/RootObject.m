@@ -37,16 +37,16 @@
 
 - (JavaUtilArrayList *)parseJsonArrayWithJsonJSONArray:(JsonJSONArray *)array
                        withComGoogleCommonBaseFunction:(id<ComGoogleCommonBaseFunction>)function {
-  JavaUtilArrayList *arrayList = [new_JavaUtilArrayList_init() autorelease];
+  JavaUtilArrayList *arrayList = new_JavaUtilArrayList_init();
   for (jint i = 0; i < [((JsonJSONArray *) nil_chk(array)) length]; i++) [arrayList addWithId:[((id<ComGoogleCommonBaseFunction>) nil_chk(function)) applyWithId:[array getJSONObjectWithInt:i]]];
   return arrayList;
 }
 
 - (JsonJSONArray *)toJsonArrayWithJavaLangIterable:(id<JavaLangIterable>)iterable {
-  JsonJSONArray *array = [new_JsonJSONArray_init() autorelease];
+  JsonJSONArray *array = new_JsonJSONArray_init();
   for (id __strong o in nil_chk(iterable)) {
-    if ([o isKindOfClass:[ModelRootObject class]]) [array putWithId:[((ModelRootObject *) nil_chk(((ModelRootObject *) check_class_cast(o, [ModelRootObject class])))) toJsonObject]];
-    else [array putWithId:o];
+    if ([o isKindOfClass:[ModelRootObject class]]) (void) [array putWithId:[((ModelRootObject *) nil_chk(((ModelRootObject *) check_class_cast(o, [ModelRootObject class])))) toJsonObject]];
+    else (void) [array putWithId:o];
   }
   return array;
 }
@@ -56,8 +56,8 @@
 }
 
 - (JsonJSONObject *)toJsonObject {
-  JsonJSONObject *object = [new_JsonJSONObject_init() autorelease];
-  [object putWithNSString:@"_type" withId:[self getType]];
+  JsonJSONObject *object = new_JsonJSONObject_init();
+  (void) [object putWithNSString:@"_type" withId:[self getType]];
   {
     IOSObjectArray *a__ = [self getProperties];
     id<ModelObjectProperty> const *b__ = ((IOSObjectArray *) nil_chk(a__))->buffer_;
@@ -66,10 +66,10 @@
       id<ModelObjectProperty> p = *b__++;
       id o = [self getValueWithModelObjectProperty:p];
       if (o == nil) ;
-      else if ([JavaLangIterable_class_() isInstance:o]) [object putWithNSString:[((id<ModelObjectProperty>) nil_chk(p)) name] withId:[self toJsonArrayWithJavaLangIterable:(id<JavaLangIterable>) check_protocol_cast(o, JavaLangIterable_class_())]];
-      else if ([o isKindOfClass:[ModelRootObject class]]) [object putWithNSString:[((id<ModelObjectProperty>) nil_chk(p)) name] withId:[((ModelRootObject *) check_class_cast(o, [ModelRootObject class])) toJsonObject]];
-      else if ([o isKindOfClass:[JavaUtilDate class]]) [object putWithNSString:[((id<ModelObjectProperty>) nil_chk(p)) name] withLong:[((JavaUtilDate *) check_class_cast(o, [JavaUtilDate class])) getTime]];
-      else [object putWithNSString:[((id<ModelObjectProperty>) nil_chk(p)) name] withId:o];
+      else if ([JavaLangIterable_class_() isInstance:o]) (void) [object putWithNSString:[((id<ModelObjectProperty>) nil_chk(p)) name] withId:[self toJsonArrayWithJavaLangIterable:(id<JavaLangIterable>) check_protocol_cast(o, JavaLangIterable_class_())]];
+      else if ([o isKindOfClass:[ModelRootObject class]]) (void) [object putWithNSString:[((id<ModelObjectProperty>) nil_chk(p)) name] withId:[((ModelRootObject *) check_class_cast(o, [ModelRootObject class])) toJsonObject]];
+      else if ([o isKindOfClass:[JavaUtilDate class]]) (void) [object putWithNSString:[((id<ModelObjectProperty>) nil_chk(p)) name] withLong:[((JavaUtilDate *) check_class_cast(o, [JavaUtilDate class])) getTime]];
+      else (void) [object putWithNSString:[((id<ModelObjectProperty>) nil_chk(p)) name] withId:o];
     }
   }
   return object;
@@ -100,7 +100,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelRootObject_init(ModelRootObject *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelRootObject)

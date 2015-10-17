@@ -53,18 +53,13 @@ J2OBJC_FIELD_SETTER(ControllerUnitListController, units_, JavaUtilArrayList *)
 }
 
 - (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event {
-  JreStrongAssignAndConsume(&units_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchUnitsEvent *) nil_chk(event)) getUnits]));
+  units_ = new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchUnitsEvent *) nil_chk(event)) getUnits]);
   [self sortUsersWithModelUnit_PropertiesEnum:JreLoadStatic(ModelUnit_PropertiesEnum, name)];
 }
 
 - (void)onStop {
   [super onStop];
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
-}
-
-- (void)dealloc {
-  RELEASE_(units_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -87,7 +82,7 @@ J2OBJC_FIELD_SETTER(ControllerUnitListController, units_, JavaUtilArrayList *)
 @end
 
 void ControllerUnitListController_initWithViewUnitListView_(ControllerUnitListController *self, id<ViewUnitListView> view) {
-  ControllerController_initWithViewView_(self, view);
+  (void) ControllerController_initWithViewView_(self, view);
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUnitsEvent, TYPE_), self);
   ServiceService_getUnits();
 }

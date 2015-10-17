@@ -77,7 +77,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
   if (self == [ModelSimpleComparator class]) {
-    JreStrongAssignAndConsume(&ModelSimpleComparator_NUMBER_AWARE_STRING_COMPARATOR_, new_ModelSimpleComparator_NumberAwareStringComparator_init());
+    ModelSimpleComparator_NUMBER_AWARE_STRING_COMPARATOR_ = new_ModelSimpleComparator_NumberAwareStringComparator_init();
     J2OBJC_SET_INITIALIZED(ModelSimpleComparator)
   }
 }
@@ -99,11 +99,11 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 ModelSimpleComparator_Builder *ModelSimpleComparator_forPropertyWithModelObjectProperty_(id<ModelObjectProperty> property) {
   ModelSimpleComparator_initialize();
-  return [new_ModelSimpleComparator_Builder_initWithModelObjectProperty_(property) autorelease];
+  return new_ModelSimpleComparator_Builder_initWithModelObjectProperty_(property);
 }
 
 void ModelSimpleComparator_init(ModelSimpleComparator *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ModelSimpleComparator *new_ModelSimpleComparator_init() {
@@ -127,12 +127,7 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelSimpleComparator)
 }
 
 - (id<JavaUtilComparator>)build {
-  return [new_ModelSimpleComparator_Builder_$1_initWithModelSimpleComparator_Builder_(self) autorelease];
-}
-
-- (void)dealloc {
-  RELEASE_(property_);
-  [super dealloc];
+  return new_ModelSimpleComparator_Builder_$1_initWithModelSimpleComparator_Builder_(self);
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -152,8 +147,8 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelSimpleComparator)
 @end
 
 void ModelSimpleComparator_Builder_initWithModelObjectProperty_(ModelSimpleComparator_Builder *self, id<ModelObjectProperty> property) {
-  NSObject_init(self);
-  JreStrongAssign(&self->property_, property);
+  (void) NSObject_init(self);
+  self->property_ = property;
 }
 
 ModelSimpleComparator_Builder *new_ModelSimpleComparator_Builder_initWithModelObjectProperty_(id<ModelObjectProperty> property) {
@@ -191,11 +186,6 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelSimpleComparator_Builder)
   return self;
 }
 
-- (void)dealloc {
-  RELEASE_(this$0_);
-  [super dealloc];
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "compareWithId:withId:", "compare", "I", 0x1, NULL, "(TT;TT;)I" },
@@ -212,8 +202,8 @@ J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelSimpleComparator_Builder)
 @end
 
 void ModelSimpleComparator_Builder_$1_initWithModelSimpleComparator_Builder_(ModelSimpleComparator_Builder_$1 *self, ModelSimpleComparator_Builder *outer$) {
-  JreStrongAssign(&self->this$0_, outer$);
-  NSObject_init(self);
+  self->this$0_ = outer$;
+  (void) NSObject_init(self);
 }
 
 ModelSimpleComparator_Builder_$1 *new_ModelSimpleComparator_Builder_$1_initWithModelSimpleComparator_Builder_(ModelSimpleComparator_Builder *outer$) {
@@ -243,8 +233,8 @@ J2OBJC_INITIALIZED_DEFN(ModelSimpleComparator_NumberAwareStringComparator)
     else if ([((NSString *) nil_chk([m2 groupWithInt:2])) isEmpty]) {
       return 1;
     }
-    JavaMathBigInteger *n1 = [new_JavaMathBigInteger_initWithNSString_([m1 groupWithInt:2]) autorelease];
-    JavaMathBigInteger *n2 = [new_JavaMathBigInteger_initWithNSString_([m2 groupWithInt:2]) autorelease];
+    JavaMathBigInteger *n1 = new_JavaMathBigInteger_initWithNSString_([m1 groupWithInt:2]);
+    JavaMathBigInteger *n2 = new_JavaMathBigInteger_initWithNSString_([m2 groupWithInt:2]);
     jint numberCompare = [n1 compareToWithId:n2];
     if (0 != numberCompare) {
       return numberCompare;
@@ -262,7 +252,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
   if (self == [ModelSimpleComparator_NumberAwareStringComparator class]) {
-    JreStrongAssign(&ModelSimpleComparator_NumberAwareStringComparator_PATTERN_, JavaUtilRegexPattern_compileWithNSString_(@"(\\D*)(\\d*)"));
+    ModelSimpleComparator_NumberAwareStringComparator_PATTERN_ = JavaUtilRegexPattern_compileWithNSString_(@"(\\D*)(\\d*)");
     J2OBJC_SET_INITIALIZED(ModelSimpleComparator_NumberAwareStringComparator)
   }
 }
@@ -282,7 +272,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelSimpleComparator_NumberAwareStringComparator_init(ModelSimpleComparator_NumberAwareStringComparator *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ModelSimpleComparator_NumberAwareStringComparator *new_ModelSimpleComparator_NumberAwareStringComparator_init() {

@@ -57,9 +57,9 @@ J2OBJC_INITIALIZED_DEFN(ControllerLoginController)
 
 - (void)onAuthenticateWithEventAuthenticationEvent:(EventAuthenticationEvent *)event {
   [((JavaUtilLoggingLogger *) nil_chk(ControllerLoginController_logger_)) logWithJavaUtilLoggingLevel:JreLoadStatic(JavaUtilLoggingLevel, INFO_) withNSString:@"AuthenticationEvent received"];
-  JreStrongAssign(JreLoadStaticRef(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_), [((EventAuthenticationEvent *) nil_chk(event)) getAuthenticationToken]);
+  *JreLoadStaticRef(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_) = [((EventAuthenticationEvent *) nil_chk(event)) getAuthenticationToken];
   [((id<ImplStorage>) nil_chk([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) getStorage])) addWithNSString:ImplStorage_KEY_AUTH_TOKEN_ withNSString:JreLoadStatic(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_)];
-  RtdcCoreSession_setCurrentSessionWithRtdcCoreSession_([new_RtdcCoreSession_initWithModelUser_([event getUser]) autorelease]);
+  RtdcCoreSession_setCurrentSessionWithRtdcCoreSession_(new_RtdcCoreSession_initWithModelUser_([event getUser]));
   [((id<ImplVoipController>) nil_chk([JreLoadStatic(RtdcCoreBootstrapper, FACTORY_) getVoipController])) registerUserWithModelUser:[event getUser]];
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventAuthenticationEvent, TYPE_), self);
   [((id<ImplDispatcher>) nil_chk([JreLoadStatic(RtdcCoreBootstrapper, FACTORY_) newDispatcher])) goToAllUnitsWithControllerController:self];
@@ -72,7 +72,7 @@ J2OBJC_INITIALIZED_DEFN(ControllerLoginController)
 
 + (void)initialize {
   if (self == [ControllerLoginController class]) {
-    JreStrongAssign(&ControllerLoginController_logger_, JavaUtilLoggingLogger_getLoggerWithNSString_([ControllerLoginController_class_() getCanonicalName]));
+    ControllerLoginController_logger_ = JavaUtilLoggingLogger_getLoggerWithNSString_([ControllerLoginController_class_() getCanonicalName]);
     J2OBJC_SET_INITIALIZED(ControllerLoginController)
   }
 }
@@ -96,7 +96,7 @@ J2OBJC_INITIALIZED_DEFN(ControllerLoginController)
 @end
 
 void ControllerLoginController_initWithViewLoginView_(ControllerLoginController *self, id<ViewLoginView> view) {
-  ControllerController_initWithViewView_(self, view);
+  (void) ControllerController_initWithViewView_(self, view);
   [((id<ImplUiElement>) nil_chk([((id<ViewLoginView>) nil_chk(view)) getUsernameUiElement])) setFocusWithBoolean:true];
 }
 

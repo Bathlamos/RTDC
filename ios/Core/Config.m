@@ -69,7 +69,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void RtdcCoreConfig_init(RtdcCoreConfig *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 RtdcCoreConfig *new_RtdcCoreConfig_init() {
