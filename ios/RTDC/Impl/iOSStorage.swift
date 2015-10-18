@@ -25,8 +25,8 @@ class IOSStorage: ImplStorage, ImplStorageProtocol {
         settings.setObject(data, forKey: key)
     }
     
-    func retrieveWithNSString(key: String!) -> String {
-        return settings.stringForKey(key)!
+    func retrieveWithNSString(key: String!) -> String? {
+        return settings.stringForKey(key)
     }
     
     func removeWithNSString(key: String!) {
