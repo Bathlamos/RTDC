@@ -11,22 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.core.Session;
-import rtdc.core.event.Event;
-import rtdc.core.event.FetchMessagesEvent;
 import rtdc.core.model.Message;
-import rtdc.core.model.User;
-import rtdc.core.service.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RecentContactsListAdapter extends ArrayAdapter {
 
     private Context context;
 
-    public RecentContactsListAdapter(Context context, List items) {
-        super(context, android.R.layout.simple_list_item_1, items);
+    public RecentContactsListAdapter(Context context, ArrayList<Message> recentContacts) {
+        super(context, R.layout.adapter_recent_contact, recentContacts);
         this.context = context;
     }
 
@@ -41,14 +37,14 @@ public class RecentContactsListAdapter extends ArrayAdapter {
 
         LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (view == null) {
-            view = mInflater.inflate(R.layout.recent_contacts_list_item, null);
+            view = mInflater.inflate(R.layout.adapter_recent_contact, null);
         }
 
         boolean senderIsSessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
 
         setupColumn(view, R.id.senderRecentContactsTextView, senderIsSessionUser ? message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName(): message.getSender().getFirstName()+" "+message.getSender().getLastName());
         setupColumn(view, R.id.messagePreviewTextView, message.getContent());
-        setupColumn(view, R.id.lastTimeSentTextView, message.getTimeSent().toString());
+        setupColumn(view, R.id.lastTimeSentTextView, new SimpleDateFormat("MMM dd, yyyy").format(message.getTimeSent()));
 
         if(!senderIsSessionUser && message.getStatus() != Message.Status.read){
             ((TextView)view.findViewById(R.id.senderRecentContactsTextView)).setTypeface(Typeface.DEFAULT_BOLD);

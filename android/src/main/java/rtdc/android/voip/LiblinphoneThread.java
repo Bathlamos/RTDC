@@ -15,7 +15,7 @@ import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
 import rtdc.android.presenter.MainActivity;
-import rtdc.android.presenter.fragments.MessageListFragment;
+import rtdc.android.presenter.fragments.CommunicationHubFragment;
 import rtdc.android.presenter.fragments.VideoCallFragment;
 import rtdc.core.Config;
 import rtdc.core.Session;
@@ -280,15 +280,15 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
                 }
             }
         }else{
-            if(MessageListFragment.getInstance() != null){
+            if(CommunicationHubFragment.getInstance() != null){
                 JSONObject object = new JSONObject(linphoneChatMessage.getText());
                 Message message = new Message(object);
-                if(MessageListFragment.getInstance().getMessagingUser().getId() == message.getSenderID()) {
+                if(CommunicationHubFragment.getInstance().getMessagingUser().getId() == message.getSenderID()) {
                     message.setStatus(Message.Status.read);
-                    MessageListFragment.getInstance().addMessage(message);
+                    CommunicationHubFragment.getInstance().addMessage(message);
                 }else{
                     message.setStatus(Message.Status.delivered);
-                    MessageListFragment.getInstance().addRecentContact(message);
+                    CommunicationHubFragment.getInstance().addRecentContact(message);
                 }
                 Service.saveOrUpdateMessage(message);
             }

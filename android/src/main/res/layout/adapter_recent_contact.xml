@@ -20,12 +20,12 @@
 
         <TextView
                 android:id="@+id/lastTimeSentTextView"
-                android:layout_width="105dp"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Time"
-                android:textSize="12sp" android:gravity="fill_vertical|right"
-                android:textColor="@color/RTDC_grey_asbestos" android:paddingRight="10dp"/>
+                android:text="Date"
+                android:textSize="12sp" android:gravity="right"
+                android:textColor="@color/RTDC_grey_asbestos"/>
 
     </LinearLayout>
 

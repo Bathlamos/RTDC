@@ -5,11 +5,13 @@ import rtdc.core.model.User;
 
 import java.util.List;
 
-public interface MessageListView extends View {
+public interface CommunicationHubView extends View {
 
     void setRecentContacts(List<Message> recentContacts);
 
-    void setMessages(List<Message> messages);
+    void setMessages(List<Message> messages, User messagingUser);
+
+    void setContacts(List<User> contacts);
 
     void addMessage(Message message);
 

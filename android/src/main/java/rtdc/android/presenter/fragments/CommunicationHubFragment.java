@@ -1,6 +1,5 @@
 package rtdc.android.presenter.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
@@ -9,47 +8,49 @@ import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.core.Session;
 import rtdc.core.Config;
-import rtdc.core.controller.MessageListController;
-import rtdc.core.event.ActionCompleteEvent;
+import rtdc.core.controller.CommunicationHubController;
 import rtdc.core.event.Event;
-import rtdc.core.event.FetchMessagesEvent;
 import rtdc.core.event.MessageSavedEvent;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
-import rtdc.core.view.MessageListView;
+import rtdc.core.view.CommunicationHubView;
 
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MessageListFragment extends AbstractFragment implements MessageListView {
+public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView {
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
+    private ArrayAdapter<User> contactsAdapter;
     private ArrayList<Message> recentContacts = new ArrayList<Message>();
     private ArrayList<Message> messages = new ArrayList<Message>();
-    private MessageListController controller;
+    private ArrayList<User> contacts = new ArrayList<User>();
+    private CommunicationHubController controller;
     private int selectedRecentContactIndex;
     private User messagingUser;
     private boolean loadingMessages;
-    private View view;
+    public View view;
+    AutoCompleteTextView contactsAutoComplete;
 
-    private static MessageListFragment instance;
+    private static CommunicationHubFragment instance;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         instance = this;
-        view = inflater.inflate(R.layout.fragment_messages, container, false);
+        view = inflater.inflate(R.layout.fragment_communication_hub, container, false);
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
+        contactsAutoComplete = (AutoCompleteTextView) view.findViewById(R.id.contactsAutoComplete);
 
         // Setup message send button
         view.findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(((TextView) view.findViewById(R.id.messageEditText)).getText().equals(""))
+                if(((EditText) view.findViewById(R.id.messageEditText)).getText().toString().equals(""))
                     return;
 
                 final Message message = new Message();
@@ -85,7 +86,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         view.findViewById(R.id.audioCallButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
                 AndroidVoipController.get().call(messagingUser, false);
             }
         });
@@ -94,7 +95,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         view.findViewById(R.id.videoCallButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
                 AndroidVoipController.get().call(messagingUser, true);
             }
         });
@@ -104,10 +105,14 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
         // Setup item click for the recent contact's list
         recentContactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View recentContactView, int position, long id) {
+                contactsAutoComplete.setVisibility(View.GONE);
+                view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
+
                 Message message = recentContacts.get(position);
 
                 // We pressed on the conversation that's already loaded, don't do anything
+
                 if(message.getSenderID() == messagingUser.getId() || message.getReceiverID() == messagingUser.getId())
                     return;
 
@@ -128,9 +133,9 @@ public class MessageListFragment extends AbstractFragment implements MessageList
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 // Only get new messages if we're not loading messages already, we are currently in a conversation, we've reached
                 // the top of the listview and we have the minimum amount of messages that are being displayed
-                if(!loadingMessages && messagingUser != null && view.getChildAt(0).getTop() == 0 && controller.getMessages().size() >= 25){
+                if(!loadingMessages && messagingUser != null && totalItemCount > 0 && view.getChildAt(0).getTop() == 0 && controller.getMessages().size() >= controller.FETCHING_SIZE){
                     loadingMessages = true;
-                    Logger.getLogger(MessageListFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
+                    Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
                     Service.getMessages(messagingUser.getId(), Session.getCurrentSession().getUser().getId(), controller.getMessages().size()-1, controller.FETCHING_SIZE);
                 }
             }
@@ -140,7 +145,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         messageListView.setAdapter(messagesAdapter);
 
         if (controller == null)
-            controller = new MessageListController(this);
+            controller = new CommunicationHubController(this);
 
         setHasOptionsMenu(true);
 
@@ -155,11 +160,12 @@ public class MessageListFragment extends AbstractFragment implements MessageList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        Intent intent;
         switch (item.getItemId()) {
-            case R.id.action_compose_message:
-                //intent = new Intent(getActivity(), CreateUnitActivity.class);
-              //  startActivity(intent);
+            case R.id.action_new:
+                view.findViewById(R.id.conversationLayout).setVisibility(View.GONE);
+                contactsAutoComplete.setText("");
+                contactsAutoComplete.setVisibility(View.VISIBLE);
+                contactsAutoComplete.requestFocus();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -174,17 +180,17 @@ public class MessageListFragment extends AbstractFragment implements MessageList
     }
 
     @Override
-    public void setMessages(List<Message> messages) {
+    public void setMessages(List<Message> messages, User messagingUser) {
         this.messages.clear();
         this.messages.addAll(convertMessages(messages));
         //this.messages.addAll(messages);
 
+        contactsAutoComplete.setVisibility(View.GONE);
+        view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
+
         // Get the (new) user we're chatting with
 
-        if(messages.get(0).getSender().getId() != Session.getCurrentSession().getUser().getId())
-            messagingUser = messages.get(0).getSender();
-        else
-            messagingUser = messages.get(0).getReceiver();
+        this.messagingUser = messagingUser;
         ((TextView)view.findViewById(R.id.receiverNameTextView)).setText(messagingUser.getFirstName() + " " + messagingUser.getLastName());
         ((TextView)view.findViewById(R.id.receiverRoleTextView)).setText(messagingUser.getRole());
 
@@ -209,6 +215,15 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
         // Make sure that this parameter is reset to its default value
         loadingMessages = false;
+    }
+
+    @Override
+    public void setContacts(List<User> contacts){
+        this.contacts.clear();
+        this.contacts.addAll(contacts);
+        contactsAdapter = new ContactListAdapter(getActivity(), (ArrayList<User>) contacts);
+        contactsAutoComplete.setAdapter(contactsAdapter);
+        contactsAdapter.notifyDataSetChanged();
     }
 
     // Convert raw messages to be list adapter friendly
@@ -256,40 +271,65 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         }
     }
 
-    private Message convertMessage(Message rawMessage){
-        Message lastMessage = messages.get(messages.size() - 1);
-        User lastSender = lastMessage.getSender();
-        Date lastTimeSent = null;
-        Message message = new Message();
+    private List<Message> convertMessage(Message rawMessage){
+        Message lastMessage = null;
+        User lastSender = null;
+        if(!messages.isEmpty()){
+            lastMessage = messages.get(messages.size() - 1);
+            lastSender = lastMessage.getSender();
+        }
 
-        if(rawMessage.getSender().getId() == lastSender.getId()){
+        List<Message> convertedMessages = new ArrayList<Message>();
+
+        if(lastMessage == null || (lastMessage != null && !isSameDay(rawMessage.getTimeSent(), lastMessage.getTimeSent()))){
+            Message message = new Message();
+            message.setSender(rawMessage.getSender());
+            message.setContent(Config.COMMAND_EXEC_KEY);
+            message.setTimeSent(rawMessage.getTimeSent());
+            convertedMessages.add(message);
+        }
+
+        Message message = new Message();
+        if(lastMessage != null && rawMessage.getSender().getId() == lastSender.getId()){
             lastMessage.setContent(lastMessage.getContent() + "\n\n" + rawMessage.getContent());
             return null;
         } else {
             message.setSender(rawMessage.getSender());
             message.setTimeSent(rawMessage.getTimeSent());
             message.setContent(rawMessage.getContent());
-            return message;
+            convertedMessages.add(message);
         }
+
+        return convertedMessages;
     }
 
     public void addMessage(final Message message){
         message.setStatus(Message.Status.read);
-        Message convertedMessage = convertMessage(message);
-        if(convertedMessage != null)
-            messages.add(convertedMessage);
+        List<Message> convertedMessages = convertMessage(message);
+        if(convertedMessages != null){
+            for(Message convertedMessage: convertedMessages) {
+                messages.add(convertedMessage);
+            }
+        }
+
+        messagesAdapter.notifyDataSetChanged();
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                messagesAdapter.notifyDataSetChanged();
-
                 // Force the message list view to go to the bottom
                 AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
                 messageListView.setSelection(messageListView.getCount() - 1);
 
                 // Get the currently selected recent contact message, remove it, and then place this message at the top of the list
                 final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
-                recentContacts.remove(selectedRecentContactIndex);
+                for(Iterator<Message> iterator = recentContacts.iterator(); iterator.hasNext();){
+                    Message contact = iterator.next();
+                    User otherContact = contact.getSender().getId() != Session.getCurrentSession().getUser().getId() ? contact.getSender(): contact.getReceiver();
+                    if(otherContact.getId() == message.getReceiverID()){
+                        iterator.remove();
+                    }
+                }
                 recentContacts.add(0, message);
                 selectedRecentContactIndex = 0;
                 recentContactsListView.setSelection(0);
@@ -341,7 +381,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
         // Add contact to the top of the list
         recentContacts.add(0, message);
-        getActivity().runOnUiThread(new Runnable(){
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 selectedRecentContactIndex = 0;
@@ -362,7 +402,7 @@ public class MessageListFragment extends AbstractFragment implements MessageList
         instance = null;
     }
 
-    public static MessageListFragment getInstance(){
+    public static CommunicationHubFragment getInstance(){
         return instance;
     }
 }
