@@ -180,7 +180,8 @@ public class MessageServlet {
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
-            message.setTimeSent(new Date()); // Set to universal server time
+            if(message.getId() == -1) // No id for this message, thus it isn't in the database yet
+                message.setTimeSent(new Date()); // Set to universal server time
             transaction = session.beginTransaction();
             session.saveOrUpdate(message);
             transaction.commit();
