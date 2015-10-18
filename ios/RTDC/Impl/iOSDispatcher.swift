@@ -1,5 +1,5 @@
 //
-//  iOSDispatcher.swift
+//  IOSDispatcher.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-03-02.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class iOSDispatcher: NSObject, ImplDispatcher {
+class IOSDispatcher: NSObject, ImplDispatcher {
 
     func goToLoginWithControllerController(caller: ControllerController) {
         

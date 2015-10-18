@@ -1,5 +1,5 @@
 //
-//  iOSTextField.swift
+//  IOSTextField.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-10-12.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class iOSTextField: UITextField, ImplUiElement {
+class IOSTextField: UITextField, ImplUiElement {
 
     func getValue() -> AnyObject! {
         return text!
@@ -24,7 +24,7 @@ class iOSTextField: UITextField, ImplUiElement {
     }
     
     func setErrorMessageWithNSString(errorMessage: String!) {
-        // Does nothing
+        // Do nothing
     }
     
     func setFocusWithBoolean(hasFocus: jboolean) {
