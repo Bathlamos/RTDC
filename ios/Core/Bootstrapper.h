@@ -3,24 +3,32 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/Bootstrapper.java
 //
 
-#ifndef _RtdcCoreBootstrapper_H_
-#define _RtdcCoreBootstrapper_H_
+#ifndef _Bootstrapper_H_
+#define _Bootstrapper_H_
+
+#include "J2ObjC_header.h"
 
 @protocol ImplFactory;
 
-#import "JreEmulation.h"
+@interface RtdcCoreBootstrapper : NSObject
 
-@interface RtdcCoreBootstrapper : NSObject {
-}
++ (id<ImplFactory>)FACTORY;
 
-+ (void)initialize__WithImplFactory:(id<ImplFactory>)factory OBJC_METHOD_FAMILY_NONE;
++ (void)setFACTORY:(id<ImplFactory>)value;
+
++ (NSString *)AUTHENTICATION_TOKEN;
+
++ (void)setAUTHENTICATION_TOKEN:(NSString *)value;
+
+#pragma mark Public
 
 - (instancetype)init;
 
++ (void)initialize__WithImplFactory:(id<ImplFactory>)factory OBJC_METHOD_FAMILY_NONE;
+
 @end
 
-__attribute__((always_inline)) inline void RtdcCoreBootstrapper_init() {}
-FOUNDATION_EXPORT void RtdcCoreBootstrapper_initialize__WithImplFactory_(id<ImplFactory> factory);
+J2OBJC_STATIC_INIT(RtdcCoreBootstrapper)
 
 FOUNDATION_EXPORT id<ImplFactory> RtdcCoreBootstrapper_FACTORY_;
 J2OBJC_STATIC_FIELD_GETTER(RtdcCoreBootstrapper, FACTORY_, id<ImplFactory>)
@@ -30,4 +38,12 @@ FOUNDATION_EXPORT NSString *RtdcCoreBootstrapper_AUTHENTICATION_TOKEN_;
 J2OBJC_STATIC_FIELD_GETTER(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_, NSString *)
 J2OBJC_STATIC_FIELD_SETTER(RtdcCoreBootstrapper, AUTHENTICATION_TOKEN_, NSString *)
 
-#endif // _RtdcCoreBootstrapper_H_
+FOUNDATION_EXPORT void RtdcCoreBootstrapper_initialize__WithImplFactory_(id<ImplFactory> factory);
+
+FOUNDATION_EXPORT void RtdcCoreBootstrapper_init(RtdcCoreBootstrapper *self);
+
+FOUNDATION_EXPORT RtdcCoreBootstrapper *new_RtdcCoreBootstrapper_init() NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreBootstrapper)
+
+#endif // _Bootstrapper_H_

@@ -5,40 +5,49 @@
 
 #include "IOSClass.h"
 #include "IOSPrimitiveArray.h"
+#include "J2ObjC_source.h"
 #include "StringWriter.h"
 #include "java/io/IOException.h"
+#include "java/io/Writer.h"
 #include "java/lang/StringBuffer.h"
 
-@implementation JSONStringWriter
-
-- (instancetype)init {
-  if (self = [super init]) {
-    JSONStringWriter_setAndConsume_buf_(self, [[JavaLangStringBuffer alloc] init]);
-  }
-  return self;
+@interface JsonStringWriter () {
+ @public
+  JavaLangStringBuffer *buf_;
 }
 
+@end
+
+J2OBJC_FIELD_SETTER(JsonStringWriter, buf_, JavaLangStringBuffer *)
+
+@implementation JsonStringWriter
+
+J2OBJC_IGNORE_DESIGNATED_BEGIN
+- (instancetype)init {
+  JsonStringWriter_init(self);
+  return self;
+}
+J2OBJC_IGNORE_DESIGNATED_END
+
 - (instancetype)initWithInt:(jint)initialSize {
-  if (self = [super init]) {
-    JSONStringWriter_setAndConsume_buf_(self, [[JavaLangStringBuffer alloc] initWithInt:initialSize]);
-  }
+  JsonStringWriter_initWithInt_(self, initialSize);
   return self;
 }
 
 - (void)writeWithCharArray:(IOSCharArray *)cbuf
                    withInt:(jint)off
                    withInt:(jint)len {
-  [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithCharArray:cbuf withInt:off withInt:len];
+  (void) [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithCharArray:cbuf withInt:off withInt:len];
 }
 
 - (void)writeWithNSString:(NSString *)str {
-  [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithNSString:str];
+  (void) [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithNSString:str];
 }
 
 - (void)writeWithNSString:(NSString *)str
                   withInt:(jint)off
                   withInt:(jint)len {
-  [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithNSString:[((NSString *) nil_chk(str)) substring:off endIndex:len]];
+  (void) [((JavaLangStringBuffer *) nil_chk(buf_)) appendWithNSString:[((NSString *) nil_chk(str)) substring:off endIndex:len]];
 }
 
 - (void)flush {
@@ -47,31 +56,45 @@
 - (void)close {
 }
 
-- (void)dealloc {
-  JSONStringWriter_set_buf_(self, nil);
-  [super dealloc];
-}
-
-- (void)copyAllFieldsTo:(JSONStringWriter *)other {
-  [super copyAllFieldsTo:other];
-  JSONStringWriter_set_buf_(other, buf_);
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "init", "StringWriter", NULL, 0x1, NULL },
-    { "initWithInt:", "StringWriter", NULL, 0x1, NULL },
-    { "writeWithCharArray:withInt:withInt:", "write", "V", 0x1, "Ljava.io.IOException;" },
-    { "writeWithNSString:", "write", "V", 0x1, "Ljava.io.IOException;" },
-    { "writeWithNSString:withInt:withInt:", "write", "V", 0x1, "Ljava.io.IOException;" },
-    { "flush", NULL, "V", 0x1, "Ljava.io.IOException;" },
-    { "close", NULL, "V", 0x1, "Ljava.io.IOException;" },
+    { "init", "StringWriter", NULL, 0x1, NULL, NULL },
+    { "initWithInt:", "StringWriter", NULL, 0x1, NULL, NULL },
+    { "writeWithCharArray:withInt:withInt:", "write", "V", 0x1, "Ljava.io.IOException;", NULL },
+    { "writeWithNSString:", "write", "V", 0x1, "Ljava.io.IOException;", NULL },
+    { "writeWithNSString:withInt:withInt:", "write", "V", 0x1, "Ljava.io.IOException;", NULL },
+    { "flush", NULL, "V", 0x1, "Ljava.io.IOException;", NULL },
+    { "close", NULL, "V", 0x1, "Ljava.io.IOException;", NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "buf_", NULL, 0x12, "Ljava.lang.StringBuffer;", NULL,  },
+    { "buf_", NULL, 0x12, "Ljava.lang.StringBuffer;", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _JSONStringWriter = { "StringWriter", "rtdc.core.json", NULL, 0x1, 7, methods, 1, fields, 0, NULL};
-  return &_JSONStringWriter;
+  static const J2ObjcClassInfo _JsonStringWriter = { 2, "StringWriter", "rtdc.core.json", NULL, 0x1, 7, methods, 1, fields, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonStringWriter;
 }
 
 @end
+
+void JsonStringWriter_init(JsonStringWriter *self) {
+  (void) JavaIoWriter_init(self);
+  self->buf_ = new_JavaLangStringBuffer_init();
+}
+
+JsonStringWriter *new_JsonStringWriter_init() {
+  JsonStringWriter *self = [JsonStringWriter alloc];
+  JsonStringWriter_init(self);
+  return self;
+}
+
+void JsonStringWriter_initWithInt_(JsonStringWriter *self, jint initialSize) {
+  (void) JavaIoWriter_init(self);
+  self->buf_ = new_JavaLangStringBuffer_initWithInt_(initialSize);
+}
+
+JsonStringWriter *new_JsonStringWriter_initWithInt_(jint initialSize) {
+  JsonStringWriter *self = [JsonStringWriter alloc];
+  JsonStringWriter_initWithInt_(self, initialSize);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonStringWriter)

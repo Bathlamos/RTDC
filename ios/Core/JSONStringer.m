@@ -3,15 +3,20 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONStringer.java
 //
 
+#include "J2ObjC_source.h"
 #include "JSONStringer.h"
+#include "JSONWriter.h"
 #include "StringWriter.h"
 #include "java/io/Writer.h"
 
-@implementation JSONJSONStringer
+@implementation JsonJSONStringer
 
+J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  return [super initWithJavaIoWriter:[[[JSONStringWriter alloc] init] autorelease]];
+  JsonJSONStringer_init(self);
+  return self;
 }
+J2OBJC_IGNORE_DESIGNATED_END
 
 - (NSString *)description {
   return self->mode_ == 'd' ? [((JavaIoWriter *) nil_chk(self->writer_)) description] : nil;
@@ -19,11 +24,23 @@
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "init", "JSONStringer", NULL, 0x1, NULL },
-    { "description", "toString", "Ljava.lang.String;", 0x1, NULL },
+    { "init", "JSONStringer", NULL, 0x1, NULL, NULL },
+    { "description", "toString", "Ljava.lang.String;", 0x1, NULL, NULL },
   };
-  static const J2ObjcClassInfo _JSONJSONStringer = { "JSONStringer", "rtdc.core.json", NULL, 0x1, 2, methods, 0, NULL, 0, NULL};
-  return &_JSONJSONStringer;
+  static const J2ObjcClassInfo _JsonJSONStringer = { 2, "JSONStringer", "rtdc.core.json", NULL, 0x1, 2, methods, 0, NULL, 0, NULL, 0, NULL, NULL, NULL };
+  return &_JsonJSONStringer;
 }
 
 @end
+
+void JsonJSONStringer_init(JsonJSONStringer *self) {
+  (void) JsonJSONWriter_initWithJavaIoWriter_(self, new_JsonStringWriter_init());
+}
+
+JsonJSONStringer *new_JsonJSONStringer_init() {
+  JsonJSONStringer *self = [JsonJSONStringer alloc];
+  JsonJSONStringer_init(self);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(JsonJSONStringer)

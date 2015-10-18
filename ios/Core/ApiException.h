@@ -3,21 +3,28 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/exception/ApiException.java
 //
 
-#ifndef _ExceptionApiException_H_
-#define _ExceptionApiException_H_
+#ifndef _ApiException_H_
+#define _ApiException_H_
 
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 #include "java/lang/RuntimeException.h"
 
-@interface ExceptionApiException : JavaLangRuntimeException {
-}
+@interface ExceptionApiException : JavaLangRuntimeException
+
+#pragma mark Public
 
 - (instancetype)initWithNSString:(NSString *)message;
 
 @end
 
-__attribute__((always_inline)) inline void ExceptionApiException_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ExceptionApiException)
 
-typedef ExceptionApiException RtdcCoreExceptionApiException;
+FOUNDATION_EXPORT void ExceptionApiException_initWithNSString_(ExceptionApiException *self, NSString *message);
 
-#endif // _ExceptionApiException_H_
+FOUNDATION_EXPORT ExceptionApiException *new_ExceptionApiException_initWithNSString_(NSString *message) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ExceptionApiException)
+
+@compatibility_alias RtdcCoreExceptionApiException ExceptionApiException;
+
+#endif // _ApiException_H_

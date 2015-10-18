@@ -6,10 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiDate;
-import rtdc.android.impl.AndroidUiDropdownList;
+import rtdc.android.impl.AndroidUiDropdown;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddActionController;
-import rtdc.core.impl.UiDropdownList;
+import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
@@ -23,7 +23,7 @@ public class CreateActionActivity extends AbstractDialog implements AddActionVie
 
     private AndroidUiString roleEdit, targetEdit, descriptionEdit;
     private AndroidUiDate deadlineEdit;
-    private AndroidUiDropdownList unitSpinner, statusSpinner, taskSpinner;
+    private AndroidUiDropdown unitSpinner, statusSpinner, taskSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,9 @@ public class CreateActionActivity extends AbstractDialog implements AddActionVie
         deadlineEdit = (AndroidUiDate) findViewById(R.id.deadlineEdit);
         descriptionEdit = (AndroidUiString) findViewById(R.id.descriptionEdit);
 
-        unitSpinner = (AndroidUiDropdownList) findViewById(R.id.unitSpinner);
-        statusSpinner = (AndroidUiDropdownList) findViewById(R.id.statusSpinner);
-        taskSpinner = (AndroidUiDropdownList) findViewById(R.id.actionSpinner);
+        unitSpinner = (AndroidUiDropdown) findViewById(R.id.unitSpinner);
+        statusSpinner = (AndroidUiDropdown) findViewById(R.id.statusSpinner);
+        taskSpinner = (AndroidUiDropdown) findViewById(R.id.actionSpinner);
 
         if(controller == null)
             controller = new AddActionController(this);
@@ -73,12 +73,12 @@ public class CreateActionActivity extends AbstractDialog implements AddActionVie
     }
 
     @Override
-    public UiDropdownList<Unit> getUnitUiElement() {
+    public UiDropdown<Unit> getUnitUiElement() {
         return unitSpinner;
     }
 
     @Override
-    public UiDropdownList<Action.Status> getStatusUiElement() {
+    public UiDropdown<Action.Status> getStatusUiElement() {
         return statusSpinner;
     }
 
@@ -88,7 +88,7 @@ public class CreateActionActivity extends AbstractDialog implements AddActionVie
     }
 
     @Override
-    public UiDropdownList<Action.Task> getTaskUiElement() {
+    public UiDropdown<Action.Task> getTaskUiElement() {
         return taskSpinner;
     }
 

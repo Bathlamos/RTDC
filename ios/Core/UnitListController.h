@@ -3,58 +3,45 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/controller/UnitListController.java
 //
 
-#ifndef _ControllerUnitListController_H_
-#define _ControllerUnitListController_H_
+#ifndef _UnitListController_H_
+#define _UnitListController_H_
+
+#include "Controller.h"
+#include "FetchUnitsEvent.h"
+#include "J2ObjC_header.h"
 
 @class ModelUnit;
-@protocol JavaUtilList;
-@protocol RtdcCoreViewUnitListView;
+@class ModelUnit_PropertiesEnum;
+@protocol ViewUnitListView;
 
-#import "JreEmulation.h"
-#include "AsyncCallback.h"
+@interface ControllerUnitListController : ControllerController < EventFetchUnitsEvent_Handler >
 
-@interface ControllerUnitListController : NSObject {
- @public
-  id<RtdcCoreViewUnitListView> view_;
-}
+#pragma mark Public
 
-- (instancetype)initWithRtdcCoreViewUnitListView:(id<RtdcCoreViewUnitListView>)view;
+- (instancetype)initWithViewUnitListView:(id<ViewUnitListView>)view;
 
-- (void)onClickUserWithModelUnit:(ModelUnit *)unit;
+- (void)editUnitWithModelUnit:(ModelUnit *)unit;
 
-- (void)onClickNewUser;
+- (void)onStop;
 
-- (void)dealloc;
+- (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event;
 
-- (void)copyAllFieldsTo:(ControllerUnitListController *)other;
+- (void)sortUsersWithModelUnit_PropertiesEnum:(ModelUnit_PropertiesEnum *)property;
 
-@end
+#pragma mark Package-Private
 
-__attribute__((always_inline)) inline void ControllerUnitListController_init() {}
-
-J2OBJC_FIELD_SETTER(ControllerUnitListController, view_, id<RtdcCoreViewUnitListView>)
-
-typedef ControllerUnitListController RtdcCoreControllerUnitListController;
-
-@interface ControllerUnitListController_$1 : NSObject < ServiceAsyncCallback > {
- @public
-  ControllerUnitListController *this$0_;
-}
-
-- (void)onSuccessWithId:(id<JavaUtilList>)units;
-
-- (void)onErrorWithNSString:(NSString *)message;
-
-- (instancetype)initWithControllerUnitListController:(ControllerUnitListController *)outer$;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(ControllerUnitListController_$1 *)other;
+- (NSString *)getTitle;
 
 @end
 
-__attribute__((always_inline)) inline void ControllerUnitListController_$1_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ControllerUnitListController)
 
-J2OBJC_FIELD_SETTER(ControllerUnitListController_$1, this$0_, ControllerUnitListController *)
+FOUNDATION_EXPORT void ControllerUnitListController_initWithViewUnitListView_(ControllerUnitListController *self, id<ViewUnitListView> view);
 
-#endif // _ControllerUnitListController_H_
+FOUNDATION_EXPORT ControllerUnitListController *new_ControllerUnitListController_initWithViewUnitListView_(id<ViewUnitListView> view) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ControllerUnitListController)
+
+@compatibility_alias RtdcCoreControllerUnitListController ControllerUnitListController;
+
+#endif // _UnitListController_H_

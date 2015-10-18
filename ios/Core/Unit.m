@@ -4,126 +4,365 @@
 //
 
 #include "IOSClass.h"
-#include "JSONException.h"
+#include "IOSObjectArray.h"
+#include "J2ObjC_source.h"
 #include "JSONObject.h"
+#include "ObjectProperty.h"
+#include "RootObject.h"
+#include "SimpleValidator.h"
 #include "Unit.h"
+#include "ValidationException.h"
+#include "java/lang/Enum.h"
+#include "java/lang/IllegalArgumentException.h"
+#include "java/lang/Integer.h"
+
+@interface ModelUnit () {
+ @public
+  jint id__;
+  NSString *name_;
+  jint totalBeds_;
+  jint availableBeds_;
+  jint potentialDc_;
+  jint dcByDeadline_;
+  jint totalAdmits_;
+  jint admitsByDeadline_;
+}
+
+@end
+
+J2OBJC_FIELD_SETTER(ModelUnit, name_, NSString *)
+
+__attribute__((unused)) static void ModelUnit_PropertiesEnum_initWithNSString_withInt_(ModelUnit_PropertiesEnum *self, NSString *__name, jint __ordinal);
+
+__attribute__((unused)) static ModelUnit_PropertiesEnum *new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) NS_RETURNS_RETAINED;
 
 @implementation ModelUnit
 
-NSString * ModelUnit_ID_ = @"unit_id";
-NSString * ModelUnit_NAME_ = @"name";
-NSString * ModelUnit_TOTAL_BEDS_ = @"totalBeds";
-NSString * ModelUnit_AVAILABLE_BEDS_ = @"availableBeds";
-NSString * ModelUnit_POTENTIAL_DC_ = @"potentialDc";
-NSString * ModelUnit_TOTAL_ADMITS_ = @"totalAdmits";
-NSString * ModelUnit_DC_BY_DEADLINE_ = @"dcByDeadline";
-NSString * ModelUnit_ADMITS_BY_DEADLINE_ = @"admitsByDeadline";
-
+J2OBJC_IGNORE_DESIGNATED_BEGIN
 - (instancetype)init {
-  return [super init];
+  ModelUnit_init(self);
+  return self;
+}
+J2OBJC_IGNORE_DESIGNATED_END
+
+- (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
+  ModelUnit_initWithJsonJSONObject_(self, object);
+  return self;
 }
 
-- (instancetype)initWithNSString:(NSString *)json {
-  return [super initWithNSString:json];
+- (IOSObjectArray *)getProperties {
+  return ModelUnit_PropertiesEnum_values();
+}
+
+- (NSString *)getType {
+  return @"unit";
+}
+
+- (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property {
+  switch ([(ModelUnit_PropertiesEnum *) check_class_cast(property, [ModelUnit_PropertiesEnum class]) ordinal]) {
+    case ModelUnit_Properties_id:
+    return JavaLangInteger_valueOfWithInt_(id__);
+    case ModelUnit_Properties_name:
+    return name_;
+    case ModelUnit_Properties_totalBeds:
+    return JavaLangInteger_valueOfWithInt_(totalBeds_);
+    case ModelUnit_Properties_availableBeds:
+    return JavaLangInteger_valueOfWithInt_(availableBeds_);
+    case ModelUnit_Properties_potentialDc:
+    return JavaLangInteger_valueOfWithInt_(potentialDc_);
+    case ModelUnit_Properties_dcByDeadline:
+    return JavaLangInteger_valueOfWithInt_(dcByDeadline_);
+    case ModelUnit_Properties_totalAdmits:
+    return JavaLangInteger_valueOfWithInt_(totalAdmits_);
+    case ModelUnit_Properties_admitsByDeadline:
+    return JavaLangInteger_valueOfWithInt_(admitsByDeadline_);
+    case ModelUnit_Properties_statusAtDeadline:
+    return JavaLangInteger_valueOfWithInt_([self getStatusAtDeadline]);
+  }
+  return nil;
+}
+
+- (jboolean)validateWithModelUnit_PropertiesEnum:(ModelUnit_PropertiesEnum *)property {
+  ModelSimpleValidator *validator = new_ModelSimpleValidator_init();
+  switch ([property ordinal]) {
+    case ModelUnit_Properties_name:
+    return [validator expectNotEmptyWithNSString:name_];
+    case ModelUnit_Properties_totalBeds:
+    return [validator expectPositiveNumberWithInt:admitsByDeadline_];
+    case ModelUnit_Properties_availableBeds:
+    return [validator expectPositiveNumberWithInt:availableBeds_];
+    case ModelUnit_Properties_potentialDc:
+    return [validator expectPositiveNumberWithInt:potentialDc_];
+    case ModelUnit_Properties_dcByDeadline:
+    return [validator expectPositiveNumberWithInt:dcByDeadline_];
+    case ModelUnit_Properties_totalAdmits:
+    return [validator expectPositiveNumberWithInt:totalAdmits_];
+    case ModelUnit_Properties_admitsByDeadline:
+    return [validator expectPositiveNumberWithInt:admitsByDeadline_];
+  }
+  return true;
 }
 
 - (jint)getId {
-  return [self optIntWithNSString:ModelUnit_ID_];
+  return id__;
 }
 
 - (void)setIdWithInt:(jint)id_ {
-  [self putWithNSString:ModelUnit_ID_ withInt:id_];
+  self->id__ = id_;
 }
 
 - (NSString *)getName {
-  return [self optStringWithNSString:ModelUnit_NAME_];
+  return name_;
 }
 
 - (void)setNameWithNSString:(NSString *)name {
-  [self putWithNSString:ModelUnit_NAME_ withId:name];
+  self->name_ = name;
 }
 
 - (jint)getTotalBeds {
-  return [self optIntWithNSString:ModelUnit_TOTAL_BEDS_];
+  return totalBeds_;
 }
 
 - (void)setTotalBedsWithInt:(jint)totalBeds {
-  [self putWithNSString:ModelUnit_TOTAL_BEDS_ withInt:totalBeds];
+  self->totalBeds_ = totalBeds;
 }
 
 - (jint)getAvailableBeds {
-  return [self optIntWithNSString:ModelUnit_AVAILABLE_BEDS_];
+  return availableBeds_;
 }
 
 - (void)setAvailableBedsWithInt:(jint)availableBeds {
-  [self putWithNSString:ModelUnit_AVAILABLE_BEDS_ withInt:availableBeds];
+  self->availableBeds_ = availableBeds;
 }
 
 - (jint)getPotentialDc {
-  return [self optIntWithNSString:ModelUnit_POTENTIAL_DC_];
+  return potentialDc_;
 }
 
 - (void)setPotentialDcWithInt:(jint)potentialDc {
-  [self putWithNSString:ModelUnit_POTENTIAL_DC_ withInt:potentialDc];
+  self->potentialDc_ = potentialDc;
 }
 
 - (jint)getDcByDeadline {
-  return [self optIntWithNSString:ModelUnit_DC_BY_DEADLINE_];
+  return dcByDeadline_;
 }
 
 - (void)setDcByDeadlineWithInt:(jint)dcByDeadline {
-  [self putWithNSString:ModelUnit_DC_BY_DEADLINE_ withInt:dcByDeadline];
+  self->dcByDeadline_ = dcByDeadline;
 }
 
 - (jint)getTotalAdmits {
-  return [self optIntWithNSString:ModelUnit_TOTAL_ADMITS_];
+  return totalAdmits_;
 }
 
-- (void)setTotalAdmitsWithInt:(jint)totalAdmit {
-  [self putWithNSString:ModelUnit_TOTAL_ADMITS_ withInt:totalAdmit];
+- (void)setTotalAdmitsWithInt:(jint)totalAdmits {
+  self->totalAdmits_ = totalAdmits;
 }
 
 - (jint)getAdmitsByDeadline {
-  return [self optIntWithNSString:ModelUnit_ADMITS_BY_DEADLINE_];
+  return admitsByDeadline_;
 }
 
 - (void)setAdmitsByDeadlineWithInt:(jint)admitsByDeadline {
-  [self putWithNSString:ModelUnit_ADMITS_BY_DEADLINE_ withInt:admitsByDeadline];
+  self->admitsByDeadline_ = admitsByDeadline;
+}
+
+- (jint)getStatusAtDeadline {
+  return [self getAvailableBeds] + [self getDcByDeadline] - [self getAdmitsByDeadline];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "init", "Unit", NULL, 0x1, NULL },
-    { "initWithNSString:", "Unit", NULL, 0x1, "Lrtdc.core.json.JSONException;" },
-    { "getId", NULL, "I", 0x1, NULL },
-    { "setIdWithInt:", "setId", "V", 0x1, NULL },
-    { "getName", NULL, "Ljava.lang.String;", 0x1, NULL },
-    { "setNameWithNSString:", "setName", "V", 0x1, NULL },
-    { "getTotalBeds", NULL, "I", 0x1, NULL },
-    { "setTotalBedsWithInt:", "setTotalBeds", "V", 0x1, NULL },
-    { "getAvailableBeds", NULL, "I", 0x1, NULL },
-    { "setAvailableBedsWithInt:", "setAvailableBeds", "V", 0x1, NULL },
-    { "getPotentialDc", NULL, "I", 0x1, NULL },
-    { "setPotentialDcWithInt:", "setPotentialDc", "V", 0x1, NULL },
-    { "getDcByDeadline", NULL, "I", 0x1, NULL },
-    { "setDcByDeadlineWithInt:", "setDcByDeadline", "V", 0x1, NULL },
-    { "getTotalAdmits", NULL, "I", 0x1, NULL },
-    { "setTotalAdmitsWithInt:", "setTotalAdmits", "V", 0x1, NULL },
-    { "getAdmitsByDeadline", NULL, "I", 0x1, NULL },
-    { "setAdmitsByDeadlineWithInt:", "setAdmitsByDeadline", "V", 0x1, NULL },
+    { "init", "Unit", NULL, 0x1, NULL, NULL },
+    { "initWithJsonJSONObject:", "Unit", NULL, 0x1, NULL, NULL },
+    { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
+    { "getType", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "getValueWithModelObjectProperty:", "getValue", "Ljava.lang.Object;", 0x1, NULL, NULL },
+    { "validateWithModelUnit_PropertiesEnum:", "validate", "Z", 0x1, "Lrtdc.core.exception.ValidationException;", NULL },
+    { "getId", NULL, "I", 0x1, NULL, NULL },
+    { "setIdWithInt:", "setId", "V", 0x1, NULL, NULL },
+    { "getName", NULL, "Ljava.lang.String;", 0x1, NULL, NULL },
+    { "setNameWithNSString:", "setName", "V", 0x1, NULL, NULL },
+    { "getTotalBeds", NULL, "I", 0x1, NULL, NULL },
+    { "setTotalBedsWithInt:", "setTotalBeds", "V", 0x1, NULL, NULL },
+    { "getAvailableBeds", NULL, "I", 0x1, NULL, NULL },
+    { "setAvailableBedsWithInt:", "setAvailableBeds", "V", 0x1, NULL, NULL },
+    { "getPotentialDc", NULL, "I", 0x1, NULL, NULL },
+    { "setPotentialDcWithInt:", "setPotentialDc", "V", 0x1, NULL, NULL },
+    { "getDcByDeadline", NULL, "I", 0x1, NULL, NULL },
+    { "setDcByDeadlineWithInt:", "setDcByDeadline", "V", 0x1, NULL, NULL },
+    { "getTotalAdmits", NULL, "I", 0x1, NULL, NULL },
+    { "setTotalAdmitsWithInt:", "setTotalAdmits", "V", 0x1, NULL, NULL },
+    { "getAdmitsByDeadline", NULL, "I", 0x1, NULL, NULL },
+    { "setAdmitsByDeadlineWithInt:", "setAdmitsByDeadline", "V", 0x1, NULL, NULL },
+    { "getStatusAtDeadline", NULL, "I", 0x1, NULL, NULL },
   };
   static const J2ObjcFieldInfo fields[] = {
-    { "ID_", NULL, 0x19, "Ljava.lang.String;", &ModelUnit_ID_,  },
-    { "NAME_", NULL, 0x19, "Ljava.lang.String;", &ModelUnit_NAME_,  },
-    { "TOTAL_BEDS_", NULL, 0x19, "Ljava.lang.String;", &ModelUnit_TOTAL_BEDS_,  },
-    { "AVAILABLE_BEDS_", NULL, 0x19, "Ljava.lang.String;", &ModelUnit_AVAILABLE_BEDS_,  },
-    { "POTENTIAL_DC_", NULL, 0x19, "Ljava.lang.String;", &ModelUnit_POTENTIAL_DC_,  },
-    { "TOTAL_ADMITS_", NULL, 0x19, "Ljava.lang.String;", &ModelUnit_TOTAL_ADMITS_,  },
-    { "DC_BY_DEADLINE_", NULL, 0x19, "Ljava.lang.String;", &ModelUnit_DC_BY_DEADLINE_,  },
-    { "ADMITS_BY_DEADLINE_", NULL, 0x19, "Ljava.lang.String;", &ModelUnit_ADMITS_BY_DEADLINE_,  },
+    { "id__", "id", 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
+    { "name_", NULL, 0x2, "Ljava.lang.String;", NULL, NULL, .constantValue.asLong = 0 },
+    { "totalBeds_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
+    { "availableBeds_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
+    { "potentialDc_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
+    { "dcByDeadline_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
+    { "totalAdmits_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
+    { "admitsByDeadline_", NULL, 0x2, "I", NULL, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _ModelUnit = { "Unit", "rtdc.core.model", NULL, 0x1, 18, methods, 8, fields, 0, NULL};
+  static const char *inner_classes[] = {"Lrtdc.core.model.Unit$Properties;"};
+  static const J2ObjcClassInfo _ModelUnit = { 2, "Unit", "rtdc.core.model", NULL, 0x1, 23, methods, 8, fields, 0, NULL, 1, inner_classes, NULL, NULL };
   return &_ModelUnit;
 }
 
 @end
+
+void ModelUnit_init(ModelUnit *self) {
+  (void) ModelRootObject_init(self);
+}
+
+ModelUnit *new_ModelUnit_init() {
+  ModelUnit *self = [ModelUnit alloc];
+  ModelUnit_init(self);
+  return self;
+}
+
+void ModelUnit_initWithJsonJSONObject_(ModelUnit *self, JsonJSONObject *object) {
+  (void) ModelRootObject_init(self);
+  [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, id))) name]]];
+  [self setNameWithNSString:[object optStringWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, name))) name]]];
+  [self setTotalBedsWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, totalBeds))) name]]];
+  [self setAvailableBedsWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, availableBeds))) name]]];
+  [self setPotentialDcWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, potentialDc))) name]]];
+  [self setDcByDeadlineWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, dcByDeadline))) name]]];
+  [self setTotalAdmitsWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, totalAdmits))) name]]];
+  [self setAdmitsByDeadlineWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, admitsByDeadline))) name]]];
+}
+
+ModelUnit *new_ModelUnit_initWithJsonJSONObject_(JsonJSONObject *object) {
+  ModelUnit *self = [ModelUnit alloc];
+  ModelUnit_initWithJsonJSONObject_(self, object);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelUnit)
+
+J2OBJC_INITIALIZED_DEFN(ModelUnit_PropertiesEnum)
+
+ModelUnit_PropertiesEnum *ModelUnit_PropertiesEnum_values_[9];
+
+@implementation ModelUnit_PropertiesEnum
+
++ (ModelUnit_PropertiesEnum *)id_ {
+  return ModelUnit_PropertiesEnum_id;
+}
+
++ (ModelUnit_PropertiesEnum *)name {
+  return ModelUnit_PropertiesEnum_name;
+}
+
++ (ModelUnit_PropertiesEnum *)totalBeds {
+  return ModelUnit_PropertiesEnum_totalBeds;
+}
+
++ (ModelUnit_PropertiesEnum *)availableBeds {
+  return ModelUnit_PropertiesEnum_availableBeds;
+}
+
++ (ModelUnit_PropertiesEnum *)potentialDc {
+  return ModelUnit_PropertiesEnum_potentialDc;
+}
+
++ (ModelUnit_PropertiesEnum *)dcByDeadline {
+  return ModelUnit_PropertiesEnum_dcByDeadline;
+}
+
++ (ModelUnit_PropertiesEnum *)totalAdmits {
+  return ModelUnit_PropertiesEnum_totalAdmits;
+}
+
++ (ModelUnit_PropertiesEnum *)admitsByDeadline {
+  return ModelUnit_PropertiesEnum_admitsByDeadline;
+}
+
++ (ModelUnit_PropertiesEnum *)statusAtDeadline {
+  return ModelUnit_PropertiesEnum_statusAtDeadline;
+}
+
+- (instancetype)initWithNSString:(NSString *)__name
+                         withInt:(jint)__ordinal {
+  ModelUnit_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  return self;
+}
+
+IOSObjectArray *ModelUnit_PropertiesEnum_values() {
+  ModelUnit_PropertiesEnum_initialize();
+  return [IOSObjectArray arrayWithObjects:ModelUnit_PropertiesEnum_values_ count:9 type:ModelUnit_PropertiesEnum_class_()];
+}
+
++ (IOSObjectArray *)values {
+  return ModelUnit_PropertiesEnum_values();
+}
+
++ (ModelUnit_PropertiesEnum *)valueOfWithNSString:(NSString *)name {
+  return ModelUnit_PropertiesEnum_valueOfWithNSString_(name);
+}
+
+ModelUnit_PropertiesEnum *ModelUnit_PropertiesEnum_valueOfWithNSString_(NSString *name) {
+  ModelUnit_PropertiesEnum_initialize();
+  for (int i = 0; i < 9; i++) {
+    ModelUnit_PropertiesEnum *e = ModelUnit_PropertiesEnum_values_[i];
+    if ([name isEqual:[e name]]) {
+      return e;
+    }
+  }
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
+  return nil;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+  return self;
+}
+
++ (void)initialize {
+  if (self == [ModelUnit_PropertiesEnum class]) {
+    ModelUnit_PropertiesEnum_id = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"id", 0);
+    ModelUnit_PropertiesEnum_name = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"name", 1);
+    ModelUnit_PropertiesEnum_totalBeds = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"totalBeds", 2);
+    ModelUnit_PropertiesEnum_availableBeds = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"availableBeds", 3);
+    ModelUnit_PropertiesEnum_potentialDc = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"potentialDc", 4);
+    ModelUnit_PropertiesEnum_dcByDeadline = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"dcByDeadline", 5);
+    ModelUnit_PropertiesEnum_totalAdmits = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"totalAdmits", 6);
+    ModelUnit_PropertiesEnum_admitsByDeadline = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"admitsByDeadline", 7);
+    ModelUnit_PropertiesEnum_statusAtDeadline = new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(@"statusAtDeadline", 8);
+    J2OBJC_SET_INITIALIZED(ModelUnit_PropertiesEnum)
+  }
+}
+
++ (const J2ObjcClassInfo *)__metadata {
+  static const J2ObjcFieldInfo fields[] = {
+    { "id", "id", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_id, NULL, .constantValue.asLong = 0 },
+    { "name", "name", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_name, NULL, .constantValue.asLong = 0 },
+    { "totalBeds", "totalBeds", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_totalBeds, NULL, .constantValue.asLong = 0 },
+    { "availableBeds", "availableBeds", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_availableBeds, NULL, .constantValue.asLong = 0 },
+    { "potentialDc", "potentialDc", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_potentialDc, NULL, .constantValue.asLong = 0 },
+    { "dcByDeadline", "dcByDeadline", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_dcByDeadline, NULL, .constantValue.asLong = 0 },
+    { "totalAdmits", "totalAdmits", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_totalAdmits, NULL, .constantValue.asLong = 0 },
+    { "admitsByDeadline", "admitsByDeadline", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_admitsByDeadline, NULL, .constantValue.asLong = 0 },
+    { "statusAtDeadline", "statusAtDeadline", 0x4019, "Lrtdc.core.model.Unit$Properties;", &ModelUnit_PropertiesEnum_statusAtDeadline, NULL, .constantValue.asLong = 0 },
+  };
+  static const char *superclass_type_args[] = {"Lrtdc.core.model.Unit$Properties;"};
+  static const J2ObjcClassInfo _ModelUnit_PropertiesEnum = { 2, "Properties", "rtdc.core.model", "Unit", 0x4019, 0, NULL, 9, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/model/Unit$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/model/Unit;>;" };
+  return &_ModelUnit_PropertiesEnum;
+}
+
+@end
+
+void ModelUnit_PropertiesEnum_initWithNSString_withInt_(ModelUnit_PropertiesEnum *self, NSString *__name, jint __ordinal) {
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+}
+
+ModelUnit_PropertiesEnum *new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
+  ModelUnit_PropertiesEnum *self = [ModelUnit_PropertiesEnum alloc];
+  ModelUnit_PropertiesEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  return self;
+}
+
+J2OBJC_CLASS_TYPE_LITERAL_SOURCE(ModelUnit_PropertiesEnum)

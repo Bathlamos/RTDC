@@ -3,55 +3,38 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/controller/AddUnitController.java
 //
 
-#ifndef _ControllerAddUnitController_H_
-#define _ControllerAddUnitController_H_
+#ifndef _AddUnitController_H_
+#define _AddUnitController_H_
 
-@class JavaLangBoolean;
-@protocol RtdcCoreViewAddUnitView;
+#include "Controller.h"
+#include "J2ObjC_header.h"
 
-#import "JreEmulation.h"
-#include "AsyncCallback.h"
+@protocol ViewAddUnitView;
 
-@interface ControllerAddUnitController : NSObject {
- @public
-  id<RtdcCoreViewAddUnitView> view_;
-}
+@interface ControllerAddUnitController : ControllerController
 
-- (instancetype)initWithRtdcCoreViewAddUnitView:(id<RtdcCoreViewAddUnitView>)view;
+#pragma mark Public
+
+- (instancetype)initWithViewAddUnitView:(id<ViewAddUnitView>)view;
 
 - (void)addUnit;
 
-- (void)dealloc;
+- (void)deleteUnit;
 
-- (void)copyAllFieldsTo:(ControllerAddUnitController *)other;
+#pragma mark Package-Private
 
-@end
-
-__attribute__((always_inline)) inline void ControllerAddUnitController_init() {}
-
-J2OBJC_FIELD_SETTER(ControllerAddUnitController, view_, id<RtdcCoreViewAddUnitView>)
-
-typedef ControllerAddUnitController RtdcCoreControllerAddUnitController;
-
-@interface ControllerAddUnitController_$1 : NSObject < ServiceAsyncCallback > {
- @public
-  ControllerAddUnitController *this$0_;
-}
-
-- (void)onSuccessWithId:(JavaLangBoolean *)result;
-
-- (void)onErrorWithNSString:(NSString *)message;
-
-- (instancetype)initWithControllerAddUnitController:(ControllerAddUnitController *)outer$;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(ControllerAddUnitController_$1 *)other;
+- (NSString *)getTitle;
 
 @end
 
-__attribute__((always_inline)) inline void ControllerAddUnitController_$1_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ControllerAddUnitController)
 
-J2OBJC_FIELD_SETTER(ControllerAddUnitController_$1, this$0_, ControllerAddUnitController *)
+FOUNDATION_EXPORT void ControllerAddUnitController_initWithViewAddUnitView_(ControllerAddUnitController *self, id<ViewAddUnitView> view);
 
-#endif // _ControllerAddUnitController_H_
+FOUNDATION_EXPORT ControllerAddUnitController *new_ControllerAddUnitController_initWithViewAddUnitView_(id<ViewAddUnitView> view) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(ControllerAddUnitController)
+
+@compatibility_alias RtdcCoreControllerAddUnitController ControllerAddUnitController;
+
+#endif // _AddUnitController_H_
