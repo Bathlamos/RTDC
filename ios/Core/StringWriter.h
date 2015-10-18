@@ -3,23 +3,25 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/StringWriter.java
 //
 
-#ifndef _JSONStringWriter_H_
-#define _JSONStringWriter_H_
+#ifndef _StringWriter_H_
+#define _StringWriter_H_
 
-@class IOSCharArray;
-@class JavaLangStringBuffer;
-
-#import "JreEmulation.h"
+#include "J2ObjC_header.h"
 #include "java/io/Writer.h"
 
-@interface JSONStringWriter : JavaIoWriter {
- @public
-  JavaLangStringBuffer *buf_;
-}
+@class IOSCharArray;
+
+@interface JSONStringWriter : JavaIoWriter
+
+#pragma mark Public
 
 - (instancetype)init;
 
 - (instancetype)initWithInt:(jint)initialSize;
+
+- (void)close;
+
+- (void)flush;
 
 - (void)writeWithCharArray:(IOSCharArray *)cbuf
                    withInt:(jint)off
@@ -31,20 +33,20 @@
                   withInt:(jint)off
                   withInt:(jint)len;
 
-- (void)flush;
-
-- (void)close;
-
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(JSONStringWriter *)other;
-
 @end
 
-__attribute__((always_inline)) inline void JSONStringWriter_init() {}
+J2OBJC_EMPTY_STATIC_INIT(JSONStringWriter)
 
-J2OBJC_FIELD_SETTER(JSONStringWriter, buf_, JavaLangStringBuffer *)
+FOUNDATION_EXPORT void JSONStringWriter_init(JSONStringWriter *self);
 
-typedef JSONStringWriter RtdcCoreJsonStringWriter;
+FOUNDATION_EXPORT JSONStringWriter *new_JSONStringWriter_init() NS_RETURNS_RETAINED;
 
-#endif // _JSONStringWriter_H_
+FOUNDATION_EXPORT void JSONStringWriter_initWithInt_(JSONStringWriter *self, jint initialSize);
+
+FOUNDATION_EXPORT JSONStringWriter *new_JSONStringWriter_initWithInt_(jint initialSize) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(JSONStringWriter)
+
+@compatibility_alias RtdcCoreJsonStringWriter JSONStringWriter;
+
+#endif // _StringWriter_H_

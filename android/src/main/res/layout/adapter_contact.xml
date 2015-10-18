@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content" android:rowCount="2" android:columnCount="3" android:padding="8dp"
-                android:background="@color/RTDC_white">
+                android:background="@drawable/border_bottom_grey">
 
     <TextView android:layout_width="48dp" android:layout_height="48dp" android:text="NM" android:id="@+id/userIcon"
               android:gravity="center_vertical|center_horizontal" android:textSize="22sp"
@@ -35,16 +35,28 @@
     <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:id="@+id/textMessageButton"
+            android:src="@drawable/ic_chat_white_24dp"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@+id/audioCallButton"
+            android:layout_toStartOf="@+id/audioCallButton"
+            android:layout_centerVertical="true"
+            android:background="@null" android:tint="@color/RTDC_dark_blue"/>
+    <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/audioCallButton"
             android:src="@drawable/ic_phone_white_24dp"
-            android:background="@drawable/circle_dark_blue"
             android:layout_gravity="center"
             android:layout_toLeftOf="@+id/videoCallButton"
-            android:layout_toStartOf="@+id/videoCallButton" android:layout_centerVertical="true"/>
+            android:layout_toStartOf="@+id/videoCallButton"
+            android:layout_centerVertical="true" android:background="@null"
+            android:tint="@color/RTDC_dark_blue"/>
     <ImageButton android:layout_width="40dp" android:layout_height="40dp"
                  android:id="@+id/videoCallButton"
-                 android:src="@drawable/ic_videocam_white_24dp" android:background="@drawable/circle_dark_blue"
+                 android:src="@drawable/ic_videocam_white_24dp"
                  android:layout_gravity="center"
                  android:layout_centerVertical="true" android:layout_alignParentRight="true"
-                 android:layout_alignParentEnd="true" android:layout_margin="8dp"/>
+                 android:layout_alignParentEnd="true" android:background="@null"
+                 android:tint="@color/RTDC_dark_blue"/>
 </RelativeLayout>

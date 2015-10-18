@@ -3,13 +3,14 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/view/AddUnitView.java
 //
 
-#ifndef _RtdcCoreViewAddUnitView_H_
-#define _RtdcCoreViewAddUnitView_H_
+#ifndef _AddUnitView_H_
+#define _AddUnitView_H_
 
-#import "JreEmulation.h"
-#include "View.h"
+#include "Dialog.h"
+#include "J2ObjC_header.h"
 
-@protocol RtdcCoreViewAddUnitView < RtdcCoreViewView, NSObject, JavaObject >
+@protocol RtdcCoreViewAddUnitView < RtdcCoreViewDialog, NSObject, JavaObject >
+
 - (NSString *)getNameAsString;
 
 - (void)setNameAsStringWithNSString:(NSString *)name;
@@ -18,8 +19,12 @@
 
 - (void)setTotalBedsAsStringWithNSString:(NSString *)totalBeds;
 
+- (void)hideDeleteButton;
+
 @end
 
-__attribute__((always_inline)) inline void RtdcCoreViewAddUnitView_init() {}
+J2OBJC_EMPTY_STATIC_INIT(RtdcCoreViewAddUnitView)
 
-#endif // _RtdcCoreViewAddUnitView_H_
+J2OBJC_TYPE_LITERAL_HEADER(RtdcCoreViewAddUnitView)
+
+#endif // _AddUnitView_H_

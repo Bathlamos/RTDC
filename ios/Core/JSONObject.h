@@ -3,23 +3,21 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONObject.java
 //
 
-#ifndef _JSONJSONObject_H_
-#define _JSONJSONObject_H_
+#ifndef _JSONObject_H_
+#define _JSONObject_H_
+
+#include "J2ObjC_header.h"
 
 @class JSONJSONArray;
 @class JSONJSONTokener;
 @class JavaLangBoolean;
-@class JavaUtilHashMap;
 @class JavaUtilVector;
 @protocol JavaUtilMap;
 @protocol JavaUtilSet;
 
-#import "JreEmulation.h"
+@interface JSONJSONObject : NSObject
 
-@interface JSONJSONObject : NSObject {
- @public
-  JavaUtilHashMap *myHashMap_;
-}
+#pragma mark Public
 
 - (instancetype)init;
 
@@ -50,13 +48,11 @@
 
 - (id<JavaUtilSet>)keySet;
 
-- (id<JavaUtilMap>)map;
-
 - (jint)length;
 
-- (JSONJSONArray *)names;
+- (id<JavaUtilMap>)map;
 
-+ (NSString *)trimNumberWithNSString:(NSString *)s;
+- (JSONJSONArray *)names;
 
 + (NSString *)numberToStringWithId:(id)n;
 
@@ -66,9 +62,6 @@
 
 - (jboolean)optBooleanWithNSString:(NSString *)key
                        withBoolean:(jboolean)defaultValue;
-
-- (JSONJSONObject *)putWithNSString:(NSString *)key
-                 withJavaUtilVector:(JavaUtilVector *)value;
 
 - (jint)optIntWithNSString:(NSString *)key;
 
@@ -101,6 +94,9 @@
 - (JSONJSONObject *)putWithNSString:(NSString *)key
                              withId:(id)value;
 
+- (JSONJSONObject *)putWithNSString:(NSString *)key
+                 withJavaUtilVector:(JavaUtilVector *)value;
+
 - (JSONJSONObject *)putOptWithNSString:(NSString *)key
                                 withId:(id)value;
 
@@ -108,13 +104,17 @@
 
 - (id)removeWithNSString:(NSString *)key;
 
-+ (void)testValidityWithId:(id)o;
-
 - (JSONJSONArray *)toJSONArrayWithJSONJSONArray:(JSONJSONArray *)names;
 
 - (NSString *)description;
 
 - (NSString *)toStringWithInt:(jint)indentFactor;
+
++ (NSString *)trimNumberWithNSString:(NSString *)s;
+
+#pragma mark Package-Private
+
++ (void)testValidityWithId:(id)o;
 
 - (NSString *)toStringWithInt:(jint)indentFactor
                       withInt:(jint)indent;
@@ -125,22 +125,9 @@
                           withInt:(jint)indentFactor
                           withInt:(jint)indent;
 
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(JSONJSONObject *)other;
-
 @end
 
-FOUNDATION_EXPORT BOOL JSONJSONObject_initialized;
 J2OBJC_STATIC_INIT(JSONJSONObject)
-
-J2OBJC_FIELD_SETTER(JSONJSONObject, myHashMap_, JavaUtilHashMap *)
-FOUNDATION_EXPORT NSString *JSONJSONObject_trimNumberWithNSString_(NSString *s);
-FOUNDATION_EXPORT NSString *JSONJSONObject_numberToStringWithId_(id n);
-FOUNDATION_EXPORT NSString *JSONJSONObject_quoteWithNSString_(NSString *string);
-FOUNDATION_EXPORT void JSONJSONObject_testValidityWithId_(id o);
-FOUNDATION_EXPORT NSString *JSONJSONObject_valueToStringWithId_(id value);
-FOUNDATION_EXPORT NSString *JSONJSONObject_valueToStringWithId_withInt_withInt_(id value, jint indentFactor, jint indent);
 
 FOUNDATION_EXPORT JavaLangBoolean *JSONJSONObject_TRUE__;
 J2OBJC_STATIC_FIELD_GETTER(JSONJSONObject, TRUE__, JavaLangBoolean *)
@@ -151,21 +138,32 @@ J2OBJC_STATIC_FIELD_GETTER(JSONJSONObject, FALSE__, JavaLangBoolean *)
 FOUNDATION_EXPORT id JSONJSONObject_NULL__;
 J2OBJC_STATIC_FIELD_GETTER(JSONJSONObject, NULL__, id)
 
-typedef JSONJSONObject RtdcCoreJsonJSONObject;
+FOUNDATION_EXPORT void JSONJSONObject_init(JSONJSONObject *self);
 
-@interface JSONJSONObject_Null : NSObject {
-}
+FOUNDATION_EXPORT JSONJSONObject *new_JSONJSONObject_init() NS_RETURNS_RETAINED;
 
-- (id)clone;
+FOUNDATION_EXPORT void JSONJSONObject_initWithJSONJSONTokener_(JSONJSONObject *self, JSONJSONTokener *x);
 
-- (jboolean)isEqual:(id)object;
+FOUNDATION_EXPORT JSONJSONObject *new_JSONJSONObject_initWithJSONJSONTokener_(JSONJSONTokener *x) NS_RETURNS_RETAINED;
 
-- (NSString *)description;
+FOUNDATION_EXPORT void JSONJSONObject_initWithNSString_(JSONJSONObject *self, NSString *string);
 
-- (instancetype)init;
+FOUNDATION_EXPORT JSONJSONObject *new_JSONJSONObject_initWithNSString_(NSString *string) NS_RETURNS_RETAINED;
 
-@end
+FOUNDATION_EXPORT NSString *JSONJSONObject_trimNumberWithNSString_(NSString *s);
 
-__attribute__((always_inline)) inline void JSONJSONObject_Null_init() {}
+FOUNDATION_EXPORT NSString *JSONJSONObject_numberToStringWithId_(id n);
 
-#endif // _JSONJSONObject_H_
+FOUNDATION_EXPORT NSString *JSONJSONObject_quoteWithNSString_(NSString *string);
+
+FOUNDATION_EXPORT void JSONJSONObject_testValidityWithId_(id o);
+
+FOUNDATION_EXPORT NSString *JSONJSONObject_valueToStringWithId_(id value);
+
+FOUNDATION_EXPORT NSString *JSONJSONObject_valueToStringWithId_withInt_withInt_(id value, jint indentFactor, jint indent);
+
+J2OBJC_TYPE_LITERAL_HEADER(JSONJSONObject)
+
+@compatibility_alias RtdcCoreJsonJSONObject JSONJSONObject;
+
+#endif // _JSONObject_H_

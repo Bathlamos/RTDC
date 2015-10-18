@@ -3,108 +3,145 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/model/User.java
 //
 
-#ifndef _ModelUser_H_
-#define _ModelUser_H_
+#ifndef _User_H_
+#define _User_H_
 
+#include "J2ObjC_header.h"
+#include "ObjectProperty.h"
+#include "RootObject.h"
+#include "java/lang/Enum.h"
+
+@class IOSFloatArray;
+@class IOSObjectArray;
 @class JSONJSONObject;
 @class ModelUnit;
-@protocol JavaUtilMap;
-@protocol JavaUtilSet;
+@protocol ModelObjectProperty;
 
-#import "JreEmulation.h"
-#include "RtdcObject.h"
+@interface ModelUser : ModelRootObject
 
-@interface ModelUser : ModelRtdcObject {
- @public
-  JSONJSONObject *jsonObject_User_;
-}
-
-- (jint)getId;
-
-- (void)setIdWithInt:(jint)id_;
-
-- (NSString *)getUsername;
-
-- (void)setUsernameWithNSString:(NSString *)username;
-
-- (NSString *)getLastName;
-
-- (void)setLastNameWithNSString:(NSString *)lastName;
-
-- (NSString *)getFirstName;
-
-- (void)setFirstNameWithNSString:(NSString *)firstName;
-
-- (NSString *)getEmail;
-
-- (void)setEmailWithNSString:(NSString *)email;
-
-- (jlong)getPhone;
-
-- (void)setPhoneWithLong:(jlong)phone;
-
-- (NSString *)getPermission;
-
-- (void)setPermissionWithNSString:(NSString *)permission;
-
-- (NSString *)getRole;
-
-- (void)setRoleWithNSString:(NSString *)role;
-
-- (ModelUnit *)getUnit;
-
-- (void)setUnitWithModelUnit:(ModelUnit *)unit;
-
-- (NSString *)getAuthenticationToken;
-
-- (void)setAuthenticationTokenWithNSString:(NSString *)authenticationToken;
-
-- (id<JavaUtilSet>)validatePropertyWithNSString:(NSString *)property;
-
-- (id<JavaUtilMap>)validateAll;
+#pragma mark Public
 
 - (instancetype)init;
 
-- (void)dealloc;
+- (instancetype)initWithJSONJSONObject:(JSONJSONObject *)object;
 
-- (void)copyAllFieldsTo:(ModelUser *)other;
+- (NSString *)getEmail;
+
+- (NSString *)getFirstName;
+
+- (jint)getId;
+
+- (NSString *)getLastName;
+
+- (NSString *)getPermission;
+
+- (jlong)getPhone;
+
+- (IOSFloatArray *)getProfileColor;
+
+- (IOSObjectArray *)getProperties;
+
+- (NSString *)getRole;
+
+- (NSString *)getType;
+
+- (ModelUnit *)getUnit;
+
+- (NSString *)getUsername;
+
+- (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property;
+
+- (void)setEmailWithNSString:(NSString *)email;
+
+- (void)setFirstNameWithNSString:(NSString *)firstName;
+
+- (void)setIdWithInt:(jint)id_;
+
+- (void)setLastNameWithNSString:(NSString *)lastName;
+
+- (void)setPermissionWithNSString:(NSString *)permission;
+
+- (void)setPhoneWithLong:(jlong)phone;
+
+- (void)setRoleWithNSString:(NSString *)role;
+
+- (void)setUnitWithModelUnit:(ModelUnit *)unit;
+
+- (void)setUsernameWithNSString:(NSString *)username;
 
 @end
 
-__attribute__((always_inline)) inline void ModelUser_init() {}
+J2OBJC_EMPTY_STATIC_INIT(ModelUser)
 
-J2OBJC_FIELD_SETTER(ModelUser, jsonObject_User_, JSONJSONObject *)
+FOUNDATION_EXPORT void ModelUser_init(ModelUser *self);
 
-FOUNDATION_EXPORT NSString *ModelUser_ID_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, ID_, NSString *)
+FOUNDATION_EXPORT ModelUser *new_ModelUser_init() NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT NSString *ModelUser_USERNAME_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, USERNAME_, NSString *)
+FOUNDATION_EXPORT void ModelUser_initWithJSONJSONObject_(ModelUser *self, JSONJSONObject *object);
 
-FOUNDATION_EXPORT NSString *ModelUser_LAST_NAME_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, LAST_NAME_, NSString *)
+FOUNDATION_EXPORT ModelUser *new_ModelUser_initWithJSONJSONObject_(JSONJSONObject *object) NS_RETURNS_RETAINED;
 
-FOUNDATION_EXPORT NSString *ModelUser_EMAIL_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, EMAIL_, NSString *)
+J2OBJC_TYPE_LITERAL_HEADER(ModelUser)
 
-FOUNDATION_EXPORT NSString *ModelUser_PHONE_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, PHONE_, NSString *)
+@compatibility_alias RtdcCoreModelUser ModelUser;
 
-FOUNDATION_EXPORT NSString *ModelUser_FIRST_NAME_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, FIRST_NAME_, NSString *)
+typedef NS_ENUM(NSUInteger, ModelUser_Properties) {
+  ModelUser_Properties_id = 0,
+  ModelUser_Properties_username = 1,
+  ModelUser_Properties_firstName = 2,
+  ModelUser_Properties_lastName = 3,
+  ModelUser_Properties_email = 4,
+  ModelUser_Properties_permission = 5,
+  ModelUser_Properties_role = 6,
+  ModelUser_Properties_phone = 7,
+  ModelUser_Properties_unit = 8,
+};
 
-FOUNDATION_EXPORT NSString *ModelUser_PERMISSION_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, PERMISSION_, NSString *)
+@interface ModelUser_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
 
-FOUNDATION_EXPORT NSString *ModelUser_ROLE_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, ROLE_, NSString *)
+#pragma mark Package-Private
 
-FOUNDATION_EXPORT NSString *ModelUser_UNIT_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, UNIT_, NSString *)
++ (IOSObjectArray *)values;
+FOUNDATION_EXPORT IOSObjectArray *ModelUser_PropertiesEnum_values();
 
-FOUNDATION_EXPORT NSString *ModelUser_AUTH_TOKEN_;
-J2OBJC_STATIC_FIELD_GETTER(ModelUser, AUTH_TOKEN_, NSString *)
++ (ModelUser_PropertiesEnum *)valueOfWithNSString:(NSString *)name;
+FOUNDATION_EXPORT ModelUser_PropertiesEnum *ModelUser_PropertiesEnum_valueOfWithNSString_(NSString *name);
 
-typedef ModelUser RtdcCoreModelUser;
+- (id)copyWithZone:(NSZone *)zone;
 
-#endif // _ModelUser_H_
+@end
+
+J2OBJC_STATIC_INIT(ModelUser_PropertiesEnum)
+
+FOUNDATION_EXPORT ModelUser_PropertiesEnum *ModelUser_PropertiesEnum_values_[];
+
+#define ModelUser_PropertiesEnum_id ModelUser_PropertiesEnum_values_[ModelUser_Properties_id]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, id)
+
+#define ModelUser_PropertiesEnum_username ModelUser_PropertiesEnum_values_[ModelUser_Properties_username]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, username)
+
+#define ModelUser_PropertiesEnum_firstName ModelUser_PropertiesEnum_values_[ModelUser_Properties_firstName]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, firstName)
+
+#define ModelUser_PropertiesEnum_lastName ModelUser_PropertiesEnum_values_[ModelUser_Properties_lastName]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, lastName)
+
+#define ModelUser_PropertiesEnum_email ModelUser_PropertiesEnum_values_[ModelUser_Properties_email]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, email)
+
+#define ModelUser_PropertiesEnum_permission ModelUser_PropertiesEnum_values_[ModelUser_Properties_permission]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, permission)
+
+#define ModelUser_PropertiesEnum_role ModelUser_PropertiesEnum_values_[ModelUser_Properties_role]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, role)
+
+#define ModelUser_PropertiesEnum_phone ModelUser_PropertiesEnum_values_[ModelUser_Properties_phone]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, phone)
+
+#define ModelUser_PropertiesEnum_unit ModelUser_PropertiesEnum_values_[ModelUser_Properties_unit]
+J2OBJC_ENUM_CONSTANT_GETTER(ModelUser_PropertiesEnum, unit)
+
+J2OBJC_TYPE_LITERAL_HEADER(ModelUser_PropertiesEnum)
+
+#endif // _User_H_

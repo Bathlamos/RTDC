@@ -4,20 +4,23 @@
 //
 
 #include "AsyncCallback.h"
+#include "J2ObjC_source.h"
 
 @interface ServiceAsyncCallback : NSObject
+
 @end
 
 @implementation ServiceAsyncCallback
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "onSuccessWithId:", "onSuccess", "V", 0x401, NULL },
-    { "onErrorWithNSString:", "onError", "V", 0x401, NULL },
+    { "onSuccessWithId:", "onSuccess", "V", 0x401, NULL, "(TT;)V" },
+    { "onErrorWithNSString:", "onError", "V", 0x401, NULL, NULL },
   };
-  static const J2ObjcClassInfo _ServiceAsyncCallback = { "AsyncCallback", "rtdc.core.service", NULL, 0x201, 2, methods, 0, NULL, 0, NULL};
+  static const J2ObjcClassInfo _ServiceAsyncCallback = { 2, "AsyncCallback", "rtdc.core.service", NULL, 0x609, 2, methods, 0, NULL, 0, NULL, 0, NULL, NULL, "<T:Ljava/lang/Object;>Ljava/lang/Object;" };
   return &_ServiceAsyncCallback;
 }
 
 @end
 
+J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(ServiceAsyncCallback)

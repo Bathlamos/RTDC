@@ -3,19 +3,18 @@
 //  source: /Users/nicolasmenard/IdeaProjects/RTDC/core/src/main/java/rtdc/core/json/JSONArray.java
 //
 
-#ifndef _JSONJSONArray_H_
-#define _JSONJSONArray_H_
+#ifndef _JSONArray_H_
+#define _JSONArray_H_
+
+#include "J2ObjC_header.h"
 
 @class JSONJSONObject;
 @class JSONJSONTokener;
 @class JavaUtilVector;
 
-#import "JreEmulation.h"
+@interface JSONJSONArray : NSObject
 
-@interface JSONJSONArray : NSObject {
- @public
-  JavaUtilVector *myArrayList_;
-}
+#pragma mark Public
 
 - (instancetype)init;
 
@@ -59,19 +58,10 @@
 
 - (JSONJSONArray *)putWithBoolean:(jboolean)value;
 
-- (JSONJSONArray *)putWithJavaUtilVector:(JavaUtilVector *)value;
-
 - (JSONJSONArray *)putWithInt:(jint)value;
-
-- (JSONJSONArray *)putWithLong:(jlong)value;
-
-- (JSONJSONArray *)putWithId:(id)value;
 
 - (JSONJSONArray *)putWithInt:(jint)index
                   withBoolean:(jboolean)value;
-
-- (JSONJSONArray *)putWithInt:(jint)index
-           withJavaUtilVector:(JavaUtilVector *)value;
 
 - (JSONJSONArray *)putWithInt:(jint)index
                       withInt:(jint)value;
@@ -82,25 +72,48 @@
 - (JSONJSONArray *)putWithInt:(jint)index
                        withId:(id)value;
 
+- (JSONJSONArray *)putWithInt:(jint)index
+           withJavaUtilVector:(JavaUtilVector *)value;
+
+- (JSONJSONArray *)putWithLong:(jlong)value;
+
+- (JSONJSONArray *)putWithId:(id)value;
+
+- (JSONJSONArray *)putWithJavaUtilVector:(JavaUtilVector *)value;
+
 - (JSONJSONObject *)toJSONObjectWithJSONJSONArray:(JSONJSONArray *)names;
 
 - (NSString *)description;
 
 - (NSString *)toStringWithInt:(jint)indentFactor;
 
+#pragma mark Package-Private
+
 - (NSString *)toStringWithInt:(jint)indentFactor
                       withInt:(jint)indent;
 
-- (void)dealloc;
-
-- (void)copyAllFieldsTo:(JSONJSONArray *)other;
-
 @end
 
-__attribute__((always_inline)) inline void JSONJSONArray_init() {}
+J2OBJC_EMPTY_STATIC_INIT(JSONJSONArray)
 
-J2OBJC_FIELD_SETTER(JSONJSONArray, myArrayList_, JavaUtilVector *)
+FOUNDATION_EXPORT void JSONJSONArray_init(JSONJSONArray *self);
 
-typedef JSONJSONArray RtdcCoreJsonJSONArray;
+FOUNDATION_EXPORT JSONJSONArray *new_JSONJSONArray_init() NS_RETURNS_RETAINED;
 
-#endif // _JSONJSONArray_H_
+FOUNDATION_EXPORT void JSONJSONArray_initWithJSONJSONTokener_(JSONJSONArray *self, JSONJSONTokener *x);
+
+FOUNDATION_EXPORT JSONJSONArray *new_JSONJSONArray_initWithJSONJSONTokener_(JSONJSONTokener *x) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT void JSONJSONArray_initWithNSString_(JSONJSONArray *self, NSString *string);
+
+FOUNDATION_EXPORT JSONJSONArray *new_JSONJSONArray_initWithNSString_(NSString *string) NS_RETURNS_RETAINED;
+
+FOUNDATION_EXPORT void JSONJSONArray_initWithJavaUtilVector_(JSONJSONArray *self, JavaUtilVector *collection);
+
+FOUNDATION_EXPORT JSONJSONArray *new_JSONJSONArray_initWithJavaUtilVector_(JavaUtilVector *collection) NS_RETURNS_RETAINED;
+
+J2OBJC_TYPE_LITERAL_HEADER(JSONJSONArray)
+
+@compatibility_alias RtdcCoreJsonJSONArray JSONJSONArray;
+
+#endif // _JSONArray_H_
