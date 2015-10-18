@@ -75,6 +75,8 @@ public class MessageServlet {
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Message> messages = null;
+        User user1 = null;
+        User user2 = null;
         try{
             transaction = session.beginTransaction();
 
@@ -91,9 +93,16 @@ public class MessageServlet {
                                     Restrictions.eq("receiverID", user1Id)
                             )
                     )).addOrder(Order.desc("timeSent")).list();
+            user1 = (User) session.get(User.class, user1Id);
+            user2 = (User) session.get(User.class, user2Id);
             for(Message message: messages){
-                message.setSender((User) session.get(User.class, message.getSenderID()));
-                message.setReceiver((User) session.get(User.class, message.getReceiverID()));
+                if(message.getSenderID() == user1.getId()) {
+                    message.setSender(user1);
+                    message.setReceiver(user2);
+                }else {
+                    message.setSender(user2);
+                    message.setReceiver(user1);
+                }
             }
             transaction.commit();
 
@@ -106,9 +115,9 @@ public class MessageServlet {
             session.close();
         }
 
-        if(messages.size() - 1 < startIndex) {
+        if(messages.size() - 1 < startIndex || messages.isEmpty()) {
             // The requested start index is out of bounds, return an empty list
-            return new FetchMessagesEvent (new ArrayList<Message>()).toString();
+            return new FetchMessagesEvent (user1, user2, new ArrayList<Message>()).toString();
         }else if(messages.size() - 1 < startIndex + length) {
             // The requested length goes out of the list's bounds, we need to adjust it
             length = messages.size() - 1 - startIndex;
@@ -117,7 +126,7 @@ public class MessageServlet {
         List<Message> subList = messages.subList(startIndex, startIndex + length + 1);
         // After getting the sub-list, reverse it as we want the messages to be in order from oldest to newest
         Collections.reverse(subList);
-        return new FetchMessagesEvent(subList).toString();
+        return new FetchMessagesEvent(user1, user2, subList).toString();
     }
 
     @POST

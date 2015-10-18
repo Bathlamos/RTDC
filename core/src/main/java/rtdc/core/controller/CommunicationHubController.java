@@ -52,12 +52,12 @@ public class CommunicationHubController extends Controller<CommunicationHubView>
 
     @Override
     public void onMessagesFetched(FetchMessagesEvent event) {
-        if(event.getMessages().isEmpty())
+        User messagingUser = event.getUser1().getId() != Session.getCurrentSession().getUser().getId() ? event.getUser1() : event.getUser2();
+        if(event.getMessages().isEmpty() && view.getMessagingUser() != null && messagingUser.getId() == view.getMessagingUser().getId())
             return;
-        Message message = event.getMessages().asList().get(0);
-        if(view.getMessagingUser() == null || (message.getSenderID() != Session.getCurrentSession().getUser().getId() && message.getSenderID() != view.getMessagingUser().getId())) {
+        if(view.getMessagingUser() == null || messagingUser.getId() != view.getMessagingUser().getId()) {
             messages = new ArrayList<>(event.getMessages());
-            view.setMessages(messages);
+            view.setMessages(messages, messagingUser);
         }else{
             messages.addAll(0, event.getMessages());
             ArrayList<Message> temp = new ArrayList<>();

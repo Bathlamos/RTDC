@@ -12,7 +12,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.core.Bootstrapper;
+import rtdc.core.Session;
+import rtdc.core.controller.CommunicationHubController;
+import rtdc.core.model.Message;
 import rtdc.core.model.User;
+import rtdc.core.service.Service;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -55,7 +59,7 @@ public class ContactListAdapter extends ArrayAdapter<User> {
         textMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO - Create new conversation
+                Service.getMessages(Session.getCurrentSession().getUser().getId(), contacts.get(Integer.parseInt(v.getTag().toString())).getId(), 0, CommunicationHubController.FETCHING_SIZE);
             }
         });
 
@@ -65,7 +69,7 @@ public class ContactListAdapter extends ArrayAdapter<User> {
             @Override
             public void onClick(View v) {
                 User clickedUser = contacts.get(Integer.parseInt(v.getTag().toString()));
-                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling " + clickedUser.getId());
+                Logger.getLogger(ContactListAdapter.class.getName()).log(Level.INFO, "Calling " + clickedUser.getId());
                 Bootstrapper.FACTORY.getVoipController().call(clickedUser, false);
             }
         });
@@ -76,7 +80,7 @@ public class ContactListAdapter extends ArrayAdapter<User> {
             @Override
             public void onClick(View v) {
                 User clickedUser = contacts.get(Integer.parseInt(v.getTag().toString()));
-                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling with video " + clickedUser.getId());
+                Logger.getLogger(ContactListAdapter.class.getName()).log(Level.INFO, "Calling with video " + clickedUser.getId());
                 Bootstrapper.FACTORY.getVoipController().call(clickedUser, true);
             }
         });
