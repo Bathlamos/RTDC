@@ -1,5 +1,5 @@
 //
-//  iOSFactory.swift
+//  IOSFactory.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-03-02.
@@ -8,22 +8,22 @@
 
 import Foundation
 
-class iOSFactory: NSObject, ImplFactory {
+class IOSFactory: NSObject, ImplFactory {
     
     func newHttpRequestWithNSString(url: String!, withImplHttpRequest_RequestMethodEnum requestMethod: ImplHttpRequest_RequestMethodEnum!) -> ImplHttpRequest{
-        return iOSHttpRequest(url: url, requestMethod: requestMethod)
+        return IOSHttpRequest(url: url, requestMethod: requestMethod)
     }
     
     func newDispatcher() -> ImplDispatcher{
-        return iOSDispatcher()
+        return IOSDispatcher()
     }
     
     func getStorage() -> ImplStorageProtocol {
-        return iOSStorage().get()
+        return IOSStorage().get()
     }
     
     func getVoipController() -> ImplVoipController{
-        return iOSVoipController().get()
+        return IOSVoipController().get()
     }
     
 }
