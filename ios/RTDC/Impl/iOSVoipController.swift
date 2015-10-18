@@ -1,5 +1,5 @@
 //
-//  iOSVoipController.swift
+//  IOSVoipController.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-10-08.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-class iOSVoipController: NSObject, ImplVoipController {
+class IOSVoipController: NSObject, ImplVoipController {
     
     
-    func get() -> iOSVoipController {
-        return iOSVoipController()
+    func get() -> IOSVoipController {
+        return IOSVoipController()
     }
     
     func registerUserWithModelUser(user: ModelUser){

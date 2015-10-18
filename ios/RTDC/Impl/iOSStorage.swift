@@ -1,5 +1,5 @@
 //
-//  iOSStorage.swift
+//  IOSStorage.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-10-08.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-class iOSStorage: ImplStorage, ImplStorageProtocol {
+class IOSStorage: ImplStorage, ImplStorageProtocol {
     
     private let settings = NSUserDefaults.standardUserDefaults()
-    private var INSTANCE: iOSStorage? = nil
+    private var INSTANCE: IOSStorage? = nil
     
-    func get() -> iOSStorage {
+    func get() -> IOSStorage {
         if INSTANCE == nil{
-            INSTANCE = iOSStorage()
+            INSTANCE = IOSStorage()
         }
         
         return INSTANCE!
@@ -25,8 +25,8 @@ class iOSStorage: ImplStorage, ImplStorageProtocol {
         settings.setObject(data, forKey: key)
     }
     
-    func retrieveWithNSString(key: String!) -> String {
-        return settings.stringForKey(key)!
+    func retrieveWithNSString(key: String!) -> String? {
+        return settings.stringForKey(key)
     }
     
     func removeWithNSString(key: String!) {

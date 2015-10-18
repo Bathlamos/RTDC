@@ -1,5 +1,5 @@
 //
-//  iOSHttpRequest.swift
+//  IOSHttpRequest.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-03-02.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class iOSHttpRequest: NSObject, ImplHttpRequest {
+class IOSHttpRequest: NSObject, ImplHttpRequest {
     
     var request: NSMutableURLRequest
     var urlComponents: NSURLComponents
@@ -62,7 +62,7 @@ class iOSHttpRequest: NSObject, ImplHttpRequest {
                     statusCode = Int32(httpResponse.statusCode)
                 }
                 
-                callback.onSuccessWithId(iOSHttpResponse(statusCode: statusCode,
+                callback.onSuccessWithId(IOSHttpResponse(statusCode: statusCode,
                     content: String(data: data!, encoding: NSUTF8StringEncoding)))
             }
         })

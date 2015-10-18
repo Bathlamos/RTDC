@@ -1,5 +1,5 @@
 //
-//  iOSDispatcher.swift
+//  IOSDispatcher.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-03-02.
@@ -7,19 +7,20 @@
 //
 
 import Foundation
+import UIKit
 
-class iOSDispatcher: NSObject, ImplDispatcher {
+class IOSDispatcher: NSObject, ImplDispatcher {
 
     func goToLoginWithControllerController(caller: ControllerController) {
         
     }
     
     func goToAllUnitsWithControllerController(caller: ControllerController) {
-        
+        presentViewController(caller, storyboardName: "Main", viewControllerId: "CapacityOverview")
     }
     
     func goToActionPlanWithControllerController(caller: ControllerController) {
-        
+
     }
     
     func goToEditUserWithControllerController(caller: ControllerController) {
@@ -39,6 +40,19 @@ class iOSDispatcher: NSObject, ImplDispatcher {
     }
     
     func goToCapacityOverviewWithControllerController(caller: ControllerController) {
+        presentViewController(caller, storyboardName: "Main", viewControllerId: "CapacityOverview")
     }
     
+    private func presentViewController(sender: ControllerController?, storyboardName: String!, viewControllerId: String!){
+        if sender != nil{
+            let view = sender!.getView() as! UIViewController
+            let sb: UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil)
+            let vc = sb.instantiateViewControllerWithIdentifier(viewControllerId)
+            
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                view.presentViewController(vc, animated: true, completion: nil)
+            }
+
+        }
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  iOSDropdownList.swift
+//  IOSDropdownList.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-10-12.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class iOSDropdownList: ImplUiDropdown, ImplUiDropdownProtocol, UITableViewDataSource, UITableViewDelegate {
+class IOSDropdownList: ImplUiDropdown, ImplUiDropdownProtocol, UITableViewDataSource, UITableViewDelegate {
     
     private var elements: IOSObjectArray = IOSObjectArray()
 

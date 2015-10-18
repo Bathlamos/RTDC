@@ -1,5 +1,5 @@
 //
-//  iOSHttpResponse.swift
+//  IOSHttpResponse.swift
 //  RTDC
 //
 //  Created by Nicolas Ménard on 2015-03-03.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class iOSHttpResponse: NSObject, ImplHttpResponse {
+class IOSHttpResponse: NSObject, ImplHttpResponse {
 
     private var statusCode: jint
     private var content: String!
