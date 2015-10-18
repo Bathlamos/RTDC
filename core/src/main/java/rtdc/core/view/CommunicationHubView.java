@@ -13,4 +13,9 @@ public interface CommunicationHubView extends View {
 
     void setContacts(List<User> contacts);
 
+    void addMessage(Message message);
+
+    void addMessagesAtStart(List<Message> messages);
+
+    User getMessagingUser();
 }

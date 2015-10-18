@@ -31,6 +31,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     private CommunicationHubController controller;
     private int selectedRecentContactIndex;
     private User messagingUser;
+    private boolean loadingMessages;
     public View view;
     AutoCompleteTextView contactsAutoComplete;
 
@@ -49,8 +50,10 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         view.findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Message message = new Message();
+                if(((TextView) view.findViewById(R.id.messageEditText)).getText().equals(""))
+                    return;
 
+                final Message message = new Message();
                 message.setSender(Session.getCurrentSession().getUser());
                 message.setReceiver(messagingUser);
                 message.setStatus(Message.Status.sent);
@@ -107,10 +110,34 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
                 view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
 
                 Message message = recentContacts.get(position);
+
+                // We pressed on the conversation that's already loaded, don't do anything
+
+                if(message.getSenderID() == messagingUser.getId() || message.getReceiverID() == messagingUser.getId())
+                    return;
+
                 selectedRecentContactIndex = position;
 
                 // We changed the conversation. Get all the messages for this contact and display them
-                Service.getMessages(message.getSender().getId(), message.getReceiver().getId());
+                Service.getMessages(message.getSender().getId(), message.getReceiver().getId(), 0, controller.FETCHING_SIZE);
+            }
+        });
+
+        // The listener that takes charge of loading new messages for the conversation when we reach the top of the screen
+        ((ListView)messageListView).setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // Only get new messages if we're not loading messages already, we are currently in a conversation, we've reached
+                // the top of the listview and we have the minimum amount of messages that are being displayed
+                if(!loadingMessages && messagingUser != null && view.getChildAt(0).getTop() == 0 && controller.getMessages().size() >= 25){
+                    loadingMessages = true;
+                    Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
+                    Service.getMessages(messagingUser.getId(), Session.getCurrentSession().getUser().getId(), controller.getMessages().size()-1, controller.FETCHING_SIZE);
+                }
             }
         });
 
@@ -167,10 +194,27 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         ((TextView)view.findViewById(R.id.receiverNameTextView)).setText(messagingUser.getFirstName() + " " + messagingUser.getLastName());
         ((TextView)view.findViewById(R.id.receiverRoleTextView)).setText(messagingUser.getRole());
 
+        // If we're the receiver and the status of some messages isn't read, we need to notify the server that we now have read them
+        for(Message message: messages){
+            if(message.getReceiverID() == Session.getCurrentSession().getUser().getId() && message.getStatus() != Message.Status.read) {
+                message.setStatus(Message.Status.read);
+                Service.saveOrUpdateMessage(message);
+                recentContacts.get(selectedRecentContactIndex).setStatus(Message.Status.read);
+                recentContactsAdapter.notifyDataSetChanged();
+            }
+        }
+
+        // Force the message list view to go to the bottom
+        AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
+        messageListView.setSelection(messages.size());
+
         messagesAdapter.notifyDataSetChanged();
 
         AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         recentContactsListView.setSelection(0);
+
+        // Make sure that this parameter is reset to its default value
+        loadingMessages = false;
     }
 
     @Override
@@ -269,6 +313,36 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         });
     }
 
+    public void addMessagesAtStart(final List<Message> messages){
+        final List<Message> convertedMessages = convertMessages(messages);
+
+        Message lastConvertedMessage = convertedMessages.get(convertedMessages.size() - 1);
+        Message topMessageInList = this.messages.get(0);
+        if (isSameDay(lastConvertedMessage.getTimeSent(), topMessageInList.getTimeSent())) {
+
+            // Add the last converted message at the top of the first message of the currently displayed list
+            this.messages.get(1).setContent(lastConvertedMessage.getContent() + "\n\n" + this.messages.get(1).getContent());
+
+            convertedMessages.remove(lastConvertedMessage);         // Remove the last converted message
+            convertedMessages.remove(convertedMessages.size() - 1); // Don't forget to remove the date header
+        }
+
+        this.messages.addAll(0, convertedMessages);
+
+        // Update the listview and keep the selection where we we're before we loaded the new messages
+        AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
+        messagesAdapter.notifyDataSetChanged();
+        messageListView.setSelection(convertedMessages.size());
+
+        // Only say we loaded the messages after the listview as properly updated
+        messageListView.post(new Runnable() {
+            @Override
+            public void run() {
+                loadingMessages = false;
+            }
+        });
+    }
+
     public void addRecentContact(Message message){
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
 
@@ -276,15 +350,20 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         for(Iterator<Message> iterator = recentContacts.iterator(); iterator.hasNext();){
             Message contact = iterator.next();
             if(contact.getSenderID() == message.getSenderID() || contact.getReceiverID() == message.getSenderID()){
-                recentContacts.remove(contact);
+                iterator.remove();
             }
         }
 
         // Add contact to the top of the list
         recentContacts.add(0, message);
-        selectedRecentContactIndex = 0;
-        recentContactsListView.setSelection(0);
-        recentContactsAdapter.notifyDataSetChanged();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                selectedRecentContactIndex = 0;
+                recentContactsListView.setSelection(0);
+                recentContactsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public User getMessagingUser() {
