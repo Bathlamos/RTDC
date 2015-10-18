@@ -15,11 +15,11 @@ class IOSDispatcher: NSObject, ImplDispatcher {
     }
     
     func goToAllUnitsWithControllerController(caller: ControllerController) {
-        
+        presentViewController(caller, storyboardName: "Main", viewControllerId: "CapacityOverview")
     }
     
     func goToActionPlanWithControllerController(caller: ControllerController) {
-        
+
     }
     
     func goToEditUserWithControllerController(caller: ControllerController) {
@@ -39,6 +39,19 @@ class IOSDispatcher: NSObject, ImplDispatcher {
     }
     
     func goToCapacityOverviewWithControllerController(caller: ControllerController) {
+        presentViewController(caller, storyboardName: "Main", viewControllerId: "CapacityOverview")
     }
     
+    private func presentViewController(sender: ControllerController?, storyboardName: String!, viewControllerId: String!){
+        if sender != nil{
+            let view = sender!.getView() as! UIViewController
+            let sb: UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil)
+            let vc = sb.instantiateViewControllerWithIdentifier(viewControllerId)
+            
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                view.presentViewController(vc, animated: true, completion: nil)
+            }
+
+        }
+    }
 }
