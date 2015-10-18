@@ -300,6 +300,18 @@ public class MessageListFragment extends AbstractFragment implements MessageList
 
     public void addMessagesAtStart(final List<Message> messages){
         final List<Message> convertedMessages = convertMessages(messages);
+
+        Message lastConvertedMessage = convertedMessages.get(convertedMessages.size() - 1);
+        Message topMessageInList = this.messages.get(0);
+        if (isSameDay(lastConvertedMessage.getTimeSent(), topMessageInList.getTimeSent())) {
+
+            // Add the last converted message at the top of the first message of the currently displayed list
+            this.messages.get(1).setContent(lastConvertedMessage.getContent() + "\n\n" + this.messages.get(1).getContent());
+
+            convertedMessages.remove(lastConvertedMessage);         // Remove the last converted message
+            convertedMessages.remove(convertedMessages.size() - 1); // Don't forget to remove the date header
+        }
+
         this.messages.addAll(0, convertedMessages);
 
         // Update the listview and keep the selection where we we're before we loaded the new messages
