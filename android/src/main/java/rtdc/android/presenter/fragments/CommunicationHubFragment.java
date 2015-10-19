@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
+import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.core.Session;
 import rtdc.core.Config;
 import rtdc.core.controller.CommunicationHubController;
 import rtdc.core.event.Event;
+import rtdc.core.event.FetchMessagesEvent;
 import rtdc.core.event.MessageSavedEvent;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
@@ -20,7 +22,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView {
+public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler{
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
@@ -149,6 +151,8 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
 
         setHasOptionsMenu(true);
 
+        Event.subscribe(FetchMessagesEvent.TYPE, this);
+
         return view;
     }
 
@@ -228,7 +232,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     public void setContacts(List<User> contacts){
         this.contacts.clear();
         this.contacts.addAll(contacts);
-        contactsAdapter = new ContactListAdapter(getActivity(), (ArrayList<User>) contacts);
+        contactsAdapter = new ContactListAdapter(AndroidBootstrapper.getAppContext(), (ArrayList<User>) contacts);
         contactsAutoComplete.setAdapter(contactsAdapter);
         contactsAdapter.notifyDataSetChanged();
     }
@@ -411,5 +415,11 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
 
     public static CommunicationHubFragment getInstance(){
         return instance;
+    }
+
+    @Override
+    public void onMessagesFetched(FetchMessagesEvent event) {
+        contactsAutoComplete.setVisibility(View.GONE);
+        view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
     }
 }
