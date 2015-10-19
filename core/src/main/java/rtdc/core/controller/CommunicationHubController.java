@@ -38,6 +38,11 @@ public class CommunicationHubController extends Controller<CommunicationHubView>
     }
 
     public void sortRecentContacts(Message.Properties property){
+        if(recentContacts.isEmpty()){
+            view.setRecentContacts(recentContacts);
+            return;
+        }
+
         Collections.sort(recentContacts, SimpleComparator.forProperty(property).build());
         view.setRecentContacts(recentContacts);
 

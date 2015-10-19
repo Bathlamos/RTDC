@@ -175,12 +175,19 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     @Override
     public void setRecentContacts(List<Message> recentContacts) {
         this.recentContacts.clear();
-        this.recentContacts.addAll(recentContacts);
+        if(recentContacts.isEmpty()){
+            view.findViewById(R.id.conversationLayout).setVisibility(View.INVISIBLE);
+        }else{
+            view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
+            this.recentContacts.addAll(recentContacts);
+        }
         recentContactsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setMessages(List<Message> messages, User messagingUser) {
+        view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
+
         this.messages.clear();
         this.messages.addAll(convertMessages(messages));
         //this.messages.addAll(messages);
