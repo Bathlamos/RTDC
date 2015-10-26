@@ -101,8 +101,8 @@ J2OBJC_IGNORE_DESIGNATED_END
   ServiceService_getUsers();
 }
 
-+ (void)getUserWithInt:(jint)id_ {
-  ServiceService_getUserWithInt_(id_);
++ (void)getUserWithNSString:(NSString *)username {
+  ServiceService_getUserWithNSString_(username);
 }
 
 + (void)updateOrSaveUserWithModelUser:(ModelUser *)user
@@ -119,8 +119,14 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 + (void)getMessagesWithInt:(jint)userId1
-                   withInt:(jint)userId2 {
-  ServiceService_getMessagesWithInt_withInt_(userId1, userId2);
+                   withInt:(jint)userId2
+                   withInt:(jint)startIndex
+                   withInt:(jint)length {
+  ServiceService_getMessagesWithInt_withInt_withInt_withInt_(userId1, userId2, startIndex, length);
+}
+
++ (void)getRecentContactsWithInt:(jint)userId {
+  ServiceService_getRecentContactsWithInt_(userId);
 }
 
 + (void)getActions {
@@ -156,11 +162,12 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "updateOrSaveUnitWithModelUnit:", "updateOrSaveUnit", "V", 0x9, NULL, NULL },
     { "deleteUnitWithInt:", "deleteUnit", "V", 0x9, NULL, NULL },
     { "getUsers", NULL, "V", 0x9, NULL, NULL },
-    { "getUserWithInt:", "getUser", "V", 0x9, NULL, NULL },
+    { "getUserWithNSString:", "getUser", "V", 0x9, NULL, NULL },
     { "updateOrSaveUserWithModelUser:withNSString:", "updateOrSaveUser", "V", 0x9, NULL, NULL },
     { "deleteUserWithInt:", "deleteUser", "V", 0x9, NULL, NULL },
     { "saveOrUpdateMessageWithModelMessage:", "saveOrUpdateMessage", "V", 0x9, NULL, NULL },
-    { "getMessagesWithInt:withInt:", "getMessages", "V", 0x9, NULL, NULL },
+    { "getMessagesWithInt:withInt:withInt:withInt:", "getMessages", "V", 0x9, NULL, NULL },
+    { "getRecentContactsWithInt:", "getRecentContacts", "V", 0x9, NULL, NULL },
     { "getActions", NULL, "V", 0x9, NULL, NULL },
     { "updateOrSaveActionsWithModelAction:", "updateOrSaveActions", "V", 0x9, NULL, NULL },
     { "deleteActionWithInt:", "deleteAction", "V", 0x9, NULL, NULL },
@@ -170,7 +177,7 @@ J2OBJC_IGNORE_DESIGNATED_END
     { "URL_", NULL, 0x1a, "Ljava.lang.String;", &ServiceService_URL_, NULL, .constantValue.asLong = 0 },
     { "logger_", NULL, 0x1a, "Ljava.util.logging.Logger;", &ServiceService_logger_, NULL, .constantValue.asLong = 0 },
   };
-  static const J2ObjcClassInfo _ServiceService = { 2, "Service", "rtdc.core.service", NULL, 0x11, 17, methods, 2, fields, 0, NULL, 0, NULL, NULL, NULL };
+  static const J2ObjcClassInfo _ServiceService = { 2, "Service", "rtdc.core.service", NULL, 0x11, 18, methods, 2, fields, 0, NULL, 0, NULL, NULL, NULL };
   return &_ServiceService;
 }
 
@@ -227,9 +234,9 @@ void ServiceService_getUsers() {
   ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$", ServiceService_URL_, @"users") withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, GET)]);
 }
 
-void ServiceService_getUserWithInt_(jint id_) {
+void ServiceService_getUserWithNSString_(NSString *username) {
   ServiceService_initialize();
-  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$I", ServiceService_URL_, @"users/", id_) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$$", ServiceService_URL_, @"users/", username) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
 }
 
 void ServiceService_updateOrSaveUserWithModelUser_withNSString_(ModelUser *user, NSString *password) {
@@ -252,9 +259,14 @@ void ServiceService_saveOrUpdateMessageWithModelMessage_(ModelMessage *message) 
   ServiceService_executeRequestWithImplHttpRequest_(req);
 }
 
-void ServiceService_getMessagesWithInt_withInt_(jint userId1, jint userId2) {
+void ServiceService_getMessagesWithInt_withInt_withInt_withInt_(jint userId1, jint userId2, jint startIndex, jint length) {
   ServiceService_initialize();
-  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$ICI", ServiceService_URL_, @"messages/", userId1, '/', userId2) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$ICICICI", ServiceService_URL_, @"messages/", userId1, '/', userId2, '/', startIndex, '/', length) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
+}
+
+void ServiceService_getRecentContactsWithInt_(jint userId) {
+  ServiceService_initialize();
+  ServiceService_executeRequestWithImplHttpRequest_([((id<ImplFactory>) nil_chk(JreLoadStatic(RtdcCoreBootstrapper, FACTORY_))) newHttpRequestWithNSString:JreStrcat("$$I", ServiceService_URL_, @"messages/", userId) withImplHttpRequest_RequestMethodEnum:JreLoadStatic(ImplHttpRequest_RequestMethodEnum, POST)]);
 }
 
 void ServiceService_getActions() {

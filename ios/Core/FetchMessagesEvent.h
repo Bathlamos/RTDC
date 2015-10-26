@@ -16,6 +16,7 @@
 @class EventEventType;
 @class IOSObjectArray;
 @class JsonJSONObject;
+@class ModelUser;
 @protocol JavaLangIterable;
 @protocol ModelObjectProperty;
 
@@ -25,9 +26,11 @@
 
 #pragma mark Public
 
-- (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)messages;
-
 - (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object;
+
+- (instancetype)initWithModelUser:(ModelUser *)user1
+                    withModelUser:(ModelUser *)user2
+             withJavaLangIterable:(id<JavaLangIterable>)messages;
 
 - (void)fire;
 
@@ -36,6 +39,10 @@
 - (IOSObjectArray *)getProperties;
 
 - (NSString *)getType;
+
+- (ModelUser *)getUser1;
+
+- (ModelUser *)getUser2;
 
 - (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property;
 
@@ -46,9 +53,9 @@ J2OBJC_STATIC_INIT(EventFetchMessagesEvent)
 FOUNDATION_EXPORT EventEventType *EventFetchMessagesEvent_TYPE_;
 J2OBJC_STATIC_FIELD_GETTER(EventFetchMessagesEvent, TYPE_, EventEventType *)
 
-FOUNDATION_EXPORT void EventFetchMessagesEvent_initWithJavaLangIterable_(EventFetchMessagesEvent *self, id<JavaLangIterable> messages);
+FOUNDATION_EXPORT void EventFetchMessagesEvent_initWithModelUser_withModelUser_withJavaLangIterable_(EventFetchMessagesEvent *self, ModelUser *user1, ModelUser *user2, id<JavaLangIterable> messages);
 
-FOUNDATION_EXPORT EventFetchMessagesEvent *new_EventFetchMessagesEvent_initWithJavaLangIterable_(id<JavaLangIterable> messages) NS_RETURNS_RETAINED;
+FOUNDATION_EXPORT EventFetchMessagesEvent *new_EventFetchMessagesEvent_initWithModelUser_withModelUser_withJavaLangIterable_(ModelUser *user1, ModelUser *user2, id<JavaLangIterable> messages) NS_RETURNS_RETAINED;
 
 FOUNDATION_EXPORT void EventFetchMessagesEvent_initWithJsonJSONObject_(EventFetchMessagesEvent *self, JsonJSONObject *object);
 
@@ -69,10 +76,16 @@ J2OBJC_EMPTY_STATIC_INIT(EventFetchMessagesEvent_Handler)
 J2OBJC_TYPE_LITERAL_HEADER(EventFetchMessagesEvent_Handler)
 
 typedef NS_ENUM(NSUInteger, EventFetchMessagesEvent_Properties) {
-  EventFetchMessagesEvent_Properties_messages = 0,
+  EventFetchMessagesEvent_Properties_user1 = 0,
+  EventFetchMessagesEvent_Properties_user2 = 1,
+  EventFetchMessagesEvent_Properties_messages = 2,
 };
 
 @interface EventFetchMessagesEvent_PropertiesEnum : JavaLangEnum < NSCopying, ModelObjectProperty >
+
++ (EventFetchMessagesEvent_PropertiesEnum *)user1;
+
++ (EventFetchMessagesEvent_PropertiesEnum *)user2;
 
 + (EventFetchMessagesEvent_PropertiesEnum *)messages;
 
@@ -91,6 +104,12 @@ FOUNDATION_EXPORT EventFetchMessagesEvent_PropertiesEnum *EventFetchMessagesEven
 J2OBJC_STATIC_INIT(EventFetchMessagesEvent_PropertiesEnum)
 
 FOUNDATION_EXPORT EventFetchMessagesEvent_PropertiesEnum *EventFetchMessagesEvent_PropertiesEnum_values_[];
+
+#define EventFetchMessagesEvent_PropertiesEnum_user1 EventFetchMessagesEvent_PropertiesEnum_values_[EventFetchMessagesEvent_Properties_user1]
+J2OBJC_ENUM_CONSTANT_GETTER(EventFetchMessagesEvent_PropertiesEnum, user1)
+
+#define EventFetchMessagesEvent_PropertiesEnum_user2 EventFetchMessagesEvent_PropertiesEnum_values_[EventFetchMessagesEvent_Properties_user2]
+J2OBJC_ENUM_CONSTANT_GETTER(EventFetchMessagesEvent_PropertiesEnum, user2)
 
 #define EventFetchMessagesEvent_PropertiesEnum_messages EventFetchMessagesEvent_PropertiesEnum_values_[EventFetchMessagesEvent_Properties_messages]
 J2OBJC_ENUM_CONSTANT_GETTER(EventFetchMessagesEvent_PropertiesEnum, messages)

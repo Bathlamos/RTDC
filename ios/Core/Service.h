@@ -29,11 +29,15 @@
 + (void)getActions;
 
 + (void)getMessagesWithInt:(jint)userId1
-                   withInt:(jint)userId2;
+                   withInt:(jint)userId2
+                   withInt:(jint)startIndex
+                   withInt:(jint)length;
+
++ (void)getRecentContactsWithInt:(jint)userId;
 
 + (void)getUnits;
 
-+ (void)getUserWithInt:(jint)id_;
++ (void)getUserWithNSString:(NSString *)username;
 
 + (void)getUsers;
 
@@ -68,7 +72,7 @@ FOUNDATION_EXPORT void ServiceService_deleteUnitWithInt_(jint unitId);
 
 FOUNDATION_EXPORT void ServiceService_getUsers();
 
-FOUNDATION_EXPORT void ServiceService_getUserWithInt_(jint id_);
+FOUNDATION_EXPORT void ServiceService_getUserWithNSString_(NSString *username);
 
 FOUNDATION_EXPORT void ServiceService_updateOrSaveUserWithModelUser_withNSString_(ModelUser *user, NSString *password);
 
@@ -76,7 +80,9 @@ FOUNDATION_EXPORT void ServiceService_deleteUserWithInt_(jint userId);
 
 FOUNDATION_EXPORT void ServiceService_saveOrUpdateMessageWithModelMessage_(ModelMessage *message);
 
-FOUNDATION_EXPORT void ServiceService_getMessagesWithInt_withInt_(jint userId1, jint userId2);
+FOUNDATION_EXPORT void ServiceService_getMessagesWithInt_withInt_withInt_withInt_(jint userId1, jint userId2, jint startIndex, jint length);
+
+FOUNDATION_EXPORT void ServiceService_getRecentContactsWithInt_(jint userId);
 
 FOUNDATION_EXPORT void ServiceService_getActions();
 

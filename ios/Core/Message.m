@@ -214,6 +214,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 void ModelMessage_init(ModelMessage *self) {
   (void) ModelRootObject_init(self);
+  self->id__ = -1;
   self->senderID_ = -1;
   self->receiverID_ = -1;
 }
@@ -226,6 +227,7 @@ ModelMessage *new_ModelMessage_init() {
 
 void ModelMessage_initWithJsonJSONObject_(ModelMessage *self, JsonJSONObject *object) {
   (void) ModelRootObject_init(self);
+  self->id__ = -1;
   self->senderID_ = -1;
   self->receiverID_ = -1;
   [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelMessage_PropertiesEnum *) nil_chk(JreLoadStatic(ModelMessage_PropertiesEnum, id))) name]]];

@@ -14,6 +14,7 @@
 #include "Message.h"
 #include "ObjectProperty.h"
 #include "RootObject.h"
+#include "User.h"
 #include "com/google/common/base/Function.h"
 #include "com/google/common/collect/ImmutableSet.h"
 #include "java/lang/Enum.h"
@@ -23,11 +24,15 @@
 
 @interface EventFetchMessagesEvent () {
  @public
+  ModelUser *user1_;
+  ModelUser *user2_;
   ComGoogleCommonCollectImmutableSet *messages_;
 }
 
 @end
 
+J2OBJC_FIELD_SETTER(EventFetchMessagesEvent, user1_, ModelUser *)
+J2OBJC_FIELD_SETTER(EventFetchMessagesEvent, user2_, ModelUser *)
 J2OBJC_FIELD_SETTER(EventFetchMessagesEvent, messages_, ComGoogleCommonCollectImmutableSet *)
 
 @interface EventFetchMessagesEvent_Handler : NSObject
@@ -64,14 +69,24 @@ EventEventType *EventFetchMessagesEvent_TYPE_;
   return EventFetchMessagesEvent_TYPE_;
 }
 
-- (instancetype)initWithJavaLangIterable:(id<JavaLangIterable>)messages {
-  EventFetchMessagesEvent_initWithJavaLangIterable_(self, messages);
+- (instancetype)initWithModelUser:(ModelUser *)user1
+                    withModelUser:(ModelUser *)user2
+             withJavaLangIterable:(id<JavaLangIterable>)messages {
+  EventFetchMessagesEvent_initWithModelUser_withModelUser_withJavaLangIterable_(self, user1, user2, messages);
   return self;
 }
 
 - (instancetype)initWithJsonJSONObject:(JsonJSONObject *)object {
   EventFetchMessagesEvent_initWithJsonJSONObject_(self, object);
   return self;
+}
+
+- (ModelUser *)getUser1 {
+  return user1_;
+}
+
+- (ModelUser *)getUser2 {
+  return user2_;
 }
 
 - (ComGoogleCommonCollectImmutableSet *)getMessages {
@@ -92,6 +107,10 @@ EventEventType *EventFetchMessagesEvent_TYPE_;
 
 - (id)getValueWithModelObjectProperty:(id<ModelObjectProperty>)property {
   switch ([(EventFetchMessagesEvent_PropertiesEnum *) check_class_cast(property, [EventFetchMessagesEvent_PropertiesEnum class]) ordinal]) {
+    case EventFetchMessagesEvent_Properties_user1:
+    return user1_;
+    case EventFetchMessagesEvent_Properties_user2:
+    return user2_;
     case EventFetchMessagesEvent_Properties_messages:
     return messages_;
   }
@@ -107,8 +126,10 @@ EventEventType *EventFetchMessagesEvent_TYPE_;
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
-    { "initWithJavaLangIterable:", "FetchMessagesEvent", NULL, 0x1, NULL, NULL },
+    { "initWithModelUser:withModelUser:withJavaLangIterable:", "FetchMessagesEvent", NULL, 0x1, NULL, NULL },
     { "initWithJsonJSONObject:", "FetchMessagesEvent", NULL, 0x1, NULL, NULL },
+    { "getUser1", NULL, "Lrtdc.core.model.User;", 0x1, NULL, NULL },
+    { "getUser2", NULL, "Lrtdc.core.model.User;", 0x1, NULL, NULL },
     { "getMessages", NULL, "Lcom.google.common.collect.ImmutableSet;", 0x1, NULL, NULL },
     { "fire", NULL, "V", 0x1, NULL, NULL },
     { "getProperties", NULL, "[Lrtdc.core.model.ObjectProperty;", 0x1, NULL, NULL },
@@ -117,30 +138,36 @@ EventEventType *EventFetchMessagesEvent_TYPE_;
   };
   static const J2ObjcFieldInfo fields[] = {
     { "TYPE_", NULL, 0x19, "Lrtdc.core.event.EventType;", &EventFetchMessagesEvent_TYPE_, "Lrtdc/core/event/EventType<Lrtdc/core/event/FetchMessagesEvent$Handler;>;", .constantValue.asLong = 0 },
+    { "user1_", NULL, 0x2, "Lrtdc.core.model.User;", NULL, NULL, .constantValue.asLong = 0 },
+    { "user2_", NULL, 0x2, "Lrtdc.core.model.User;", NULL, NULL, .constantValue.asLong = 0 },
     { "messages_", NULL, 0x12, "Lcom.google.common.collect.ImmutableSet;", NULL, "Lcom/google/common/collect/ImmutableSet<Lrtdc/core/model/Message;>;", .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.FetchMessagesEvent$Handler;"};
   static const char *inner_classes[] = {"Lrtdc.core.event.FetchMessagesEvent$Handler;", "Lrtdc.core.event.FetchMessagesEvent$Properties;"};
-  static const J2ObjcClassInfo _EventFetchMessagesEvent = { 2, "FetchMessagesEvent", "rtdc.core.event", NULL, 0x1, 7, methods, 2, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/FetchMessagesEvent$Handler;>;" };
+  static const J2ObjcClassInfo _EventFetchMessagesEvent = { 2, "FetchMessagesEvent", "rtdc.core.event", NULL, 0x1, 9, methods, 4, fields, 1, superclass_type_args, 2, inner_classes, NULL, "Lrtdc/core/event/Event<Lrtdc/core/event/FetchMessagesEvent$Handler;>;" };
   return &_EventFetchMessagesEvent;
 }
 
 @end
 
-void EventFetchMessagesEvent_initWithJavaLangIterable_(EventFetchMessagesEvent *self, id<JavaLangIterable> messages) {
+void EventFetchMessagesEvent_initWithModelUser_withModelUser_withJavaLangIterable_(EventFetchMessagesEvent *self, ModelUser *user1, ModelUser *user2, id<JavaLangIterable> messages) {
   (void) EventEvent_init(self);
+  self->user1_ = user1;
+  self->user2_ = user2;
   self->messages_ = ComGoogleCommonCollectImmutableSet_copyOfWithJavaLangIterable_(messages);
 }
 
-EventFetchMessagesEvent *new_EventFetchMessagesEvent_initWithJavaLangIterable_(id<JavaLangIterable> messages) {
+EventFetchMessagesEvent *new_EventFetchMessagesEvent_initWithModelUser_withModelUser_withJavaLangIterable_(ModelUser *user1, ModelUser *user2, id<JavaLangIterable> messages) {
   EventFetchMessagesEvent *self = [EventFetchMessagesEvent alloc];
-  EventFetchMessagesEvent_initWithJavaLangIterable_(self, messages);
+  EventFetchMessagesEvent_initWithModelUser_withModelUser_withJavaLangIterable_(self, user1, user2, messages);
   return self;
 }
 
 void EventFetchMessagesEvent_initWithJsonJSONObject_(EventFetchMessagesEvent *self, JsonJSONObject *object) {
   (void) EventEvent_init(self);
-  self->messages_ = ComGoogleCommonCollectImmutableSet_copyOfWithJavaUtilCollection_([self parseJsonArrayWithJsonJSONArray:[((JsonJSONObject *) nil_chk(object)) getJSONArrayWithNSString:[((EventFetchMessagesEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchMessagesEvent_PropertiesEnum, messages))) name]] withComGoogleCommonBaseFunction:new_EventFetchMessagesEvent_$1_init()]);
+  self->user1_ = new_ModelUser_initWithJsonJSONObject_([((JsonJSONObject *) nil_chk(object)) getJSONObjectWithNSString:[((EventFetchMessagesEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchMessagesEvent_PropertiesEnum, user1))) name]]);
+  self->user2_ = new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((EventFetchMessagesEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchMessagesEvent_PropertiesEnum, user2))) name]]);
+  self->messages_ = ComGoogleCommonCollectImmutableSet_copyOfWithJavaUtilCollection_([self parseJsonArrayWithJsonJSONArray:[object getJSONArrayWithNSString:[((EventFetchMessagesEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchMessagesEvent_PropertiesEnum, messages))) name]] withComGoogleCommonBaseFunction:new_EventFetchMessagesEvent_$1_init()]);
 }
 
 EventFetchMessagesEvent *new_EventFetchMessagesEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
@@ -167,9 +194,17 @@ J2OBJC_INTERFACE_TYPE_LITERAL_SOURCE(EventFetchMessagesEvent_Handler)
 
 J2OBJC_INITIALIZED_DEFN(EventFetchMessagesEvent_PropertiesEnum)
 
-EventFetchMessagesEvent_PropertiesEnum *EventFetchMessagesEvent_PropertiesEnum_values_[1];
+EventFetchMessagesEvent_PropertiesEnum *EventFetchMessagesEvent_PropertiesEnum_values_[3];
 
 @implementation EventFetchMessagesEvent_PropertiesEnum
+
++ (EventFetchMessagesEvent_PropertiesEnum *)user1 {
+  return EventFetchMessagesEvent_PropertiesEnum_user1;
+}
+
++ (EventFetchMessagesEvent_PropertiesEnum *)user2 {
+  return EventFetchMessagesEvent_PropertiesEnum_user2;
+}
 
 + (EventFetchMessagesEvent_PropertiesEnum *)messages {
   return EventFetchMessagesEvent_PropertiesEnum_messages;
@@ -183,7 +218,7 @@ EventFetchMessagesEvent_PropertiesEnum *EventFetchMessagesEvent_PropertiesEnum_v
 
 IOSObjectArray *EventFetchMessagesEvent_PropertiesEnum_values() {
   EventFetchMessagesEvent_PropertiesEnum_initialize();
-  return [IOSObjectArray arrayWithObjects:EventFetchMessagesEvent_PropertiesEnum_values_ count:1 type:EventFetchMessagesEvent_PropertiesEnum_class_()];
+  return [IOSObjectArray arrayWithObjects:EventFetchMessagesEvent_PropertiesEnum_values_ count:3 type:EventFetchMessagesEvent_PropertiesEnum_class_()];
 }
 
 + (IOSObjectArray *)values {
@@ -196,7 +231,7 @@ IOSObjectArray *EventFetchMessagesEvent_PropertiesEnum_values() {
 
 EventFetchMessagesEvent_PropertiesEnum *EventFetchMessagesEvent_PropertiesEnum_valueOfWithNSString_(NSString *name) {
   EventFetchMessagesEvent_PropertiesEnum_initialize();
-  for (int i = 0; i < 1; i++) {
+  for (int i = 0; i < 3; i++) {
     EventFetchMessagesEvent_PropertiesEnum *e = EventFetchMessagesEvent_PropertiesEnum_values_[i];
     if ([name isEqual:[e name]]) {
       return e;
@@ -212,17 +247,21 @@ EventFetchMessagesEvent_PropertiesEnum *EventFetchMessagesEvent_PropertiesEnum_v
 
 + (void)initialize {
   if (self == [EventFetchMessagesEvent_PropertiesEnum class]) {
-    EventFetchMessagesEvent_PropertiesEnum_messages = new_EventFetchMessagesEvent_PropertiesEnum_initWithNSString_withInt_(@"messages", 0);
+    EventFetchMessagesEvent_PropertiesEnum_user1 = new_EventFetchMessagesEvent_PropertiesEnum_initWithNSString_withInt_(@"user1", 0);
+    EventFetchMessagesEvent_PropertiesEnum_user2 = new_EventFetchMessagesEvent_PropertiesEnum_initWithNSString_withInt_(@"user2", 1);
+    EventFetchMessagesEvent_PropertiesEnum_messages = new_EventFetchMessagesEvent_PropertiesEnum_initWithNSString_withInt_(@"messages", 2);
     J2OBJC_SET_INITIALIZED(EventFetchMessagesEvent_PropertiesEnum)
   }
 }
 
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcFieldInfo fields[] = {
+    { "user1", "user1", 0x4019, "Lrtdc.core.event.FetchMessagesEvent$Properties;", &EventFetchMessagesEvent_PropertiesEnum_user1, NULL, .constantValue.asLong = 0 },
+    { "user2", "user2", 0x4019, "Lrtdc.core.event.FetchMessagesEvent$Properties;", &EventFetchMessagesEvent_PropertiesEnum_user2, NULL, .constantValue.asLong = 0 },
     { "messages", "messages", 0x4019, "Lrtdc.core.event.FetchMessagesEvent$Properties;", &EventFetchMessagesEvent_PropertiesEnum_messages, NULL, .constantValue.asLong = 0 },
   };
   static const char *superclass_type_args[] = {"Lrtdc.core.event.FetchMessagesEvent$Properties;"};
-  static const J2ObjcClassInfo _EventFetchMessagesEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "FetchMessagesEvent", 0x4019, 0, NULL, 1, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/FetchMessagesEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/FetchMessagesEvent;>;" };
+  static const J2ObjcClassInfo _EventFetchMessagesEvent_PropertiesEnum = { 2, "Properties", "rtdc.core.event", "FetchMessagesEvent", 0x4019, 0, NULL, 3, fields, 1, superclass_type_args, 0, NULL, NULL, "Ljava/lang/Enum<Lrtdc/core/event/FetchMessagesEvent$Properties;>;Lrtdc/core/model/ObjectProperty<Lrtdc/core/event/FetchMessagesEvent;>;" };
   return &_EventFetchMessagesEvent_PropertiesEnum;
 }
 

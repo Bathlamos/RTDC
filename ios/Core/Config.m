@@ -8,9 +8,9 @@
 
 NSString *RtdcCoreConfig_GCM_SERVER_PROJECT_ID_ = @"261943195908";
 NSString *RtdcCoreConfig_GCM_SERVER_API_KEY_ = @"AIzaSyAwZJhcvot0V6eOCrXD7htyLS9hP4WFxEg";
-NSString *RtdcCoreConfig_COMMAND_EXEC_KEY_ = @"6B%iyB;c=rgs>d[>u[_IOSkt=,WG?(Sv*yEN]>cw9{*+C{8c.IOoJc2{zhGM0Ez";
 NSString *RtdcCoreConfig_ASTERISK_IP_ = @"192.168.0.21";
 NSString *RtdcCoreConfig_SERVER_IP_ = @"192.168.2.25";
+NSString *RtdcCoreConfig_COMMAND_EXEC_KEY_ = @"6BiyBrgsduIOSktWGSvyENcw9C8cIOoJc2zhGM0Ez";
 
 @implementation RtdcCoreConfig
 

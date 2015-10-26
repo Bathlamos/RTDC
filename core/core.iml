@@ -28,6 +28,7 @@
     </content>
     <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="guava-14.0.1" level="project" />
+    <orderEntry type="library" exported="" name="guava-18.0" level="project" />
+    <orderEntry type="library" exported="" name="j2objc-annotations-0.1" level="project" />
   </component>
 </module>

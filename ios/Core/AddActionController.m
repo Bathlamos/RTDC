@@ -76,6 +76,7 @@ J2OBJC_TYPE_LITERAL_HEADER(ControllerAddActionController_$1)
 
 - (void)onUnitsFetchedWithEventFetchUnitsEvent:(EventFetchUnitsEvent *)event {
   [((id<ImplUiDropdown>) nil_chk([((id<ViewAddActionView>) nil_chk(view_)) getUnitUiElement])) setArrayWithNSObjectArray:[((ComGoogleCommonCollectImmutableSet *) nil_chk([((EventFetchUnitsEvent *) nil_chk(event)) getUnits])) toArrayWithNSObjectArray:[IOSObjectArray newArrayWithLength:[((ComGoogleCommonCollectImmutableSet *) nil_chk([event getUnits])) size] type:ModelUnit_class_()]]];
+  units_ = new_JavaUtilArrayList_initWithJavaUtilCollection_([event getUnits]);
 }
 
 - (void)onStop {

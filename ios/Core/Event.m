@@ -12,12 +12,14 @@
 #include "EventType.h"
 #include "FetchActionsEvent.h"
 #include "FetchMessagesEvent.h"
+#include "FetchRecentContactsEvent.h"
 #include "FetchUnitsEvent.h"
 #include "FetchUserEvent.h"
 #include "FetchUsersEvent.h"
 #include "J2ObjC_source.h"
 #include "JSONObject.h"
 #include "LogoutEvent.h"
+#include "MessageSavedEvent.h"
 #include "RootObject.h"
 #include "SessionExpiredEvent.h"
 #include "com/google/common/collect/ImmutableSet.h"
@@ -103,6 +105,8 @@ void EventEvent_fireWithJsonJSONObject_(JsonJSONObject *object) {
     else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchUserEvent, TYPE_))) getName]]) e = new_EventFetchUserEvent_initWithJsonJSONObject_(object);
     else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchActionsEvent, TYPE_))) getName]]) e = new_EventFetchActionsEvent_initWithJsonJSONObject_(object);
     else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchMessagesEvent, TYPE_))) getName]]) e = new_EventFetchMessagesEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventMessageSavedEvent, TYPE_))) getName]]) e = new_EventMessageSavedEvent_initWithJsonJSONObject_(object);
+    else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventFetchRecentContactsEvent, TYPE_))) getName]]) e = new_EventFetchRecentContactsEvent_initWithJsonJSONObject_(object);
     else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventActionCompleteEvent, TYPE_))) getName]]) e = new_EventActionCompleteEvent_initWithJsonJSONObject_(object);
     else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventSessionExpiredEvent, TYPE_))) getName]]) e = new_EventSessionExpiredEvent_init();
     else if ([type equalsIgnoreCase:[((EventEventType *) nil_chk(JreLoadStatic(EventLogoutEvent, TYPE_))) getName]]) e = new_EventLogoutEvent_init();
