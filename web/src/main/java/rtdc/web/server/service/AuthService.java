@@ -50,7 +50,10 @@ public class AuthService {
             return authTokenObject.getUser();
         }
 
-        throw new SessionExpiredException("Session expired for auth token " + authTokenObject.getAuthenticationToken());
+        if(authToken != null)
+            throw new SessionExpiredException("Session expired for auth token " + authTokenObject.getAuthenticationToken());
+
+        throw new SessionExpiredException("You need to be loged in to access this service");
     }
 
     public static UserCredentials generateUserCredentials(User user, String password){
