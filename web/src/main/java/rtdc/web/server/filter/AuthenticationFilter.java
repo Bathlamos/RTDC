@@ -72,6 +72,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             if (user == null)
                 requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
             else {
+                requestCtx.setProperty("current_user", user);
                 // Authenticate the user
                 requestCtx.setSecurityContext(new SecurityContextImpl(user));
             }

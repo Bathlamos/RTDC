@@ -2,6 +2,7 @@ package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rtdc.core.event.ActionCompleteEvent;
@@ -10,6 +11,7 @@ import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Permission;
+import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
 import javax.annotation.security.RolesAllowed;
@@ -30,18 +32,21 @@ public class ActionServlet {
 
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String get(@Context HttpServletRequest req){
+    public String get(@Context HttpServletRequest req, @Context User user){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Action> actions = null;
         try{
             transaction = session.beginTransaction();
-            actions = (List<Action>) session.createCriteria(Action.class).list();
+            if(Permission.USER.equalsIgnoreCase(user.getPermission()))
+                actions = (List<Action>) session.createCriteria(Action.class).
+                        add(Restrictions.eq("personResponsible", user)).list();
+            else
+                actions = (List<Action>) session.createCriteria(Action.class).list();
             transaction.commit();
 
-            // TODO: Replace string with actual username
             // TODO: Replace string with actual unit name
-            log.info("{}: ACTION: Getting actions for unit: {}", "Username", "Unit name");
+            log.info("{}: ACTION: Getting actions for unit: {}", user.getUsername(), "Unit name");
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
