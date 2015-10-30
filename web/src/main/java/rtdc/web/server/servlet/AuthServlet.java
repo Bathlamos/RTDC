@@ -31,7 +31,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Path("authenticate")
+@Path("auth")
 public class AuthServlet {
 
     private static final Logger log = LoggerFactory.getLogger(AuthServlet.class);
@@ -67,6 +67,7 @@ public class AuthServlet {
     }
 
     @POST
+    @Path("login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @PermitAll
@@ -136,7 +137,7 @@ public class AuthServlet {
                         resp.addCookie(new Cookie(CookiesName.AUTH_COOKIE, token.getAuthenticationToken()));
 
                     return new AuthenticationEvent(user, token.getAuthenticationToken()).toString();
-                }else
+                } else
                     log.warn("{}: LOGIN FAILED: Invalid password.", username);
                     throw new UsernamePasswordMismatchException("Username / password mismatch");
             }

@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUnitsEvent;
+import rtdc.core.exception.ApiException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Permission;
 import rtdc.core.model.Unit;
@@ -92,7 +93,8 @@ public class UnitServlet {
         try{
             transaction = session.beginTransaction();
             Unit unit = (Unit) session.load(Unit.class, id);
-            session.delete(unit);
+            if(unit == null)
+                throw new ApiException("Id " + id + " doesn't exist");
             transaction.commit();
 
             log.warn("{}: UNIT: Unit deleted: {}", user.getUsername(), unit.getName());
