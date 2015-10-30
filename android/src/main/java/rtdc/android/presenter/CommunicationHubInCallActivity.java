@@ -96,9 +96,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         executor.schedule(new Callable() {
             @Override
             public Object call() throws Exception {
-                Intent intent = new Intent(AndroidBootstrapper.getAppContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                AndroidBootstrapper.getAppContext().startActivity(intent);
+                finish();
                 return null;
             }
         }, 1500, TimeUnit.MILLISECONDS);
