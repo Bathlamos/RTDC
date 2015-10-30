@@ -211,7 +211,7 @@ public class AndroidVoipController implements VoipController{
 
     @Override
     public void sendMessage(Message message) {
-        String sipAddress = "sip:" + message.getReceiver().getId() + "@" + Config.ASTERISK_IP;
+        String sipAddress = "sip:" + message.getReceiver().getUsername() + "@" + Config.ASTERISK_IP;
         LinphoneChatRoom c = LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress);
         LinphoneChatMessage m = c.createLinphoneChatMessage(message.toString());
         LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).sendChatMessage(m);

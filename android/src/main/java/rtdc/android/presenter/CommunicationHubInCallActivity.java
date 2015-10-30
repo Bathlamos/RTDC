@@ -1,6 +1,7 @@
 package rtdc.android.presenter;
 
 import android.app.*;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -11,10 +12,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import org.linphone.BandwidthManager;
-import org.linphone.core.LinphoneCall;
-import org.linphone.core.LinphoneCallParams;
-import org.linphone.core.LinphoneCore;
-import org.linphone.core.LinphoneCoreException;
+import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
@@ -22,7 +20,9 @@ import rtdc.android.presenter.fragments.AbstractCallFragment;
 import rtdc.android.presenter.fragments.AudioCallFragment;
 import rtdc.android.presenter.fragments.VideoCallFragment;
 import rtdc.android.voip.LiblinphoneThread;
+import rtdc.android.voip.VoipListener;
 import rtdc.core.Bootstrapper;
+import rtdc.core.Config;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -30,19 +30,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CommunicationHubInCallActivity extends AbstractActivity implements View.OnClickListener{
+public class CommunicationHubInCallActivity extends AbstractActivity implements View.OnClickListener, VoipListener{
 
     private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-    private static boolean activityVisible;
     private AbstractCallFragment callFragment;
-
-    private static CommunicationHubInCallActivity currentInstance;
 
     public final static int IN_CALL_NOTIFICATION_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentInstance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_call);
 
@@ -81,6 +77,8 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
         mBuilder.setContentIntent(inCallPendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(IN_CALL_NOTIFICATION_ID, mBuilder.build());
+
+        LiblinphoneThread.get().addVoipListener(this);
     }
 
     public void onCallEstablished(){
@@ -153,33 +151,14 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        activityVisible = true;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        activityVisible = false;
-    }
-
-    @Override
     public void onStop(){
         super.onStop();
         executor.shutdownNow();
+        LiblinphoneThread.get().removeVoipListener(this);
     }
 
     public ScheduledThreadPoolExecutor getExecutor(){
         return executor;
-    }
-
-    public static CommunicationHubInCallActivity getCurrentInstance(){
-        return currentInstance;
-    }
-
-    public static boolean isActivityVisible() {
-        return activityVisible;
     }
 
     @Override
@@ -224,6 +203,51 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
 
             Bootstrapper.FACTORY.getVoipController().hangup();
             onCallHangup();
+        }
+    }
+
+    @Override
+    public void onCallStateChanged(LinphoneCall call, LinphoneCall.State state) {
+        if(state == LinphoneCall.State.Connected){
+            onCallEstablished();
+        }else if(state == LinphoneCall.State.CallEnd || state == LinphoneCall.State.Error || state == LinphoneCall.State.CallReleased){
+            Context context = AndroidBootstrapper.getAppContext();
+
+            // Remove the notification for the call
+            ((NotificationManager) context.getSystemService(
+                    context.NOTIFICATION_SERVICE)).cancel(IN_CALL_NOTIFICATION_ID);
+
+            // Call a cleaning method if the call that terminated was the one we are actually in (could've been an incoming call)
+            if(call == LiblinphoneThread.get().getCurrentCall())
+                onCallHangup();
+        }
+    }
+
+    @Override
+    public void onMessageReceived(LinphoneChatMessage chatMessage) {
+        if(chatMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")) {
+            // Check to make sure that if we are in a call that the one that sent the message is the one we're in a call with
+            // (It could be someone that's trying to request a video call, but we're in a call with someone already)
+            if (LiblinphoneThread.get().getCurrentCall() != null &&
+                    !LiblinphoneThread.get().getCurrentCallRemoteAddress().getUserName().equals(chatMessage.getFrom().getUserName()))
+                return;
+            // There was an update regarding the video of the call
+            boolean video = Boolean.valueOf(chatMessage.getText().replace(Config.COMMAND_EXEC_KEY + "Video: ", ""));
+            AndroidVoipController.get().setRemoteVideo(video);
+            if (video) {
+                if (AndroidVoipController.get().isVideoEnabled()) {
+                    // Remote video is on and we're already in the video fragment. Make sure the pause screen is off
+                    displayPauseVideoStatus(false);
+                } else {
+                    // Remote video is on and we're not in the video fragment. Go to the video fragment
+                    displayVideo();
+                }
+            }else{
+                if(AndroidVoipController.get().isVideoEnabled()){
+                    // Remote video is off and and we're broadcasting video. Pause the video call
+                    displayPauseVideoStatus(true);
+                }
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.TextView;
+import org.linphone.LinphoneManager;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
@@ -28,7 +29,9 @@ import rtdc.core.model.User;
 import rtdc.core.service.Service;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +41,8 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
     private LinphoneCall currentCall;
     private LinphoneAddress currentCallRemoteAddress;
     private boolean running;
+
+    private List<VoipListener> voipListeners = new ArrayList<VoipListener>();
 
     // We decrease this value each time there's a missed call so that each missed call as a unique notification ID
     private int MISSED_CALL_NOTIFICATION_ID = Integer.MAX_VALUE;
@@ -91,9 +96,19 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
         return currentCallRemoteAddress;
     }
 
+    public void addVoipListener(VoipListener listener){
+        voipListeners.add(listener);
+    }
+
+    public void removeVoipListener(VoipListener listener){
+        voipListeners.remove(listener);
+    }
+
     @Override
     public void callState(LinphoneCore linphoneCore, LinphoneCall linphoneCall, LinphoneCall.State state, String s) {
         Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, state + "");
+        for(VoipListener listener: voipListeners)
+            listener.onCallStateChanged(linphoneCall, state);
         if(state == LinphoneCall.State.IncomingReceived){
             // Only accept the incoming call if we're not currently in a call
 
@@ -119,29 +134,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);
-        }else if(state == LinphoneCall.State.Connected){
-            // If we're in the In Call activity, we need to update the interface
-
-            if(CommunicationHubInCallActivity.getCurrentInstance() != null)
-                CommunicationHubInCallActivity.getCurrentInstance().onCallEstablished();
         }else if(state == LinphoneCall.State.CallEnd || state == LinphoneCall.State.Error || state == LinphoneCall.State.CallReleased){
-            Context context = AndroidBootstrapper.getAppContext();
-
-            // Remove the notification for the call
-
-            ((NotificationManager) context.getSystemService(
-                    context.NOTIFICATION_SERVICE)).cancel(CommunicationHubInCallActivity.IN_CALL_NOTIFICATION_ID);
-
-            // If the current activity is the In Call interface, we clean it up
-
-            if(CommunicationHubInCallActivity.isActivityVisible() && linphoneCall == currentCall)
-                CommunicationHubInCallActivity.getCurrentInstance().onCallHangup();
-
-            // If the current activity is the Incoming Call interface, we simply remove it
-
-            if(CommunicationHubReceivingCallActivity.isActivityVisible())
-                CommunicationHubReceivingCallActivity.getInstance().finish();
-
             Reason reason = linphoneCall.getErrorInfo().getReason();
             String fromUserName = linphoneCall.getCallLog().getFrom().getUserName();
 
@@ -247,52 +240,8 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
     @Override
     public void messageReceived(LinphoneCore linphoneCore, LinphoneChatRoom linphoneChatRoom, final LinphoneChatMessage linphoneChatMessage) {
         Logger.getLogger(LiblinphoneThread.class.getName()).log(Level.INFO, "Message received: " + linphoneChatMessage.getText());
-
-        if(linphoneChatMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
-            // Check to make sure that if we are in a call that the one that sent the message is the one we're in a call with
-            // (It could be someone that's trying to request a video call, but we're in a call with someone already)
-            if(currentCall != null && !currentCallRemoteAddress.getUserName().equals(linphoneChatMessage.getFrom().getUserName()))
-                return;
-            // There was an update regarding the video of the call
-            boolean video = Boolean.valueOf(linphoneChatMessage.getText().replace(Config.COMMAND_EXEC_KEY + "Video: ", ""));
-            AndroidVoipController.get().setRemoteVideo(video);
-            if(video){
-                if(AndroidVoipController.get().isVideoEnabled()){
-                    // Remote video is on and we're already in the video fragment. Make sure the pause screen is off
-                    CommunicationHubInCallActivity.getCurrentInstance().displayPauseVideoStatus(false);
-                }else{
-                    // Remote video is on and we're not in the video fragment. Go to the video fragment
-                    if(CommunicationHubInCallActivity.getCurrentInstance() != null)
-                        CommunicationHubInCallActivity.getCurrentInstance().displayVideo();
-                    else if(CommunicationHubReceivingCallActivity.getInstance() != null)
-                        ((TextView)CommunicationHubReceivingCallActivity.getInstance().findViewById(R.id.incomingCallText)).setText("Incoming video call");
-                }
-            }else{
-                if(AndroidVoipController.get().isVideoEnabled()){
-                    // Remote video is off and and we're broadcasting video. Pause the video call
-                    CommunicationHubInCallActivity.getCurrentInstance().displayPauseVideoStatus(true);
-                }else{
-                    if(CommunicationHubInCallActivity.getCurrentInstance() != null && CommunicationHubInCallActivity.getCurrentInstance().getCurrentFragment() instanceof VideoCallFragment) {
-                        // Remote video is off and and we're in the video fragment. No point in staying there, go to audio fragment
-                        CommunicationHubInCallActivity.getCurrentInstance().displayAudio();
-                    }else if(CommunicationHubReceivingCallActivity.getInstance() != null)
-                        ((TextView)CommunicationHubReceivingCallActivity.getInstance().findViewById(R.id.incomingCallText)).setText("Incoming call");
-                }
-            }
-        }else{
-            if(CommunicationHubFragment.getInstance() != null){
-                JSONObject object = new JSONObject(linphoneChatMessage.getText());
-                Message message = new Message(object);
-                if(CommunicationHubFragment.getInstance().getMessagingUser().getId() == message.getSenderID()) {
-                    message.setStatus(Message.Status.read);
-                    CommunicationHubFragment.getInstance().addMessage(message);
-                }else{
-                    message.setStatus(Message.Status.delivered);
-                    CommunicationHubFragment.getInstance().addRecentContact(message);
-                }
-                Service.saveOrUpdateMessage(message);
-            }
-        }
+        for(VoipListener listener: voipListeners)
+            listener.onMessageReceived(linphoneChatMessage);
     }
 
     @Override

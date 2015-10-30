@@ -4,15 +4,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
+import org.linphone.core.LinphoneCall;
+import org.linphone.core.LinphoneChatMessage;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
+import rtdc.android.voip.LiblinphoneThread;
+import rtdc.android.voip.VoipListener;
 import rtdc.core.Session;
 import rtdc.core.Config;
 import rtdc.core.controller.CommunicationHubController;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchMessagesEvent;
 import rtdc.core.event.MessageSavedEvent;
+import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
@@ -22,7 +27,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler{
+public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler, VoipListener{
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
@@ -37,12 +42,9 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     public View view;
     AutoCompleteTextView contactsAutoComplete;
 
-    private static CommunicationHubFragment instance;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        instance = this;
         view = inflater.inflate(R.layout.fragment_communication_hub, container, false);
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
@@ -152,6 +154,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         setHasOptionsMenu(true);
 
         Event.subscribe(FetchMessagesEvent.TYPE, this);
+        LiblinphoneThread.get().addVoipListener(this);
 
         return view;
     }
@@ -410,16 +413,33 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     public void onStop() {
         super.onStop();
         controller.onStop();
-        instance = null;
-    }
-
-    public static CommunicationHubFragment getInstance(){
-        return instance;
+        LiblinphoneThread.get().removeVoipListener(this);
     }
 
     @Override
     public void onMessagesFetched(FetchMessagesEvent event) {
         contactsAutoComplete.setVisibility(View.GONE);
         view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onMessageReceived(LinphoneChatMessage chatMessage) {
+        if(!chatMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
+            JSONObject object = new JSONObject(chatMessage.getText());
+            Message message = new Message(object);
+            if(messagingUser.getId() == message.getSenderID()) {
+                message.setStatus(Message.Status.read);
+                addMessage(message);
+            }else{
+                message.setStatus(Message.Status.delivered);
+                addRecentContact(message);
+            }
+            Service.saveOrUpdateMessage(message);
+        }
+    }
+
+    @Override
+    public void onCallStateChanged(LinphoneCall call, LinphoneCall.State state) {
+
     }
 }
