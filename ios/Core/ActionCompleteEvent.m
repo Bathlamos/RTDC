@@ -94,15 +94,9 @@ EventEventType *EventActionCompleteEvent_TYPE_;
   return nil;
 }
 
-- (void)dealloc {
-  RELEASE_(objectType_);
-  RELEASE_(action_);
-  [super dealloc];
-}
-
 + (void)initialize {
   if (self == [EventActionCompleteEvent class]) {
-    JreStrongAssignAndConsume(&EventActionCompleteEvent_TYPE_, new_EventEventType_initWithNSString_(@"actionCompleteEvent"));
+    EventActionCompleteEvent_TYPE_ = new_EventEventType_initWithNSString_(@"actionCompleteEvent");
     J2OBJC_SET_INITIALIZED(EventActionCompleteEvent)
   }
 }
@@ -134,10 +128,10 @@ EventEventType *EventActionCompleteEvent_TYPE_;
 @end
 
 void EventActionCompleteEvent_initWithInt_withNSString_withNSString_(EventActionCompleteEvent *self, jint objectId, NSString *objectType, NSString *action) {
-  EventEvent_init(self);
+  (void) EventEvent_init(self);
   self->objectId_ = objectId;
-  JreStrongAssign(&self->objectType_, objectType);
-  JreStrongAssign(&self->action_, action);
+  self->objectType_ = objectType;
+  self->action_ = action;
 }
 
 EventActionCompleteEvent *new_EventActionCompleteEvent_initWithInt_withNSString_withNSString_(jint objectId, NSString *objectType, NSString *action) {
@@ -147,10 +141,10 @@ EventActionCompleteEvent *new_EventActionCompleteEvent_initWithInt_withNSString_
 }
 
 void EventActionCompleteEvent_initWithJsonJSONObject_(EventActionCompleteEvent *self, JsonJSONObject *object) {
-  EventEvent_init(self);
+  (void) EventEvent_init(self);
   self->objectId_ = [((JsonJSONObject *) nil_chk(object)) getIntWithNSString:[((EventActionCompleteEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventActionCompleteEvent_PropertiesEnum, objectId))) name]];
-  JreStrongAssign(&self->objectType_, [object getStringWithNSString:[((EventActionCompleteEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventActionCompleteEvent_PropertiesEnum, objectType))) name]]);
-  JreStrongAssign(&self->action_, [object getStringWithNSString:[((EventActionCompleteEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventActionCompleteEvent_PropertiesEnum, action))) name]]);
+  self->objectType_ = [object getStringWithNSString:[((EventActionCompleteEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventActionCompleteEvent_PropertiesEnum, objectType))) name]];
+  self->action_ = [object getStringWithNSString:[((EventActionCompleteEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventActionCompleteEvent_PropertiesEnum, action))) name]];
 }
 
 EventActionCompleteEvent *new_EventActionCompleteEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
@@ -220,12 +214,12 @@ EventActionCompleteEvent_PropertiesEnum *EventActionCompleteEvent_PropertiesEnum
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -251,7 +245,7 @@ EventActionCompleteEvent_PropertiesEnum *EventActionCompleteEvent_PropertiesEnum
 @end
 
 void EventActionCompleteEvent_PropertiesEnum_initWithNSString_withInt_(EventActionCompleteEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 EventActionCompleteEvent_PropertiesEnum *new_EventActionCompleteEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

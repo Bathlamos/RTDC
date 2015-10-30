@@ -18,10 +18,10 @@
 #include "UserListController.h"
 #include "UserListView.h"
 #include "com/google/common/collect/ImmutableSet.h"
+#include "java/util/ArrayList.h"
 #include "java/util/Collections.h"
 #include "java/util/Comparator.h"
 #include "java/util/HashSet.h"
-#include "java/util/LinkedList.h"
 #include "java/util/List.h"
 #include "java/util/Set.h"
 
@@ -46,7 +46,7 @@ J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
 }
 
 - (id<JavaUtilList>)sortUsersWithModelUser_PropertiesEnum:(ModelUser_PropertiesEnum *)property {
-  JavaUtilLinkedList *sortedUsers = [new_JavaUtilLinkedList_initWithJavaUtilCollection_(users_) autorelease];
+  JavaUtilArrayList *sortedUsers = new_JavaUtilArrayList_initWithJavaUtilCollection_(users_);
   JavaUtilCollections_sortWithJavaUtilList_withJavaUtilComparator_(sortedUsers, [((ModelSimpleComparator_Builder *) nil_chk(ModelSimpleComparator_forPropertyWithModelObjectProperty_(property))) build]);
   return sortedUsers;
 }
@@ -62,18 +62,13 @@ J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
 }
 
 - (void)onUsersFetchedWithEventFetchUsersEvent:(EventFetchUsersEvent *)event {
-  JreStrongAssignAndConsume(&users_, new_JavaUtilHashSet_initWithJavaUtilCollection_([((EventFetchUsersEvent *) nil_chk(event)) getUsers]));
+  users_ = new_JavaUtilHashSet_initWithJavaUtilCollection_([((EventFetchUsersEvent *) nil_chk(event)) getUsers]);
   [((id<ViewUserListView>) nil_chk(view_)) setUsersWithJavaUtilList:[self sortUsersWithModelUser_PropertiesEnum:JreLoadStatic(ModelUser_PropertiesEnum, lastName)]];
 }
 
 - (void)onStop {
   [super onStop];
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUsersEvent, TYPE_), self);
-}
-
-- (void)dealloc {
-  RELEASE_(users_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -97,7 +92,7 @@ J2OBJC_FIELD_SETTER(ControllerUserListController, users_, id<JavaUtilSet>)
 @end
 
 void ControllerUserListController_initWithViewUserListView_(ControllerUserListController *self, id<ViewUserListView> view) {
-  ControllerController_initWithViewView_(self, view);
+  (void) ControllerController_initWithViewView_(self, view);
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchUsersEvent, TYPE_), self);
   ServiceService_getUsers();
 }

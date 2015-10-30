@@ -23,5 +23,8 @@
     <listener>
         <listener-class>rtdc.web.server.config.TestData</listener-class>
     </listener>
+    <listener>
+        <listener-class>rtdc.web.server.service.CleanupService</listener-class>
+    </listener>
 
 </web-app>

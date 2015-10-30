@@ -83,7 +83,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (jboolean)validateWithModelUnit_PropertiesEnum:(ModelUnit_PropertiesEnum *)property {
-  ModelSimpleValidator *validator = [new_ModelSimpleValidator_init() autorelease];
+  ModelSimpleValidator *validator = new_ModelSimpleValidator_init();
   switch ([property ordinal]) {
     case ModelUnit_Properties_name:
     return [validator expectNotEmptyWithNSString:name_];
@@ -116,7 +116,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setNameWithNSString:(NSString *)name {
-  JreStrongAssign(&self->name_, name);
+  self->name_ = name;
 }
 
 - (jint)getTotalBeds {
@@ -171,11 +171,6 @@ J2OBJC_IGNORE_DESIGNATED_END
   return [self getAvailableBeds] + [self getDcByDeadline] - [self getAdmitsByDeadline];
 }
 
-- (void)dealloc {
-  RELEASE_(name_);
-  [super dealloc];
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "init", "Unit", NULL, 0x1, NULL, NULL },
@@ -220,7 +215,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelUnit_init(ModelUnit *self) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
 }
 
 ModelUnit *new_ModelUnit_init() {
@@ -230,7 +225,7 @@ ModelUnit *new_ModelUnit_init() {
 }
 
 void ModelUnit_initWithJsonJSONObject_(ModelUnit *self, JsonJSONObject *object) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
   [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, id))) name]]];
   [self setNameWithNSString:[object optStringWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, name))) name]]];
   [self setTotalBedsWithInt:[object optIntWithNSString:[((ModelUnit_PropertiesEnum *) nil_chk(JreLoadStatic(ModelUnit_PropertiesEnum, totalBeds))) name]]];
@@ -318,12 +313,12 @@ ModelUnit_PropertiesEnum *ModelUnit_PropertiesEnum_valueOfWithNSString_(NSString
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -361,7 +356,7 @@ ModelUnit_PropertiesEnum *ModelUnit_PropertiesEnum_valueOfWithNSString_(NSString
 @end
 
 void ModelUnit_PropertiesEnum_initWithNSString_withInt_(ModelUnit_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 ModelUnit_PropertiesEnum *new_ModelUnit_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

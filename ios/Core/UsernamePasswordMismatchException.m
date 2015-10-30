@@ -25,7 +25,7 @@
 @end
 
 void ExceptionUsernamePasswordMismatchException_initWithNSString_(ExceptionUsernamePasswordMismatchException *self, NSString *message) {
-  ExceptionApiException_initWithNSString_(self, message);
+  (void) ExceptionApiException_initWithNSString_(self, message);
 }
 
 ExceptionUsernamePasswordMismatchException *new_ExceptionUsernamePasswordMismatchException_initWithNSString_(NSString *message) {

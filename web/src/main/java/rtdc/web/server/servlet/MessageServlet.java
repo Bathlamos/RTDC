@@ -1,16 +1,18 @@
 package rtdc.web.server.servlet;
 
+import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rtdc.core.event.ActionCompleteEvent;
-import rtdc.core.event.ErrorEvent;
-import rtdc.core.event.FetchMessagesEvent;
-import rtdc.core.event.FetchUsersEvent;
+import rtdc.core.event.*;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.Permission;
+import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
@@ -21,9 +23,7 @@ import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Path("messages")
 public class MessageServlet {
@@ -62,19 +62,47 @@ public class MessageServlet {
     }
 
     @POST
-    @Path("{userId1}/{userId2}")
+    @Path("{userId1}/{userId2}/{startIndex}/{length}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getMessages(@Context HttpServletRequest req, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String){
+    public String getMessages(@Context HttpServletRequest req, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String,
+                              @PathParam("startIndex") String startIndexString, @PathParam("length") String lengthString){
+        int user1Id = Integer.parseInt(userId1String);
+        int user2Id = Integer.parseInt(userId2String);
+        int startIndex = Integer.parseInt(startIndexString);
+        int length = Integer.parseInt(lengthString);
+
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Message> messages = null;
+        User user1 = null;
+        User user2 = null;
         try{
             transaction = session.beginTransaction();
-            messages = (List<Message>) session.createCriteria(Message.class).list();
+
+            // Only return the messages that we're sent and received by the two users given in the request
+
+            messages = (List<Message>) session.createCriteria(Message.class)
+                    .add(Restrictions.or(
+                            Restrictions.and(
+                                    Restrictions.eq("senderID", user1Id),
+                                    Restrictions.eq("receiverID", user2Id)
+                            ),
+                            Restrictions.and(
+                                    Restrictions.eq("senderID", user2Id),
+                                    Restrictions.eq("receiverID", user1Id)
+                            )
+                    )).addOrder(Order.desc("timeSent")).list();
+            user1 = (User) session.get(User.class, user1Id);
+            user2 = (User) session.get(User.class, user2Id);
             for(Message message: messages){
-                message.setSender((User) session.get(User.class, message.getSenderID()));
-                message.setReceiver((User) session.get(User.class, message.getReceiverID()));
+                if(message.getSenderID() == user1.getId()) {
+                    message.setSender(user1);
+                    message.setReceiver(user2);
+                }else {
+                    message.setSender(user2);
+                    message.setReceiver(user1);
+                }
             }
             transaction.commit();
 
@@ -87,19 +115,64 @@ public class MessageServlet {
             session.close();
         }
 
-        // Only return the messages that we're sent and received by the two users given in the request
-
-        int user1Id = Integer.parseInt(userId1String);
-        int user2Id = Integer.parseInt(userId2String);
-        for(Iterator<Message> iterator = messages.iterator(); iterator.hasNext();){
-            Message message = iterator.next();
-            if(message.getSender().getId() != user1Id && message.getReceiver().getId() != user1Id
-                    && message.getSender().getId() != user2Id && message.getReceiver().getId() != user2Id){
-                iterator.remove();
-            }
+        if(messages.size() - 1 < startIndex || messages.isEmpty()) {
+            // The requested start index is out of bounds, return an empty list
+            return new FetchMessagesEvent (user1, user2, new ArrayList<Message>()).toString();
+        }else if(messages.size() - 1 < startIndex + length) {
+            // The requested length goes out of the list's bounds, we need to adjust it
+            length = messages.size() - 1 - startIndex;
         }
 
-        return new FetchMessagesEvent(messages).toString();
+        List<Message> subList = messages.subList(startIndex, startIndex + length + 1);
+        // After getting the sub-list, reverse it as we want the messages to be in order from oldest to newest
+        Collections.reverse(subList);
+        return new FetchMessagesEvent(user1, user2, subList).toString();
+    }
+
+    @POST
+    @Path("{userId}/")
+    @Consumes("application/x-www-form-urlencoded")
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    public String getRecentContacts(@Context HttpServletRequest req, @PathParam("userId") String userId1String){
+        int userId = Integer.parseInt(userId1String);
+        Session session = PersistenceConfig.getSessionFactory().openSession();
+        Transaction transaction = null;
+        List<Message> messages = null;
+        try{
+            transaction = session.beginTransaction();
+
+            messages = (List<Message>) session.createCriteria(Message.class)
+                    .add(Restrictions.or(
+                            Restrictions.eq("senderID", userId),
+                            Restrictions.eq("receiverID", userId)
+                    )).addOrder(Order.desc("timeSent")).list();
+
+            for(Message message: messages){
+                message.setSender((User) session.get(User.class, message.getSenderID()));
+                message.setReceiver((User) session.get(User.class, message.getReceiverID()));
+            }
+            transaction.commit();
+
+            log.info("{}: MESSAGE: Getting most recent messages {}", "Message");
+        } catch (RuntimeException e) {
+            if(transaction != null)
+                transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        // Only return the most recent message for each user in conversation with our given user
+
+        HashMap<Integer, Message> recentMessages = new HashMap<>();
+        for(Iterator<Message> iterator = messages.iterator(); iterator.hasNext();){
+            Message message = iterator.next();
+            User otherUser = message.getSender().getId() == userId ? message.getReceiver(): message.getSender();
+            if(!recentMessages.containsKey(otherUser.getId()) || message.getTimeSent().after(recentMessages.get(otherUser.getId()).getTimeSent()))
+                recentMessages.put(otherUser.getId(), message);
+        }
+
+        return new FetchRecentContactsEvent(recentMessages.values()).toString();
     }
 
     @PUT
@@ -116,8 +189,10 @@ public class MessageServlet {
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
+            if(message.getId() == -1) // No id for this message, thus it isn't in the database yet
+                message.setTimeSent(new Date()); // Set to universal server time
             transaction = session.beginTransaction();
-            session.merge(message);
+            session.saveOrUpdate(message);
             transaction.commit();
 
             // TODO: Replace string with actual username
@@ -130,6 +205,6 @@ public class MessageServlet {
             session.close();
         }
 
-        return new ActionCompleteEvent(message.getId(), "message", "update").toString();
+        return new MessageSavedEvent(message.getId(), message.getTimeSent()).toString();
     }
 }

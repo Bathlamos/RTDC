@@ -77,14 +77,9 @@ EventEventType *EventFetchUserEvent_TYPE_;
   return nil;
 }
 
-- (void)dealloc {
-  RELEASE_(user_);
-  [super dealloc];
-}
-
 + (void)initialize {
   if (self == [EventFetchUserEvent class]) {
-    JreStrongAssignAndConsume(&EventFetchUserEvent_TYPE_, new_EventEventType_initWithNSString_(@"fetchUserEvent"));
+    EventFetchUserEvent_TYPE_ = new_EventEventType_initWithNSString_(@"fetchUserEvent");
     J2OBJC_SET_INITIALIZED(EventFetchUserEvent)
   }
 }
@@ -112,8 +107,8 @@ EventEventType *EventFetchUserEvent_TYPE_;
 @end
 
 void EventFetchUserEvent_initWithModelUser_(EventFetchUserEvent *self, ModelUser *user) {
-  EventEvent_init(self);
-  JreStrongAssign(&self->user_, user);
+  (void) EventEvent_init(self);
+  self->user_ = user;
 }
 
 EventFetchUserEvent *new_EventFetchUserEvent_initWithModelUser_(ModelUser *user) {
@@ -123,8 +118,8 @@ EventFetchUserEvent *new_EventFetchUserEvent_initWithModelUser_(ModelUser *user)
 }
 
 void EventFetchUserEvent_initWithJsonJSONObject_(EventFetchUserEvent *self, JsonJSONObject *object) {
-  EventEvent_init(self);
-  JreStrongAssignAndConsume(&self->user_, new_ModelUser_initWithJsonJSONObject_([((JsonJSONObject *) nil_chk(object)) getJSONObjectWithNSString:[((EventFetchUserEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchUserEvent_PropertiesEnum, user))) name]]));
+  (void) EventEvent_init(self);
+  self->user_ = new_ModelUser_initWithJsonJSONObject_([((JsonJSONObject *) nil_chk(object)) getJSONObjectWithNSString:[((EventFetchUserEvent_PropertiesEnum *) nil_chk(JreLoadStatic(EventFetchUserEvent_PropertiesEnum, user))) name]]);
 }
 
 EventFetchUserEvent *new_EventFetchUserEvent_initWithJsonJSONObject_(JsonJSONObject *object) {
@@ -186,12 +181,12 @@ EventFetchUserEvent_PropertiesEnum *EventFetchUserEvent_PropertiesEnum_valueOfWi
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -213,7 +208,7 @@ EventFetchUserEvent_PropertiesEnum *EventFetchUserEvent_PropertiesEnum_valueOfWi
 @end
 
 void EventFetchUserEvent_PropertiesEnum_initWithNSString_withInt_(EventFetchUserEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 EventFetchUserEvent_PropertiesEnum *new_EventFetchUserEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

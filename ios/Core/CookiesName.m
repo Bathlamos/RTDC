@@ -35,7 +35,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ServiceCookiesName_init(ServiceCookiesName *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ServiceCookiesName *new_ServiceCookiesName_init() {

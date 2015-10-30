@@ -39,11 +39,6 @@
   EventEvent_unsubscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventErrorEvent, TYPE_), self);
 }
 
-- (void)dealloc {
-  RELEASE_(view_);
-  [super dealloc];
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithViewView:", "Controller", NULL, 0x1, NULL, "(TT;)V" },
@@ -62,9 +57,9 @@
 @end
 
 void ControllerController_initWithViewView_(ControllerController *self, id<ViewView> view) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventErrorEvent, TYPE_), self);
-  JreStrongAssign(&self->view_, view);
+  self->view_ = view;
   [((id<ViewView>) nil_chk(view)) setTitleWithNSString:[self getTitle]];
 }
 

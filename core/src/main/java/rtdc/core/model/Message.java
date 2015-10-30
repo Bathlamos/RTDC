@@ -38,7 +38,7 @@ public class Message extends RootObject {
         }
     }
 
-    private int id;
+    private int id = -1;
     private User sender;
     private int senderID = -1;
     private User receiver;

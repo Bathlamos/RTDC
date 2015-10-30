@@ -13,6 +13,7 @@ import rtdc.core.Session;
 import rtdc.core.model.Message;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageListAdapter extends ArrayAdapter {
@@ -21,11 +22,10 @@ public class MessageListAdapter extends ArrayAdapter {
     private static final int DATE_ROW = 1;
     private static final int MESSAGE_ROW = 0;
 
-    public MessageListAdapter(Context context, List items) {
-        super(context, android.R.layout.simple_list_item_1, items);
+    public MessageListAdapter(Context context, ArrayList<Message> messages) {
+        super(context, R.layout.adapter_message, messages);
         inflater = LayoutInflater.from(context);
     }
-
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
@@ -34,19 +34,39 @@ public class MessageListAdapter extends ArrayAdapter {
 
         if (view == null) {
             if(isMessageRow){
-                view = inflater.inflate(R.layout.message_list_item, parent, false);
+                view = inflater.inflate(R.layout.adapter_message, parent, false);
             } else {
-                view = inflater.inflate(R.layout.message_list_date_separator, parent, false);
+                view = inflater.inflate(R.layout.adapter_date_separator, parent, false);
             }
         }
 
         boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
         if(isMessageRow){
+            String content = "";
+            if(message.getContent().contains(Config.COMMAND_EXEC_KEY) && !message.getContent().equals(Config.COMMAND_EXEC_KEY)){
+                String[] contents = message.getContent().split(Config.COMMAND_EXEC_KEY);
+                for(String part: contents){
+                    if(part.startsWith("Missed call")){
+                        if(sessionUser)
+                            part = part.replace("Missed call", "Call unanswered");
+                        else
+                            part = part.replace("Missed call", "Missed call from " + message.getSender().getFirstName());
+                    }else if(part.startsWith("Call rejected")){
+                        if(sessionUser)
+                            part = part.replace("Call rejected", "Your call was rejected; user is busy or unavailable");
+                        else
+                            part = part.replace("Call rejected", "Call rejected: busy");
+                    }
+                    content += part;
+                }
+            }else{
+                content = message.getContent();
+            }
             setupColumn(view, R.id.senderNameTextView, sessionUser ? "Me" : message.getSender().getFirstName(), sessionUser);
-            setupColumn(view, R.id.messageTextView, message.getContent(), sessionUser);
+            setupColumn(view, R.id.messageTextView, content, sessionUser);
             setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("hh:mm a").format(message.getTimeSent()), sessionUser);
         } else {
-            setupColumn(view, R.id.dateSeparatorTextView, new SimpleDateFormat("EEE MMM dd").format(message.getTimeSent()), false);
+            setupColumn(view, R.id.dateSeparatorTextView, new SimpleDateFormat("EEE MMM dd, yyyy").format(message.getTimeSent()), true);
         }
 
         view.setTag(position);

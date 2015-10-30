@@ -1,15 +1,15 @@
 //
-//  SampleTests.swift
-//  SampleTests
+//  RTDCTests.swift
+//  RTDCTests
 //
-//  Created by Nicolas Ménard on 2014-12-15.
-//  Copyright (c) 2014 Nicolas Ménard. All rights reserved.
+//  Created by Nicolas Ménard on 2015-10-16.
+//  Copyright © 2015 Clermont, Ermel, Fortin-Boulay, Legault & Ménard. All rights reserved.
 //
 
-import UIKit
 import XCTest
+@testable import RTDC
 
-class SampleTests: XCTestCase {
+class RTDCTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -23,12 +23,12 @@ class SampleTests: XCTestCase {
     
     func testExample() {
         // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measureBlock() {
+        self.measureBlock {
             // Put the code you want to measure the time of here.
         }
     }

@@ -145,7 +145,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setUnitWithModelUnit:(ModelUnit *)unit {
-  JreStrongAssign(&self->unit_, unit);
+  self->unit_ = unit;
 }
 
 - (ModelAction_StatusEnum *)getStatus {
@@ -153,7 +153,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setStatusWithModelAction_StatusEnum:(ModelAction_StatusEnum *)status {
-  JreStrongAssign(&self->status_, status);
+  self->status_ = status;
 }
 
 - (ModelUser *)getPersonResponsible {
@@ -161,7 +161,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setPersonResponsibleWithModelUser:(ModelUser *)personResponsible {
-  JreStrongAssign(&self->personResponsible_, personResponsible);
+  self->personResponsible_ = personResponsible;
 }
 
 - (NSString *)getRoleResponsible {
@@ -169,7 +169,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setRoleResponsibleWithNSString:(NSString *)roleResponsible {
-  JreStrongAssign(&self->roleResponsible_, roleResponsible);
+  self->roleResponsible_ = roleResponsible;
 }
 
 - (ModelAction_TaskEnum *)getTask {
@@ -177,7 +177,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setTaskWithModelAction_TaskEnum:(ModelAction_TaskEnum *)task {
-  JreStrongAssign(&self->task_, task);
+  self->task_ = task;
 }
 
 - (NSString *)getTarget {
@@ -185,7 +185,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setTargetWithNSString:(NSString *)target {
-  JreStrongAssign(&self->target_, target);
+  self->target_ = target;
 }
 
 - (JavaUtilDate *)getDeadline {
@@ -193,7 +193,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setDeadlineWithJavaUtilDate:(JavaUtilDate *)deadline {
-  JreStrongAssign(&self->deadline_, deadline);
+  self->deadline_ = deadline;
 }
 
 - (NSString *)getDescription {
@@ -201,19 +201,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 }
 
 - (void)setDescriptionWithNSString:(NSString *)description_ {
-  JreStrongAssign(&self->description__, description_);
-}
-
-- (void)dealloc {
-  RELEASE_(unit_);
-  RELEASE_(status_);
-  RELEASE_(personResponsible_);
-  RELEASE_(roleResponsible_);
-  RELEASE_(task_);
-  RELEASE_(target_);
-  RELEASE_(deadline_);
-  RELEASE_(description__);
-  [super dealloc];
+  self->description__ = description_;
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -261,7 +249,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelAction_init(ModelAction *self) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
 }
 
 ModelAction *new_ModelAction_init() {
@@ -271,14 +259,14 @@ ModelAction *new_ModelAction_init() {
 }
 
 void ModelAction_initWithJsonJSONObject_(ModelAction *self, JsonJSONObject *object) {
-  ModelRootObject_init(self);
+  (void) ModelRootObject_init(self);
   [self setIdWithInt:[((JsonJSONObject *) nil_chk(object)) optIntWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, id))) name]]];
-  [self setUnitWithModelUnit:[new_ModelUnit_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, unit))) name]]) autorelease]];
-  JreStrongAssign(&self->status_, ModelAction_StatusEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, status))) name]]));
-  if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, personResponsible))) name]]) [self setPersonResponsibleWithModelUser:[new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, personResponsible) name]]) autorelease]];
+  [self setUnitWithModelUnit:new_ModelUnit_initWithJsonJSONObject_([object getJSONObjectWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, unit))) name]])];
+  self->status_ = ModelAction_StatusEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, status))) name]]);
+  if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, personResponsible))) name]]) [self setPersonResponsibleWithModelUser:new_ModelUser_initWithJsonJSONObject_([object getJSONObjectWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, personResponsible) name]])];
   [self setRoleResponsibleWithNSString:[object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, roleResponsible))) name]]];
-  JreStrongAssign(&self->task_, ModelAction_TaskEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, task))) name]]));
-  if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, deadline))) name]]) [self setDeadlineWithJavaUtilDate:[new_JavaUtilDate_initWithLong_([object getLongWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, deadline) name]]) autorelease]];
+  self->task_ = ModelAction_TaskEnum_valueOfWithNSString_([object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, task))) name]]);
+  if ([object hasWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, deadline))) name]]) [self setDeadlineWithJavaUtilDate:new_JavaUtilDate_initWithLong_([object getLongWithNSString:[JreLoadStatic(ModelAction_PropertiesEnum, deadline) name]])];
   [self setTargetWithNSString:[object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, target))) name]]];
   [self setDescriptionWithNSString:[object optStringWithNSString:[((ModelAction_PropertiesEnum *) nil_chk(JreLoadStatic(ModelAction_PropertiesEnum, description))) name]]];
 }
@@ -360,12 +348,12 @@ ModelAction_PropertiesEnum *ModelAction_PropertiesEnum_valueOfWithNSString_(NSSt
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -403,7 +391,7 @@ ModelAction_PropertiesEnum *ModelAction_PropertiesEnum_valueOfWithNSString_(NSSt
 @end
 
 void ModelAction_PropertiesEnum_initWithNSString_withInt_(ModelAction_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 ModelAction_PropertiesEnum *new_ModelAction_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
@@ -467,12 +455,12 @@ ModelAction_StatusEnum *ModelAction_StatusEnum_valueOfWithNSString_(NSString *na
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -504,11 +492,11 @@ ModelAction_StatusEnum *ModelAction_StatusEnum_valueOfWithNSString_(NSString *na
 
 id<UtilStringifier> ModelAction_StatusEnum_getStringifier() {
   ModelAction_StatusEnum_initialize();
-  return [new_ModelAction_Status_$1_init() autorelease];
+  return new_ModelAction_Status_$1_init();
 }
 
 void ModelAction_StatusEnum_initWithNSString_withInt_(ModelAction_StatusEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 ModelAction_StatusEnum *new_ModelAction_StatusEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
@@ -556,7 +544,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelAction_Status_$1_init(ModelAction_Status_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ModelAction_Status_$1 *new_ModelAction_Status_$1_init() {
@@ -616,12 +604,12 @@ ModelAction_TaskEnum *ModelAction_TaskEnum_valueOfWithNSString_(NSString *name) 
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (void)initialize {
@@ -651,11 +639,11 @@ ModelAction_TaskEnum *ModelAction_TaskEnum_valueOfWithNSString_(NSString *name) 
 
 id<UtilStringifier> ModelAction_TaskEnum_getStringifier() {
   ModelAction_TaskEnum_initialize();
-  return [new_ModelAction_Task_$1_init() autorelease];
+  return new_ModelAction_Task_$1_init();
 }
 
 void ModelAction_TaskEnum_initWithNSString_withInt_(ModelAction_TaskEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 ModelAction_TaskEnum *new_ModelAction_TaskEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {
@@ -701,7 +689,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void ModelAction_Task_$1_init(ModelAction_Task_$1 *self) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
 }
 
 ModelAction_Task_$1 *new_ModelAction_Task_$1_init() {

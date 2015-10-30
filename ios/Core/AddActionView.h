@@ -9,18 +9,18 @@
 #include "Dialog.h"
 #include "J2ObjC_header.h"
 
-@protocol ImplUiDropdownList;
+@protocol ImplUiDropdown;
 @protocol ImplUiElement;
 
 @protocol ViewAddActionView < ViewDialog, NSObject, JavaObject >
 
-- (id<ImplUiDropdownList>)getUnitUiElement;
+- (id<ImplUiDropdown>)getUnitUiElement;
 
-- (id<ImplUiDropdownList>)getStatusUiElement;
+- (id<ImplUiDropdown>)getStatusUiElement;
 
 - (id<ImplUiElement>)getRoleUiElement;
 
-- (id<ImplUiDropdownList>)getTaskUiElement;
+- (id<ImplUiDropdown>)getTaskUiElement;
 
 - (id<ImplUiElement>)getTargetUiElement;
 

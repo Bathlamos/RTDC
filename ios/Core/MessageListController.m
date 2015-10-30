@@ -62,12 +62,12 @@ __attribute__((unused)) static JavaUtilArrayList *ControllerMessageListControlle
 }
 
 - (void)onMessagesFetchedWithEventFetchMessagesEvent:(EventFetchMessagesEvent *)event {
-  JreStrongAssignAndConsume(&messages_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchMessagesEvent *) nil_chk(event)) getMessages]));
+  messages_ = new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchMessagesEvent *) nil_chk(event)) getMessages]);
   [self sortMessagesWithModelMessage_PropertiesEnum:JreLoadStatic(ModelMessage_PropertiesEnum, timeSent)];
 }
 
 - (void)onRecentContactsFetchedWithEventFetchRecentContactsEvent:(EventFetchRecentContactsEvent *)event {
-  JreStrongAssignAndConsume(&recentContacts_, new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchRecentContactsEvent *) nil_chk(event)) getRecentContacts]));
+  recentContacts_ = new_JavaUtilArrayList_initWithJavaUtilCollection_([((EventFetchRecentContactsEvent *) nil_chk(event)) getRecentContacts]);
   [self sortRecentContactsWithModelMessage_PropertiesEnum:JreLoadStatic(ModelMessage_PropertiesEnum, timeSent)];
 }
 
@@ -82,18 +82,12 @@ __attribute__((unused)) static JavaUtilArrayList *ControllerMessageListControlle
 }
 
 - (void)setupMessageList {
-  JreStrongAssign(&messages_, ControllerMessageListController_getMessages(self));
+  messages_ = ControllerMessageListController_getMessages(self);
   [self sortMessagesWithModelMessage_PropertiesEnum:JreLoadStatic(ModelMessage_PropertiesEnum, timeSent)];
 }
 
 - (JavaUtilArrayList *)getMessages {
   return ControllerMessageListController_getMessages(self);
-}
-
-- (void)dealloc {
-  RELEASE_(recentContacts_);
-  RELEASE_(messages_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -121,10 +115,10 @@ __attribute__((unused)) static JavaUtilArrayList *ControllerMessageListControlle
 @end
 
 void ControllerMessageListController_initWithViewMessageListView_(ControllerMessageListController *self, id<ViewMessageListView> view) {
-  ControllerController_initWithViewView_(self, view);
+  (void) ControllerController_initWithViewView_(self, view);
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchRecentContactsEvent, TYPE_), self);
   EventEvent_subscribeWithEventEventType_withEventEventHandler_(JreLoadStatic(EventFetchMessagesEvent, TYPE_), self);
-  JreStrongAssign(&self->recentContacts_, ControllerMessageListController_getRecentContacts(self));
+  self->recentContacts_ = ControllerMessageListController_getRecentContacts(self);
   [self sortRecentContactsWithModelMessage_PropertiesEnum:JreLoadStatic(ModelMessage_PropertiesEnum, timeSent)];
 }
 
@@ -135,23 +129,23 @@ ControllerMessageListController *new_ControllerMessageListController_initWithVie
 }
 
 JavaUtilArrayList *ControllerMessageListController_getRecentContacts(ControllerMessageListController *self) {
-  JavaUtilArrayList *recentContacts = [new_JavaUtilArrayList_init() autorelease];
-  ModelUser *sender = [new_ModelUser_init() autorelease];
+  JavaUtilArrayList *recentContacts = new_JavaUtilArrayList_init();
+  ModelUser *sender = new_ModelUser_init();
   [sender setFirstNameWithNSString:@"Nathaniel"];
   [sender setLastNameWithNSString:@"Aumonttt"];
   [sender setUsernameWithNSString:@"Nathaniel"];
   [sender setIdWithInt:90];
-  ModelMessage *message2 = [new_ModelMessage_init() autorelease];
-  ModelUser *receiver2 = [new_ModelUser_init() autorelease];
+  ModelMessage *message2 = new_ModelMessage_init();
+  ModelUser *receiver2 = new_ModelUser_init();
   [receiver2 setFirstNameWithNSString:@"Emilie"];
   [receiver2 setLastNameWithNSString:@"Luskberg"];
   [message2 setSenderWithModelUser:sender];
   [message2 setReceiverWithModelUser:receiver2];
   [message2 setContentWithNSString:@"Sounds good!"];
-  [message2 setTimeSentWithJavaUtilDate:[new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 10, 5) autorelease]];
+  [message2 setTimeSentWithJavaUtilDate:new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 10, 5)];
   [message2 setStatusWithModelMessage_StatusEnum:JreLoadStatic(ModelMessage_StatusEnum, read)];
-  ModelMessage *message = [new_ModelMessage_init() autorelease];
-  ModelUser *receiver = [new_ModelUser_init() autorelease];
+  ModelMessage *message = new_ModelMessage_init();
+  ModelUser *receiver = new_ModelUser_init();
   [receiver setFirstNameWithNSString:@"Jonathan"];
   [receiver setLastNameWithNSString:@"Ermel"];
   [receiver setUsernameWithNSString:@"Qwe"];
@@ -159,22 +153,22 @@ JavaUtilArrayList *ControllerMessageListController_getRecentContacts(ControllerM
   [message setSenderWithModelUser:sender];
   [message setReceiverWithModelUser:receiver];
   [message setContentWithNSString:@"Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?"];
-  [message setTimeSentWithJavaUtilDate:[new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 10, 6) autorelease]];
+  [message setTimeSentWithJavaUtilDate:new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 10, 6)];
   [message setStatusWithModelMessage_StatusEnum:JreLoadStatic(ModelMessage_StatusEnum, read)];
   [recentContacts addWithId:message];
   return recentContacts;
 }
 
 JavaUtilArrayList *ControllerMessageListController_getMessages(ControllerMessageListController *self) {
-  JavaUtilArrayList *messageList = [new_JavaUtilArrayList_init() autorelease];
+  JavaUtilArrayList *messageList = new_JavaUtilArrayList_init();
   for (jint i = 0; i < 10; i++) {
-    ModelMessage *message = [new_ModelMessage_init() autorelease];
-    ModelUser *sender = [new_ModelUser_init() autorelease];
+    ModelMessage *message = new_ModelMessage_init();
+    ModelUser *sender = new_ModelUser_init();
     [sender setFirstNameWithNSString:@"Jonathan"];
     [sender setLastNameWithNSString:@"Ermel"];
     [sender setUsernameWithNSString:@"Qwe"];
     [sender setIdWithInt:87];
-    ModelUser *receiver = [new_ModelUser_init() autorelease];
+    ModelUser *receiver = new_ModelUser_init();
     [receiver setFirstNameWithNSString:@"Nathaniel"];
     [receiver setLastNameWithNSString:@"Aumonttt"];
     [receiver setIdWithInt:86];
@@ -182,30 +176,30 @@ JavaUtilArrayList *ControllerMessageListController_getMessages(ControllerMessage
     [message setReceiverWithModelUser:receiver];
     [message setSenderWithModelUser:sender];
     [message setContentWithNSString:JreStrcat("I$", i, @"Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?")];
-    [message setTimeSentWithJavaUtilDate:[new_JavaUtilDate_init() autorelease]];
+    [message setTimeSentWithJavaUtilDate:new_JavaUtilDate_init()];
     [message setContentWithNSString:@"Hi, I hope you're doing good! Do you think we could meet up sometime this afternoon?"];
-    [message setTimeSentWithJavaUtilDate:[new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 9, i + 1) autorelease]];
+    [message setTimeSentWithJavaUtilDate:new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 9, i + 1)];
     [messageList addWithId:message];
     if (i == 3) {
-      ModelMessage *message3 = [new_ModelMessage_init() autorelease];
+      ModelMessage *message3 = new_ModelMessage_init();
       [message3 setSenderWithModelUser:sender];
       [message setReceiverWithModelUser:receiver];
       [message3 setContentWithNSString:JreStrcat("I$", i, @"I'd like to discuss a few things about my new schedule")];
-      [message3 setTimeSentWithJavaUtilDate:[new_JavaUtilDate_init() autorelease]];
+      [message3 setTimeSentWithJavaUtilDate:new_JavaUtilDate_init()];
       [message3 setContentWithNSString:@"I'd like to discuss a few things about my new schedule"];
-      [message3 setTimeSentWithJavaUtilDate:[new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 9, i + 1) autorelease]];
+      [message3 setTimeSentWithJavaUtilDate:new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 9, i + 1)];
       [messageList addWithId:message3];
-      ModelMessage *message4 = [new_ModelMessage_init() autorelease];
+      ModelMessage *message4 = new_ModelMessage_init();
       [message4 setSenderWithModelUser:sender];
       [message setReceiverWithModelUser:receiver];
       [message4 setContentWithNSString:JreStrcat("I$", i, @"Oh I forgot to mention... I'll only be available after 1 PM")];
-      [message4 setTimeSentWithJavaUtilDate:[new_JavaUtilDate_init() autorelease]];
+      [message4 setTimeSentWithJavaUtilDate:new_JavaUtilDate_init()];
       [message4 setContentWithNSString:@"Oh I forgot to mention... I'll only be available after 1 PM"];
-      [message4 setTimeSentWithJavaUtilDate:[new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 9, i + 1) autorelease]];
+      [message4 setTimeSentWithJavaUtilDate:new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 9, i + 1)];
       [messageList addWithId:message4];
     }
-    ModelMessage *message2 = [new_ModelMessage_init() autorelease];
-    ModelUser *sender2 = [new_ModelUser_init() autorelease];
+    ModelMessage *message2 = new_ModelMessage_init();
+    ModelUser *sender2 = new_ModelUser_init();
     [sender2 setFirstNameWithNSString:@"Nathaniel"];
     [sender2 setLastNameWithNSString:@"Aumonttt"];
     [sender2 setIdWithInt:86];
@@ -213,9 +207,9 @@ JavaUtilArrayList *ControllerMessageListController_getMessages(ControllerMessage
     [message2 setSenderWithModelUser:sender2];
     [message2 setReceiverWithModelUser:sender];
     [message2 setContentWithNSString:JreStrcat("I$", i, @"Oh hi John! Sure, lets meet around 2 PM in my office.")];
-    [message2 setTimeSentWithJavaUtilDate:[new_JavaUtilDate_init() autorelease]];
+    [message2 setTimeSentWithJavaUtilDate:new_JavaUtilDate_init()];
     [message2 setContentWithNSString:@"Oh hi John! Sure, lets meet around 2 PM in my office."];
-    [message2 setTimeSentWithJavaUtilDate:[new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 9, i + 1) autorelease]];
+    [message2 setTimeSentWithJavaUtilDate:new_JavaUtilDate_initWithInt_withInt_withInt_(2015, 9, i + 1)];
     [messageList addWithId:message2];
   }
   return messageList;

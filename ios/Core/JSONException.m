@@ -33,11 +33,6 @@ J2OBJC_FIELD_SETTER(JsonJSONException, cause_, JavaLangThrowable *)
   return self->cause_;
 }
 
-- (void)dealloc {
-  RELEASE_(cause_);
-  [super dealloc];
-}
-
 + (const J2ObjcClassInfo *)__metadata {
   static const J2ObjcMethodInfo methods[] = {
     { "initWithNSString:", "JSONException", NULL, 0x1, NULL, NULL },
@@ -54,7 +49,7 @@ J2OBJC_FIELD_SETTER(JsonJSONException, cause_, JavaLangThrowable *)
 @end
 
 void JsonJSONException_initWithNSString_(JsonJSONException *self, NSString *message) {
-  JavaLangRuntimeException_initWithNSString_(self, message);
+  (void) JavaLangRuntimeException_initWithNSString_(self, message);
 }
 
 JsonJSONException *new_JsonJSONException_initWithNSString_(NSString *message) {
@@ -64,8 +59,8 @@ JsonJSONException *new_JsonJSONException_initWithNSString_(NSString *message) {
 }
 
 void JsonJSONException_initWithJavaLangThrowable_(JsonJSONException *self, JavaLangThrowable *t) {
-  JavaLangRuntimeException_initWithNSString_(self, [((JavaLangThrowable *) nil_chk(t)) getMessage]);
-  JreStrongAssign(&self->cause_, t);
+  (void) JavaLangRuntimeException_initWithNSString_(self, [((JavaLangThrowable *) nil_chk(t)) getMessage]);
+  self->cause_ = t;
 }
 
 JsonJSONException *new_JsonJSONException_initWithJavaLangThrowable_(JavaLangThrowable *t) {

@@ -34,7 +34,7 @@ J2OBJC_FIELD_SETTER(ControllerAddUnitController, currentUnit_, ModelUnit *)
 }
 
 - (void)addUnit {
-  ModelUnit *newUnit = [new_ModelUnit_init() autorelease];
+  ModelUnit *newUnit = new_ModelUnit_init();
   if (currentUnit_ != nil) [newUnit setIdWithInt:[currentUnit_ getId]];
   [newUnit setNameWithNSString:[((id<ViewAddUnitView>) nil_chk(view_)) getNameAsString]];
   @try {
@@ -49,11 +49,6 @@ J2OBJC_FIELD_SETTER(ControllerAddUnitController, currentUnit_, ModelUnit *)
 - (void)deleteUnit {
   if (currentUnit_ != nil) ServiceService_deleteUnitWithInt_([currentUnit_ getId]);
   [((id<ViewAddUnitView>) nil_chk(view_)) closeDialog];
-}
-
-- (void)dealloc {
-  RELEASE_(currentUnit_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -74,8 +69,8 @@ J2OBJC_FIELD_SETTER(ControllerAddUnitController, currentUnit_, ModelUnit *)
 @end
 
 void ControllerAddUnitController_initWithViewAddUnitView_(ControllerAddUnitController *self, id<ViewAddUnitView> view) {
-  ControllerController_initWithViewView_(self, view);
-  JreStrongAssign(&self->currentUnit_, (ModelUnit *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"unit"], [ModelUnit class]));
+  (void) ControllerController_initWithViewView_(self, view);
+  self->currentUnit_ = (ModelUnit *) check_class_cast([((UtilCache *) nil_chk(UtilCache_getInstance())) retrieveWithNSString:@"unit"], [ModelUnit class]);
   if (self->currentUnit_ != nil) {
     [((id<ViewAddUnitView>) nil_chk(view)) setTitleWithNSString:@"Edit Unit"];
     [view setNameAsStringWithNSString:[self->currentUnit_ getName]];

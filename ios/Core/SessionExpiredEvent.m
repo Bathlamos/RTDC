@@ -57,7 +57,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 
 + (void)initialize {
   if (self == [EventSessionExpiredEvent class]) {
-    JreStrongAssignAndConsume(&EventSessionExpiredEvent_TYPE_, new_EventEventType_initWithNSString_(@"sessionExpiredEvent"));
+    EventSessionExpiredEvent_TYPE_ = new_EventEventType_initWithNSString_(@"sessionExpiredEvent");
     J2OBJC_SET_INITIALIZED(EventSessionExpiredEvent)
   }
 }
@@ -82,7 +82,7 @@ J2OBJC_IGNORE_DESIGNATED_END
 @end
 
 void EventSessionExpiredEvent_init(EventSessionExpiredEvent *self) {
-  EventEvent_init(self);
+  (void) EventEvent_init(self);
 }
 
 EventSessionExpiredEvent *new_EventSessionExpiredEvent_init() {
@@ -124,12 +124,12 @@ EventSessionExpiredEvent_PropertiesEnum *EventSessionExpiredEvent_PropertiesEnum
       return e;
     }
   }
-  @throw [[[JavaLangIllegalArgumentException alloc] initWithNSString:name] autorelease];
+  @throw [[JavaLangIllegalArgumentException alloc] initWithNSString:name];
   return nil;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-  return [self retain];
+  return self;
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -141,7 +141,7 @@ EventSessionExpiredEvent_PropertiesEnum *EventSessionExpiredEvent_PropertiesEnum
 @end
 
 void EventSessionExpiredEvent_PropertiesEnum_initWithNSString_withInt_(EventSessionExpiredEvent_PropertiesEnum *self, NSString *__name, jint __ordinal) {
-  JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
+  (void) JavaLangEnum_initWithNSString_withInt_(self, __name, __ordinal);
 }
 
 EventSessionExpiredEvent_PropertiesEnum *new_EventSessionExpiredEvent_PropertiesEnum_initWithNSString_withInt_(NSString *__name, jint __ordinal) {

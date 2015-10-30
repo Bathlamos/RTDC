@@ -116,7 +116,7 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
 
 - (NSString *)nextStringWithChar:(jchar)quote {
   jchar c;
-  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
+  JavaLangStringBuffer *sb = new_JavaLangStringBuffer_init();
   for (; ; ) {
     c = [self next];
     switch (c) {
@@ -128,41 +128,41 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
       c = [self next];
       switch (c) {
         case 'b':
-        [sb appendWithChar:0x0008];
+        (void) [sb appendWithChar:0x0008];
         break;
         case 't':
-        [sb appendWithChar:0x0009];
+        (void) [sb appendWithChar:0x0009];
         break;
         case 'n':
-        [sb appendWithChar:0x000a];
+        (void) [sb appendWithChar:0x000a];
         break;
         case 'f':
-        [sb appendWithChar:0x000c];
+        (void) [sb appendWithChar:0x000c];
         break;
         case 'r':
-        [sb appendWithChar:0x000d];
+        (void) [sb appendWithChar:0x000d];
         break;
         case 'u':
-        [sb appendWithChar:(jchar) JavaLangInteger_parseIntWithNSString_withInt_([self nextWithInt:4], 16)];
+        (void) [sb appendWithChar:(jchar) JavaLangInteger_parseIntWithNSString_withInt_([self nextWithInt:4], 16)];
         break;
         case 'x':
-        [sb appendWithChar:(jchar) JavaLangInteger_parseIntWithNSString_withInt_([self nextWithInt:2], 16)];
+        (void) [sb appendWithChar:(jchar) JavaLangInteger_parseIntWithNSString_withInt_([self nextWithInt:2], 16)];
         break;
         default:
-        [sb appendWithChar:c];
+        (void) [sb appendWithChar:c];
       }
       break;
       default:
       if (c == quote) {
         return [sb description];
       }
-      [sb appendWithChar:c];
+      (void) [sb appendWithChar:c];
     }
   }
 }
 
 - (NSString *)nextToWithChar:(jchar)d {
-  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
+  JavaLangStringBuffer *sb = new_JavaLangStringBuffer_init();
   for (; ; ) {
     jchar c = [self next];
     if (c == d || c == 0 || c == 0x000a || c == 0x000d) {
@@ -171,13 +171,13 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
       }
       return [((NSString *) nil_chk([sb description])) trim];
     }
-    [sb appendWithChar:c];
+    (void) [sb appendWithChar:c];
   }
 }
 
 - (NSString *)nextToWithNSString:(NSString *)delimiters {
   jchar c;
-  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
+  JavaLangStringBuffer *sb = new_JavaLangStringBuffer_init();
   for (; ; ) {
     c = [self next];
     if ([((NSString *) nil_chk(delimiters)) indexOf:c] >= 0 || c == 0 || c == 0x000a || c == 0x000d) {
@@ -186,7 +186,7 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
       }
       return [((NSString *) nil_chk([sb description])) trim];
     }
-    [sb appendWithChar:c];
+    (void) [sb appendWithChar:c];
   }
 }
 
@@ -199,15 +199,15 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
     return [self nextStringWithChar:c];
     case '{':
     [self back];
-    return [new_JsonJSONObject_initWithJsonJSONTokener_(self) autorelease];
+    return new_JsonJSONObject_initWithJsonJSONTokener_(self);
     case '[':
     [self back];
-    return [new_JsonJSONArray_initWithJsonJSONTokener_(self) autorelease];
+    return new_JsonJSONArray_initWithJsonJSONTokener_(self);
   }
-  JavaLangStringBuffer *sb = [new_JavaLangStringBuffer_init() autorelease];
+  JavaLangStringBuffer *sb = new_JavaLangStringBuffer_init();
   jchar b = c;
   while (c >= ' ' && [@",:]}/\\\"[{;=#" indexOf:c] < 0) {
-    [sb appendWithChar:c];
+    (void) [sb appendWithChar:c];
     c = [self next];
   }
   [self back];
@@ -228,14 +228,14 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
     if (b == '0') {
       if (((jint) [s length]) > 2 && ([s charAtWithInt:1] == 'x' || [s charAtWithInt:1] == 'X')) {
         @try {
-          return [new_JavaLangInteger_initWithInt_(JavaLangInteger_parseIntWithNSString_withInt_([s substring:2], 16)) autorelease];
+          return new_JavaLangInteger_initWithInt_(JavaLangInteger_parseIntWithNSString_withInt_([s substring:2], 16));
         }
         @catch (JavaLangException *e) {
         }
       }
       else {
         @try {
-          return [new_JavaLangInteger_initWithInt_(JavaLangInteger_parseIntWithNSString_withInt_(s, 8)) autorelease];
+          return new_JavaLangInteger_initWithInt_(JavaLangInteger_parseIntWithNSString_withInt_(s, 8));
         }
         @catch (JavaLangException *e) {
         }
@@ -246,7 +246,7 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
     }
     @catch (JavaLangException *e) {
       @try {
-        return [new_JavaLangLong_initWithLong_(JavaLangLong_parseLongWithNSString_(s)) autorelease];
+        return new_JavaLangLong_initWithLong_(JavaLangLong_parseLongWithNSString_(s));
       }
       @catch (JavaLangException *f) {
         return s;
@@ -282,16 +282,11 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
 }
 
 - (JsonJSONException *)syntaxErrorWithNSString:(NSString *)message {
-  return [new_JsonJSONException_initWithNSString_(JreStrcat("$$", message, [self description])) autorelease];
+  return new_JsonJSONException_initWithNSString_(JreStrcat("$$", message, [self description]));
 }
 
 - (NSString *)description {
   return JreStrcat("$I$$", @" at character ", self->myIndex_, @" of ", self->mySource_);
-}
-
-- (void)dealloc {
-  RELEASE_(mySource_);
-  [super dealloc];
 }
 
 + (const J2ObjcClassInfo *)__metadata {
@@ -324,9 +319,9 @@ J2OBJC_FIELD_SETTER(JsonJSONTokener, mySource_, NSString *)
 @end
 
 void JsonJSONTokener_initWithNSString_(JsonJSONTokener *self, NSString *s) {
-  NSObject_init(self);
+  (void) NSObject_init(self);
   self->myIndex_ = 0;
-  JreStrongAssign(&self->mySource_, s);
+  self->mySource_ = s;
 }
 
 JsonJSONTokener *new_JsonJSONTokener_initWithNSString_(NSString *s) {

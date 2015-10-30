@@ -59,8 +59,8 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET));
     }
 
-    public static void getUser(int id){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + id, POST));
+    public static void getUser(String username){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + username, POST));
     }
 
     public static void updateOrSaveUser(User user, String password){
@@ -80,8 +80,12 @@ public final class Service {
         executeRequest(req);
     }
 
-    public static void getMessages(int userId1, int userId2){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2, POST));
+    public static void getMessages(int userId1, int userId2, int startIndex, int length){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, POST));
+    }
+
+    public static void getRecentContacts(int userId){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId, POST));
     }
 
     public static void getActions(){
