@@ -61,7 +61,7 @@ public class ActionServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String update(@Context HttpServletRequest req, @FormParam("action" )String actionString){
+    public String update(@Context HttpServletRequest req, @Context User user, @FormParam("action" )String actionString){
         Action action = new Action(new JSONObject(actionString));
 
         Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
@@ -76,7 +76,7 @@ public class ActionServlet {
             transaction.commit();
 
             // TODO: Replace string with actual username
-            log.info("{}: ACTION: Action updated: {}", "Username", actionString);
+            log.info("{}: ACTION: Action updated: {}", user.getUsername(), actionString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -91,7 +91,7 @@ public class ActionServlet {
     @Path("{id}")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String delete(@Context HttpServletRequest req, @PathParam("id") int id){
+    public String delete(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
@@ -101,7 +101,7 @@ public class ActionServlet {
             transaction.commit();
 
             // TODO: Replace string with actual username
-            log.warn("{}: ACTION: Action deleted: {}", "Username", action.getId());
+            log.warn("{}: ACTION: Action deleted: {}", user.getUsername(), action.getId());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

@@ -11,6 +11,7 @@ import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
@@ -30,8 +31,7 @@ public class UnitServlet {
 
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getUnits(@Context HttpServletRequest req){
-        //AuthServlet.hasRole(req, USER, ADMIN);
+    public String getUnits(@Context HttpServletRequest req, @Context User user){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Unit> units = null;
@@ -40,8 +40,7 @@ public class UnitServlet {
             units = (List<Unit>) session.createCriteria(Unit.class).list();
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: UNIT: Getting all units for user.", "Username");
+            log.info("{}: UNIT: Getting all units for user.", user.getUsername());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -56,7 +55,7 @@ public class UnitServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String updateUnit(@Context HttpServletRequest req, @FormParam("unit" )String unitString){
+    public String updateUnit(@Context HttpServletRequest req, @Context User user, @FormParam("unit" )String unitString){
         Unit unit = new Unit(new JSONObject(unitString));
 
 
@@ -72,8 +71,7 @@ public class UnitServlet {
 
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: UNIT: Update unit values: {}", "Username", unitString);
+            log.info("{}: UNIT: Update unit values: {}", user.getUsername(), unitString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -88,7 +86,7 @@ public class UnitServlet {
     @Path("{id}")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String deleteUnit(@Context HttpServletRequest req, @PathParam("id") int id){
+    public String deleteUnit(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
@@ -97,8 +95,7 @@ public class UnitServlet {
             session.delete(unit);
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.warn("{}: UNIT: Unit deleted: {}", "Username", unit.getName());
+            log.warn("{}: UNIT: Unit deleted: {}", user.getUsername(), unit.getName());
 
         } catch (RuntimeException e) {
             if(transaction != null)

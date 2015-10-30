@@ -3,6 +3,10 @@ package rtdc.web.test;
 import org.junit.Assert;
 import org.junit.Test;
 import rtdc.core.Config;
+import rtdc.core.event.ActionCompleteEvent;
+import rtdc.core.event.AuthenticationEvent;
+import rtdc.core.event.ErrorEvent;
+import rtdc.core.event.LogoutEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
@@ -27,7 +31,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals("authenticationEvent", object.get("_type").toString());
+        Assert.assertEquals(AuthenticationEvent.TYPE.getName(), object.get("_type").toString());
         Assert.assertTrue(object.has("user"));
         Assert.assertTrue(object.has("authenticationToken"));
         User user = new User((JSONObject)object.get("user"));
@@ -42,7 +46,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals("errorEvent", object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), object.get("_type").toString());
         Assert.assertEquals("Username / password mismatch", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -55,7 +59,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals("errorEvent",object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), object.get("_type").toString());
         Assert.assertEquals("Username / password mismatch", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -68,7 +72,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals("errorEvent",object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(),object.get("_type").toString());
         Assert.assertEquals("Username / password mismatch", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -81,7 +85,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals("errorEvent", object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), object.get("_type").toString());
         Assert.assertEquals("Username / password mismatch", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -94,7 +98,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals("errorEvent",object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(),object.get("_type").toString());
         Assert.assertEquals("Username cannot be empty", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -107,7 +111,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals("errorEvent",object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(),object.get("_type").toString());
         Assert.assertEquals("Password cannot be empty", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -123,7 +127,7 @@ public class ServiceTest {
         JSONObject object2 = executeSyncRequest("authenticate/tokenValid", "", "POST", authToken);
 
         // Assert
-        Assert.assertEquals("authenticationEvent", object2.get("_type").toString());
+        Assert.assertEquals(AuthenticationEvent.TYPE.getName(), object2.get("_type").toString());
     }
 
     @Test
@@ -133,10 +137,12 @@ public class ServiceTest {
         String authToken = object.get("authenticationToken").toString();
 
         // Action
-        JSONObject object2 = executeSyncRequest("authenticate/logout", "", "POST", authToken);
+        JSONObject object2 = executeSyncRequest("authenticate/logout", null, "POST", authToken);
+
+        System.out.println(object2);
 
         // Assert
-        Assert.assertEquals("sessionExpiredEvent", object2.get("_type").toString()); // ??
+        Assert.assertEquals(LogoutEvent.TYPE.getName(), object2.get("_type").toString());
     }
 
     @Test
@@ -146,10 +152,10 @@ public class ServiceTest {
         String authToken = object.get("authenticationToken").toString();
 
         // Action
-        JSONObject object2 = executeSyncRequest("units", "", "GET", authToken);
+        JSONObject object2 = executeSyncRequest("units", null, "GET", authToken);
 
         // Assert
-        Assert.assertNotEquals("errorEvent", object2.get("_type"));
+        Assert.assertNotEquals(ErrorEvent.TYPE.getName(), object2.get("_type"));
     }
 
     @Test
@@ -168,7 +174,7 @@ public class ServiceTest {
         // Parse and get list of units
 
         // Assert
-        //Assert.assertEquals("actionCompletedEvent", object2.get("_type"));
+        //Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
         // TO-DO: Verify if unit is saved correctly?
     }
 
@@ -189,7 +195,7 @@ public class ServiceTest {
         JSONObject result = executeSyncRequest("units", unit.toString(), "PUT", authToken);
 
         // Assert
-        //Assert.assertEquals("actionCompletedEvent", result.get("_type"));
+        //Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
         // TO-DO: Verify if unit is saved correctly?
     }
 
@@ -204,7 +210,7 @@ public class ServiceTest {
         JSONObject result = executeSyncRequest("units/" + unitId, "", "DELETE", authToken);
 
         // Assert
-        Assert.assertEquals("actionCompletedEvent", result.get("_type"));
+        Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
         // TO-DO: Check list of units ?
     }
 
@@ -219,7 +225,7 @@ public class ServiceTest {
         JSONObject result = executeSyncRequest("units/" + unitId, "", "DELETE", authToken);
 
         // Assert
-        Assert.assertEquals("errorEvent", result.get("_type"));
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
     @Test
@@ -232,7 +238,7 @@ public class ServiceTest {
         JSONObject object2 = executeSyncRequest("users", "", "GET", authToken);
 
         // Assert
-        Assert.assertNotEquals("errorEvent", object2.get("_type"));
+        Assert.assertNotEquals(ErrorEvent.TYPE.getName(), object2.get("_type"));
     }
 
     @Test
@@ -251,7 +257,7 @@ public class ServiceTest {
         // Parse and get list of units
 
         // Assert
-        //Assert.assertEquals("actionCompletedEvent", object2.get("_type"));
+        //Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
         // TO-DO: Verify if unit is saved correctly?
     }
 
@@ -272,7 +278,7 @@ public class ServiceTest {
         JSONObject result = executeSyncRequest("users", user.toString(), "PUT", authToken);
 
         // Assert
-        //Assert.assertEquals("actionCompletedEvent", result.get("_type"));
+        //Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
         // TO-DO: Verify if unit is saved correctly?
     }
 
@@ -287,7 +293,7 @@ public class ServiceTest {
         JSONObject result = executeSyncRequest("users/" + userId, "", "DELETE", authToken);
 
         // Assert
-        Assert.assertEquals("actionCompletedEvent", result.get("_type"));
+        Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
         // TO-DO: Check list of units ?
     }
 
@@ -302,7 +308,7 @@ public class ServiceTest {
         JSONObject result = executeSyncRequest("users/" + userId, "", "DELETE", authToken);
 
         // Assert
-        Assert.assertEquals("errorEvent", result.get("_type"));
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
@@ -313,18 +319,16 @@ public class ServiceTest {
             con.setRequestMethod(requestMethod);
             con.setRequestProperty("User-Agent", USER_AGENT);
             con.setRequestProperty("Accept-Language", "en-us,en;q=0.5");
-            if (authToken != null) {
-                con.setRequestProperty("AUTH_TOKEN", authToken);
-                con.setRequestProperty("auth", authToken);
-            }
+            if (authToken != null)
+                con.setRequestProperty("auth_token", authToken);
 
             con.setDoOutput(true);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(urlParameters);
-            wr.flush();
-            wr.close();
-
-            int responseCode = con.getResponseCode();
+            if(urlParameters != null){
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                wr.writeBytes(urlParameters);
+                wr.flush();
+                wr.close();
+            }
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(con.getInputStream()));
