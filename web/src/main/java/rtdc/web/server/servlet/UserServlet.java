@@ -13,6 +13,7 @@ import rtdc.core.json.JSONObject;
 import rtdc.core.model.Permission;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
+import rtdc.web.server.model.UserCredentials;
 import rtdc.web.server.service.AsteriskRealTimeService;
 import rtdc.web.server.service.AuthService;
 
@@ -99,8 +100,9 @@ public class UserServlet {
         try{
             transaction = session.beginTransaction();
             session.saveOrUpdate(user);
-            session.saveOrUpdate(AuthService.generateUserCredentials(user, password));
-            AsteriskRealTimeService.addUser(user, password);
+            UserCredentials credentials = AuthService.generateUserCredentials(user, password);
+            session.saveOrUpdate(credentials);
+            AsteriskRealTimeService.addUser(user, credentials.getAsteriskPassword());
             transaction.commit();
 
             // TODO: Replace string with actual username

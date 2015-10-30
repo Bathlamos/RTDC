@@ -10,22 +10,26 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Handler> {
 
     public enum Properties implements ObjectProperty<AuthenticationEvent>{
         user,
-        authenticationToken
+        authenticationToken,
+        asteriskPassword
     }
 
     private final User user;
     private final String authenticationToken;
+    private final String asteriskPassword;
 
     public interface Handler extends EventHandler{ void onAuthenticate(AuthenticationEvent event); }
 
-    public AuthenticationEvent(User user, String authenticationToken){
+    public AuthenticationEvent(User user, String authenticationToken, String asteriskPassword){
         this.user = user;
         this.authenticationToken = authenticationToken;
+        this.asteriskPassword = asteriskPassword;
     }
 
     public AuthenticationEvent(JSONObject object){
         user = new User(object.getJSONObject(Properties.user.name()));
         authenticationToken = object.optString(Properties.authenticationToken.name());
+        asteriskPassword = object.optString(Properties.asteriskPassword.name());
     }
     
     public User getUser(){
@@ -35,6 +39,8 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Handler> {
     public String getAuthenticationToken(){
         return authenticationToken;
     }
+
+    public String getAsteriskPassword() { return asteriskPassword; }
 
     void fire() {
         for(Handler handler: getHandlers(TYPE))
@@ -56,6 +62,7 @@ public class AuthenticationEvent extends Event<AuthenticationEvent.Handler> {
         switch((Properties) property){
             case user: return user;
             case authenticationToken: return authenticationToken;
+            case asteriskPassword: return asteriskPassword;
         }
         return null;
     }
