@@ -34,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
 
     private ArrayList<String> navTitles;
     private ArrayAdapter<String> adapter;
-    private RelativeLayout lastClicked = null;
+    private int lastClicked = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +117,9 @@ public class MainActivity extends ActionBarActivity {
         title = navTitles.get(position);
         setTitle(title);
         drawerLayout.closeDrawers();
+
+        lastClicked = position;
+        adapter.notifyDataSetChanged();
     }
 
     public void goToFragment(int id){
@@ -153,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onNewIntent(Intent intent) {
         int position = intent.getIntExtra("fragment", -1);
         if (position != -1)
-            goToFragment(position);
+            selectItem(position);
     }
 
     private class navAdapter extends ArrayAdapter<String> {
@@ -169,11 +172,6 @@ public class MainActivity extends ActionBarActivity {
         public View getView(int position, View view, ViewGroup parent) {
             if (view == null)
                 view = inflater.inflate(R.layout.drawer_list_item, parent, false);
-
-            if (lastClicked == null) {
-                lastClicked = (RelativeLayout) view.findViewById(R.id.navLayout);
-                lastClicked.setBackgroundColor(getResources().getColor(R.color.RTDC_black));
-            }
 
             String currentTitle = navTitles.get(position);
 
@@ -204,15 +202,15 @@ public class MainActivity extends ActionBarActivity {
             view.setTag(position);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    selectItem(Integer.parseInt(v.getTag().toString()));
-                    lastClicked.setBackgroundColor(getResources().getColor(R.color.RTDC_grey));
-
-                    RelativeLayout navLayout = (RelativeLayout) v.findViewById(R.id.navLayout);
-                    navLayout.setBackgroundColor(getResources().getColor(R.color.RTDC_black));
-                    lastClicked = navLayout;
+                public void onClick(View v) {selectItem(Integer.parseInt(v.getTag().toString()));
                 }
             });
+
+            if(position == lastClicked){
+                view.setBackgroundColor(getResources().getColor(R.color.RTDC_black));
+            } else {
+                view.setBackgroundColor(getResources().getColor(R.color.RTDC_grey));
+            }
 
             return view;
         }

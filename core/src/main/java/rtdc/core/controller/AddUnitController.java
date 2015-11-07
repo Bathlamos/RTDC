@@ -52,6 +52,7 @@ public class AddUnitController extends Controller<AddUnitView>{
         else {*/
             Service.updateOrSaveUnit(newUnit);
         //}
+        Bootstrapper.FACTORY.newDispatcher().goToManageUnits(this);
         view.closeDialog();
     }
 

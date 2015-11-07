@@ -5,7 +5,8 @@ import rtdc.core.controller.Controller;
 public interface Dispatcher {
 
     void goToLogin(Controller caller);
-    void goToAllUnits(Controller caller);
+    void goToManageUnits(Controller caller);
+    void goToManageUsers(Controller caller);
     void goToActionPlan(Controller caller);
     void goToEditUser(Controller caller);
     void goToEditUnit(Controller caller);

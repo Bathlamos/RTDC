@@ -52,7 +52,7 @@ public class LoginController extends Controller<LoginView> implements Authentica
         Session.setCurrentSession(new Session(event.getUser()));
         Bootstrapper.FACTORY.getVoipController().registerUser(event.getUser());
         Event.unsubscribe(AuthenticationEvent.TYPE, this);
-        Bootstrapper.FACTORY.newDispatcher().goToAllUnits(this);
+        Bootstrapper.FACTORY.newDispatcher().goToManageUnits(this);
     }
 
     @Override

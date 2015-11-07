@@ -1,5 +1,6 @@
 package rtdc.core.controller;
 
+import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.model.Action;
@@ -77,6 +78,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         else {*/
         Service.updateOrSaveActions(action);
         //}
+        Bootstrapper.FACTORY.newDispatcher().goToActionPlan(this);
         view.closeDialog();
     }
 
