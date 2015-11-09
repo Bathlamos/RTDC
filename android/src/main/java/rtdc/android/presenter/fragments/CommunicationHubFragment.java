@@ -326,11 +326,11 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
             }
         }
 
-        messagesAdapter.notifyDataSetChanged();
-
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                messagesAdapter.notifyDataSetChanged();
+
                 // Force the message list view to go to the bottom
                 AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
                 messageListView.setSelection(messageListView.getCount() - 1);
