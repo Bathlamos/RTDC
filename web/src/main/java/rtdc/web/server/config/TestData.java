@@ -158,7 +158,7 @@ public class TestData implements ServletContextListener {
             User user = new User();
             user.setFirstName(DF.getFirstName());
             user.setLastName(DF.getLastName());
-            user.setUsername(user.getFirstName() + " " + i);
+            user.setUsername(user.getFirstName() + "_" + i);
             user.setEmail(DF.getEmailAddress());
             user.setPermission(DF.getItem(PERMISSIONS));
             user.setPhone(DF.getNumberBetween(100000000, 999999999));
