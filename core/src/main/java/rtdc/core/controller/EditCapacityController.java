@@ -50,7 +50,7 @@ public class EditCapacityController extends Controller<EditCapacityView>{
         else {*/
         Service.updateOrSaveUnit(currentUnit);
         //}
-        Bootstrapper.FACTORY.newDispatcher().goToCapacityOverview(this);
+        Cache.getInstance().put("unit", currentUnit);
         view.closeDialog();
     }
 }

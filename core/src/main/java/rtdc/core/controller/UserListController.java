@@ -49,6 +49,11 @@ public class UserListController extends Controller<UserListView> implements Fetc
         view.setUsers(sortUsers(User.Properties.lastName));
     }
 
+    // Return user updated from CreateUserActivity
+    public User getUpdatedUser(){
+        return (User) Cache.getInstance().retrieve("user");
+    }
+
     @Override
     public void onStop() {
         super.onStop();

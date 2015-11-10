@@ -78,7 +78,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         else {*/
         Service.updateOrSaveActions(action);
         //}
-        Bootstrapper.FACTORY.newDispatcher().goToActionPlan(this);
+        Cache.getInstance().put("action", action);
         view.closeDialog();
     }
 

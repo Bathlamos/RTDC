@@ -233,6 +233,23 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        Action action = controller.getUpdatedAction();
+        if(action != null) {
+            int actionCount = actions.size();
+            for(int i = 0; i < actionCount; i++){
+                if(actions.get(i).getId() == action.getId()) {
+                    actions.set(i, action);
+                    break;
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         controller.onStop();

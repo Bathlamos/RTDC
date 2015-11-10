@@ -121,31 +121,43 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
                 else
                     clicked.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_drop_down_white_24dp, 0);
 
-                switch (v.getId()) {
-                    case R.id.unitNameHeader:
-                        controller.sortUnits(Unit.Properties.name, isAscending);
-                        break;
-                    case R.id.availableBedsHeader:
-                        controller.sortUnits(Unit.Properties.availableBeds, isAscending);
-                        break;
-                    case R.id.potentialDCHeader:
-                        controller.sortUnits(Unit.Properties.potentialDc, isAscending);
-                        break;
-                    case R.id.DCByDeadlineHeader:
-                        controller.sortUnits(Unit.Properties.dcByDeadline, isAscending);
-                        break;
-                    case R.id.totalAdmitsHeader:
-                        controller.sortUnits(Unit.Properties.totalAdmits, isAscending);
-                        break;
-                    case R.id.admitsByDeadlineHeader:
-                        controller.sortUnits(Unit.Properties.admitsByDeadline, isAscending);
-                        break;
-                    case R.id.statusAtDeadlineHeader:
-                        controller.sortUnits(Unit.Properties.statusAtDeadline, isAscending);
-                        break;
-                }
+                sortUnits();
             }
         });
+    }
+
+    public void sortUnits() {
+        switch (lastClicked.getId()) {
+            case R.id.unitNameHeader:
+                controller.sortUnits(Unit.Properties.name, isAscending);
+                break;
+            case R.id.availableBedsHeader:
+                controller.sortUnits(Unit.Properties.availableBeds, isAscending);
+                break;
+            case R.id.potentialDCHeader:
+                controller.sortUnits(Unit.Properties.potentialDc, isAscending);
+                break;
+            case R.id.DCByDeadlineHeader:
+                controller.sortUnits(Unit.Properties.dcByDeadline, isAscending);
+                break;
+            case R.id.totalAdmitsHeader:
+                controller.sortUnits(Unit.Properties.totalAdmits, isAscending);
+                break;
+            case R.id.admitsByDeadlineHeader:
+                controller.sortUnits(Unit.Properties.admitsByDeadline, isAscending);
+                break;
+            case R.id.statusAtDeadlineHeader:
+                controller.sortUnits(Unit.Properties.statusAtDeadline, isAscending);
+                break;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(controller.unitUpdated())
+            sortUnits();
     }
 
     @Override
