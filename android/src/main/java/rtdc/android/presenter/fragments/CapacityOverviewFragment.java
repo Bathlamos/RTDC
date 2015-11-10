@@ -20,7 +20,7 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
     private ArrayList<Unit> units = new ArrayList<Unit>();
     private CapacityOverviewController controller;
     private TextView lastClicked = null;
-    private boolean isAscending = false;
+    private boolean isAscending = true;
 
     @Nullable
     @Override
@@ -127,6 +127,7 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
     }
 
     public void sortUnits() {
+
         switch (lastClicked.getId()) {
             case R.id.unitNameHeader:
                 controller.sortUnits(Unit.Properties.name, isAscending);
