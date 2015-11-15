@@ -45,6 +45,10 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET));
     }
 
+    public static void getUnit(int unitId) {
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units/" + unitId, GET));
+    }
+
     public static void updateOrSaveUnit(Unit unit){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
         req.addParameter("unit", unit.toString());

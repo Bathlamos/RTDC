@@ -19,6 +19,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -49,6 +50,34 @@ public class UnitServlet {
         } finally{
             session.close();
         }
+        return new FetchUnitsEvent(units).toString();
+    }
+
+    @GET
+    @Path("{id}")
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    public String getUnit(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id) {
+        Session session = PersistenceConfig.getSessionFactory().openSession();
+        Transaction transaction = null;
+        Unit unit = null;
+        try{
+            transaction = session.beginTransaction();
+            unit = (Unit) session.load(Unit.class, id);
+            if(unit == null)
+                throw new ApiException("Id " + id + " doesn't exist");
+            transaction.commit();
+
+            log.info("{}: UNIT: Getting unit " + id + " for user.", user.getUsername());
+        } catch (RuntimeException e) {
+            if(transaction != null)
+                transaction.rollback();
+            throw e;
+        } finally{
+            session.close();
+        }
+        List<Unit> units = new ArrayList<>();
+        units.add(unit);
+        // TODO: Create a new FetchSingleUnitEvent
         return new FetchUnitsEvent(units).toString();
     }
 

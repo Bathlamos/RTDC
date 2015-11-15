@@ -3,11 +3,10 @@ package rtdc.web.test;
 import org.junit.Assert;
 import org.junit.Test;
 import rtdc.core.Config;
-import rtdc.core.event.ActionCompleteEvent;
-import rtdc.core.event.AuthenticationEvent;
-import rtdc.core.event.ErrorEvent;
-import rtdc.core.event.LogoutEvent;
+import rtdc.core.event.*;
+import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
+import rtdc.core.json.JSONTokener;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
@@ -153,9 +152,19 @@ public class ServiceTest {
 
         // Action
         JSONObject object2 = executeSyncRequest("units", null, "GET", authToken);
+        JSONArray unitsJsonArray = new JSONArray(new JSONTokener(object2.get("units").toString()));
 
         // Assert
-        Assert.assertNotEquals(ErrorEvent.TYPE.getName(), object2.get("_type"));
+        Assert.assertEquals(FetchUnitsEvent.TYPE.getName(), object2.get("_type"));
+        Assert.assertEquals(unitsJsonArray.length() > 0, true);
+    }
+
+    // TODO: ErrorEvent: {"_type":"errorEvent","description":"could not initialize proxy - no Session"}
+    private static Unit getSingleUnit(String authToken, int id) {
+        JSONObject object3 = (executeSyncRequest("units/" + id, null, "GET", authToken));
+        JSONArray unitJsonArray = new JSONArray(new JSONTokener(object3.get("units").toString()));
+        Unit savedUnit = new Unit(unitJsonArray.getJSONObject(0));
+        return savedUnit;
     }
 
     @Test
@@ -165,17 +174,23 @@ public class ServiceTest {
         String authToken = object.get("authenticationToken").toString();
 
         Unit testUnit = new Unit();
-        testUnit.setId(123);
-        testUnit.setName("Test Unit");
+
+        testUnit.setName("Test Unit " + (int)(Math.random() * 100));
         testUnit.setAvailableBeds(20);
 
         // Action
-        JSONObject object2 = executeSyncRequest("units", testUnit.toString(), "PUT", authToken);
-        // Parse and get list of units
+        JSONObject object2 = executeSyncRequest("units", "unit=" + testUnit.toString(), "PUT", authToken);
+
+        Unit savedUnit = getSingleUnit(authToken, (int)object2.get("objectId"));
 
         // Assert
-        //Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
-        // TO-DO: Verify if unit is saved correctly?
+        Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
+        Assert.assertTrue(object2.get("objectId") != null);
+        Assert.assertEquals(object2.get("action"), "update");
+        Assert.assertEquals(object2.get("objectType"), "unit");
+
+        Assert.assertEquals(savedUnit.getName(), testUnit.getName());
+        Assert.assertEquals(savedUnit.getAvailableBeds(), testUnit.getAvailableBeds());
     }
 
     @Test
@@ -186,17 +201,25 @@ public class ServiceTest {
 
         JSONObject object2 = executeSyncRequest("units", null, "GET", authToken);
 
-        ArrayList<Unit> units = new ArrayList<>();
+        JSONArray unitJsonArray = new JSONArray(new JSONTokener(object2.get("units").toString()));
+
         // Get units from object2
 
         // Action
-        Unit unit = units.get(0);
+        Unit unit = new Unit(new JSONObject(unitJsonArray.get(0).toString()));
         unit.setName("Modified name");
-        JSONObject result = executeSyncRequest("units", unit.toString(), "PUT", authToken);
+        JSONObject result = executeSyncRequest("units", "unit=" + unit.toString(), "PUT", authToken);
+
+        Unit savedUnit = getSingleUnit(authToken, unit.getId());
 
         // Assert
-        //Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
-        // TO-DO: Verify if unit is saved correctly?
+        Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
+        Assert.assertEquals(result.get("objectId"), unit.getId());
+        Assert.assertEquals(result.get("action"), "update");
+        Assert.assertEquals(result.get("objectType"), "unit");
+
+        Assert.assertEquals(savedUnit.getName(), unit.getName());
+        Assert.assertEquals(savedUnit.getAvailableBeds(), unit.getAvailableBeds());
     }
 
     @Test
@@ -211,7 +234,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
-        // TO-DO: Check list of units ?
+        // TODO: Check list of units ?
     }
 
     @Test
@@ -258,7 +281,7 @@ public class ServiceTest {
 
         // Assert
         //Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
-        // TO-DO: Verify if unit is saved correctly?
+        // TODO: Verify if unit is saved correctly?
     }
 
     @Test
@@ -279,7 +302,7 @@ public class ServiceTest {
 
         // Assert
         //Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
-        // TO-DO: Verify if unit is saved correctly?
+        // TODO: Verify if unit is saved correctly?
     }
 
     @Test
@@ -294,7 +317,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
-        // TO-DO: Check list of units ?
+        // TODO: Check list of units ?
     }
 
     @Test
@@ -318,6 +341,7 @@ public class ServiceTest {
 
             con.setRequestMethod(requestMethod);
             con.setRequestProperty("User-Agent", USER_AGENT);
+            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             con.setRequestProperty("Accept-Language", "en-us,en;q=0.5");
             if (authToken != null)
                 con.setRequestProperty("auth_token", authToken);
