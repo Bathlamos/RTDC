@@ -16,6 +16,10 @@ public class UserCredentials implements Serializable {
     private String passwordHash;
 
     @NotNull
+    @Column(name = "asteriskPassword", nullable = false)
+    private String asteriskPassword;
+
+    @NotNull
     @Column(name = "salt", nullable = false)
     private String salt;
 
@@ -46,4 +50,6 @@ public class UserCredentials implements Serializable {
         this.user = user;
     }
 
+    public String getAsteriskPassword() { return asteriskPassword; }
+    public void setAsteriskPassword(String asteriskPassword) { this.asteriskPassword = asteriskPassword; }
 }

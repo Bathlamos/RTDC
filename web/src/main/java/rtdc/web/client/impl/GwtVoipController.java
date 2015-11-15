@@ -16,7 +16,7 @@ public class GwtVoipController implements VoipController{
     }
 
     @Override
-    public void registerUser(User user) {
+    public void registerUser(User user, String password) {
 
     }
 

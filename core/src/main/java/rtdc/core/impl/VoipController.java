@@ -5,7 +5,7 @@ import rtdc.core.model.User;
 
 public interface VoipController {
 
-    public void registerUser(User user);
+    public void registerUser(User user, String password);
     public void unregisterCurrentUser();
 
     public void call(User user, boolean videoEnabled);

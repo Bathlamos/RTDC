@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.Toast;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.Rtdc;
 import rtdc.core.view.View;
@@ -13,7 +14,7 @@ public class AbstractFragment extends Fragment implements View{
 
     @Override
     public void displayError(String title, String error) {
-        new AlertDialog.Builder(AndroidBootstrapper.getAppContext())
+        new AlertDialog.Builder(getActivity())
                 .setTitle(title)
                 .setMessage(error)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {

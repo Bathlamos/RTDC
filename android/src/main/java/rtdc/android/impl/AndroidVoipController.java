@@ -31,7 +31,7 @@ public class AndroidVoipController implements VoipController{
     public static AndroidVoipController get(){ return INST; }
 
     @Override
-    public void registerUser(User user) {
+    public void registerUser(User user, String password) {
         try {
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Registering user...");
 
@@ -39,8 +39,7 @@ public class AndroidVoipController implements VoipController{
             String sipAddress = "sip:" + user.getUsername() + "@" + Config.ASTERISK_IP;
             //LinphoneAddress address = LinphoneCoreFactory.instance().createLinphoneAddress(sipAddress);
 
-            // TODO: Fetch the password for the user and use it to register
-            currentAuthInfo = LinphoneCoreFactory.instance().createAuthInfo(user.getUsername(), "password", null, "sip:" + Config.ASTERISK_IP);
+            currentAuthInfo = LinphoneCoreFactory.instance().createAuthInfo(user.getUsername(), password, null, "sip:" + Config.ASTERISK_IP);
             LiblinphoneThread.get().getLinphoneCore().addAuthInfo(currentAuthInfo);
 
             currentProxyConfig = lc.createProxyConfig(sipAddress, Config.ASTERISK_IP, null, true);
@@ -211,7 +210,7 @@ public class AndroidVoipController implements VoipController{
 
     @Override
     public void sendMessage(Message message) {
-        String sipAddress = "sip:" + message.getReceiver().getId() + "@" + Config.ASTERISK_IP;
+        String sipAddress = "sip:" + message.getReceiver().getUsername() + "@" + Config.ASTERISK_IP;
         LinphoneChatRoom c = LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress);
         LinphoneChatMessage m = c.createLinphoneChatMessage(message.toString());
         LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).sendChatMessage(m);

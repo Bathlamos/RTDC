@@ -45,6 +45,7 @@ public class AuthServlet {
         String authenticationToken = req.getHeader(HttpHeadersName.AUTH_TOKEN);
         AuthenticationToken authToken;
         Transaction transaction = null;
+        UserCredentials userCredentials = null;
 
         log.debug("Received parameter : authToken = {}", authenticationToken);
         try{
@@ -55,7 +56,9 @@ public class AuthServlet {
             if(authToken == null)
                 return new SessionExpiredEvent().toString();
             transaction.commit();
-            return new AuthenticationEvent(authToken.getUser(), authToken.getAuthenticationToken()).toString();
+            userCredentials = (UserCredentials) session.createCriteria(UserCredentials.class).add(
+                    Restrictions.eq("user", authToken.getUser())).uniqueResult();
+            return new AuthenticationEvent(authToken.getUser(), authToken.getAuthenticationToken(), userCredentials.getAsteriskPassword()).toString();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -134,7 +137,7 @@ public class AuthServlet {
                     if (Config.IS_DEBUG)
                         resp.addCookie(new Cookie(CookiesName.AUTH_COOKIE, token.getAuthenticationToken()));
 
-                    return new AuthenticationEvent(user, token.getAuthenticationToken()).toString();
+                    return new AuthenticationEvent(user, token.getAuthenticationToken(), userCredentials.getAsteriskPassword()).toString();
                 }else
                     log.warn("{}: LOGIN FAILED: Invalid password.", username);
                     throw new UsernamePasswordMismatchException("Username / password mismatch");
