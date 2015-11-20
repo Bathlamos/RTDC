@@ -62,7 +62,7 @@ public class UnitServlet {
         Unit unit = null;
         try{
             transaction = session.beginTransaction();
-            unit = (Unit) session.load(Unit.class, id);
+            unit = (Unit) session.get(Unit.class, id);
             if(unit == null)
                 throw new ApiException("Id " + id + " doesn't exist");
             transaction.commit();
@@ -87,7 +87,6 @@ public class UnitServlet {
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String updateUnit(@Context HttpServletRequest req, @Context User user, @FormParam("unit" )String unitString){
         Unit unit = new Unit(new JSONObject(unitString));
-
 
         Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
         if(!violations.isEmpty())
@@ -122,11 +121,11 @@ public class UnitServlet {
         try{
             transaction = session.beginTransaction();
             Unit unit = (Unit) session.load(Unit.class, id);
-            if(unit == null)
-                throw new ApiException("Id " + id + " doesn't exist");
+            session.delete(unit);
             transaction.commit();
 
-            log.warn("{}: UNIT: Unit deleted: {}", user.getUsername(), unit.getName());
+            // TODO: Replace string with actual username
+            log.warn("{}: UNIT: Unit deleted: {}", "Username", unit.getName());
 
         } catch (RuntimeException e) {
             if(transaction != null)
