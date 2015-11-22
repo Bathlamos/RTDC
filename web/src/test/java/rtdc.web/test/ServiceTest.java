@@ -24,7 +24,7 @@ public class ServiceTest {
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String TEST_USERNAME = "Nathaniel";
     private static final String TEST_PASSWORD = "password";
-
+    /*
     @Test
     public void authenticateUser_existingUser_getUserPlusAuthToken() {
         // Action;
@@ -446,7 +446,7 @@ public class ServiceTest {
         // Assert
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
-
+    */
 
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
         try {
