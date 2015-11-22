@@ -145,6 +145,7 @@ public class TestData implements ServletContextListener {
             action.setStatus(DF.getItem(Action.Status.values()));
             action.setTarget("Target " + DF.getRandomText(RANDOM.nextInt(10)));
             action.setTask(DF.getItem(Action.Task.values()));
+            action.setLastUpdate(new Date());
             actions.add(action);
         }
 
@@ -237,6 +238,7 @@ public class TestData implements ServletContextListener {
         action.setTarget(target);
         action.setDeadline(date);
         action.setDescription(description);
+        action.setLastUpdate(new Date());
         return action;
     }
 

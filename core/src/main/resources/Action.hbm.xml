@@ -26,5 +26,6 @@
         <property name="target" column="target" type="string"/>
         <property name="deadline" column="deadline" type="java.util.Date"/>
         <property name="description" column="description" type="string" length="2500"/>
+        <property name="lastUpdate" column="lastUpdate" type="java.util.Date"/>
     </class>
 </hibernate-mapping>
