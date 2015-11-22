@@ -29,8 +29,7 @@ public class ManageUsersFragment extends AbstractFragment implements AbsListView
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_manage_users, container, false);
         setHasOptionsMenu(true);
 
@@ -71,6 +70,23 @@ public class ManageUsersFragment extends AbstractFragment implements AbsListView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         User user = (User) mAdapter.getItem(position);
         controller.editUser(user);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        User user = controller.getUpdatedUser();
+        if(user != null) {
+            int userCount = users.size();
+            for(int i = 0; i < userCount; i++){
+                if(users.get(i).getId() == user.getId()) {
+                    users.set(i, user);
+                    break;
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

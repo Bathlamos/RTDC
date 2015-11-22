@@ -22,8 +22,7 @@ public class ManageUnitsFragment extends AbstractFragment implements AbsListView
     private UnitListAdapter mAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_manage_units, container, false);
         setHasOptionsMenu(true);
 
@@ -70,6 +69,23 @@ public class ManageUnitsFragment extends AbstractFragment implements AbsListView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Unit unit = (Unit) mAdapter.getItem(position);
         controller.editUnit(unit);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Unit unit = controller.getUpdatedUnit();
+        if(unit != null) {
+            int unitCount = units.size();
+            for(int i = 0; i < unitCount; i++){
+                if(units.get(i).getId() == unit.getId()) {
+                    units.set(i, unit);
+                    break;
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

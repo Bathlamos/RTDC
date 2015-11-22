@@ -48,6 +48,11 @@ public class CapacityOverviewController extends Controller<CapacityOverviewView>
         sortUnits(Unit.Properties.name, true);
     }
 
+    // Unit updated from EditCapacityActivity?
+    public boolean unitUpdated(){
+        return Cache.getInstance().retrieve("unit") != null;
+    }
+
     @Override
     public void onStop() {
         super.onStop();

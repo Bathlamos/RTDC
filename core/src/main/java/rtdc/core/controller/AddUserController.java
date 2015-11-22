@@ -52,6 +52,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
         Service.addUser(newUser, password);
 
+        Cache.getInstance().put("user", newUser);
         view.closeDialog();
     }
 

@@ -52,6 +52,11 @@ public class ActionListController extends Controller<ActionListView> implements 
         sortActions(Action.Properties.task);
     }
 
+    // Return action updated from CreateActionActivity
+    public Action getUpdatedAction(){
+        return (Action) Cache.getInstance().retrieve("action");
+    }
+
     @Override
     public void onStop() {
         super.onStop();
