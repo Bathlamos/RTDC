@@ -30,7 +30,7 @@ import java.util.Set;
 @Path("users")
 public class UserServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(UserServlet.class);
 
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
@@ -83,10 +83,11 @@ public class UserServlet {
     }
 
     @POST
+    @Path("add")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String addUser(@Context HttpServletRequest req, @FormParam("password") String password, @FormParam("user" )String userString){
+    public String addUser(@Context HttpServletRequest req, @FormParam("user") String userString, @FormParam("password") String password){
         User user = new User(new JSONObject(userString));
 
         Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
@@ -102,14 +103,15 @@ public class UserServlet {
             session.saveOrUpdate(user);
             UserCredentials credentials = AuthService.generateUserCredentials(user, password);
             session.saveOrUpdate(credentials);
-            AsteriskRealTimeService.addUser(user, credentials.getAsteriskPassword());
+            try {
+                AsteriskRealTimeService.addUser(user, credentials.getAsteriskPassword());
+            } catch (SQLException e) {
+                log.info("Could not add user " + userString + " to Asterisk");
+            }
             transaction.commit();
 
             // TODO: Replace string with actual username
             log.info("{}: USER: New user added: {}", "Username", userString);
-        } catch (SQLException e) {
-            if(transaction != null)
-                transaction.rollback();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

@@ -63,8 +63,15 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + username, POST));
     }
 
-    public static void updateOrSaveUser(User user, String password){
+    public static void updateUser(User user, String password){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
+        req.addParameter("user", user.toString());
+        req.addParameter("password", password);
+        executeRequest(req);
+    }
+
+    public static void addUser(User user, String password){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users/add", POST);
         req.addParameter("user", user.toString());
         req.addParameter("password", password);
         executeRequest(req);
