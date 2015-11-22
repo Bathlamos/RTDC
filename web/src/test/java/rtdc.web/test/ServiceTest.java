@@ -22,6 +22,8 @@ public class ServiceTest {
 
     private static final String _url = "http://" + Config.SERVER_IP + ":8888/api/";
     private static final String USER_AGENT = "Mozilla/5.0";
+    private static final String TEST_USERNAME = "Nathaniel";
+    private static final String TEST_PASSWORD = "password";
 
     @Test
     public void authenticateUser_existingUser_getUserPlusAuthToken() {
@@ -119,8 +121,7 @@ public class ServiceTest {
     @Test
     public void isAuthTokenValid_validToken_ok() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
         JSONObject object2 = executeSyncRequest("auth/tokenValid", "", "POST", authToken);
@@ -132,8 +133,7 @@ public class ServiceTest {
     @Test
     public void logout_correctBehavior_userLoggedOut() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
         JSONObject object2 = executeSyncRequest("auth/logout", null, "POST", authToken);
@@ -159,20 +159,7 @@ public class ServiceTest {
     @Test
     public void getUnits_correctBehavior_gotAllUnits() {
         // Arrange
-
-        // Action
-        JSONObject object2 = executeSyncRequest("units", null, "GET", "");
-
-        // Assert
-        Assert.assertEquals(ErrorEvent.TYPE.getName(), object2.get("_type"));
-        // TODO: Check for correct description, but need to put string in resources file before
-    }
-
-    @Test
-    public void getUnits_noAuthToken_error() {
-        // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
         JSONObject object2 = executeSyncRequest("units", null, "GET", authToken);
@@ -184,10 +171,21 @@ public class ServiceTest {
     }
 
     @Test
+    public void getUnits_noAuthToken_error() {
+        // Arrange
+
+        // Action
+        JSONObject object2 = executeSyncRequest("units", null, "GET", "");
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), object2.get("_type"));
+        // TODO: Check for correct description, but need to put string in resources file before
+    }
+
+    @Test
     public void updateOrSaveUnit_newUnit_unitSaved() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         Unit testUnit = new Unit();
 
@@ -212,8 +210,7 @@ public class ServiceTest {
     @Test
     public void updateOrSaveUnit_updateUnit_unitUpdated() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         JSONObject object2 = executeSyncRequest("units", null, "GET", authToken);
 
@@ -257,8 +254,7 @@ public class ServiceTest {
     @Test
     public void deleteUnit_unitExists_unitDeleted() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
         int unitId = 2;
@@ -275,8 +271,7 @@ public class ServiceTest {
     @Test
     public void deleteUnit_unitNotFound_errorEvent() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
         int unitId = 99999;
@@ -302,8 +297,7 @@ public class ServiceTest {
     @Test
     public void getUsers_correctBehavior_gotAllUsers() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
         JSONObject object2 = executeSyncRequest("users", null, "GET", authToken);
@@ -324,31 +318,67 @@ public class ServiceTest {
     }
 
     @Test
-    public void updateOrSaveUser_newUser_userSaved() {
+    public void getUser_correctBehavior_getUser() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
-
-        User testUser = new User();
-        testUser.setUsername("test");
-        testUser.setFirstName("Test 123");
-        testUser.setLastName("Test");
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
-        JSONObject object2 = executeSyncRequest("users", "user=" + testUser.toString(), "PUT", authToken);
+        JSONObject userJson = executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(FetchUserEvent.TYPE.getName(), userJson.get("_type"));
+        User user = new User(new JSONObject(userJson.get("user").toString()));
+        Assert.assertEquals(user.getUsername(), TEST_USERNAME);
+    }
+
+    @Test
+    public void getUser_userNotFound_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+
+        // Action
+        JSONObject userJson = executeSyncRequest("users/" + "notauser", null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), userJson.get("_type"));
+    }
+
+    @Test
+    public void getUser_noAuthToken_error() {
+        // Arrange
+
+        // Action
+        JSONObject userJson = executeSyncRequest("users/" + TEST_USERNAME, null, "GET", "");
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), userJson.get("_type"));
+    }
+
+    // TODO: User is not added in DB
+    @Test
+    public void updateOrSaveUser_newUser_userSaved() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+
+        User testUser = new User();
+        testUser.setUsername("test" + (int)(Math.random() * 100));
+        testUser.setFirstName("Test1232");
+        testUser.setLastName("Test2");
+
+        // Action
+        JSONObject object2 = executeSyncRequest("users", "password=password&user=" + testUser.toString(), "POST", authToken);
         // Parse and get list of units
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
-        JSONObject savedUserJson = executeSyncRequest("users", testUser.getUsername(), "GET", authToken);
+        JSONObject savedUserJson = executeSyncRequest("users/" + testUser.getUsername(), null, "GET", authToken);
         Assert.assertEquals(FetchUserEvent.TYPE.getName(), savedUserJson.get("_type"));
     }
 
     @Test
     public void updateOrSaveUser_updateUser_userUpdated() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         JSONObject object2 = executeSyncRequest("users", null, "GET", authToken);
 
@@ -381,8 +411,7 @@ public class ServiceTest {
     @Test
     public void deleteUser_userExists_userDeleted() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
         int userId = 1;
@@ -396,8 +425,7 @@ public class ServiceTest {
     @Test
     public void deleteUser_userNotFound_errorMessage() {
         // Arrange
-        JSONObject object = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
-        String authToken = object.get("authenticationToken").toString();
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
         int userId = 99999;
@@ -459,7 +487,7 @@ public class ServiceTest {
     }
 
     // TODO: ErrorEvent: {"_type":"errorEvent","description":"could not initialize proxy - no Session"}
-    // Does not happend when debugging the server and stepping through the getUnit method in UnitServlet ??
+    // Does not happen when debugging the server and stepping through the getUnit method in UnitServlet ??
     private static Unit getSingleUnit(String authToken, int id) {
         JSONObject unitJson = (executeSyncRequest("units/" + id, null, "GET", authToken));
         if (unitJson.get("_type") == ErrorEvent.TYPE.getName()) {
@@ -468,6 +496,11 @@ public class ServiceTest {
         JSONArray unitJsonArray = new JSONArray(new JSONTokener(unitJson.get("units").toString()));
         Unit unit = new Unit(unitJsonArray.getJSONObject(0));
         return unit;
+    }
+
+    private String getAuthToken(String username, String password) {
+        JSONObject object = executeSyncRequest("auth/login", "username=" + username + "&password=" + password, "POST", null);
+        return object.get("authenticationToken").toString();
     }
 
 }
