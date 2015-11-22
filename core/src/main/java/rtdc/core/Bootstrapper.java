@@ -1,11 +1,13 @@
 package rtdc.core;
 
 import rtdc.core.event.AuthenticationEvent;
+import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.SessionExpiredEvent;
 import rtdc.core.impl.Factory;
 import rtdc.core.impl.Storage;
 import rtdc.core.service.Service;
+import rtdc.core.view.View;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +19,17 @@ public class Bootstrapper{
 
     private static Logger logger = Logger.getLogger(Bootstrapper.class.getName());
 
+    private static final ErrorEvent.Handler errorHandler = new ErrorEvent.Handler(){
+        @Override
+        public void onError(ErrorEvent event) {
+            logger.log(Level.SEVERE, event.getDescription());
+            Event.unsubscribe(AuthenticationEvent.TYPE, authHandler);
+            Event.unsubscribe(SessionExpiredEvent.TYPE, sessionExpiredHandler);
+            Event.unsubscribe(ErrorEvent.TYPE, errorHandler);
+            FACTORY.newDispatcher().goToLogin(null);
+        }
+    };
+
     private static final AuthenticationEvent.Handler authHandler = new AuthenticationEvent.Handler() {
 
         @Override
@@ -25,10 +38,11 @@ public class Bootstrapper{
             AUTHENTICATION_TOKEN = event.getAuthenticationToken();
             FACTORY.getStorage().add(Storage.KEY_AUTH_TOKEN, AUTHENTICATION_TOKEN);
             Session.setCurrentSession(new Session(event.getUser()));
-            FACTORY.getVoipController().registerUser(event.getUser());
-            FACTORY.newDispatcher().goToAllUnits(null);
+            FACTORY.getVoipController().registerUser(event.getUser(), event.getAsteriskPassword());
+            FACTORY.newDispatcher().goToCapacityOverview(null);
             Event.unsubscribe(AuthenticationEvent.TYPE, authHandler);
             Event.unsubscribe(SessionExpiredEvent.TYPE, sessionExpiredHandler);
+            Event.unsubscribe(ErrorEvent.TYPE, errorHandler);
         }
 
     };
@@ -41,6 +55,7 @@ public class Bootstrapper{
             Bootstrapper.FACTORY.newDispatcher().goToLogin(null);
             Event.unsubscribe(AuthenticationEvent.TYPE, authHandler);
             Event.unsubscribe(SessionExpiredEvent.TYPE, sessionExpiredHandler);
+            Event.unsubscribe(ErrorEvent.TYPE, errorHandler);
         }
 
     };
@@ -58,6 +73,7 @@ public class Bootstrapper{
             logger.log(Level.INFO, "Now subscribing to AuthenticationEvent and SessionExpiredEvent");
             Event.subscribe(AuthenticationEvent.TYPE, authHandler);
             Event.subscribe(SessionExpiredEvent.TYPE, sessionExpiredHandler);
+            Event.subscribe(ErrorEvent.TYPE, errorHandler);
             Service.isAuthTokenValid();
         }
     }

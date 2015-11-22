@@ -1,5 +1,6 @@
 package rtdc.android.impl;
 
+import android.widget.Toast;
 import com.android.volley.*;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
@@ -66,7 +67,7 @@ public class AndroidHttpRequest implements HttpRequest {
         Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callback.onError(error.networkResponse + " : " + error.getMessage());
+                callback.onError(": server request timed out!");
                 error.printStackTrace();
             }
         };

@@ -47,6 +47,11 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
         sortUsers(Unit.Properties.name);
     }
 
+    // Return unit updated from CreateUnitActivity
+    public Unit getUpdatedUnit(){
+        return (Unit) Cache.getInstance().retrieve("unit");
+    }
+
     @Override
     public void onStop() {
         super.onStop();

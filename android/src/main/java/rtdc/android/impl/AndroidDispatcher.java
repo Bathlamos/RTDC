@@ -18,18 +18,23 @@ public class AndroidDispatcher implements Dispatcher {
     }
 
     @Override
-    public void goToAllUnits(Controller caller) {
-        startIntent(MainActivity.class, caller);
+    public void goToManageUnits(Controller caller) {
+        startIntent(MainActivity.class, caller, 3);
+    }
+
+    @Override
+    public void goToManageUsers(Controller caller) {
+        startIntent(MainActivity.class, caller, 4);
     }
 
     @Override
     public void goToActionPlan(Controller caller) {
-        startIntent(MainActivity.class, caller);
+        startIntent(MainActivity.class, caller, 1);
     }
 
     @Override
     public void goToCapacityOverview(Controller caller) {
-        startIntent(MainActivity.class, caller);
+        startIntent(MainActivity.class, caller, 0);
     }
 
     @Override
@@ -64,6 +69,27 @@ public class AndroidDispatcher implements Dispatcher {
         }else{
             Intent intent = new Intent(AndroidBootstrapper.getAppContext(), clazz);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            AndroidBootstrapper.getAppContext().startActivity(intent);
+        }
+    }
+
+    private void startIntent(Class<?> clazz, Controller caller, int fragmentID){
+        if(caller != null){
+            if(caller.getView() instanceof AbstractActivity) {
+                AbstractActivity activity = (AbstractActivity) caller.getView();
+                Intent intent = new Intent(activity, clazz);
+                intent.putExtra("fragment", fragmentID);
+                activity.startActivity(intent);
+            } else if (caller.getView() instanceof AbstractFragment) {
+                Activity activity = ((AbstractFragment) caller.getView()).getActivity();
+                Intent intent = new Intent(activity, clazz);
+                intent.putExtra("fragment", fragmentID);
+                activity.startActivity(intent);
+            }
+        }else{
+            Intent intent = new Intent(AndroidBootstrapper.getAppContext(), clazz);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fragment", fragmentID);
             AndroidBootstrapper.getAppContext().startActivity(intent);
         }
     }

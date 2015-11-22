@@ -5,6 +5,7 @@ import org.fluttercode.datafactory.impl.DataFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import rtdc.core.model.*;
+import rtdc.web.server.model.UserCredentials;
 import rtdc.web.server.service.AsteriskRealTimeService;
 import rtdc.web.server.service.AuthService;
 
@@ -57,11 +58,14 @@ public class TestData implements ServletContextListener {
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
+        List<UserCredentials> credentialses = new ArrayList<>();
         try{
             transaction = session.beginTransaction();
             for(User user: users) {
                 session.saveOrUpdate(user);
-                session.saveOrUpdate(AuthService.generateUserCredentials(user, "password"));
+                UserCredentials credentials = AuthService.generateUserCredentials(user, "password");
+                credentialses.add(credentials);
+                session.saveOrUpdate(credentials);
             }
 
             for(Unit unit: units)
@@ -84,8 +88,8 @@ public class TestData implements ServletContextListener {
 
         try{
             transaction = session.beginTransaction();
-            for(User user: users)
-                AsteriskRealTimeService.addUser(user, "password");
+            for(int i = 0; i < users.size(); i++)
+                AsteriskRealTimeService.addUser(users.get(i), credentialses.get(i).getAsteriskPassword());
             transaction.commit();
 
         } catch (RuntimeException | SQLException e) {
@@ -164,7 +168,7 @@ public class TestData implements ServletContextListener {
             User user = new User();
             user.setFirstName(DF.getFirstName());
             user.setLastName(DF.getLastName());
-            user.setUsername(user.getFirstName() + " " + i);
+            user.setUsername(user.getFirstName() + "_" + i);
             user.setEmail(DF.getEmailAddress());
             user.setPermission(DF.getItem(PERMISSIONS));
             user.setPhone(DF.getNumberBetween(100000000, 999999999));

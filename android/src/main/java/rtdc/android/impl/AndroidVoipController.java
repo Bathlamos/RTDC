@@ -31,7 +31,7 @@ public class AndroidVoipController implements VoipController{
     public static AndroidVoipController get(){ return INST; }
 
     @Override
-    public void registerUser(User user) {
+    public void registerUser(User user, String password) {
         try {
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Registering user...");
 
@@ -39,8 +39,7 @@ public class AndroidVoipController implements VoipController{
             String sipAddress = "sip:" + user.getUsername() + "@" + Config.ASTERISK_IP;
             //LinphoneAddress address = LinphoneCoreFactory.instance().createLinphoneAddress(sipAddress);
 
-            // TODO: Fetch the password for the user and use it to register
-            currentAuthInfo = LinphoneCoreFactory.instance().createAuthInfo(user.getUsername(), "password", null, "sip:" + Config.ASTERISK_IP);
+            currentAuthInfo = LinphoneCoreFactory.instance().createAuthInfo(user.getUsername(), password, null, "sip:" + Config.ASTERISK_IP);
             LiblinphoneThread.get().getLinphoneCore().addAuthInfo(currentAuthInfo);
 
             currentProxyConfig = lc.createProxyConfig(sipAddress, Config.ASTERISK_IP, null, true);

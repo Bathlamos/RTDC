@@ -57,6 +57,7 @@ public class AuthService {
         credentials.setUser(user);
         credentials.setSalt(BCrypt.gensalt());
         credentials.setPasswordHash(BCrypt.hashpw(password, credentials.getSalt()));
+        credentials.setAsteriskPassword(BCrypt.gensalt());
         return credentials;
     }
 

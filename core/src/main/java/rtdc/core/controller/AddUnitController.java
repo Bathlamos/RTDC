@@ -52,6 +52,7 @@ public class AddUnitController extends Controller<AddUnitView>{
         else {*/
             Service.updateOrSaveUnit(newUnit);
         //}
+        Cache.getInstance().put("unit", newUnit);
         view.closeDialog();
     }
 

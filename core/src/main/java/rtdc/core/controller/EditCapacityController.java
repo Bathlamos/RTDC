@@ -50,6 +50,7 @@ public class EditCapacityController extends Controller<EditCapacityView>{
         else {*/
         Service.updateOrSaveUnit(currentUnit);
         //}
+        Cache.getInstance().put("unit", currentUnit);
         view.closeDialog();
     }
 }
