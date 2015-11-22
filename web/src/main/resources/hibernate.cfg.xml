@@ -9,9 +9,8 @@
         <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.connection.password">1</property>
-        <property name="hibernate.connection.url">jdbc:hsqldb:mem:rtdc</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
-        <property name="show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
-    </session-factory>
-</hibernate-configuration>
+<property name="hibernate.connection.url">jdbc:hsqldb:mem:rtdc</property>
+<property name="hibernate.hbm2ddl.auto">create</property>
+<property name="show_sql">true</property>
+        </session-factory>
+        </hibernate-configuration>

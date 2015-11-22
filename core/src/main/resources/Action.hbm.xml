@@ -15,7 +15,7 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
-        <one-to-one name="personResponsible" class="rtdc.core.model.User" lazy="false"/>
+        <many-to-one name="personResponsible" class="rtdc.core.model.User" lazy="false"/>
         <property name="roleResponsible" column="roleResponsible" type="string"/>
         <property name="task" column="task">
             <type name="org.hibernate.type.EnumType">

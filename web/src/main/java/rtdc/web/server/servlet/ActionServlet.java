@@ -11,6 +11,7 @@ import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Permission;
+import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
 import javax.annotation.security.RolesAllowed;
@@ -34,7 +35,7 @@ public class ActionServlet {
 
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String get(@Context HttpServletRequest req){
+    public String get(@Context HttpServletRequest req, @Context User user){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Action> actions = null;
@@ -51,11 +52,15 @@ public class ActionServlet {
                     iterator.remove();
                 }
             }
+            if(Permission.USER.equalsIgnoreCase(user.getPermission()))
+                actions = (List<Action>) session.createCriteria(Action.class).
+                        add(Restrictions.eq("personResponsible", user)).list();
+            else
+                actions = (List<Action>) session.createCriteria(Action.class).list();
             transaction.commit();
 
-            // TODO: Replace string with actual username
             // TODO: Replace string with actual unit name
-            log.info("{}: ACTION: Getting actions for unit: {}", "Username", "Unit name");
+            log.info("{}: ACTION: Getting actions for unit: {}", user.getUsername(), "Unit name");
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -70,7 +75,7 @@ public class ActionServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String update(@Context HttpServletRequest req, @FormParam("action" )String actionString){
+    public String update(@Context HttpServletRequest req, @Context User user, @FormParam("action" )String actionString){
         Action action = new Action(new JSONObject(actionString));
 
         Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
@@ -86,7 +91,7 @@ public class ActionServlet {
             transaction.commit();
 
             // TODO: Replace string with actual username
-            log.info("{}: ACTION: Action updated: {}", "Username", actionString);
+            log.info("{}: ACTION: Action updated: {}", user.getUsername(), actionString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -101,7 +106,7 @@ public class ActionServlet {
     @Path("{id}")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String delete(@Context HttpServletRequest req, @PathParam("id") int id){
+    public String delete(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
@@ -111,7 +116,7 @@ public class ActionServlet {
             transaction.commit();
 
             // TODO: Replace string with actual username
-            log.warn("{}: ACTION: Action deleted: {}", "Username", action.getId());
+            log.warn("{}: ACTION: Action deleted: {}", user.getUsername(), action.getId());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

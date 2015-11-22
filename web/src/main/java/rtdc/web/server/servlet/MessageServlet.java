@@ -34,7 +34,7 @@ public class MessageServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String addMessage(@Context HttpServletRequest req, @FormParam("message") String messageString){
+    public String addMessage(@Context HttpServletRequest req, @Context User user, @FormParam("message") String messageString){
         Message message = new Message(new JSONObject(messageString));
 
         Set<ConstraintViolation<Message>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(message);
@@ -48,8 +48,7 @@ public class MessageServlet {
             session.saveOrUpdate(message);
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: MESSAGE: New message added: {}", "Message", messageString);
+            log.info("{}: MESSAGE: New message added: {}", user.getUsername(), messageString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
