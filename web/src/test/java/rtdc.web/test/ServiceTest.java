@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class ServiceTest {
 
-    private static final String _url = "http://"+ Config.SERVER_IP+":8888/api/";
+    private static final String _url = "http://" + Config.SERVER_IP + ":8888/api/";
     private static final String USER_AGENT = "Mozilla/5.0";
 
     @Test
@@ -33,7 +33,7 @@ public class ServiceTest {
         Assert.assertEquals(AuthenticationEvent.TYPE.getName(), object.get("_type").toString());
         Assert.assertTrue(object.has("user"));
         Assert.assertTrue(object.has("authenticationToken"));
-        User user = new User((JSONObject)object.get("user"));
+        User user = new User((JSONObject) object.get("user"));
         Assert.assertEquals("Nathaniel", user.getFirstName());
         Assert.assertEquals("Aumonttt", user.getLastName());
     }
@@ -71,7 +71,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals(ErrorEvent.TYPE.getName(),object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), object.get("_type").toString());
         Assert.assertEquals("Username / password mismatch", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -97,7 +97,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals(ErrorEvent.TYPE.getName(),object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), object.get("_type").toString());
         Assert.assertEquals("Username cannot be empty", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -110,7 +110,7 @@ public class ServiceTest {
 
         // Assert
         Assert.assertNotNull(object);
-        Assert.assertEquals(ErrorEvent.TYPE.getName(),object.get("_type").toString());
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), object.get("_type").toString());
         Assert.assertEquals("Password cannot be empty", object.get("description"));
         Assert.assertFalse(object.has("user"));
         Assert.assertFalse(object.has("authenticationToken"));
@@ -183,18 +183,6 @@ public class ServiceTest {
         Assert.assertEquals(unitsJsonArray.length() > 0, true);
     }
 
-    // TODO: ErrorEvent: {"_type":"errorEvent","description":"could not initialize proxy - no Session"}
-    // Does not happend when debugging the server and stepping through the getUnit method in UnitServlet ??
-    private static Unit getSingleUnit(String authToken, int id) {
-        JSONObject object3 = (executeSyncRequest("units/" + id, null, "GET", authToken));
-        if (object3.get("_type") == ErrorEvent.TYPE.getName()) {
-            return null;
-        }
-        JSONArray unitJsonArray = new JSONArray(new JSONTokener(object3.get("units").toString()));
-        Unit savedUnit = new Unit(unitJsonArray.getJSONObject(0));
-        return savedUnit;
-    }
-
     @Test
     public void updateOrSaveUnit_newUnit_unitSaved() {
         // Arrange
@@ -203,13 +191,13 @@ public class ServiceTest {
 
         Unit testUnit = new Unit();
 
-        testUnit.setName("Test Unit " + (int)(Math.random() * 100));
+        testUnit.setName("Test Unit " + (int) (Math.random() * 100));
         testUnit.setAvailableBeds(20);
 
         // Action
         JSONObject object2 = executeSyncRequest("units", "unit=" + testUnit.toString(), "PUT", authToken);
 
-        Unit savedUnit = getSingleUnit(authToken, (int)object2.get("objectId"));
+        Unit savedUnit = getSingleUnit(authToken, (int) object2.get("objectId"));
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
@@ -342,16 +330,18 @@ public class ServiceTest {
         String authToken = object.get("authenticationToken").toString();
 
         User testUser = new User();
+        testUser.setUsername("test");
         testUser.setFirstName("Test 123");
         testUser.setLastName("Test");
 
         // Action
-        JSONObject object2 = executeSyncRequest("users", testUser.toString(), "PUT", authToken);
+        JSONObject object2 = executeSyncRequest("users", "user=" + testUser.toString(), "PUT", authToken);
         // Parse and get list of units
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
-        // TODO: Verify if unit is saved correctly?
+        JSONObject savedUserJson = executeSyncRequest("users", testUser.getUsername(), "GET", authToken);
+        Assert.assertEquals(FetchUserEvent.TYPE.getName(), savedUserJson.get("_type"));
     }
 
     @Test
@@ -429,8 +419,9 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
+
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
-        try  {
+        try {
             URL urlObj = new URL(_url + service);
             HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
 
@@ -442,7 +433,7 @@ public class ServiceTest {
                 con.setRequestProperty("auth_token", authToken);
 
             con.setDoOutput(true);
-            if(urlParameters != null){
+            if (urlParameters != null) {
                 DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                 wr.writeBytes(urlParameters);
                 wr.flush();
@@ -465,6 +456,18 @@ public class ServiceTest {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    // TODO: ErrorEvent: {"_type":"errorEvent","description":"could not initialize proxy - no Session"}
+    // Does not happend when debugging the server and stepping through the getUnit method in UnitServlet ??
+    private static Unit getSingleUnit(String authToken, int id) {
+        JSONObject unitJson = (executeSyncRequest("units/" + id, null, "GET", authToken));
+        if (unitJson.get("_type") == ErrorEvent.TYPE.getName()) {
+            return null;
+        }
+        JSONArray unitJsonArray = new JSONArray(new JSONTokener(unitJson.get("units").toString()));
+        Unit unit = new Unit(unitJsonArray.getJSONObject(0));
+        return unit;
     }
 
 }
