@@ -79,6 +79,36 @@ public class Unit extends RootObject {
         return true;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Unit other = (Unit) obj;
+        if(id != other.id)
+            return false;
+        if((name == null) ? (other.name != null) : !name.equals(other.name))
+            return false;
+        if(totalBeds != other.totalBeds)
+             return false;
+        if(availableBeds != other.availableBeds)
+             return false;
+        if(potentialDc != other.potentialDc)
+             return false;
+        if(dcByDeadline != other.dcByDeadline)
+             return false;
+        if(totalAdmits != other.totalAdmits)
+             return false;
+        if(admitsByDeadline != other.admitsByDeadline)
+             return false;
+
+        return true;
+    }
+
     public int getId() {
         return id;
     }
