@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         //Adds the android gradle plugin as a dependency of this buildscript
-        classpath 'com.android.tools.build:gradle:1.2.2'
+        classpath 'com.android.tools.build:gradle:1.2.3'
     }
 }
 
