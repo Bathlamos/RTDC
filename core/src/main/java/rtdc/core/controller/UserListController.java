@@ -14,7 +14,7 @@ import java.util.*;
 
 public class UserListController extends Controller<UserListView> implements FetchUsersEvent.Handler {
 
-    private Set<User> users;
+    private ArrayList<User> users;
 
     public UserListController(UserListView view){
         super(view);
@@ -27,10 +27,9 @@ public class UserListController extends Controller<UserListView> implements Fetc
         return "Users";
     }
 
-    public List<User> sortUsers(User.Properties property){
-        ArrayList<User> sortedUsers = new ArrayList<>(users);
-        Collections.sort(sortedUsers, SimpleComparator.forProperty(property).build());
-        return sortedUsers;
+    public void sortUsers(User.Properties property){
+        Collections.sort(users, SimpleComparator.forProperty(property).build());
+        view.setUsers(users);
     }
 
     public void deleteUser(User user){
@@ -45,8 +44,8 @@ public class UserListController extends Controller<UserListView> implements Fetc
 
     @Override
     public void onUsersFetched(FetchUsersEvent event) {
-        users = new HashSet<>(event.getUsers());
-        view.setUsers(sortUsers(User.Properties.lastName));
+        users = new ArrayList<>(event.getUsers());
+        sortUsers(User.Properties.lastName);
     }
 
     // Update edited user when returning from CreateUserActivity
@@ -57,15 +56,21 @@ public class UserListController extends Controller<UserListView> implements Fetc
             User user = pair.getSecond();
             if(action == "add") {
                 users.add(user);
-                view.setUsers(sortUsers(User.Properties.lastName));
+                sortUsers(User.Properties.lastName);
             } else {
-                if(action == "edit") {
-                    users.remove(user);
-                    users.add(user);
-                    view.setUsers(sortUsers(User.Properties.lastName));
-                } else {
-                    users.remove(user);
-                    view.setUsers(new ArrayList<>(users));
+                int userID = user.getId();
+                int userCount = users.size();
+                for (int i = 0; i < userCount; i++) {
+                    if (users.get(i).getId() == userID) {
+                        if(action == "edit") {
+                            users.set(i, user);
+                            sortUsers(User.Properties.lastName);
+                        } else {
+                            users.remove(i);
+                            view.setUsers(users);
+                        }
+                        break;
+                    }
                 }
             }
         }
