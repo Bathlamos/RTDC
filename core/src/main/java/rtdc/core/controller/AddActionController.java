@@ -7,6 +7,7 @@ import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
+import rtdc.core.util.Pair;
 import rtdc.core.util.Stringifier;
 import rtdc.core.view.AddActionView;
 
@@ -57,16 +58,19 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     public void addAction() {
 
-        Action action = new Action();
-        if (currentAction != null)
-            action.setId(currentAction.getId());
-        action.setTask(view.getTaskUiElement().getValue());
-        action.setRoleResponsible(view.getRoleUiElement().getValue());
-        action.setTarget(view.getTargetUiElement().getValue());
-        action.setDeadline(view.getDeadlineUiElement().getValue());
-        action.setDescription(view.getDescriptionUiElement().getValue());
-        action.setStatus(view.getStatusUiElement().getValue());
-        action.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
+        Action newAction = new Action();
+        String action = "add";
+        if (currentAction != null) {
+            newAction.setId(currentAction.getId());
+            action = "edit";
+        }
+        newAction.setTask(view.getTaskUiElement().getValue());
+        newAction.setRoleResponsible(view.getRoleUiElement().getValue());
+        newAction.setTarget(view.getTargetUiElement().getValue());
+        newAction.setDeadline(view.getDeadlineUiElement().getValue());
+        newAction.setDescription(view.getDescriptionUiElement().getValue());
+        newAction.setStatus(view.getStatusUiElement().getValue());
+        newAction.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
 
         /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
 
@@ -76,9 +80,9 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         } else if (password == null || password.isEmpty() || password.length() < 4)
             view.displayError("Error", "Password needs to be at least 4 characters");
         else {*/
-        Service.updateOrSaveActions(action);
+        Service.updateOrSaveActions(newAction);
         //}
-        Cache.getInstance().put("action", action);
+        Cache.getInstance().put("action", new Pair(action, newAction));
         view.closeDialog();
     }
 
