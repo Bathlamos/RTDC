@@ -3,7 +3,7 @@ package rtdc.core.model;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 
-public class Unit extends RootObject {
+public class Unit extends RootObject implements Comparable<Unit>{
 
     public enum Properties implements ObjectProperty<Unit> {
         id,
@@ -107,6 +107,16 @@ public class Unit extends RootObject {
              return false;
 
         return true;
+    }
+
+    @Override
+    public int compareTo(Unit other) {
+        if(name == null && other.name == null)
+            return 0;
+        else if(name != null)
+            return name.compareToIgnoreCase(other.name);
+        else
+            return other.name.compareToIgnoreCase(name);
     }
 
     public int getId() {
