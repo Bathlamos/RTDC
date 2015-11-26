@@ -1,7 +1,6 @@
 package rtdc.web.server.filter;
 
-import rtdc.core.Config;
-import rtdc.core.exception.SessionExpiredException;
+import rtdc.core.Bootstrapper;
 import rtdc.core.model.User;
 import rtdc.core.service.CookiesName;
 import rtdc.core.service.HttpHeadersName;
@@ -64,7 +63,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             String authToken = requestCtx.getHeaderString(HttpHeadersName.AUTH_TOKEN);
 
             // Also check if there are cookies with an authToken
-            if (Config.IS_DEBUG && requestCtx.getCookies().containsKey(CookiesName.AUTH_COOKIE) && authToken == null)
+            if (Bootstrapper.FACTORY.getConfig().isDebug() && requestCtx.getCookies().containsKey(CookiesName.AUTH_COOKIE) && authToken == null)
                 authToken = requestCtx.getCookies().get(CookiesName.AUTH_COOKIE).getValue();
 
             log.debug("With auth token " + authToken);

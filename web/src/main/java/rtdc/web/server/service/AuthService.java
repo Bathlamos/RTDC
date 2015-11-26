@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
-import rtdc.core.Config;
+import rtdc.core.Bootstrapper;
 import rtdc.core.exception.ApiException;
 import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.model.User;
@@ -14,10 +14,11 @@ import rtdc.web.server.model.UserCredentials;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.container.ContainerRequestContext;
 import java.util.Date;
 
 public class AuthService {
+
+    private  static final int SESSION_LIFETIME_IN_MS = Bootstrapper.FACTORY.getConfig().sessionLifetime();
 
     private AuthService(){}
 
@@ -44,7 +45,7 @@ public class AuthService {
         //Check the auth token for validity
         Date now = new Date();
         if (authTokenObject != null
-                && authTokenObject.getDateSet().getTime() + Config.SESSION_LIFETIME_IN_MS > now.getTime()) {
+                && authTokenObject.getDateSet().getTime() + SESSION_LIFETIME_IN_MS > now.getTime()) {
 
             return authTokenObject;
         }

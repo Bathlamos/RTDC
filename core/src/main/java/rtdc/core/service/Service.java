@@ -1,8 +1,6 @@
 package rtdc.core.service;
 
 import rtdc.core.Bootstrapper;
-import rtdc.core.Config;
-import rtdc.core.Session;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.impl.HttpRequest;
@@ -20,7 +18,10 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "http://"+ Config.SERVER_IP+":8888/api/";
+    private static final String URL = "http://"+
+            Bootstrapper.FACTORY.getConfig().apiHost() + ":" +
+            Bootstrapper.FACTORY.getConfig().apiPort() +
+            Bootstrapper.FACTORY.getConfig().apiPath();
     private static final Logger logger = Logger.getLogger(Service.class.getCanonicalName());
 
     private Service(){}

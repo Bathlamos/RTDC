@@ -10,4 +10,6 @@ public interface Factory {
 
     VoipController getVoipController();
 
+    Config getConfig();
+
 }

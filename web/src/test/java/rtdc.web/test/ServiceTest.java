@@ -1,14 +1,11 @@
 package rtdc.web.test;
 
-import org.junit.Assert;
-import org.junit.Test;
-import rtdc.core.Config;
+import rtdc.core.Bootstrapper;
 import rtdc.core.event.*;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
 import rtdc.core.json.JSONTokener;
 import rtdc.core.model.Unit;
-import rtdc.core.model.User;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -16,11 +13,13 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class ServiceTest {
 
-    private static final String _url = "http://" + Config.SERVER_IP + ":8888/api/";
+    private static final String URL = "http://"+
+            Bootstrapper.FACTORY.getConfig().apiHost() + ":" +
+            Bootstrapper.FACTORY.getConfig().apiPort() +
+            Bootstrapper.FACTORY.getConfig().apiPath();
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String TEST_USERNAME = "Nathaniel";
     private static final String TEST_PASSWORD = "password";
@@ -450,7 +449,7 @@ public class ServiceTest {
 
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
         try {
-            URL urlObj = new URL(_url + service);
+            URL urlObj = new URL(URL + service);
             HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
 
             con.setRequestMethod(requestMethod);

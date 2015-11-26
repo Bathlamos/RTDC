@@ -4,14 +4,12 @@ import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import org.linphone.BandwidthManager;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
@@ -22,16 +20,15 @@ import rtdc.android.presenter.fragments.VideoCallFragment;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.android.voip.VoipListener;
 import rtdc.core.Bootstrapper;
-import rtdc.core.Config;
+import rtdc.android.impl.AndroidConfig;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class CommunicationHubInCallActivity extends AbstractActivity implements View.OnClickListener, VoipListener{
 
+    private  static final String COMMAND_EXEC_KEY = AndroidConfig.getProperty("command_exec_key");
     private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
     private AbstractCallFragment callFragment;
 
@@ -223,14 +220,14 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
 
     @Override
     public void onMessageReceived(LinphoneChatMessage chatMessage) {
-        if(chatMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")) {
+        if(chatMessage.getText().startsWith(COMMAND_EXEC_KEY + "Video: ")) {
             // Check to make sure that if we are in a call that the one that sent the message is the one we're in a call with
             // (It could be someone that's trying to request a video call, but we're in a call with someone already)
             if (LiblinphoneThread.get().getCurrentCall() != null &&
                     !LiblinphoneThread.get().getCurrentCallRemoteAddress().getUserName().equals(chatMessage.getFrom().getUserName()))
                 return;
             // There was an update regarding the video of the call
-            boolean video = Boolean.valueOf(chatMessage.getText().replace(Config.COMMAND_EXEC_KEY + "Video: ", ""));
+            boolean video = Boolean.valueOf(chatMessage.getText().replace(COMMAND_EXEC_KEY + "Video: ", ""));
             AndroidVoipController.get().setRemoteVideo(video);
             if (video) {
                 if (AndroidVoipController.get().isVideoEnabled()) {

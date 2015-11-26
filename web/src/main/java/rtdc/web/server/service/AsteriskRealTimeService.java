@@ -1,6 +1,6 @@
 package rtdc.web.server.service;
 
-import rtdc.core.Config;
+import rtdc.core.Bootstrapper;
 import rtdc.core.model.User;
 
 import java.sql.*;
@@ -9,10 +9,12 @@ import java.util.logging.Logger;
 
 public class AsteriskRealTimeService {
 
+    private  static final String ASTERISK_IP = Bootstrapper.FACTORY.getConfig().asteriskHost();
+
     private static Connection getConnection() throws SQLException{
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String hostname = Config.ASTERISK_IP;
+            String hostname = ASTERISK_IP;
             String dbName = "asterisk_realtime";
             String dbUserName = "user";
             String dbPassword = "password";

@@ -8,15 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
-import rtdc.core.Config;
+import rtdc.android.impl.AndroidConfig;
 import rtdc.core.Session;
 import rtdc.core.model.Message;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MessageListAdapter extends ArrayAdapter {
+
+    private  static final String COMMAND_EXEC_KEY = AndroidConfig.getProperty("command_exec_key");
 
     private LayoutInflater inflater;
     private static final int DATE_ROW = 1;
@@ -43,8 +44,8 @@ public class MessageListAdapter extends ArrayAdapter {
         boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
         if(isMessageRow){
             String content = "";
-            if(message.getContent().contains(Config.COMMAND_EXEC_KEY) && !message.getContent().equals(Config.COMMAND_EXEC_KEY)){
-                String[] contents = message.getContent().split(Config.COMMAND_EXEC_KEY);
+            if(message.getContent().contains(COMMAND_EXEC_KEY) && !message.getContent().equals(COMMAND_EXEC_KEY)){
+                String[] contents = message.getContent().split(COMMAND_EXEC_KEY);
                 for(String part: contents){
                     if(part.startsWith("Missed call")){
                         if(sessionUser)
@@ -88,6 +89,6 @@ public class MessageListAdapter extends ArrayAdapter {
     @Override
     public int getItemViewType(int position){
         Message message = (Message)getItem(position);
-        return message.getContent().equals(Config.COMMAND_EXEC_KEY) ? 1 : 0;
+        return message.getContent().equals(COMMAND_EXEC_KEY) ? 1 : 0;
     }
 }

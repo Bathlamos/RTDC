@@ -8,13 +8,14 @@ import org.linphone.core.LinphoneCall;
 import org.linphone.core.LinphoneChatMessage;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
-import rtdc.android.presenter.AbstractActivity;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.android.voip.VoipListener;
 import rtdc.core.Bootstrapper;
-import rtdc.core.Config;
+import rtdc.android.impl.AndroidConfig;
 
 public class CommunicationHubReceivingCallActivity extends AbstractActivity implements VoipListener{
+
+    private  static final String COMMAND_EXEC_KEY = AndroidConfig.getProperty("command_exec_key");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +77,14 @@ public class CommunicationHubReceivingCallActivity extends AbstractActivity impl
 
     @Override
     public void onMessageReceived(LinphoneChatMessage chatMessage) {
-        if(chatMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
+        if(chatMessage.getText().startsWith(COMMAND_EXEC_KEY + "Video: ")){
             // Check to make sure that if we are in a call that the one that sent the message is the one we're in a call with
             // (It could be someone that's trying to request a video call, but we're in a call with someone already)
             if(LiblinphoneThread.get().getCurrentCall() != null &&
                     !LiblinphoneThread.get().getCurrentCallRemoteAddress().getUserName().equals(chatMessage.getFrom().getUserName()))
                 return;
             // There was an update regarding the video of the call
-            boolean video = Boolean.valueOf(chatMessage.getText().replace(Config.COMMAND_EXEC_KEY + "Video: ", ""));
+            boolean video = Boolean.valueOf(chatMessage.getText().replace(COMMAND_EXEC_KEY + "Video: ", ""));
             AndroidVoipController.get().setRemoteVideo(video);
             if(video){
                 if(!AndroidVoipController.get().isVideoEnabled()){

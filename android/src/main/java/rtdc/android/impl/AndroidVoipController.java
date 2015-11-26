@@ -2,12 +2,10 @@ package rtdc.android.impl;
 
 import android.content.Intent;
 import org.linphone.BandwidthManager;
-import org.linphone.LinphoneManager;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
-import rtdc.core.Config;
 import rtdc.core.impl.VoipController;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
@@ -18,6 +16,9 @@ import java.util.logging.Logger;
 public class AndroidVoipController implements VoipController{
 
     private static final AndroidVoipController INST = new AndroidVoipController();
+    private  static final String ASTERISK_IP = AndroidConfig.getProperty("asterisk_ip");
+    private  static final String COMMAND_EXEC_KEY = AndroidConfig.getProperty("command_exec_key");
+
 
     private static LinphoneAuthInfo currentAuthInfo;
     private static LinphoneProxyConfig currentProxyConfig;
@@ -36,13 +37,13 @@ public class AndroidVoipController implements VoipController{
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Registering user...");
 
             LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
-            String sipAddress = "sip:" + user.getUsername() + "@" + Config.ASTERISK_IP;
+            String sipAddress = "sip:" + user.getUsername() + "@" + ASTERISK_IP;
             //LinphoneAddress address = LinphoneCoreFactory.instance().createLinphoneAddress(sipAddress);
 
-            currentAuthInfo = LinphoneCoreFactory.instance().createAuthInfo(user.getUsername(), password, null, "sip:" + Config.ASTERISK_IP);
+            currentAuthInfo = LinphoneCoreFactory.instance().createAuthInfo(user.getUsername(), password, null, "sip:" + ASTERISK_IP);
             LiblinphoneThread.get().getLinphoneCore().addAuthInfo(currentAuthInfo);
 
-            currentProxyConfig = lc.createProxyConfig(sipAddress, Config.ASTERISK_IP, null, true);
+            currentProxyConfig = lc.createProxyConfig(sipAddress, ASTERISK_IP, null, true);
             currentProxyConfig.setExpires(60);
             lc.addProxyConfig(currentProxyConfig);
 
@@ -84,7 +85,7 @@ public class AndroidVoipController implements VoipController{
     @Override
     public void call(User user, boolean videoEnabled) {
         try {
-            String sipAddress = "sip:" + user.getId() + "@" + Config.ASTERISK_IP;
+            String sipAddress = "sip:" + user.getId() + "@" + ASTERISK_IP;
             LinphoneAddress lAddress = LiblinphoneThread.get().getLinphoneCore().interpretUrl(sipAddress);
             lAddress.setDisplayName(user.getFirstName() + " " + user.getLastName());
 
@@ -151,7 +152,7 @@ public class AndroidVoipController implements VoipController{
             //lc.enableVideo(true, true);
 
             String sipAddress = LiblinphoneThread.get().getCurrentCallRemoteAddress().asStringUriOnly();
-            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(Config.COMMAND_EXEC_KEY + "Video: true");
+            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(COMMAND_EXEC_KEY + "Video: true");
             lc.getOrCreateChatRoom(sipAddress).sendChatMessage(m);
         }else{
             Logger.getLogger(AndroidVoipController.class.getName()).log(Level.INFO, "Disabling video");
@@ -159,7 +160,7 @@ public class AndroidVoipController implements VoipController{
             //lc.enableVideo(false, true);
 
             String sipAddress = LiblinphoneThread.get().getCurrentCallRemoteAddress().asStringUriOnly();
-            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(Config.COMMAND_EXEC_KEY + "Video: false");
+            LinphoneChatMessage m = lc.getOrCreateChatRoom(sipAddress).createLinphoneChatMessage(COMMAND_EXEC_KEY + "Video: false");
             lc.getOrCreateChatRoom(sipAddress).sendChatMessage(m);
         }
     }
@@ -210,7 +211,7 @@ public class AndroidVoipController implements VoipController{
 
     @Override
     public void sendMessage(Message message) {
-        String sipAddress = "sip:" + message.getReceiver().getUsername() + "@" + Config.ASTERISK_IP;
+        String sipAddress = "sip:" + message.getReceiver().getUsername() + "@" + ASTERISK_IP;
         LinphoneChatRoom c = LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress);
         LinphoneChatMessage m = c.createLinphoneChatMessage(message.toString());
         LiblinphoneThread.get().getLinphoneCore().getOrCreateChatRoom(sipAddress).sendChatMessage(m);
