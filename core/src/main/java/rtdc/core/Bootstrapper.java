@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 
 public class Bootstrapper{
 
-    public static Factory FACTORY;
     public static String AUTHENTICATION_TOKEN;
 
+    private static Factory FACTORY;
     private static Logger logger = Logger.getLogger(Bootstrapper.class.getName());
 
     private static final ErrorEvent.Handler errorHandler = new ErrorEvent.Handler(){
@@ -76,5 +76,11 @@ public class Bootstrapper{
             Event.subscribe(ErrorEvent.TYPE, errorHandler);
             Service.isAuthTokenValid();
         }
+    }
+
+    public static Factory getFactory(){
+        if(FACTORY == null)
+            throw new RuntimeException("This is accessed too early");
+        return FACTORY;
     }
 }

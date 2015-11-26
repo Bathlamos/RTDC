@@ -71,7 +71,7 @@ public class ContactListAdapter extends ArrayAdapter<User> {
             public void onClick(View v) {
                 User clickedUser = contacts.get(Integer.parseInt(v.getTag().toString()));
                 Logger.getLogger(ContactListAdapter.class.getName()).log(Level.INFO, "Calling " + clickedUser.getId());
-                Bootstrapper.FACTORY.getVoipController().call(clickedUser, false);
+                Bootstrapper.getFactory().getVoipController().call(clickedUser, false);
             }
         });
 
@@ -82,7 +82,7 @@ public class ContactListAdapter extends ArrayAdapter<User> {
             public void onClick(View v) {
                 User clickedUser = contacts.get(Integer.parseInt(v.getTag().toString()));
                 Logger.getLogger(ContactListAdapter.class.getName()).log(Level.INFO, "Calling with video " + clickedUser.getId());
-                Bootstrapper.FACTORY.getVoipController().call(clickedUser, true);
+                Bootstrapper.getFactory().getVoipController().call(clickedUser, true);
             }
         });
 

@@ -9,12 +9,10 @@ import java.util.logging.Logger;
 
 public class AsteriskRealTimeService {
 
-    private  static final String ASTERISK_IP = Bootstrapper.FACTORY.getConfig().asteriskHost();
-
     private static Connection getConnection() throws SQLException{
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String hostname = ASTERISK_IP;
+            String hostname = Bootstrapper.getFactory().getConfig().asteriskHost();
             String dbName = "asterisk_realtime";
             String dbUserName = "user";
             String dbPassword = "password";

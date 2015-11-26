@@ -31,7 +31,7 @@ public class AudioCallFragment extends AbstractCallFragment{
         if(!getResources().getBoolean(R.bool.isTablet)){
             // Not a tablet, we should give the user the possibility of switching to speaker mode
             view.findViewById(R.id.speakerButton).setOnClickListener(inCallActivity);
-            inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), Bootstrapper.FACTORY.getVoipController().isSpeakerEnabled());
+            inCallActivity.setButtonPressed((ImageButton) view.findViewById(R.id.speakerButton), Bootstrapper.getFactory().getVoipController().isSpeakerEnabled());
         }else{
             // Tablets always have speaker mode on
             ImageButton speakerButton = (ImageButton) view.findViewById(R.id.speakerButton);

@@ -136,7 +136,7 @@ public class AuthServlet {
                     req.getSession().setAttribute("current_user", token.getUser());
 
                     // So that we can test the api in the browser
-                    if (Bootstrapper.FACTORY.getConfig().isDebug())
+                    if (Bootstrapper.getFactory().getConfig().isDebug())
                         resp.addCookie(new Cookie(CookiesName.AUTH_COOKIE, token.getAuthenticationToken()));
                     
                     return new AuthenticationEvent(user, token.getAuthenticationToken(), userCredentials.getAsteriskPassword()).toString();

@@ -4,7 +4,9 @@ import com.google.common.collect.Lists;
 import org.fluttercode.datafactory.impl.DataFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import rtdc.core.Bootstrapper;
 import rtdc.core.model.*;
+import rtdc.web.client.impl.GwtFactory;
 import rtdc.web.server.model.UserCredentials;
 import rtdc.web.server.service.AsteriskRealTimeService;
 import rtdc.web.server.service.AuthService;
@@ -25,9 +27,15 @@ public class TestData implements ServletContextListener {
     private static final List<String> ROLES = Lists.newArrayList("Nurse", "Unit Manager", "Administrator", "Stakeholder");
     private static final List<String> PERMISSIONS = Lists.newArrayList(Permission.ADMIN, Permission.USER);
 
+    static {
+        //Todo: This SHOULDN'T go here
+        Bootstrapper.initialize(new GwtFactory());
+    }
+
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+
         List<Unit> units = generateUnits(RANDOM.nextInt(10));
         units.add(0, buildUnit("Emergency", 16, 3, 4, 2, 10, 8));
         units.add(1, buildUnit("Surgery", 40, 6, 4, 4, 13, 10));

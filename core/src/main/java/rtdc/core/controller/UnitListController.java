@@ -38,7 +38,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
 
     public void editUnit(Unit unit){
         Cache.getInstance().put("unit", unit);
-        Bootstrapper.FACTORY.newDispatcher().goToEditUnit(this);
+        Bootstrapper.getFactory().newDispatcher().goToEditUnit(this);
     }
 
     @Override

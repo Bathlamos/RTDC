@@ -63,7 +63,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             String authToken = requestCtx.getHeaderString(HttpHeadersName.AUTH_TOKEN);
 
             // Also check if there are cookies with an authToken
-            if (Bootstrapper.FACTORY.getConfig().isDebug() && requestCtx.getCookies().containsKey(CookiesName.AUTH_COOKIE) && authToken == null)
+            if (Bootstrapper.getFactory().getConfig().isDebug() && requestCtx.getCookies().containsKey(CookiesName.AUTH_COOKIE) && authToken == null)
                 authToken = requestCtx.getCookies().get(CookiesName.AUTH_COOKIE).getValue();
 
             log.debug("With auth token " + authToken);

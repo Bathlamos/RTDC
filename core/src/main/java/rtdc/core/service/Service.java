@@ -17,94 +17,97 @@ import java.util.logging.Logger;
 import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
-
-    private static final String URL = "http://"+
-            Bootstrapper.FACTORY.getConfig().apiHost() + ":" +
-            Bootstrapper.FACTORY.getConfig().apiPort() +
-            Bootstrapper.FACTORY.getConfig().apiPath();
     private static final Logger logger = Logger.getLogger(Service.class.getCanonicalName());
 
     private Service(){}
 
     public static void authenticateUser(String username, String password){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "auth/login", POST);
+        HttpRequest req = getRequest("auth/login", POST);
         req.addParameter("username", username);
         req.addParameter("password", password);
         executeRequest(req);
     }
 
     public static void isAuthTokenValid(){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "auth/tokenValid", POST));
+        executeRequest(getRequest("auth/tokenValid", POST));
     }
 
     public static void logout(){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "auth/logout", POST));
-        Bootstrapper.FACTORY.getVoipController().unregisterCurrentUser();
+        executeRequest(getRequest("auth/logout", POST));
+        Bootstrapper.getFactory().getVoipController().unregisterCurrentUser();
     }
 
     public static void getUnits(){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET));
+        executeRequest(getRequest("units", GET));
     }
 
     public static void getUnit(int unitId) {
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units/" + unitId, GET));
+        executeRequest(getRequest("units/" + unitId, GET));
     }
 
     public static void updateOrSaveUnit(Unit unit){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "units", PUT);
+        HttpRequest req = getRequest("units", PUT);
         req.addParameter("unit", unit.toString());
         executeRequest(req);
     }
 
     public static void deleteUnit(int unitId){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units" + unitId, DELETE));
+        executeRequest(getRequest("units" + unitId, DELETE));
     }
 
     public static void getUsers(){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users", GET));
+        executeRequest(getRequest("users", GET));
     }
 
     public static void getUser(String username){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users" + username, POST));
+        executeRequest(getRequest("users" + username, POST));
     }
 
     public static void updateOrSaveUser(User user, String password){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
+        HttpRequest req = getRequest("users", PUT);
         req.addParameter("user", user.toString());
         req.addParameter("password", password);
         executeRequest(req);
     }
 
     public static void deleteUser(int userId){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + userId, DELETE));
+        executeRequest(getRequest("users/" + userId, DELETE));
     }
 
     public static void saveOrUpdateMessage(Message message){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "messages", PUT);
+        HttpRequest req = getRequest("messages", PUT);
         req.addParameter("message", message.toString());
         executeRequest(req);
     }
 
     public static void getMessages(int userId1, int userId2, int startIndex, int length){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, POST));
+        executeRequest(getRequest("messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, POST));
     }
 
     public static void getRecentContacts(int userId){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId, POST));
+        executeRequest(getRequest("messages/" + userId, POST));
     }
 
     public static void getActions(){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET));
+        executeRequest(getRequest("actions", GET));
     }
 
     public static void updateOrSaveActions(Action action){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions", PUT);
+        HttpRequest req = getRequest("actions", PUT);
         req.addParameter("action", action.toString());
         executeRequest(req);
     }
 
     public static void deleteAction(int actionId){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions/" + actionId, DELETE));
+        executeRequest(getRequest("actions/" + actionId, DELETE));
+    }
+    
+    private static HttpRequest getRequest(String url, HttpRequest.RequestMethod method) {
+        String baseurl = "http://"+
+                Bootstrapper.getFactory().getConfig().apiHost() + ":" +
+                Bootstrapper.getFactory().getConfig().apiPort() +
+                Bootstrapper.getFactory().getConfig().apiPath();
+        return Bootstrapper.getFactory().newHttpRequest(baseurl + url, method);
     }
     
     private static void executeRequest(HttpRequest request){

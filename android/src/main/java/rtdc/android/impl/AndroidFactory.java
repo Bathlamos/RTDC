@@ -4,6 +4,8 @@ import rtdc.core.impl.*;
 
 public class AndroidFactory implements Factory{
 
+    private static final AndroidConfig CONFIG = new AndroidConfig();
+
     @Override
     public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {
         return new AndroidHttpRequest(url, requestMethod);
@@ -22,5 +24,10 @@ public class AndroidFactory implements Factory{
     @Override
     public VoipController getVoipController() {
         return AndroidVoipController.get();
+    }
+
+    @Override
+    public Config getConfig() {
+        return CONFIG;
     }
 }

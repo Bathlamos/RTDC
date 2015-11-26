@@ -14,6 +14,8 @@
     <!-- Guava -->
     <inherits name="com.google.common.collect.Collect"/>
 
+    <inherits name="net.lightoze.gwt.i18n.GwtI18nServer"/>
+
     <source path="client" />
 
     <!-- Specify the app entry point class.                   -->

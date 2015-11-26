@@ -1,15 +1,15 @@
 package rtdc.web.client.impl;
 
-import com.google.gwt.core.client.GWT;
 import rtdc.core.impl.Dispatcher;
 import rtdc.core.impl.Factory;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.Storage;
 import rtdc.core.impl.VoipController;
+import net.lightoze.gwt.i18n.client.LocaleFactory;
 
 public final class GwtFactory implements Factory {
 
-    private static final Config CONFIG = GWT.create(Config.class);
+    private static final Config CONFIG = LocaleFactory.get((Config.class));
 
     @Override
     public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {

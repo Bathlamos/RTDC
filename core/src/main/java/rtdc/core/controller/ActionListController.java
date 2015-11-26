@@ -33,7 +33,7 @@ public class ActionListController extends Controller<ActionListView> implements 
 
     public void editAction(Action action){
         Cache.getInstance().put("action", action);
-        Bootstrapper.FACTORY.newDispatcher().goToEditAction(this);
+        Bootstrapper.getFactory().newDispatcher().goToEditAction(this);
     }
 
     public void saveAction(Action action){

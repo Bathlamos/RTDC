@@ -11,6 +11,7 @@ import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.android.voip.VoipListener;
+import rtdc.core.Bootstrapper;
 import rtdc.core.Session;
 import rtdc.android.impl.AndroidConfig;
 import rtdc.core.controller.CommunicationHubController;
@@ -28,8 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler, VoipListener{
-
-    private  static final String COMMAND_EXEC_KEY = AndroidConfig.getProperty("command_exec_key");
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
@@ -255,7 +254,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
             } else {
                 if(!isSameDay(m.getTimeSent(), lm.getTimeSent())){
                     message.setSender(m.getSender());
-                    message.setContent(COMMAND_EXEC_KEY);
+                    message.setContent(Bootstrapper.getFactory().getConfig().commandExecKey());
                     message.setTimeSent(m.getTimeSent());
                     convertedMessages.add(message);
                     message = new Message();
@@ -300,7 +299,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         if(lastMessage == null || (lastMessage != null && !isSameDay(rawMessage.getTimeSent(), lastMessage.getTimeSent()))){
             Message message = new Message();
             message.setSender(rawMessage.getSender());
-            message.setContent(COMMAND_EXEC_KEY);
+            message.setContent(Bootstrapper.getFactory().getConfig().commandExecKey());
             message.setTimeSent(rawMessage.getTimeSent());
             convertedMessages.add(message);
         }
@@ -426,7 +425,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
 
     @Override
     public void onMessageReceived(LinphoneChatMessage chatMessage) {
-        if(!chatMessage.getText().startsWith(COMMAND_EXEC_KEY + "Video: ")){
+        if(!chatMessage.getText().startsWith(Bootstrapper.getFactory().getConfig().commandExecKey() + "Video: ")){
             JSONObject object = new JSONObject(chatMessage.getText());
             Message message = new Message(object);
             if(messagingUser.getId() == message.getSenderID()) {

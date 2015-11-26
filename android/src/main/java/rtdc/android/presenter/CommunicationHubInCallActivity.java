@@ -28,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 
 public class CommunicationHubInCallActivity extends AbstractActivity implements View.OnClickListener, VoipListener{
 
-    private  static final String COMMAND_EXEC_KEY = AndroidConfig.getProperty("command_exec_key");
     private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
     private AbstractCallFragment callFragment;
 
@@ -159,19 +158,19 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.muteButton){
-            boolean micMuted = !Bootstrapper.FACTORY.getVoipController().isMicMuted();
+            boolean micMuted = !Bootstrapper.getFactory().getVoipController().isMicMuted();
 
             ImageButton button = (ImageButton) view;
             setButtonPressed(button, micMuted);
 
-            Bootstrapper.FACTORY.getVoipController().setMicMuted(micMuted);
+            Bootstrapper.getFactory().getVoipController().setMicMuted(micMuted);
         }else if(view.getId() == R.id.videoButton){
-            boolean videoEnabled = !Bootstrapper.FACTORY.getVoipController().isVideoEnabled();
+            boolean videoEnabled = !Bootstrapper.getFactory().getVoipController().isVideoEnabled();
 
             ImageButton button = (ImageButton) view;
             setButtonPressed(button, videoEnabled);
 
-            Bootstrapper.FACTORY.getVoipController().setVideo(videoEnabled);
+            Bootstrapper.getFactory().getVoipController().setVideo(videoEnabled);
 
             if(videoEnabled && !(callFragment instanceof VideoCallFragment)) {
                 // We just enabled video and we're not in the video fragment yet. Go to video fragment
@@ -187,16 +186,16 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
                 callFragment.getView().findViewById(R.id.videoCaptureSurface).setVisibility(View.INVISIBLE);
             }
         }else if(view.getId() == R.id.speakerButton){
-            boolean speaker = !Bootstrapper.FACTORY.getVoipController().isSpeakerEnabled();
+            boolean speaker = !Bootstrapper.getFactory().getVoipController().isSpeakerEnabled();
 
             ImageButton button = (ImageButton) view;
             setButtonPressed(button, speaker);
 
-            Bootstrapper.FACTORY.getVoipController().setSpeaker(speaker);
+            Bootstrapper.getFactory().getVoipController().setSpeaker(speaker);
         }else if(view.getId() == R.id.endCallButton){
             // Hangup the call and clean up the interface
 
-            Bootstrapper.FACTORY.getVoipController().hangup();
+            Bootstrapper.getFactory().getVoipController().hangup();
             onCallHangup();
         }
     }
@@ -220,14 +219,15 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
 
     @Override
     public void onMessageReceived(LinphoneChatMessage chatMessage) {
-        if(chatMessage.getText().startsWith(COMMAND_EXEC_KEY + "Video: ")) {
+        String commandExecKey = Bootstrapper.getFactory().getConfig().commandExecKey();
+        if(chatMessage.getText().startsWith(commandExecKey + "Video: ")) {
             // Check to make sure that if we are in a call that the one that sent the message is the one we're in a call with
             // (It could be someone that's trying to request a video call, but we're in a call with someone already)
             if (LiblinphoneThread.get().getCurrentCall() != null &&
                     !LiblinphoneThread.get().getCurrentCallRemoteAddress().getUserName().equals(chatMessage.getFrom().getUserName()))
                 return;
             // There was an update regarding the video of the call
-            boolean video = Boolean.valueOf(chatMessage.getText().replace(COMMAND_EXEC_KEY + "Video: ", ""));
+            boolean video = Boolean.valueOf(chatMessage.getText().replace(commandExecKey + "Video: ", ""));
             AndroidVoipController.get().setRemoteVideo(video);
             if (video) {
                 if (AndroidVoipController.get().isVideoEnabled()) {

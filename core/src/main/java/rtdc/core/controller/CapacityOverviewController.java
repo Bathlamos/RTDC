@@ -32,7 +32,7 @@ public class CapacityOverviewController extends Controller<CapacityOverviewView>
 
     public void editCapacity(Unit unit){
         Cache.getInstance().put("unit", unit);
-        Bootstrapper.FACTORY.newDispatcher().goToEditCapacity(this);
+        Bootstrapper.getFactory().newDispatcher().goToEditCapacity(this);
     }
 
     public void sortUnits(Unit.Properties property, boolean ascending){

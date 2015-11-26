@@ -48,11 +48,11 @@ public class LoginController extends Controller<LoginView> implements Authentica
     public void onAuthenticate(AuthenticationEvent event) {
         logger.log(Level.INFO, "AuthenticationEvent received");
         Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
-        Bootstrapper.FACTORY.getStorage().add(Storage.KEY_AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
+        Bootstrapper.getFactory().getStorage().add(Storage.KEY_AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
         Session.setCurrentSession(new Session(event.getUser()));
-        Bootstrapper.FACTORY.getVoipController().registerUser(event.getUser(), event.getAsteriskPassword());
+        Bootstrapper.getFactory().getVoipController().registerUser(event.getUser(), event.getAsteriskPassword());
         Event.unsubscribe(AuthenticationEvent.TYPE, this);
-        Bootstrapper.FACTORY.newDispatcher().goToManageUnits(this);
+        Bootstrapper.getFactory().newDispatcher().goToManageUnits(this);
     }
 
     @Override

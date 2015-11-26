@@ -18,8 +18,6 @@ import java.util.Date;
 
 public class AuthService {
 
-    private  static final int SESSION_LIFETIME_IN_MS = Bootstrapper.FACTORY.getConfig().sessionLifetime();
-
     private AuthService(){}
 
     public static AuthenticationToken getAuthenticationToken(@Nullable String authToken) {
@@ -44,8 +42,9 @@ public class AuthService {
 
         //Check the auth token for validity
         Date now = new Date();
+        int sessionLifetime = Bootstrapper.getFactory().getConfig().sessionLifetime();
         if (authTokenObject != null
-                && authTokenObject.getDateSet().getTime() + SESSION_LIFETIME_IN_MS > now.getTime()) {
+                && authTokenObject.getDateSet().getTime() + sessionLifetime > now.getTime()) {
 
             return authTokenObject;
         }

@@ -87,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                Bootstrapper.FACTORY.getStorage().remove(Storage.KEY_AUTH_TOKEN);
+                Bootstrapper.getFactory().getStorage().remove(Storage.KEY_AUTH_TOKEN);
                 Service.logout();
                 startActivity(intent);
                 finish();
