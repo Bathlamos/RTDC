@@ -24,6 +24,9 @@ out
 *.war
 *.ear
 
+web/war/WEB-INF/lib
+web/war/WEB-INF/classes
+
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects
 # http://stackoverflow.com/a/12021580

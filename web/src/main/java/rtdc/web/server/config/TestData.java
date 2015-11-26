@@ -86,19 +86,22 @@ public class TestData implements ServletContextListener {
             throw e;
         }
 
-        try{
-            transaction = session.beginTransaction();
-            for(int i = 0; i < users.size(); i++)
-                AsteriskRealTimeService.addUser(users.get(i), credentialses.get(i).getAsteriskPassword());
-            transaction.commit();
+//        try{
+//            transaction = session.beginTransaction();
+//            for(int i = 0; i < users.size(); i++)
+//                AsteriskRealTimeService.addUser(users.get(i), credentialses.get(i).getAsteriskPassword());
+//            transaction.commit();
+//
+//        } catch (RuntimeException | SQLException e) {
+//            if(transaction != null)
+//                transaction.rollback();
+//            logger.severe("Some users were not added to Asterisk");
+//            e.printStackTrace();
+//        } finally {
+//            session.close();
+//        }
 
-        } catch (RuntimeException | SQLException e) {
-            if(transaction != null)
-                transaction.rollback();
-            System.err.println("Some users were not added to Asterisk");
-        } finally {
-            session.close();
-        }
+        logger.info("Test data execution finished.");
     }
 
     @Override
@@ -189,7 +192,7 @@ public class TestData implements ServletContextListener {
             demoMessage.setReceiver(users.get(users.size() - 1));
             demoMessage.setContent("Message " + (int)(i + 1));
             demoMessage.setStatus(Message.Status.read);
-            demoMessage.setTimeSent(new Date(100, 8, (int)((i/90)*10), 1, (int)((i/90)*50)));
+            demoMessage.setTimeSent(new Date());
             messages.add(demoMessage);
         }
 
