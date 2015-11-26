@@ -36,7 +36,6 @@ public class CapacityOverviewController extends Controller<CapacityOverviewView>
     }
 
     public void sortUnits(Unit.Properties property, boolean ascending){
-        logger.log(Level.INFO, "Sorting over " + property.name());
         ArrayList<Unit> sortedUnits = new ArrayList<>(units);
         Collections.sort(sortedUnits, SimpleComparator.forProperty(property).setAscending(ascending).build());
         view.setUnits(sortedUnits);

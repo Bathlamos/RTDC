@@ -31,9 +31,10 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
         return "Units";
     }
 
-    public void sortUsers(Unit.Properties property){
-        Collections.sort(units, SimpleComparator.forProperty(property).build());
-        view.setUnits(units);
+    public void sortUnits(Unit.Properties property, boolean ascending){
+        ArrayList<Unit> sortedUnits = new ArrayList<>(units);
+        Collections.sort(sortedUnits, SimpleComparator.forProperty(property).setAscending(ascending).build());
+        view.setUnits(sortedUnits);
     }
 
     public void editUnit(Unit unit){
@@ -44,7 +45,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
         units = new ArrayList<>(event.getUnits());
-        sortUsers(Unit.Properties.name);
+        sortUnits(Unit.Properties.name, true);
     }
 
     // Return unit updated from CreateUnitActivity
