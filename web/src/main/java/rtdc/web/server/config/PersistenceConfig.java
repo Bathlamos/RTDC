@@ -14,7 +14,7 @@ public class PersistenceConfig {
 
     private static SessionFactory buildSessionFactory() {
         try {
-            // Create the SessionFactory from hibernate.cfg.xml
+            // Create the SessionFactory from prod.hibernate.cfg.xml
             Configuration configuration = new Configuration()
                     .configure("hibernate.cfg.xml")
                     .addResource("User.hbm.xml")

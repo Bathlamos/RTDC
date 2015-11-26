@@ -20,7 +20,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private static final String URL = "http://"+ Config.SERVER_IP+":8888/api/";
+    private static final String URL = "http://"+ Config.SERVER_IP+":8080/api/";
     private static final Logger logger = Logger.getLogger(Service.class.getCanonicalName());
 
     private Service(){}

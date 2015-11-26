@@ -11,7 +11,7 @@ public class Config {
 
     COMMAND_EXEC_KEY = "6BiyBrgsduIOSktWGSvyENcw9C8cIOoJc2zhGM0Ez",
     ASTERISK_IP = "192.168.0.19",
-    SERVER_IP = "192.168.0.12";
+    SERVER_IP = "localhost";
 
     public static final long SESSION_LIFETIME_IN_MS = 24 * 60 * 60 * 1000;
 

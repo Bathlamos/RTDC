@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="local.legault.cc" uuid="a54819a5-632b-43ee-ab28-7d0020060f4e">
-      <secret-storage>memory</secret-storage>
+    <data-source name="heroku" uuid="970c7332-226e-4558-80a3-91dcb22e775f">
+      <secret-storage>master_key</secret-storage>
+      <user-name>voqrsmipqbvyij</user-name>
+      <schema-pattern>d4u0aff7k6f6je.pg_catalog d4u0aff7k6f6je.public</schema-pattern>
+      <default-schemas>d4u0aff7k6f6je.public</default-schemas>
     </data-source>
   </component>
 </project>
