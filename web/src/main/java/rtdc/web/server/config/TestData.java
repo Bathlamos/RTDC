@@ -27,12 +27,6 @@ public class TestData implements ServletContextListener {
     private static final List<String> ROLES = Lists.newArrayList("Nurse", "Unit Manager", "Administrator", "Stakeholder");
     private static final List<String> PERMISSIONS = Lists.newArrayList(Permission.ADMIN, Permission.USER);
 
-    static {
-        //Todo: This SHOULDN'T go here
-        Bootstrapper.initialize(new GwtFactory());
-    }
-
-
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 

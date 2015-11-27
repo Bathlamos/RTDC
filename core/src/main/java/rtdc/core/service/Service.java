@@ -1,6 +1,7 @@
 package rtdc.core.service;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.config.Conf;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.impl.HttpRequest;
@@ -12,12 +13,14 @@ import rtdc.core.model.Message;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
-import java.util.logging.Logger;
-
 import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
-    private static final Logger logger = Logger.getLogger(Service.class.getCanonicalName());
+
+    private final static String BASE_URL = "http://"+
+            Conf.get().apiHost() + ":" +
+            Conf.get().apiPort() +
+            Conf.get().apiPath();
 
     private Service(){}
 
@@ -103,11 +106,7 @@ public final class Service {
     }
     
     private static HttpRequest getRequest(String url, HttpRequest.RequestMethod method) {
-        String baseurl = "http://"+
-                Bootstrapper.getFactory().getConfig().apiHost() + ":" +
-                Bootstrapper.getFactory().getConfig().apiPort() +
-                Bootstrapper.getFactory().getConfig().apiPath();
-        return Bootstrapper.getFactory().newHttpRequest(baseurl + url, method);
+        return Bootstrapper.getFactory().newHttpRequest(BASE_URL + url, method);
     }
     
     private static void executeRequest(HttpRequest request){

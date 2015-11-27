@@ -1,6 +1,4 @@
-package rtdc.android.impl;
-
-import rtdc.core.impl.Config;
+package rtdc.core.config;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,9 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-public class AndroidConfig implements Config {
+/**
+ * Uses a File Reader to access the .properties file
+ * This is not a valid solution under GWT, which is why
+ * the super path is use in the .gwt.xml file
+ */
+class JavaIOConfig implements ConfigInterface {
 
-    private static final String PATH = "rtdc/core/impl/Config.properties";
+    private static final String PATH = "rtdc/core/config/Config.properties";
     private static final Properties prop = new Properties();
 
     static {

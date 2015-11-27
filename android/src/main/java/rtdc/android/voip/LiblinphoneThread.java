@@ -14,6 +14,7 @@ import rtdc.android.presenter.MainActivity;
 import rtdc.android.impl.AndroidConfig;
 import rtdc.core.Bootstrapper;
 import rtdc.core.Session;
+import rtdc.core.config.Conf;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUserEvent;
 import rtdc.core.model.Message;
@@ -143,7 +144,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
                             message.setTimeSent(new Date());
                             message.setStatus(Message.Status.read);
                             message.setReceiver(event.getUser());
-                            message.setContent(Bootstrapper.getFactory().getConfig().commandExecKey() + "Missed call");
+                            message.setContent(Conf.get().commandExecKey() + "Missed call");
                             Service.saveOrUpdateMessage(message);
                         }
                     };
@@ -168,7 +169,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
                         public void onUserFetched(FetchUserEvent event) {
                             Event.unsubscribe(FetchUserEvent.TYPE, this);
                             message.setSender(event.getUser());
-                            message.setContent(Bootstrapper.getFactory().getConfig().commandExecKey() + "Missed call");
+                            message.setContent(Conf.get().commandExecKey() + "Missed call");
                             Service.saveOrUpdateMessage(message);
                         }
                     };
@@ -182,7 +183,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
                         public void onUserFetched(FetchUserEvent event) {
                             Event.unsubscribe(FetchUserEvent.TYPE, this);
                             message.setSender(event.getUser());
-                            message.setContent(Bootstrapper.getFactory().getConfig().commandExecKey() + "Call rejected");
+                            message.setContent(Conf.get().commandExecKey() + "Call rejected");
                             Service.saveOrUpdateMessage(message);
                         }
                     };
@@ -199,7 +200,7 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
                         public void onUserFetched(FetchUserEvent event) {
                             Event.unsubscribe(FetchUserEvent.TYPE, this);
                             message.setSender(event.getUser());
-                            message.setContent(Bootstrapper.getFactory().getConfig().commandExecKey() + "Call ended, duration " + minutes + ":" + seconds);
+                            message.setContent(Conf.get().commandExecKey() + "Call ended, duration " + minutes + ":" + seconds);
                             Service.saveOrUpdateMessage(message);
                         }
                     };

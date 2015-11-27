@@ -5,7 +5,11 @@
     <!-- Guava -->
     <inherits name="com.google.common.collect.Collect"/>
 
-    <source path="" />
+    <inherits name="com.google.gwt.i18n.I18N"/>
+
+    <source path="">
+        <exclude name="rtdc/core/config/Conf.java" />
+    </source>
 
     <!-- Used to re-route the WeakReference class -->
     <super-source path="super" />

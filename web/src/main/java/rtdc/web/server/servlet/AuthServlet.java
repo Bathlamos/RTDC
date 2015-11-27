@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
-import rtdc.core.Bootstrapper;
+import rtdc.core.config.Conf;
 import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.event.LogoutEvent;
 import rtdc.core.event.SessionExpiredEvent;
@@ -136,7 +136,7 @@ public class AuthServlet {
                     req.getSession().setAttribute("current_user", token.getUser());
 
                     // So that we can test the api in the browser
-                    if (Bootstrapper.getFactory().getConfig().isDebug())
+                    if (Conf.get().isDebug())
                         resp.addCookie(new Cookie(CookiesName.AUTH_COOKIE, token.getAuthenticationToken()));
                     
                     return new AuthenticationEvent(user, token.getAuthenticationToken(), userCredentials.getAsteriskPassword()).toString();

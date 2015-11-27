@@ -1,6 +1,6 @@
-package rtdc.core.impl;
+package rtdc.core.config;
 
-public interface Config {
+public interface ConfigInterface {
 
     boolean isDebug();
 

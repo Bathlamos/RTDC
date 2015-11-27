@@ -5,11 +5,8 @@ import rtdc.core.impl.Factory;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.Storage;
 import rtdc.core.impl.VoipController;
-import net.lightoze.gwt.i18n.client.LocaleFactory;
 
 public final class GwtFactory implements Factory {
-
-    private static final Config CONFIG = LocaleFactory.get((Config.class));
 
     @Override
     public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {
@@ -29,11 +26,6 @@ public final class GwtFactory implements Factory {
     @Override
     public VoipController getVoipController() {
         return GwtVoipController.get();
-    }
-
-    @Override
-    public rtdc.core.impl.Config getConfig(){
-        return CONFIG;
     }
 
 }

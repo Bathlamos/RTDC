@@ -11,6 +11,7 @@ import rtdc.android.R;
 import rtdc.android.impl.AndroidConfig;
 import rtdc.core.Bootstrapper;
 import rtdc.core.Session;
+import rtdc.core.config.Conf;
 import rtdc.core.model.Message;
 
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ public class MessageListAdapter extends ArrayAdapter {
         }
 
         boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
-        String commandKeyExec = Bootstrapper.getFactory().getConfig().commandExecKey();
+        String commandKeyExec = Conf.get().commandExecKey();
         if(isMessageRow){
             String content = "";
             if(message.getContent().contains(commandKeyExec) && !message.getContent().equals(commandKeyExec)){
@@ -89,6 +90,6 @@ public class MessageListAdapter extends ArrayAdapter {
     @Override
     public int getItemViewType(int position){
         Message message = (Message)getItem(position);
-        return message.getContent().equals(Bootstrapper.getFactory().getConfig().commandExecKey()) ? 1 : 0;
+        return message.getContent().equals(Conf.get().commandExecKey()) ? 1 : 0;
     }
 }

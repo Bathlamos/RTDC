@@ -54,8 +54,6 @@ dependencies {
     gwt group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'
     compile group: 'com.google.guava', name: 'guava-gwt', version: '18.0', classifier: 'sources'
     gwt group: 'com.google.guava', name: 'guava-gwt', version: '18.0', classifier: 'sources'
-    compile group: 'net.lightoze.gwt-i18n-server', name: 'gwt-i18n-server', version: '0.23', classifier: 'sources'
-    gwt group: 'net.lightoze.gwt-i18n-server', name: 'gwt-i18n-server', version: '0.23', classifier: 'sources'
 }
 
 gwt {
@@ -95,12 +93,12 @@ war {
         include 'WEB-INF/META-INF/**'
     }
     rootSpec.eachFile { details ->
-        if (details.name == "hibernate.cfg.xml" || details.name == "Config.properties") {
+        if (details.name == "hibernate.cfg.xml" || details.name == "GwtConfig.properties") {
             details.exclude()
         } else if (details.name == "prod.hibernate.cfg.xml") {
             details.name = "hibernate.cfg.xml"
-        } else if (details.name == "prod.Config.properties") {
-            details.name = "Config.properties"
+        } else if (details.name == "prod.GwtConfig.properties") {
+            details.name = "GwtConfig.properties"
         }
     }
 }

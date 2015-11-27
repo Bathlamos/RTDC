@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.mindrot.jbcrypt.BCrypt;
-import rtdc.core.Bootstrapper;
+import rtdc.core.config.Conf;
 import rtdc.core.exception.ApiException;
 import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.model.User;
@@ -22,7 +22,7 @@ public class AuthService {
 
     public static AuthenticationToken getAuthenticationToken(@Nullable String authToken) {
         if(authToken == null)
-            throw new SessionExpiredException("You need to be loged in to access this service");
+            throw new SessionExpiredException("You need to be logged in to access this service");
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         AuthenticationToken authTokenObject = null;
@@ -42,9 +42,8 @@ public class AuthService {
 
         //Check the auth token for validity
         Date now = new Date();
-        int sessionLifetime = Bootstrapper.getFactory().getConfig().sessionLifetime();
         if (authTokenObject != null
-                && authTokenObject.getDateSet().getTime() + sessionLifetime > now.getTime()) {
+                && authTokenObject.getDateSet().getTime() + Conf.get().sessionLifetime() > now.getTime()) {
 
             return authTokenObject;
         }
