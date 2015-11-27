@@ -53,7 +53,7 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             />
 
-                    <EditText
+                    <rtdc.android.impl.AndroidUiString
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/username"
@@ -68,7 +68,7 @@
                             android:id="@+id/passwordText"
                             android:paddingTop="8dp"/>
 
-                    <EditText
+                    <rtdc.android.impl.AndroidUiString
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPassword"
@@ -106,7 +106,7 @@
                             android:id="@+id/firstNameText"
                             />
 
-                    <EditText
+                    <rtdc.android.impl.AndroidUiString
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
@@ -123,7 +123,7 @@
                             android:id="@+id/lastNameText"
                             android:paddingTop="8dp"/>
 
-                    <EditText
+                    <rtdc.android.impl.AndroidUiString
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
@@ -140,7 +140,7 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:paddingTop="8dp"/>
 
-                    <EditText
+                    <rtdc.android.impl.AndroidUiString
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textEmailAddress"
@@ -156,7 +156,7 @@
                             android:id="@+id/phoneText"
                             android:paddingTop="8dp"/>
 
-                    <EditText
+                    <rtdc.android.impl.AndroidUiString
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="phone"
@@ -193,7 +193,7 @@
                             android:id="@+id/roleText"
                             />
 
-                    <Spinner
+                    <rtdc.android.impl.AndroidUiDropdown
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/roleSpinner"/>
@@ -206,7 +206,7 @@
                             android:id="@+id/permissionText"
                             android:paddingTop="8dp"/>
 
-                    <Spinner
+                    <rtdc.android.impl.AndroidUiDropdown
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/permissionSpinner"/>

@@ -48,7 +48,7 @@ public class ContactListAdapter extends ArrayAdapter<User> {
         String initials = currentUser.getFirstName().substring(0, 1) + currentUser.getLastName().substring(0,1);
 
         setupColumn(view, R.id.userNameText, currentUser.getFirstName() + " " + currentUser.getLastName());
-        setupColumn(view, R.id.roleUnitText, currentUser.getRole());
+        setupColumn(view, R.id.roleUnitText, User.Role.getStringifier().toString(currentUser.getRole()));
         setupColumn(view, R.id.userIcon,     initials);
 
         GradientDrawable background = (GradientDrawable) view.findViewById(R.id.userIcon).getBackground();

@@ -22,9 +22,6 @@ public class TestData implements ServletContextListener {
 
     private static final Random RANDOM = new Random();
     private static final DataFactory DF = new DataFactory();
-    private static final List<String> ROLES = Lists.newArrayList("Nurse", "Unit Manager", "Administrator", "Stakeholder");
-    private static final List<String> PERMISSIONS = Lists.newArrayList(Permission.ADMIN, Permission.USER);
-
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -58,13 +55,13 @@ public class TestData implements ServletContextListener {
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
-        List<UserCredentials> credentialses = new ArrayList<>();
+        List<UserCredentials> credentialsList = new ArrayList<>();
         try{
             transaction = session.beginTransaction();
             for(User user: users) {
                 session.saveOrUpdate(user);
                 UserCredentials credentials = AuthService.generateUserCredentials(user, "password");
-                credentialses.add(credentials);
+                credentialsList.add(credentials);
                 session.saveOrUpdate(credentials);
             }
 
@@ -89,7 +86,7 @@ public class TestData implements ServletContextListener {
         try{
             transaction = session.beginTransaction();
             for(int i = 0; i < users.size(); i++)
-                AsteriskRealTimeService.addUser(users.get(i), credentialses.get(i).getAsteriskPassword());
+                AsteriskRealTimeService.addUser(users.get(i), credentialsList.get(i).getAsteriskPassword());
             transaction.commit();
 
         } catch (RuntimeException | SQLException e) {
@@ -114,9 +111,9 @@ public class TestData implements ServletContextListener {
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Nathaniel");
         user.setLastName("Aumonttt");
-        user.setPermission(Permission.ADMIN);
-        user.setPhone(DF.getNumberBetween(100000000, 999999999));
-        user.setRole(DF.getItem(ROLES));
+        user.setPermission(User.Permission.ADMIN);
+        user.setPhone(Long.toString(DF.getNumberBetween(100000000, 999999999)));
+        user.setRole(DF.getItem(User.Role.values()));
         users.add(user);
 
         user = new User();
@@ -124,9 +121,9 @@ public class TestData implements ServletContextListener {
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Jack");
         user.setLastName("Donner");
-        user.setPermission(Permission.USER);
-        user.setPhone(DF.getNumberBetween(100000000, 999999999));
-        user.setRole(DF.getItem(ROLES));
+        user.setPermission(User.Permission.USER);
+        user.setPhone(Long.toString(DF.getNumberBetween(100000000, 999999999)));
+        user.setRole(DF.getItem(User.Role.values()));
         users.add(user);
 
         user = new User();
@@ -134,9 +131,9 @@ public class TestData implements ServletContextListener {
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Jonathan");
         user.setLastName("Ermel");
-        user.setPermission(Permission.ADMIN);
-        user.setPhone(DF.getNumberBetween(100000000, 999999999));
-        user.setRole(DF.getItem(ROLES));
+        user.setPermission(User.Permission.ADMIN);
+        user.setPhone(Long.toString(DF.getNumberBetween(100000000, 999999999)));
+        user.setRole(DF.getItem(User.Role.values()));
         users.add(user);
 
         return users;
@@ -149,7 +146,7 @@ public class TestData implements ServletContextListener {
         for(int i = 0; i < numActions - 1; i++) {
             Action action = new Action();
             action.setUnit(DF.getItem(units));
-            action.setRoleResponsible(DF.getItem(ROLES));
+            action.setRoleResponsible(users.get(i).getFirstName() + users.get(i).getLastName());
             action.setDeadline(DF.getDateBetween(now, new Date(now.getTime() + 10000l)));
             action.setDescription(DF.getRandomText(RANDOM.nextInt(500)));
             action.setStatus(DF.getItem(Action.Status.values()));
@@ -171,9 +168,9 @@ public class TestData implements ServletContextListener {
             user.setLastName(DF.getLastName());
             user.setUsername(user.getFirstName() + "_" + i);
             user.setEmail(DF.getEmailAddress());
-            user.setPermission(DF.getItem(PERMISSIONS));
-            user.setPhone(DF.getNumberBetween(100000000, 999999999));
-            user.setRole(DF.getItem(ROLES));
+            user.setPermission(DF.getItem(User.Permission.values()));
+            user.setPhone(Long.toString(DF.getNumberBetween(100000000, 999999999)));
+            user.setRole(DF.getItem(User.Role.values()));
             users.add(user);
         }
 

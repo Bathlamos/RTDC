@@ -56,7 +56,7 @@ public class UserListAdapter extends ArrayAdapter {
 
 
         holder.usernameText.setText(user.getLastName() + ", " + user.getFirstName());
-        holder.secondLine.setText(user.getUsername() + ", " + user.getRole());
+        holder.secondLine.setText(user.getUsername() + ", " + User.Role.getStringifier().toString(user.getRole()));
         String initials = user.getFirstName().substring(0, 1) + user.getLastName().substring(0,1);
         holder.userIcon.setText(initials);
 
