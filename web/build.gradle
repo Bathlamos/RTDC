@@ -93,12 +93,12 @@ war {
         include 'WEB-INF/META-INF/**'
     }
     rootSpec.eachFile { details ->
-        if (details.name == "hibernate.cfg.xml" || details.name == "GwtConfig.properties") {
+        if (details.name == "hibernate.cfg.xml" || details.name == "Config.properties") {
             details.exclude()
         } else if (details.name == "prod.hibernate.cfg.xml") {
             details.name = "hibernate.cfg.xml"
-        } else if (details.name == "prod.GwtConfig.properties") {
-            details.name = "GwtConfig.properties"
+        } else if (details.name == "prod.Config.properties") {
+            details.name = "Config.properties"
         }
     }
 }

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * Uses a File Reader to access the .properties file
@@ -13,7 +14,14 @@ import java.util.Properties;
  */
 class JavaIOConfig implements ConfigInterface {
 
-    private static final String PATH = "rtdc/core/config/Config.properties";
+    private static final Logger LOGGER = Logger.getLogger(JavaIOConfig.class.getName());
+
+    private static final String PATH = "WEB-INF" + File.separator +
+            "classes" + File.separator +
+            "rtdc" + File.separator +
+            "core" + File.separator +
+            "config" + File.separator +
+            "Config.properties";
     private static final Properties prop = new Properties();
 
     static {
@@ -25,6 +33,8 @@ class JavaIOConfig implements ConfigInterface {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        LOGGER.info("Finished loading Config.properties");
     }
 
     private static String getProperty(String property){

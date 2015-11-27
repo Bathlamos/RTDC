@@ -1,6 +1,6 @@
 package rtdc.web.test;
 
-import rtdc.core.Bootstrapper;
+import rtdc.core.config.Conf;
 import rtdc.core.event.*;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
@@ -17,9 +17,9 @@ import java.net.URL;
 public class ServiceTest {
 
     private static final String URL = "http://"+
-            Bootstrapper.FACTORY.getConfig().apiHost() + ":" +
-            Bootstrapper.FACTORY.getConfig().apiPort() +
-            Bootstrapper.FACTORY.getConfig().apiPath();
+            Conf.get().apiHost() + ":" +
+            Conf.get().apiPort() +
+            Conf.get().apiPath();
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String TEST_USERNAME = "Nathaniel";
     private static final String TEST_PASSWORD = "password";

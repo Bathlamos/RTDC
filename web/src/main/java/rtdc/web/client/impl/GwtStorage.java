@@ -1,5 +1,6 @@
 package rtdc.web.client.impl;
 
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Cookies;
 import rtdc.core.impl.Storage;
 
@@ -7,7 +8,9 @@ public class GwtStorage implements Storage {
 
     private static GwtStorage INSTANCE;
 
-    private GwtStorage(){}
+    private GwtStorage(){
+        Cookies.setUriEncode(false);
+    }
 
     @Override
     public void add(String key, String data) {
