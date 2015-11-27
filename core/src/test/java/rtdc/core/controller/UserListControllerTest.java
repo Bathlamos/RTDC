@@ -48,9 +48,9 @@ public class UserListControllerTest {
         Unit unit123 = UnitListControllerTest.buildUnit(123,"Emergency", 16, 3, 4, 2, 10, 8);
         Unit unit456 = UnitListControllerTest.buildUnit(456,"Surgery", 40, 6, 3, 4, 13, 10);
 
-        user1 = buildUser(1, "jenny", "jenny@example.com","Jennifer","Smith",Permission.USER,6135551234l,"Nurse",unit123);
-        user2 = buildUser(2, "pam", "pam@hostname.com","Pamela","Jones",Permission.MANAGER,6134448899l,"Unit Manager",unit456);
-        user3 = buildUser(3, "kim", "kim@xyz.com","Kimberly","Shepard",Permission.ADMIN,6135559876l,"Administrator",null);
+        user1 = buildUser(1, "jenny", "jenny@example.com","Jennifer","Smith", User.Permission.USER,"6135551234l",User.Role.nurse,unit123);
+        user2 = buildUser(2, "pam", "pam@hostname.com","Pamela","Jones",User.Permission.MANAGER,"6134448899l",User.Role.unitManager,unit456);
+        user3 = buildUser(3, "kim", "kim@xyz.com","Kimberly","Shepard",User.Permission.ADMIN,"6135559876l",User.Role.administrator,null);
 
         ImmutableSet<User> userSet = ImmutableSet.of(user1, user2, user3);
         when(mockEvent.getUsers()).thenReturn(userSet);
@@ -404,8 +404,8 @@ public class UserListControllerTest {
         assertEquals(expectedList, actualList);
     }
 
-    private User buildUser(int id, String username, String email, String firstName, String lastName, String permission,
-                           long phone, String role, Unit unit){
+    private User buildUser(int id, String username, String email, String firstName, String lastName, User.Permission permission,
+                           String phone, User.Role role, Unit unit){
         User user = new User();
         user.setId(id);
         user.setUsername(username);
