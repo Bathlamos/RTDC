@@ -21,14 +21,17 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @WebServlet
 @Path("actions")
 public class ActionServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(ActionServlet.class);
 
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
@@ -38,6 +41,17 @@ public class ActionServlet {
         List<Action> actions = null;
         try{
             transaction = session.beginTransaction();
+            actions = (List<Action>) session.createCriteria(Action.class).list();
+
+            // Don't return any actions that are completed and that we're updated more then 12 hours ago
+            Date currentDate = new Date();
+            for(Iterator<Action> iterator = actions.iterator(); iterator.hasNext();){
+                Action action = iterator.next();
+                if((action.getStatus() == Action.Status.completed || action.getStatus() == Action.Status.failed)
+                        && TimeUnit.MILLISECONDS.toHours(currentDate.getTime() - action.getLastUpdate().getTime()) >= 12){
+                    iterator.remove();
+                }
+            }
             if(Permission.USER.equalsIgnoreCase(user.getPermission()))
                 actions = (List<Action>) session.createCriteria(Action.class).
                         add(Restrictions.eq("personResponsible", user)).list();
@@ -72,6 +86,7 @@ public class ActionServlet {
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
+            action.setLastUpdate(new Date());
             session.saveOrUpdate(action);
             transaction.commit();
 

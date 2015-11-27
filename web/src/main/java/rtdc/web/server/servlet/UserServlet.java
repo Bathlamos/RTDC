@@ -68,6 +68,8 @@ public class UserServlet {
             List<User> userList = (List<User>) session.createCriteria(User.class).add(Restrictions.eq("username", username)).list();
             if(!userList.isEmpty())
                 retrievedUser = userList.get(0);
+            else
+                return new ErrorEvent("No user with username " + username + " found.").toString();
             transaction.commit();
 
             log.info("{}: USER: Getting user + " + retrievedUser.getUsername() + " for user.", user.getUsername());
