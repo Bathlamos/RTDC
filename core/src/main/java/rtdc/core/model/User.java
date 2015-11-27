@@ -20,9 +20,9 @@ public class User extends RootObject {
 
     public enum Role {
         administrator,
-        unitManager,
         nurse,
-        stakeholder;
+        stakeholder,
+        unitManager,;
 
         public static Stringifier<Role> getStringifier(){
             return new Stringifier<Role>() {
@@ -30,9 +30,9 @@ public class User extends RootObject {
                 public String toString(Role role) {
                     switch(role){
                         case administrator: return "Administrator";
-                        case unitManager: return "Unit Manager";
                         case nurse: return "Nurse";
                         case stakeholder: return "Stakeholder";
+                        case unitManager: return "Unit Manager";
                         default: return role.name();
                     }
                 }
