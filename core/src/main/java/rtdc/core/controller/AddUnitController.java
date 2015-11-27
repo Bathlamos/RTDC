@@ -19,8 +19,8 @@ public class AddUnitController extends Controller<AddUnitView>{
         currentUnit = (Unit) Cache.getInstance().retrieve("unit");
         if (currentUnit != null) {
             view.setTitle("Edit Unit");
-            view.setNameAsString(currentUnit.getName());
-            view.setTotalBedsAsString(Integer.toString(currentUnit.getTotalBeds()));
+            view.getNameUiElement().setValue(currentUnit.getName());
+            view.getTotalBedsUiElement().setValue(Integer.toString(currentUnit.getTotalBeds()));
         } else {
             view.hideDeleteButton();
         }
@@ -36,9 +36,9 @@ public class AddUnitController extends Controller<AddUnitView>{
         Unit newUnit = new Unit();
         if (currentUnit != null)
             newUnit.setId(currentUnit.getId());
-        newUnit.setName(view.getNameAsString());
+        newUnit.setName(view.getNameUiElement().getValue());
         try {
-            newUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsAsString()));
+            newUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsUiElement().getValue()));
         }catch(NumberFormatException e){}
 
 

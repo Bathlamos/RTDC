@@ -3,7 +3,7 @@ package rtdc.core.model;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 
-public class Unit extends RootObject {
+public class Unit extends RootObject implements Comparable<Unit>{
 
     public enum Properties implements ObjectProperty<Unit> {
         id,
@@ -77,6 +77,46 @@ public class Unit extends RootObject {
             case admitsByDeadline: return validator.expectPositiveNumber(admitsByDeadline);
         }
         return true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Unit other = (Unit) obj;
+        if(id != other.id)
+            return false;
+        if((name == null) ? (other.name != null) : !name.equals(other.name))
+            return false;
+        if(totalBeds != other.totalBeds)
+             return false;
+        if(availableBeds != other.availableBeds)
+             return false;
+        if(potentialDc != other.potentialDc)
+             return false;
+        if(dcByDeadline != other.dcByDeadline)
+             return false;
+        if(totalAdmits != other.totalAdmits)
+             return false;
+        if(admitsByDeadline != other.admitsByDeadline)
+             return false;
+
+        return true;
+    }
+
+    @Override
+    public int compareTo(Unit other) {
+        if(name == null && other.name == null)
+            return 0;
+        else if(name != null)
+            return name.compareToIgnoreCase(other.name);
+        else
+            return other.name.compareToIgnoreCase(name);
     }
 
     public int getId() {

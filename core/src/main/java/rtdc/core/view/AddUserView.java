@@ -1,39 +1,27 @@
 package rtdc.core.view;
 
+import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.Unit;
+import rtdc.core.model.User;
 
 public interface AddUserView extends Dialog {
 
-    String getUsernameAsString();
-    void setUsernameAsString(String value);
-    void setErrorForUsername(String error);
+    UiElement<String> getUsernameUiElement();
 
-    String getSurnameAsString();
-    void setSurnameAsString(String value);
-    void setErrorForSurname(String error);
+    UiElement<String> getLastNameUiElement();
 
-    String getFirstnameAsString();
-    void setFirstnameAsString(String value);
-    void setErrorForFirstname(String error);
+    UiElement<String> getFirstNameUiElement();
 
-    String getEmailAsString();
-    void setEmailAsString(String value);
+    UiElement<String> getEmailUiElement();
 
-    long getPhoneAsLong();
-    void setPhoneAsLong(long value);
+    UiElement<String> getPhoneUiElement();
 
-    String getRoleAsString();
-    void setRoleAsString(String value);
+    UiDropdown<User.Role> getRoleUiElement();
 
-    String getPasswordAsString();
-    void setPasswordAsString(String value);
+    UiDropdown<User.Permission> getPermissionUiElement();
 
-    void setErrorForPassword(String error);
-    
-    String getPermissionAsString();
-    void setPermissionAsString(String value);
-    void setPermissionForSurname(String error);
+    UiElement<String> getPasswordUiElement();
 
     void hideDeleteButton();
 

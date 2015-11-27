@@ -9,8 +9,14 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
 import rtdc.core.controller.AddUserController;
 import rtdc.core.controller.LoginController;
+import rtdc.core.impl.UiDropdown;
+import rtdc.core.impl.UiElement;
+import rtdc.core.model.User;
 import rtdc.core.view.AddUserView;
 import rtdc.core.view.LoginView;
+import rtdc.web.client.impl.GwtUiDropdown;
+import rtdc.web.client.impl.GwtUiPasswordString;
+import rtdc.web.client.impl.GwtUiString;
 
 public class AddUserPresenter extends Composite implements AddUserView {
 
@@ -20,9 +26,11 @@ public class AddUserPresenter extends Composite implements AddUserView {
     private final AddUserController controller;
 
     @UiField
-    TextBox username, firstname, surname, permission, email, role,  phone;
+    GwtUiString username, firstName, lastName, email, phone;
     @UiField
-    PasswordTextBox password;
+    GwtUiPasswordString password;
+    @UiField
+    GwtUiDropdown role, permission;
     @UiField
     Button addUser;
 
@@ -40,111 +48,6 @@ public class AddUserPresenter extends Composite implements AddUserView {
     }
 
     @Override
-    public String getUsernameAsString() {
-        return username.getText();
-    }
-
-    @Override
-    public void setUsernameAsString(String value) {
-        username.setText(value);
-    }
-
-    @Override
-    public void setErrorForUsername(String error) {
-        username.setText(error);
-    }
-
-    @Override
-    public String getSurnameAsString() {
-        return surname.getText();
-    }
-
-    @Override
-    public void setSurnameAsString(String value) {
-        surname.setText(value);
-    }
-
-    @Override
-    public void setErrorForSurname(String error) {
-        surname.setText(error);
-    }
-
-    @Override
-    public String getFirstnameAsString() {
-        return firstname.getText();
-    }
-
-    @Override
-    public void setFirstnameAsString(String value) {
-        firstname.setText(value);
-    }
-
-    @Override
-    public void setErrorForFirstname(String error) {
-        firstname.setText(error);
-    }
-
-    @Override
-    public String getEmailAsString() {
-        return email.getText();
-    }
-
-    @Override
-    public void setEmailAsString(String value) {
-        email.setText(value);
-    }
-
-    @Override
-    public long getPhoneAsLong() {
-        return Long.valueOf(phone.getText());
-    }
-
-    @Override
-    public void setPhoneAsLong(long value) {
-        phone.setText(String.valueOf(value));
-    }
-
-    @Override
-    public String getRoleAsString() {
-        return role.getText();
-    }
-
-    @Override
-    public void setRoleAsString(String value) {
-        role.setText(value);
-    }
-
-    @Override
-    public String getPasswordAsString() {
-        return password.getText();
-    }
-
-    @Override
-    public void setPasswordAsString(String value) {
-        password.setText(value);
-    }
-
-    @Override
-    public void setErrorForPassword(String error) {
-        password.setText(error);
-    }
-
-    @Override
-    public String getPermissionAsString() {
-        return permission.getText();
-    }
-
-    @Override
-    public void setPermissionAsString(String value) {
-        permission.setText(value);
-    }
-
-    @Override
-    public void setPermissionForSurname(String error) {
-        permission.setText(error);
-    }
-
-    @Override
     public void displayError(String title, String error) {
         Window.alert(title + " : " + error);
     }
@@ -152,6 +55,46 @@ public class AddUserPresenter extends Composite implements AddUserView {
     @Override
     public void clearError() {
 
+    }
+
+    @Override
+    public UiElement<String> getUsernameUiElement() {
+        return username;
+    }
+
+    @Override
+    public UiElement<String> getLastNameUiElement() {
+        return lastName;
+    }
+
+    @Override
+    public UiElement<String> getFirstNameUiElement() {
+        return firstName;
+    }
+
+    @Override
+    public UiElement<String> getEmailUiElement() {
+        return email;
+    }
+
+    @Override
+    public UiElement<String> getPhoneUiElement() {
+        return phone;
+    }
+
+    @Override
+    public UiDropdown<User.Role> getRoleUiElement() {
+        return role;
+    }
+
+    @Override
+    public UiDropdown<User.Permission> getPermissionUiElement() {
+        return permission;
+    }
+
+    @Override
+    public UiElement<String> getPasswordUiElement() {
+        return password;
     }
 
     @Override

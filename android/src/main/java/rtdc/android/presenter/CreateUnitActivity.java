@@ -10,14 +10,16 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 import rtdc.android.R;
+import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddUnitController;
+import rtdc.core.impl.UiElement;
 import rtdc.core.view.AddUnitView;
 
 public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
 
     private AddUnitController controller;
 
-    private EditText unitNameEdit, totalBedsEdit;
+    private AndroidUiString unitNameEdit, totalBedsEdit;
     private boolean hideDeleteButton = false;
 
     @Override
@@ -32,8 +34,8 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        unitNameEdit = (EditText) findViewById(R.id.unitNameEdit);
-        totalBedsEdit = (EditText) findViewById(R.id.totalBedsEdit);
+        unitNameEdit = (AndroidUiString) findViewById(R.id.unitNameEdit);
+        totalBedsEdit = (AndroidUiString) findViewById(R.id.totalBedsEdit);
 
         if (controller == null)
             controller = new AddUnitController(this);
@@ -75,28 +77,18 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
     }
 
     @Override
+    public UiElement<String> getNameUiElement() {
+        return unitNameEdit;
+    }
+
+    @Override
+    public UiElement<String> getTotalBedsUiElement() {
+        return totalBedsEdit;
+    }
+
+    @Override
     public void hideDeleteButton() {
         hideDeleteButton = true;
-    }
-
-    @Override
-    public String getNameAsString() {
-        return unitNameEdit.getText().toString();
-    }
-
-    @Override
-    public void setNameAsString(String name) {
-        unitNameEdit.setText(name);
-    }
-
-    @Override
-    public String getTotalBedsAsString() {
-        return totalBedsEdit.getText().toString();
-    }
-
-    @Override
-    public void setTotalBedsAsString(String totalBeds) {
-        totalBedsEdit.setText(totalBeds);
     }
 
     @Override

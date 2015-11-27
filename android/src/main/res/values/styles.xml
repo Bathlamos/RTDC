@@ -19,10 +19,10 @@
     <color name="RTDC_dark_blue">#2980b9</color>
     <color name="RTDC_midnight_blue">#2c3e50</color>
     <color name="RTDC_wet_asphalt">#34495e</color>
-    <color name="RTDC_white">#eeeeee</color>
+    <color name="RTDC_white">#ffffff</color>
     <color name="RTDC_black">#303030</color>
     <color name="RTDC_grey">#424242</color>
-    <color name="RTDC_grey_asbestos">#7f8c8d</color>
+    <color name="RTDC_grey_asbestos">#848484</color>
     <color name="RTDC_light_grey">#ffbababa</color>
 
     <color name="RTDC_red">#c0392b</color>

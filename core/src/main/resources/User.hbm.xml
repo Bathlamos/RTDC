@@ -14,9 +14,19 @@
         <property name="lastName" column="lastName" type="string"/>
         <property name="firstName" column="firstName" type="string"/>
         <property name="email" column="email" type="string"/>
-        <property name="phone" column="phone" type="long"/>
-        <property name="permission" column="permission" type="string"/>
-        <property name="role" column="role" type="string"/>
+        <property name="phone" column="phone" type="string"/>
+        <property name="permission" column="permission">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">rtdc.core.model.User$Permission</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+        <property name="role" column="role">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">rtdc.core.model.User$Role</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
         <one-to-one name="unit" class="rtdc.core.model.Unit" lazy="false"/>
     </class>
 </hibernate-mapping>

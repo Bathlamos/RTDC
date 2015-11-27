@@ -51,7 +51,7 @@
                             android:text="@string/unit_name"
                             android:id="@+id/unitNameText"/>
 
-                    <EditText
+                    <rtdc.android.impl.AndroidUiString
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/unit_name"
@@ -66,7 +66,7 @@
                             android:id="@+id/totalBedsText"
                             android:paddingTop="8dp"/>
 
-                    <EditText
+                    <rtdc.android.impl.AndroidUiString
                             android:layout_width="74dp"
                             android:layout_height="wrap_content"
                             android:inputType="number"

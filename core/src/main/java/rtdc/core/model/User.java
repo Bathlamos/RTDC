@@ -2,6 +2,7 @@ package rtdc.core.model;
 
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
+import rtdc.core.util.Stringifier;
 
 public class User extends RootObject {
 
@@ -17,14 +18,56 @@ public class User extends RootObject {
         unit
     }
 
+    public enum Role {
+        administrator,
+        nurse,
+        stakeholder,
+        unitManager,;
+
+        public static Stringifier<Role> getStringifier(){
+            return new Stringifier<Role>() {
+                @Override
+                public String toString(Role role) {
+                    switch(role){
+                        case administrator: return "Administrator";
+                        case nurse: return "Nurse";
+                        case stakeholder: return "Stakeholder";
+                        case unitManager: return "Unit Manager";
+                        default: return role.name();
+                    }
+                }
+            };
+        }
+    }
+
+    public enum Permission {
+        ADMIN, // Adds users, unit, and matches the two
+        MANAGER, // See all the actions in the unit
+        USER; // See their own actions
+
+        public static Stringifier<Permission> getStringifier(){
+            return new Stringifier<Permission>() {
+                @Override
+                public String toString(Permission permission) {
+                    switch(permission){
+                        case ADMIN: return "Admin";
+                        case MANAGER: return "Manager";
+                        case USER: return "User";
+                        default: return permission.name();
+                    }
+                }
+            };
+        }
+    }
+
     private int id;
     private String username;
     private String firstName;
     private String lastName;
     private String email;
-    private String permission;
-    private String role;
-    private long phone;
+    private Permission permission;
+    private Role role;
+    private String phone;
     private Unit unit;
 
     public User(){}
@@ -35,9 +78,11 @@ public class User extends RootObject {
         setFirstName(object.optString(Properties.firstName.name()));
         setLastName(object.optString(Properties.lastName.name()));
         setEmail(object.optString(Properties.email.name()));
-        setPermission(object.optString(Properties.permission.name()));
-        setRole(object.optString(Properties.role.name()));
-        setPhone(object.optLong(Properties.phone.name()));
+        setPhone(object.optString(Properties.phone.name()));
+
+        permission = Permission.valueOf(object.optString(Properties.permission.name()));
+        role = Role.valueOf(object.optString(Properties.role.name()));
+
         if(object.has(Properties.unit.name()))
             setUnit(new Unit(object.getJSONObject(Properties.unit.name())));
     }
@@ -108,27 +153,27 @@ public class User extends RootObject {
         this.email = email;
     }
 
-    public String getPermission() {
+    public Permission getPermission() {
         return permission;
     }
 
-    public void setPermission(String permission) {
+    public void setPermission(Permission permission) {
         this.permission = permission;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    public long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
