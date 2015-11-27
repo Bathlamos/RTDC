@@ -17,7 +17,7 @@ import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
 public final class Service {
 
-    private final static String BASE_URL = "http://"+
+    private final static String BASE_URL = Conf.get().apiProtocol() + "://" +
             Conf.get().apiHost() + ":" +
             Conf.get().apiPort() +
             Conf.get().apiPath();

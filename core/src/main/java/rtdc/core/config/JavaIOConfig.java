@@ -84,6 +84,11 @@ class JavaIOConfig implements ConfigInterface {
     }
 
     @Override
+    public String apiProtocol() {
+        return getProperty("apiProtocol");
+    }
+
+    @Override
     public String apiHost() {
         return getProperty("apiHost");
     }

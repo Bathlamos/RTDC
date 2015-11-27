@@ -17,6 +17,8 @@ public interface ConfigInterface {
      */
     int sessionLifetime();
 
+    String apiProtocol();
+
     String apiHost();
 
     String apiPort();

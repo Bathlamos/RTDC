@@ -16,7 +16,7 @@ import java.net.URL;
 
 public class ServiceTest {
 
-    private static final String URL = "http://"+
+    private static final String URL = Conf.get().apiProtocol() + "://" +
             Conf.get().apiHost() + ":" +
             Conf.get().apiPort() +
             Conf.get().apiPath();
