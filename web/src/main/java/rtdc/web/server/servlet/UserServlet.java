@@ -96,6 +96,7 @@ public class UserServlet {
 
         if(password == null || password.isEmpty() || password.length() < 4)
             return new ErrorEvent("Password must be longer than 4 characters").toString();
+
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
@@ -103,11 +104,7 @@ public class UserServlet {
             session.saveOrUpdate(user);
             UserCredentials credentials = AuthService.generateUserCredentials(user, password);
             session.saveOrUpdate(credentials);
-            try {
-                AsteriskRealTimeService.addUser(user, credentials.getAsteriskPassword());
-            } catch (SQLException e) {
-                log.info("Could not add user " + userString + " to Asterisk");
-            }
+            AsteriskRealTimeService.addUser(user, credentials.getAsteriskPassword());
             transaction.commit();
 
             // TODO: Replace string with actual username
@@ -175,10 +172,12 @@ public class UserServlet {
     @Path("{id}")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
+    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") String idString){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
+        int id = Integer.valueOf(idString);
         try{
+            log.warn("Deleting user with id " + id);
             transaction = session.beginTransaction();
             User user = (User) session.load(User.class, id);
             session.delete(user);
@@ -187,9 +186,6 @@ public class UserServlet {
 
             // TODO: Replace string with actual username
             log.warn("{}: USER: User deleted: {}", "Username", user.getUsername());
-        } catch (SQLException e) {
-            if(transaction != null)
-                transaction.rollback();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
