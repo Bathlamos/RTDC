@@ -55,23 +55,24 @@ public class UserServlet {
         return new FetchUsersEvent(users).toString();
     }
 
-    @POST
+    @GET
     @Path("{username}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getUser(@Context HttpServletRequest req, @PathParam("username") String username){
+    public String getUser(@Context HttpServletRequest req, @Context User user, @PathParam("username") String username){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
-        User user = null;
+        User retrievedUser = null;
         try{
             transaction = session.beginTransaction();
             List<User> userList = (List<User>) session.createCriteria(User.class).add(Restrictions.eq("username", username)).list();
             if(!userList.isEmpty())
-                user = userList.get(0);
+                retrievedUser = userList.get(0);
+            else
+                return new ErrorEvent("No user with username " + username + " found.").toString();
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: USER: Getting user for user.", "Username");
+            log.info("{}: USER: Getting user + " + retrievedUser.getUsername() + " for user.", user.getUsername());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -79,7 +80,7 @@ public class UserServlet {
         } finally{
             session.close();
         }
-        return new FetchUserEvent(user).toString();
+        return new FetchUserEvent(retrievedUser).toString();
     }
 
     @POST

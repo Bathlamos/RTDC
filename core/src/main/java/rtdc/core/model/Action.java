@@ -17,7 +17,8 @@ public class Action extends RootObject{
         task,
         target,
         deadline,
-        description;
+        description,
+        lastUpdate;
     }
 
     public enum Status {
@@ -71,6 +72,7 @@ public class Action extends RootObject{
     private String target;
     private Date deadline;
     private String description;
+    private Date lastUpdate;
 
     public Action(){}
 
@@ -91,6 +93,8 @@ public class Action extends RootObject{
             setDeadline(new Date(object.getLong(Properties.deadline.name())));
         setTarget(object.optString(Properties.target.name()));
         setDescription(object.optString(Properties.description.name()));
+
+        setLastUpdate(new Date(object.getLong(Properties.lastUpdate.name())));
     }
 
     @Override
@@ -115,6 +119,7 @@ public class Action extends RootObject{
             case target: return getTarget();
             case deadline: return getDeadline();
             case description: return getDescription();
+            case lastUpdate: return getLastUpdate();
         }
         return null;
     }
@@ -190,4 +195,8 @@ public class Action extends RootObject{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Date getLastUpdate(){ return lastUpdate; }
+
+    public void setLastUpdate(Date lastUpdate){ this.lastUpdate = lastUpdate; }
 }

@@ -43,9 +43,10 @@ dependencies {
 
     compile 'org.fluttercode.datafactory:datafactory:0.8'
 
-    // SLF4J
     compile 'org.slf4j:slf4j-api:1.7.12'
     compile 'ch.qos.logback:logback-classic:1.1.3'
+
+    testCompile 'junit:junit:4.12'
 
     compile group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'
     gwt group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'

@@ -21,10 +21,9 @@ public class AuthService {
 
     private AuthService(){}
 
-    public static User getAuthenticatedUser(@Nullable String authToken) {
-
+    public static AuthenticationToken getAuthenticationToken(@Nullable String authToken) {
         if(authToken == null)
-            return null;
+            throw new SessionExpiredException("You need to be loged in to access this service");
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         AuthenticationToken authTokenObject = null;
@@ -47,7 +46,7 @@ public class AuthService {
         if (authTokenObject != null
                 && authTokenObject.getDateSet().getTime() + Config.SESSION_LIFETIME_IN_MS > now.getTime()) {
 
-            return authTokenObject.getUser();
+            return authTokenObject;
         }
 
         throw new SessionExpiredException("Session expired for auth token " + authTokenObject.getAuthenticationToken());

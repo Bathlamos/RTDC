@@ -18,6 +18,7 @@ import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.model.UserCredentials;
 import rtdc.web.server.service.AuthService;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Path("authenticate")
+@Path("auth")
 public class AuthServlet {
 
     private static final Logger log = LoggerFactory.getLogger(AuthServlet.class);
@@ -39,7 +40,7 @@ public class AuthServlet {
     @Path("tokenValid")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @PermitAll
     public String authTokenValid(@Context HttpServletRequest req){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         String authenticationToken = req.getHeader(HttpHeadersName.AUTH_TOKEN);
@@ -69,9 +70,10 @@ public class AuthServlet {
     }
 
     @POST
+    @Path("login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @PermitAll
     public String authenticate(@Context HttpServletRequest req,
                                @Context HttpServletResponse resp,
                                @FormParam("username") String username,
@@ -90,7 +92,7 @@ public class AuthServlet {
             try{
                 transaction = session.beginTransaction();
                 user = (User) session.createCriteria(User.class).add(
-                        Restrictions.eq("username", username)).uniqueResult();
+                        Restrictions.ilike("username", username)).uniqueResult();
                 userCredentials = (UserCredentials) session.createCriteria(UserCredentials.class).add(
                         Restrictions.eq("user", user)).uniqueResult();
                 transaction.commit();
@@ -136,7 +138,7 @@ public class AuthServlet {
                     // So that we can test the api in the browser
                     if (Config.IS_DEBUG)
                         resp.addCookie(new Cookie(CookiesName.AUTH_COOKIE, token.getAuthenticationToken()));
-
+                    
                     return new AuthenticationEvent(user, token.getAuthenticationToken(), userCredentials.getAsteriskPassword()).toString();
                 }else
                     log.warn("{}: LOGIN FAILED: Invalid password.", username);
@@ -150,23 +152,14 @@ public class AuthServlet {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String logout(@Context HttpServletRequest req, @FormParam("authToken") String authenticationToken){
+    public String logout(@Context HttpServletRequest req, @Context User user, @Context AuthenticationToken token){
         Session session = PersistenceConfig.getSessionFactory().openSession();
-        AuthenticationToken authToken;
         Transaction transaction = null;
-        log.debug("Received parameter : authToken = {}", authenticationToken);
         try{
             transaction = session.beginTransaction();
-            authToken = (AuthenticationToken) session.createCriteria(AuthenticationToken.class).add(
-                    Restrictions.eq("authToken", authenticationToken)).uniqueResult();
-            log.debug("Authentication token in database: {}", authToken);
-            if(authToken == null)
-                return new SessionExpiredEvent().toString();
-            session.delete(authToken);
+            session.delete(token);
             transaction.commit();
-
-            // TODO: Replace string with actual username
-            log.info("{}: LOGOUT: User has been disconnected.", "Username");
+            log.info("{}: LOGOUT: User has been disconnected.", user.getUsername());
             return new LogoutEvent().toString();
         } catch (RuntimeException e) {
             if(transaction != null)

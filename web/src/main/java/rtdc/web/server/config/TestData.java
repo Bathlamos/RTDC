@@ -115,6 +115,16 @@ public class TestData implements ServletContextListener {
         users.add(user);
 
         user = new User();
+        user.setUsername("user");
+        user.setEmail(DF.getEmailAddress());
+        user.setFirstName("Jack");
+        user.setLastName("Donner");
+        user.setPermission(Permission.USER);
+        user.setPhone(DF.getNumberBetween(100000000, 999999999));
+        user.setRole(DF.getItem(ROLES));
+        users.add(user);
+
+        user = new User();
         user.setUsername("Qwe");
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Jonathan");
@@ -140,6 +150,7 @@ public class TestData implements ServletContextListener {
             action.setStatus(DF.getItem(Action.Status.values()));
             action.setTarget("Target " + DF.getRandomText(RANDOM.nextInt(10)));
             action.setTask(DF.getItem(Action.Task.values()));
+            action.setLastUpdate(new Date());
             actions.add(action);
         }
 
@@ -232,6 +243,7 @@ public class TestData implements ServletContextListener {
         action.setTarget(target);
         action.setDeadline(date);
         action.setDescription(description);
+        action.setLastUpdate(new Date());
         return action;
     }
 
