@@ -86,6 +86,8 @@ cargo {
 }
 
 war {
+    archiveName='rtdc.war'
+
     from('war') {
         include 'web.css'
         include 'web.html'
