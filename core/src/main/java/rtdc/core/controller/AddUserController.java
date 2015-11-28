@@ -56,7 +56,10 @@ public class AddUserController extends Controller<AddUserView> implements Action
         newUser.setRole(view.getRoleUiElement().getValue());
         String password = view.getPasswordUiElement().getValue();
 
-        Service.addUser(newUser, password);
+        if (currentUser != null)
+            Service.updateUser(newUser, password);
+        else
+            Service.addUser(newUser, password);
 
         Cache.getInstance().put("user", newUser);
         view.closeDialog();
