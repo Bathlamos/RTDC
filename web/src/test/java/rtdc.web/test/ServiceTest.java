@@ -366,7 +366,7 @@ public class ServiceTest {
         testUser.setLastName("Test2");
 
         // Action
-        JSONObject object2 = executeSyncRequest("users", "password=password&user=" + testUser.toString(), "POST", authToken);
+        JSONObject object2 = executeSyncRequest("users/add", "password=password&user=" + testUser.toString(), "POST", authToken);
         // Parse and get list of units
 
         // Assert
