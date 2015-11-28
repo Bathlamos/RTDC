@@ -88,11 +88,6 @@ public class TestData implements ServletContextListener {
             for(int i = 0; i < users.size(); i++)
                 AsteriskRealTimeService.addUser(users.get(i), credentialsList.get(i).getAsteriskPassword());
             transaction.commit();
-
-        } catch (RuntimeException | SQLException e) {
-            if(transaction != null)
-                transaction.rollback();
-            System.err.println("Some users were not added to Asterisk");
         } finally {
             session.close();
         }
