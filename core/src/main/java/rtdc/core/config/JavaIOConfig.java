@@ -28,8 +28,6 @@ class JavaIOConfig implements ConfigInterface {
         try {
             File propertiesFile = new File(PATH);
             prop.load(new FileInputStream(propertiesFile));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,11 +39,14 @@ class JavaIOConfig implements ConfigInterface {
         return prop.getProperty(property);
     }
 
-    private static Integer getPropertyAsInt(String property){
+    private static int getPropertyAsInt(String property){
         try{
-            return Integer.parseInt(prop.getProperty(property));
+            String propertyString = prop.getProperty(property);
+            if(propertyString == null)
+                return 0;
+            return Integer.parseInt(propertyString);
         } catch(NumberFormatException e) {
-            return null;
+            return 0;
         }
     }
 
