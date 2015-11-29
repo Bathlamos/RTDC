@@ -6,6 +6,7 @@ import rtdc.core.event.Event;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
+import rtdc.core.util.Pair;
 import rtdc.core.view.AddUserView;
 
 public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.Handler {
@@ -45,8 +46,11 @@ public class AddUserController extends Controller<AddUserView> implements Action
     public void addUser() {
 
         User newUser = new User();
-        if (currentUser != null)
+        String action = "add";
+        if (currentUser != null) {
             newUser.setId(currentUser.getId());
+            action = "edit";
+        }
         newUser.setUsername(view.getUsernameUiElement().getValue());
         newUser.setFirstName(view.getFirstNameUiElement().getValue());
         newUser.setLastName(view.getLastNameUiElement().getValue());
@@ -56,22 +60,25 @@ public class AddUserController extends Controller<AddUserView> implements Action
         newUser.setRole(view.getRoleUiElement().getValue());
         String password = view.getPasswordUiElement().getValue();
 
-        Service.updateOrSaveUser(newUser, password);
+        if (currentUser != null)
+            Service.updateUser(newUser, password);
+        else
+            Service.addUser(newUser, password);
 
-        Cache.getInstance().put("user", newUser);
-        view.closeDialog();
+        Cache.getInstance().put("user", new Pair(action, newUser));
     }
 
     public void deleteUser(){
+        Cache.getInstance().put("user", new Pair("delete", currentUser));
         if (currentUser != null)
             Service.deleteUser(currentUser.getId());
-        view.closeDialog();
     }
 
     @Override
     public void onActionComplete(ActionCompleteEvent event) {
-        // This causes a crash
-        //view.displayError("Success", "success");
+        if(event.getObjectType().equals("user")){
+            view.closeDialog();
+        }
     }
 
     @Override

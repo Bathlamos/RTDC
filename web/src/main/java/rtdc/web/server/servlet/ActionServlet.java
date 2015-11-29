@@ -124,7 +124,7 @@ public class ActionServlet {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(action.getId(), "action", "").toString();
+        return new ActionCompleteEvent(action.getId(), "action", "update").toString();
     }
 
     @DELETE
@@ -149,7 +149,7 @@ public class ActionServlet {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(id, "action", "").toString();
+        return new ActionCompleteEvent(id, "action", "delete").toString();
     }
 
 }

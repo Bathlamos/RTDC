@@ -1,20 +1,22 @@
 package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.event.ActionCompleteEvent;
+import rtdc.core.event.Event;
 import rtdc.core.model.Unit;
-import rtdc.core.model.User;
 import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
+import rtdc.core.util.Pair;
 import rtdc.core.view.AddUnitView;
-import rtdc.core.view.AddUserView;
 
-public class AddUnitController extends Controller<AddUnitView>{
+public class AddUnitController extends Controller<AddUnitView> implements ActionCompleteEvent.Handler {
 
     private Unit currentUnit;
 
     public AddUnitController(AddUnitView view){
         super(view);
+        Event.subscribe(ActionCompleteEvent.TYPE, this);
 
         currentUnit = (Unit) Cache.getInstance().retrieve("unit");
         if (currentUnit != null) {
@@ -34,9 +36,13 @@ public class AddUnitController extends Controller<AddUnitView>{
     public void addUnit() {
 
         Unit newUnit = new Unit();
-        if (currentUnit != null)
+        String action = "add";
+        if (currentUnit != null) {
             newUnit.setId(currentUnit.getId());
+            action = "edit";
+        }
         newUnit.setName(view.getNameUiElement().getValue());
+
         try {
             newUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsUiElement().getValue()));
         }catch(NumberFormatException e){}
@@ -52,13 +58,25 @@ public class AddUnitController extends Controller<AddUnitView>{
         else {*/
             Service.updateOrSaveUnit(newUnit);
         //}
-        Cache.getInstance().put("unit", newUnit);
-        view.closeDialog();
+        Cache.getInstance().put("unit", new Pair(action, newUnit));
     }
 
     public void deleteUnit(){
+        Cache.getInstance().put("unit", new Pair("delete", currentUnit));
         if (currentUnit != null)
             Service.deleteUnit(currentUnit.getId());
-        view.closeDialog();
+    }
+
+    @Override
+    public void onActionComplete(ActionCompleteEvent event) {
+        if(event.getObjectType().equals("unit")){
+            view.closeDialog();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(ActionCompleteEvent.TYPE, this);
     }
 }

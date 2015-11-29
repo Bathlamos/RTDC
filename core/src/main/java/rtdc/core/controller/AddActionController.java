@@ -1,19 +1,22 @@
 package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
+import rtdc.core.util.Pair;
 import rtdc.core.util.Stringifier;
 import rtdc.core.view.AddActionView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
-public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler{
+public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler, ActionCompleteEvent.Handler {
 
     private ArrayList<Unit> units = new ArrayList<>();
 
@@ -22,6 +25,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     public AddActionController(AddActionView view){
         super(view);
         Event.subscribe(FetchUnitsEvent.TYPE, this);
+        Event.subscribe(ActionCompleteEvent.TYPE, this);
         Service.getUnits();
 
         view.getTaskUiElement().setArray(Action.Task.values());
@@ -57,16 +61,20 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     public void addAction() {
 
-        Action action = new Action();
-        if (currentAction != null)
-            action.setId(currentAction.getId());
-        action.setTask(view.getTaskUiElement().getValue());
-        action.setRoleResponsible(view.getRoleUiElement().getValue());
-        action.setTarget(view.getTargetUiElement().getValue());
-        action.setDeadline(view.getDeadlineUiElement().getValue());
-        action.setDescription(view.getDescriptionUiElement().getValue());
-        action.setStatus(view.getStatusUiElement().getValue());
-        action.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
+        Action newAction = new Action();
+        String action = "add";
+        if (currentAction != null) {
+            newAction.setId(currentAction.getId());
+            action = "edit";
+        }
+        newAction.setTask(view.getTaskUiElement().getValue());
+        newAction.setRoleResponsible(view.getRoleUiElement().getValue());
+        newAction.setTarget(view.getTargetUiElement().getValue());
+        newAction.setDeadline(view.getDeadlineUiElement().getValue());
+        newAction.setDescription(view.getDescriptionUiElement().getValue());
+        newAction.setStatus(view.getStatusUiElement().getValue());
+        newAction.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
+        newAction.setLastUpdate(new Date());
 
         /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
 
@@ -76,10 +84,9 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         } else if (password == null || password.isEmpty() || password.length() < 4)
             view.displayError("Error", "Password needs to be at least 4 characters");
         else {*/
-        Service.updateOrSaveActions(action);
+        Service.updateOrSaveActions(newAction);
         //}
-        Cache.getInstance().put("action", action);
-        view.closeDialog();
+        Cache.getInstance().put("action", new Pair(action, newAction));
     }
 
     @Override
@@ -89,8 +96,16 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     }
 
     @Override
+    public void onActionComplete(ActionCompleteEvent event) {
+        if(event.getObjectType().equals("action")){
+            view.closeDialog();
+        }
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         Event.unsubscribe(FetchUnitsEvent.TYPE, this);
+        Event.unsubscribe(ActionCompleteEvent.TYPE, this);
     }
 }
