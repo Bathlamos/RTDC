@@ -20,7 +20,7 @@ import rtdc.android.presenter.fragments.VideoCallFragment;
 import rtdc.android.voip.LiblinphoneThread;
 import rtdc.android.voip.VoipListener;
 import rtdc.core.Bootstrapper;
-import rtdc.android.impl.AndroidConfig;
+import rtdc.core.config.Conf;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -219,7 +219,7 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
 
     @Override
     public void onMessageReceived(LinphoneChatMessage chatMessage) {
-        String commandExecKey = Bootstrapper.getFactory().getConfig().commandExecKey();
+        String commandExecKey = Conf.get().commandExecKey();
         if(chatMessage.getText().startsWith(commandExecKey + "Video: ")) {
             // Check to make sure that if we are in a call that the one that sent the message is the one we're in a call with
             // (It could be someone that's trying to request a video call, but we're in a call with someone already)

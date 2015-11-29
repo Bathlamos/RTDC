@@ -11,8 +11,6 @@ import rtdc.android.R;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
 import rtdc.android.presenter.MainActivity;
-import rtdc.android.impl.AndroidConfig;
-import rtdc.core.Bootstrapper;
 import rtdc.core.Session;
 import rtdc.core.config.Conf;
 import rtdc.core.event.Event;
