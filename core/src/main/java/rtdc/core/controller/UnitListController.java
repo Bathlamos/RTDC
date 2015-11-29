@@ -3,14 +3,12 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
-import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.Unit;
-import rtdc.core.model.User;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
+import rtdc.core.util.Pair;
 import rtdc.core.view.UnitListView;
-import rtdc.core.view.UserListView;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -48,9 +46,32 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
         sortUnits(Unit.Properties.name, true);
     }
 
-    // Return unit updated from CreateUnitActivity
-    public Unit getUpdatedUnit(){
-        return (Unit) Cache.getInstance().retrieve("unit");
+    // Update edited unit when returning from CreateUnitActivity
+    public void updateUnits(){
+        Pair<String, Unit> pair = (Pair<String, Unit>) Cache.getInstance().retrieve("unit");
+        if(pair != null) {
+            String action = pair.getFirst();
+            Unit unit = pair.getSecond();
+            if(action == "add") {
+                units.add(unit);
+                sortUnits(Unit.Properties.name, true);
+            } else {
+                int unitID = unit.getId();
+                int unitCount = units.size();
+                for (int i = 0; i < unitCount; i++) {
+                    if (units.get(i).getId() == unitID) {
+                        if(action == "edit") {
+                            units.set(i, unit);
+                            sortUnits(Unit.Properties.name, true);
+                        } else {
+                            units.remove(i);
+                            view.setUnits(units);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
