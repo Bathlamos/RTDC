@@ -1,7 +1,5 @@
 package rtdc.web.server.servlet;
 
-import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
@@ -12,7 +10,6 @@ import rtdc.core.event.*;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.Permission;
-import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
@@ -22,7 +19,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.sql.SQLException;
 import java.util.*;
 
 @Path("messages")
@@ -60,7 +56,7 @@ public class MessageServlet {
         return new ActionCompleteEvent(message.getId(), "message", "add").toString();
     }
 
-    @POST
+    @GET
     @Path("{userId1}/{userId2}/{startIndex}/{length}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
@@ -128,8 +124,8 @@ public class MessageServlet {
         return new FetchMessagesEvent(user1, user2, subList).toString();
     }
 
-    @POST
-    @Path("{userId}/")
+    @GET
+    @Path("{userId}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getRecentContacts(@Context HttpServletRequest req, @PathParam("userId") String userId1String){
