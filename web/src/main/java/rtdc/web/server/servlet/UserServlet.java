@@ -98,6 +98,10 @@ public class UserServlet {
         if(password == null || password.isEmpty() || password.length() < 4)
             return new ErrorEvent("Password must be longer than 4 characters").toString();
 
+        // A username must be at least 6 characters long, must only contain letters and numbers and can have underscores and hyphens
+        if(!user.getUsername().matches("(\\w|\\-){6,}+"))
+            return new ErrorEvent("Username contains illegal character. Only letters and numbers are allowed").toString();
+
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
