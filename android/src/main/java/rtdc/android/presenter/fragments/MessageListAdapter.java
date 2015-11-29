@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
-import rtdc.android.impl.AndroidConfig;
-import rtdc.core.Bootstrapper;
 import rtdc.core.Session;
 import rtdc.core.config.Conf;
 import rtdc.core.model.Message;

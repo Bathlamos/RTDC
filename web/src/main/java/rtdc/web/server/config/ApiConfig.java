@@ -8,10 +8,15 @@ import rtdc.web.server.model.AuthTokenFactory;
 import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.model.UserFactory;
 
+import java.util.logging.Logger;
+
 public class ApiConfig extends ResourceConfig {
+
+    private static final Logger LOGGER = Logger.getLogger(ApiConfig.class.getSimpleName());
 
     public ApiConfig(){
         packages("rtdc.web.server.servlet;rtdc.web.server.filter");
+
 
         register(RolesAllowedDynamicFeature.class);
         register(new AbstractBinder() {
@@ -21,5 +26,7 @@ public class ApiConfig extends ResourceConfig {
                 bindFactory(AuthTokenFactory.class).to(AuthenticationToken.class);
             }
         });
+
+        LOGGER.info("API Config loaded.");
     }
 }
