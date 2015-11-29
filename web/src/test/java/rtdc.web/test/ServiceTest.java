@@ -374,11 +374,10 @@ public class ServiceTest {
         testUser.setLastName("Test2");
 
         // Action
-        JSONObject object2 = executeSyncRequest("users/add", "password=password&user=" + testUser.toString(), "POST", authToken);
-        // Parse and get list of units
+        JSONObject result = executeSyncRequest("users/add", "user=" + testUser.toString() + "&password=" + TEST_PASSWORD, "POST", authToken);
 
         // Assert
-        Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), object2.get("_type"));
+        Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
         JSONObject savedUserJson = executeSyncRequest("users/" + testUser.getUsername(), null, "GET", authToken);
         Assert.assertEquals(FetchUserEvent.TYPE.getName(), savedUserJson.get("_type"));
     }
@@ -396,7 +395,7 @@ public class ServiceTest {
         // Action
         User user = new User(userJsonArray.getJSONObject(0));
         user.setFirstName("Modified name");
-        JSONObject result = executeSyncRequest("users", user.toString(), "PUT", authToken);
+        JSONObject result = executeSyncRequest("users", "user=" + user.toString(), "PUT", authToken);
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
@@ -502,7 +501,7 @@ public class ServiceTest {
     public void getAction_actionFound_getAction() {
         // Arrange
         String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
-        int actionId = 1;
+        int actionId = 2;
 
         // Action
         JSONObject result = executeSyncRequest("actions/" + actionId, null, "GET", authToken);
@@ -574,7 +573,7 @@ public class ServiceTest {
     public void updateOrSaveAction_updateAction_actionUpdated() {
         // Arrange
         String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
-        int actionId = 1;
+        int actionId = 2;
         Action action = new Action(executeSyncRequest("actions/" + actionId, null, "GET", authToken).getJSONObject("action"));
         action.setDescription("TEST");
 
@@ -615,7 +614,7 @@ public class ServiceTest {
     public void deleteAction_actionFound_actionDeleted() {
         // Arrange
         String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
-        int actionId = 5;
+        int actionId = 1;
 
         // Action
         JSONObject result = executeSyncRequest("actions/" + actionId, null, "DELETE", authToken);

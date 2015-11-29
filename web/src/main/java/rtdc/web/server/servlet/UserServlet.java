@@ -88,10 +88,10 @@ public class UserServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String addUser(@Context HttpServletRequest req, @FormParam("user") String userString, @FormParam("password") String password){
-        User user = new User(new JSONObject(userString));
+    public String addUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString, @FormParam("password") String password){
+        User newUser = new User(new JSONObject(userString));
 
-        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
+        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(newUser);
         if(!violations.isEmpty())
             return new ErrorEvent(violations.toString()).toString();
 
@@ -99,17 +99,17 @@ public class UserServlet {
             return new ErrorEvent("Password must be longer than 4 characters").toString();
 
         // A username must be at least 6 characters long, must only contain letters and numbers and can have underscores and hyphens
-        if(!user.getUsername().matches("(\\w|\\-){6,}+"))
+        if(!newUser.getUsername().matches("(\\w|\\-){6,}+"))
             return new ErrorEvent("Username contains illegal character. Only letters and numbers are allowed").toString();
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            session.saveOrUpdate(user);
-            UserCredentials credentials = AuthService.generateUserCredentials(user, password);
+            session.saveOrUpdate(newUser);
+            UserCredentials credentials = AuthService.generateUserCredentials(newUser, password);
             session.saveOrUpdate(credentials);
-            AsteriskRealTimeService.addUser(user, credentials.getAsteriskPassword());
+            AsteriskRealTimeService.addUser(newUser, credentials.getAsteriskPassword());
             transaction.commit();
 
             // TODO: Replace string with actual username
@@ -122,17 +122,17 @@ public class UserServlet {
             session.close();
         }
 
-        return new ActionCompleteEvent(user.getId(), "user", "add").toString();
+        return new ActionCompleteEvent(newUser.getId(), "user", "add").toString();
     }
 
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String editUser(@Context HttpServletRequest req, @FormParam("user") String userString){
-        User user = new User(new JSONObject(userString));
+    public String editUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString){
+        User editedUser = new User(new JSONObject(userString));
 
-        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
+        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(editedUser);
         if(!violations.isEmpty())
             return new ErrorEvent(violations.toString()).toString();
 
@@ -140,7 +140,7 @@ public class UserServlet {
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            session.merge(user);
+            session.merge(editedUser);
             transaction.commit();
 
             // TODO: Replace string with actual username
@@ -153,7 +153,7 @@ public class UserServlet {
             session.close();
         }
 
-        return new ActionCompleteEvent(user.getId(), "user", "update").toString();
+        return new ActionCompleteEvent(editedUser.getId(), "user", "update").toString();
     }
 
     @PUT
@@ -162,6 +162,7 @@ public class UserServlet {
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String editPasswordFromOld(@Context HttpServletRequest req,
+                                      @Context User user,
                                       @PathParam("id") int userId,
                                       @FormParam("oldPassword") String oldPassword,
                                       @FormParam("newPassword") String newPassword){
@@ -177,20 +178,20 @@ public class UserServlet {
     @Path("{id}")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") String idString){
+    public String deleteUser(@Context HttpServletRequest req, @Context User user, @PathParam("id") String idString){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         int id = Integer.valueOf(idString);
         try{
             log.warn("Deleting user with id " + id);
             transaction = session.beginTransaction();
-            User user = (User) session.load(User.class, id);
-            session.delete(user);
-            AsteriskRealTimeService.deleteUser(user);
+            User userToDelete = (User) session.load(User.class, id);
+            session.delete(userToDelete);
+            AsteriskRealTimeService.deleteUser(userToDelete);
             transaction.commit();
 
             // TODO: Replace string with actual username
-            log.warn("{}: USER: User deleted: {}", "Username", user.getUsername());
+            log.warn("{}: USER: User deleted: {}", "Username", userToDelete.getUsername());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
