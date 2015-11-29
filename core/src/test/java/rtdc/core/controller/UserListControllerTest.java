@@ -68,7 +68,7 @@ public class UserListControllerTest {
     }
 
     @Test
-    public void onUnitsFetched_emptyUnitList(){
+    public void onUsersFetched_emptyUnitList(){
         // Setup empty unit list for FetchUnitEvent
         FetchUsersEvent mockEmptyListEvent = mock(FetchUsersEvent.class);
         ImmutableSet<User> userSet = ImmutableSet.of();
@@ -92,7 +92,9 @@ public class UserListControllerTest {
         expectedList.add(user3); // 3
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.id, true);
+        userListController.sortUsers(User.Properties.id, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -110,7 +112,9 @@ public class UserListControllerTest {
         expectedList.add(user2); // pam
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.username, true);
+        userListController.sortUsers(User.Properties.username, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -128,7 +132,9 @@ public class UserListControllerTest {
         expectedList.add(user2); // Pamela
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.firstName, true);
+        userListController.sortUsers(User.Properties.firstName, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -146,7 +152,9 @@ public class UserListControllerTest {
         expectedList.add(user1); // Smith
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.lastName, true);
+        userListController.sortUsers(User.Properties.lastName, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -164,7 +172,9 @@ public class UserListControllerTest {
         expectedList.add(user2); // pam@hostname.com
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.email, true);
+        userListController.sortUsers(User.Properties.email, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -182,7 +192,9 @@ public class UserListControllerTest {
         expectedList.add(user1); // Permission.USER
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.permission, true);
+        userListController.sortUsers(User.Properties.permission, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -200,7 +212,9 @@ public class UserListControllerTest {
         expectedList.add(user2); // Unit Manager
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.role, true);
+        userListController.sortUsers(User.Properties.role, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -218,7 +232,9 @@ public class UserListControllerTest {
         expectedList.add(user3); // 6135559876
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.phone, true);
+        userListController.sortUsers(User.Properties.phone, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -236,7 +252,9 @@ public class UserListControllerTest {
         expectedList.add(user2); // unit456 - Surgery
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.unit, true);
+        userListController.sortUsers(User.Properties.unit, true);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -254,7 +272,9 @@ public class UserListControllerTest {
         expectedList.add(user1); // 1
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.id, false);
+        userListController.sortUsers(User.Properties.id, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -272,7 +292,9 @@ public class UserListControllerTest {
         expectedList.add(user1); // jenny
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.username, false);
+        userListController.sortUsers(User.Properties.username, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -290,7 +312,9 @@ public class UserListControllerTest {
         expectedList.add(user1); // Jennifer
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.firstName, false);
+        userListController.sortUsers(User.Properties.firstName, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -308,7 +332,9 @@ public class UserListControllerTest {
         expectedList.add(user2); // Jones
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.lastName, false);
+        userListController.sortUsers(User.Properties.lastName, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -326,7 +352,9 @@ public class UserListControllerTest {
         expectedList.add(user1); // jenny@example.com
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.email, false);
+        userListController.sortUsers(User.Properties.email, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -344,7 +372,9 @@ public class UserListControllerTest {
         expectedList.add(user3); // Permission.ADMIN
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.permission, false);
+        userListController.sortUsers(User.Properties.permission, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -362,7 +392,9 @@ public class UserListControllerTest {
         expectedList.add(user3); // Administrator
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.role, false);
+        userListController.sortUsers(User.Properties.role, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -380,7 +412,9 @@ public class UserListControllerTest {
         expectedList.add(user2); // 6134448899
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.phone, false);
+        userListController.sortUsers(User.Properties.phone, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);
@@ -398,7 +432,9 @@ public class UserListControllerTest {
         expectedList.add(user3); // null
 
         // Test
-        List<User> actualList = userListController.sortUsers(User.Properties.unit, false);
+        userListController.sortUsers(User.Properties.unit, false);
+        verify(mockView, atLeastOnce()).setUsers(setUsersArgument.capture());
+        ArrayList<User> actualList = setUsersArgument.getValue();
 
         // Compare expected & actual
         assertEquals(expectedList, actualList);

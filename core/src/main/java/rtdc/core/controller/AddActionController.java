@@ -1,6 +1,7 @@
 package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.model.Action;
@@ -13,8 +14,9 @@ import rtdc.core.view.AddActionView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
-public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler{
+public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler, ActionCompleteEvent.Handler {
 
     private ArrayList<Unit> units = new ArrayList<>();
 
@@ -23,6 +25,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     public AddActionController(AddActionView view){
         super(view);
         Event.subscribe(FetchUnitsEvent.TYPE, this);
+        Event.subscribe(ActionCompleteEvent.TYPE, this);
         Service.getUnits();
 
         view.getTaskUiElement().setArray(Action.Task.values());
@@ -71,6 +74,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         newAction.setDescription(view.getDescriptionUiElement().getValue());
         newAction.setStatus(view.getStatusUiElement().getValue());
         newAction.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
+        newAction.setLastUpdate(new Date());
 
         /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
 
@@ -83,7 +87,6 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         Service.updateOrSaveActions(newAction);
         //}
         Cache.getInstance().put("action", new Pair(action, newAction));
-        view.closeDialog();
     }
 
     @Override
@@ -93,8 +96,16 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     }
 
     @Override
+    public void onActionComplete(ActionCompleteEvent event) {
+        if(event.getObjectType().equals("action")){
+            view.closeDialog();
+        }
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         Event.unsubscribe(FetchUnitsEvent.TYPE, this);
+        Event.unsubscribe(ActionCompleteEvent.TYPE, this);
     }
 }

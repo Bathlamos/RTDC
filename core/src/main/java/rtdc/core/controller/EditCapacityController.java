@@ -2,17 +2,20 @@ package rtdc.core.controller;
 
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.event.ActionCompleteEvent;
+import rtdc.core.event.Event;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
 import rtdc.core.view.EditCapacityView;
 
-public class EditCapacityController extends Controller<EditCapacityView>{
+public class EditCapacityController extends Controller<EditCapacityView> implements ActionCompleteEvent.Handler {
 
     private Unit currentUnit;
 
     public EditCapacityController(EditCapacityView view) {
         super(view);
+        Event.subscribe(ActionCompleteEvent.TYPE, this);
         currentUnit = (Unit) Cache.getInstance().retrieve("unit");
 
         //Populate the fields
@@ -51,6 +54,18 @@ public class EditCapacityController extends Controller<EditCapacityView>{
         Service.updateOrSaveUnit(currentUnit);
         //}
         Cache.getInstance().put("unit", currentUnit);
-        view.closeDialog();
+    }
+
+    @Override
+    public void onActionComplete(ActionCompleteEvent event) {
+        if(event.getObjectType().equals("unit")){
+            view.closeDialog();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(ActionCompleteEvent.TYPE, this);
     }
 }

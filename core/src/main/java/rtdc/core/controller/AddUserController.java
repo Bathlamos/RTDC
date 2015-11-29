@@ -66,20 +66,19 @@ public class AddUserController extends Controller<AddUserView> implements Action
             Service.addUser(newUser, password);
 
         Cache.getInstance().put("user", new Pair(action, newUser));
-        view.closeDialog();
     }
 
     public void deleteUser(){
         Cache.getInstance().put("user", new Pair("delete", currentUser));
         if (currentUser != null)
             Service.deleteUser(currentUser.getId());
-        view.closeDialog();
     }
 
     @Override
     public void onActionComplete(ActionCompleteEvent event) {
-        // This causes a crash
-        //view.displayError("Success", "success");
+        if(event.getObjectType().equals("user")){
+            view.closeDialog();
+        }
     }
 
     @Override
