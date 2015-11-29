@@ -1,20 +1,20 @@
 package rtdc.android.presenter;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 import rtdc.android.R;
+import rtdc.android.impl.AndroidUiDropdown;
+import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddUserController;
+import rtdc.core.impl.UiDropdown;
+import rtdc.core.impl.UiElement;
+import rtdc.core.model.User;
 import rtdc.core.view.AddUserView;
 
 import java.lang.reflect.Field;
@@ -23,8 +23,8 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
     private AddUserController controller;
 
-    private EditText usernameEdit, passwordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
-    private Spinner roleSpinner, permissionSpinner;
+    private AndroidUiString usernameEdit, passwordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
+    private AndroidUiDropdown roleSpinner, permissionSpinner;
     private boolean hideDeleteButton = false;
 
     @Override
@@ -38,24 +38,15 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        usernameEdit = (EditText) findViewById(R.id.usernameEdit);
-        passwordEdit = (EditText) findViewById(R.id.passwordEdit);
-        emailEdit = (EditText) findViewById(R.id.emailEdit);
-        firstNameEdit = (EditText) findViewById(R.id.firstNameEdit);
-        lastNameEdit = (EditText) findViewById(R.id.lastNameEdit);
-        phoneEdit = (EditText) findViewById(R.id.phoneEdit);
+        usernameEdit = (AndroidUiString) findViewById(R.id.usernameEdit);
+        passwordEdit = (AndroidUiString) findViewById(R.id.passwordEdit);
+        emailEdit = (AndroidUiString) findViewById(R.id.emailEdit);
+        firstNameEdit = (AndroidUiString) findViewById(R.id.firstNameEdit);
+        lastNameEdit = (AndroidUiString) findViewById(R.id.lastNameEdit);
+        phoneEdit = (AndroidUiString) findViewById(R.id.phoneEdit);
 
-        roleSpinner = (Spinner) findViewById(R.id.roleSpinner);
-        ArrayAdapter<CharSequence> rolesAdapter = ArrayAdapter.createFromResource(this, R.array.roles_array,
-               android.R.layout.simple_spinner_item);
-        rolesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        roleSpinner.setAdapter(rolesAdapter);
-
-        permissionSpinner = (Spinner) findViewById(R.id.permissionSpinner);
-        ArrayAdapter<CharSequence> permissionsAdapter = ArrayAdapter.createFromResource(this, R.array.permissions_array,
-                android.R.layout.simple_spinner_item);
-        permissionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        permissionSpinner.setAdapter(permissionsAdapter);
+        roleSpinner = (AndroidUiDropdown) findViewById(R.id.roleSpinner);
+        permissionSpinner = (AndroidUiDropdown) findViewById(R.id.permissionSpinner);
 
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -111,121 +102,48 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
     }
 
     @Override
+    public UiElement<String> getUsernameUiElement() {
+        return usernameEdit;
+    }
+
+    @Override
+    public UiElement<String> getLastNameUiElement() {
+        return lastNameEdit;
+    }
+
+    @Override
+    public UiElement<String> getFirstNameUiElement() {
+        return firstNameEdit;
+    }
+
+    @Override
+    public UiElement<String> getEmailUiElement() {
+        return emailEdit;
+    }
+
+    @Override
+    public UiElement<String> getPhoneUiElement() {
+        return phoneEdit;
+    }
+
+    @Override
+    public UiDropdown<User.Role> getRoleUiElement() {
+        return roleSpinner;
+    }
+
+    @Override
+    public UiDropdown<User.Permission> getPermissionUiElement() {
+        return permissionSpinner;
+    }
+
+    @Override
+    public UiElement<String> getPasswordUiElement() {
+        return passwordEdit;
+    }
+
+    @Override
     public void hideDeleteButton() {
         hideDeleteButton = true;
-    }
-
-    @Override
-    public String getUsernameAsString() {
-        return usernameEdit.getText().toString();
-    }
-
-    @Override
-    public void setUsernameAsString(String value) {
-        usernameEdit.setText(value);
-    }
-
-    @Override
-    public void setErrorForUsername(String error) {
-
-    }
-
-    @Override
-    public String getSurnameAsString() {
-        return lastNameEdit.getText().toString();
-    }
-
-    @Override
-    public void setSurnameAsString(String value) {
-        lastNameEdit.setText(value);
-    }
-
-    @Override
-    public void setErrorForSurname(String error) {
-
-    }
-
-    @Override
-    public String getFirstnameAsString() {
-        return firstNameEdit.getText().toString();
-    }
-
-    @Override
-    public void setFirstnameAsString(String value) {
-        firstNameEdit.setText(value);
-    }
-
-    @Override
-    public void setErrorForFirstname(String error) {
-
-    }
-
-    @Override
-    public String getEmailAsString() {
-        return emailEdit.getText().toString();
-    }
-
-    @Override
-    public void setEmailAsString(String value) {
-        emailEdit.setText(value);
-    }
-
-    @Override
-    public long getPhoneAsLong() {
-        return Long.parseLong(phoneEdit.getText().toString());
-    }
-
-    @Override
-    public void setPhoneAsLong(long value) {
-        phoneEdit.setText(value + "");
-    }
-
-    @Override
-    public String getRoleAsString() {
-        return roleSpinner.getSelectedItem().toString();
-    }
-
-    @Override
-    public void setRoleAsString(String value) {
-        TypedArray ta = getResources().obtainTypedArray(R.array.roles_array);
-        for(int i = 0; i < ta.length(); i++){
-            if(ta.getString(i).equals(value))
-                roleSpinner.setSelection(i);
-        }
-    }
-
-    @Override
-    public String getPasswordAsString() {
-        return passwordEdit.getText().toString();
-    }
-
-    @Override
-    public void setPasswordAsString(String value) {
-        passwordEdit.setText(value);
-    }
-
-    @Override
-    public void setErrorForPassword(String error) {
-
-    }
-
-    @Override
-    public String getPermissionAsString() {
-        return permissionSpinner.getSelectedItem().toString();
-    }
-
-    @Override
-    public void setPermissionAsString(String value) {
-        TypedArray ta = getResources().obtainTypedArray(R.array.permissions_array);
-        for(int i = 0; i < ta.length(); i++){
-            if(ta.getString(i).equals(value))
-                permissionSpinner.setSelection(i);
-        }
-    }
-
-    @Override
-    public void setPermissionForSurname(String error) {
-
     }
 
     @Override

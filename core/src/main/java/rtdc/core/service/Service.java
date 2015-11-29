@@ -26,23 +26,27 @@ public final class Service {
     private Service(){}
 
     public static void authenticateUser(String username, String password){
-        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate", POST);
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "auth/login", POST);
         req.addParameter("username", username);
         req.addParameter("password", password);
         executeRequest(req);
     }
 
     public static void isAuthTokenValid(){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate/tokenValid", POST));
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "auth/tokenValid", POST));
     }
 
     public static void logout(){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "authenticate/logout", POST));
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "auth/logout", POST));
         Bootstrapper.FACTORY.getVoipController().unregisterCurrentUser();
     }
 
     public static void getUnits(){
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units", GET));
+    }
+
+    public static void getUnit(int unitId) {
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units/" + unitId, GET));
     }
 
     public static void updateOrSaveUnit(Unit unit){
@@ -52,7 +56,7 @@ public final class Service {
     }
 
     public static void deleteUnit(int unitId){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units/" + unitId, DELETE));
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units" + unitId, DELETE));
     }
 
     public static void getUsers(){
@@ -60,11 +64,18 @@ public final class Service {
     }
 
     public static void getUser(String username){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users/" + username, POST));
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users" + username, POST));
     }
 
-    public static void updateOrSaveUser(User user, String password){
+    public static void updateUser(User user, String password){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
+        req.addParameter("user", user.toString());
+        req.addParameter("password", password);
+        executeRequest(req);
+    }
+
+    public static void addUser(User user, String password){
+        HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users/add", POST);
         req.addParameter("user", user.toString());
         req.addParameter("password", password);
         executeRequest(req);

@@ -1,14 +1,15 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:rtdc='urn:import:rtdc.web.client.impl'>
     <g:FlowPanel>
-        <g:TextBox ui:field="username" text="Nathaniel" />
-        <g:PasswordTextBox ui:field="password" text="password"/>
-        <g:TextBox ui:field="firstname" text="Nathaniel"/>
-        <g:TextBox ui:field="surname" text="Aumont"/>
-        <g:TextBox ui:field="role" text="Unit Manager"/>
-        <g:TextBox ui:field="email" text="plegault@live.ca"/>
-        <g:TextBox ui:field="phone" text="613-555-1234"/>
-        <g:TextBox ui:field="permission" text="ADMIN"/>
+        <rtdc:GwtUiString ui:field="username" text="Nathaniel" />
+        <rtdc:GwtUiPasswordString ui:field="password" text="password"/>
+        <rtdc:GwtUiString ui:field="firstName" text="Nathaniel"/>
+        <rtdc:GwtUiString ui:field="lastName" text="Aumont"/>
+        <rtdc:GwtUiString ui:field="email" text="plegault@live.ca"/>
+        <rtdc:GwtUiString ui:field="phone" text="613-555-1234"/>
+        <rtdc:GwtUiDropdown ui:field="role"/>
+        <rtdc:GwtUiDropdown ui:field="permission"/>
         <g:Button ui:field="addUser" text="Add User"/>
     </g:FlowPanel>
 </ui:UiBinder>

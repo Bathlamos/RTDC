@@ -17,16 +17,22 @@ public class AddUserController extends Controller<AddUserView> implements Action
         super(view);
         Event.subscribe(ActionCompleteEvent.TYPE, this);
 
+        view.getRoleUiElement().setArray(User.Role.values());
+        view.getRoleUiElement().setStringifier(User.Role.getStringifier());
+
+        view.getPermissionUiElement().setArray(User.Permission.values());
+        view.getPermissionUiElement().setStringifier(User.Permission.getStringifier());
+
         currentUser = (User) Cache.getInstance().retrieve("user");
         if (currentUser != null) {
             view.setTitle("Edit User");
-            view.setUsernameAsString(currentUser.getUsername());
-            view.setEmailAsString(currentUser.getEmail());
-            view.setFirstnameAsString(currentUser.getFirstName());
-            view.setSurnameAsString(currentUser.getLastName());
-            view.setPhoneAsLong(currentUser.getPhone());
-            view.setRoleAsString(currentUser.getRole());
-            view.setPermissionAsString(currentUser.getPermission());
+            view.getUsernameUiElement().setValue(currentUser.getUsername());
+            view.getEmailUiElement().setValue(currentUser.getEmail());
+            view.getFirstNameUiElement().setValue(currentUser.getFirstName());
+            view.getLastNameUiElement().setValue(currentUser.getLastName());
+            view.getPhoneUiElement().setValue(currentUser.getPhone());
+            view.getRoleUiElement().setValue(currentUser.getRole());
+            view.getPermissionUiElement().setValue(currentUser.getPermission());
         } else {
             view.hideDeleteButton();
         }
@@ -45,16 +51,19 @@ public class AddUserController extends Controller<AddUserView> implements Action
             newUser.setId(currentUser.getId());
             action = "edit";
         }
-        newUser.setUsername(view.getUsernameAsString());
-        newUser.setFirstName(view.getFirstnameAsString());
-        newUser.setLastName(view.getSurnameAsString());
-        newUser.setEmail(view.getEmailAsString());
-        newUser.setPhone(view.getPhoneAsLong());
-        newUser.setPermission(view.getPermissionAsString());
-        newUser.setRole(view.getRoleAsString());
-        String password = view.getPasswordAsString();
+        newUser.setUsername(view.getUsernameUiElement().getValue());
+        newUser.setFirstName(view.getFirstNameUiElement().getValue());
+        newUser.setLastName(view.getLastNameUiElement().getValue());
+        newUser.setEmail(view.getEmailUiElement().getValue());
+        newUser.setPhone(view.getPhoneUiElement().getValue());
+        newUser.setPermission(view.getPermissionUiElement().getValue());
+        newUser.setRole(view.getRoleUiElement().getValue());
+        String password = view.getPasswordUiElement().getValue();
 
-        Service.updateOrSaveUser(newUser, password);
+        if (currentUser != null)
+            Service.updateUser(newUser, password);
+        else
+            Service.addUser(newUser, password);
 
         Cache.getInstance().put("user", new Pair(action, newUser));
         view.closeDialog();

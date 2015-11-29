@@ -1,12 +1,11 @@
 package rtdc.core.view;
 
+import rtdc.core.impl.UiElement;
+
 public interface AddUnitView extends Dialog {
+    UiElement<String> getNameUiElement();
 
-    String getNameAsString();
-    void setNameAsString(String name);
-
-    String getTotalBedsAsString();
-    void setTotalBedsAsString(String totalBeds);
+    UiElement<String> getTotalBedsUiElement();
 
     void hideDeleteButton();
 

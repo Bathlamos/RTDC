@@ -19,7 +19,7 @@ public class AuthenticationToken implements Serializable {
     @Column(name = "dateSet", nullable = false)
     private Date dateSet;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, optional = false)
+    @ManyToOne(targetEntity = User.class, optional = false)
     @JoinColumn(name="userId")
     private User user;
 

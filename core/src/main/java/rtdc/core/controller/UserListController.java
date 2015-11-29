@@ -27,9 +27,10 @@ public class UserListController extends Controller<UserListView> implements Fetc
         return "Users";
     }
 
-    public void sortUsers(User.Properties property){
-        Collections.sort(users, SimpleComparator.forProperty(property).build());
-        view.setUsers(users);
+    public List<User> sortUsers(User.Properties property, boolean ascending){
+        ArrayList<User> sortedUsers = new ArrayList<>(users);
+        Collections.sort(sortedUsers, SimpleComparator.forProperty(property).setAscending(ascending).build());
+        return sortedUsers;
     }
 
     public void deleteUser(User user){
@@ -45,7 +46,7 @@ public class UserListController extends Controller<UserListView> implements Fetc
     @Override
     public void onUsersFetched(FetchUsersEvent event) {
         users = new ArrayList<>(event.getUsers());
-        sortUsers(User.Properties.lastName);
+        view.setUsers(sortUsers(User.Properties.lastName, true));
     }
 
     // Update edited user when returning from CreateUserActivity
@@ -56,7 +57,7 @@ public class UserListController extends Controller<UserListView> implements Fetc
             User user = pair.getSecond();
             if(action == "add") {
                 users.add(user);
-                sortUsers(User.Properties.lastName);
+                sortUsers(User.Properties.lastName, true);
             } else {
                 int userID = user.getId();
                 int userCount = users.size();
@@ -64,7 +65,7 @@ public class UserListController extends Controller<UserListView> implements Fetc
                     if (users.get(i).getId() == userID) {
                         if(action == "edit") {
                             users.set(i, user);
-                            sortUsers(User.Properties.lastName);
+                            sortUsers(User.Properties.lastName, true);
                         } else {
                             users.remove(i);
                             view.setUsers(users);

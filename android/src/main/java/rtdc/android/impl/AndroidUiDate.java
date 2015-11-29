@@ -4,7 +4,9 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import rtdc.core.impl.UiElement;
 
@@ -20,18 +22,21 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
         super(context);
         this.context = context;
         setOnFocusChangeListener(this);
+        setOnClickListener(this);
     }
 
     public AndroidUiDate(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         setOnFocusChangeListener(this);
+        setOnClickListener(this);
     }
 
     public AndroidUiDate(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
         this.context = context;
         setOnFocusChangeListener(this);
+        setOnClickListener(this);
     }
 
     @Override

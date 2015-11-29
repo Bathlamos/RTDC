@@ -29,9 +29,10 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
         return "Units";
     }
 
-    public void sortUnits(Unit.Properties property){
-        Collections.sort(units, SimpleComparator.forProperty(property).build());
-        view.setUnits(units);
+    public void sortUnits(Unit.Properties property, boolean ascending){
+        ArrayList<Unit> sortedUnits = new ArrayList<>(units);
+        Collections.sort(sortedUnits, SimpleComparator.forProperty(property).setAscending(ascending).build());
+        view.setUnits(sortedUnits);
     }
 
     public void editUnit(Unit unit){
@@ -42,7 +43,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
         units = new ArrayList<>(event.getUnits());
-        sortUnits(Unit.Properties.name);
+        sortUnits(Unit.Properties.name, true);
     }
 
     // Update edited unit when returning from CreateUnitActivity
@@ -53,7 +54,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
             Unit unit = pair.getSecond();
             if(action == "add") {
                 units.add(unit);
-                sortUnits(Unit.Properties.name);
+                sortUnits(Unit.Properties.name, true);
             } else {
                 int unitID = unit.getId();
                 int unitCount = units.size();
@@ -61,7 +62,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
                     if (units.get(i).getId() == unitID) {
                         if(action == "edit") {
                             units.set(i, unit);
-                            sortUnits(Unit.Properties.name);
+                            sortUnits(Unit.Properties.name, true);
                         } else {
                             units.remove(i);
                             view.setUnits(units);

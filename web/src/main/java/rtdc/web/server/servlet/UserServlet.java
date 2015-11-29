@@ -30,7 +30,7 @@ import java.util.Set;
 @Path("users")
 public class UserServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(UserServlet.class);
 
     @GET
     @RolesAllowed({Permission.USER, Permission.ADMIN})
@@ -55,23 +55,24 @@ public class UserServlet {
         return new FetchUsersEvent(users).toString();
     }
 
-    @POST
+    @GET
     @Path("{username}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getUser(@Context HttpServletRequest req, @PathParam("username") String username){
+    public String getUser(@Context HttpServletRequest req, @Context User user, @PathParam("username") String username){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
-        User user = null;
+        User retrievedUser = null;
         try{
             transaction = session.beginTransaction();
             List<User> userList = (List<User>) session.createCriteria(User.class).add(Restrictions.eq("username", username)).list();
             if(!userList.isEmpty())
-                user = userList.get(0);
+                retrievedUser = userList.get(0);
+            else
+                return new ErrorEvent("No user with username " + username + " found.").toString();
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: USER: Getting user for user.", "Username");
+            log.info("{}: USER: Getting user + " + retrievedUser.getUsername() + " for user.", user.getUsername());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -79,14 +80,15 @@ public class UserServlet {
         } finally{
             session.close();
         }
-        return new FetchUserEvent(user).toString();
+        return new FetchUserEvent(retrievedUser).toString();
     }
 
     @POST
+    @Path("add")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String addUser(@Context HttpServletRequest req, @FormParam("password") String password, @FormParam("user" )String userString){
+    public String addUser(@Context HttpServletRequest req, @FormParam("user") String userString, @FormParam("password") String password){
         User user = new User(new JSONObject(userString));
 
         Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
@@ -95,6 +97,7 @@ public class UserServlet {
 
         if(password == null || password.isEmpty() || password.length() < 4)
             return new ErrorEvent("Password must be longer than 4 characters").toString();
+
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
@@ -107,9 +110,6 @@ public class UserServlet {
 
             // TODO: Replace string with actual username
             log.info("{}: USER: New user added: {}", "Username", userString);
-        } catch (SQLException e) {
-            if(transaction != null)
-                transaction.rollback();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -173,10 +173,12 @@ public class UserServlet {
     @Path("{id}")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") int id){
+    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") String idString){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
+        int id = Integer.valueOf(idString);
         try{
+            log.warn("Deleting user with id " + id);
             transaction = session.beginTransaction();
             User user = (User) session.load(User.class, id);
             session.delete(user);
@@ -185,9 +187,6 @@ public class UserServlet {
 
             // TODO: Replace string with actual username
             log.warn("{}: USER: User deleted: {}", "Username", user.getUsername());
-        } catch (SQLException e) {
-            if(transaction != null)
-                transaction.rollback();
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

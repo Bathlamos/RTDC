@@ -1,43 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:card_view="http://schemas.android.com/apk/res-auto"
               android:orientation="horizontal"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
+
+    <android.support.v7.widget.CardView
+            android:layout_gravity="center"
+            android:layout_height="fill_parent"
+            android:layout_width="250dp"
+            card_view:cardCornerRadius="2dp"
+            android:id="@+id/contact_list_card_view" android:layout_margin="4dp">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:layout_weight="0.68"
-                android:background="@drawable/border_right_grey">
-        <LinearLayout
+                android:layout_height="match_parent" android:layout_weight="0.68">
+
+                <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="56dp"
                 android:weightSum="1" android:padding="10dp" android:gravity="center_vertical"
                 android:background="@drawable/border_bottom_grey">
 
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="RECENT"
-                        android:id="@+id/textView" android:textSize="14sp"
-                        android:textStyle="bold" android:textColor="@color/RTDC_grey"
-                        />
-        </LinearLayout>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="RECENT"
+                            android:id="@+id/textView" android:textSize="14sp"
+                            android:textStyle="bold" android:textColor="@color/RTDC_grey"
+                    />
+                </LinearLayout>
                 <ListView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/recentContactsListView" android:layout_weight="1" android:clickable="false"/>
 
+
         </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-        <AutoCompleteTextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/contactsAutoComplete"
-                android:layout_weight="0.32" android:layout_gravity="top" android:visibility="gone"
-                android:completionThreshold="1"
-                android:popupBackground="@null" android:hint="Type contact name..."/>
-
+    <android.support.v7.widget.CardView
+            android:layout_gravity="center"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            card_view:cardCornerRadius="2dp"
+            android:id="@+id/message_card_view" android:layout_margin="4dp">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
@@ -93,13 +102,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:id="@+id/messageListView" android:layout_weight="1" android:stackFromBottom="true"
-                            android:divider="@null"/>
+                            android:divider="@null" android:clickable="false"/>
                         <LinearLayout
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/border_top_grey"
-                                android:layout_gravity="bottom" android:padding="5dp" android:backgroundTint="#FFFFFF">
+                                android:layout_gravity="bottom" android:padding="5dp" android:backgroundTint="#FFFFFF"
+                                android:background="@drawable/border_top_grey">
                                 <EditText
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -117,4 +126,13 @@
                         </LinearLayout>
                 </LinearLayout>
         </LinearLayout>
+        <AutoCompleteTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/contactsAutoComplete"
+                android:layout_weight="0.32" android:layout_gravity="top" android:visibility="gone"
+                android:completionThreshold="1"
+                android:popupBackground="@null" android:hint="Type contact name..."
+        />
+    </android.support.v7.widget.CardView>
 </LinearLayout>

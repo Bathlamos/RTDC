@@ -1,9 +1,11 @@
 package rtdc.web.server.filter;
 
 import rtdc.core.Config;
+import rtdc.core.exception.SessionExpiredException;
 import rtdc.core.model.User;
 import rtdc.core.service.CookiesName;
 import rtdc.core.service.HttpHeadersName;
+import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.service.AuthService;
 
 import java.io.IOException;
@@ -58,7 +60,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         }
 
         // For any other methods besides login, the authToken must be verified
-        if (!path.startsWith("authenticate") && !path.startsWith("open")) {
+        if (!path.startsWith("auth/login") && !path.startsWith("auth/tokenValid")) {
             String authToken = requestCtx.getHeaderString(HttpHeadersName.AUTH_TOKEN);
 
             // Also check if there are cookies with an authToken
@@ -68,18 +70,18 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             log.debug("With auth token " + authToken);
 
             // if it isn't valid, just kick them out.
-            User user = AuthService.getAuthenticatedUser(authToken);
-            if (user == null)
-                requestCtx.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
-            else {
-                // Authenticate the user
-                requestCtx.setSecurityContext(new SecurityContextImpl(user));
-            }
+            // This automatically fails if the authentication token is outdated
+            AuthenticationToken token = AuthService.getAuthenticationToken(authToken);
+            User user = token.getUser();
+            requestCtx.setProperty("current_user", user);
+            requestCtx.setProperty("current_auth_token", token);
+
+            // Authenticate the user
+            requestCtx.setSecurityContext(new SecurityContextImpl(user));
         }
     }
 
     private static final class SecurityContextImpl implements SecurityContext {
-
 
         private final User user;
 
@@ -98,9 +100,9 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             };
         }
 
-        public boolean isUserInRole(String role) {
-            log.info("Checking access rights : " + role + " / " + user.getRole());
-            return user.getRole().equalsIgnoreCase(role);
+        public boolean isUserInRole(String permission) {
+            log.info("Checking access rights : " + permission + " / " + user.getPermission());
+            return User.Permission.getStringifier().toString(user.getPermission()).equalsIgnoreCase(permission);
         }
 
         public boolean isSecure() {
