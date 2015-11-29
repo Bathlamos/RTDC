@@ -96,6 +96,10 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET));
     }
 
+    public static void getAction(int actionId){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions/" + actionId, GET));
+    }
+
     public static void updateOrSaveActions(Action action){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "actions", PUT);
         req.addParameter("action", action.toString());
