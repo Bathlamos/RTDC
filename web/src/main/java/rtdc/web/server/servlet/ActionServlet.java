@@ -52,7 +52,7 @@ public class ActionServlet {
                     iterator.remove();
                 }
             }
-            if(Permission.USER.equalsIgnoreCase(user.getPermission()))
+            if(Permission.USER.equalsIgnoreCase(User.Permission.getStringifier().toString(user.getPermission())))
                 actions = (List<Action>) session.createCriteria(Action.class).
                         add(Restrictions.eq("personResponsible", user)).list();
             else

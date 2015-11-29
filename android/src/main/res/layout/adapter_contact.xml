@@ -17,7 +17,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="20sp" android:textColor="@color/RTDC_black"
                 android:text="John Doe"
                 android:id="@+id/userNameText"
                 android:layout_gravity="center_vertical"
@@ -26,7 +26,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="16sp"
                 android:text="Unit Manager: Emergency Unit"
                 android:id="@+id/roleUnitText" android:layout_gravity="center_vertical"
                 android:layout_below="@+id/userNameText" android:layout_alignParentLeft="true"

@@ -77,7 +77,8 @@ public class MessageListAdapter extends ArrayAdapter {
     private void setupColumn(View view, int resourceId, String text, boolean noBackgroundColor){
         TextView textView = (TextView) view.findViewById(resourceId);
         textView.setText(text);
-        view.setBackgroundColor(noBackgroundColor ? Color.TRANSPARENT : Color.parseColor("#FFFFFF"));
+        if(resourceId == R.id.senderNameTextView && !noBackgroundColor)
+            textView.setTextColor(getContext().getResources().getColor(R.color.RTDC_dark_blue));
     }
 
     @Override

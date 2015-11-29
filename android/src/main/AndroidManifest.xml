@@ -106,6 +106,9 @@
                 <category android:name="com.antoinecampbell.gcmdemo"/>
             </intent-filter>
         </receiver>
+        <receiver android:name=".voip.VoipConnectionManager">
+            <intent-filter><action android:name="android.net.conn.CONNECTIVITY_CHANGE"></action></intent-filter>
+        </receiver>
         <service android:name=".GcmIntentService"></service>
     </application>
 

@@ -7,6 +7,7 @@ import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
+import rtdc.core.util.Pair;
 import rtdc.core.view.ActionListView;
 
 import java.util.*;
@@ -52,9 +53,27 @@ public class ActionListController extends Controller<ActionListView> implements 
         sortActions(Action.Properties.task);
     }
 
-    // Return action updated from CreateActionActivity
-    public Action getUpdatedAction(){
-        return (Action) Cache.getInstance().retrieve("action");
+    // Update edited action when returning from CreateActionActivity
+    public void updateActions(){
+        Pair<String, Action> pair = (Pair<String, Action>) Cache.getInstance().retrieve("action");
+        if(pair != null) {
+            String action = pair.getFirst();
+            Action updatedAction = pair.getSecond();
+            if(action == "add") {
+                actions.add(updatedAction);
+                sortActions(Action.Properties.task);
+            } else if(action == "edit") {
+                int actionID = updatedAction.getId();
+                int actionCount = actions.size();
+                for (int i = 0; i < actionCount; i++) {
+                    if (actions.get(i).getId() == actionID) {
+                        actions.set(i, updatedAction);
+                        sortActions(Action.Properties.task);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override

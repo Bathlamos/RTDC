@@ -206,7 +206,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
 
         this.messagingUser = messagingUser;
         ((TextView)view.findViewById(R.id.receiverNameTextView)).setText(messagingUser.getFirstName() + " " + messagingUser.getLastName());
-        ((TextView)view.findViewById(R.id.receiverRoleTextView)).setText(messagingUser.getRole());
+        ((TextView)view.findViewById(R.id.receiverRoleTextView)).setText(User.Role.getStringifier().toString(messagingUser.getRole()));
 
         // If we're the receiver and the status of some messages isn't read, we need to notify the server that we now have read them
         for(Message message: messages){

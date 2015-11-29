@@ -104,7 +104,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         public boolean isUserInRole(String permission) {
             log.info("Checking access rights : " + permission + " / " + user.getPermission());
-            return user.getPermission().equalsIgnoreCase(permission);
+            return User.Permission.getStringifier().toString(user.getPermission()).equalsIgnoreCase(permission);
         }
 
         public boolean isSecure() {

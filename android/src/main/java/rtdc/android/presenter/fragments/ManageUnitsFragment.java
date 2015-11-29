@@ -74,18 +74,7 @@ public class ManageUnitsFragment extends AbstractFragment implements AbsListView
     @Override
     public void onStart() {
         super.onStart();
-
-        Unit unit = controller.getUpdatedUnit();
-        if(unit != null) {
-            int unitCount = units.size();
-            for(int i = 0; i < unitCount; i++){
-                if(units.get(i).getId() == unit.getId()) {
-                    units.set(i, unit);
-                    break;
-                }
-            }
-            mAdapter.notifyDataSetChanged();
-        }
+        controller.updateUnits();   // Update unit list with edited unit when returning from CreateUnitActivity
     }
 
     @Override
