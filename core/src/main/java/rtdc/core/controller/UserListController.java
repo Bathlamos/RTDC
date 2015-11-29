@@ -27,10 +27,10 @@ public class UserListController extends Controller<UserListView> implements Fetc
         return "Users";
     }
 
-    public List<User> sortUsers(User.Properties property, boolean ascending){
+    public void sortUsers(User.Properties property, boolean ascending){
         ArrayList<User> sortedUsers = new ArrayList<>(users);
         Collections.sort(sortedUsers, SimpleComparator.forProperty(property).setAscending(ascending).build());
-        return sortedUsers;
+        view.setUsers(sortedUsers);
     }
 
     public void deleteUser(User user){
@@ -46,7 +46,7 @@ public class UserListController extends Controller<UserListView> implements Fetc
     @Override
     public void onUsersFetched(FetchUsersEvent event) {
         users = new ArrayList<>(event.getUsers());
-        view.setUsers(sortUsers(User.Properties.lastName, true));
+        sortUsers(User.Properties.lastName, true);
     }
 
     // Update edited user when returning from CreateUserActivity

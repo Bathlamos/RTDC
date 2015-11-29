@@ -1,6 +1,8 @@
 package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
+import rtdc.core.event.ActionCompleteEvent;
+import rtdc.core.event.Event;
 import rtdc.core.model.Unit;
 import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
@@ -8,12 +10,13 @@ import rtdc.core.util.Cache;
 import rtdc.core.util.Pair;
 import rtdc.core.view.AddUnitView;
 
-public class AddUnitController extends Controller<AddUnitView>{
+public class AddUnitController extends Controller<AddUnitView> implements ActionCompleteEvent.Handler {
 
     private Unit currentUnit;
 
     public AddUnitController(AddUnitView view){
         super(view);
+        Event.subscribe(ActionCompleteEvent.TYPE, this);
 
         currentUnit = (Unit) Cache.getInstance().retrieve("unit");
         if (currentUnit != null) {
@@ -56,13 +59,24 @@ public class AddUnitController extends Controller<AddUnitView>{
             Service.updateOrSaveUnit(newUnit);
         //}
         Cache.getInstance().put("unit", new Pair(action, newUnit));
-        view.closeDialog();
     }
 
     public void deleteUnit(){
         Cache.getInstance().put("unit", new Pair("delete", currentUnit));
         if (currentUnit != null)
             Service.deleteUnit(currentUnit.getId());
-        view.closeDialog();
+    }
+
+    @Override
+    public void onActionComplete(ActionCompleteEvent event) {
+        if(event.getObjectType().equals("unit")){
+            view.closeDialog();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Event.unsubscribe(ActionCompleteEvent.TYPE, this);
     }
 }
