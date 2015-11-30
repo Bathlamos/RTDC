@@ -57,9 +57,6 @@ public class EditCapacityActivity extends AbstractDialog implements EditCapacity
             case R.id.action_save_capacity:
                 controller.updateCapacity();
                 return true;
-            case R.id.action_cancel_capacity:
-                finish();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);

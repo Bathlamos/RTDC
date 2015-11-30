@@ -64,9 +64,6 @@ public class CreateActionActivity extends AbstractDialog implements AddActionVie
             case R.id.action_save_action:
                 controller.addAction();
                 return true;
-            case R.id.action_cancel_action:
-                finish();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -80,6 +80,11 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
             setupColumn(view, R.id.admitsByDeadline,Integer.toString(currentUnit.getAdmitsByDeadline()));
             setupColumn(view, R.id.statusAtDeadline,Integer.toString(status));
 
+            if(status < 0){
+                TextView statusTextView = (TextView) view.findViewById(R.id.statusAtDeadline);
+                statusTextView.setTextColor(getResources().getColor(R.color.RTDC_dark_red));
+            }
+
             view.setTag(position);
             view.setOnClickListener(new View.OnClickListener() {
 

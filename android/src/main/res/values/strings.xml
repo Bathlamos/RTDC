@@ -6,7 +6,7 @@
     <string name="title_drawer_menu">RTDC</string>
     <string name="title_capacity_overview">Capacity Overview</string>
     <string name="title_action_plan">Action Plan</string>
-    <string name="title_communication_hub">Communication Hub</string>
+    <string name="title_messages">Messages</string>
     <string name="title_manage_users">Manage Users</string>
     <string name="title_manage_units">Manage Units</string>
 
@@ -28,7 +28,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="edit">Edit</string>
-    <string name="action_add">Add</string>
+    <string name="action_new">New</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
 
