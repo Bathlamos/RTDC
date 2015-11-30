@@ -92,15 +92,19 @@ public final class Service {
     }
 
     public static void getMessages(int userId1, int userId2, int startIndex, int length){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, POST));
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, GET));
     }
 
     public static void getRecentContacts(int userId){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId, POST));
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId, GET));
     }
 
     public static void getActions(){
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions", GET));
+    }
+
+    public static void getAction(int actionId){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "actions/" + actionId, GET));
     }
 
     public static void updateOrSaveActions(Action action){
