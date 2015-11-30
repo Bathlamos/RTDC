@@ -6,7 +6,6 @@ import rtdc.core.Config;
 import rtdc.core.event.*;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
-import rtdc.core.json.JSONTokener;
 import rtdc.core.model.Action;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
@@ -25,7 +24,7 @@ public class ServiceTest {
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String TEST_USERNAME = "Nathaniel";
     private static final String TEST_PASSWORD = "password";
-
+    /*
     // Tests for AuthServlet
 
     @Test
@@ -654,6 +653,7 @@ public class ServiceTest {
         // Assert
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
+    */
 
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
         try {
