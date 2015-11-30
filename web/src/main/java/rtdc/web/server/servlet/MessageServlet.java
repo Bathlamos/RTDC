@@ -1,7 +1,5 @@
 package rtdc.web.server.servlet;
 
-import org.hibernate.Criteria;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
@@ -12,7 +10,6 @@ import rtdc.core.event.*;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.Permission;
-import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
@@ -22,7 +19,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.sql.SQLException;
 import java.util.*;
 
 @Path("messages")
@@ -60,11 +56,11 @@ public class MessageServlet {
         return new ActionCompleteEvent(message.getId(), "message", "add").toString();
     }
 
-    @POST
+    @GET
     @Path("{userId1}/{userId2}/{startIndex}/{length}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getMessages(@Context HttpServletRequest req, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String,
+    public String getMessages(@Context HttpServletRequest req, @Context User user, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String,
                               @PathParam("startIndex") String startIndexString, @PathParam("length") String lengthString){
         int user1Id = Integer.parseInt(userId1String);
         int user2Id = Integer.parseInt(userId2String);
@@ -128,11 +124,11 @@ public class MessageServlet {
         return new FetchMessagesEvent(user1, user2, subList).toString();
     }
 
-    @POST
-    @Path("{userId}/")
+    @GET
+    @Path("{userId}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getRecentContacts(@Context HttpServletRequest req, @PathParam("userId") String userId1String){
+    public String getRecentContacts(@Context HttpServletRequest req, @Context User user, @PathParam("userId") String userId1String){
         int userId = Integer.parseInt(userId1String);
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -178,7 +174,7 @@ public class MessageServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String editMessage(@Context HttpServletRequest req, @FormParam("message") String messageString){
+    public String editMessage(@Context HttpServletRequest req, @Context User user, @FormParam("message") String messageString){
         Message message = new Message(new JSONObject(messageString));
 
         Set<ConstraintViolation<Message>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(message);
