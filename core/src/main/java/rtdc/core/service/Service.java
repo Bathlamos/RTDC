@@ -56,7 +56,7 @@ public final class Service {
     }
 
     public static void deleteUnit(int unitId){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units" + unitId, DELETE));
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "units/" + unitId, DELETE));
     }
 
     public static void getUsers(){

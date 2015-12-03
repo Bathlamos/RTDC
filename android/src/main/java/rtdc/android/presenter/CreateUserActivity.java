@@ -6,24 +6,29 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiDropdown;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddUserController;
+import rtdc.core.exception.ValidationException;
+import rtdc.core.i18n.MessageBundle;
 import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.User;
 import rtdc.core.view.AddUserView;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
     private AddUserController controller;
 
-    private AndroidUiString usernameEdit, passwordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
+    private AndroidUiString usernameEdit, passwordEdit, confirmPasswordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
     private AndroidUiDropdown roleSpinner, permissionSpinner;
     private boolean hideDeleteButton = false;
 
@@ -39,11 +44,60 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         usernameEdit = (AndroidUiString) findViewById(R.id.usernameEdit);
+        usernameEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateUsernameUiElement();
+            }
+        });
+
         passwordEdit = (AndroidUiString) findViewById(R.id.passwordEdit);
+        passwordEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validatePasswordUiElement();
+            }
+        });
+
+        confirmPasswordEdit = (AndroidUiString) findViewById(R.id.confirmPasswordEdit);
+        confirmPasswordEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateConfirmPasswordUiElement();
+            }
+        });
+
         emailEdit = (AndroidUiString) findViewById(R.id.emailEdit);
+        emailEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateEmailUiElement();
+            }
+        });
+
         firstNameEdit = (AndroidUiString) findViewById(R.id.firstNameEdit);
+        firstNameEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateFirstNameUiElement();
+            }
+        });
+
         lastNameEdit = (AndroidUiString) findViewById(R.id.lastNameEdit);
+        lastNameEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateLastNameUiElement();
+            }
+        });
+
         phoneEdit = (AndroidUiString) findViewById(R.id.phoneEdit);
+        phoneEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validatePhoneNumberUiElement();
+            }
+        });
 
         roleSpinner = (AndroidUiDropdown) findViewById(R.id.roleSpinner);
         permissionSpinner = (AndroidUiDropdown) findViewById(R.id.permissionSpinner);
@@ -83,6 +137,23 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
        switch (item.getItemId()) {
            //noinspection SimplifiableIfStatement
            case R.id.action_save_new_user:
+               // Check to see if all fields are valid before proceeding
+               controller.validateUsernameUiElement();
+               controller.validatePasswordUiElement();
+               controller.validateConfirmPasswordUiElement();
+               controller.validateEmailUiElement();
+               controller.validateFirstNameUiElement();
+               controller.validateLastNameUiElement();
+               controller.validatePhoneNumberUiElement();
+
+               if(usernameEdit.getError() != null || passwordEdit.getError() != null && confirmPasswordEdit.getError() != null
+                       || emailEdit.getError() != null || firstNameEdit.getError() != null || lastNameEdit.getError() != null || phoneEdit.getError() != null) {
+                   new AlertDialog.Builder(this)
+                           .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
+                           .setMessage(MessageBundle.getBundle(Locale.ENGLISH).getString("invalidFields"))
+                           .setNeutralButton(android.R.string.ok, null).show();
+                   return true;
+               }
                controller.addUser();
                return true;
            case R.id.action_discard_user:
@@ -139,6 +210,11 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
     @Override
     public UiElement<String> getPasswordUiElement() {
         return passwordEdit;
+    }
+
+    @Override
+    public UiElement<String> getConfirmPasswordUiElement() {
+        return confirmPasswordEdit;
     }
 
     @Override

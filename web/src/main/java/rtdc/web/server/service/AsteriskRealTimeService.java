@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class AsteriskRealTimeService {
 
     // Run Asterisk requests on separate threads to not cause server latency
-    private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(2);
+    private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(4);
 
     private static Connection getConnection(){
         try {

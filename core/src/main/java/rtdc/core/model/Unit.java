@@ -68,13 +68,13 @@ public class Unit extends RootObject implements Comparable<Unit>{
     public boolean validate(Properties property) throws ValidationException{
         SimpleValidator validator = new SimpleValidator();
         switch(property){
-            case name: return validator.expectNotEmpty(name);
-            case totalBeds: return validator.expectPositiveNumber(admitsByDeadline);
-            case availableBeds: return validator.expectPositiveNumber(availableBeds);
-            case potentialDc: return validator.expectPositiveNumber(potentialDc);
-            case dcByDeadline: return validator.expectPositiveNumber(dcByDeadline);
-            case totalAdmits: return validator.expectPositiveNumber(totalAdmits);
-            case admitsByDeadline: return validator.expectPositiveNumber(admitsByDeadline);
+            case name: return validator.isNotEmpty(name);
+            case totalBeds: return validator.isPositiveNumber(admitsByDeadline);
+            case availableBeds: return validator.isPositiveNumber(availableBeds);
+            case potentialDc: return validator.isPositiveNumber(potentialDc);
+            case dcByDeadline: return validator.isPositiveNumber(dcByDeadline);
+            case totalAdmits: return validator.isPositiveNumber(totalAdmits);
+            case admitsByDeadline: return validator.isPositiveNumber(admitsByDeadline);
         }
         return true;
     }

@@ -9,8 +9,10 @@ import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUserEvent;
 import rtdc.core.event.FetchUsersEvent;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Permission;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.UserCredentials;
@@ -92,15 +94,18 @@ public class UserServlet {
         User newUser = new User(new JSONObject(userString));
 
         Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(newUser);
-        if(!violations.isEmpty())
+        if(!violations.isEmpty()) {
+            log.warn("Error adding user: " + violations.toString());
             return new ErrorEvent(violations.toString()).toString();
+        }
 
-        if(password == null || password.isEmpty() || password.length() < 4)
-            return new ErrorEvent("Password must be longer than 4 characters").toString();
-
-        // A username must be at least 6 characters long, must only contain letters and numbers and can have underscores and hyphens
-        if(!newUser.getUsername().matches("(\\w|\\-){6,}+"))
-            return new ErrorEvent("Username contains illegal character. Only letters and numbers are allowed").toString();
+        try {
+            SimpleValidator.validateUser(user);
+            SimpleValidator.validatePassword(password);
+        }catch (ValidationException e){
+            log.warn("Error adding user: " + e.getMessage());
+            return new ErrorEvent(e.getMessage()).toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -135,6 +140,13 @@ public class UserServlet {
         Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(editedUser);
         if(!violations.isEmpty())
             return new ErrorEvent(violations.toString()).toString();
+
+        try {
+            SimpleValidator.validateUser(editedUser);
+        }catch (ValidationException e){
+            log.warn("Error editing user: " + e.getMessage());
+            return new ErrorEvent(e.getMessage()).toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

@@ -1,14 +1,17 @@
 package rtdc.android.presenter;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiDate;
 import rtdc.android.impl.AndroidUiDropdown;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddActionController;
+import rtdc.core.i18n.MessageBundle;
 import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.Action;
@@ -16,6 +19,7 @@ import rtdc.core.model.Unit;
 import rtdc.core.view.AddActionView;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class CreateActionActivity extends AbstractDialog implements AddActionView {
 
@@ -40,6 +44,12 @@ public class CreateActionActivity extends AbstractDialog implements AddActionVie
         targetEdit = (AndroidUiString) findViewById(R.id.targetEdit);
         deadlineEdit = (AndroidUiDate) findViewById(R.id.deadlineEdit);
         descriptionEdit = (AndroidUiString) findViewById(R.id.descriptionEdit);
+        descriptionEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateDescription();
+            }
+        });
 
         unitSpinner = (AndroidUiDropdown) findViewById(R.id.unitSpinner);
         statusSpinner = (AndroidUiDropdown) findViewById(R.id.statusSpinner);
@@ -62,6 +72,16 @@ public class CreateActionActivity extends AbstractDialog implements AddActionVie
         // Handle action bar item clicks here. The action bar will
         switch (item.getItemId()) {
             case R.id.action_save_action:
+                controller.validateDescription();
+
+                if(descriptionEdit.getError() != null){
+                    new AlertDialog.Builder(this)
+                            .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
+                            .setMessage(MessageBundle.getBundle(Locale.ENGLISH).getString("invalidFields"))
+                            .setNeutralButton(android.R.string.ok, null).show();
+                    return true;
+                }
+
                 controller.addAction();
                 return true;
             default:

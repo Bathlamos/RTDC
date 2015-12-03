@@ -10,9 +10,11 @@ import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchActionsEvent;
 import rtdc.core.event.FetchActionEvent;
 import rtdc.core.exception.ApiException;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Permission;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
@@ -104,8 +106,17 @@ public class ActionServlet {
         Action action = new Action(new JSONObject(actionString));
 
         Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
-        if(!violations.isEmpty())
+        if(!violations.isEmpty()) {
+            log.warn("Error updating action: " + violations.toString());
             return new ErrorEvent(violations.toString()).toString();
+        }
+
+        try {
+            SimpleValidator.validateAction(action);
+        }catch (ValidationException e){
+            log.warn("Error updating action: " + e.getMessage());
+            return new ErrorEvent(e.getMessage()).toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

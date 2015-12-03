@@ -48,6 +48,8 @@ public class AndroidUiString extends EditText implements UiElement<String> {
 
     @Override
     public String getErrorMessage() {
+        if(getError() == null)
+            return null;
         return getError().toString();
     }
 
