@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiDropdown;
@@ -32,6 +33,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
     private AndroidUiString usernameEdit, passwordEdit, confirmPasswordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
     private AndroidUiDropdown roleSpinner, permissionSpinner;
+    private TextView confirmPasswordText;
     private CheckBox passwordChange;
     private boolean hideDeleteButton = false;
 
@@ -59,15 +61,16 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
         passwordEdit = (AndroidUiString) findViewById(R.id.passwordEdit);
         passwordEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
+                if(!hasFocus && passwordChange.isChecked())
                     controller.validatePasswordUiElement();
             }
         });
 
+        confirmPasswordText = (TextView) findViewById(R.id.confirmPasswordText);
         confirmPasswordEdit = (AndroidUiString) findViewById(R.id.confirmPasswordEdit);
         confirmPasswordEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
+                if(!hasFocus && passwordChange.isChecked())
                     controller.validateConfirmPasswordUiElement();
             }
         });
@@ -122,12 +125,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
         passwordChange.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    passwordEdit.setVisibility(View.VISIBLE);
-                } else {
-                    passwordEdit.setVisibility(View.GONE);
-                    passwordEdit.setText("");
-                }
+                showOrHidePasswordFields(isChecked);
             }
         });
 
@@ -136,10 +134,9 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
         if(controller.isNewUser()) {
             passwordChange.setVisibility(View.GONE);
-            passwordEdit.setVisibility(View.VISIBLE);
+            showOrHidePasswordFields(true);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,14 +157,16 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
            case R.id.action_save_new_user:
                // Check to see if all fields are valid before proceeding
                controller.validateUsernameUiElement();
-               controller.validatePasswordUiElement();
-               controller.validateConfirmPasswordUiElement();
+               if(passwordChange.isChecked()) {
+                   controller.validatePasswordUiElement();
+                   controller.validateConfirmPasswordUiElement();
+               }
                controller.validateEmailUiElement();
                controller.validateFirstNameUiElement();
                controller.validateLastNameUiElement();
                controller.validatePhoneNumberUiElement();
 
-               if(usernameEdit.getError() != null || passwordEdit.getError() != null && confirmPasswordEdit.getError() != null
+               if(usernameEdit.getError() != null || (passwordEdit.getError() != null && confirmPasswordEdit.getError() != null && passwordChange.isChecked())
                        || emailEdit.getError() != null || firstNameEdit.getError() != null || lastNameEdit.getError() != null || phoneEdit.getError() != null) {
                    new AlertDialog.Builder(this)
                            .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
@@ -191,6 +190,21 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
            default:
                return super.onOptionsItemSelected(item);
        }
+    }
+
+    private void showOrHidePasswordFields(boolean show) {
+        passwordEdit.setText("");
+        confirmPasswordEdit.setText("");
+
+        if(show) {
+            passwordEdit.setVisibility(View.VISIBLE);
+            confirmPasswordText.setVisibility(View.VISIBLE);
+            confirmPasswordEdit.setVisibility(View.VISIBLE);
+        } else {
+            passwordEdit.setVisibility(View.GONE);
+            confirmPasswordText.setVisibility(View.GONE);
+            confirmPasswordEdit.setVisibility(View.GONE);
+        }
     }
 
     @Override

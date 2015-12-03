@@ -73,7 +73,7 @@
                         <CheckBox
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Change"
+                                android:text="@string/change"
                                 android:buttonTint="@color/RTDC_grey_asbestos"
                                 android:id="@+id/passwordChange" android:textColor="@color/RTDC_grey_asbestos"/>
                     </LinearLayout>
@@ -89,7 +89,8 @@
 
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                               android:textAppearance="?android:attr/textAppearanceMedium"
-                              android:text="@string/confirmPassword" android:id="@+id/textView2" android:paddingTop="8dp"/>
+                              android:text="@string/confirmPassword" android:id="@+id/confirmPasswordText" android:paddingTop="8dp"
+                              android:visibility="gone"/>
 
                     <rtdc.android.impl.AndroidUiString
                             android:layout_width="match_parent"
@@ -98,7 +99,7 @@
                             android:hint="@string/confirmPassword"
                             android:ems="10"
                             android:id="@+id/confirmPasswordEdit"
-                            android:singleLine="true"/>
+                            android:singleLine="true" android:visibility="gone"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
