@@ -22,7 +22,7 @@
         <property name="hibernate.connection.username">voqrsmipqbvyij</property>
         <property name="hibernate.connection.password">MnB51Cn-ZbZKuxeqieO-qa2sWu</property>
         <property name="hibernate.connection.url">jdbc:postgresql://ec2-54-83-51-38.compute-1.amazonaws.com:5432/d4u0aff7k6f6je?sslmode=require</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <property name="show_sql">true</property>-->
     </session-factory>
 </hibernate-configuration>

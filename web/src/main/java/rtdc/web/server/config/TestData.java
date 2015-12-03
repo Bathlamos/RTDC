@@ -141,7 +141,7 @@ public class TestData implements ServletContextListener {
         for(int i = 0; i < numActions - 1; i++) {
             Action action = new Action();
             action.setUnit(DF.getItem(units));
-            action.setRoleResponsible(users.get(i).getFirstName() + " " + users.get(i).getLastName());
+            action.setRoleResponsible(users.get(i%users.size()).getFirstName() + " " + users.get(i%users.size()).getLastName());
             action.setDeadline(DF.getDateBetween(now, new Date(now.getTime() + 10000l)));
             action.setDescription(DF.getRandomText(RANDOM.nextInt(500)));
             action.setStatus(DF.getItem(Action.Status.values()));

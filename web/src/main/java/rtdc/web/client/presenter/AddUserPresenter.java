@@ -98,6 +98,11 @@ public class AddUserPresenter extends Composite implements AddUserView {
     }
 
     @Override
+    public UiElement<String> getConfirmPasswordUiElement() {
+        return null;
+    }
+
+    @Override
     public void hideDeleteButton() {}
 
     @Override

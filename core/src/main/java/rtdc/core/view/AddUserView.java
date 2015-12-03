@@ -23,6 +23,7 @@ public interface AddUserView extends Dialog {
 
     UiElement<String> getPasswordUiElement();
 
-    void hideDeleteButton();
+    UiElement<String> getConfirmPasswordUiElement();
 
+    void hideDeleteButton();
 }

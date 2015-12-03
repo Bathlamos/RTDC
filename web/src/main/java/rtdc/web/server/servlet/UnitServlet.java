@@ -6,8 +6,10 @@ import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.exception.ApiException;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Permission;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
@@ -89,8 +91,17 @@ public class UnitServlet {
         Unit unit = new Unit(new JSONObject(unitString));
 
         Set<ConstraintViolation<Unit>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(unit);
-        if(!violations.isEmpty())
+        if(!violations.isEmpty()) {
+            log.warn("Error updating unit: " + violations.toString());
             return new ErrorEvent(violations.toString()).toString();
+        }
+
+        try {
+            SimpleValidator.validateUnit(unit);
+        }catch (ValidationException e){
+            log.warn("Error updating unit: " + e.getMessage());
+            return new ErrorEvent(e.getMessage()).toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

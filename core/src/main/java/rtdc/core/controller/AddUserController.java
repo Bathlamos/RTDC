@@ -3,11 +3,15 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
+import rtdc.core.exception.ValidationException;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
 import rtdc.core.util.Pair;
 import rtdc.core.view.AddUserView;
+
+import java.util.logging.Logger;
 
 public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.Handler {
 
@@ -73,6 +77,65 @@ public class AddUserController extends Controller<AddUserView> implements Action
         Cache.getInstance().put("user", new Pair("delete", currentUser));
         if (currentUser != null)
             Service.deleteUser(currentUser.getId());
+    }
+
+    public void validateUsernameUiElement(){
+        try {
+            SimpleValidator.validateUsername(view.getUsernameUiElement().getValue());
+            view.getUsernameUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getUsernameUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validatePasswordUiElement(){
+        try {
+            SimpleValidator.validatePassword(view.getPasswordUiElement().getValue());
+            view.getPasswordUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getPasswordUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validateConfirmPasswordUiElement(){
+        if(!view.getConfirmPasswordUiElement().getValue().equals(view.getPasswordUiElement().getValue()))
+            view.getConfirmPasswordUiElement().setErrorMessage("Confirmation doesn't match the password given");
+    }
+
+    public void validateEmailUiElement(){
+        try {
+            SimpleValidator.validateEmail(view.getEmailUiElement().getValue());
+            view.getEmailUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getEmailUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validateFirstNameUiElement(){
+        try {
+            SimpleValidator.validatePersonFirstName(view.getFirstNameUiElement().getValue());
+            view.getFirstNameUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getFirstNameUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validateLastNameUiElement(){
+        try {
+            SimpleValidator.validatePersonLastName(view.getLastNameUiElement().getValue());
+            view.getLastNameUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getLastNameUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validatePhoneNumberUiElement(){
+        try {
+            SimpleValidator.isNumber(view.getPhoneUiElement().getValue());
+            view.getPhoneUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getPhoneUiElement().setErrorMessage(e.getMessage());
+        }
     }
 
     @Override

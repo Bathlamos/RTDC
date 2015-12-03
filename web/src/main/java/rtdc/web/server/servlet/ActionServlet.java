@@ -8,9 +8,13 @@ import org.slf4j.LoggerFactory;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchActionsEvent;
+import rtdc.core.event.FetchActionEvent;
+import rtdc.core.exception.ApiException;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Permission;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
@@ -21,10 +25,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @WebServlet
@@ -71,6 +72,32 @@ public class ActionServlet {
         return new FetchActionsEvent(actions).toString();
     }
 
+    @GET
+    @Path("{id}")
+    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    public String getAction(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
+        Session session = PersistenceConfig.getSessionFactory().openSession();
+        Transaction transaction = null;
+        Action action = null;
+        try{
+            transaction = session.beginTransaction();
+            action = (Action) session.get(Action.class, id);
+            if(action == null)
+                throw new ApiException("Id " + id + " doesn't exist");
+            transaction.commit();
+
+            log.info("{}: ACTION: Getting Action " + id + " for user.", user.getUsername());
+        } catch (RuntimeException e) {
+            if(transaction != null)
+                transaction.rollback();
+            throw e;
+        } finally{
+            session.close();
+        }
+
+        return new FetchActionEvent(action).toString();
+    }
+
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
@@ -79,8 +106,17 @@ public class ActionServlet {
         Action action = new Action(new JSONObject(actionString));
 
         Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
-        if(!violations.isEmpty())
+        if(!violations.isEmpty()) {
+            log.warn("Error updating action: " + violations.toString());
             return new ErrorEvent(violations.toString()).toString();
+        }
+
+        try {
+            SimpleValidator.validateAction(action);
+        }catch (ValidationException e){
+            log.warn("Error updating action: " + e.getMessage());
+            return new ErrorEvent(e.getMessage()).toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
