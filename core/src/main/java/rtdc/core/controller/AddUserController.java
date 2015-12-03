@@ -43,7 +43,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
         return "Add User";
     }
 
-    public void addUser() {
+    public void addUser(boolean changePassword) {
 
         User newUser = new User();
         String action = "add";
@@ -60,10 +60,11 @@ public class AddUserController extends Controller<AddUserView> implements Action
         newUser.setRole(view.getRoleUiElement().getValue());
         String password = view.getPasswordUiElement().getValue();
 
-        if (currentUser != null)
-            Service.updateUser(newUser, password);
-        else
+        if(currentUser != null) {
+            Service.updateUser(newUser, password, changePassword);
+        } else {
             Service.addUser(newUser, password);
+        }
 
         Cache.getInstance().put("user", new Pair(action, newUser));
     }
@@ -79,6 +80,11 @@ public class AddUserController extends Controller<AddUserView> implements Action
         if(event.getObjectType().equals("user")){
             view.closeDialog();
         }
+    }
+
+    // Determine if we are creating a new user or editing an existing one
+    public boolean isNewUser(){
+        return currentUser == null;
     }
 
     @Override

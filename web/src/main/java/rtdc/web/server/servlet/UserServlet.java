@@ -87,7 +87,7 @@ public class UserServlet {
     @Path("add")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.ADMIN})
     public String addUser(@Context HttpServletRequest req, @FormParam("user") String userString, @FormParam("password") String password){
         User user = new User(new JSONObject(userString));
 
@@ -129,7 +129,7 @@ public class UserServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String editUser(@Context HttpServletRequest req, @FormParam("user") String userString){
+    public String editUserWithPassword(@Context HttpServletRequest req, @FormParam("user") String userString, @FormParam("password") String password, @FormParam("changePassword") String changePassword){
         User user = new User(new JSONObject(userString));
 
         Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
@@ -143,8 +143,7 @@ public class UserServlet {
             session.merge(user);
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: USER: User updated: {}", "Username", userString);
+            log.info("{}: USER: User updated: {}", user.getUsername(), userString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -153,24 +152,10 @@ public class UserServlet {
             session.close();
         }
 
+        if(Boolean.parseBoolean(changePassword) && !password.isEmpty())
+            AuthService.editPassword(user, password);
+
         return new ActionCompleteEvent(user.getId(), "user", "update").toString();
-    }
-
-    @PUT
-    @Path("{id}/password")
-    @Consumes("application/x-www-form-urlencoded")
-    @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String editPasswordFromOld(@Context HttpServletRequest req,
-                                      @PathParam("id") int userId,
-                                      @FormParam("oldPassword") String oldPassword,
-                                      @FormParam("newPassword") String newPassword){
-
-        AuthService.editPassword(req, oldPassword, userId, newPassword);
-
-        // TODO: Replace string with actual username
-        log.info("{}: USER: Password updated: {}", "Username", userId);
-        return new ActionCompleteEvent(userId, "user", "update").toString();
     }
 
     @DELETE

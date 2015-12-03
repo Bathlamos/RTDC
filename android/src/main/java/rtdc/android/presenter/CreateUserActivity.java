@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiDropdown;
@@ -25,6 +28,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
     private AndroidUiString usernameEdit, passwordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
     private AndroidUiDropdown roleSpinner, permissionSpinner;
+    private CheckBox passwordChange;
     private boolean hideDeleteButton = false;
 
     @Override
@@ -39,6 +43,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         usernameEdit = (AndroidUiString) findViewById(R.id.usernameEdit);
+        passwordChange = (CheckBox) findViewById(R.id.passwordChange);
         passwordEdit = (AndroidUiString) findViewById(R.id.passwordEdit);
         emailEdit = (AndroidUiString) findViewById(R.id.emailEdit);
         firstNameEdit = (AndroidUiString) findViewById(R.id.firstNameEdit);
@@ -61,8 +66,24 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
             // presumably, not relevant
         }
 
+        passwordChange.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    passwordEdit.setVisibility(View.VISIBLE);
+                } else {
+                    passwordEdit.setVisibility(View.GONE);
+                    passwordEdit.setText("");
+                }
+            }
+        });
+
         if(controller == null)
             controller = new AddUserController(this);
+
+        if(controller.isNewUser()) {
+            passwordChange.setVisibility(View.GONE);
+            passwordEdit.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -83,7 +104,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
        switch (item.getItemId()) {
            //noinspection SimplifiableIfStatement
            case R.id.action_save_new_user:
-               controller.addUser();
+               controller.addUser(passwordChange.isChecked());
                return true;
            case R.id.action_discard_user:
                new AlertDialog.Builder(this)

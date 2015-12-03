@@ -67,10 +67,11 @@ public final class Service {
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "users" + username, POST));
     }
 
-    public static void updateUser(User user, String password){
+    public static void updateUser(User user, String password, boolean changePassword){
         HttpRequest req = Bootstrapper.FACTORY.newHttpRequest(URL + "users", PUT);
         req.addParameter("user", user.toString());
         req.addParameter("password", password);
+        req.addParameter("changePassword", String.valueOf(changePassword));
         executeRequest(req);
     }
 
