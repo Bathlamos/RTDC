@@ -100,7 +100,7 @@ public class UserServlet {
         }
 
         try {
-            SimpleValidator.validateUser(user);
+            SimpleValidator.validateUser(newUser);
             SimpleValidator.validatePassword(password);
         }catch (ValidationException e){
             log.warn("Error adding user: " + e.getMessage());
