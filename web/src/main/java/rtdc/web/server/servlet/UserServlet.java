@@ -117,8 +117,7 @@ public class UserServlet {
             AsteriskRealTimeService.addUser(newUser, credentials.getAsteriskPassword());
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: USER: New user added: {}", "Username", userString);
+            log.info("{}: USER: New user added: {}", user.getUsername(), userString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -134,7 +133,7 @@ public class UserServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String editUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString){
+    public String editUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString, @FormParam("password") String password, @FormParam("changePassword") String changePassword){
         User editedUser = new User(new JSONObject(userString));
 
         Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(editedUser);
@@ -155,8 +154,7 @@ public class UserServlet {
             session.merge(editedUser);
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: USER: User updated: {}", "Username", userString);
+            log.info("{}: USER: User updated: {}", user.getUsername(), userString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -165,25 +163,10 @@ public class UserServlet {
             session.close();
         }
 
-        return new ActionCompleteEvent(editedUser.getId(), "user", "update").toString();
-    }
+        if(Boolean.parseBoolean(changePassword) && !password.isEmpty())
+            AuthService.editPassword(editedUser, password);
 
-    @PUT
-    @Path("{id}/password")
-    @Consumes("application/x-www-form-urlencoded")
-    @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String editPasswordFromOld(@Context HttpServletRequest req,
-                                      @Context User user,
-                                      @PathParam("id") int userId,
-                                      @FormParam("oldPassword") String oldPassword,
-                                      @FormParam("newPassword") String newPassword){
-
-        AuthService.editPassword(req, oldPassword, userId, newPassword);
-
-        // TODO: Replace string with actual username
-        log.info("{}: USER: Password updated: {}", "Username", userId);
-        return new ActionCompleteEvent(userId, "user", "update").toString();
+        return new ActionCompleteEvent(user.getId(), "user", "update").toString();
     }
 
     @DELETE
@@ -202,8 +185,7 @@ public class UserServlet {
             AsteriskRealTimeService.deleteUser(userToDelete);
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.warn("{}: USER: User deleted: {}", "Username", userToDelete.getUsername());
+            log.warn("{}: USER: User deleted: {}", user.getUsername(), userToDelete.getUsername());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

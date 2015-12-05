@@ -40,7 +40,7 @@ public class AddUserPresenter extends Composite implements AddUserView {
         addUser.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                controller.addUser();
+                controller.addUser(true);
             }
         });
 
