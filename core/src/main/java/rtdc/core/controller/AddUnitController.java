@@ -36,17 +36,24 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
     }
 
     public void addUnit() {
-
         Unit newUnit = new Unit();
         String action = "add";
         if (currentUnit != null) {
-            newUnit.setId(currentUnit.getId());
+            newUnit = new Unit(currentUnit.toJsonObject());
             action = "edit";
         }
         newUnit.setName(view.getNameUiElement().getValue());
 
         try {
-            newUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsUiElement().getValue()));
+            int newTotal = Integer.parseInt(view.getTotalBedsUiElement().getValue());
+            if (newTotal != newUnit.getTotalAdmits()) {
+                newUnit.setTotalBeds(newTotal);
+                newUnit.setAdmitsByDeadline(0);
+                newUnit.setAvailableBeds(0);
+                newUnit.setDcByDeadline(0);
+                newUnit.setPotentialDc(0);
+                newUnit.setTotalAdmits(0);
+            }
         }catch(NumberFormatException e){}
 
         Service.updateOrSaveUnit(newUnit);

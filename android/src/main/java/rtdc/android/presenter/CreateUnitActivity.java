@@ -27,6 +27,7 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
 
     private AndroidUiString unitNameEdit, totalBedsEdit;
     private boolean hideDeleteButton = false;
+    private int initialTotalBedsValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
 
         if (controller == null)
             controller = new AddUnitController(this);
+
+        initialTotalBedsValue = Integer.parseInt(totalBedsEdit.getValue());
     }
 
     @Override
@@ -89,7 +92,22 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
                     return true;
                 }
 
-                controller.addUnit();
+                if (Integer.parseInt(totalBedsEdit.getValue()) != initialTotalBedsValue) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Confirm")
+                            .setMessage("Changing number of total beds will reset all other quantities. Are you sure?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    controller.addUnit();
+                                    Toast.makeText(CreateUnitActivity.this, "Unit Modified", Toast.LENGTH_SHORT).show();
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
+                    return true;
+                }
+                else {
+                    // Only name has changed
+                    controller.addUnit();
+                }
                 return true;
             case R.id.action_discard_unit:
                 new AlertDialog.Builder(this)
