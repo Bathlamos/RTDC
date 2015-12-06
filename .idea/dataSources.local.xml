@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="local.legault.cc" uuid="a54819a5-632b-43ee-ab28-7d0020060f4e" />
-    <data-source name="PostgreSQL - d4u0aff7k6f6je@ec2-54-83-51-38.compute-1.amazonaws.com" uuid="0db59eec-22b6-4d0e-9405-70f8a7f3b985">
-      <secret-storage>master_key</secret-storage>
-      <user-name>voqrsmipqbvyij</user-name>
-      <schema-pattern>d4u0aff7k6f6je.pg_catalog d4u0aff7k6f6je.public</schema-pattern>
-      <default-schemas>d4u0aff7k6f6je.public</default-schemas>
-    </data-source>
-    <data-source name="HSQLDB (Local) - rtdc" uuid="55f6dbbe-9eff-4ad3-bd5e-993a02f8bd59">
-      <secret-storage>master_key</secret-storage>
-      <auth-required>false</auth-required>
-      <schema-pattern>PUBLIC.PUBLIC</schema-pattern>
-      <default-schemas>PUBLIC.PUBLIC</default-schemas>
+    <data-source name="local.legault.cc" uuid="a54819a5-632b-43ee-ab28-7d0020060f4e">
+      <secret-storage>memory</secret-storage>
     </data-source>
   </component>
 </project>

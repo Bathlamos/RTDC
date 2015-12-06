@@ -53,7 +53,6 @@ public class LiblinphoneThread extends Thread implements LinphoneCoreListener{
         try {
             lc = LinphoneCoreFactory.instance().createLinphoneCore(this, AndroidBootstrapper.getAppContext());
             lc.setPreferredVideoSize(VideoSize.VIDEO_SIZE_VGA);
-            lc.setMicrophoneGain(1f);
             start();
         } catch (LinphoneCoreException e) {
             e.printStackTrace();

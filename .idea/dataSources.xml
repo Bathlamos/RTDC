@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="32471246">
+  <component name="DataSourceManagerImpl" format="xml" hash="399419525">
     <data-source source="LOCAL" name="local.legault.cc" uuid="a54819a5-632b-43ee-ab28-7d0020060f4e">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://local.legault.cc:5432/rtdc</jdbc-url>
-    </data-source>
-    <data-source source="LOCAL" name="PostgreSQL - d4u0aff7k6f6je@ec2-54-83-51-38.compute-1.amazonaws.com" uuid="0db59eec-22b6-4d0e-9405-70f8a7f3b985">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://ec2-54-83-51-38.compute-1.amazonaws.com:5432/d4u0aff7k6f6je?sslmode=require</jdbc-url>
-    </data-source>
-    <data-source source="LOCAL" name="HSQLDB (Local) - rtdc" uuid="55f6dbbe-9eff-4ad3-bd5e-993a02f8bd59">
-      <driver-ref>hsqldb.local</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
-      <jdbc-url>jdbc:hsqldb:mem:rtdc</jdbc-url>
+      <libraries />
     </data-source>
   </component>
 </project>
