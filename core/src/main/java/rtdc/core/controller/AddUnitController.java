@@ -15,6 +15,7 @@ import rtdc.core.view.AddUnitView;
 public class AddUnitController extends Controller<AddUnitView> implements ActionCompleteEvent.Handler {
 
     private Unit currentUnit;
+    private String currentAction;
 
     public AddUnitController(AddUnitView view){
         super(view);
@@ -37,27 +38,27 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
 
     public void addUnit() {
 
-        Unit newUnit = new Unit();
-        String action = "add";
         if (currentUnit != null) {
-            newUnit.setId(currentUnit.getId());
-            action = "edit";
+            currentAction = "edit";
+            currentUnit.setId(currentUnit.getId());
+        } else {
+            currentAction = "add";
+            currentUnit = new Unit();
         }
-        newUnit.setName(view.getNameUiElement().getValue());
+        currentUnit.setName(view.getNameUiElement().getValue());
 
         try {
-            newUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsUiElement().getValue()));
+            currentUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsUiElement().getValue()));
         }catch(NumberFormatException e){}
 
-        Service.updateOrSaveUnit(newUnit);
-
-        Cache.getInstance().put("unit", new Pair(action, newUnit));
+        Service.updateOrSaveUnit(currentUnit);
     }
 
     public void deleteUnit(){
-        Cache.getInstance().put("unit", new Pair("delete", currentUnit));
-        if (currentUnit != null)
+        if (currentUnit != null) {
+            currentAction = "delete";
             Service.deleteUnit(currentUnit.getId());
+        }
     }
 
     public void validateUnitNameUiElement(){
@@ -81,6 +82,10 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
     @Override
     public void onActionComplete(ActionCompleteEvent event) {
         if(event.getObjectType().equals("unit")){
+            if(currentAction.equals("add"))
+                currentUnit.setId(event.getObjectId());
+
+            Cache.getInstance().put("unit", new Pair(currentAction, currentUnit));
             view.closeDialog();
         }
     }

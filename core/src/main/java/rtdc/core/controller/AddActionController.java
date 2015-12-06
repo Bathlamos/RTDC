@@ -22,7 +22,8 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     private ArrayList<Unit> units = new ArrayList<>();
 
-    private Action currentAction;
+    private Action RtdcCurrentAction;
+    private String currentAction;
 
     public AddActionController(AddActionView view){
         super(view);
@@ -43,16 +44,16 @@ public class AddActionController extends Controller<AddActionView> implements Fe
             }
         });
 
-        currentAction = (Action) Cache.getInstance().retrieve("action");
-        if (currentAction != null) {
+        RtdcCurrentAction = (Action) Cache.getInstance().retrieve("action");
+        if (RtdcCurrentAction != null) {
             view.setTitle("Edit Action");
-            view.getRoleUiElement().setValue(currentAction.getRoleResponsible());
-            view.getTargetUiElement().setValue(currentAction.getTarget());
-            view.getDeadlineUiElement().setValue(currentAction.getDeadline());
-            view.getDescriptionUiElement().setValue(currentAction.getDescription());
-            view.getUnitUiElement().setValue(currentAction.getUnit());
-            view.getStatusUiElement().setValue(currentAction.getStatus());
-            view.getTaskUiElement().setValue(currentAction.getTask());
+            view.getRoleUiElement().setValue(RtdcCurrentAction.getRoleResponsible());
+            view.getTargetUiElement().setValue(RtdcCurrentAction.getTarget());
+            view.getDeadlineUiElement().setValue(RtdcCurrentAction.getDeadline());
+            view.getDescriptionUiElement().setValue(RtdcCurrentAction.getDescription());
+            view.getUnitUiElement().setValue(RtdcCurrentAction.getUnit());
+            view.getStatusUiElement().setValue(RtdcCurrentAction.getStatus());
+            view.getTaskUiElement().setValue(RtdcCurrentAction.getTask());
         }
     }
 
@@ -63,24 +64,23 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     public void addAction() {
 
-        Action newAction = new Action();
-        String action = "add";
-        if (currentAction != null) {
-            newAction.setId(currentAction.getId());
-            action = "edit";
+        if (RtdcCurrentAction != null) {
+            currentAction = "edit";
+            RtdcCurrentAction.setId(RtdcCurrentAction.getId());
+        } else {
+            currentAction = "add";
+            RtdcCurrentAction = new Action();
         }
-        newAction.setTask(view.getTaskUiElement().getValue());
-        newAction.setRoleResponsible(view.getRoleUiElement().getValue());
-        newAction.setTarget(view.getTargetUiElement().getValue());
-        newAction.setDeadline(view.getDeadlineUiElement().getValue());
-        newAction.setDescription(view.getDescriptionUiElement().getValue());
-        newAction.setStatus(view.getStatusUiElement().getValue());
-        newAction.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
-        newAction.setLastUpdate(new Date());
+        RtdcCurrentAction.setTask(view.getTaskUiElement().getValue());
+        RtdcCurrentAction.setRoleResponsible(view.getRoleUiElement().getValue());
+        RtdcCurrentAction.setTarget(view.getTargetUiElement().getValue());
+        RtdcCurrentAction.setDeadline(view.getDeadlineUiElement().getValue());
+        RtdcCurrentAction.setDescription(view.getDescriptionUiElement().getValue());
+        RtdcCurrentAction.setStatus(view.getStatusUiElement().getValue());
+        RtdcCurrentAction.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
+        RtdcCurrentAction.setLastUpdate(new Date());
 
-        Service.updateOrSaveActions(newAction);
-
-        Cache.getInstance().put("action", new Pair(action, newAction));
+        Service.updateOrSaveActions(RtdcCurrentAction);
     }
 
     public void validateDescription(){
@@ -101,6 +101,10 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     @Override
     public void onActionComplete(ActionCompleteEvent event) {
         if(event.getObjectType().equals("action")){
+            if(currentAction.equals("add"))
+                RtdcCurrentAction.setId(event.getObjectId());
+
+            Cache.getInstance().put("action", new Pair(currentAction, RtdcCurrentAction));
             view.closeDialog();
         }
     }

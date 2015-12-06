@@ -59,10 +59,10 @@ public class ActionListController extends Controller<ActionListView> implements 
         if(pair != null) {
             String action = pair.getFirst();
             Action updatedAction = pair.getSecond();
-            if(action == "add") {
+            if(action.equals("add")) {
                 actions.add(updatedAction);
                 sortActions(Action.Properties.task);
-            } else if(action == "edit") {
+            } else if(action.equals("edit")) {
                 int actionID = updatedAction.getId();
                 int actionCount = actions.size();
                 for (int i = 0; i < actionCount; i++) {

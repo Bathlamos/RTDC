@@ -102,7 +102,7 @@ public class ActionServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String update(@Context HttpServletRequest req, @Context User user, @FormParam("action" )String actionString){
+    public String update(@Context HttpServletRequest req, @Context User user, @FormParam("action")String actionString){
         Action action = new Action(new JSONObject(actionString));
 
         Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
@@ -126,7 +126,6 @@ public class ActionServlet {
             session.saveOrUpdate(action);
             transaction.commit();
 
-            // TODO: Replace string with actual username
             log.info("{}: ACTION: Action updated: {}", user.getUsername(), actionString);
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -151,7 +150,6 @@ public class ActionServlet {
             session.delete(action);
             transaction.commit();
 
-            // TODO: Replace string with actual username
             log.warn("{}: ACTION: Action deleted: {}", user.getUsername(), action.getId());
         } catch (RuntimeException e) {
             if(transaction != null)

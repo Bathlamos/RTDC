@@ -133,6 +133,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
             controller = new AddUserController(this);
 
         if(controller.isNewUser()) {
+            passwordChange.setChecked(true);
             passwordChange.setVisibility(View.GONE);
             showOrHidePasswordFields(true);
         }

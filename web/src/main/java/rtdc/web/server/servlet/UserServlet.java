@@ -151,7 +151,7 @@ public class UserServlet {
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            session.merge(editedUser);
+            session.saveOrUpdate(editedUser);
             transaction.commit();
 
             log.info("{}: USER: User updated: {}", user.getUsername(), userString);

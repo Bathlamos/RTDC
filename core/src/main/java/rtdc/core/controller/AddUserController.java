@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.Handler {
 
     private User currentUser;
+    private String currentAction;
 
     public AddUserController(AddUserView view){
         super(view);
@@ -49,34 +50,34 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
     public void addUser(boolean changePassword) {
 
-        User newUser = new User();
-        String action = "add";
         if (currentUser != null) {
-            newUser.setId(currentUser.getId());
-            action = "edit";
+            currentAction = "edit";
+            currentUser.setId(currentUser.getId());
+        } else {
+            currentAction = "add";
+            currentUser = new User();
         }
-        newUser.setUsername(view.getUsernameUiElement().getValue());
-        newUser.setFirstName(view.getFirstNameUiElement().getValue());
-        newUser.setLastName(view.getLastNameUiElement().getValue());
-        newUser.setEmail(view.getEmailUiElement().getValue());
-        newUser.setPhone(view.getPhoneUiElement().getValue());
-        newUser.setPermission(view.getPermissionUiElement().getValue());
-        newUser.setRole(view.getRoleUiElement().getValue());
+        currentUser.setUsername(view.getUsernameUiElement().getValue());
+        currentUser.setFirstName(view.getFirstNameUiElement().getValue());
+        currentUser.setLastName(view.getLastNameUiElement().getValue());
+        currentUser.setEmail(view.getEmailUiElement().getValue());
+        currentUser.setPhone(view.getPhoneUiElement().getValue());
+        currentUser.setPermission(view.getPermissionUiElement().getValue());
+        currentUser.setRole(view.getRoleUiElement().getValue());
         String password = view.getPasswordUiElement().getValue();
 
-        if(currentUser != null) {
-            Service.updateUser(newUser, password, changePassword);
+        if(currentAction.equals("edit")) {
+            Service.updateUser(currentUser, password, changePassword);
         } else {
-            Service.addUser(newUser, password);
+            Service.addUser(currentUser, password);
         }
-
-        Cache.getInstance().put("user", new Pair(action, newUser));
     }
 
     public void deleteUser(){
-        Cache.getInstance().put("user", new Pair("delete", currentUser));
-        if (currentUser != null)
+        if (currentUser != null) {
+            currentAction = "delete";
             Service.deleteUser(currentUser.getId());
+        }
     }
 
     public void validateUsernameUiElement(){
@@ -141,6 +142,10 @@ public class AddUserController extends Controller<AddUserView> implements Action
     @Override
     public void onActionComplete(ActionCompleteEvent event) {
         if(event.getObjectType().equals("user")){
+            if(currentAction.equals("add"))
+                currentUser.setId(event.getObjectId());
+
+            Cache.getInstance().put("user", new Pair(currentAction, currentUser));
             view.closeDialog();
         }
     }
