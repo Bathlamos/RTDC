@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class AsteriskRealTimeService {
 
     // Run Asterisk requests on separate threads to not cause server latency
-    private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(2);
+    private static ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(4);
 
     private static Connection getConnection(){
         try {
@@ -42,10 +42,9 @@ public class AsteriskRealTimeService {
                 }
                 Logger.getLogger(AsteriskRealTimeService.class.getName()).log(Level.INFO, "Adding user " + user.getUsername() + " to Asterisk with extension " + user.getId());
                 String sipQuery = "INSERT INTO sip_buddies (" +
-                        " NAME, defaultuser, callerid, secret, context, HOST, TYPE, allow) VALUES (" +
+                        " NAME, defaultuser, callerid, secret, context, HOST, TYPE) VALUES (" +
                         " ?," + " ?," + " ?," + " ?," +
-                        " 'users', 'dynamic', 'friend'," +                      // context, host, type
-                        " 'g729;ilbc;gsm;ulaw;alaw;vp8');";                     // allow (should be updated with which codecs we want users to be able to use)
+                        " 'users', 'dynamic', 'friend');";          // context, host, type
                 String extensionQuery = "INSERT INTO extensions (context, exten, priority, app, appdata) VALUES (" +
                         " 'users', ?, 1, 'Dial', ?);";
                 try {

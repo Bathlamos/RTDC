@@ -3,6 +3,8 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
+import rtdc.core.exception.ValidationException;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
@@ -47,17 +49,8 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
             newUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsUiElement().getValue()));
         }catch(NumberFormatException e){}
 
+        Service.updateOrSaveUnit(newUnit);
 
-        /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
-
-        if (!constraintViolations.isEmpty()) {
-            ConstraintViolation<User> first = constraintViolations.iterator().next();
-            view.displayError("Error", first.getPropertyPath() + " : " + first.getMessage());
-        } else if (password == null || password.isEmpty() || password.length() < 4)
-            view.displayError("Error", "Password needs to be at least 4 characters");
-        else {*/
-            Service.updateOrSaveUnit(newUnit);
-        //}
         Cache.getInstance().put("unit", new Pair(action, newUnit));
     }
 
@@ -65,6 +58,24 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
         Cache.getInstance().put("unit", new Pair("delete", currentUnit));
         if (currentUnit != null)
             Service.deleteUnit(currentUnit.getId());
+    }
+
+    public void validateUnitNameUiElement(){
+        try {
+            SimpleValidator.validateUnitName(view.getNameUiElement().getValue());
+            view.getNameUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getNameUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validateTotalBedsUiElement(){
+        try {
+            SimpleValidator.isNumber(view.getTotalBedsUiElement().getValue());
+            view.getTotalBedsUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getTotalBedsUiElement().setErrorMessage(e.getMessage());
+        }
     }
 
     @Override

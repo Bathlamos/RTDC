@@ -48,7 +48,7 @@
         android:theme="@style/RTDCActionBarTheme" >
         <activity
                 android:name=".AndroidBootstrapper"
-                android:windowSoftInputMode="adjustResize|stateHidden"
+                android:windowSoftInputMode="adjustPan"
                 android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,14 +62,14 @@
         </activity>
         <activity
             android:name=".presenter.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowSoftInputMode="adjustPan"
             android:noHistory="true">
         </activity>
         <activity
             android:name=".presenter.CreateUserActivity"
             android:parentActivityName=".presenter.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".presenter.CreateUnitActivity"

@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
         // TODO - Replace with enum
         String capacityTitle = getResources().getString(R.string.title_capacity_overview);
         String actionTitle = getResources().getString(R.string.title_action_plan);
-        String commTitle = getResources().getString(R.string.title_communication_hub);
+        String commTitle = getResources().getString(R.string.title_messages);
         String manageUnitsTitle = getResources().getString(R.string.title_manage_units);
         String manageUsersTitle = getResources().getString(R.string.title_manage_users);
 
@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
 
         // DRAWER MENU
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.action_add, R.string.action_delete) {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.action_new, R.string.action_delete) {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);

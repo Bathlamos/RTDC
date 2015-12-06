@@ -4,6 +4,8 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
+import rtdc.core.exception.ValidationException;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
@@ -43,17 +45,94 @@ public class EditCapacityController extends Controller<EditCapacityView> impleme
 
         }
 
-        /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
-
-        if (!constraintViolations.isEmpty()) {
-            ConstraintViolation<User> first = constraintViolations.iterator().next();
-            view.displayError("Error", first.getPropertyPath() + " : " + first.getMessage());
-        } else if (password == null || password.isEmpty() || password.length() < 4)
-            view.displayError("Error", "Password needs to be at least 4 characters");
-        else {*/
         Service.updateOrSaveUnit(currentUnit);
-        //}
+
         Cache.getInstance().put("unit", currentUnit);
+    }
+
+    public void validateAvailableBedsUiElement(){
+        try {
+            SimpleValidator.isNumber(view.getAvailableBedsUiElement().getValue());
+
+            Unit u = new Unit();
+            u.setAvailableBeds(Integer.parseInt(view.getAvailableBedsUiElement().getValue()));
+            u.setTotalBeds(currentUnit.getTotalBeds());
+            SimpleValidator.validateAvailableBeds(u);
+            view.getAvailableBedsUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getAvailableBedsUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validatePotentialDcUiElement(){
+        try {
+            SimpleValidator.isNumber(view.getPotentialDcUiElement().getValue());
+
+            Unit u = new Unit();
+            u.setPotentialDc(Integer.parseInt(view.getPotentialDcUiElement().getValue()));
+            u.setTotalBeds(currentUnit.getTotalBeds());
+            SimpleValidator.validatePotentialDc(u);
+            view.getPotentialDcUiElement().setErrorMessage(null);
+
+            // Validate the DC by deadline as the potential DC affects its
+            validateDcByDeadlineUiElement(false);
+        }catch(ValidationException e){
+            view.getPotentialDcUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validateDcByDeadlineUiElement(boolean validateDependency){
+        try {
+            if(validateDependency) {
+                // Only validate if potential DC is validated
+                validatePotentialDcUiElement();
+                if (view.getPotentialDcUiElement().getErrorMessage() != null)
+                    return;
+            }
+
+            SimpleValidator.isNumber(view.getDcByDeadlineUiElement().getValue());
+
+            Unit u = new Unit();
+            u.setDcByDeadline(Integer.parseInt(view.getDcByDeadlineUiElement().getValue()));
+            u.setPotentialDc(Integer.parseInt(view.getPotentialDcUiElement().getValue()));
+            SimpleValidator.validateDcByDeadline(u);
+            view.getDcByDeadlineUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getDcByDeadlineUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validateTotalAdmitsUiElement(){
+        try{
+            SimpleValidator.isNumber(view.getTotalAdmitsUiElement().getValue());
+
+            // Validate the admits by deadline as the total admits affects it
+            validateAdmitsByDeadlineUiElement(false);
+            view.getTotalAdmitsUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getTotalAdmitsUiElement().setErrorMessage(e.getMessage());
+        }
+    }
+
+    public void validateAdmitsByDeadlineUiElement(boolean validateDependency){
+        try {
+            if(validateDependency) {
+                // Only validate if total admits is validated
+                validateTotalAdmitsUiElement();
+                if (view.getTotalAdmitsUiElement().getErrorMessage() != null)
+                    return;
+            }
+
+            SimpleValidator.isNumber(view.getAdmitsByDeadlineUiElement().getValue());
+
+            Unit u = new Unit();
+            u.setAdmitsByDeadline(Integer.parseInt(view.getAdmitsByDeadlineUiElement().getValue()));
+            u.setTotalAdmits(Integer.parseInt(view.getTotalAdmitsUiElement().getValue()));
+            SimpleValidator.validateAdmitsByDeadline(u);
+            view.getAdmitsByDeadlineUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getAdmitsByDeadlineUiElement().setErrorMessage(e.getMessage());
+        }
     }
 
     @Override

@@ -1,18 +1,23 @@
 package rtdc.android.presenter;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.EditCapacityController;
+import rtdc.core.i18n.MessageBundle;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.Unit;
 import rtdc.core.util.Cache;
 import rtdc.core.view.EditCapacityView;
+
+import java.util.Locale;
 
 public class EditCapacityActivity extends AbstractDialog implements EditCapacityView {
 
@@ -30,10 +35,45 @@ public class EditCapacityActivity extends AbstractDialog implements EditCapacity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         availableBedsEdit = (AndroidUiString) findViewById(R.id.availableBedsEdit);
+        availableBedsEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateAvailableBedsUiElement();
+            }
+        });
+
         potentialDcEdit = (AndroidUiString) findViewById(R.id.potentialDCEdit);
+        potentialDcEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validatePotentialDcUiElement();
+            }
+        });
+
         DcByDeadlineEdit = (AndroidUiString) findViewById(R.id.DCByDeadlineEdit);
+        DcByDeadlineEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateDcByDeadlineUiElement(true);
+            }
+        });
+
         totalAdmitsEdit = (AndroidUiString) findViewById(R.id.totalAdmitsEdit);
+        totalAdmitsEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateTotalAdmitsUiElement();
+            }
+        });
+
         admitsByDeadlineEdit = (AndroidUiString) findViewById(R.id.admitsByDeadlineEdit);
+        admitsByDeadlineEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    controller.validateAdmitsByDeadlineUiElement(true);
+            }
+        });
+
 
         if(controller == null)
             controller = new EditCapacityController(this);
@@ -55,10 +95,23 @@ public class EditCapacityActivity extends AbstractDialog implements EditCapacity
 
         switch(item.getItemId()) {
             case R.id.action_save_capacity:
+                // Check to see if all fields are valid before proceeding
+                controller.validateAvailableBedsUiElement();
+                controller.validatePotentialDcUiElement();
+                controller.validateDcByDeadlineUiElement(true);
+                controller.validateTotalAdmitsUiElement();
+                controller.validateAdmitsByDeadlineUiElement(true);
+
+                if(availableBedsEdit.getError() != null || potentialDcEdit.getError() != null && DcByDeadlineEdit.getError() != null
+                        || totalAdmitsEdit.getError() != null || admitsByDeadlineEdit.getError() != null) {
+                    new AlertDialog.Builder(this)
+                            .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
+                            .setMessage(MessageBundle.getBundle(Locale.ENGLISH).getString("invalidFields"))
+                            .setNeutralButton(android.R.string.ok, null).show();
+                    return true;
+                }
+
                 controller.updateCapacity();
-                return true;
-            case R.id.action_cancel_capacity:
-                finish();
                 return true;
         }
 

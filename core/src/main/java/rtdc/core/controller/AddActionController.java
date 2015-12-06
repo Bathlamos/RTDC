@@ -4,7 +4,9 @@ import rtdc.core.Bootstrapper;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.model.Action;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
@@ -76,17 +78,18 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         newAction.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
         newAction.setLastUpdate(new Date());
 
-        /*Set<ConstraintViolation<User>> constraintViolations = Bootstrapper.FACTORY.newValidator().validate(newUser);
-
-        if (!constraintViolations.isEmpty()) {
-            ConstraintViolation<User> first = constraintViolations.iterator().next();
-            view.displayError("Error", first.getPropertyPath() + " : " + first.getMessage());
-        } else if (password == null || password.isEmpty() || password.length() < 4)
-            view.displayError("Error", "Password needs to be at least 4 characters");
-        else {*/
         Service.updateOrSaveActions(newAction);
-        //}
+
         Cache.getInstance().put("action", new Pair(action, newAction));
+    }
+
+    public void validateDescription(){
+        try{
+            SimpleValidator.validateActionDescription(view.getDescriptionUiElement().getValue());
+            view.getDescriptionUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getDescriptionUiElement().setErrorMessage(e.getMessage());
+        }
     }
 
     @Override
