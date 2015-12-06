@@ -100,12 +100,6 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
         });
 
         phoneEdit = (AndroidUiString) findViewById(R.id.phoneEdit);
-        phoneEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
-                    controller.validatePhoneNumberUiElement();
-            }
-        });
 
         roleSpinner = (AndroidUiDropdown) findViewById(R.id.roleSpinner);
         permissionSpinner = (AndroidUiDropdown) findViewById(R.id.permissionSpinner);
@@ -165,7 +159,6 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
                controller.validateEmailUiElement();
                controller.validateFirstNameUiElement();
                controller.validateLastNameUiElement();
-               controller.validatePhoneNumberUiElement();
 
                if(usernameEdit.getError() != null || (passwordEdit.getError() != null && confirmPasswordEdit.getError() != null && passwordChange.isChecked())
                        || emailEdit.getError() != null || firstNameEdit.getError() != null || lastNameEdit.getError() != null || phoneEdit.getError() != null) {

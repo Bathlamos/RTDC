@@ -130,15 +130,6 @@ public class AddUserController extends Controller<AddUserView> implements Action
         }
     }
 
-    public void validatePhoneNumberUiElement(){
-        try {
-            SimpleValidator.isNumber(view.getPhoneUiElement().getValue());
-            view.getPhoneUiElement().setErrorMessage(null);
-        }catch(ValidationException e){
-            view.getPhoneUiElement().setErrorMessage(e.getMessage());
-        }
-    }
-
     @Override
     public void onActionComplete(ActionCompleteEvent event) {
         if(event.getObjectType().equals("user")){

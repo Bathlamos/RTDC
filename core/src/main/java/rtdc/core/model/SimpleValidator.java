@@ -45,7 +45,6 @@ public class SimpleValidator {
         validateEmail(user.getEmail());
         validatePersonFirstName(user.getFirstName());
         validatePersonLastName(user.getLastName());
-        isNumber(user.getPhone());
         return true;
     }
 
