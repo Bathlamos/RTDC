@@ -48,7 +48,15 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
         currentUnit.setName(view.getNameUiElement().getValue());
 
         try {
-            currentUnit.setTotalBeds(Integer.parseInt(view.getTotalBedsUiElement().getValue()));
+            int newTotal = Integer.parseInt(view.getTotalBedsUiElement().getValue());
+            if (newTotal != currentUnit.getTotalAdmits()) {
+                currentUnit.setTotalBeds(newTotal);
+                currentUnit.setAdmitsByDeadline(0);
+                currentUnit.setAvailableBeds(0);
+                currentUnit.setDcByDeadline(0);
+                currentUnit.setPotentialDc(0);
+                currentUnit.setTotalAdmits(0);
+            }
         }catch(NumberFormatException e){}
 
         Service.updateOrSaveUnit(currentUnit);

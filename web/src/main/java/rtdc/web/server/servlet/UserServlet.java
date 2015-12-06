@@ -100,7 +100,7 @@ public class UserServlet {
         }
 
         try {
-            SimpleValidator.validateUser(user);
+            SimpleValidator.validateUser(newUser);
             SimpleValidator.validatePassword(password);
         }catch (ValidationException e){
             log.warn("Error adding user: " + e.getMessage());
@@ -152,6 +152,7 @@ public class UserServlet {
         try{
             transaction = session.beginTransaction();
             session.saveOrUpdate(editedUser);
+            AsteriskRealTimeService.editUser(editedUser);
             transaction.commit();
 
             log.info("{}: USER: User updated: {}", user.getUsername(), userString);
@@ -163,8 +164,15 @@ public class UserServlet {
             session.close();
         }
 
-        if(Boolean.parseBoolean(changePassword) && !password.isEmpty())
-            AuthService.editPassword(editedUser, password);
+        if(Boolean.parseBoolean(changePassword)) {
+            try {
+                SimpleValidator.validatePassword(password);
+                AuthService.editPassword(editedUser, password);
+            }catch (ValidationException e){
+                log.warn("Error editing user's password: " + e.getMessage());
+                return new ErrorEvent(e.getMessage()).toString();
+            }
+        }
 
         return new ActionCompleteEvent(user.getId(), "user", "update").toString();
     }
