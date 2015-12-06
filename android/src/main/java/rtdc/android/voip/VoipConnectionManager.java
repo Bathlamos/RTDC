@@ -7,6 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import org.linphone.core.LinphoneCore;
 import rtdc.android.impl.AndroidVoipController;
+import rtdc.android.impl.voip.AndroidVoIPManager;
+import rtdc.android.impl.voip.AndroidVoIPThread;
+import rtdc.core.impl.voip.VoIPManager;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -29,15 +32,15 @@ public class VoipConnectionManager extends BroadcastReceiver {
         NetworkInfo eventInfo = cm.getActiveNetworkInfo();
 
         if (eventInfo == null || (eventInfo.getState() == NetworkInfo.State.DISCONNECTED && eventInfo.getType() == ConnectivityManager.TYPE_WIFI)) {
-            final LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
+            final VoIPManager vm = AndroidVoIPThread.getInstance().getVoIPManager();
             Logger.getLogger(VoipConnectionManager.class.getName()).warning("No connectivity: setting network to unreachable");
-            lc.setNetworkReachable(false);
+            vm.setNetworkReachable(false);
 
             executor.schedule(new Callable(){
                 @Override
                 public Object call() throws Exception {
                     // Check if network is still unreachable. If its not, drop all calls
-                    if(LiblinphoneThread.get().getCurrentCall() != null && !lc.isNetworkReachable()){
+                    if(AndroidVoIPThread.getInstance().getCall() != null && !vm.isNetworkReachable()){
                         AndroidVoipController.get().hangup();
                     }
                     return null;
@@ -46,7 +49,7 @@ public class VoipConnectionManager extends BroadcastReceiver {
 
         } else if (eventInfo.getState() == NetworkInfo.State.CONNECTED && eventInfo.getType() == ConnectivityManager.TYPE_WIFI){
             Logger.getLogger(VoipConnectionManager.class.getName()).info("Wifi is now connected: setting network to reachable");
-            LiblinphoneThread.get().getLinphoneCore().setNetworkReachable(true);
+            AndroidVoIPThread.getInstance().getVoIPManager().setNetworkReachable(true);
         }
     }
 }

@@ -4,19 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
-import org.linphone.core.LinphoneCall;
-import org.linphone.core.LinphoneChatMessage;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
-import rtdc.android.voip.LiblinphoneThread;
-import rtdc.android.voip.VoipListener;
+import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.core.Session;
 import rtdc.core.Config;
 import rtdc.core.controller.CommunicationHubController;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchMessagesEvent;
 import rtdc.core.event.MessageSavedEvent;
+import rtdc.core.impl.voip.*;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
@@ -27,7 +25,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler, VoipListener{
+public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler, VoIPListener {
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
@@ -154,7 +152,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         setHasOptionsMenu(true);
 
         Event.subscribe(FetchMessagesEvent.TYPE, this);
-        LiblinphoneThread.get().addVoipListener(this);
+        AndroidVoIPThread.getInstance().addVoIPListener(this);
 
         return view;
     }
@@ -413,7 +411,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     public void onStop() {
         super.onStop();
         controller.onStop();
-        LiblinphoneThread.get().removeVoipListener(this);
+        AndroidVoIPThread.getInstance().removeVoIPListener(this);
     }
 
     @Override
@@ -423,9 +421,14 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     }
 
     @Override
-    public void onMessageReceived(LinphoneChatMessage chatMessage) {
-        if(!chatMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
-            JSONObject object = new JSONObject(chatMessage.getText());
+    public void callState(VoIPManager voIPManager, Call call, Call.State state, String message) {
+
+    }
+
+    @Override
+    public void messageReceived(VoIPManager voIPManager, TextGroup textGroup, TextMessage textMessage) {
+        if(!textMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
+            JSONObject object = new JSONObject(textMessage.getText());
             Message message = new Message(object);
             if(messagingUser.getId() == message.getSenderID()) {
                 message.setStatus(Message.Status.read);
@@ -436,10 +439,5 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
             }
             Service.saveOrUpdateMessage(message);
         }
-    }
-
-    @Override
-    public void onCallStateChanged(LinphoneCall call, LinphoneCall.State state) {
-
     }
 }

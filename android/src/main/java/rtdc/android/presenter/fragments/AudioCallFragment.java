@@ -1,18 +1,15 @@
 package rtdc.android.presenter.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import org.linphone.core.LinphoneCall;
 import rtdc.android.R;
-import rtdc.android.presenter.CommunicationHubInCallActivity;
-import rtdc.android.voip.LiblinphoneThread;
+import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.core.Bootstrapper;
-import rtdc.core.model.User;
+import rtdc.core.impl.voip.Call;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -41,12 +38,12 @@ public class AudioCallFragment extends AbstractCallFragment{
         }
 
         // Display the name of the person we're in call with
-        if(LiblinphoneThread.get().getCurrentCallRemoteAddress() != null)
-            ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCallRemoteAddress().getDisplayName());
+        if(AndroidVoIPThread.getInstance().getRemoteAddress() != null)
+            ((TextView) view.findViewById(R.id.callerText)).setText(AndroidVoIPThread.getInstance().getRemoteAddress().getDisplayName());
         else
             ((TextView) view.findViewById(R.id.callerText)).setText("Unknown");
 
-        if(LiblinphoneThread.get().getCurrentCall().getState() == LinphoneCall.State.OutgoingProgress) {
+        if(AndroidVoIPThread.getInstance().getCall().getState() == Call.State.outgoingProgress) {
             // Display a ringing message
 
             ((TextView) view.findViewById(R.id.callStatus)).setText("Ringing");
@@ -69,7 +66,7 @@ public class AudioCallFragment extends AbstractCallFragment{
                 }
             }, 0, 1000, TimeUnit.MILLISECONDS);
         }else{
-            callDuration = LiblinphoneThread.get().getCurrentCall().getDuration();  // We start with the correct time
+            callDuration = AndroidVoIPThread.getInstance().getCall().getDuration();  // We start with the correct time
 
             // Keeps track of the duration of the call, by incrementing a counter every second
 
@@ -103,7 +100,7 @@ public class AudioCallFragment extends AbstractCallFragment{
             }
         });
 
-        callDuration = LiblinphoneThread.get().getCurrentCall().getDuration();  // We start with the correct time
+        callDuration = AndroidVoIPThread.getInstance().getCall().getDuration();  // We start with the correct time
 
         // Keeps track of the duration of the call, by incrementing a counter every second
 

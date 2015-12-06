@@ -17,23 +17,13 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-import android.graphics.Point;
-import android.media.AudioManager;
+
 import android.view.*;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import org.linphone.BandwidthManager;
-import org.linphone.LinphoneUtils;
 import org.linphone.compatibility.Compatibility;
 import org.linphone.compatibility.CompatibilityScaleGestureDetector;
 import org.linphone.compatibility.CompatibilityScaleGestureListener;
-import org.linphone.core.LinphoneCall;
-import org.linphone.core.LinphoneCallParams;
-import org.linphone.core.LinphoneCore;
 import org.linphone.mediastream.Log;
 import org.linphone.mediastream.video.AndroidVideoWindowImpl;
 import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
@@ -46,14 +36,17 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnTouchListener;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
+import rtdc.android.impl.voip.AndroidBandwidthManager;
+import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
-import rtdc.android.voip.LiblinphoneThread;
 import rtdc.core.Bootstrapper;
+import rtdc.core.impl.voip.Call;
+import rtdc.core.impl.voip.CallParameters;
+import rtdc.core.impl.voip.Video;
+import rtdc.core.impl.voip.VoIPManager;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Sylvain Berfini
@@ -92,25 +85,24 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
         androidVideoWindowImpl = new AndroidVideoWindowImpl(mVideoView, mCaptureView, new AndroidVideoWindowImpl.VideoWindowListener() {
             public void onVideoRenderingSurfaceReady(AndroidVideoWindowImpl vw, SurfaceView surface) {
-                LiblinphoneThread.get().getLinphoneCore().setVideoWindow(vw);
+                AndroidVoIPThread.getInstance().getVideo().setVideoWindow(vw);
                 mVideoView = surface;
             }
 
             public void onVideoRenderingSurfaceDestroyed(AndroidVideoWindowImpl vw) {
-                LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
-                if (lc != null) {
-                    lc.setVideoWindow(null);
-                }
+                Video video = AndroidVoIPThread.getInstance().getVideo();
+                if (video != null)
+                    video.setVideoWindow(null);
             }
 
             public void onVideoPreviewSurfaceReady(AndroidVideoWindowImpl vw, SurfaceView surface) {
                 mCaptureView = surface;
-                LiblinphoneThread.get().getLinphoneCore().setPreviewWindow(mCaptureView);
+                AndroidVoIPThread.getInstance().getVideo().setPreviewWindow(mCaptureView);
             }
 
             public void onVideoPreviewSurfaceDestroyed(AndroidVideoWindowImpl vw) {
                 // Remove references kept in jni code and restart camera
-                LiblinphoneThread.get().getLinphoneCore().setPreviewWindow(null);
+                AndroidVoIPThread.getInstance().getVideo().setPreviewWindow(null);
             }
         });
 
@@ -190,7 +182,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         // Set speaker mode on
         AndroidVoipController.get().setSpeaker(true);
 
-        if(LiblinphoneThread.get().getCurrentCall().getState() == LinphoneCall.State.OutgoingProgress) {
+        if(AndroidVoIPThread.getInstance().getCall().getState() == Call.State.outgoingProgress) {
             // Display a ringing message
 
             view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
@@ -236,24 +228,25 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
     public void switchCamera() {
         try {
-            int videoDeviceId = LiblinphoneThread.get().getLinphoneCore().getVideoDevice();
+            int videoDeviceId = AndroidVoIPThread.getInstance().getVideo().getCameraId();
             videoDeviceId = (videoDeviceId + 1) % AndroidCameraConfiguration.retrieveCameras().length;
-            LiblinphoneThread.get().getLinphoneCore().setVideoDevice(videoDeviceId);
+            AndroidVoIPThread.getInstance().getVideo().setCameraId(videoDeviceId);
 
-            LinphoneCore lc = LiblinphoneThread.get().getLinphoneCore();
-            LinphoneCall lCall = lc.getCurrentCall();
-            if (lCall == null) {
+            VoIPManager vm = AndroidVoIPThread.getInstance().getVoIPManager();
+            Call call = AndroidVoIPThread.getInstance().getCall();
+            if (call == null) {
                 Log.e("Trying to updateCall while not in call: doing nothing");
                 return;
             }
-            LinphoneCallParams params = lCall.getCurrentParamsCopy();
-            BandwidthManager.getInstance().updateWithProfileSettings(lc, params);
-            lc.updateCall(lCall, null);
+
+            CallParameters params = call.getCurrentParamsCopy();
+            AndroidBandwidthManager.getInstance().updateWithProfileSettings(vm, params);
+            vm.updateCall(call, null);
 
             // previous call will cause graph reconstruction -> regive preview
             // window
             if (mCaptureView != null) {
-                LiblinphoneThread.get().getLinphoneCore().setPreviewWindow(mCaptureView);
+                AndroidVoIPThread.getInstance().getVideo().setPreviewWindow(mCaptureView);
             }
         } catch (ArithmeticException ae) {
             Log.e("Cannot switch camera : no camera");
@@ -270,7 +263,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
         if (androidVideoWindowImpl != null) {
             synchronized (androidVideoWindowImpl) {
-                LiblinphoneThread.get().getLinphoneCore().setVideoWindow(androidVideoWindowImpl);
+                AndroidVoIPThread.getInstance().getVideo().setVideoWindow(androidVideoWindowImpl);
                 if(isFragmentPaused)
                     AndroidVoipController.get().setVideo(true);
                 isFragmentPaused = false;
@@ -289,7 +282,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 				 * this call will destroy native opengl renderer which is used by
 				 * androidVideoWindowImpl
 				 */
-                LiblinphoneThread.get().getLinphoneCore().setVideoWindow(null);
+                AndroidVoIPThread.getInstance().getVideo().setVideoWindow(null);
                 AndroidVoipController.get().setVideo(false);
                 isFragmentPaused = true;
             }
@@ -311,9 +304,9 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         float landscapeZoomFactor = ((float) mVideoView.getWidth()) / (float) ((3 * mVideoView.getHeight()) / 4);
         mZoomFactor = Math.max(0.1f, Math.min(mZoomFactor, Math.max(portraitZoomFactor, landscapeZoomFactor)));
 
-        LinphoneCall currentCall = LiblinphoneThread.get().getLinphoneCore().getCurrentCall();
-        if (currentCall != null) {
-            currentCall.zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
+        Video video = AndroidVoIPThread.getInstance().getVideo();
+        if (video != null) {
+            video.zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
             return true;
         }
         return false;
@@ -321,7 +314,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        if (LinphoneUtils.isCallEstablished(LiblinphoneThread.get().getLinphoneCore().getCurrentCall())) {
+        if(AndroidVoIPThread.getInstance().getVoIPManager().isCallEstablished(AndroidVoIPThread.getInstance().getCall())) {
             if (mZoomFactor > 1) {
                 // Video is zoomed, slide is used to change center of zoom
                 if (distanceX > 0 && mZoomCenterX < 1) {
@@ -344,7 +337,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 if (mZoomCenterY < 0)
                     mZoomCenterY = 0;
 
-                LiblinphoneThread.get().getLinphoneCore().getCurrentCall().zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
+                AndroidVoIPThread.getInstance().getVideo().zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
                 return true;
             }
         }
@@ -354,7 +347,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        if (LinphoneUtils.isCallEstablished(LiblinphoneThread.get().getLinphoneCore().getCurrentCall())) {
+        if(AndroidVoIPThread.getInstance().getVoIPManager().isCallEstablished(AndroidVoIPThread.getInstance().getCall())) {
             if (mZoomFactor == 1.f) {
                 // Zoom to make the video fill the screen vertically
                 float portraitZoomFactor = ((float) mVideoView.getHeight()) / (float) ((3 * mVideoView.getWidth()) / 4);
@@ -367,7 +360,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 resetZoom();
             }
 
-            LiblinphoneThread.get().getLinphoneCore().getCurrentCall().zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
+            AndroidVoIPThread.getInstance().getVideo().zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
             return true;
         }
 
