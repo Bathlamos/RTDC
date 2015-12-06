@@ -52,6 +52,8 @@ dependencies {
     gwt group: 'com.google.guava', name: 'guava', version: '18.0', classifier: 'sources'
     compile group: 'com.google.guava', name: 'guava-gwt', version: '18.0', classifier: 'sources'
     gwt group: 'com.google.guava', name: 'guava-gwt', version: '18.0', classifier: 'sources'
+
+    compile files('postgresql-9.4-1205.jdbc4.jar')
 }
 
 gwt {
