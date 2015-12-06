@@ -220,21 +220,28 @@ public class ServiceTest {
         JSONArray unitJsonArray = unitsJSON.getJSONArray("units");
 
         // Action
-        Unit unit = new Unit(unitJsonArray.getJSONObject(0));
+        Unit unit = new Unit(unitJsonArray.getJSONObject(3));
         unit.setName("Modified name");
+        unit.setTotalBeds(50);
         JSONObject result = executeSyncRequest("units", "unit=" + unit.toString(), "PUT", authToken);
 
         Unit savedUnit = getSingleUnit(authToken, unit.getId());
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
-        Assert.assertEquals(result.get("objectId"), unit.getId());
-        Assert.assertEquals(result.get("action"), "update");
-        Assert.assertEquals(result.get("objectType"), "unit");
+        Assert.assertEquals(unit.getId(), result.get("objectId"));
+        Assert.assertEquals("update",result.get("action"));
+        Assert.assertEquals("unit", result.get("objectType"));
 
         Assert.assertNotNull(savedUnit);
-        Assert.assertEquals(savedUnit.getName(), unit.getName());
-        Assert.assertEquals(savedUnit.getAvailableBeds(), unit.getAvailableBeds());
+        Assert.assertEquals(unit.getName(), savedUnit.getName());
+        Assert.assertEquals(unit.getAdmitsByDeadline(), savedUnit.getAdmitsByDeadline());
+        Assert.assertEquals(unit.getAvailableBeds(), savedUnit.getAvailableBeds());
+        Assert.assertEquals(unit.getDcByDeadline(), savedUnit.getDcByDeadline());
+        Assert.assertEquals(unit.getPotentialDc(), savedUnit.getPotentialDc());
+        Assert.assertEquals(unit.getStatusAtDeadline(), savedUnit.getStatusAtDeadline());
+        Assert.assertEquals(unit.getTotalAdmits(), savedUnit.getTotalAdmits());
+        Assert.assertEquals(unit.getTotalBeds(), savedUnit.getTotalBeds());
     }
 
     @Test
