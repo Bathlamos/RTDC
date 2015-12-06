@@ -31,12 +31,7 @@ public class AndroidCall implements Call{
 
     @Override
     public State getState() {
-        for (State state: State.values()) {
-            if (state.toString().toUpperCase().equals(linphoneCall.getState().toString().toUpperCase())) {
-                return state;
-            }
-        }
-        return State.error;
+        return linphoneStateToState(linphoneCall.getState());
     }
 
     @Override
@@ -64,6 +59,16 @@ public class AndroidCall implements Call{
             }
         }
         return VoIPManager.Reason.unknown;
+    }
+
+    public static Call.State linphoneStateToState(LinphoneCall.State linphoneState){
+        for (State state: State.values()) {
+            if (state.toString().toUpperCase().equals(linphoneState.toString().toUpperCase())) {
+                return state;
+            }
+        }
+
+        return null;
     }
 
 }

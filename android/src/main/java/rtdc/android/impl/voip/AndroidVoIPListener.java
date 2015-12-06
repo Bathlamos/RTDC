@@ -5,7 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import org.linphone.core.LinphoneCoreListenerBase;
+import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
@@ -28,6 +28,11 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
 
     // We decrease this value each time there's a missed call so that each missed call as a unique notification ID
     private int MISSED_CALL_NOTIFICATION_ID = Integer.MAX_VALUE;
+
+    @Override
+    public void callState(LinphoneCore lc, LinphoneCall call, LinphoneCall.State state, String message) {
+        callState(new AndroidVoIPManager(lc), new AndroidCall(call), AndroidCall.linphoneStateToState(state), message);
+    }
 
     @Override
     public void callState(VoIPManager voIPManager, Call call, Call.State state, String message) {
@@ -151,6 +156,10 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
 
             AndroidVoIPThread.getInstance().setCall(null);
         }
+    }
+
+    public void messageReceived(LinphoneCore lc, LinphoneChatRoom cr, LinphoneChatMessage message) {
+        messageReceived(new AndroidVoIPManager(lc), new AndroidTextGroup(cr), new AndroidTextMessage(message));
     }
 
     @Override
