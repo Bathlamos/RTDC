@@ -7,8 +7,8 @@ public class AndroidVideo implements Video{
 
     private LinphoneCore linphoneCore;
 
-    public AndroidVideo(LinphoneCore linphoneCore){
-        this.linphoneCore = linphoneCore;
+    public AndroidVideo(AndroidVoIPManager voIPManager){
+        this.linphoneCore = voIPManager.getLinphoneCore();
     }
 
     @Override

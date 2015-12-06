@@ -37,6 +37,8 @@ import android.view.View.OnTouchListener;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.impl.voip.AndroidBandwidthManager;
+import rtdc.android.impl.voip.AndroidVideo;
+import rtdc.android.impl.voip.AndroidVoIPManager;
 import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.core.Bootstrapper;
@@ -76,6 +78,8 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 switchCamera();
             }
         });
+
+        AndroidVoIPThread.getInstance().setVideo(new AndroidVideo((AndroidVoIPManager) AndroidVoIPThread.getInstance().getVoIPManager()));
 
         mVideoView = (SurfaceView) view.findViewById(R.id.videoSurface);
         mCaptureView = (SurfaceView) view.findViewById(R.id.videoCaptureSurface);
