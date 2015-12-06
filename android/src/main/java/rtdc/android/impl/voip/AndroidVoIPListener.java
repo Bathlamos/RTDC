@@ -36,7 +36,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
 
     @Override
     public void callState(VoIPManager voIPManager, Call call, Call.State state, String message) {
-        Logger.getLogger(AndroidVoIPThread.class.getName()).log(Level.INFO, state + "");
+        Logger.getLogger(AndroidVoIPListener.class.getName()).log(Level.INFO, state + "");
 
         for(VoIPListener listener: AndroidVoIPThread.getInstance().getVoIPListeners())
             listener.callState(voIPManager,call,state,message);

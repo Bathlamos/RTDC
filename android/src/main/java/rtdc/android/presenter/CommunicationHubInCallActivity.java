@@ -210,9 +210,8 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
             ((NotificationManager) context.getSystemService(
                     context.NOTIFICATION_SERVICE)).cancel(IN_CALL_NOTIFICATION_ID);
 
-            // Call a cleaning method if the call that terminated was the one we are actually in (could've been an incoming call)
-            if(call == AndroidVoIPThread.getInstance().getCall())
-                onCallHangup();
+            // Call a cleaning method
+            onCallHangup();
         }
     }
 

@@ -132,7 +132,9 @@ public class AndroidVoIPManager implements VoIPManager {
     @Override
     public void updateCall(Call call, CallParameters callParameters){
         LinphoneCall linphoneCall = ((AndroidCall) call).getLinphoneCall();
-        LinphoneCallParams linphoneCallParams = ((AndroidCallParameters) callParameters).getLinphoneCallParams();
+        LinphoneCallParams linphoneCallParams = null;
+        if(callParameters != null)
+            linphoneCallParams = ((AndroidCallParameters) callParameters).getLinphoneCallParams();
         linphoneCore.updateCall(linphoneCall, linphoneCallParams);
     }
 
@@ -145,12 +147,12 @@ public class AndroidVoIPManager implements VoIPManager {
             boolean found = false;
             int i = 0;
             while(!found){
-                linReason = org.linphone.core.Reason.fromInt(i);
+                linReason = org.linphone.core.Reason.fromInt(i++);
                 found = linReason.toString().toUpperCase().equals(reason.toString().toUpperCase());
             }
         } catch (Exception e){
             e.printStackTrace();
-            linReason = org.linphone.core.Reason.fromInt(0);
+            linReason = org.linphone.core.Reason.fromInt(20);
         }
 
         linphoneCore.declineCall(linphoneCall, linReason);
