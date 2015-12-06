@@ -64,11 +64,13 @@ public class AndroidVoipController implements VoipController{
 
         // Let the Liblinphone thread unregister
 
-        while(currentProxyConfig.getState() != LinphoneCore.RegistrationState.RegistrationCleared) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if(currentProxyConfig.getState() == LinphoneCore.RegistrationState.RegistrationOk){
+            while(currentProxyConfig.getState() != LinphoneCore.RegistrationState.RegistrationCleared) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
