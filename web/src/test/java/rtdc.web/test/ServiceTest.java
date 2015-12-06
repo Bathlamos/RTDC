@@ -7,6 +7,7 @@ import rtdc.core.event.*;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
+import rtdc.core.model.Message;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
@@ -24,7 +25,7 @@ public class ServiceTest {
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String TEST_USERNAME = "Nathaniel";
     private static final String TEST_PASSWORD = "password";
-    /*
+
     // Tests for AuthServlet
 
     @Test
@@ -648,12 +649,98 @@ public class ServiceTest {
         int actionId = 99999;
 
         // Action
-        JSONObject result =executeSyncRequest("actions/" + actionId, null, "DELETE", "");
+        JSONObject result = executeSyncRequest("actions/" + actionId, null, "DELETE", "");
 
         // Assert
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
-    */
+
+    // Tests for MessageServlet
+
+    @Test
+    public void getMessages_getMsgQweAndJackAsQweFirst25_gotMessages() {
+        // Arrange
+        String authToken = getAuthToken("user", TEST_PASSWORD);
+        int startIndex = 0, length = 25;
+        User qwe = new User(executeSyncRequest("users/" + "Qwe", null, "GET", authToken).getJSONObject("user"));
+        User jack = new User(executeSyncRequest("users/" + "user", null, "GET", authToken).getJSONObject("user"));
+        int qweId = qwe.getId(), jackId = jack.getId();
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/" + qweId + "/" + jackId + "/" + startIndex + "/" + length, null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(FetchMessagesEvent.TYPE.getName(), result.get("_type"));
+        JSONArray messagesArray = result.getJSONArray("messages");
+        Assert.assertEquals(25, messagesArray.length());
+    }
+
+    @Test
+    public void getMessages_getMsgQweAndNathanielAsUser_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        int startIndex = 0, length = 25;
+        User qwe = new User(executeSyncRequest("users/" + "Qwe", null, "GET", authToken).getJSONObject("user"));
+        User nathaniel = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        int qweId = qwe.getId(), nathanielId = nathaniel.getId();
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/" + qweId + "/" + nathanielId + "/" + startIndex + "/" + length, null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    @Test
+    public void getMessages_noAuthToken_error() {
+        // Arrange
+        String authToken = getAuthToken("user", TEST_PASSWORD);
+        int startIndex = 0, length = 25;
+        User qwe = new User(executeSyncRequest("users/" + "Qwe", null, "GET", authToken).getJSONObject("user"));
+        User jack = new User(executeSyncRequest("users/" + "user", null, "GET", authToken).getJSONObject("user"));
+        int qweId = qwe.getId(), jackId = jack.getId();
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/" + qweId + "/" + jackId + "/" + startIndex + "/" + length, null, "GET", "");
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    @Test
+    public void getMessages_msgBetweenNathanielAndInexistingUser_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        int startIndex = 0, length = 25;
+        User nathaniel = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        int errorId = 9999999, nathanielId = nathaniel.getId();
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/" + nathanielId + "/" + errorId + "/" + startIndex + "/" + length, null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    @Test
+    public void addMessage_newMessage_messageAdded() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        Message message = new Message();
+        User sender = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        User receiver = new User(executeSyncRequest("users/" + "Qwe", null, "GET", authToken).getJSONObject("user"));
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        message.setStatus(Message.Status.sent);
+        message.setContent("Camion gris");
+        message.setTimeSent(new Date());
+
+        // Action
+        JSONObject result = executeSyncRequest("messages", "message=" + message.toString(), "POST", authToken);
+
+        // Assert
+        Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
+    }
 
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
         try {
