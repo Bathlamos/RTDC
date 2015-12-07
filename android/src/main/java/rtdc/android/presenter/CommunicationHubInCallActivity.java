@@ -238,6 +238,8 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
                 if(AndroidVoipController.get().isVideoEnabled()){
                     // Remote video is off and and we're broadcasting video. Pause the video call
                     displayPauseVideoStatus(true);
+                }else{
+                    displayAudio();
                 }
             }
         }
