@@ -21,18 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import org.linphone.compatibility.Compatibility;
-import org.linphone.compatibility.CompatibilityScaleGestureDetector;
-import org.linphone.compatibility.CompatibilityScaleGestureListener;
-import org.linphone.mediastream.Log;
 import org.linphone.mediastream.video.AndroidVideoWindowImpl;
 import org.linphone.mediastream.video.capture.hwconf.AndroidCameraConfiguration;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.GestureDetector.OnDoubleTapListener;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnTouchListener;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
@@ -50,17 +44,10 @@ import rtdc.core.impl.voip.VoIPManager;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Sylvain Berfini
- */
-public class VideoCallFragment extends AbstractCallFragment implements OnGestureListener, OnDoubleTapListener, CompatibilityScaleGestureListener {
+public class VideoCallFragment extends AbstractCallFragment {
     private SurfaceView mVideoView;
     private SurfaceView mCaptureView;
     private AndroidVideoWindowImpl androidVideoWindowImpl;
-    private GestureDetector mGestureDetector;
-    private float mZoomFactor = 1.f;
-    private float mZoomCenterX, mZoomCenterY;
-    private CompatibilityScaleGestureDetector mScaleDetector;
     private InCallActivity inCallActivity;
     private boolean isFragmentPaused;
     private Future ringingTask;
@@ -112,11 +99,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
 
         mVideoView.setOnTouchListener(new OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                if (mScaleDetector != null) {
-                    mScaleDetector.onTouchEvent(event);
-                }
 
-                mGestureDetector.onTouchEvent(event);
                 if (inCallActivity != null) {
                     //inCallActivity.displayVideoCallControlsIfHidden();
                 }
@@ -239,7 +222,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
             VoIPManager vm = AndroidVoIPThread.getInstance().getVoIPManager();
             Call call = AndroidVoIPThread.getInstance().getCall();
             if (call == null) {
-                Log.e("Trying to updateCall while not in call: doing nothing");
+                // Trying to updateCall while not in call: doing nothing
                 return;
             }
 
@@ -253,7 +236,8 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 AndroidVoIPThread.getInstance().getVideo().setPreviewWindow(mCaptureView);
             }
         } catch (ArithmeticException ae) {
-            Log.e("Cannot switch camera : no camera");
+            // Cannot switch camera : no camera
+            ae.printStackTrace();
         }
     }
 
@@ -273,9 +257,6 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
                 isFragmentPaused = false;
             }
         }
-
-        mGestureDetector = new GestureDetector(inCallActivity, this);
-        mScaleDetector = Compatibility.getScaleGestureDetector(inCallActivity, this);
     }
 
     @Override
@@ -299,83 +280,6 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         super.onPause();
     }
 
-    public boolean onScale(CompatibilityScaleGestureDetector detector) {
-        mZoomFactor *= detector.getScaleFactor();
-        // Don't let the object get too small or too large.
-        // Zoom to make the video fill the screen vertically
-        float portraitZoomFactor = ((float) mVideoView.getHeight()) / (float) ((3 * mVideoView.getWidth()) / 4);
-        // Zoom to make the video fill the screen horizontally
-        float landscapeZoomFactor = ((float) mVideoView.getWidth()) / (float) ((3 * mVideoView.getHeight()) / 4);
-        mZoomFactor = Math.max(0.1f, Math.min(mZoomFactor, Math.max(portraitZoomFactor, landscapeZoomFactor)));
-
-        Video video = AndroidVoIPThread.getInstance().getVideo();
-        if (video != null) {
-            video.zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        if(AndroidVoIPThread.getInstance().getVoIPManager().isCallEstablished(AndroidVoIPThread.getInstance().getCall())) {
-            if (mZoomFactor > 1) {
-                // Video is zoomed, slide is used to change center of zoom
-                if (distanceX > 0 && mZoomCenterX < 1) {
-                    mZoomCenterX += 0.01;
-                } else if(distanceX < 0 && mZoomCenterX > 0) {
-                    mZoomCenterX -= 0.01;
-                }
-                if (distanceY < 0 && mZoomCenterY < 1) {
-                    mZoomCenterY += 0.01;
-                } else if(distanceY > 0 && mZoomCenterY > 0) {
-                    mZoomCenterY -= 0.01;
-                }
-
-                if (mZoomCenterX > 1)
-                    mZoomCenterX = 1;
-                if (mZoomCenterX < 0)
-                    mZoomCenterX = 0;
-                if (mZoomCenterY > 1)
-                    mZoomCenterY = 1;
-                if (mZoomCenterY < 0)
-                    mZoomCenterY = 0;
-
-                AndroidVoIPThread.getInstance().getVideo().zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent e) {
-        if(AndroidVoIPThread.getInstance().getVoIPManager().isCallEstablished(AndroidVoIPThread.getInstance().getCall())) {
-            if (mZoomFactor == 1.f) {
-                // Zoom to make the video fill the screen vertically
-                float portraitZoomFactor = ((float) mVideoView.getHeight()) / (float) ((3 * mVideoView.getWidth()) / 4);
-                // Zoom to make the video fill the screen horizontally
-                float landscapeZoomFactor = ((float) mVideoView.getWidth()) / (float) ((3 * mVideoView.getHeight()) / 4);
-
-                mZoomFactor = Math.max(portraitZoomFactor, landscapeZoomFactor);
-            }
-            else {
-                resetZoom();
-            }
-
-            AndroidVoIPThread.getInstance().getVideo().zoomVideo(mZoomFactor, mZoomCenterX, mZoomCenterY);
-            return true;
-        }
-
-        return false;
-    }
-
-    private void resetZoom() {
-        mZoomFactor = 1.f;
-        mZoomCenterX = mZoomCenterY = 0.5f;
-    }
-
     @Override
     public void onDestroy() {
         inCallActivity = null;
@@ -389,14 +293,6 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
             // Prevent linphone from crashing if correspondent hang up while you are rotating
             androidVideoWindowImpl.release();
             androidVideoWindowImpl = null;
-        }
-        if (mGestureDetector != null) {
-            mGestureDetector.setOnDoubleTapListener(null);
-            mGestureDetector = null;
-        }
-        if (mScaleDetector != null) {
-            mScaleDetector.destroy();
-            mScaleDetector = null;
         }
 
         super.onDestroy();
@@ -443,39 +339,4 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
         }
     }
 
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return true; // Needed to make the GestureDetector working
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                           float velocityY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
 }

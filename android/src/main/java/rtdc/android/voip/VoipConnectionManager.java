@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import org.linphone.core.LinphoneCore;
 import rtdc.android.impl.AndroidVoipController;
-import rtdc.android.impl.voip.AndroidVoIPManager;
 import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.core.impl.voip.VoIPManager;
 
