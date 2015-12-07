@@ -1,21 +1,18 @@
 package rtdc.android.impl.voip;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
-import rtdc.android.R;
+import rtdc.android.AndroidNotificationController;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
-import rtdc.android.presenter.MainActivity;
+import rtdc.android.presenter.fragments.CommunicationHubFragment;
 import rtdc.core.Config;
 import rtdc.core.Session;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUserEvent;
 import rtdc.core.impl.voip.*;
+import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.service.Service;
 import rtdc.core.impl.voip.VoIPManager.Reason;
@@ -25,9 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoIPListener{
-
-    // We decrease this value each time there's a missed call so that each missed call as a unique notification ID
-    private int MISSED_CALL_NOTIFICATION_ID = Integer.MAX_VALUE;
 
     @Override
     public void callState(LinphoneCore lc, LinphoneCall call, LinphoneCall.State state, String message) {
@@ -46,7 +40,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
 
             // Only accept the incoming call if we're not currently in a call
             if(AndroidVoIPThread.getInstance().getCall() != null){
-                addMissedCallNotification(call.getRemoteAddress().getDisplayName());
+                AndroidNotificationController.addMissedCallNotification(call.getRemoteAddress().getDisplayName());
                 voIPManager.declineCall(call, Reason.busy);
                 return;
             }
@@ -105,7 +99,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
                 rtdcMessage.setStatus(Message.Status.read);
                 if(reason == Reason.notAnswered){
                     // Add a notification for the user to let it know it missed a call
-                    addMissedCallNotification(call.getRemoteAddress().getDisplayName());
+                    AndroidNotificationController.addMissedCallNotification(call.getRemoteAddress().getDisplayName());
 
                     // Save a message on the server for the missed call
 
@@ -166,24 +160,19 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
     public void messageReceived(VoIPManager voIPManager, TextGroup textGroup, TextMessage textMessage) {
         Logger.getLogger(AndroidVoIPThread.class.getName()).log(Level.INFO, "Message received: " + textMessage.getText());
 
-        for(VoIPListener listener: AndroidVoIPThread.getInstance().getVoIPListeners())
-            listener.messageReceived(voIPManager,textGroup,textMessage);
-    }
+        boolean foundMessageFragment = false;
+        for(VoIPListener listener: AndroidVoIPThread.getInstance().getVoIPListeners()) {
+            listener.messageReceived(voIPManager, textGroup, textMessage);
+            if(listener instanceof CommunicationHubFragment)
+                foundMessageFragment = true;
+        }
 
-    // TODO: Group notification methods in a separate class
-    private void addMissedCallNotification(String missedCaller){
-        Context context = AndroidBootstrapper.getAppContext();
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_phone_missed_white_24dp)
-                        .setContentTitle("RTDC")
-                        .setContentText("Missed call from " + missedCaller);
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("fragment", 2);
-        PendingIntent inCallPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(inCallPendingIntent);
-        mBuilder.setAutoCancel(true);
-        ((NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE)).notify(MISSED_CALL_NOTIFICATION_ID--, mBuilder.build());
+        if(!foundMessageFragment && !textMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
+            JSONObject object = new JSONObject(textMessage.getText());
+            Message message = new Message(object);
+            message.setStatus(Message.Status.delivered);
+            AndroidNotificationController.addTextMessageNotification(message);
+            Service.saveOrUpdateMessage(message);
+        }
     }
 }
