@@ -88,13 +88,13 @@
                 android:parentActivityName=".presenter.MainActivity">
         </activity>
         <activity
-                android:name=".presenter.CommunicationHubInCallActivity"
+                android:name=".presenter.InCallActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:parentActivityName=".presenter.MainActivity"
                 android:noHistory="true">
         </activity>
         <activity
-                android:name=".presenter.CommunicationHubReceivingCallActivity"
+                android:name=".presenter.IncomingCallActivity"
                 android:configChanges="orientation|keyboardHidden|screenSize"
                 android:parentActivityName=".presenter.MainActivity"
                 android:noHistory="true">

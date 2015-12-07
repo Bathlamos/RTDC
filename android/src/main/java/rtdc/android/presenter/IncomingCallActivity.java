@@ -11,7 +11,7 @@ import rtdc.core.Bootstrapper;
 import rtdc.core.Config;
 import rtdc.core.impl.voip.*;
 
-public class CommunicationHubReceivingCallActivity extends AbstractActivity implements VoIPListener {
+public class IncomingCallActivity extends AbstractActivity implements VoIPListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class CommunicationHubReceivingCallActivity extends AbstractActivity impl
             @Override
             public void onClick(View view) {
                 Bootstrapper.FACTORY.getVoipController().declineCall();
-                CommunicationHubReceivingCallActivity.this.finish();
+                IncomingCallActivity.this.finish();
             }
         });
 

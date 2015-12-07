@@ -4,9 +4,9 @@ import android.content.Intent;
 import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.AndroidNotificationController;
-import rtdc.android.presenter.CommunicationHubInCallActivity;
-import rtdc.android.presenter.CommunicationHubReceivingCallActivity;
-import rtdc.android.presenter.fragments.CommunicationHubFragment;
+import rtdc.android.presenter.InCallActivity;
+import rtdc.android.presenter.IncomingCallActivity;
+import rtdc.android.presenter.fragments.MessagesFragment;
 import rtdc.core.Config;
 import rtdc.core.Session;
 import rtdc.core.event.Event;
@@ -48,7 +48,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
             // We just received a call, interrupt everything and display the incoming call view
             AndroidVoIPThread.getInstance().setCall(call);
             AndroidVoIPThread.getInstance().setRemoteAddress(call.getRemoteAddress());
-            Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubReceivingCallActivity.class);
+            Intent intent = new Intent(AndroidBootstrapper.getAppContext(), IncomingCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);
 
@@ -59,7 +59,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
             // user name when you invite someone into a call, no idea why
             //currentCallRemoteAddress = linphoneCall.getRemoteAddress();
 
-            Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
+            Intent intent = new Intent(AndroidBootstrapper.getAppContext(), InCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);
 
@@ -163,7 +163,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
         boolean foundMessageFragment = false;
         for(VoIPListener listener: AndroidVoIPThread.getInstance().getVoIPListeners()) {
             listener.messageReceived(voIPManager, textGroup, textMessage);
-            if(listener instanceof CommunicationHubFragment)
+            if(listener instanceof MessagesFragment)
                 foundMessageFragment = true;
         }
 

@@ -1,19 +1,16 @@
 package rtdc.android.presenter.fragments;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
-import rtdc.android.presenter.CommunicationHubInCallActivity;
+import rtdc.android.presenter.InCallActivity;
 
 public abstract class AbstractCallFragment extends AbstractFragment{
 
     protected View view;
-    protected CommunicationHubInCallActivity inCallActivity;
+    protected InCallActivity inCallActivity;
 
     public abstract void onCallEstablished();
     public abstract void onCallHangup();
@@ -21,7 +18,7 @@ public abstract class AbstractCallFragment extends AbstractFragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        inCallActivity = (CommunicationHubInCallActivity) activity;
+        inCallActivity = (InCallActivity) activity;
     }
 
     @Override

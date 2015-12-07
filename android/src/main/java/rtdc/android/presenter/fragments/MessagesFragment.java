@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler, VoIPListener {
+public class MessagesFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler, VoIPListener {
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
@@ -88,7 +88,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         view.findViewById(R.id.audioCallButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                Logger.getLogger(MessagesFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
                 AndroidVoipController.get().call(messagingUser, false);
             }
         });
@@ -97,7 +97,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         view.findViewById(R.id.videoCallButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                Logger.getLogger(MessagesFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
                 AndroidVoipController.get().call(messagingUser, true);
             }
         });
@@ -137,7 +137,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
                 // the top of the listview and we have the minimum amount of messages that are being displayed
                 if(!loadingMessages && messagingUser != null && totalItemCount > 0 && view.getChildAt(0).getTop() == 0 && controller.getMessages().size() >= controller.FETCHING_SIZE){
                     loadingMessages = true;
-                    Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
+                    Logger.getLogger(MessagesFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
                     Service.getMessages(messagingUser.getId(), Session.getCurrentSession().getUser().getId(), controller.getMessages().size()-1, controller.FETCHING_SIZE);
                 }
             }

@@ -40,7 +40,7 @@ import rtdc.android.impl.voip.AndroidBandwidthManager;
 import rtdc.android.impl.voip.AndroidVideo;
 import rtdc.android.impl.voip.AndroidVoIPManager;
 import rtdc.android.impl.voip.AndroidVoIPThread;
-import rtdc.android.presenter.CommunicationHubInCallActivity;
+import rtdc.android.presenter.InCallActivity;
 import rtdc.core.Bootstrapper;
 import rtdc.core.impl.voip.Call;
 import rtdc.core.impl.voip.CallParameters;
@@ -61,7 +61,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     private float mZoomFactor = 1.f;
     private float mZoomCenterX, mZoomCenterY;
     private CompatibilityScaleGestureDetector mScaleDetector;
-    private CommunicationHubInCallActivity inCallActivity;
+    private InCallActivity inCallActivity;
     private boolean isFragmentPaused;
     private Future ringingTask;
 
@@ -437,7 +437,7 @@ public class VideoCallFragment extends AbstractCallFragment implements OnGesture
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        inCallActivity = (CommunicationHubInCallActivity) activity;
+        inCallActivity = (InCallActivity) activity;
         if (inCallActivity != null) {
             //inCallActivity.bindVideoFragment(this);
         }

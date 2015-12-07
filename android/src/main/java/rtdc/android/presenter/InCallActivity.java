@@ -25,7 +25,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class CommunicationHubInCallActivity extends AbstractActivity implements View.OnClickListener, VoIPListener {
+public class InCallActivity extends AbstractActivity implements View.OnClickListener, VoIPListener {
 
     private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
     private AbstractCallFragment callFragment;
@@ -52,13 +52,13 @@ public class CommunicationHubInCallActivity extends AbstractActivity implements 
 
         // Build the intent that will be used by the notification
 
-        Intent resultIntent = new Intent(this, CommunicationHubInCallActivity.class);
+        Intent resultIntent = new Intent(this, InCallActivity.class);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // Build stack trace for the notification
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(AndroidBootstrapper.getAppContext());
-        stackBuilder.addParentStack(CommunicationHubInCallActivity.class);
+        stackBuilder.addParentStack(InCallActivity.class);
         stackBuilder.addNextIntent(resultIntent);
 
         // Build notification

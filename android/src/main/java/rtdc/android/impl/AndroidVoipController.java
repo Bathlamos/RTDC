@@ -4,7 +4,7 @@ import android.content.Intent;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.impl.voip.AndroidBandwidthManager;
 import rtdc.android.impl.voip.AndroidVoIPThread;
-import rtdc.android.presenter.CommunicationHubInCallActivity;
+import rtdc.android.presenter.InCallActivity;
 import rtdc.core.Config;
 import rtdc.core.impl.VoipController;
 import rtdc.core.impl.voip.*;
@@ -144,7 +144,7 @@ public class AndroidVoipController implements VoipController{
 
             setVideo(remoteVideo);
 
-            Intent intent = new Intent(AndroidBootstrapper.getAppContext(), CommunicationHubInCallActivity.class);
+            Intent intent = new Intent(AndroidBootstrapper.getAppContext(), InCallActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             AndroidBootstrapper.getAppContext().startActivity(intent);
         } catch (RuntimeException e) {
