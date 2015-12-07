@@ -80,17 +80,18 @@ public class CommunicationHubReceivingCallActivity extends AbstractActivity impl
                     !AndroidVoIPThread.getInstance().getRemoteAddress().getUsername().equals(textMessage.getFrom().getUsername()))
                 return;
             // There was an update regarding the video of the call
-            boolean video = Boolean.valueOf(textMessage.getText().replace(Config.COMMAND_EXEC_KEY + "Video: ", ""));
+            final boolean video = Boolean.valueOf(textMessage.getText().replace(Config.COMMAND_EXEC_KEY + "Video: ", ""));
             AndroidVoipController.get().setRemoteVideo(video);
-            if(video){
-                if(!AndroidVoipController.get().isVideoEnabled()){
-                    ((TextView)findViewById(R.id.incomingCallText)).setText("Incoming video call");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(video){
+                        ((TextView)findViewById(R.id.incomingCallText)).setText("Incoming video call");
+                    }else{
+                        ((TextView)findViewById(R.id.incomingCallText)).setText("Incoming call");
+                    }
                 }
-            }else{
-                if(!AndroidVoipController.get().isVideoEnabled()){
-                    ((TextView)findViewById(R.id.incomingCallText)).setText("Incoming call");
-                }
-            }
+            });
         }
     }
 }
