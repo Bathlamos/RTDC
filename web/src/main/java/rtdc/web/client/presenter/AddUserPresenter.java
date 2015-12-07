@@ -40,7 +40,7 @@ public class AddUserPresenter extends Composite implements AddUserView {
         addUser.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                controller.addUser();
+                controller.addUser(true);
             }
         });
 
@@ -95,6 +95,11 @@ public class AddUserPresenter extends Composite implements AddUserView {
     @Override
     public UiElement<String> getPasswordUiElement() {
         return password;
+    }
+
+    @Override
+    public UiElement<String> getConfirmPasswordUiElement() {
+        return null;
     }
 
     @Override

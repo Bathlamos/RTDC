@@ -52,7 +52,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
         if(pair != null) {
             String action = pair.getFirst();
             Unit unit = pair.getSecond();
-            if(action == "add") {
+            if(action.equals("add")) {
                 units.add(unit);
                 sortUnits(Unit.Properties.name, true);
             } else {
@@ -60,7 +60,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
                 int unitCount = units.size();
                 for (int i = 0; i < unitCount; i++) {
                     if (units.get(i).getId() == unitID) {
-                        if(action == "edit") {
+                        if(action.equals("edit")) {
                             units.set(i, unit);
                             sortUnits(Unit.Properties.name, true);
                         } else {

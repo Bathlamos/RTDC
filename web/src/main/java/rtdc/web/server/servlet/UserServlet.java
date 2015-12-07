@@ -9,8 +9,10 @@ import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUserEvent;
 import rtdc.core.event.FetchUsersEvent;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Permission;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 import rtdc.web.server.model.UserCredentials;
@@ -88,28 +90,34 @@ public class UserServlet {
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String addUser(@Context HttpServletRequest req, @FormParam("user") String userString, @FormParam("password") String password){
-        User user = new User(new JSONObject(userString));
+    public String addUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString, @FormParam("password") String password){
+        User newUser = new User(new JSONObject(userString));
 
-        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
-        if(!violations.isEmpty())
+        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(newUser);
+        if(!violations.isEmpty()) {
+            log.warn("Error adding user: " + violations.toString());
             return new ErrorEvent(violations.toString()).toString();
+        }
 
-        if(password == null || password.isEmpty() || password.length() < 4)
-            return new ErrorEvent("Password must be longer than 4 characters").toString();
+        try {
+            SimpleValidator.validateUser(newUser);
+            SimpleValidator.validatePassword(password);
+        }catch (ValidationException e){
+            log.warn("Error adding user: " + e.getMessage());
+            return new ErrorEvent(e.getMessage()).toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            session.saveOrUpdate(user);
-            UserCredentials credentials = AuthService.generateUserCredentials(user, password);
+            session.saveOrUpdate(newUser);
+            UserCredentials credentials = AuthService.generateUserCredentials(newUser, password);
             session.saveOrUpdate(credentials);
-            AsteriskRealTimeService.addUser(user, credentials.getAsteriskPassword());
+            AsteriskRealTimeService.addUser(newUser, credentials.getAsteriskPassword());
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: USER: New user added: {}", "Username", userString);
+            log.info("{}: USER: New user added: {}", user.getUsername(), userString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
@@ -118,75 +126,74 @@ public class UserServlet {
             session.close();
         }
 
-        return new ActionCompleteEvent(user.getId(), "user", "add").toString();
+        return new ActionCompleteEvent(newUser.getId(), "user", "add").toString();
     }
 
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String editUser(@Context HttpServletRequest req, @FormParam("user") String userString){
-        User user = new User(new JSONObject(userString));
+    public String editUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString, @FormParam("password") String password, @FormParam("changePassword") String changePassword){
+        User editedUser = new User(new JSONObject(userString));
 
-        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(user);
+        Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(editedUser);
         if(!violations.isEmpty())
             return new ErrorEvent(violations.toString()).toString();
+
+        try {
+            SimpleValidator.validateUser(editedUser);
+        }catch (ValidationException e){
+            log.warn("Error editing user: " + e.getMessage());
+            return new ErrorEvent(e.getMessage()).toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
-            session.merge(user);
+            session.saveOrUpdate(editedUser);
+            AsteriskRealTimeService.editUser(editedUser);
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.info("{}: USER: User updated: {}", "Username", userString);
+            log.info("{}: USER: User updated: {}", user.getUsername(), userString);
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();
             throw e;
         } finally {
             session.close();
+        }
+
+        if(Boolean.parseBoolean(changePassword)) {
+            try {
+                SimpleValidator.validatePassword(password);
+                AuthService.editPassword(editedUser, password);
+            }catch (ValidationException e){
+                log.warn("Error editing user's password: " + e.getMessage());
+                return new ErrorEvent(e.getMessage()).toString();
+            }
         }
 
         return new ActionCompleteEvent(user.getId(), "user", "update").toString();
-    }
-
-    @PUT
-    @Path("{id}/password")
-    @Consumes("application/x-www-form-urlencoded")
-    @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String editPasswordFromOld(@Context HttpServletRequest req,
-                                      @PathParam("id") int userId,
-                                      @FormParam("oldPassword") String oldPassword,
-                                      @FormParam("newPassword") String newPassword){
-
-        AuthService.editPassword(req, oldPassword, userId, newPassword);
-
-        // TODO: Replace string with actual username
-        log.info("{}: USER: Password updated: {}", "Username", userId);
-        return new ActionCompleteEvent(userId, "user", "update").toString();
     }
 
     @DELETE
     @Path("{id}")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String deleteUser(@Context HttpServletRequest req, @PathParam("id") String idString){
+    public String deleteUser(@Context HttpServletRequest req, @Context User user, @PathParam("id") String idString){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         int id = Integer.valueOf(idString);
         try{
             log.warn("Deleting user with id " + id);
             transaction = session.beginTransaction();
-            User user = (User) session.load(User.class, id);
-            session.delete(user);
-            AsteriskRealTimeService.deleteUser(user);
+            User userToDelete = (User) session.load(User.class, id);
+            session.delete(userToDelete);
+            AsteriskRealTimeService.deleteUser(userToDelete);
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.warn("{}: USER: User deleted: {}", "Username", user.getUsername());
+            log.warn("{}: USER: User deleted: {}", user.getUsername(), userToDelete.getUsername());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

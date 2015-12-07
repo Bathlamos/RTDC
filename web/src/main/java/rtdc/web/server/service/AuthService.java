@@ -65,25 +65,18 @@ public class AuthService {
      * Changes the password of a given user, provided that the password matches the currently logged in user.
      * This does not log out the user with the updated password.
      *
-     * @param req The context of the current request.
-     * @param currentPassword The password of the user making the change.
-     * @param userId The id of the user for which we update the password.
-     * @param newPassword The desired password.
+     * @param user The user who wants to change his password.
+     * @param password The new password.
      */
-    public static void editPassword(HttpServletRequest req, String currentPassword, int userId, String newPassword){
-        User currentUser = (User) req.getSession().getAttribute("current_user");
+    public static void editPassword(User user, String password){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
             UserCredentials credentials = (UserCredentials) session.createCriteria(UserCredentials.class)
-                    .add(Restrictions.eq("userId", currentUser.getId())).uniqueResult();
-            if(!isPasswordValid(credentials, currentPassword))
-                throw new ApiException("Invalid password");
-             credentials = (UserCredentials) session.createCriteria(UserCredentials.class)
-                    .add(Restrictions.eq("userId", userId)).uniqueResult();
+                    .add(Restrictions.eq("user", user)).uniqueResult();
             credentials.setSalt(BCrypt.gensalt());
-            credentials.setPasswordHash(BCrypt.hashpw(newPassword, credentials.getSalt()));
+            credentials.setPasswordHash(BCrypt.hashpw(password, credentials.getSalt()));
             session.save(credentials);
             transaction.commit();
         } catch (RuntimeException e) {

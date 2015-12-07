@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
     <class name="rtdc.core.model.Action" table="ACTIONS">
-        <id name="id" type="integer" column="unit_id">
+        <id name="id" type="integer" column="action_id">
             <generator class="increment"/>
         </id>
         <many-to-one name="unit" class="rtdc.core.model.Unit" lazy="false"/>
