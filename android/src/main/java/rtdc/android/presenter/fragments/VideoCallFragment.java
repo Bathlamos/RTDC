@@ -62,11 +62,23 @@ public class VideoCallFragment extends AbstractCallFragment {
         view.findViewById(R.id.switchCameraButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchCamera();
+                switchCamera(-1);
             }
         });
 
         AndroidVoIPThread.getInstance().setVideo(new AndroidVideo((AndroidVoIPManager) AndroidVoIPThread.getInstance().getVoIPManager()));
+
+        // If there's a front camera, default to that one
+        if(AndroidCameraConfiguration.hasFrontCamera()){
+            AndroidCameraConfiguration.AndroidCamera[] cameras = AndroidCameraConfiguration.retrieveCameras();
+            for(int i = 0; i < cameras.length; i++){
+                AndroidCameraConfiguration.AndroidCamera camera = cameras[i];
+                if(camera.frontFacing){
+                    switchCamera(i);
+                    continue;
+                }
+            }
+        }
 
         mVideoView = (SurfaceView) view.findViewById(R.id.videoSurface);
         mCaptureView = (SurfaceView) view.findViewById(R.id.videoCaptureSurface);
@@ -213,10 +225,12 @@ public class VideoCallFragment extends AbstractCallFragment {
         preview.setZOrderMediaOverlay(true); // Needed to be able to display control layout over
     }
 
-    public void switchCamera() {
+    public void switchCamera(int videoDeviceId) {
         try {
-            int videoDeviceId = AndroidVoIPThread.getInstance().getVideo().getCameraId();
-            videoDeviceId = (videoDeviceId + 1) % AndroidCameraConfiguration.retrieveCameras().length;
+            if(videoDeviceId == -1) {
+                videoDeviceId = AndroidVoIPThread.getInstance().getVideo().getCameraId();
+                videoDeviceId = (videoDeviceId + 1) % AndroidCameraConfiguration.retrieveCameras().length;
+            }
             AndroidVoIPThread.getInstance().getVideo().setCameraId(videoDeviceId);
 
             VoIPManager vm = AndroidVoIPThread.getInstance().getVoIPManager();
