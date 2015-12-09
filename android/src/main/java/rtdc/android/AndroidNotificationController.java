@@ -1,5 +1,6 @@
 package rtdc.android;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -28,6 +29,7 @@ public class AndroidNotificationController {
         intent.putExtra("fragment", 2);
         PendingIntent inCallPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(inCallPendingIntent);
+        mBuilder.setVibrate(new long[]{0, 1000});
         mBuilder.setAutoCancel(true);
         ((NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE)).notify(MISSED_CALL_NOTIFICATION_ID--, mBuilder.build());
     }
@@ -46,6 +48,8 @@ public class AndroidNotificationController {
         intent.putExtra("fragment", 2);
         PendingIntent inCallPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(inCallPendingIntent);
+        mBuilder.setVibrate(new long[]{0, 1000});
+        mBuilder.setPriority(Notification.PRIORITY_HIGH);
         mBuilder.setAutoCancel(true);
         ((NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE)).notify(TEXT_MESSAGE_NOTIFICATION_ID, mBuilder.build());
     }
