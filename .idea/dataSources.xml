@@ -6,7 +6,6 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://local.legault.cc:5432/rtdc</jdbc-url>
-      <libraries />
     </data-source>
   </component>
 </project>
