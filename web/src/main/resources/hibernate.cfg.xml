@@ -29,12 +29,12 @@
     <session-factory>
         <!--Local database-->
         <property name="hibernate.archive.autodetection">class,hbm</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.DerbyTenSevenDialect</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="hibernate.connection.username">sa</property>
-        <property name="hibernate.connection.password">1</property>
-        <property name="hibernate.connection.url">jdbc:hsqldb:mem:rtdc</property>
+        <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.EmbeddedDriver</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.connection.url">jdbc:derby:memory:rtdc;create=true</property>
         <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="show_sql">true</property>
 
