@@ -166,6 +166,7 @@ public class TestData implements ServletContextListener {
             user.setPermission(DF.getItem(User.Permission.values()));
             user.setPhone(Long.toString(DF.getNumberBetween(100000000, 999999999)));
             user.setRole(DF.getItem(User.Role.values()));
+            user.setUnit(units.get(DF.getNumberBetween(0, units.size() - 1)));
             users.add(user);
         }
 

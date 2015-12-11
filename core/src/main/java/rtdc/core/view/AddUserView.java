@@ -17,6 +17,8 @@ public interface AddUserView extends Dialog {
 
     UiElement<String> getPhoneUiElement();
 
+    UiDropdown<Unit> getUnitUiElement();
+
     UiDropdown<User.Role> getRoleUiElement();
 
     UiDropdown<User.Permission> getPermissionUiElement();

@@ -3,14 +3,18 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
+import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.model.SimpleValidator;
+import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
 import rtdc.core.util.Pair;
+import rtdc.core.util.Stringifier;
 import rtdc.core.view.AddUserView;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.Handler {
@@ -18,7 +22,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
     private User currentUser;
     private String currentAction;
 
-    public AddUserController(AddUserView view){
+    public AddUserController(final AddUserView view){
         super(view);
         Event.subscribe(ActionCompleteEvent.TYPE, this);
 
@@ -27,6 +31,25 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
         view.getPermissionUiElement().setArray(User.Permission.values());
         view.getPermissionUiElement().setStringifier(User.Permission.getStringifier());
+
+        Event.subscribe(FetchUnitsEvent.TYPE, new FetchUnitsEvent.Handler() {
+            @Override
+            public void onUnitsFetched(FetchUnitsEvent event) {
+                List<Unit> unitList = event.getUnits().asList();
+                Unit[] unitArray = new Unit[unitList.size()];
+                unitList.toArray(unitArray);
+                view.getUnitUiElement().setArray(unitArray);
+                view.getUnitUiElement().setValue(currentUser.getUnit());
+                Event.unsubscribe(FetchUnitsEvent.TYPE, this);
+            }
+        });
+        view.getUnitUiElement().setStringifier(new Stringifier<Unit>() {
+            @Override
+            public String toString(Unit unit) {
+                return unit == null? "": unit.getName();
+            }
+        });
+        Service.getUnits();
 
         currentUser = (User) Cache.getInstance().retrieve("user");
         if (currentUser != null) {
@@ -64,6 +87,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
         currentUser.setPhone(view.getPhoneUiElement().getValue());
         currentUser.setPermission(view.getPermissionUiElement().getValue());
         currentUser.setRole(view.getRoleUiElement().getValue());
+        currentUser.setUnit(view.getUnitUiElement().getValue());
         String password = view.getPasswordUiElement().getValue();
 
         if(currentAction.equals("edit")) {

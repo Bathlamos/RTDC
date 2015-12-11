@@ -35,7 +35,7 @@ public class UserServlet {
     private static final Logger log = LoggerFactory.getLogger(UserServlet.class);
 
     @GET
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getUsers(@Context HttpServletRequest req){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -60,6 +60,7 @@ public class UserServlet {
     @GET
     @Path("{username}")
     @Consumes("application/x-www-form-urlencoded")
+    // Currently users with permission USER must have access to this cause it is used to get information for communications
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getUser(@Context HttpServletRequest req, @Context User user, @PathParam("username") String username){
         Session session = PersistenceConfig.getSessionFactory().openSession();
@@ -89,7 +90,7 @@ public class UserServlet {
     @Path("add")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.ADMIN})
     public String addUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString, @FormParam("password") String password){
         User newUser = new User(new JSONObject(userString));
 
@@ -132,7 +133,7 @@ public class UserServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.ADMIN})
     public String editUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString, @FormParam("password") String password, @FormParam("changePassword") String changePassword){
         User editedUser = new User(new JSONObject(userString));
 
@@ -180,7 +181,7 @@ public class UserServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.ADMIN})
     public String deleteUser(@Context HttpServletRequest req, @Context User user, @PathParam("id") String idString){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

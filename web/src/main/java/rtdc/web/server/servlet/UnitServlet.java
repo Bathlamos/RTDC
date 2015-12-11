@@ -34,7 +34,7 @@ public class UnitServlet {
     private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
 
     @GET
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getUnits(@Context HttpServletRequest req, @Context User user){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -57,7 +57,7 @@ public class UnitServlet {
 
     @GET
     @Path("{id}")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getUnit(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id) {
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -86,7 +86,7 @@ public class UnitServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.MANAGER, Permission.ADMIN})
     public String updateUnit(@Context HttpServletRequest req, @Context User user, @FormParam("unit" )String unitString){
         Unit unit = new Unit(new JSONObject(unitString));
 
@@ -125,7 +125,7 @@ public class UnitServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.ADMIN})
     public String deleteUnit(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

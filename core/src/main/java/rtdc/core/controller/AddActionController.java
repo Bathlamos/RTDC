@@ -17,6 +17,7 @@ import rtdc.core.view.AddActionView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler, ActionCompleteEvent.Handler {
 
@@ -25,7 +26,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     private Action RtdcCurrentAction;
     private String currentAction;
 
-    public AddActionController(AddActionView view){
+    public AddActionController(final AddActionView view){
         super(view);
         Event.subscribe(FetchUnitsEvent.TYPE, this);
         Event.subscribe(ActionCompleteEvent.TYPE, this);
@@ -37,12 +38,23 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         view.getStatusUiElement().setArray(Action.Status.values());
         view.getStatusUiElement().setStringifier(Action.Status.getStringifier());
 
+        Event.subscribe(FetchUnitsEvent.TYPE, new FetchUnitsEvent.Handler() {
+            @Override
+            public void onUnitsFetched(FetchUnitsEvent event) {
+                List<Unit> unitList = event.getUnits().asList();
+                Unit[] unitArray = new Unit[unitList.size()];
+                unitList.toArray(unitArray);
+                view.getUnitUiElement().setArray(unitArray);
+                Event.unsubscribe(FetchUnitsEvent.TYPE, this);
+            }
+        });
         view.getUnitUiElement().setStringifier(new Stringifier<Unit>() {
             @Override
             public String toString(Unit unit) {
                 return unit == null? "": unit.getName();
             }
         });
+        Service.getUnits();
 
         RtdcCurrentAction = (Action) Cache.getInstance().retrieve("action");
         if (RtdcCurrentAction != null) {

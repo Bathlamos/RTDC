@@ -14,10 +14,12 @@ import rtdc.core.util.Stringifier;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
 
     private final CustomAdapter adapter;
+    private T[] dropDownValues;
     private Stringifier<T> stringifier = DEFAULT_STRINGIFIER;
 
     public AndroidUiDropdown(Context context) {
@@ -59,11 +61,21 @@ public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
         adapter.clear();
         adapter.addAll(Arrays.asList(elements));
         adapter.notifyDataSetChanged();
+        dropDownValues = elements;
     }
 
     @Override
     public void setValue(T value) {
         int position = adapter.getPosition(value);
+
+        if(position != -1) {
+            for (int i = 0; i < dropDownValues.length; i++) {
+                T dropDownValue = dropDownValues[i];
+                if (stringifier.toString(dropDownValue).equals(stringifier.toString(value))) {
+                    position = adapter.getPosition(value);
+                }
+            }
+        }
 
         if(position != -1)
             setSelection(position);
