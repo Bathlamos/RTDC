@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.core.model;
 
 import rtdc.core.exception.ValidationException;
@@ -68,13 +92,13 @@ public class Unit extends RootObject implements Comparable<Unit>{
     public boolean validate(Properties property) throws ValidationException{
         SimpleValidator validator = new SimpleValidator();
         switch(property){
-            case name: return validator.expectNotEmpty(name);
-            case totalBeds: return validator.expectPositiveNumber(admitsByDeadline);
-            case availableBeds: return validator.expectPositiveNumber(availableBeds);
-            case potentialDc: return validator.expectPositiveNumber(potentialDc);
-            case dcByDeadline: return validator.expectPositiveNumber(dcByDeadline);
-            case totalAdmits: return validator.expectPositiveNumber(totalAdmits);
-            case admitsByDeadline: return validator.expectPositiveNumber(admitsByDeadline);
+            case name: return validator.isNotEmpty(name);
+            case totalBeds: return validator.isPositiveNumber(admitsByDeadline);
+            case availableBeds: return validator.isPositiveNumber(availableBeds);
+            case potentialDc: return validator.isPositiveNumber(potentialDc);
+            case dcByDeadline: return validator.isPositiveNumber(dcByDeadline);
+            case totalAdmits: return validator.isPositiveNumber(totalAdmits);
+            case admitsByDeadline: return validator.isPositiveNumber(admitsByDeadline);
         }
         return true;
     }

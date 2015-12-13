@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.android.impl;
 
 import android.content.Context;
@@ -14,10 +38,12 @@ import rtdc.core.util.Stringifier;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
 
     private final CustomAdapter adapter;
+    private T[] dropDownValues;
     private Stringifier<T> stringifier = DEFAULT_STRINGIFIER;
 
     public AndroidUiDropdown(Context context) {
@@ -59,11 +85,21 @@ public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
         adapter.clear();
         adapter.addAll(Arrays.asList(elements));
         adapter.notifyDataSetChanged();
+        dropDownValues = elements;
     }
 
     @Override
     public void setValue(T value) {
         int position = adapter.getPosition(value);
+
+        if(position != -1) {
+            for (int i = 0; i < dropDownValues.length; i++) {
+                T dropDownValue = dropDownValues[i];
+                if (stringifier.toString(dropDownValue).equals(stringifier.toString(value))) {
+                    position = adapter.getPosition(value);
+                }
+            }
+        }
 
         if(position != -1)
             setSelection(position);

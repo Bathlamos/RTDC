@@ -1,3 +1,8 @@
 <component name="CopyrightManager">
-  <settings default="" />
+  <settings default="">
+    <module2copyright>
+      <element module="RTDC" copyright="RTDC" />
+      <element module="RTDCAndroidVoIP" copyright="AndroidVoIP" />
+    </module2copyright>
+  </settings>
 </component>
