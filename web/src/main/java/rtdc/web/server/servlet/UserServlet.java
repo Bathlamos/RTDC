@@ -117,7 +117,7 @@ public class UserServlet {
     @RolesAllowed({Permission.ADMIN})
     public String addUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString, @FormParam("password") String password){
         User newUser = new User(new JSONObject(userString));
-
+        user.setUsername(user.getUsername().toLowerCase());
         Set<ConstraintViolation<User>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(newUser);
         if(!violations.isEmpty()) {
             log.warn("Error adding user: " + violations.toString());
