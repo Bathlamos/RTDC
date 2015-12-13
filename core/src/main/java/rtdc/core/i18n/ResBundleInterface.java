@@ -2,6 +2,19 @@ package rtdc.core.i18n;
 
 public interface ResBundleInterface {
 
-    String usernameMinLength();
+	/**
+	 * yolo
+	 */
+	String a();
+
+	/**
+	 * nanana
+	 */
+	String b();
+
+	/**
+	 * YOLO, you fool!
+	 */
+	String usernameMinLength();
 
 }
