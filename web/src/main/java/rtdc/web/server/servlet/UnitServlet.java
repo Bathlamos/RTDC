@@ -2,6 +2,7 @@ package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUnitsEvent;
@@ -22,6 +23,7 @@ import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -107,6 +109,11 @@ public class UnitServlet {
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
+
+            // If user is a manager, it should only be able to modify its own unit
+            if(user.getPermission().equals(User.Permission.MANAGER) && user.getUnit().getId() != unit.getId())
+                return new ErrorEvent("Insufficient permissions: you do not have permission to modify this unit.").toString();
+
             session.saveOrUpdate(unit);
 
             transaction.commit();

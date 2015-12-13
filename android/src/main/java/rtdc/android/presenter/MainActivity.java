@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
         User sessionUser = Session.getCurrentSession().getUser();
         ArrayList<FragmentType> fragmentTypes = new ArrayList<>();
         if(sessionUser.getPermission().equals(User.Permission.ADMIN)) {
-            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.MANAGE_UNITS, FragmentType.MANAGE_USERS));
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.MANAGE_UNITS, FragmentType.MANAGE_USERS, FragmentType.MESSAGES));
         }else if(sessionUser.getPermission().equals(User.Permission.MANAGER))
             fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.CAPACITY_OVERVIEW, FragmentType.ACTION_PLAN, FragmentType.MESSAGES));
         else if(sessionUser.getPermission().equals(User.Permission.USER))

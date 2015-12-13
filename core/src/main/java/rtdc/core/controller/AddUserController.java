@@ -1,6 +1,5 @@
 package rtdc.core.controller;
 
-import rtdc.core.Bootstrapper;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
@@ -15,7 +14,6 @@ import rtdc.core.util.Stringifier;
 import rtdc.core.view.AddUserView;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.Handler {
 
@@ -51,7 +49,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
         });
         Service.getUnits();
 
-        currentUser = (User) Cache.getInstance().retrieve("user");
+        currentUser = (User) Cache.getInstance().remove("user");
         if (currentUser != null) {
             view.setTitle("Edit User");
             view.getUsernameUiElement().setValue(currentUser.getUsername());

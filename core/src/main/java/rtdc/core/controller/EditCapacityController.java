@@ -1,7 +1,6 @@
 package rtdc.core.controller;
 
 
-import rtdc.core.Bootstrapper;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.exception.ValidationException;
@@ -18,7 +17,7 @@ public class EditCapacityController extends Controller<EditCapacityView> impleme
     public EditCapacityController(EditCapacityView view) {
         super(view);
         Event.subscribe(ActionCompleteEvent.TYPE, this);
-        currentUnit = (Unit) Cache.getInstance().retrieve("unit");
+        currentUnit = (Unit) Cache.getInstance().remove("unit");
 
         //Populate the fields
         view.setTitle("Edit Capacity - " + currentUnit.getName());

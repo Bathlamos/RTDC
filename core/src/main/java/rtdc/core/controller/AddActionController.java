@@ -1,6 +1,6 @@
 package rtdc.core.controller;
 
-import rtdc.core.Bootstrapper;
+import rtdc.core.Session;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
@@ -38,25 +38,15 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         view.getStatusUiElement().setArray(Action.Status.values());
         view.getStatusUiElement().setStringifier(Action.Status.getStringifier());
 
-        Event.subscribe(FetchUnitsEvent.TYPE, new FetchUnitsEvent.Handler() {
-            @Override
-            public void onUnitsFetched(FetchUnitsEvent event) {
-                List<Unit> unitList = event.getUnits().asList();
-                Unit[] unitArray = new Unit[unitList.size()];
-                unitList.toArray(unitArray);
-                view.getUnitUiElement().setArray(unitArray);
-                Event.unsubscribe(FetchUnitsEvent.TYPE, this);
-            }
-        });
+        view.getUnitUiElement().setArray(new Unit[]{Session.getCurrentSession().getUser().getUnit()});
         view.getUnitUiElement().setStringifier(new Stringifier<Unit>() {
             @Override
             public String toString(Unit unit) {
                 return unit == null? "": unit.getName();
             }
         });
-        Service.getUnits();
 
-        RtdcCurrentAction = (Action) Cache.getInstance().retrieve("action");
+        RtdcCurrentAction = (Action) Cache.getInstance().remove("action");
         if (RtdcCurrentAction != null) {
             view.setTitle("Edit Action");
             view.getRoleUiElement().setValue(RtdcCurrentAction.getRoleResponsible());
@@ -106,7 +96,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
-        view.getUnitUiElement().setArray(event.getUnits().toArray(new Unit[event.getUnits().size()]));
+        //view.getUnitUiElement().setArray(event.getUnits().toArray(new Unit[event.getUnits().size()]));
         units = new ArrayList<>(event.getUnits());
     }
 
