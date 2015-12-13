@@ -54,6 +54,8 @@ public class AddUserController extends Controller<AddUserView> implements Action
         view.getPermissionUiElement().setArray(User.Permission.values());
         view.getPermissionUiElement().setStringifier(User.Permission.getStringifier());
 
+        currentUser = (User) Cache.getInstance().remove("user");
+
         Event.subscribe(FetchUnitsEvent.TYPE, new FetchUnitsEvent.Handler() {
             @Override
             public void onUnitsFetched(FetchUnitsEvent event) {
@@ -73,7 +75,6 @@ public class AddUserController extends Controller<AddUserView> implements Action
         });
         Service.getUnits();
 
-        currentUser = (User) Cache.getInstance().remove("user");
         if (currentUser != null) {
             view.setTitle("Edit User");
             view.getUsernameUiElement().setValue(currentUser.getUsername());

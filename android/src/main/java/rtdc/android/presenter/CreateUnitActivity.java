@@ -84,7 +84,8 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
         if (controller == null)
             controller = new AddUnitController(this);
 
-        initialTotalBedsValue = Integer.parseInt(totalBedsEdit.getValue());
+        if(!totalBedsEdit.getValue().isEmpty())
+            initialTotalBedsValue = Integer.parseInt(totalBedsEdit.getValue());
     }
 
     @Override

@@ -43,16 +43,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler, ActionCompleteEvent.Handler {
-
-    private ArrayList<Unit> units = new ArrayList<>();
+public class AddActionController extends Controller<AddActionView> implements ActionCompleteEvent.Handler {
 
     private Action RtdcCurrentAction;
     private String currentAction;
 
     public AddActionController(final AddActionView view){
         super(view);
-        Event.subscribe(FetchUnitsEvent.TYPE, this);
         Event.subscribe(ActionCompleteEvent.TYPE, this);
         Service.getUnits();
 
@@ -103,7 +100,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         RtdcCurrentAction.setDeadline(view.getDeadlineUiElement().getValue());
         RtdcCurrentAction.setDescription(view.getDescriptionUiElement().getValue());
         RtdcCurrentAction.setStatus(view.getStatusUiElement().getValue());
-        RtdcCurrentAction.setUnit(units.get(view.getUnitUiElement().getSelectedIndex()));
+        RtdcCurrentAction.setUnit(view.getUnitUiElement().getValue());
         RtdcCurrentAction.setLastUpdate(new Date());
 
         Service.updateOrSaveActions(RtdcCurrentAction);
@@ -116,12 +113,6 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         }catch(ValidationException e){
             view.getDescriptionUiElement().setErrorMessage(e.getMessage());
         }
-    }
-
-    @Override
-    public void onUnitsFetched(FetchUnitsEvent event) {
-        //view.getUnitUiElement().setArray(event.getUnits().toArray(new Unit[event.getUnits().size()]));
-        units = new ArrayList<>(event.getUnits());
     }
 
     @Override
@@ -138,7 +129,6 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     @Override
     public void onStop() {
         super.onStop();
-        Event.unsubscribe(FetchUnitsEvent.TYPE, this);
         Event.unsubscribe(ActionCompleteEvent.TYPE, this);
     }
 }
