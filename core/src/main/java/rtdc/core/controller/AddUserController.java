@@ -63,7 +63,12 @@ public class AddUserController extends Controller<AddUserView> implements Action
                 Unit[] unitArray = new Unit[unitList.size()];
                 unitList.toArray(unitArray);
                 view.getUnitUiElement().setArray(unitArray);
-                view.getUnitUiElement().setValue(currentUser.getUnit());
+                if(currentUser != null){
+                    if(currentUser.getUnit() != null)
+                        view.getUnitUiElement().setValue(currentUser.getUnit());
+                } else {
+                    view.getUnitUiElement().setValue(unitArray[0]);
+                }
                 Event.unsubscribe(FetchUnitsEvent.TYPE, this);
             }
         });
