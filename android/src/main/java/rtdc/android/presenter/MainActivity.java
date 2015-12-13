@@ -40,7 +40,6 @@ import android.widget.*;
 import rtdc.android.presenter.fragments.*;
 import rtdc.android.R;
 import rtdc.core.Bootstrapper;
-import rtdc.core.Session;
 import rtdc.core.impl.Storage;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
@@ -78,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
         AdapterView navListView = (AdapterView) findViewById(R.id.nav_list);
 
         // Set the drawer menu contents depending on what the user's permission is
-        User sessionUser = Session.getCurrentSession().getUser();
+        User sessionUser = (User) Cache.getInstance().get("sessionUser");
         ArrayList<FragmentType> fragmentTypes = new ArrayList<>();
         if(sessionUser.getPermission().equals(User.Permission.ADMIN)) {
             fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.MANAGE_UNITS, FragmentType.MANAGE_USERS, FragmentType.MESSAGES, FragmentType.PROFILE));
@@ -144,7 +143,7 @@ public class MainActivity extends ActionBarActivity {
         isAtHome = false;
 
         if(type == FragmentType.PROFILE){
-            Cache.getInstance().put("user", Session.getCurrentSession().getUser());
+            Cache.getInstance().put("user", Cache.getInstance().get("sessionUser"));
             Bootstrapper.FACTORY.newDispatcher().goToEditUser(null);
         }else {
             goToFragment(type);
@@ -167,22 +166,23 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void goToFragment(FragmentType type){
+        User sessionUser = (User) Cache.getInstance().get("sessionUser");
         switch(type){
             case CAPACITY_OVERVIEW:
                 fragment = new CapacityOverviewFragment();
-                if(Session.getCurrentSession().getUser().getPermission().equals(User.Permission.MANAGER))
+                if(sessionUser.getPermission().equals(User.Permission.MANAGER))
                     isAtHome = true;
                 break;
             case ACTION_PLAN:
                 fragment = new ActionPlanFragment();
-                if(Session.getCurrentSession().getUser().getPermission().equals(User.Permission.USER))
+                if(sessionUser.getPermission().equals(User.Permission.USER))
                     isAtHome = true;
                 break;
             case MESSAGES:
                 fragment = new MessagesFragment();
                 break;
             case MANAGE_UNITS:
-                if(Session.getCurrentSession().getUser().getPermission().equals(User.Permission.MANAGER))
+                if(sessionUser.getPermission().equals(User.Permission.MANAGER))
                     isAtHome = true;
                 fragment = new ManageUnitsFragment();
                 break;

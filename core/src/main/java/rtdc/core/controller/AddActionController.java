@@ -24,7 +24,6 @@
 
 package rtdc.core.controller;
 
-import rtdc.core.Session;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
@@ -32,6 +31,7 @@ import rtdc.core.exception.ValidationException;
 import rtdc.core.model.Action;
 import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
+import rtdc.core.model.User;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
 import rtdc.core.util.Pair;
@@ -59,7 +59,7 @@ public class AddActionController extends Controller<AddActionView> implements Ac
         view.getStatusUiElement().setArray(Action.Status.values());
         view.getStatusUiElement().setStringifier(Action.Status.getStringifier());
 
-        view.getUnitUiElement().setArray(new Unit[]{Session.getCurrentSession().getUser().getUnit()});
+        view.getUnitUiElement().setArray(new Unit[]{((User)Cache.getInstance().get("sessionUser")).getUnit()});
         view.getUnitUiElement().setStringifier(new Stringifier<Unit>() {
             @Override
             public String toString(Unit unit) {

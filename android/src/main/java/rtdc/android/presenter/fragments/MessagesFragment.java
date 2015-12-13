@@ -32,9 +32,8 @@ import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.impl.voip.AndroidVoIPThread;
-import rtdc.core.Session;
 import rtdc.core.Config;
-import rtdc.core.controller.CommunicationHubController;
+import rtdc.core.controller.MessagesController;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchMessagesEvent;
 import rtdc.core.event.MessageSavedEvent;
@@ -43,6 +42,7 @@ import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 import rtdc.core.view.CommunicationHubView;
 
 import java.util.*;
@@ -57,7 +57,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
     private ArrayList<Message> recentContacts = new ArrayList<Message>();
     private ArrayList<Message> messages = new ArrayList<Message>();
     private ArrayList<User> contacts = new ArrayList<User>();
-    private CommunicationHubController controller;
+    private MessagesController controller;
     private int selectedRecentContactIndex;
     private User messagingUser;
     private boolean loadingMessages;
@@ -71,6 +71,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
         contactsAutoComplete = (AutoCompleteTextView) view.findViewById(R.id.contactsAutoComplete);
+        final User sessionUser = (User) Cache.getInstance().get("sessionUser");
 
         // Setup message send button
         view.findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
@@ -80,7 +81,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
                     return;
 
                 final Message message = new Message();
-                message.setSender(Session.getCurrentSession().getUser());
+                message.setSender(sessionUser);
                 message.setReceiver(messagingUser);
                 message.setStatus(Message.Status.sent);
                 message.setTimeSent(new Date());
@@ -162,7 +163,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
                 if(!loadingMessages && messagingUser != null && totalItemCount > 0 && view.getChildAt(0).getTop() == 0 && controller.getMessages().size() >= controller.FETCHING_SIZE){
                     loadingMessages = true;
                     Logger.getLogger(MessagesFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
-                    Service.getMessages(messagingUser.getId(), Session.getCurrentSession().getUser().getId(), controller.getMessages().size()-1, controller.FETCHING_SIZE);
+                    Service.getMessages(messagingUser.getId(), sessionUser.getId(), controller.getMessages().size()-1, controller.FETCHING_SIZE);
                 }
             }
         });
@@ -171,7 +172,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
         messageListView.setAdapter(messagesAdapter);
 
         if (controller == null)
-            controller = new CommunicationHubController(this);
+            controller = new MessagesController(this);
 
         setHasOptionsMenu(true);
 
@@ -232,7 +233,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
 
         // If we're the receiver and the status of some messages isn't read, we need to notify the server that we now have read them
         for(Message message: messages){
-            if(message.getReceiverID() == Session.getCurrentSession().getUser().getId() && message.getStatus() != Message.Status.read) {
+            if(message.getReceiverID() == ((User) Cache.getInstance().get("sessionUser")).getId() && message.getStatus() != Message.Status.read) {
                 message.setStatus(Message.Status.read);
                 Service.saveOrUpdateMessage(message);
                 recentContacts.get(selectedRecentContactIndex).setStatus(Message.Status.read);
@@ -361,7 +362,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
                 final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
                 for(Iterator<Message> iterator = recentContacts.iterator(); iterator.hasNext();){
                     Message contact = iterator.next();
-                    User otherContact = contact.getSender().getId() != Session.getCurrentSession().getUser().getId() ? contact.getSender(): contact.getReceiver();
+                    User otherContact = contact.getSender().getId() !=  ((User) Cache.getInstance().get("sessionUser")).getId() ? contact.getSender(): contact.getReceiver();
                     if(otherContact.getId() == message.getReceiverID()){
                         iterator.remove();
                     }

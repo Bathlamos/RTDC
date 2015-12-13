@@ -26,7 +26,6 @@ package rtdc.core.service;
 
 import rtdc.core.Bootstrapper;
 import rtdc.core.Config;
-import rtdc.core.Session;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.impl.HttpRequest;
@@ -37,6 +36,7 @@ import rtdc.core.model.Action;
 import rtdc.core.model.Message;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
+import rtdc.core.util.Cache;
 
 import java.util.logging.Logger;
 
@@ -61,6 +61,7 @@ public final class Service {
     }
 
     public static void logout(){
+        Cache.getInstance().remove("sessionUser");
         executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "auth/logout", POST));
         Bootstrapper.FACTORY.getVoipController().unregisterCurrentUser();
     }

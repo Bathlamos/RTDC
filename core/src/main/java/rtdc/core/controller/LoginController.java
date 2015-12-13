@@ -25,12 +25,12 @@
 package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
-import rtdc.core.Session;
 import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
 import rtdc.core.impl.Storage;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 import rtdc.core.view.LoginView;
 
 import java.util.logging.Level;
@@ -73,7 +73,7 @@ public class LoginController extends Controller<LoginView> implements Authentica
         logger.log(Level.INFO, "AuthenticationEvent received");
         Bootstrapper.AUTHENTICATION_TOKEN = event.getAuthenticationToken();
         Bootstrapper.FACTORY.getStorage().add(Storage.KEY_AUTH_TOKEN, Bootstrapper.AUTHENTICATION_TOKEN);
-        Session.setCurrentSession(new Session(event.getUser()));
+        Cache.getInstance().put("sessionUser", event.getUser());
         Bootstrapper.FACTORY.getVoipController().registerUser(event.getUser(), event.getAsteriskPassword());
         Event.unsubscribe(AuthenticationEvent.TYPE, this);
         Bootstrapper.FACTORY.newDispatcher().goToManageUnits(this);

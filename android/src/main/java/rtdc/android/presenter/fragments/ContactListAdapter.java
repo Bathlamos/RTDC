@@ -30,18 +30,16 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.core.Bootstrapper;
-import rtdc.core.Session;
-import rtdc.core.controller.CommunicationHubController;
-import rtdc.core.model.Message;
+import rtdc.core.controller.MessagesController;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -84,7 +82,8 @@ public class ContactListAdapter extends ArrayAdapter<User> {
         textMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Service.getMessages(Session.getCurrentSession().getUser().getId(), contacts.get(Integer.parseInt(v.getTag().toString())).getId(), 0, CommunicationHubController.FETCHING_SIZE);
+                User sessionUser = (User) Cache.getInstance().get("sessionUser");
+                Service.getMessages(sessionUser.getId(), contacts.get(Integer.parseInt(v.getTag().toString())).getId(), 0, MessagesController.FETCHING_SIZE);
             }
         });
 
