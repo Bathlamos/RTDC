@@ -34,14 +34,11 @@ public class AndroidBootstrapper extends Activity {
 
     private static Context context;
 
-    static {
-        Bootstrapper.initialize(new AndroidFactory());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
+        Bootstrapper.initialize(new AndroidFactory());
     }
 
     public static Context getAppContext() {
