@@ -145,8 +145,10 @@ public class ActionServlet {
             return new ErrorEvent(e.getMessage()).toString();
         }
 
-        if(user.getPermission().equals(User.Permission.MANAGER) && user.getUnit().getId() != action.getUnit().getId())
+        if(user.getPermission().equals(User.Permission.MANAGER) && user.getUnit().getId() != action.getUnit().getId()) {
+            log.warn("Error updating action: user " + user.getUsername() + " doesn't have enough permissions");
             return new ErrorEvent("Insufficient permissions: you do not have permission to add actions for this unit.").toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

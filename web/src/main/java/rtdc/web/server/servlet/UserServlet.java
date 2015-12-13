@@ -157,7 +157,7 @@ public class UserServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String editUser(@Context HttpServletRequest req, @Context User user, @FormParam("user") String userString, @FormParam("password") String password, @FormParam("changePassword") String changePassword){
         User editedUser = new User(new JSONObject(userString));
 
@@ -170,6 +170,17 @@ public class UserServlet {
         }catch (ValidationException e){
             log.warn("Error editing user: " + e.getMessage());
             return new ErrorEvent(e.getMessage()).toString();
+        }
+
+        if(!user.getPermission().equals(User.Permission.ADMIN)){
+            if(user.getId() != editedUser.getId()) {
+                log.warn("Error editing user: user " + user.getUsername() + " doesn't have enough permissions");
+                return new ErrorEvent("Insufficient permissions: you do not have permission to modify this user.").toString();
+            }else if(!user.getPermission().equals(editedUser.getPermission()) || !user.getUnit().equals(editedUser.getUnit())
+                    || !user.getRole().equals(editedUser.getRole())){
+                log.warn("Error editing user: user " + user.getUsername() + " tried to change its own permission, unit or role");
+                return new ErrorEvent("Insufficient permissions: to edit your permissions, unit or role, please talk to an admin.").toString();
+            }
         }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();

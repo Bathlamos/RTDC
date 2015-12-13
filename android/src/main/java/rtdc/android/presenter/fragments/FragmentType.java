@@ -5,7 +5,8 @@ public enum FragmentType {
     ACTION_PLAN("Action Plan"),
     MESSAGES("Messages"),
     MANAGE_UNITS("Manage Units"),
-    MANAGE_USERS("Manage Users");
+    MANAGE_USERS("Manage Users"),
+    PROFILE("Profile");
 
     private String title;
 

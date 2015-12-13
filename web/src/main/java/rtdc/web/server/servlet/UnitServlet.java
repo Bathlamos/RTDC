@@ -135,8 +135,10 @@ public class UnitServlet {
             transaction = session.beginTransaction();
 
             // If user is a manager, it should only be able to modify its own unit
-            if(user.getPermission().equals(User.Permission.MANAGER) && user.getUnit().getId() != unit.getId())
+            if(user.getPermission().equals(User.Permission.MANAGER) && user.getUnit().getId() != unit.getId()) {
+                log.warn("Error updating unit: user " + user.getUsername() + " doesn't have enough permissions");
                 return new ErrorEvent("Insufficient permissions: you do not have permission to modify this unit.").toString();
+            }
 
             session.saveOrUpdate(unit);
 
