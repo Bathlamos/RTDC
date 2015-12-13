@@ -5,6 +5,11 @@ import rtdc.core.impl.*;
 public class AndroidFactory implements Factory{
 
     @Override
+    public boolean isServer() {
+        return false;
+    }
+
+    @Override
     public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {
         return new AndroidHttpRequest(url, requestMethod);
     }

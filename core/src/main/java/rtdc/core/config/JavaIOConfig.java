@@ -1,5 +1,7 @@
 package rtdc.core.config;
 
+import rtdc.core.Bootstrapper;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,8 +18,16 @@ class JavaIOConfig implements ConfigInterface {
 
     private static final Logger LOGGER = Logger.getLogger(JavaIOConfig.class.getName());
 
-    private static final String PATH = "WEB-INF" + File.separator +
+    private static final String WEB_PATH = "WEB-INF" + File.separator +
             "classes" + File.separator +
+            "rtdc" + File.separator +
+            "core" + File.separator +
+            "config" + File.separator +
+            "Config.properties";
+    private static final String PATH = "core" + File.separator +
+            "src" + File.separator +
+            "main" + File.separator +
+            "resources" + File.separator +
             "rtdc" + File.separator +
             "core" + File.separator +
             "config" + File.separator +
@@ -26,7 +36,11 @@ class JavaIOConfig implements ConfigInterface {
 
     static {
         try {
-            File propertiesFile = new File(PATH);
+            File propertiesFile;
+            if( Bootstrapper.getFactory().isServer())
+                propertiesFile = new File(WEB_PATH);
+            else
+                propertiesFile = new File(PATH);
             prop.load(new FileInputStream(propertiesFile));
         } catch (IOException e) {
             e.printStackTrace();
