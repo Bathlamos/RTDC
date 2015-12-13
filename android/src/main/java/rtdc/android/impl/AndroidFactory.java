@@ -24,14 +24,14 @@
 
 package rtdc.android.impl;
 
+import rtdc.android.AndroidBootstrapper;
+import rtdc.android.R;
+import rtdc.android.Rtdc;
 import rtdc.core.impl.*;
 
-public class AndroidFactory implements Factory{
+import java.io.IOException;
 
-    @Override
-    public boolean isServer() {
-        return false;
-    }
+public class AndroidFactory implements Factory{
 
     @Override
     public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {

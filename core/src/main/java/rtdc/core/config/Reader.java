@@ -22,31 +22,13 @@
  * SOFTWARE.
  */
 
-package rtdc.android;
+package rtdc.core.config;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import rtdc.android.impl.AndroidFactory;
-import rtdc.android.impl.AndroidReader;
-import rtdc.core.Bootstrapper;
-import rtdc.core.config.Conf;
-import rtdc.core.config.JavaIOConfig;
+import java.io.IOException;
+import java.io.InputStream;
 
-public class AndroidBootstrapper extends Activity {
+public interface Reader {
 
-    private static Context context;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context = getApplicationContext();
-        JavaIOConfig.setReader(new AndroidReader());
-        Bootstrapper.initialize(new AndroidFactory());
-    }
-
-    public static Context getAppContext() {
-        return AndroidBootstrapper.context;
-    }
+    InputStream getContent(String path) throws IOException;
 
 }

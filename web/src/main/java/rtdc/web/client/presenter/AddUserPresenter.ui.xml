@@ -28,12 +28,14 @@
     <g:FlowPanel>
         <rtdc:GwtUiString ui:field="username" text="Nathaniel" />
         <rtdc:GwtUiPasswordString ui:field="password" text="password"/>
+        <rtdc:GwtUiPasswordString ui:field="confirmPassword" text="confirm password"/>
         <rtdc:GwtUiString ui:field="firstName" text="Nathaniel"/>
         <rtdc:GwtUiString ui:field="lastName" text="Aumont"/>
         <rtdc:GwtUiString ui:field="email" text="plegault@live.ca"/>
         <rtdc:GwtUiString ui:field="phone" text="613-555-1234"/>
         <rtdc:GwtUiDropdown ui:field="role"/>
         <rtdc:GwtUiDropdown ui:field="permission"/>
+        <rtdc:GwtUiDropdown ui:field="unit"/>
         <g:Button ui:field="addUser" text="Add User"/>
     </g:FlowPanel>
 </ui:UiBinder>

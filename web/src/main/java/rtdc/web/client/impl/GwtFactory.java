@@ -33,11 +33,6 @@ import rtdc.core.impl.VoipController;
 public final class GwtFactory implements Factory {
 
     @Override
-    public boolean isServer() {
-        return true;
-    }
-
-    @Override
     public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {
         return new GwtHttpRequest(url, requestMethod);
     }

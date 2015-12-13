@@ -1,10 +1,6 @@
 package rtdc.core.config;
 
-import rtdc.core.Bootstrapper;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -14,34 +10,19 @@ import java.util.logging.Logger;
  * This is not a valid solution under GWT, which is why
  * the super path is use in the .gwt.xml file
  */
-class JavaIOConfig implements ConfigInterface {
+public class JavaIOConfig implements ConfigInterface {
 
     private static final Logger LOGGER = Logger.getLogger(JavaIOConfig.class.getName());
 
-    private static final String WEB_PATH = "WEB-INF" + File.separator +
-            "classes" + File.separator +
-            "rtdc" + File.separator +
-            "core" + File.separator +
-            "config" + File.separator +
-            "Config.properties";
-    private static final String PATH = "core" + File.separator +
-            "src" + File.separator +
-            "main" + File.separator +
-            "resources" + File.separator +
-            "rtdc" + File.separator +
+    private static final String PATH = "rtdc" + File.separator +
             "core" + File.separator +
             "config" + File.separator +
             "Config.properties";
     private static final Properties prop = new Properties();
 
-    static {
+    public static void setReader(Reader reader) {
         try {
-            File propertiesFile;
-            if( Bootstrapper.getFactory().isServer())
-                propertiesFile = new File(WEB_PATH);
-            else
-                propertiesFile = new File(PATH);
-            prop.load(new FileInputStream(propertiesFile));
+            prop.load(reader.getContent(PATH));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -68,3 +68,15 @@ dependencies {
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
 }
+
+
+task copyFiles(type: Copy)
+
+copyFiles {
+    description = 'Copying resource files from core'
+    from '../core/src/main/resources'
+    into 'src/main/assets'
+    include('**/*')
+}
+
+preBuild.dependsOn copyFiles

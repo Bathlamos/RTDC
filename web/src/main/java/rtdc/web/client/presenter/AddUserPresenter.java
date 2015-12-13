@@ -53,9 +53,9 @@ public class AddUserPresenter extends Composite implements AddUserView {
     @UiField
     GwtUiString username, firstName, lastName, email, phone;
     @UiField
-    GwtUiPasswordString password;
+    GwtUiPasswordString password, confirmPassword;
     @UiField
-    GwtUiDropdown role, permission;
+    GwtUiDropdown role, permission, unit;
     @UiField
     Button addUser;
 
@@ -109,7 +109,7 @@ public class AddUserPresenter extends Composite implements AddUserView {
 
     @Override
     public UiDropdown<Unit> getUnitUiElement() {
-        return null;
+        return unit;
     }
 
     @Override
@@ -129,7 +129,7 @@ public class AddUserPresenter extends Composite implements AddUserView {
 
     @Override
     public UiElement<String> getConfirmPasswordUiElement() {
-        return null;
+        return confirmPassword;
     }
 
     @Override
