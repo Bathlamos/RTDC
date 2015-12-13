@@ -45,6 +45,7 @@ import rtdc.core.i18n.MessageBundle;
 import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.SimpleValidator;
+import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.view.AddUserView;
 
@@ -56,7 +57,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
     private AddUserController controller;
 
     private AndroidUiString usernameEdit, passwordEdit, confirmPasswordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
-    private AndroidUiDropdown roleSpinner, permissionSpinner;
+    private AndroidUiDropdown unitSpinner, roleSpinner, permissionSpinner;
     private TextView confirmPasswordText;
     private CheckBox passwordChange;
     private boolean hideDeleteButton = false;
@@ -125,6 +126,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
 
         phoneEdit = (AndroidUiString) findViewById(R.id.phoneEdit);
 
+        unitSpinner = (AndroidUiDropdown) findViewById(R.id.unitSpinner);
         roleSpinner = (AndroidUiDropdown) findViewById(R.id.roleSpinner);
         permissionSpinner = (AndroidUiDropdown) findViewById(R.id.permissionSpinner);
 
@@ -248,6 +250,11 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
     @Override
     public UiElement<String> getPhoneUiElement() {
         return phoneEdit;
+    }
+
+    @Override
+    public UiDropdown<Unit> getUnitUiElement() {
+        return unitSpinner;
     }
 
     @Override

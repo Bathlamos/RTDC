@@ -75,7 +75,7 @@ public class UserListController extends Controller<UserListView> implements Fetc
 
     // Update edited user when returning from CreateUserActivity
     public void updateUsers(){
-        Pair<String, User> pair = (Pair<String, User>) Cache.getInstance().retrieve("user");
+        Pair<String, User> pair = (Pair<String, User>) Cache.getInstance().remove("user");
         if(pair != null) {
             String action = pair.getFirst();
             User user = pair.getSecond();

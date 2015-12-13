@@ -33,6 +33,7 @@ import android.support.v4.app.NotificationCompat;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.presenter.MainActivity;
+import rtdc.android.presenter.fragments.FragmentType;
 import rtdc.core.model.Message;
 
 public class AndroidNotificationController {
@@ -50,7 +51,7 @@ public class AndroidNotificationController {
                         .setContentText("Missed call from " + missedCaller);
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("fragment", 2);
+        intent.putExtra("fragment", FragmentType.MESSAGES);
         PendingIntent inCallPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(inCallPendingIntent);
         mBuilder.setVibrate(new long[]{0, 1000});
@@ -69,7 +70,7 @@ public class AndroidNotificationController {
                         .setContentText(shortMessage);
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra("fragment", 2);
+        intent.putExtra("fragment", FragmentType.MESSAGES);
         PendingIntent inCallPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(inCallPendingIntent);
         mBuilder.setVibrate(new long[]{0, 1000});

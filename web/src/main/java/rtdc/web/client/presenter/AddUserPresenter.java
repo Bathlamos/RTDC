@@ -35,6 +35,7 @@ import rtdc.core.controller.AddUserController;
 import rtdc.core.controller.LoginController;
 import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
+import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.view.AddUserView;
 import rtdc.core.view.LoginView;
@@ -104,6 +105,11 @@ public class AddUserPresenter extends Composite implements AddUserView {
     @Override
     public UiElement<String> getPhoneUiElement() {
         return phone;
+    }
+
+    @Override
+    public UiDropdown<Unit> getUnitUiElement() {
+        return null;
     }
 
     @Override

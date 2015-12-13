@@ -24,7 +24,7 @@
 
 package rtdc.core.controller;
 
-import rtdc.core.Bootstrapper;
+import rtdc.core.Session;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
@@ -41,6 +41,7 @@ import rtdc.core.view.AddActionView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class AddActionController extends Controller<AddActionView> implements FetchUnitsEvent.Handler, ActionCompleteEvent.Handler {
 
@@ -49,7 +50,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
     private Action RtdcCurrentAction;
     private String currentAction;
 
-    public AddActionController(AddActionView view){
+    public AddActionController(final AddActionView view){
         super(view);
         Event.subscribe(FetchUnitsEvent.TYPE, this);
         Event.subscribe(ActionCompleteEvent.TYPE, this);
@@ -61,6 +62,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
         view.getStatusUiElement().setArray(Action.Status.values());
         view.getStatusUiElement().setStringifier(Action.Status.getStringifier());
 
+        view.getUnitUiElement().setArray(new Unit[]{Session.getCurrentSession().getUser().getUnit()});
         view.getUnitUiElement().setStringifier(new Stringifier<Unit>() {
             @Override
             public String toString(Unit unit) {
@@ -68,7 +70,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
             }
         });
 
-        RtdcCurrentAction = (Action) Cache.getInstance().retrieve("action");
+        RtdcCurrentAction = (Action) Cache.getInstance().remove("action");
         if (RtdcCurrentAction != null) {
             view.setTitle("Edit Action");
             view.getRoleUiElement().setValue(RtdcCurrentAction.getRoleResponsible());
@@ -118,7 +120,7 @@ public class AddActionController extends Controller<AddActionView> implements Fe
 
     @Override
     public void onUnitsFetched(FetchUnitsEvent event) {
-        view.getUnitUiElement().setArray(event.getUnits().toArray(new Unit[event.getUnits().size()]));
+        //view.getUnitUiElement().setArray(event.getUnits().toArray(new Unit[event.getUnits().size()]));
         units = new ArrayList<>(event.getUnits());
     }
 

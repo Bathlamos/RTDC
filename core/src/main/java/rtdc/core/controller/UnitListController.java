@@ -35,8 +35,6 @@ import rtdc.core.util.Pair;
 import rtdc.core.view.UnitListView;
 
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UnitListController extends Controller<UnitListView> implements FetchUnitsEvent.Handler {
 
@@ -72,7 +70,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
 
     // Update edited unit when returning from CreateUnitActivity
     public void updateUnits(){
-        Pair<String, Unit> pair = (Pair<String, Unit>) Cache.getInstance().retrieve("unit");
+        Pair<String, Unit> pair = (Pair<String, Unit>) Cache.getInstance().remove("unit");
         if(pair != null) {
             String action = pair.getFirst();
             Unit unit = pair.getSecond();

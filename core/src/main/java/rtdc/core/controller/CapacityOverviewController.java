@@ -34,7 +34,6 @@ import rtdc.core.util.Cache;
 import rtdc.core.view.CapacityOverviewView;
 
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CapacityOverviewController extends Controller<CapacityOverviewView> implements FetchUnitsEvent.Handler {
@@ -73,7 +72,7 @@ public class CapacityOverviewController extends Controller<CapacityOverviewView>
 
     // Unit updated from EditCapacityActivity?
     public boolean unitUpdated(){
-        return Cache.getInstance().retrieve("unit") != null;
+        return Cache.getInstance().remove("unit") != null;
     }
 
     @Override

@@ -44,7 +44,7 @@ public class Cache {
         map.put(key, object);
     }
 
-    public Object retrieve(String key){
+    public Object remove(String key){
         return  map.remove(key);
     }
 

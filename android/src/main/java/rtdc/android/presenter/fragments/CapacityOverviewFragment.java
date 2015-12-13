@@ -30,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
 import rtdc.android.R;
+import rtdc.core.Session;
 import rtdc.core.controller.CapacityOverviewController;
 import rtdc.core.model.Unit;
 import rtdc.core.view.CapacityOverviewView;
@@ -110,14 +111,15 @@ public class CapacityOverviewFragment extends AbstractFragment implements Capaci
             }
 
             view.setTag(position);
-            view.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    controller.editCapacity(units.get(Integer.parseInt(v.getTag().toString())));
-                }
-
-            });
+            if(Session.getCurrentSession().getUser().getUnit().getId() == currentUnit.getId()) {
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        controller.editCapacity(units.get(Integer.parseInt(v.getTag().toString())));
+                    }
+                });
+            }
 
             return view;
         }

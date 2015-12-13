@@ -79,7 +79,7 @@ public class ActionListController extends Controller<ActionListView> implements 
 
     // Update edited action when returning from CreateActionActivity
     public void updateActions(){
-        Pair<String, Action> pair = (Pair<String, Action>) Cache.getInstance().retrieve("action");
+        Pair<String, Action> pair = (Pair<String, Action>) Cache.getInstance().remove("action");
         if(pair != null) {
             String action = pair.getFirst();
             Action updatedAction = pair.getSecond();

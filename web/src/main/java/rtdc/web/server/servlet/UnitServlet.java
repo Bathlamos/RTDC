@@ -26,6 +26,7 @@ package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchUnitsEvent;
@@ -46,6 +47,7 @@ import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -58,7 +60,7 @@ public class UnitServlet {
     private static final Logger log = LoggerFactory.getLogger(UnitServlet.class);
 
     @GET
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getUnits(@Context HttpServletRequest req, @Context User user){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -81,7 +83,7 @@ public class UnitServlet {
 
     @GET
     @Path("{id}")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getUnit(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id) {
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -110,7 +112,7 @@ public class UnitServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.MANAGER, Permission.ADMIN})
     public String updateUnit(@Context HttpServletRequest req, @Context User user, @FormParam("unit" )String unitString){
         Unit unit = new Unit(new JSONObject(unitString));
 
@@ -131,6 +133,11 @@ public class UnitServlet {
         Transaction transaction = null;
         try{
             transaction = session.beginTransaction();
+
+            // If user is a manager, it should only be able to modify its own unit
+            if(user.getPermission().equals(User.Permission.MANAGER) && user.getUnit().getId() != unit.getId())
+                return new ErrorEvent("Insufficient permissions: you do not have permission to modify this unit.").toString();
+
             session.saveOrUpdate(unit);
 
             transaction.commit();
@@ -149,7 +156,7 @@ public class UnitServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.ADMIN})
     public String deleteUnit(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

@@ -59,7 +59,7 @@ public class ActionServlet {
     private static final Logger log = LoggerFactory.getLogger(ActionServlet.class);
 
     @GET
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String get(@Context HttpServletRequest req, @Context User user){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -77,9 +77,12 @@ public class ActionServlet {
                     iterator.remove();
                 }
             }
-            if(Permission.USER.equalsIgnoreCase(User.Permission.getStringifier().toString(user.getPermission())))
+            if(Permission.USER.equalsIgnoreCase(User.Permission.getStringifier().toString(user.getPermission()))
+                    || Permission.MANAGER.equalsIgnoreCase(User.Permission.getStringifier().toString(user.getPermission())))
+                /*actions = (List<Action>) session.createCriteria(Action.class).
+                        add(Restrictions.eq("personResponsible", user)).list();*/
                 actions = (List<Action>) session.createCriteria(Action.class).
-                        add(Restrictions.eq("personResponsible", user)).list();
+                        add(Restrictions.eq("unit", user.getUnit())).list();
             else
                 actions = (List<Action>) session.createCriteria(Action.class).list();
             transaction.commit();
@@ -98,7 +101,7 @@ public class ActionServlet {
 
     @GET
     @Path("{id}")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getAction(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -125,7 +128,7 @@ public class ActionServlet {
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String update(@Context HttpServletRequest req, @Context User user, @FormParam("action")String actionString){
         Action action = new Action(new JSONObject(actionString));
 
@@ -141,6 +144,9 @@ public class ActionServlet {
             log.warn("Error updating action: " + e.getMessage());
             return new ErrorEvent(e.getMessage()).toString();
         }
+
+        if(user.getPermission().equals(User.Permission.MANAGER) && user.getUnit().getId() != action.getUnit().getId())
+            return new ErrorEvent("Insufficient permissions: you do not have permission to add actions for this unit.").toString();
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -164,7 +170,7 @@ public class ActionServlet {
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.MANAGER, Permission.ADMIN})
     public String delete(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

@@ -24,13 +24,11 @@
 
 package rtdc.core.controller;
 
-import rtdc.core.Bootstrapper;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
-import rtdc.core.service.AsyncCallback;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
 import rtdc.core.util.Pair;
@@ -45,7 +43,7 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
         super(view);
         Event.subscribe(ActionCompleteEvent.TYPE, this);
 
-        currentUnit = (Unit) Cache.getInstance().retrieve("unit");
+        currentUnit = (Unit) Cache.getInstance().remove("unit");
         if (currentUnit != null) {
             view.setTitle("Edit Unit");
             view.getNameUiElement().setValue(currentUnit.getName());
