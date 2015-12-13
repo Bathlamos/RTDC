@@ -25,7 +25,7 @@ import rtdc.android.AndroidNotificationController;
 import rtdc.android.presenter.InCallActivity;
 import rtdc.android.presenter.IncomingCallActivity;
 import rtdc.android.presenter.fragments.MessagesFragment;
-import rtdc.core.Config;
+import rtdc.core.config.Conf;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUserEvent;
 import rtdc.core.impl.voip.*;
@@ -102,7 +102,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
                             message.setTimeSent(new Date());
                             message.setStatus(Message.Status.read);
                             message.setReceiver(event.getUser());
-                            message.setContent(Config.COMMAND_EXEC_KEY + "Missed call");
+                            message.setContent(Conf.get().commandExecKey() + "Missed call");
                             Service.saveOrUpdateMessage(message);
                         }
                     };
@@ -127,7 +127,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
                         public void onUserFetched(FetchUserEvent event) {
                             Event.unsubscribe(FetchUserEvent.TYPE, this);
                             rtdcMessage.setSender(event.getUser());
-                            rtdcMessage.setContent(Config.COMMAND_EXEC_KEY + "Missed call");
+                            rtdcMessage.setContent(Conf.get().commandExecKey() + "Missed call");
                             Service.saveOrUpdateMessage(rtdcMessage);
                         }
                     };
@@ -141,7 +141,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
                         public void onUserFetched(FetchUserEvent event) {
                             Event.unsubscribe(FetchUserEvent.TYPE, this);
                             rtdcMessage.setSender(event.getUser());
-                            rtdcMessage.setContent(Config.COMMAND_EXEC_KEY + "Call rejected");
+                            rtdcMessage.setContent(Conf.get().commandExecKey() + "Call rejected");
                             Service.saveOrUpdateMessage(rtdcMessage);
                         }
                     };
@@ -158,7 +158,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
                         public void onUserFetched(FetchUserEvent event) {
                             Event.unsubscribe(FetchUserEvent.TYPE, this);
                             rtdcMessage.setSender(event.getUser());
-                            rtdcMessage.setContent(Config.COMMAND_EXEC_KEY + "Call ended, duration " + minutes + ":" + seconds);
+                            rtdcMessage.setContent(Conf.get().commandExecKey() + "Call ended, duration " + minutes + ":" + seconds);
                             Service.saveOrUpdateMessage(rtdcMessage);
                         }
                     };
@@ -186,7 +186,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
                 foundMessageFragment = true;
         }
 
-        if(!foundMessageFragment && !textMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
+        if(!foundMessageFragment && !textMessage.getText().startsWith(Conf.get().commandExecKey() + "Video: ")){
             JSONObject object = new JSONObject(textMessage.getText());
             Message message = new Message(object);
             message.setStatus(Message.Status.delivered);

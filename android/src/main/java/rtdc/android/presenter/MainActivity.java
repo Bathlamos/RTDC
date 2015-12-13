@@ -144,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
 
         if(type == FragmentType.PROFILE){
             Cache.getInstance().put("user", Cache.getInstance().get("sessionUser"));
-            Bootstrapper.FACTORY.newDispatcher().goToEditUser(null);
+            Bootstrapper.getFactory().newDispatcher().goToEditUser(null);
         }else {
             goToFragment(type);
 

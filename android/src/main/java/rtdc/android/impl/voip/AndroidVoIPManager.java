@@ -20,7 +20,7 @@ package rtdc.android.impl.voip;
 
 import org.linphone.LinphoneUtils;
 import org.linphone.core.*;
-import rtdc.core.Config;
+import rtdc.core.config.Conf;
 import rtdc.core.impl.voip.*;
 import rtdc.core.model.User;
 
@@ -72,12 +72,12 @@ public class AndroidVoIPManager implements VoIPManager {
         try {
             Logger.getLogger(AndroidVoIPManager.class.getName()).log(Level.INFO, "Registering user...");
 
-            String sipAddress = "sip:" + user.getUsername() + "@" + Config.ASTERISK_IP;
+            String sipAddress = "sip:" + user.getUsername() + "@" + Conf.get().asteriskHost();
 
-            linphoneProxyConfig = linphoneCore.createProxyConfig(sipAddress, Config.ASTERISK_IP, null, true);
+            linphoneProxyConfig = linphoneCore.createProxyConfig(sipAddress, Conf.get().asteriskHost(), null, true);
             linphoneProxyConfig.setExpires(60);
             linphoneCore.addProxyConfig(linphoneProxyConfig);
-            linphoneAuthInfo = LinphoneCoreFactory.instance().createAuthInfo(user.getUsername(), asteriskPassword, null, "sip:" + Config.ASTERISK_IP);
+            linphoneAuthInfo = LinphoneCoreFactory.instance().createAuthInfo(user.getUsername(), asteriskPassword, null, "sip:" + Conf.get().asteriskHost());
 
             linphoneCore.addAuthInfo(linphoneAuthInfo);
             linphoneCore.addProxyConfig(linphoneProxyConfig);
