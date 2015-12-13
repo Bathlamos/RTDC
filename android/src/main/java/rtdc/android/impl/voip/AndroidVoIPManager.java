@@ -219,4 +219,9 @@ public class AndroidVoIPManager implements VoIPManager {
         return new AndroidTextGroup(linphoneCore.getOrCreateChatRoom(sipAddress));
     }
 
+    @Override
+    public void setDeviceRotation(int rotation){
+        linphoneCore.setDeviceRotation(rotation);
+    }
+
 }
