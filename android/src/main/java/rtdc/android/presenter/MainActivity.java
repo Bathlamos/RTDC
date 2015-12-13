@@ -44,6 +44,7 @@ import rtdc.core.Session;
 import rtdc.core.impl.Storage;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,11 +81,11 @@ public class MainActivity extends ActionBarActivity {
         User sessionUser = Session.getCurrentSession().getUser();
         ArrayList<FragmentType> fragmentTypes = new ArrayList<>();
         if(sessionUser.getPermission().equals(User.Permission.ADMIN)) {
-            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.MANAGE_UNITS, FragmentType.MANAGE_USERS, FragmentType.MESSAGES));
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.MANAGE_UNITS, FragmentType.MANAGE_USERS, FragmentType.MESSAGES, FragmentType.PROFILE));
         }else if(sessionUser.getPermission().equals(User.Permission.MANAGER))
-            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.CAPACITY_OVERVIEW, FragmentType.ACTION_PLAN, FragmentType.MESSAGES));
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.CAPACITY_OVERVIEW, FragmentType.ACTION_PLAN, FragmentType.MESSAGES, FragmentType.PROFILE));
         else if(sessionUser.getPermission().equals(User.Permission.USER))
-            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.ACTION_PLAN, FragmentType.MESSAGES));
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.ACTION_PLAN, FragmentType.MESSAGES, FragmentType.PROFILE));
         adapter = new navAdapter(fragmentTypes, this);
 
         navListView.setAdapter(adapter);
@@ -142,15 +143,22 @@ public class MainActivity extends ActionBarActivity {
     private void selectItem(FragmentType type) {
         isAtHome = false;
 
-        goToFragment(type);
+        if(type == FragmentType.PROFILE){
+            Cache.getInstance().put("user", Session.getCurrentSession().getUser());
+            Bootstrapper.FACTORY.newDispatcher().goToEditUser(null);
+        }else {
+            goToFragment(type);
 
-        // Update the title, and close the drawer
-        title = type.getTitle();
-        setTitle(title);
+            // Update the title
+            title = type.getTitle();
+            setTitle(title);
+
+            lastClicked = adapter.getPosition(type);
+            adapter.notifyDataSetChanged();
+        }
+
+        // Close the drawer
         drawerLayout.closeDrawers();
-
-        lastClicked = adapter.getPosition(type);
-        adapter.notifyDataSetChanged();
     }
 
     private void goToFragment(int position){
@@ -235,6 +243,9 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 case MANAGE_USERS:
                     iconView.setImageResource(R.drawable.ic_build_white_24dp);
+                    break;
+                case PROFILE:
+                    iconView.setImageResource(R.drawable.ic_account_circle_white_24dp);
                     break;
                 default:
                     iconView.setImageResource(R.drawable.ic_mode_edit_white_24dp);

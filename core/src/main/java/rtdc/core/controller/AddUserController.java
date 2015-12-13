@@ -24,6 +24,7 @@
 
 package rtdc.core.controller;
 
+import rtdc.core.Session;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;

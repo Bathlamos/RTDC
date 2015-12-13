@@ -51,7 +51,7 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
 
     private AndroidUiString unitNameEdit, totalBedsEdit;
     private boolean hideDeleteButton = false;
-    private int initialTotalBedsValue;
+    private int initialTotalBedsValue = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +117,7 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
                     return true;
                 }
 
-                if (Integer.parseInt(totalBedsEdit.getValue()) != initialTotalBedsValue) {
+                if (initialTotalBedsValue != -1 && Integer.parseInt(totalBedsEdit.getValue()) != initialTotalBedsValue) {
                     new AlertDialog.Builder(this)
                             .setTitle("Confirm")
                             .setMessage("Changing number of total beds will reset all other quantities. Are you sure?")
