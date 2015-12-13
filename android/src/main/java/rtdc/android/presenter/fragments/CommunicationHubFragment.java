@@ -1,6 +1,5 @@
 package rtdc.android.presenter.fragments;
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
@@ -44,7 +43,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, android.os.Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_communication_hub, container, false);
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
         final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);

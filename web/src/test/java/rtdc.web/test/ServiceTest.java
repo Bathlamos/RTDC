@@ -1,14 +1,11 @@
 package rtdc.web.test;
 
-import org.junit.Assert;
-import org.junit.Test;
 import rtdc.core.config.Conf;
 import rtdc.core.event.*;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
 import rtdc.core.json.JSONTokener;
 import rtdc.core.model.Unit;
-import rtdc.core.model.User;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;

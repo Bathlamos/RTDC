@@ -6,7 +6,6 @@ import org.linphone.core.*;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.presenter.CommunicationHubInCallActivity;
 import rtdc.android.voip.LiblinphoneThread;
-import rtdc.core.Bootstrapper;
 import rtdc.core.config.Conf;
 import rtdc.core.impl.VoipController;
 import rtdc.core.model.Message;

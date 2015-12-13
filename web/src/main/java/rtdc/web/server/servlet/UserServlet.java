@@ -32,7 +32,7 @@ public class UserServlet {
 
     private static final Logger log = LoggerFactory.getLogger(UserServlet.class);
 
-    @GET
+    @DELETE
     @RolesAllowed({Permission.USER, Permission.ADMIN})
     public String getUsers(@Context HttpServletRequest req){
         Session session = PersistenceConfig.getSessionFactory().openSession();
@@ -55,7 +55,7 @@ public class UserServlet {
         return new FetchUsersEvent(users).toString();
     }
 
-    @GET
+    @POST
     @Path("{username}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.ADMIN})
@@ -169,7 +169,7 @@ public class UserServlet {
         return new ActionCompleteEvent(userId, "user", "update").toString();
     }
 
-    @DELETE
+    @GET
     @Path("{id}")
     @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.ADMIN})

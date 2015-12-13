@@ -1,6 +1,5 @@
 package rtdc.android.presenter;
 
-import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -16,7 +15,7 @@ import rtdc.core.config.Conf;
 public class CommunicationHubReceivingCallActivity extends AbstractActivity implements VoipListener{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_communication_hub_receiving_call);
 

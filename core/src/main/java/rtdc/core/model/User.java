@@ -1,6 +1,5 @@
 package rtdc.core.model;
 
-import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.util.Stringifier;
 
@@ -19,20 +18,20 @@ public class User extends RootObject {
     }
 
     public enum Role {
-        administrator,
-        nurse,
-        stakeholder,
-        unitManager,;
+        ADMIN,
+        NURSE,
+        STAKEHOLDER,
+        UNIT_MANAGER,;
 
         public static Stringifier<Role> getStringifier(){
             return new Stringifier<Role>() {
                 @Override
                 public String toString(Role role) {
                     switch(role){
-                        case administrator: return "Administrator";
-                        case nurse: return "Nurse";
-                        case stakeholder: return "Stakeholder";
-                        case unitManager: return "Unit Manager";
+                        case ADMIN: return "Administrator";
+                        case NURSE: return "Nurse";
+                        case STAKEHOLDER: return "Stakeholder";
+                        case UNIT_MANAGER: return "Unit Manager";
                         default: return role.name();
                     }
                 }

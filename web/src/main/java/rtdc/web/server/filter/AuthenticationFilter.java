@@ -1,10 +1,8 @@
 package rtdc.web.server.filter;
 
-import rtdc.core.Bootstrapper;
 import rtdc.core.config.Conf;
 import rtdc.core.impl.Storage;
 import rtdc.core.model.User;
-import rtdc.core.service.CookiesName;
 import rtdc.core.service.HttpHeadersName;
 import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.service.AuthService;

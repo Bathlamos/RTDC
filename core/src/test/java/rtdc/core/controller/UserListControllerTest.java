@@ -10,7 +10,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import rtdc.core.event.FetchUsersEvent;
-import rtdc.core.model.Permission;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
@@ -48,9 +47,9 @@ public class UserListControllerTest {
         Unit unit123 = UnitListControllerTest.buildUnit(123,"Emergency", 16, 3, 4, 2, 10, 8);
         Unit unit456 = UnitListControllerTest.buildUnit(456,"Surgery", 40, 6, 3, 4, 13, 10);
 
-        user1 = buildUser(1, "jenny", "jenny@example.com","Jennifer","Smith", User.Permission.USER,"6135551234l",User.Role.nurse,unit123);
-        user2 = buildUser(2, "pam", "pam@hostname.com","Pamela","Jones",User.Permission.MANAGER,"6134448899l",User.Role.unitManager,unit456);
-        user3 = buildUser(3, "kim", "kim@xyz.com","Kimberly","Shepard",User.Permission.ADMIN,"6135559876l",User.Role.administrator,null);
+        user1 = buildUser(1, "jenny", "jenny@example.com","Jennifer","Smith", User.Permission.USER,"6135551234l",User.Role.NURSE,unit123);
+        user2 = buildUser(2, "pam", "pam@hostname.com","Pamela","Jones",User.Permission.MANAGER,"6134448899l",User.Role.UNIT_MANAGER,unit456);
+        user3 = buildUser(3, "kim", "kim@xyz.com","Kimberly","Shepard",User.Permission.ADMIN,"6135559876l",User.Role.ADMIN,null);
 
         ImmutableSet<User> userSet = ImmutableSet.of(user1, user2, user3);
         when(mockEvent.getUsers()).thenReturn(userSet);

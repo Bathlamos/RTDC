@@ -40,7 +40,7 @@ public class UserListController extends Controller<UserListView> implements Fetc
 
     public void editUser(User user){
         Cache.getInstance().put("user", user);
-        Bootstrapper.FACTORY.newDispatcher().goToEditUser(this);
+        Bootstrapper.getFactory().newDispatcher().goToEditUser(this);
     }
 
     @Override
