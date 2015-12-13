@@ -39,7 +39,7 @@ import rtdc.core.view.AddUserView;
 
 import java.util.List;
 
-public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.Handler {
+public class AddUserController extends Controller<AddUserView> implements ActionCompleteEvent.Handler, FetchUnitsEvent.Handler {
 
     private User currentUser;
     private String currentAction;
@@ -47,6 +47,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
     public AddUserController(final AddUserView view){
         super(view);
         Event.subscribe(ActionCompleteEvent.TYPE, this);
+        Event.subscribe(FetchUnitsEvent.TYPE, this);
 
         view.getRoleUiElement().setArray(User.Role.values());
         view.getRoleUiElement().setStringifier(User.Role.getStringifier());
@@ -56,22 +57,6 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
         currentUser = (User) Cache.getInstance().remove("user");
 
-        Event.subscribe(FetchUnitsEvent.TYPE, new FetchUnitsEvent.Handler() {
-            @Override
-            public void onUnitsFetched(FetchUnitsEvent event) {
-                List<Unit> unitList = event.getUnits().asList();
-                Unit[] unitArray = new Unit[unitList.size()];
-                unitList.toArray(unitArray);
-                view.getUnitUiElement().setArray(unitArray);
-                if(currentUser != null){
-                    if(currentUser.getUnit() != null)
-                        view.getUnitUiElement().setValue(currentUser.getUnit());
-                } else {
-                    view.getUnitUiElement().setValue(unitArray[0]);
-                }
-                Event.unsubscribe(FetchUnitsEvent.TYPE, this);
-            }
-        });
         view.getUnitUiElement().setStringifier(new Stringifier<Unit>() {
             @Override
             public String toString(Unit unit) {
@@ -196,6 +181,21 @@ public class AddUserController extends Controller<AddUserView> implements Action
         }
     }
 
+    @Override
+    public void onUnitsFetched(FetchUnitsEvent event) {
+        List<Unit> unitList = event.getUnits().asList();
+        Unit[] unitArray = new Unit[unitList.size()];
+        unitList.toArray(unitArray);
+        view.getUnitUiElement().setArray(unitArray);
+        view.getUnitUiElement().setValue(currentUser.getUnit());
+        /*if(currentUser != null){
+            if(currentUser.getUnit() != null)
+                view.getUnitUiElement().setValue(currentUser.getUnit());
+        } else {
+            view.getUnitUiElement().setValue(unitArray[0]);
+        }*/
+    }
+
     // Determine if we are creating a new user or editing an existing one
     public boolean isNewUser(){
         return currentUser == null;
@@ -205,5 +205,6 @@ public class AddUserController extends Controller<AddUserView> implements Action
     public void onStop() {
         super.onStop();
         Event.unsubscribe(ActionCompleteEvent.TYPE, this);
+        Event.unsubscribe(FetchUnitsEvent.TYPE, this);
     }
 }

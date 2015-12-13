@@ -167,9 +167,8 @@ public class UnitServlet {
             Unit unit = (Unit) session.load(Unit.class, id);
             session.delete(unit);
             transaction.commit();
-
-            // TODO: Replace string with actual username
-            log.warn("{}: UNIT: Unit deleted: {}", "Username", unit.getName());
+            
+            log.warn("{}: UNIT: Unit deleted: {}", user.getUsername(), unit.getName());
 
         } catch (RuntimeException e) {
             if(transaction != null)
