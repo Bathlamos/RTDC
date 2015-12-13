@@ -2,6 +2,7 @@
 Thumbs.db
 
 *.class
+android/src/main/assets
 
 local.properties
 
