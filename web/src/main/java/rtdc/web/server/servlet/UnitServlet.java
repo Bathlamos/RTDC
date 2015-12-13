@@ -33,10 +33,7 @@ import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.exception.ApiException;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
-import rtdc.core.model.Permission;
-import rtdc.core.model.SimpleValidator;
-import rtdc.core.model.Unit;
-import rtdc.core.model.User;
+import rtdc.core.model.*;
 import rtdc.web.server.config.PersistenceConfig;
 
 import javax.annotation.security.PermitAll;
@@ -165,11 +162,14 @@ public class UnitServlet {
         try{
             transaction = session.beginTransaction();
             Unit unit = (Unit) session.load(Unit.class, id);
+            List<Action> actionList = (List<Action>) session.createCriteria(Action.class).add(Restrictions.eq("unit", unit)).list();
+            for(Action action: actionList){
+                session.delete(action);
+            }
             session.delete(unit);
             transaction.commit();
 
-            // TODO: Replace string with actual username
-            log.warn("{}: UNIT: Unit deleted: {}", "Username", unit.getName());
+            log.warn("{}: UNIT: Unit deleted: {}", user.getUsername(), unit.getName());
 
         } catch (RuntimeException e) {
             if(transaction != null)
