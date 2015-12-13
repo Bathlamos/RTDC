@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="RTDCAndroidVoIP" pattern="src[android]:rtdc.android.impl.voip..*" />
+</component>

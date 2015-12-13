@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.core.service;
 
 import rtdc.core.config.Conf;
@@ -12,6 +36,7 @@ import rtdc.core.model.Action;
 import rtdc.core.model.Message;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
+import rtdc.core.util.Cache;
 
 import java.util.logging.Logger;
 
@@ -39,6 +64,7 @@ public final class Service {
     }
 
     public static void logout(){
+        Cache.getInstance().remove("sessionUser");
         executeRequest(Bootstrapper.getFactory().newHttpRequest(URL + "auth/logout", POST));
         Bootstrapper.getFactory().getVoipController().unregisterCurrentUser();
     }
@@ -69,10 +95,11 @@ public final class Service {
         executeRequest(Bootstrapper.getFactory().newHttpRequest(URL + "users" + username, POST));
     }
 
-    public static void updateUser(User user, String password){
+    public static void updateUser(User user, String password, boolean changePassword){
         HttpRequest req = Bootstrapper.getFactory().newHttpRequest(URL + "users", PUT);
         req.addParameter("user", user.toString());
         req.addParameter("password", password);
+        req.addParameter("changePassword", String.valueOf(changePassword));
         executeRequest(req);
     }
 
@@ -94,15 +121,19 @@ public final class Service {
     }
 
     public static void getMessages(int userId1, int userId2, int startIndex, int length){
-        executeRequest(Bootstrapper.getFactory().newHttpRequest(URL + "messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, POST));
+        executeRequest(Bootstrapper.getFactory().newHttpRequest(URL + "messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, GET));
     }
 
     public static void getRecentContacts(int userId){
-        executeRequest(Bootstrapper.getFactory().newHttpRequest(URL + "messages/" + userId, POST));
+        executeRequest(Bootstrapper.getFactory().newHttpRequest(URL + "messages/" + userId, GET));
     }
 
     public static void getActions(){
         executeRequest(Bootstrapper.getFactory().newHttpRequest(URL + "actions", GET));
+    }
+
+    public static void getAction(int actionId){
+        executeRequest(Bootstrapper.getFactory().newHttpRequest(URL + "actions/" + actionId, GET));
     }
 
     public static void updateOrSaveActions(Action action){

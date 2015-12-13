@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
@@ -8,9 +32,13 @@ import org.slf4j.LoggerFactory;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.FetchActionsEvent;
+import rtdc.core.event.FetchActionEvent;
+import rtdc.core.exception.ApiException;
+import rtdc.core.exception.ValidationException;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Permission;
+import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
 
@@ -21,10 +49,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @WebServlet
@@ -34,7 +59,7 @@ public class ActionServlet {
     private static final Logger log = LoggerFactory.getLogger(ActionServlet.class);
 
     @GET
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String get(@Context HttpServletRequest req, @Context User user){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -52,9 +77,12 @@ public class ActionServlet {
                     iterator.remove();
                 }
             }
-            if(Permission.USER.equalsIgnoreCase(User.Permission.getStringifier().toString(user.getPermission())))
+            if(Permission.USER.equalsIgnoreCase(User.Permission.getStringifier().toString(user.getPermission()))
+                    || Permission.MANAGER.equalsIgnoreCase(User.Permission.getStringifier().toString(user.getPermission())))
+                /*actions = (List<Action>) session.createCriteria(Action.class).
+                        add(Restrictions.eq("personResponsible", user)).list();*/
                 actions = (List<Action>) session.createCriteria(Action.class).
-                        add(Restrictions.eq("personResponsible", user)).list();
+                        add(Restrictions.eq("unit", user.getUnit())).list();
             else
                 actions = (List<Action>) session.createCriteria(Action.class).list();
             transaction.commit();
@@ -71,16 +99,56 @@ public class ActionServlet {
         return new FetchActionsEvent(actions).toString();
     }
 
+    @GET
+    @Path("{id}")
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
+    public String getAction(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
+        Session session = PersistenceConfig.getSessionFactory().openSession();
+        Transaction transaction = null;
+        Action action = null;
+        try{
+            transaction = session.beginTransaction();
+            action = (Action) session.get(Action.class, id);
+            if(action == null)
+                throw new ApiException("Id " + id + " doesn't exist");
+            transaction.commit();
+
+            log.info("{}: ACTION: Getting Action " + id + " for user.", user.getUsername());
+        } catch (RuntimeException e) {
+            if(transaction != null)
+                transaction.rollback();
+            throw e;
+        } finally{
+            session.close();
+        }
+
+        return new FetchActionEvent(action).toString();
+    }
+
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String update(@Context HttpServletRequest req, @Context User user, @FormParam("action" )String actionString){
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
+    public String update(@Context HttpServletRequest req, @Context User user, @FormParam("action")String actionString){
         Action action = new Action(new JSONObject(actionString));
 
         Set<ConstraintViolation<Action>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(action);
-        if(!violations.isEmpty())
+        if(!violations.isEmpty()) {
+            log.warn("Error updating action: " + violations.toString());
             return new ErrorEvent(violations.toString()).toString();
+        }
+
+        try {
+            SimpleValidator.validateAction(action);
+        }catch (ValidationException e){
+            log.warn("Error updating action: " + e.getMessage());
+            return new ErrorEvent(e.getMessage()).toString();
+        }
+
+        if(user.getPermission().equals(User.Permission.MANAGER) && user.getUnit().getId() != action.getUnit().getId()) {
+            log.warn("Error updating action: user " + user.getUsername() + " doesn't have enough permissions");
+            return new ErrorEvent("Insufficient permissions: you do not have permission to add actions for this unit.").toString();
+        }
 
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -90,7 +158,6 @@ public class ActionServlet {
             session.saveOrUpdate(action);
             transaction.commit();
 
-            // TODO: Replace string with actual username
             log.info("{}: ACTION: Action updated: {}", user.getUsername(), actionString);
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -99,13 +166,13 @@ public class ActionServlet {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(action.getId(), "action", "").toString();
+        return new ActionCompleteEvent(action.getId(), "action", "update").toString();
     }
 
     @DELETE
     @Path("{id}")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.MANAGER, Permission.ADMIN})
     public String delete(@Context HttpServletRequest req, @Context User user, @PathParam("id") int id){
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -115,7 +182,6 @@ public class ActionServlet {
             session.delete(action);
             transaction.commit();
 
-            // TODO: Replace string with actual username
             log.warn("{}: ACTION: Action deleted: {}", user.getUsername(), action.getId());
         } catch (RuntimeException e) {
             if(transaction != null)
@@ -124,7 +190,7 @@ public class ActionServlet {
         } finally {
             session.close();
         }
-        return new ActionCompleteEvent(id, "action", "").toString();
+        return new ActionCompleteEvent(id, "action", "delete").toString();
     }
 
 }
