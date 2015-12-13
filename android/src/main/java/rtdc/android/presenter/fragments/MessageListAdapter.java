@@ -33,8 +33,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.core.Config;
-import rtdc.core.Session;
 import rtdc.core.model.Message;
+import rtdc.core.model.User;
+import rtdc.core.util.Cache;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class MessageListAdapter extends ArrayAdapter {
             }
         }
 
-        boolean sessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
+        boolean sessionUser = message.getSender().getId() == ((User) Cache.getInstance().get("sessionUser")).getId();
         if(isMessageRow){
             String content = "";
             if(message.getContent().contains(Config.COMMAND_EXEC_KEY) && !message.getContent().equals(Config.COMMAND_EXEC_KEY)){

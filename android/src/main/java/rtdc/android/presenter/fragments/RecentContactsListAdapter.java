@@ -34,8 +34,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
-import rtdc.core.Session;
 import rtdc.core.model.Message;
+import rtdc.core.model.User;
+import rtdc.core.util.Cache;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class RecentContactsListAdapter extends ArrayAdapter {
             view = mInflater.inflate(R.layout.adapter_recent_contact, null);
         }
 
-        boolean senderIsSessionUser = message.getSender().getId() == Session.getCurrentSession().getUser().getId();
+        boolean senderIsSessionUser = message.getSender().getId() ==  ((User) Cache.getInstance().get("sessionUser")).getId();
 
         setupColumn(view, R.id.senderRecentContactsTextView, senderIsSessionUser ? message.getReceiver().getFirstName()+" "+message.getReceiver().getLastName(): message.getSender().getFirstName()+" "+message.getSender().getLastName());
         setupColumn(view, R.id.messagePreviewTextView, message.getContent());

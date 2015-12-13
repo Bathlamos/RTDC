@@ -31,6 +31,7 @@ import rtdc.core.event.SessionExpiredEvent;
 import rtdc.core.impl.Factory;
 import rtdc.core.impl.Storage;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 import rtdc.core.view.View;
 
 import java.util.logging.Level;
@@ -61,7 +62,7 @@ public class Bootstrapper{
             logger.log(Level.INFO, "AuthenticationEvent received");
             AUTHENTICATION_TOKEN = event.getAuthenticationToken();
             FACTORY.getStorage().add(Storage.KEY_AUTH_TOKEN, AUTHENTICATION_TOKEN);
-            Session.setCurrentSession(new Session(event.getUser()));
+            Cache.getInstance().put("sessionUser", event.getUser());
             FACTORY.getVoipController().registerUser(event.getUser(), event.getAsteriskPassword());
             FACTORY.newDispatcher().goToCapacityOverview(null);
             Event.unsubscribe(AuthenticationEvent.TYPE, authHandler);

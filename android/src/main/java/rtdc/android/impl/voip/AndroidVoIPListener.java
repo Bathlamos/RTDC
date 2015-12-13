@@ -26,14 +26,15 @@ import rtdc.android.presenter.InCallActivity;
 import rtdc.android.presenter.IncomingCallActivity;
 import rtdc.android.presenter.fragments.MessagesFragment;
 import rtdc.core.Config;
-import rtdc.core.Session;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUserEvent;
 import rtdc.core.impl.voip.*;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
+import rtdc.core.model.User;
 import rtdc.core.service.Service;
 import rtdc.core.impl.voip.VoIPManager.Reason;
+import rtdc.core.util.Cache;
 
 import java.util.Date;
 import java.util.logging.Level;
@@ -87,8 +88,8 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
             Reason reason = call.getReasonForError();
             String fromUsername = call.getFrom().getUsername();
 
-
-            if(state == Call.State.callReleased && fromUsername.equals(Session.getCurrentSession().getUser().getUsername())){
+            final User sessionUser = (User) Cache.getInstance().get("sessionUser");
+            if(state == Call.State.callReleased && fromUsername.equals(sessionUser.getUsername())){
                 if(reason == Reason.ioError){
                     // Tried to call a user that is not logged in
 
@@ -97,7 +98,7 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
                         public void onUserFetched(FetchUserEvent event) {
                             Event.unsubscribe(FetchUserEvent.TYPE, this);
                             final Message message = new Message();
-                            message.setSender(Session.getCurrentSession().getUser());
+                            message.setSender(sessionUser);
                             message.setTimeSent(new Date());
                             message.setStatus(Message.Status.read);
                             message.setReceiver(event.getUser());
@@ -110,9 +111,9 @@ public class AndroidVoIPListener extends LinphoneCoreListenerBase implements VoI
                 }
             }
 
-            if(state == Call.State.callReleased && !fromUsername.equals(Session.getCurrentSession().getUser().getUsername())){
+            if(state == Call.State.callReleased && !fromUsername.equals(sessionUser.getUsername())){
                 final Message rtdcMessage = new Message();
-                rtdcMessage.setReceiver(Session.getCurrentSession().getUser());
+                rtdcMessage.setReceiver(sessionUser);
                 rtdcMessage.setTimeSent(new Date());
                 rtdcMessage.setStatus(Message.Status.read);
                 if(reason == Reason.notAnswered){
