@@ -1,9 +1,5 @@
 package rtdc.core.i18n;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -22,10 +18,27 @@ class JavaIOResBundle implements ResBundleInterface {
         LOGGER.info("Finished loading Bundle.properties");
     }
 
+    /** AUTOMATIC GENERATION -- DO NOT CHANGE */
 
-    @Override
-    public String usernameMinLength() {
-        return BUNDLE.getString("usernameMinLength");
-    }
+	/**
+	 * yolo
+	 */
+	public String a() {
+		return BUNDLE.getString("a");
+	}
+
+	/**
+	 * nanana
+	 */
+	public String b() {
+		return BUNDLE.getString("b");
+	}
+
+	/**
+	 * YOLO, you fool!
+	 */
+	public String usernameMinLength() {
+		return BUNDLE.getString("usernameMinLength");
+	}
 
 }

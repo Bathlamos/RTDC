@@ -8,10 +8,78 @@ class BundleInterfaceCreator{
 
     public static void main(String[] args) throws IOException {
 
+        final Map<String, String> keyPairs = parsePropertiesFile("core/src/main/resources/rtdc/core/i18n/Bundle.properties");
+        generateResBundleInterface(keyPairs, "core/src/main/java/rtdc/core/i18n/ResBundleInterface.java");
+        generateJavaIOResBundle(keyPairs, "core/src/main/java/rtdc/core/i18n/JavaIOResBundle.java");
+    }
+
+    static void generateResBundleInterface(Map<String, String> map, String path) throws IOException{
+        // Generate the Java interface
+        final StringBuilder sb = new StringBuilder("package rtdc.core.i18n;\n\n" +
+                "public interface ResBundleInterface {\n\n");
+
+        for(Map.Entry<String, String> e: map.entrySet()) {
+            sb.append("\t/**\n\t * ");
+            sb.append(e.getValue());
+            sb.append("\n\t */\n\tString ");
+            sb.append(e.getKey());
+            sb.append("();\n\n");
+        }
+
+        sb.append("}");
+
+        //Write to file
+        PrintWriter out = new PrintWriter(path);
+        out.write(sb.toString());
+        out.close();
+
+        System.out.println("i18n: regenerated " + path);
+    }
+
+    static void generateJavaIOResBundle(Map<String, String> map, String path) throws IOException{
+        // Generate the Java interface
+        final StringBuilder sb = new StringBuilder();
+
+        BufferedReader br = new BufferedReader(new FileReader(path));
+
+        String sCurrentLine;
+
+        while ((sCurrentLine = br.readLine()) != null) {
+            sb.append(sCurrentLine);
+            sb.append("\n");
+            if (sCurrentLine.trim().equals("/** AUTOMATIC GENERATION -- DO NOT CHANGE */"))
+                break;
+        }
+
+        sb.append("\n");
+
+        br.close();
+
+        for(Map.Entry<String, String> e: map.entrySet()) {
+            sb.append("\t/**\n\t * ");
+            sb.append(e.getValue());
+            sb.append("\n\t */\n\tpublic String ");
+            sb.append(e.getKey());
+            sb.append("() {\n\t\treturn BUNDLE.getString(\"");
+            sb.append(e.getKey());
+            sb.append("\");\n\t}\n\n");
+        }
+
+        sb.append("}");
+
+        //Write to file
+        PrintWriter out = new PrintWriter(path);
+        out.write(sb.toString());
+        out.close();
+
+        System.out.println("i18n: regenerated " + path);
+    }
+
+    static Map<String, String> parsePropertiesFile(String path) throws IOException{
         //Write to file
         final Map<String, String> keyPairs = new TreeMap<>();
 
-        final BufferedReader br = new BufferedReader(new FileReader("core/src/main/resources/rtdc/core/i18n/Bundle.properties"));
+        BufferedReader br = new BufferedReader(new FileReader(path));
 
         String sCurrentLine;
 
@@ -34,26 +102,9 @@ class BundleInterfaceCreator{
 
         br.close();
 
-        // Generate the Java interface
-        final StringBuilder sb = new StringBuilder("package rtdc.core.i18n;\n\n" +
-                "public interface ResBundleInterface {\n\n");
+        System.out.println("i18n: read properties file " + path);
 
-        for(Map.Entry<String, String> e: keyPairs.entrySet()) {
-            sb.append("\t/**\n\t * ");
-            sb.append(e.getValue());
-            sb.append("\n\t */\n\tString ");
-            sb.append(e.getKey());
-            sb.append("();\n\n");
-        }
-
-        sb.append("}");
-
-        //Write to file
-        PrintWriter out = new PrintWriter("core/src/main/java/rtdc/core/i18n/ResBundleInterface.java");
-        out.write(sb.toString());
-        out.close();
-
-        System.out.println("i18n successfully regenerated");
+        return keyPairs;
     }
 
 }
