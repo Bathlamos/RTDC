@@ -9,6 +9,7 @@
 
     <source path="">
         <exclude name="rtdc/core/config/Conf.java" />
+        <exclude name="rtdc/core/i18n/ResBundle.java" />
     </source>
 
     <!-- Used to re-route the WeakReference class -->
