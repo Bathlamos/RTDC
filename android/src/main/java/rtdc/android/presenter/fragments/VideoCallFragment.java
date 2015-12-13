@@ -18,6 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -43,12 +45,15 @@ import rtdc.core.impl.voip.VoIPManager;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class VideoCallFragment extends AbstractCallFragment {
     private SurfaceView mVideoView;
     private SurfaceView mCaptureView;
     private AndroidVideoWindowImpl androidVideoWindowImpl;
+    private OrientationEventListener mOrientationHelper;
     private InCallActivity inCallActivity;
+    private int rotation;
     private boolean isFragmentPaused;
     private Future ringingTask;
 
@@ -216,6 +221,8 @@ public class VideoCallFragment extends AbstractCallFragment {
         if(!AndroidVoipController.get().isVideoEnabled())
             mCaptureView.setVisibility(View.INVISIBLE);
 
+        startOrientationSensor();
+
         return view;
     }
 
@@ -298,11 +305,17 @@ public class VideoCallFragment extends AbstractCallFragment {
     public void onDestroy() {
         inCallActivity = null;
 
+        if (mOrientationHelper != null) {
+            mOrientationHelper.disable();
+            mOrientationHelper = null;
+        }
+
         mCaptureView = null;
         if (mVideoView != null) {
             mVideoView.setOnTouchListener(null);
             mVideoView = null;
         }
+
         if (androidVideoWindowImpl != null) {
             // Prevent linphone from crashing if correspondent hang up while you are rotating
             androidVideoWindowImpl.release();
@@ -353,4 +366,57 @@ public class VideoCallFragment extends AbstractCallFragment {
         }
     }
 
+    /**
+     * Register a sensor to track phoneOrientation changes
+     */
+    private synchronized void startOrientationSensor() {
+        if (mOrientationHelper == null) {
+            mOrientationHelper = new LocalOrientationEventListener(getActivity());
+        }
+        mOrientationHelper.enable();
+    }
+
+    private int mAlwaysChangingPhoneAngle = -1;
+
+    private class LocalOrientationEventListener extends OrientationEventListener {
+        public LocalOrientationEventListener(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onOrientationChanged(final int o) {
+            if (o == OrientationEventListener.ORIENTATION_UNKNOWN) {
+                return;
+            }
+
+            int degrees = 270;
+            if (o < 45 || o > 315)
+                degrees = 0;
+            else if (o < 135)
+                degrees = 90;
+            else if (o < 225)
+                degrees = 180;
+
+            if (mAlwaysChangingPhoneAngle == degrees) {
+                return;
+            }
+            mAlwaysChangingPhoneAngle = degrees;
+
+            Logger.getLogger(VideoCallFragment.class.getName()).info("Phone orientation changed to " + degrees);
+            boolean oldRotationPortrait = rotation == 0 || rotation == 180;
+            rotation = (360 - degrees) % 360;
+            AndroidVoIPThread.getInstance().getVoIPManager().setDeviceRotation(rotation);
+
+            // Change camera preview orientation if necessary
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mCaptureView.getLayoutParams();
+            if((oldRotationPortrait && (rotation == 90 || rotation == 270)) || (!oldRotationPortrait && (rotation == 0 || rotation == 180))) {
+                int oldHeight = params.height;
+                params.height = params.width;
+                params.width = oldHeight;
+            }
+            mCaptureView.setLayoutParams(params);
+
+            AndroidVoIPThread.getInstance().getVoIPManager().updateCall(AndroidVoIPThread.getInstance().getCall(), null);
+        }
+    }
 }

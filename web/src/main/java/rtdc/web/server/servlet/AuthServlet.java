@@ -103,6 +103,8 @@ public class AuthServlet {
                                @FormParam("username") String username,
                                @FormParam("password") String password){
 
+        username = username.toLowerCase();
+
         if(username == null || username.isEmpty())
             throw new UsernamePasswordMismatchException("Username cannot be empty");
         else if (password == null || password.isEmpty())

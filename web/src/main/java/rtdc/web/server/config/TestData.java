@@ -126,7 +126,7 @@ public class TestData implements ServletContextListener {
         List<User> users = new ArrayList<>();
 
         User user = new User();
-        user.setUsername("Nathaniel");
+        user.setUsername("Nathaniel".toLowerCase());
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Nathaniel");
         user.setLastName("Aumonttt");
@@ -136,7 +136,7 @@ public class TestData implements ServletContextListener {
         users.add(user);
 
         user = new User();
-        user.setUsername("user");
+        user.setUsername("user".toLowerCase());
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Jack");
         user.setLastName("Donner");
@@ -146,7 +146,7 @@ public class TestData implements ServletContextListener {
         users.add(user);
 
         user = new User();
-        user.setUsername("Qwe");
+        user.setUsername("Qwe".toLowerCase());
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Jonathan");
         user.setLastName("Ermel");
@@ -185,7 +185,7 @@ public class TestData implements ServletContextListener {
             User user = new User();
             user.setFirstName(DF.getFirstName());
             user.setLastName(DF.getLastName());
-            user.setUsername(user.getFirstName() + "_" + i);
+            user.setUsername((user.getFirstName() + "_" + i).toLowerCase());
             user.setEmail(DF.getEmailAddress());
             user.setPermission(DF.getItem(User.Permission.values()));
             user.setPhone(Long.toString(DF.getNumberBetween(100000000, 999999999)));
