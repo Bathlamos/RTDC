@@ -80,11 +80,11 @@ public class MainActivity extends ActionBarActivity {
         User sessionUser = (User) Cache.getInstance().get("sessionUser");
         ArrayList<FragmentType> fragmentTypes = new ArrayList<>();
         if(sessionUser.getPermission().equals(User.Permission.ADMIN)) {
-            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.MANAGE_UNITS, FragmentType.MANAGE_USERS, FragmentType.MESSAGES, FragmentType.PROFILE));
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.PROFILE, FragmentType.MANAGE_USERS, FragmentType.MANAGE_UNITS, FragmentType.MESSAGES));
         }else if(sessionUser.getPermission().equals(User.Permission.MANAGER))
-            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.CAPACITY_OVERVIEW, FragmentType.ACTION_PLAN, FragmentType.MESSAGES, FragmentType.PROFILE));
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.PROFILE, FragmentType.CAPACITY_OVERVIEW, FragmentType.ACTION_PLAN, FragmentType.MESSAGES));
         else if(sessionUser.getPermission().equals(User.Permission.USER))
-            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.ACTION_PLAN, FragmentType.MESSAGES, FragmentType.PROFILE));
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.PROFILE, FragmentType.ACTION_PLAN, FragmentType.MESSAGES));
         adapter = new navAdapter(fragmentTypes, this);
 
         navListView.setAdapter(adapter);
@@ -128,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
             if(getIntent() != null)
                 onNewIntent(getIntent());
             if(fragment == null)
-                selectItem(0); // Opens the capacity overview by default
+                selectItem(1);
         }
     }
 
@@ -142,27 +142,17 @@ public class MainActivity extends ActionBarActivity {
     private void selectItem(FragmentType type) {
         isAtHome = false;
 
-        if(type == FragmentType.PROFILE){
-            Cache.getInstance().put("user", Cache.getInstance().get("sessionUser"));
-            Bootstrapper.FACTORY.newDispatcher().goToEditUser(null);
-        }else {
-            goToFragment(type);
+        goToFragment(type);
 
-            // Update the title
-            title = type.getTitle();
-            setTitle(title);
+        // Update the title
+        title = type.getTitle();
+        setTitle(title);
 
-            lastClicked = adapter.getPosition(type);
-            adapter.notifyDataSetChanged();
-        }
+        lastClicked = adapter.getPosition(type);
+        adapter.notifyDataSetChanged();
 
         // Close the drawer
         drawerLayout.closeDrawers();
-    }
-
-    private void goToFragment(int position){
-        FragmentType type = adapter.getItem(position);
-        goToFragment(type);
     }
 
     public void goToFragment(FragmentType type){
@@ -188,6 +178,9 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case MANAGE_USERS:
                 fragment = new ManageUsersFragment();
+                break;
+            case PROFILE:
+                fragment = new ProfileFragment();
                 break;
         }
 
