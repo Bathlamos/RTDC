@@ -3,6 +3,7 @@ package rtdc.core.config;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
 /**
@@ -19,6 +20,11 @@ public class JavaIOConfig implements ConfigInterface {
             "config" + File.separator +
             "Config.properties";
     private static final Properties prop = new Properties();
+    private static final AtomicBoolean hasLoaded = new AtomicBoolean();
+
+    public boolean hasLoaded(){
+        return hasLoaded.get();
+    }
 
     public static void setReader(Reader reader) {
         try {
@@ -27,14 +33,22 @@ public class JavaIOConfig implements ConfigInterface {
             e.printStackTrace();
         }
 
+        // Notify all threads that made requests that we're ready
+        synchronized (hasLoaded) {
+            hasLoaded.set(true);
+            hasLoaded.notifyAll();
+        }
+
         LOGGER.info("Finished loading Config.properties");
     }
 
     private static String getProperty(String property){
+        waitIfLoading();
         return prop.getProperty(property);
     }
 
     private static int getPropertyAsInt(String property){
+        waitIfLoading();
         try{
             String propertyString = prop.getProperty(property);
             if(propertyString == null)
@@ -46,7 +60,27 @@ public class JavaIOConfig implements ConfigInterface {
     }
 
     private static Boolean getPropertyAsBoolean(String property){
+        waitIfLoading();
+        while(!hasLoaded.get()) {
+            try {
+                hasLoaded.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return Boolean.parseBoolean(prop.getProperty(property));
+    }
+
+    private static void waitIfLoading(){
+        while(!hasLoaded.get()) {
+            try {
+                synchronized (hasLoaded) {
+                    hasLoaded.wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
