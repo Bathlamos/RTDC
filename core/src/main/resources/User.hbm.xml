@@ -51,6 +51,6 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
-        <one-to-one name="unit" class="rtdc.core.model.Unit" lazy="false"/>
+        <many-to-one name="unit" class="rtdc.core.model.Unit" lazy="false"/>
     </class>
 </hibernate-mapping>
