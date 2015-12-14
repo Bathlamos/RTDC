@@ -31,7 +31,7 @@
 
     <TextView android:layout_width="48dp" android:layout_height="48dp" android:text="NM" android:id="@+id/userIcon"
               android:gravity="center_vertical|center_horizontal" android:textSize="22sp"
-              android:textColor="@color/RTDC_white" android:background="@drawable/rectangle_rounded"
+              android:textColor="@color/RTDC_white" android:background="@drawable/circle"
               android:layout_marginRight="8dp" android:layout_centerVertical="true"/>
     <RelativeLayout
             android:layout_width="fill_parent"

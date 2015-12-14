@@ -75,7 +75,6 @@ public class ContactListAdapter extends ArrayAdapter<User> {
 
         GradientDrawable background = (GradientDrawable) view.findViewById(R.id.userIcon).getBackground();
         background.setColor(Color.HSVToColor(currentUser.getProfileColor()));
-        background.setCornerRadius(32);
 
         ImageButton textMessageButton = (ImageButton) view.findViewById(R.id.textMessageButton);
         textMessageButton.setTag(position);
