@@ -39,6 +39,7 @@ import rtdc.core.model.Permission;
 import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.User;
 import rtdc.web.server.config.PersistenceConfig;
+import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.model.UserCredentials;
 import rtdc.web.server.service.AsteriskRealTimeService;
 import rtdc.web.server.service.AuthService;
@@ -225,6 +226,17 @@ public class UserServlet {
             log.warn("Deleting user with id " + id);
             transaction = session.beginTransaction();
             User userToDelete = (User) session.load(User.class, id);
+
+            List<UserCredentials> userCredentialsList = (List<UserCredentials>) session.createCriteria(UserCredentials.class).add(Restrictions.eq("user", userToDelete)).list();
+            if(!userCredentialsList.isEmpty()){
+                session.delete(userCredentialsList.get(0));
+            }
+
+            List<AuthenticationToken> authenticationTokenList = (List<AuthenticationToken>) session.createCriteria(AuthenticationToken.class).add(Restrictions.eq("user", userToDelete)).list();
+            if(!authenticationTokenList.isEmpty()){
+                session.delete(authenticationTokenList.get(0));
+            }
+
             session.delete(userToDelete);
             AsteriskRealTimeService.deleteUser(userToDelete);
             transaction.commit();
