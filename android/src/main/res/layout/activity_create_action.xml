@@ -207,6 +207,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
+                            android:drawableRight="@drawable/ic_access_time_black_24dp"
+                            android:drawableEnd="@drawable/ic_access_time_black_24dp"
+                            android:longClickable="false"
+                            android:background="@android:color/transparent"
+                            android:focusable="false"
                             android:id="@+id/deadlineEdit" android:clickable="true"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>

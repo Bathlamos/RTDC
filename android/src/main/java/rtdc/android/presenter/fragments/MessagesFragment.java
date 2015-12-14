@@ -35,7 +35,6 @@ import rtdc.core.config.Conf;
 import rtdc.core.controller.MessagesController;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchMessagesEvent;
-import rtdc.core.event.MessageSavedEvent;
 import rtdc.core.impl.voip.*;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
@@ -56,6 +55,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
     private ArrayList<Message> recentContacts = new ArrayList<Message>();
     private ArrayList<Message> messages = new ArrayList<Message>();
     private ArrayList<User> contacts = new ArrayList<User>();
+    private AdapterView messageListView;
     private MessagesController controller;
     private int selectedRecentContactIndex;
     private User messagingUser;
@@ -68,7 +68,7 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
     public View onCreateView(LayoutInflater inflater, ViewGroup container, android.os.Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_communication_hub, container, false);
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
-        final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
+        messageListView = (AdapterView) view.findViewById(R.id.messageListView);
         contactsAutoComplete = (AutoCompleteTextView) view.findViewById(R.id.contactsAutoComplete);
         final User sessionUser = (User) Cache.getInstance().get("sessionUser");
 
@@ -85,23 +85,6 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
                 message.setStatus(Message.Status.sent);
                 message.setTimeSent(new Date());
                 message.setContent(((TextView) view.findViewById(R.id.messageEditText)).getText().toString());
-
-                // We need to wait until the server gives the message an id and a universal time before we can send it
-                MessageSavedEvent.Handler messageSentHandler = new MessageSavedEvent.Handler() {
-                    @Override
-                    public void onMessageSaved(MessageSavedEvent event) {
-                        Event.unsubscribe(MessageSavedEvent.TYPE, this);
-                        message.setId(event.getMessageId());
-                        message.setTimeSent(event.getTimeSent()); // Override the time with the time of the server (to keep it universal)
-                        AndroidVoipController.get().sendMessage(message);
-                        addMessage(message);
-
-                        // Force the message list view to go to the bottom
-                        messageListView.setSelection(messageListView.getCount() - 1);
-                    }
-                };
-                Event.subscribe(MessageSavedEvent.TYPE, messageSentHandler);
-
                 Service.saveOrUpdateMessage(message);
 
                 ((TextView) view.findViewById(R.id.messageEditText)).setText("");
@@ -340,6 +323,8 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
     }
 
     public void addMessage(final Message message){
+        AndroidVoipController.get().sendMessage(message);
+
         message.setStatus(Message.Status.read);
         List<Message> convertedMessages = convertMessage(message);
         if(convertedMessages != null){
@@ -372,6 +357,9 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
                 recentContactsAdapter.notifyDataSetChanged();
             }
         });
+
+        // Force the message list view to go to the bottom
+        messageListView.setSelection(messageListView.getCount() - 1);
     }
 
     public void addMessagesAtStart(final List<Message> messages){
@@ -432,13 +420,6 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        controller.onStop();
-        AndroidVoIPThread.getInstance().removeVoIPListener(this);
-    }
-
-    @Override
     public void onMessagesFetched(FetchMessagesEvent event) {
         contactsAutoComplete.setVisibility(View.GONE);
         view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
@@ -463,5 +444,13 @@ public class MessagesFragment extends AbstractFragment implements CommunicationH
             }
             Service.saveOrUpdateMessage(message);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
+        AndroidVoIPThread.getInstance().removeVoIPListener(this);
+        Event.unsubscribe(FetchMessagesEvent.TYPE, this);
     }
 }

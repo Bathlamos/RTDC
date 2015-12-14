@@ -38,10 +38,7 @@ import rtdc.core.util.Pair;
 import rtdc.core.util.Stringifier;
 import rtdc.core.view.AddActionView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class AddActionController extends Controller<AddActionView> implements ActionCompleteEvent.Handler {
 
@@ -77,6 +74,11 @@ public class AddActionController extends Controller<AddActionView> implements Ac
             view.getUnitUiElement().setValue(RtdcCurrentAction.getUnit());
             view.getStatusUiElement().setValue(RtdcCurrentAction.getStatus());
             view.getTaskUiElement().setValue(RtdcCurrentAction.getTask());
+        } else {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.HOUR_OF_DAY, 2);
+            view.getDeadlineUiElement().setValue(cal.getTime());
         }
     }
 
