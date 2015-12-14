@@ -145,11 +145,14 @@ public class AddUserController extends Controller<AddUserView> implements Action
         try {
             SimpleValidator.validatePassword(view.getPasswordUiElement().getValue());
             view.getPasswordUiElement().setErrorMessage(null);
+        }catch(ValidationException e){
+            view.getPasswordUiElement().setErrorMessage(e.getMessage());
+        }
 
+        try {
             if(!SimpleValidator.isNotEmpty(view.getConfirmPasswordUiElement().getValue()))
                 validateConfirmPasswordUiElement();
         }catch(ValidationException e){
-            view.getPasswordUiElement().setErrorMessage(e.getMessage());
         }
     }
 

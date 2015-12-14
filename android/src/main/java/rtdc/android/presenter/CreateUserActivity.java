@@ -186,7 +186,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
                controller.validateFirstNameUiElement();
                controller.validateLastNameUiElement();
 
-               if(usernameEdit.getError() != null || (passwordEdit.getError() != null && confirmPasswordEdit.getError() != null && passwordChange.isChecked())
+               if(usernameEdit.getError() != null || (passwordChange.isChecked() && (passwordEdit.getError() != null || confirmPasswordEdit.getError() != null))
                        || emailEdit.getError() != null || firstNameEdit.getError() != null || lastNameEdit.getError() != null || phoneEdit.getError() != null) {
                    new AlertDialog.Builder(this)
                            .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
