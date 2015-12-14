@@ -25,32 +25,33 @@
 package rtdc.core.model;
 
 import rtdc.core.exception.ValidationException;
+import rtdc.core.i18n.ResBundle;
 
 public class SimpleValidator {
 
     public static boolean isNotNull(Object value){
         if(value == null)
-            throw new ValidationException("isNull");
+            throw new ValidationException(ResBundle.get().isNull());
         return true;
     }
 
     public static boolean isNotEmpty(String value){
         isNotNull(value);
         if(value.isEmpty())
-            throw new ValidationException("isEmpty");
+            throw new ValidationException(ResBundle.get().isEmpty());
         return true;
     }
 
     public static boolean isPositiveNumber(int number){
         if(number <= 0)
-            throw new ValidationException("isNotPositiveNumber");
+            throw new ValidationException(ResBundle.get().isNotPositiveNumber());
         return true;
     }
 
     public static boolean isNumber(String value){
         isNotEmpty(value);
         if(!value.matches("-?\\d+(\\.\\d+)?"))
-            throw new ValidationException("isNotNumber");
+            throw new ValidationException(ResBundle.get().isNotNumber());
         return true;
     }
 
@@ -71,9 +72,9 @@ public class SimpleValidator {
 
         final int minLength = 6;
         if(value.length() < minLength)
-            throw new ValidationException("usernameToShort");
+            throw new ValidationException(ResBundle.get().usernameToShort());
         else if(!value.matches("(\\w|\\-)+"))
-            throw new ValidationException("usernameAsIllegalCharacters");
+            throw new ValidationException(ResBundle.get().usernameAsIllegalCharacters());
         return true;
     }
 
@@ -82,16 +83,16 @@ public class SimpleValidator {
 
         final int minLength = 8;
         if(value.length() < minLength)
-            throw new ValidationException("passwordToShort");
+            throw new ValidationException(ResBundle.get().passwordToShort());
         else if(!value.matches("^(?=.*[0-9])(?=.*[A-Za-z]).+$"))
-            throw new ValidationException("passwordAsIllegalCharacters");
+            throw new ValidationException(ResBundle.get().passwordAsIllegalCharacters());
         return true;
     }
 
     public static boolean validateEmail(String value){
         isNotEmpty(value);
         if(!value.matches("^\\S+@\\S+\\.\\S+$"))
-            throw new ValidationException("invalidEmail");
+            throw new ValidationException(ResBundle.get().invalidEmail());
         return true;
     }
 
@@ -99,7 +100,7 @@ public class SimpleValidator {
         isNotEmpty(value);
 
         if(!value.matches("([A-Za-z]|\\-)+"))
-            throw new ValidationException("invalidName");
+            throw new ValidationException(ResBundle.get().invalidName());
         return true;
     }
 
@@ -107,7 +108,7 @@ public class SimpleValidator {
         isNotEmpty(value);
 
         if(!value.matches("([A-Za-z]|\\-)+"))
-            throw new ValidationException("invalidName");
+            throw new ValidationException(ResBundle.get().invalidName());
         return true;
     }
 
@@ -133,7 +134,7 @@ public class SimpleValidator {
         isNotNull(unit.getAvailableBeds());
 
         if(unit.getAvailableBeds() > unit.getTotalBeds())
-            throw new ValidationException("invalidNumberOfAvailableBeds");
+            throw new ValidationException(ResBundle.get().invalidNumberOfAvailableBeds());
         return true;
     }
 
@@ -141,7 +142,7 @@ public class SimpleValidator {
         isNotNull(unit.getPotentialDc());
 
         if(unit.getPotentialDc() > unit.getTotalBeds())
-            throw new ValidationException("invalidPotentialDischarge");
+            throw new ValidationException(ResBundle.get().invalidPotentialDischarge());
         return true;
     }
 
@@ -149,7 +150,7 @@ public class SimpleValidator {
         isNotNull(unit.getDcByDeadline());
 
         if(unit.getDcByDeadline() > unit.getPotentialDc())
-            throw new ValidationException("invalidDischargeByDeadline");
+            throw new ValidationException(ResBundle.get().invalidDischargeByDeadline());
         return true;
     }
 
@@ -157,7 +158,7 @@ public class SimpleValidator {
         isNotNull(unit.getAdmitsByDeadline());
 
         if(unit.getAdmitsByDeadline() > unit.getTotalAdmits())
-            throw new ValidationException("invalidAdmitsByDeadline");
+            throw new ValidationException(ResBundle.get().invalidAdmitsByDeadline());
         return true;
     }
 
@@ -174,7 +175,7 @@ public class SimpleValidator {
         isNotEmpty(value);
 
         if(value.length() > 2500)
-            throw new ValidationException("invalidActionDescription");
+            throw new ValidationException(ResBundle.get().invalidActionDescription());
         return true;
     }
 }

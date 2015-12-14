@@ -35,7 +35,7 @@ import rtdc.android.impl.AndroidUiDate;
 import rtdc.android.impl.AndroidUiDropdown;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddActionController;
-import rtdc.core.i18n.MessageBundle;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.Action;
@@ -100,8 +100,8 @@ public class CreateActionActivity extends AbstractDialog implements AddActionVie
 
                 if(descriptionEdit.getError() != null){
                     new AlertDialog.Builder(this)
-                            .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
-                            .setMessage(MessageBundle.getBundle(Locale.ENGLISH).getString("invalidFields"))
+                            .setTitle(ResBundle.get().errorGeneral())
+                            .setMessage(ResBundle.get().invalidFields())
                             .setNeutralButton(android.R.string.ok, null).show();
                     return true;
                 }

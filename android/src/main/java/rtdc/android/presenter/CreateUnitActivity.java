@@ -38,7 +38,7 @@ import rtdc.android.R;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddUnitController;
 import rtdc.core.exception.ValidationException;
-import rtdc.core.i18n.MessageBundle;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.SimpleValidator;
 import rtdc.core.view.AddUnitView;
@@ -111,8 +111,8 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
 
                 if(unitNameEdit.getError() != null || totalBedsEdit.getError() != null) {
                     new AlertDialog.Builder(this)
-                            .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
-                            .setMessage(MessageBundle.getBundle(Locale.ENGLISH).getString("invalidFields"))
+                            .setTitle(ResBundle.get().errorGeneral())
+                            .setMessage(ResBundle.get().invalidFields())
                             .setNeutralButton(android.R.string.ok, null).show();
                     return true;
                 }
