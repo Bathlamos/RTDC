@@ -1,18 +1,39 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.android.presenter.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import org.linphone.core.LinphoneCall;
 import rtdc.android.R;
-import rtdc.android.presenter.CommunicationHubInCallActivity;
-import rtdc.android.voip.LiblinphoneThread;
+import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.core.Bootstrapper;
-import rtdc.core.model.User;
+import rtdc.core.impl.voip.Call;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -41,12 +62,12 @@ public class AudioCallFragment extends AbstractCallFragment{
         }
 
         // Display the name of the person we're in call with
-        if(LiblinphoneThread.get().getCurrentCallRemoteAddress() != null)
-            ((TextView) view.findViewById(R.id.callerText)).setText(LiblinphoneThread.get().getCurrentCallRemoteAddress().getDisplayName());
+        if(AndroidVoIPThread.getInstance().getRemoteAddress() != null)
+            ((TextView) view.findViewById(R.id.callerText)).setText(AndroidVoIPThread.getInstance().getRemoteAddress().getDisplayName());
         else
             ((TextView) view.findViewById(R.id.callerText)).setText("Unknown");
 
-        if(LiblinphoneThread.get().getCurrentCall().getState() == LinphoneCall.State.OutgoingProgress) {
+        if(AndroidVoIPThread.getInstance().getCall().getState() == Call.State.outgoingProgress) {
             // Display a ringing message
 
             ((TextView) view.findViewById(R.id.callStatus)).setText("Ringing");
@@ -69,7 +90,7 @@ public class AudioCallFragment extends AbstractCallFragment{
                 }
             }, 0, 1000, TimeUnit.MILLISECONDS);
         }else{
-            callDuration = LiblinphoneThread.get().getCurrentCall().getDuration();  // We start with the correct time
+            callDuration = AndroidVoIPThread.getInstance().getCall().getDuration();  // We start with the correct time
 
             // Keeps track of the duration of the call, by incrementing a counter every second
 
@@ -103,7 +124,7 @@ public class AudioCallFragment extends AbstractCallFragment{
             }
         });
 
-        callDuration = LiblinphoneThread.get().getCurrentCall().getDuration();  // We start with the correct time
+        callDuration = AndroidVoIPThread.getInstance().getCall().getDuration();  // We start with the correct time
 
         // Keeps track of the duration of the call, by incrementing a counter every second
 

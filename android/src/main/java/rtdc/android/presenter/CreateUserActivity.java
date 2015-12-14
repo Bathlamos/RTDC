@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.android.presenter;
 
 import android.app.AlertDialog;
@@ -21,6 +45,7 @@ import rtdc.core.i18n.MessageBundle;
 import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.SimpleValidator;
+import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 import rtdc.core.view.AddUserView;
 
@@ -32,7 +57,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
     private AddUserController controller;
 
     private AndroidUiString usernameEdit, passwordEdit, confirmPasswordEdit, emailEdit, firstNameEdit, lastNameEdit, phoneEdit;
-    private AndroidUiDropdown roleSpinner, permissionSpinner;
+    private AndroidUiDropdown unitSpinner, roleSpinner, permissionSpinner;
     private TextView confirmPasswordText;
     private CheckBox passwordChange;
     private boolean hideDeleteButton = false;
@@ -100,13 +125,8 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
         });
 
         phoneEdit = (AndroidUiString) findViewById(R.id.phoneEdit);
-        phoneEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
-                    controller.validatePhoneNumberUiElement();
-            }
-        });
 
+        unitSpinner = (AndroidUiDropdown) findViewById(R.id.unitSpinner);
         roleSpinner = (AndroidUiDropdown) findViewById(R.id.roleSpinner);
         permissionSpinner = (AndroidUiDropdown) findViewById(R.id.permissionSpinner);
 
@@ -133,6 +153,7 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
             controller = new AddUserController(this);
 
         if(controller.isNewUser()) {
+            passwordChange.setChecked(true);
             passwordChange.setVisibility(View.GONE);
             showOrHidePasswordFields(true);
         }
@@ -164,7 +185,6 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
                controller.validateEmailUiElement();
                controller.validateFirstNameUiElement();
                controller.validateLastNameUiElement();
-               controller.validatePhoneNumberUiElement();
 
                if(usernameEdit.getError() != null || (passwordEdit.getError() != null && confirmPasswordEdit.getError() != null && passwordChange.isChecked())
                        || emailEdit.getError() != null || firstNameEdit.getError() != null || lastNameEdit.getError() != null || phoneEdit.getError() != null) {
@@ -230,6 +250,11 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
     @Override
     public UiElement<String> getPhoneUiElement() {
         return phoneEdit;
+    }
+
+    @Override
+    public UiDropdown<Unit> getUnitUiElement() {
+        return unitSpinner;
     }
 
     @Override

@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.web.server.config;
 
 import com.google.common.collect.Lists;
@@ -102,7 +126,7 @@ public class TestData implements ServletContextListener {
         List<User> users = new ArrayList<>();
 
         User user = new User();
-        user.setUsername("Nathaniel");
+        user.setUsername("Nathaniel".toLowerCase());
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Nathaniel");
         user.setLastName("Aumonttt");
@@ -112,7 +136,7 @@ public class TestData implements ServletContextListener {
         users.add(user);
 
         user = new User();
-        user.setUsername("user");
+        user.setUsername("user".toLowerCase());
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Jack");
         user.setLastName("Donner");
@@ -122,7 +146,7 @@ public class TestData implements ServletContextListener {
         users.add(user);
 
         user = new User();
-        user.setUsername("Qwe");
+        user.setUsername("Qwe".toLowerCase());
         user.setEmail(DF.getEmailAddress());
         user.setFirstName("Jonathan");
         user.setLastName("Ermel");
@@ -161,11 +185,12 @@ public class TestData implements ServletContextListener {
             User user = new User();
             user.setFirstName(DF.getFirstName());
             user.setLastName(DF.getLastName());
-            user.setUsername(user.getFirstName() + "_" + i);
+            user.setUsername((user.getFirstName() + "_" + i).toLowerCase());
             user.setEmail(DF.getEmailAddress());
             user.setPermission(DF.getItem(User.Permission.values()));
             user.setPhone(Long.toString(DF.getNumberBetween(100000000, 999999999)));
             user.setRole(DF.getItem(User.Role.values()));
+            user.setUnit(units.get(DF.getNumberBetween(0, units.size() - 1)));
             users.add(user);
         }
 

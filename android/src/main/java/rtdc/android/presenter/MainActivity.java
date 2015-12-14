@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.android.presenter;
 
 import android.app.FragmentTransaction;
@@ -17,7 +41,9 @@ import rtdc.android.presenter.fragments.*;
 import rtdc.android.R;
 import rtdc.core.Bootstrapper;
 import rtdc.core.impl.Storage;
+import rtdc.core.model.User;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +58,7 @@ public class MainActivity extends ActionBarActivity {
 
     private boolean isAtHome = true;
 
-    private ArrayList<String> navTitles;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<FragmentType> adapter;
     private int lastClicked = 0;
 
     @Override
@@ -49,17 +74,19 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         // NAVIGATION LIST VIEW
-        // TODO - Replace with enum
-        String capacityTitle = getResources().getString(R.string.title_capacity_overview);
-        String actionTitle = getResources().getString(R.string.title_action_plan);
-        String commTitle = getResources().getString(R.string.title_messages);
-        String manageUnitsTitle = getResources().getString(R.string.title_manage_units);
-        String manageUsersTitle = getResources().getString(R.string.title_manage_users);
-
         AdapterView navListView = (AdapterView) findViewById(R.id.nav_list);
-        //TODO: Change when permissions are implemented
-        navTitles = new ArrayList<String>(Arrays.asList(capacityTitle, actionTitle, commTitle, manageUnitsTitle, manageUsersTitle));
-        adapter = new navAdapter(navTitles, this);
+
+        // Set the drawer menu contents depending on what the user's permission is
+        User sessionUser = (User) Cache.getInstance().get("sessionUser");
+        ArrayList<FragmentType> fragmentTypes = new ArrayList<>();
+        if(sessionUser.getPermission().equals(User.Permission.ADMIN)) {
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.PROFILE, FragmentType.MANAGE_USERS, FragmentType.MANAGE_UNITS, FragmentType.MESSAGES));
+        }else if(sessionUser.getPermission().equals(User.Permission.MANAGER))
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.PROFILE, FragmentType.CAPACITY_OVERVIEW, FragmentType.ACTION_PLAN, FragmentType.MESSAGES));
+        else if(sessionUser.getPermission().equals(User.Permission.USER))
+            fragmentTypes = new ArrayList<FragmentType>(Arrays.asList(FragmentType.PROFILE, FragmentType.ACTION_PLAN, FragmentType.MESSAGES));
+        adapter = new navAdapter(fragmentTypes, this);
+
         navListView.setAdapter(adapter);
 
         // DRAWER MENU
@@ -101,7 +128,7 @@ public class MainActivity extends ActionBarActivity {
             if(getIntent() != null)
                 onNewIntent(getIntent());
             if(fragment == null)
-                selectItem(0); // Opens the capacity overview by default
+                selectItem(1);
         }
     }
 
@@ -109,39 +136,52 @@ public class MainActivity extends ActionBarActivity {
      * Swaps fragments in the main content view
      */
     private void selectItem(int position) {
-        isAtHome = false;
-
-        goToFragment(position);
-
-        // Update the title, and close the drawer
-        title = navTitles.get(position);
-        setTitle(title);
-        drawerLayout.closeDrawers();
-
-        lastClicked = position;
-        adapter.notifyDataSetChanged();
+        selectItem(adapter.getItem(position));
     }
 
-    public void goToFragment(int id){
-        switch(id){
-            case 0:
+    private void selectItem(FragmentType type) {
+        isAtHome = false;
+
+        goToFragment(type);
+
+        // Update the title
+        title = type.getTitle();
+        setTitle(title);
+
+        lastClicked = adapter.getPosition(type);
+        adapter.notifyDataSetChanged();
+
+        // Close the drawer
+        drawerLayout.closeDrawers();
+    }
+
+    public void goToFragment(FragmentType type){
+        User sessionUser = (User) Cache.getInstance().get("sessionUser");
+        switch(type){
+            case CAPACITY_OVERVIEW:
                 fragment = new CapacityOverviewFragment();
-                isAtHome = true;
+                if(sessionUser.getPermission().equals(User.Permission.MANAGER))
+                    isAtHome = true;
                 break;
-            case 1:
+            case ACTION_PLAN:
                 fragment = new ActionPlanFragment();
+                if(sessionUser.getPermission().equals(User.Permission.USER))
+                    isAtHome = true;
                 break;
-            case 2:
-                fragment = new CommunicationHubFragment();
+            case MESSAGES:
+                fragment = new MessagesFragment();
                 break;
-            case 3:
+            case MANAGE_UNITS:
+                if(sessionUser.getPermission().equals(User.Permission.MANAGER))
+                    isAtHome = true;
                 fragment = new ManageUnitsFragment();
                 break;
-            case 4:
+            case MANAGE_USERS:
                 fragment = new ManageUsersFragment();
                 break;
-            default:
-                fragment = new CapacityOverviewFragment();
+            case PROFILE:
+                fragment = new ProfileFragment();
+                break;
         }
 
         // Insert the fragment by replacing any existing fragment
@@ -154,16 +194,18 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        int position = intent.getIntExtra("fragment", -1);
-        if (position != -1)
-            selectItem(position);
+        if(intent.getExtras() != null){
+            Object fragment = intent.getExtras().get("fragment");
+            if (fragment instanceof FragmentType)
+                selectItem((FragmentType) fragment);
+        }
     }
 
-    private class navAdapter extends ArrayAdapter<String> {
+    private class navAdapter extends ArrayAdapter<FragmentType> {
 
         private LayoutInflater inflater;
 
-        public navAdapter(List<String> titles, Context context) {
+        public navAdapter(List<FragmentType> titles, Context context) {
             super(context, R.layout.drawer_list_item, titles);
             inflater = LayoutInflater.from(context);
         }
@@ -173,27 +215,30 @@ public class MainActivity extends ActionBarActivity {
             if (view == null)
                 view = inflater.inflate(R.layout.drawer_list_item, parent, false);
 
-            String currentTitle = navTitles.get(position);
+            FragmentType type = adapter.getItem(position);
 
             TextView textView = (TextView) view.findViewById(R.id.navTextView);
-            textView.setText(currentTitle);
+            textView.setText(type.getTitle());
 
             ImageView iconView = (ImageView) view.findViewById(R.id.navIcon);
-            switch(position){
-                case 0:
+            switch(type){
+                case CAPACITY_OVERVIEW:
                     iconView.setImageResource(R.drawable.ic_hotel_white_24dp);
                     break;
-                case 1:
+                case ACTION_PLAN:
                     iconView.setImageResource(R.drawable.ic_assignment_turned_in_white_24dp);
                     break;
-                case 2:
+                case MESSAGES:
                     iconView.setImageResource(R.drawable.ic_chat_white_24dp);
                     break;
-                case 3:
+                case MANAGE_UNITS:
                     iconView.setImageResource(R.drawable.ic_local_hospital_white_24dp);
                     break;
-                case 4:
+                case MANAGE_USERS:
                     iconView.setImageResource(R.drawable.ic_build_white_24dp);
+                    break;
+                case PROFILE:
+                    iconView.setImageResource(R.drawable.ic_account_circle_white_24dp);
                     break;
                 default:
                     iconView.setImageResource(R.drawable.ic_mode_edit_white_24dp);
@@ -226,6 +271,7 @@ public class MainActivity extends ActionBarActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+        setTitle(title);
     }
 
     @Override

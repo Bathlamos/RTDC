@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.web.server.servlet;
 
 import org.hibernate.Session;
@@ -26,13 +50,42 @@ public class MessageServlet {
 
     private static final Logger log = LoggerFactory.getLogger(MessageServlet.class);
 
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces("application/json")
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
+    public String addMessage(@Context HttpServletRequest req, @Context User user, @FormParam("message") String messageString){
+        Message message = new Message(new JSONObject(messageString));
+
+        Set<ConstraintViolation<Message>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(message);
+        if(!violations.isEmpty())
+            return new ErrorEvent(violations.toString()).toString();
+
+        Session session = PersistenceConfig.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(message);
+            transaction.commit();
+
+            log.info("{}: MESSAGE: New message added: {}", user.getUsername(), messageString);
+        } catch (RuntimeException e) {
+            if(transaction != null)
+                transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+
+        return new ActionCompleteEvent(message.getId(), "message", "add").toString();
+    }
+
     @GET
     @Path("{userId1}/{userId2}/{startIndex}/{length}")
     @Consumes("application/x-www-form-urlencoded")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String getMessages(@Context HttpServletRequest req, @Context User user, @PathParam("userId1") String userId1String,
-                              @PathParam("userId2") String userId2String, @PathParam("startIndex") String startIndexString,
-                              @PathParam("length") String lengthString){
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
+    public String getMessages(@Context HttpServletRequest req, @Context User user, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String,
+                              @PathParam("startIndex") String startIndexString, @PathParam("length") String lengthString){
         int user1Id = Integer.parseInt(userId1String);
         int user2Id = Integer.parseInt(userId2String);
         int startIndex = Integer.parseInt(startIndexString);
@@ -46,7 +99,7 @@ public class MessageServlet {
         try{
             transaction = session.beginTransaction();
 
-            // Only return the messages that were sent and received by the two users given in the request
+            // Only return the messages that we're sent and received by the two users given in the request
 
             messages = (List<Message>) session.createCriteria(Message.class)
                     .add(Restrictions.or(
@@ -98,7 +151,7 @@ public class MessageServlet {
     @GET
     @Path("{userId}")
     @Consumes("application/x-www-form-urlencoded")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getRecentContacts(@Context HttpServletRequest req, @Context User user, @PathParam("userId") String userId1String){
         int userId = Integer.parseInt(userId1String);
         Session session = PersistenceConfig.getSessionFactory().openSession();
@@ -141,40 +194,10 @@ public class MessageServlet {
         return new FetchRecentContactsEvent(recentMessages.values()).toString();
     }
 
-    @POST
-    @Consumes("application/x-www-form-urlencoded")
-    @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
-    public String addMessage(@Context HttpServletRequest req, @Context User user, @FormParam("message") String messageString){
-        Message message = new Message(new JSONObject(messageString));
-
-        Set<ConstraintViolation<Message>> violations = Validation.buildDefaultValidatorFactory().getValidator().validate(message);
-        if(!violations.isEmpty())
-            return new ErrorEvent(violations.toString()).toString();
-
-        Session session = PersistenceConfig.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try{
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(message);
-            transaction.commit();
-
-            log.info("{}: MESSAGE: New message added: {}", user.getUsername(), messageString);
-        } catch (RuntimeException e) {
-            if(transaction != null)
-                transaction.rollback();
-            throw e;
-        } finally {
-            session.close();
-        }
-
-        return new ActionCompleteEvent(message.getId(), "message", "add").toString();
-    }
-
     @PUT
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/json")
-    @RolesAllowed({Permission.USER, Permission.ADMIN})
+    @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String editMessage(@Context HttpServletRequest req, @Context User user, @FormParam("message") String messageString){
         Message message = new Message(new JSONObject(messageString));
 
@@ -201,6 +224,6 @@ public class MessageServlet {
             session.close();
         }
 
-        return new MessageSavedEvent(message.getId(), message.getTimeSent()).toString();
+        return new MessageSavedEvent(message).toString();
     }
 }

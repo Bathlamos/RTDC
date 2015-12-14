@@ -1,33 +1,54 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.android.presenter.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.*;
 import android.widget.*;
-import org.linphone.core.LinphoneCall;
-import org.linphone.core.LinphoneChatMessage;
 import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidVoipController;
-import rtdc.android.voip.LiblinphoneThread;
-import rtdc.android.voip.VoipListener;
-import rtdc.core.Session;
+import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.core.Config;
-import rtdc.core.controller.CommunicationHubController;
+import rtdc.core.controller.MessagesController;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchMessagesEvent;
-import rtdc.core.event.MessageSavedEvent;
+import rtdc.core.impl.voip.*;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
+import rtdc.core.util.Cache;
 import rtdc.core.view.CommunicationHubView;
 
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CommunicationHubFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler, VoipListener{
+public class MessagesFragment extends AbstractFragment implements CommunicationHubView, FetchMessagesEvent.Handler, VoIPListener {
 
     private ArrayAdapter<Message> recentContactsAdapter;
     private ArrayAdapter<Message> messagesAdapter;
@@ -35,7 +56,8 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     private ArrayList<Message> recentContacts = new ArrayList<Message>();
     private ArrayList<Message> messages = new ArrayList<Message>();
     private ArrayList<User> contacts = new ArrayList<User>();
-    private CommunicationHubController controller;
+    private AdapterView messageListView;
+    private MessagesController controller;
     private int selectedRecentContactIndex;
     private User messagingUser;
     private boolean loadingMessages;
@@ -47,8 +69,9 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_communication_hub, container, false);
         final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
-        final AdapterView messageListView = (AdapterView) view.findViewById(R.id.messageListView);
+        messageListView = (AdapterView) view.findViewById(R.id.messageListView);
         contactsAutoComplete = (AutoCompleteTextView) view.findViewById(R.id.contactsAutoComplete);
+        final User sessionUser = (User) Cache.getInstance().get("sessionUser");
 
         // Setup message send button
         view.findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
@@ -58,28 +81,11 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
                     return;
 
                 final Message message = new Message();
-                message.setSender(Session.getCurrentSession().getUser());
+                message.setSender(sessionUser);
                 message.setReceiver(messagingUser);
                 message.setStatus(Message.Status.sent);
                 message.setTimeSent(new Date());
                 message.setContent(((TextView) view.findViewById(R.id.messageEditText)).getText().toString());
-
-                // We need to wait until the server gives the message an id and a universal time before we can send it
-                MessageSavedEvent.Handler messageSentHandler = new MessageSavedEvent.Handler() {
-                    @Override
-                    public void onMessageSaved(MessageSavedEvent event) {
-                        Event.unsubscribe(MessageSavedEvent.TYPE, this);
-                        message.setId(event.getMessageId());
-                        message.setTimeSent(event.getTimeSent()); // Override the time with the time of the server (to keep it universal)
-                        AndroidVoipController.get().sendMessage(message);
-                        addMessage(message);
-
-                        // Force the message list view to go to the bottom
-                        messageListView.setSelection(messageListView.getCount() - 1);
-                    }
-                };
-                Event.subscribe(MessageSavedEvent.TYPE, messageSentHandler);
-
                 Service.saveOrUpdateMessage(message);
 
                 ((TextView) view.findViewById(R.id.messageEditText)).setText("");
@@ -90,7 +96,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         view.findViewById(R.id.audioCallButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                Logger.getLogger(MessagesFragment.class.getName()).log(Level.INFO, "Calling " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
                 AndroidVoipController.get().call(messagingUser, false);
             }
         });
@@ -99,7 +105,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         view.findViewById(R.id.videoCallButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
+                Logger.getLogger(MessagesFragment.class.getName()).log(Level.INFO, "Calling with video " + messagingUser.getFirstName() + " " + messagingUser.getLastName());
                 AndroidVoipController.get().call(messagingUser, true);
             }
         });
@@ -139,8 +145,8 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
                 // the top of the listview and we have the minimum amount of messages that are being displayed
                 if(!loadingMessages && messagingUser != null && totalItemCount > 0 && view.getChildAt(0).getTop() == 0 && controller.getMessages().size() >= controller.FETCHING_SIZE){
                     loadingMessages = true;
-                    Logger.getLogger(CommunicationHubFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
-                    Service.getMessages(messagingUser.getId(), Session.getCurrentSession().getUser().getId(), controller.getMessages().size()-1, controller.FETCHING_SIZE);
+                    Logger.getLogger(MessagesFragment.class.getName()).log(Level.INFO, "Fetching more messages for the conversation...");
+                    Service.getMessages(messagingUser.getId(), sessionUser.getId(), controller.getMessages().size()-1, controller.FETCHING_SIZE);
                 }
             }
         });
@@ -149,12 +155,12 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
         messageListView.setAdapter(messagesAdapter);
 
         if (controller == null)
-            controller = new CommunicationHubController(this);
+            controller = new MessagesController(this);
 
         setHasOptionsMenu(true);
 
         Event.subscribe(FetchMessagesEvent.TYPE, this);
-        LiblinphoneThread.get().addVoipListener(this);
+        AndroidVoIPThread.getInstance().addVoIPListener(this);
 
         return view;
     }
@@ -210,7 +216,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
 
         // If we're the receiver and the status of some messages isn't read, we need to notify the server that we now have read them
         for(Message message: messages){
-            if(message.getReceiverID() == Session.getCurrentSession().getUser().getId() && message.getStatus() != Message.Status.read) {
+            if(message.getReceiverID() == ((User) Cache.getInstance().get("sessionUser")).getId() && message.getStatus() != Message.Status.read) {
                 message.setStatus(Message.Status.read);
                 Service.saveOrUpdateMessage(message);
                 recentContacts.get(selectedRecentContactIndex).setStatus(Message.Status.read);
@@ -318,6 +324,8 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     }
 
     public void addMessage(final Message message){
+        AndroidVoipController.get().sendMessage(message);
+
         message.setStatus(Message.Status.read);
         List<Message> convertedMessages = convertMessage(message);
         if(convertedMessages != null){
@@ -339,7 +347,7 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
                 final AdapterView recentContactsListView = (AdapterView) view.findViewById(R.id.recentContactsListView);
                 for(Iterator<Message> iterator = recentContacts.iterator(); iterator.hasNext();){
                     Message contact = iterator.next();
-                    User otherContact = contact.getSender().getId() != Session.getCurrentSession().getUser().getId() ? contact.getSender(): contact.getReceiver();
+                    User otherContact = contact.getSender().getId() !=  ((User) Cache.getInstance().get("sessionUser")).getId() ? contact.getSender(): contact.getReceiver();
                     if(otherContact.getId() == message.getReceiverID()){
                         iterator.remove();
                     }
@@ -350,6 +358,9 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
                 recentContactsAdapter.notifyDataSetChanged();
             }
         });
+
+        // Force the message list view to go to the bottom
+        messageListView.setSelection(messageListView.getCount() - 1);
     }
 
     public void addMessagesAtStart(final List<Message> messages){
@@ -410,22 +421,20 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        controller.onStop();
-        LiblinphoneThread.get().removeVoipListener(this);
-    }
-
-    @Override
     public void onMessagesFetched(FetchMessagesEvent event) {
         contactsAutoComplete.setVisibility(View.GONE);
         view.findViewById(R.id.conversationLayout).setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onMessageReceived(LinphoneChatMessage chatMessage) {
-        if(!chatMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
-            JSONObject object = new JSONObject(chatMessage.getText());
+    public void callState(VoIPManager voIPManager, Call call, Call.State state, String message) {
+
+    }
+
+    @Override
+    public void messageReceived(VoIPManager voIPManager, TextGroup textGroup, TextMessage textMessage) {
+        if(!textMessage.getText().startsWith(Config.COMMAND_EXEC_KEY + "Video: ")){
+            JSONObject object = new JSONObject(textMessage.getText());
             Message message = new Message(object);
             if(messagingUser.getId() == message.getSenderID()) {
                 message.setStatus(Message.Status.read);
@@ -439,7 +448,10 @@ public class CommunicationHubFragment extends AbstractFragment implements Commun
     }
 
     @Override
-    public void onCallStateChanged(LinphoneCall call, LinphoneCall.State state) {
-
+    public void onStop() {
+        super.onStop();
+        controller.onStop();
+        AndroidVoIPThread.getInstance().removeVoIPListener(this);
+        Event.unsubscribe(FetchMessagesEvent.TYPE, this);
     }
 }

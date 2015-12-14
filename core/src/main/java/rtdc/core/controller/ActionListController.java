@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.core.controller;
 
 import rtdc.core.Bootstrapper;
@@ -55,14 +79,14 @@ public class ActionListController extends Controller<ActionListView> implements 
 
     // Update edited action when returning from CreateActionActivity
     public void updateActions(){
-        Pair<String, Action> pair = (Pair<String, Action>) Cache.getInstance().retrieve("action");
+        Pair<String, Action> pair = (Pair<String, Action>) Cache.getInstance().remove("action");
         if(pair != null) {
             String action = pair.getFirst();
             Action updatedAction = pair.getSecond();
-            if(action == "add") {
+            if(action.equals("add")) {
                 actions.add(updatedAction);
                 sortActions(Action.Properties.task);
-            } else if(action == "edit") {
+            } else if(action.equals("edit")) {
                 int actionID = updatedAction.getId();
                 int actionCount = actions.size();
                 for (int i = 0; i < actionCount; i++) {

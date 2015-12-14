@@ -1,3 +1,27 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 Olivier Clermont, Jonathan Ermel, Mathieu Fortin-Boulay, Philippe Legault & Nicolas Ménard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package rtdc.web.test;
 
 import org.junit.Assert;
@@ -221,21 +245,28 @@ public class ServiceTest {
         JSONArray unitJsonArray = unitsJSON.getJSONArray("units");
 
         // Action
-        Unit unit = new Unit(unitJsonArray.getJSONObject(0));
+        Unit unit = new Unit(unitJsonArray.getJSONObject(3));
         unit.setName("Modified name");
+        unit.setTotalBeds(50);
         JSONObject result = executeSyncRequest("units", "unit=" + unit.toString(), "PUT", authToken);
 
         Unit savedUnit = getSingleUnit(authToken, unit.getId());
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
-        Assert.assertEquals(result.get("objectId"), unit.getId());
-        Assert.assertEquals(result.get("action"), "update");
-        Assert.assertEquals(result.get("objectType"), "unit");
+        Assert.assertEquals(unit.getId(), result.get("objectId"));
+        Assert.assertEquals("update",result.get("action"));
+        Assert.assertEquals("unit", result.get("objectType"));
 
         Assert.assertNotNull(savedUnit);
-        Assert.assertEquals(savedUnit.getName(), unit.getName());
-        Assert.assertEquals(savedUnit.getAvailableBeds(), unit.getAvailableBeds());
+        Assert.assertEquals(unit.getName(), savedUnit.getName());
+        Assert.assertEquals(unit.getAdmitsByDeadline(), savedUnit.getAdmitsByDeadline());
+        Assert.assertEquals(unit.getAvailableBeds(), savedUnit.getAvailableBeds());
+        Assert.assertEquals(unit.getDcByDeadline(), savedUnit.getDcByDeadline());
+        Assert.assertEquals(unit.getPotentialDc(), savedUnit.getPotentialDc());
+        Assert.assertEquals(unit.getStatusAtDeadline(), savedUnit.getStatusAtDeadline());
+        Assert.assertEquals(unit.getTotalAdmits(), savedUnit.getTotalAdmits());
+        Assert.assertEquals(unit.getTotalBeds(), savedUnit.getTotalBeds());
     }
 
     @Test
