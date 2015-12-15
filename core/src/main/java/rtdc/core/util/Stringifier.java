@@ -24,6 +24,16 @@
 
 package rtdc.core.util;
 
+/**
+ * Used to get a String representation for arbitrary objects.
+ * Particularly useful when displaying models in the user interface
+ * @param <T> The type of data to translate to String
+ */
 public interface Stringifier<T> {
+
+    /**
+     * @param object An instance to transform to String
+     * @return The String representation of the object
+     */
     String toString(T object);
 }

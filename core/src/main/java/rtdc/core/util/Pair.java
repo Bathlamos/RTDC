@@ -24,6 +24,12 @@
 
 package rtdc.core.util;
 
+/**
+ * Yet another Pair object. We really should get rid of it
+ * @param <F> Type of the first object
+ * @param <S> Type of the second object
+ */
+@Deprecated
 public class Pair<F, S> {
     private F first;
     private S second;
