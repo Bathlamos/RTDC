@@ -3,8 +3,12 @@ package rtdc.core.i18n;
 import java.io.*;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class BundleInterfaceCreator{
+
+    private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 
     public static void main(String[] args) throws IOException {
 
@@ -20,10 +24,21 @@ class BundleInterfaceCreator{
 
         for(Map.Entry<String, String> e: map.entrySet()) {
             sb.append("\t/**\n\t * ");
-            sb.append(e.getValue());
+            String value = e.getValue();
+            sb.append(value);
             sb.append("\n\t */\n\tString ");
             sb.append(e.getKey());
-            sb.append("();\n\n");
+            sb.append("(");
+            Matcher m = PATTERN.matcher(value);
+            if(m.find()) {
+                sb.append("String ");
+                sb.append(m.group(1));
+            }
+            while(m.find()){
+                sb.append(", String ");
+                sb.append(m.group(1));
+            }
+            sb.append(");\n\n");
         }
 
         sb.append("}");
@@ -57,12 +72,40 @@ class BundleInterfaceCreator{
 
         for(Map.Entry<String, String> e: map.entrySet()) {
             sb.append("\t/**\n\t * ");
-            sb.append(e.getValue());
+            String value = e.getValue();
+            sb.append(value);
             sb.append("\n\t */\n\tpublic String ");
             sb.append(e.getKey());
-            sb.append("() {\n\t\treturn BUNDLE.getString(\"");
-            sb.append(e.getKey());
-            sb.append("\");\n\t}\n\n");
+            sb.append("(");
+            Matcher m = PATTERN.matcher(value);
+            StringBuilder arguments = new StringBuilder();
+            if(m.find()) {
+                sb.append("String ");
+                sb.append(m.group(1));
+                arguments.append(m.group(1));
+            }
+            while(m.find()){
+                sb.append(", String ");
+                sb.append(m.group(1));
+                arguments.append(", ");
+                arguments.append(m.group(1));
+            }
+            sb.append(") {\n");
+
+            if(arguments.toString().isEmpty()) {
+                sb.append("\t\treturn BUNDLE.getString(\"");
+                sb.append(e.getKey());
+                sb.append("\");\n");
+            } else{
+                sb.append("\t\tFORMATTER.applyPattern(BUNDLE.getString(\"");
+                sb.append(e.getKey());
+                sb.append("\"));\n");
+                sb.append("\t\treturn FORMATTER.format(new Object[]{");
+                sb.append(arguments);
+                sb.append("});\n");
+            }
+
+            sb.append("\t}\n\n");
         }
 
         sb.append("}");
