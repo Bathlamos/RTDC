@@ -24,8 +24,10 @@
 
 package rtdc.core.controller;
 
-import rtdc.core.event.*;
-import rtdc.core.i18n.ResBundle;
+import rtdc.core.event.Event;
+import rtdc.core.event.FetchRecentContactsEvent;
+import rtdc.core.event.FetchMessagesEvent;
+import rtdc.core.event.FetchUsersEvent;
 import rtdc.core.model.Message;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class MessagesController extends Controller<CommunicationHubView> implements FetchRecentContactsEvent.Handler, FetchMessagesEvent.Handler,  MessageSavedEvent.Handler, FetchUsersEvent.Handler {
+public class MessagesController extends Controller<CommunicationHubView> implements FetchRecentContactsEvent.Handler, FetchMessagesEvent.Handler, FetchUsersEvent.Handler {
 
     private ArrayList<Message> recentContacts;
     private ArrayList<Message> messages;
@@ -49,16 +51,14 @@ public class MessagesController extends Controller<CommunicationHubView> impleme
         super(view);
         Event.subscribe(FetchRecentContactsEvent.TYPE, this);
         Event.subscribe(FetchMessagesEvent.TYPE, this);
-        Event.subscribe(MessageSavedEvent.TYPE, this);
         Event.subscribe(FetchUsersEvent.TYPE, this);
-
         Service.getRecentContacts(((User) Cache.getInstance().get("sessionUser")).getId());
         Service.getUsers();
     }
 
     @Override
     String getTitle() {
-        return ResBundle.get().messagesTitle();
+        return "Messages";
     }
 
     public void sortRecentContacts(Message.Properties property){
@@ -108,20 +108,13 @@ public class MessagesController extends Controller<CommunicationHubView> impleme
     }
 
     @Override
-    public void onMessageSaved(MessageSavedEvent event) {
-        view.addMessage(event.getMessage());
-    }
-
-    public ArrayList<Message> getMessages(){
-        return messages;
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         Event.unsubscribe(FetchRecentContactsEvent.TYPE, this);
         Event.unsubscribe(FetchMessagesEvent.TYPE, this);
-        Event.unsubscribe(MessageSavedEvent.TYPE, this);
-        Event.unsubscribe(FetchUsersEvent.TYPE, this);
+    }
+
+    public ArrayList<Message> getMessages(){
+        return messages;
     }
 }
