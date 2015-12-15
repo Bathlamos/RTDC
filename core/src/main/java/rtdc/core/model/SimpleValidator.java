@@ -72,7 +72,7 @@ public class SimpleValidator {
 
         final int minLength = 6;
         if(value.length() < minLength)
-            throw new ValidationException(ResBundle.get().usernameToShort());
+            throw new ValidationException(ResBundle.get().usernameToShort(String.valueOf(minLength)));
         else if(!value.matches("(\\w|\\-)+"))
             throw new ValidationException(ResBundle.get().usernameAsIllegalCharacters());
         return true;
@@ -83,7 +83,7 @@ public class SimpleValidator {
 
         final int minLength = 8;
         if(value.length() < minLength)
-            throw new ValidationException(ResBundle.get().passwordToShort());
+            throw new ValidationException(ResBundle.get().passwordToShort(String.valueOf(minLength)));
         else if(!value.matches("^(?=.*[0-9])(?=.*[A-Za-z]).+$"))
             throw new ValidationException(ResBundle.get().passwordAsIllegalCharacters());
         return true;

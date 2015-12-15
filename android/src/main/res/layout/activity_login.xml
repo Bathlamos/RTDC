@@ -51,7 +51,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:text="@string/action_sign_in"
+                            android:text="@string/title_activity_login"
                             android:id="@+id/textView" android:paddingBottom="12dp"/>
 
                     <TextView

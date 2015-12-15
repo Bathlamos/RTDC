@@ -119,12 +119,12 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
 
                 if (initialTotalBedsValue != -1 && Integer.parseInt(totalBedsEdit.getValue()) != initialTotalBedsValue) {
                     new AlertDialog.Builder(this)
-                            .setTitle("Confirm")
-                            .setMessage("Changing number of total beds will reset all other quantities. Are you sure?")
+                            .setTitle(ResBundle.get().confirm())
+                            .setMessage(ResBundle.get().totalBedsWarning())
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     controller.addUnit();
-                                    Toast.makeText(CreateUnitActivity.this, "Unit Modified", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CreateUnitActivity.this, ResBundle.get().unitModified(), Toast.LENGTH_SHORT).show();
                                 }})
                             .setNegativeButton(android.R.string.no, null).show();
                     return true;
@@ -136,12 +136,12 @@ public class CreateUnitActivity extends AbstractDialog implements AddUnitView{
                 return true;
             case R.id.action_discard_unit:
                 new AlertDialog.Builder(this)
-                    .setTitle("Confirm")
-                    .setMessage("Delete current unit?")
+                    .setTitle(ResBundle.get().confirm())
+                    .setMessage(ResBundle.get().deleteUnitConfirmation())
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             controller.deleteUnit();
-                            Toast.makeText(CreateUnitActivity.this, "Unit Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreateUnitActivity.this, ResBundle.get().unitDeleted(), Toast.LENGTH_SHORT).show();
                         }})
                     .setNegativeButton(android.R.string.no, null).show();
                 return true;

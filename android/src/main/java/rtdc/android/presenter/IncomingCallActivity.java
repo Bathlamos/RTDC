@@ -33,6 +33,7 @@ import rtdc.android.impl.AndroidVoipController;
 import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.core.Bootstrapper;
 import rtdc.core.config.Conf;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.voip.*;
 
 public class IncomingCallActivity extends AbstractActivity implements VoIPListener {
@@ -45,7 +46,7 @@ public class IncomingCallActivity extends AbstractActivity implements VoIPListen
         ((TextView) findViewById(R.id.callerText)).setText(AndroidVoIPThread.getInstance().getCall().getFrom().getDisplayName());
 
         if(AndroidVoipController.get().isReceivingRemoteVideo())
-            ((TextView) findViewById(R.id.incomingCallText)).setText("Incoming video call");
+            ((TextView) findViewById(R.id.incomingCallText)).setText(ResBundle.get().incomingVideoCall());
 
         findViewById(R.id.acceptCall).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,9 +111,9 @@ public class IncomingCallActivity extends AbstractActivity implements VoIPListen
                 @Override
                 public void run() {
                     if(video){
-                        ((TextView)findViewById(R.id.incomingCallText)).setText("Incoming video call");
+                        ((TextView)findViewById(R.id.incomingCallText)).setText(ResBundle.get().incomingVideoCall());
                     }else{
-                        ((TextView)findViewById(R.id.incomingCallText)).setText("Incoming call");
+                        ((TextView)findViewById(R.id.incomingCallText)).setText(ResBundle.get().incomingAudioCall());
                     }
                 }
             });

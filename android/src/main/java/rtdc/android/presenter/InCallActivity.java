@@ -43,6 +43,7 @@ import rtdc.android.presenter.fragments.AudioCallFragment;
 import rtdc.android.presenter.fragments.VideoCallFragment;
 import rtdc.core.Bootstrapper;
 import rtdc.core.config.Conf;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.voip.*;
 
 import java.util.concurrent.Callable;
@@ -90,8 +91,8 @@ public class InCallActivity extends AbstractActivity implements View.OnClickList
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_phone_white_24dp)
-                        .setContentTitle("RTDC")
-                        .setContentText("In call with " + AndroidVoIPThread.getInstance().getCall().getFrom().getDisplayName());
+                        .setContentTitle(ResBundle.get().rtdcTitle())
+                        .setContentText(ResBundle.get().inCallWith(AndroidVoIPThread.getInstance().getCall().getFrom().getDisplayName()));
         PendingIntent inCallPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(inCallPendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -159,7 +160,7 @@ public class InCallActivity extends AbstractActivity implements View.OnClickList
             public void run() {
                 if(display) {
                     callFragment.getView().findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-                    ((TextView)callFragment.getView().findViewById(R.id.callStatus)).setText("Paused");
+                    ((TextView)callFragment.getView().findViewById(R.id.callStatus)).setText(ResBundle.get().paused());
                 }else {
                     callFragment.getView().findViewById(R.id.callStatus).setVisibility(View.INVISIBLE);
                 }

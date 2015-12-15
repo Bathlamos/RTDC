@@ -37,6 +37,7 @@ import rtdc.android.R;
 import rtdc.android.presenter.CreateActionActivity;
 import rtdc.android.presenter.MainActivity;
 import rtdc.core.controller.ActionListController;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.Action;
 import rtdc.core.util.Cache;
 import rtdc.core.view.ActionListView;
@@ -165,12 +166,12 @@ public class ActionPlanFragment extends AbstractFragment implements ActionListVi
                         public void onClick(View v) {
                             dialog.dismiss();
                             new AlertDialog.Builder(getContext())
-                                    .setTitle("Confirm")
-                                    .setMessage("Are you sure you want to delete this action?")
+                                    .setTitle(ResBundle.get().confirm())
+                                    .setMessage(ResBundle.get().deleteActionConfirmation())
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                             controller.deleteAction(currentAction);
-                                            Toast.makeText(getContext(), "Action Deleted", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), ResBundle.get().actionDeleted(), Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .setNegativeButton(android.R.string.no, null).show();

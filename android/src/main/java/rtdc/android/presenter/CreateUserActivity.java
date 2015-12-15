@@ -198,12 +198,12 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
                return true;
            case R.id.action_discard_user:
                new AlertDialog.Builder(this)
-                   .setTitle("Confirm")
-                   .setMessage("Delete current user?")
+                   .setTitle(ResBundle.get().confirm())
+                   .setMessage(ResBundle.get().deleteUserConfirmation())
                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                        public void onClick(DialogInterface dialog, int whichButton) {
                            controller.deleteUser();
-                           Toast.makeText(CreateUserActivity.this, "User Deleted", Toast.LENGTH_SHORT).show();
+                           Toast.makeText(CreateUserActivity.this, ResBundle.get().userDeleted(), Toast.LENGTH_SHORT).show();
                        }})
                    .setNegativeButton(android.R.string.no, null).show();
                return true;

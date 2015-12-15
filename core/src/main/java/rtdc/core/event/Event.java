@@ -25,6 +25,7 @@
 package rtdc.core.event;
 
 import com.google.common.collect.ImmutableSet;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.RootObject;
 
@@ -38,7 +39,7 @@ public abstract class Event<T extends EventHandler> extends RootObject {
     public static void fire(JSONObject object){
         String type = object.optString("_type");
         if(type == null)
-            new ErrorEvent("Message type not recognized " + object.toString()).fire();
+            new ErrorEvent(ResBundle.get().unknownMessageType(object.toString())).fire();
         else{
             Event e = null;
             if(type.equalsIgnoreCase(AuthenticationEvent.TYPE.getName()))
@@ -69,7 +70,7 @@ public abstract class Event<T extends EventHandler> extends RootObject {
             if( e != null)
                 e.fire();
             else
-                throw new RuntimeException("Event has not been registred under Event.java/fire: " + object.toString());
+                throw new RuntimeException(ResBundle.get().unregisteredEvent(object.toString()));
         }
     }
 

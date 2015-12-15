@@ -27,6 +27,7 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchActionsEvent;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.Action;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.service.Service;
@@ -48,7 +49,7 @@ public class ActionListController extends Controller<ActionListView> implements 
 
     @Override
     String getTitle() {
-        return "Action Plan";
+        return ResBundle.get().actionPlanTitle();
     }
 
     public void sortActions(Action.Properties property){

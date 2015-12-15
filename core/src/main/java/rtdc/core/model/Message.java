@@ -24,6 +24,7 @@
 
 package rtdc.core.model;
 
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.json.JSONObject;
 import rtdc.core.util.Stringifier;
 
@@ -52,9 +53,9 @@ public class Message extends RootObject {
                 @Override
                 public String toString(Status status) {
                     switch(status){
-                        case sent: return "Sent";
-                        case delivered: return "Delivered";
-                        case read: return "Read";
+                        case sent: return ResBundle.get().sent();
+                        case delivered: return ResBundle.get().delivered();
+                        case read: return ResBundle.get().read();
                         default: return status.name();
                     }
                 }

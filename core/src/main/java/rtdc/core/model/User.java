@@ -24,6 +24,7 @@
 
 package rtdc.core.model;
 
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.json.JSONObject;
 import rtdc.core.util.Stringifier;
 
@@ -52,10 +53,10 @@ public class User extends RootObject {
                 @Override
                 public String toString(Role role) {
                     switch(role){
-                        case ADMIN: return "Administrator";
-                        case NURSE: return "Nurse";
-                        case STAKEHOLDER: return "Stakeholder";
-                        case UNIT_MANAGER: return "Unit Manager";
+                        case ADMIN: return ResBundle.get().administrator();
+                        case NURSE: return ResBundle.get().nurse();
+                        case STAKEHOLDER: return ResBundle.get().stakeHolder();
+                        case UNIT_MANAGER: return ResBundle.get().unitManager();
                         default: return role.name();
                     }
                 }
@@ -73,9 +74,9 @@ public class User extends RootObject {
                 @Override
                 public String toString(Permission permission) {
                     switch(permission){
-                        case ADMIN: return "Admin";
-                        case MANAGER: return "Manager";
-                        case USER: return "User";
+                        case ADMIN: return ResBundle.get().admin();
+                        case MANAGER: return ResBundle.get().manager();
+                        case USER: return ResBundle.get().user();
                         default: return permission.name();
                     }
                 }

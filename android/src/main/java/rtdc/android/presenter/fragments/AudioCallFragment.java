@@ -33,6 +33,7 @@ import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.core.Bootstrapper;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.voip.Call;
 
 import java.util.concurrent.Future;
@@ -65,12 +66,12 @@ public class AudioCallFragment extends AbstractCallFragment{
         if(AndroidVoIPThread.getInstance().getRemoteAddress() != null)
             ((TextView) view.findViewById(R.id.callerText)).setText(AndroidVoIPThread.getInstance().getRemoteAddress().getDisplayName());
         else
-            ((TextView) view.findViewById(R.id.callerText)).setText("Unknown");
+            ((TextView) view.findViewById(R.id.callerText)).setText(ResBundle.get().unknownCaller());
 
         if(AndroidVoIPThread.getInstance().getCall().getState() == Call.State.outgoingProgress) {
             // Display a ringing message
 
-            ((TextView) view.findViewById(R.id.callStatus)).setText("Ringing");
+            ((TextView) view.findViewById(R.id.callStatus)).setText(ResBundle.get().ringing());
             final TextView ringingDots = ((TextView) view.findViewById(R.id.ringingDots));
             ringingDots.setVisibility(View.VISIBLE);
             ringingTask = inCallActivity.getExecutor().scheduleWithFixedDelay(new Runnable(){
@@ -150,7 +151,7 @@ public class AudioCallFragment extends AbstractCallFragment{
         inCallActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((TextView) view.findViewById(R.id.callStatus)).setText("Call ended");
+                ((TextView) view.findViewById(R.id.callStatus)).setText(ResBundle.get().callEndedTitle());
             }
         });
     }

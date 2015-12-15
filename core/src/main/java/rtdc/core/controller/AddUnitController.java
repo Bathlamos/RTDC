@@ -27,6 +27,7 @@ package rtdc.core.controller;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.exception.ValidationException;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
@@ -45,7 +46,7 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
 
         currentUnit = (Unit) Cache.getInstance().remove("unit");
         if (currentUnit != null) {
-            view.setTitle("Edit Unit");
+            view.setTitle(ResBundle.get().editUnitTitle());
             view.getNameUiElement().setValue(currentUnit.getName());
             view.getTotalBedsUiElement().setValue(Integer.toString(currentUnit.getTotalBeds()));
         } else {
@@ -55,7 +56,7 @@ public class AddUnitController extends Controller<AddUnitView> implements Action
 
     @Override
     String getTitle() {
-        return "Add unit";
+        return ResBundle.get().addUnitTitle();
     }
 
     public void addUnit() {
