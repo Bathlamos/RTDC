@@ -48,14 +48,14 @@ public class ApiConfig extends ResourceConfig {
 
     public ApiConfig(@Context ServletContext servletContext){
 
-        final String outerPath = servletContext.getRealPath("WEB-INF" + File.separator + "classes" + File.separator);
+        final String outerPath = servletContext.getRealPath("");
 
         System.out.println(outerPath);
 
         JavaIOConfig.setReader(new Reader() {
             @Override
             public InputStream getContent(String path) throws IOException {
-                return new FileInputStream(outerPath + path);
+                return new FileInputStream(outerPath + File.separator + "WEB-INF" + File.separator + "classes" + File.separator + path);
             }
         });
 
