@@ -100,7 +100,7 @@ public class SimpleValidator {
         isNotEmpty(value);
 
         if(!value.matches("([A-Za-z\\s]|\\-)+"))
-            throw new ValidationException(MessageBundle.getBundle(Locale.ENGLISH).getString("invalidName"));
+            throw new ValidationException(ResBundle.get().invalidName());
         return true;
     }
 

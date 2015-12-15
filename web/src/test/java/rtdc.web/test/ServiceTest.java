@@ -34,6 +34,7 @@ import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
 import rtdc.core.model.Message;
 import rtdc.core.model.Unit;
+import rtdc.core.model.User;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -438,7 +439,7 @@ public class ServiceTest {
         Unit unit = getSingleUnit(authToken, 1);
         testUser.setUnit(unit);
         testUser.setPermission(User.Permission.ADMIN);
-        testUser.setRole(User.Role.administrator);
+        testUser.setRole(User.Role.ADMIN);
 
         // Action
         JSONObject result = executeSyncRequest("users/add", "user=" + testUser.toString() + "&password=" + TEST_PASSWORD + "123", "POST", authToken);
