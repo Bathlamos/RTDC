@@ -15,6 +15,8 @@ class JavaIOResBundle implements ResBundleInterface {
 
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("rtdc.core.i18n.Bundle");
 
+    private static final MessageFormat FORMATTER = new MessageFormat("");
+
     static {
         LOGGER.info("Finished loading Bundle.properties");
     }
@@ -71,12 +73,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Call ended, duration {duration}
+	 * Call ended, duration {0}
 	 */
-	public String callEndedMessage(String duration) {
-		String string = BUNDLE.getString("callEndedMessage"); 
-		if(duration != null) string = string.replace("{duration}", duration); 
-		return string; 
+	public String callEndedMessage(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("callEndedMessage"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -171,12 +172,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Edit Capacity - {capacityName}
+	 * Edit Capacity - {0}
 	 */
-	public String editCapacityOfUnitTitle(String capacityName) {
-		String string = BUNDLE.getString("editCapacityOfUnitTitle"); 
-		if(capacityName != null) string = string.replace("{capacityName}", capacityName); 
-		return string; 
+	public String editCapacityOfUnitTitle(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("editCapacityOfUnitTitle"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -201,13 +201,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Error code {errorCode} {errorMessage}
+	 * Error code {0} {1}
 	 */
-	public String errorCode(String errorCode, String errorMessage) {
-		String string = BUNDLE.getString("errorCode"); 
-		if(errorCode != null) string = string.replace("{errorCode}", errorCode); 
-		if(errorMessage != null) string = string.replace("{errorMessage}", errorMessage); 
-		return string; 
+	public String errorCode(String arg0, String arg1) {
+		FORMATTER.applyPattern(BUNDLE.getString("errorCode"));
+		return FORMATTER.format(new Object[]{arg0, arg1});
 	}
 
 	/**
@@ -218,12 +216,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Unrecognized output from server: {output}
+	 * Unrecognized output from server: {0}
 	 */
-	public String errorUnrecognized(String output) {
-		String string = BUNDLE.getString("errorUnrecognized"); 
-		if(output != null) string = string.replace("{output}", output); 
-		return string; 
+	public String errorUnrecognized(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("errorUnrecognized"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -241,12 +238,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * In call with {caller}
+	 * In call with {0}
 	 */
-	public String inCallWith(String caller) {
-		String string = BUNDLE.getString("inCallWith"); 
-		if(caller != null) string = string.replace("{caller}", caller); 
-		return string; 
+	public String inCallWith(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("inCallWith"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -397,12 +393,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Message from {user}
+	 * Message from {0}
 	 */
-	public String messageFrom(String user) {
-		String string = BUNDLE.getString("messageFrom"); 
-		if(user != null) string = string.replace("{user}", user); 
-		return string; 
+	public String messageFrom(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("messageFrom"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -413,12 +408,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Missed call from {caller}
+	 * Missed call from {0}
 	 */
-	public String missedCallFrom(String caller) {
-		String string = BUNDLE.getString("missedCallFrom"); 
-		if(caller != null) string = string.replace("{caller}", caller); 
-		return string; 
+	public String missedCallFrom(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("missedCallFrom"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -436,12 +430,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Network error {errorMessage}
+	 * Network error {0}
 	 */
-	public String networkError(String errorMessage) {
-		String string = BUNDLE.getString("networkError"); 
-		if(errorMessage != null) string = string.replace("{errorMessage}", errorMessage); 
-		return string; 
+	public String networkError(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("networkError"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -487,12 +480,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Password must be minimum {minLength} characters long
+	 * Password must be minimum {0} characters long
 	 */
-	public String passwordToShort(String minLength) {
-		String string = BUNDLE.getString("passwordToShort"); 
-		if(minLength != null) string = string.replace("{minLength}", minLength); 
-		return string; 
+	public String passwordToShort(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("passwordToShort"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -566,12 +558,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Total number of beds: {numBeds}
+	 * Total number of beds: {0}
 	 */
-	public String totalNumberOfBeds(String numBeds) {
-		String string = BUNDLE.getString("totalNumberOfBeds"); 
-		if(numBeds != null) string = string.replace("{numBeds}", numBeds); 
-		return string; 
+	public String totalNumberOfBeds(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("totalNumberOfBeds"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -610,21 +601,19 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Message type not recognized: {type}
+	 * Message type not recognized: {0}
 	 */
-	public String unknownMessageType(String type) {
-		String string = BUNDLE.getString("unknownMessageType"); 
-		if(type != null) string = string.replace("{type}", type); 
-		return string; 
+	public String unknownMessageType(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("unknownMessageType"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
-	 * Event has not been registered under Event.java/fire: {eventType}
+	 * Event has not been registered under Event.java/fire: {0}
 	 */
-	public String unregisteredEvent(String eventType) {
-		String string = BUNDLE.getString("unregisteredEvent"); 
-		if(eventType != null) string = string.replace("{eventType}", eventType); 
-		return string; 
+	public String unregisteredEvent(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("unregisteredEvent"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**
@@ -656,12 +645,11 @@ class JavaIOResBundle implements ResBundleInterface {
 	}
 
 	/**
-	 * Username must be minimum {minLength} characters long
+	 * Username must be minimum {0} characters long
 	 */
-	public String usernameToShort(String minLength) {
-		String string = BUNDLE.getString("usernameToShort"); 
-		if(minLength != null) string = string.replace("{minLength}", minLength); 
-		return string; 
+	public String usernameToShort(String arg0) {
+		FORMATTER.applyPattern(BUNDLE.getString("usernameToShort"));
+		return FORMATTER.format(new Object[]{arg0});
 	}
 
 	/**

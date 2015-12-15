@@ -38,9 +38,9 @@ public interface ResBundleInterface {
 	String administrator();
 
 	/**
-	 * Call ended, duration {duration}
+	 * Call ended, duration {0}
 	 */
-	String callEndedMessage(String duration);
+	String callEndedMessage(String arg0);
 
 	/**
 	 * Call ended
@@ -108,9 +108,9 @@ public interface ResBundleInterface {
 	String editActionTitle();
 
 	/**
-	 * Edit Capacity - {capacityName}
+	 * Edit Capacity - {0}
 	 */
-	String editCapacityOfUnitTitle(String capacityName);
+	String editCapacityOfUnitTitle(String arg0);
 
 	/**
 	 * Edit Capacity
@@ -128,9 +128,9 @@ public interface ResBundleInterface {
 	String editUserTitle();
 
 	/**
-	 * Error code {errorCode} {errorMessage}
+	 * Error code {0} {1}
 	 */
-	String errorCode(String errorCode, String errorMessage);
+	String errorCode(String arg0, String arg1);
 
 	/**
 	 * Error
@@ -138,9 +138,9 @@ public interface ResBundleInterface {
 	String errorGeneral();
 
 	/**
-	 * Unrecognized output from server: {output}
+	 * Unrecognized output from server: {0}
 	 */
-	String errorUnrecognized(String output);
+	String errorUnrecognized(String arg0);
 
 	/**
 	 * Failed
@@ -153,9 +153,9 @@ public interface ResBundleInterface {
 	String hold();
 
 	/**
-	 * In call with {caller}
+	 * In call with {0}
 	 */
-	String inCallWith(String caller);
+	String inCallWith(String arg0);
 
 	/**
 	 * In progress
@@ -263,9 +263,9 @@ public interface ResBundleInterface {
 	String me();
 
 	/**
-	 * Message from {user}
+	 * Message from {0}
 	 */
-	String messageFrom(String user);
+	String messageFrom(String arg0);
 
 	/**
 	 * Messages
@@ -273,9 +273,9 @@ public interface ResBundleInterface {
 	String messagesTitle();
 
 	/**
-	 * Missed call from {caller}
+	 * Missed call from {0}
 	 */
-	String missedCallFrom(String caller);
+	String missedCallFrom(String arg0);
 
 	/**
 	 * Missed call
@@ -288,9 +288,9 @@ public interface ResBundleInterface {
 	String missedCallUnanswered();
 
 	/**
-	 * Network error {errorMessage}
+	 * Network error {0}
 	 */
-	String networkError(String errorMessage);
+	String networkError(String arg0);
 
 	/**
 	 * Not started
@@ -323,9 +323,9 @@ public interface ResBundleInterface {
 	String passwordCantBeEmpty();
 
 	/**
-	 * Password must be minimum {minLength} characters long
+	 * Password must be minimum {0} characters long
 	 */
-	String passwordToShort(String minLength);
+	String passwordToShort(String arg0);
 
 	/**
 	 * Paused
@@ -378,9 +378,9 @@ public interface ResBundleInterface {
 	String totalBedsWarning();
 
 	/**
-	 * Total number of beds: {numBeds}
+	 * Total number of beds: {0}
 	 */
-	String totalNumberOfBeds(String numBeds);
+	String totalNumberOfBeds(String arg0);
 
 	/**
 	 * Unit Deleted
@@ -408,14 +408,14 @@ public interface ResBundleInterface {
 	String unknownCaller();
 
 	/**
-	 * Message type not recognized: {type}
+	 * Message type not recognized: {0}
 	 */
-	String unknownMessageType(String type);
+	String unknownMessageType(String arg0);
 
 	/**
-	 * Event has not been registered under Event.java/fire: {eventType}
+	 * Event has not been registered under Event.java/fire: {0}
 	 */
-	String unregisteredEvent(String eventType);
+	String unregisteredEvent(String arg0);
 
 	/**
 	 * user
@@ -438,9 +438,9 @@ public interface ResBundleInterface {
 	String usernameCantBeEmpty();
 
 	/**
-	 * Username must be minimum {minLength} characters long
+	 * Username must be minimum {0} characters long
 	 */
-	String usernameToShort(String minLength);
+	String usernameToShort(String arg0);
 
 	/**
 	 * Users
