@@ -118,11 +118,11 @@ public final class Service {
     }
 
     public static void getMessages(int userId1, int userId2, int startIndex, int length){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, GET));
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/between/" + userId1 + "/" + userId2 + "/" + startIndex + "/" + length, GET));
     }
 
-    public static void getRecentContacts(int userId){
-        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/" + userId, GET));
+    public static void getRecentContacts(){
+        executeRequest(Bootstrapper.FACTORY.newHttpRequest(URL + "messages/recent", GET));
     }
 
     public static void getActions(){

@@ -53,6 +53,7 @@ public class ServiceTest {
 
     @BeforeClass
     public static void oneTimeSetUp() {
+
     }
 
     // Tests for AuthServlet
@@ -747,7 +748,7 @@ public class ServiceTest {
         int qweId = qwe.getId(), jackId = jack.getId();
 
         // Action
-        JSONObject result = executeSyncRequest("messages/" + qweId + "/" + jackId + "/" + startIndex + "/" + length, null, "GET", authToken);
+        JSONObject result = executeSyncRequest("messages/between/" + qweId + "/" + jackId + "/" + startIndex + "/" + length, null, "GET", authToken);
 
         // Assert
         Assert.assertEquals(FetchMessagesEvent.TYPE.getName(), result.get("_type"));
@@ -767,7 +768,7 @@ public class ServiceTest {
         int qweId = qwe.getId(), nathanielId = nathaniel.getId();
 
         // Action
-        JSONObject result = executeSyncRequest("messages/" + qweId + "/" + nathanielId + "/" + startIndex + "/" + length, null, "GET", authToken);
+        JSONObject result = executeSyncRequest("messages/between/" + qweId + "/" + nathanielId + "/" + startIndex + "/" + length, null, "GET", authToken);
 
         // Assert
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
@@ -784,7 +785,7 @@ public class ServiceTest {
         int qweId = qwe.getId(), jackId = jack.getId();
 
         // Action
-        JSONObject result = executeSyncRequest("messages/" + qweId + "/" + jackId + "/" + startIndex + "/" + length, null, "GET", "");
+        JSONObject result = executeSyncRequest("messages/between/" + qweId + "/" + jackId + "/" + startIndex + "/" + length, null, "GET", "");
 
         // Assert
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
@@ -800,7 +801,7 @@ public class ServiceTest {
         int errorId = 9999999, nathanielId = nathaniel.getId();
 
         // Action
-        JSONObject result = executeSyncRequest("messages/" + nathanielId + "/" + errorId + "/" + startIndex + "/" + length, null, "GET", authToken);
+        JSONObject result = executeSyncRequest("messages/between/" + nathanielId + "/" + errorId + "/" + startIndex + "/" + length, null, "GET", authToken);
 
         // Assert
         //Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
@@ -826,6 +827,69 @@ public class ServiceTest {
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    // Passing
+    @Test
+    public void addMessage_newMessageWithoutReceiver_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        Message message = new Message();
+        User sender = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        message.setSender(sender);
+        message.setStatus(Message.Status.sent);
+        message.setContent("Camion gris");
+        message.setTimeSent(new Date());
+
+        // Action
+        JSONObject result = executeSyncRequest("messages", "message=" + message.toString(), "POST", authToken);
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    // Passing
+    @Test
+    public void addMessage_noAuthToken_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        Message message = new Message();
+        User sender = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        User receiver = new User(executeSyncRequest("users/" + "qwe", null, "GET", authToken).getJSONObject("user"));
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        message.setStatus(Message.Status.sent);
+        message.setContent("Camion gris");
+        message.setTimeSent(new Date());
+
+        // Action
+        JSONObject result = executeSyncRequest("messages", "message=" + message.toString(), "POST", "");
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    @Test
+    public void getRecentContacts_ofUserNathaniel_success() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/recent", null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(FetchRecentContactsEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    @Test
+    public void getRecentContacts_noAuthToken_error() {
+        // Arrange
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/recent", null, "GET", "");
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
