@@ -28,6 +28,7 @@ import rtdc.core.Bootstrapper;
 import rtdc.core.event.AuthenticationEvent;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.Storage;
 import rtdc.core.service.Service;
 import rtdc.core.util.Cache;
@@ -48,7 +49,7 @@ public class LoginController extends Controller<LoginView> implements Authentica
 
     @Override
     String getTitle() {
-        return "Login";
+        return ResBundle.get().loginTitle();
     }
 
     public void login(){
@@ -59,10 +60,10 @@ public class LoginController extends Controller<LoginView> implements Authentica
         String password = view.getPasswordUiElement().getValue();
 
         if(username.isEmpty()) {
-            view.getUsernameUiElement().setErrorMessage("Username cannot be empty");
+            view.getUsernameUiElement().setErrorMessage(ResBundle.get().usernameCantBeEmpty());
             view.getUsernameUiElement().setFocus(true);
         } else if(password.isEmpty()) {
-            view.getPasswordUiElement().setErrorMessage("Password cannot be empty");
+            view.getPasswordUiElement().setErrorMessage(ResBundle.get().passwordCantBeEmpty());
             view.getPasswordUiElement().setFocus(true);
         } else
             Service.authenticateUser(username, password);

@@ -34,6 +34,7 @@ import rtdc.android.AndroidBootstrapper;
 import rtdc.android.R;
 import rtdc.android.presenter.MainActivity;
 import rtdc.android.presenter.fragments.FragmentType;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.Message;
 
 public class AndroidNotificationController {
@@ -47,8 +48,8 @@ public class AndroidNotificationController {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_phone_missed_white_24dp)
-                        .setContentTitle("Missed call")
-                        .setContentText("Missed call from " + missedCaller);
+                        .setContentTitle(ResBundle.get().missedCallTitle())
+                        .setContentText(ResBundle.get().missedCallFrom(missedCaller));
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("fragment", FragmentType.MESSAGES);
@@ -66,7 +67,7 @@ public class AndroidNotificationController {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_chat_white_24dp)
-                        .setContentTitle("Message from " + message.getReceiver().getFirstName() +  " " + message.getReceiver().getLastName())
+                        .setContentTitle(ResBundle.get().messageFrom(message.getReceiver().getFirstName() +  " " + message.getReceiver().getLastName()))
                         .setContentText(shortMessage);
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

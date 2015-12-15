@@ -27,6 +27,7 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
@@ -48,7 +49,7 @@ public class UnitListController extends Controller<UnitListView> implements Fetc
 
     @Override
     String getTitle() {
-        return "Units";
+        return ResBundle.get().unitsTitle();
     }
 
     public void sortUnits(Unit.Properties property, boolean ascending){

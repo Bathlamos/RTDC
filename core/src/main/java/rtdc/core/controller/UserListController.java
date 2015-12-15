@@ -27,6 +27,7 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUsersEvent;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
 import rtdc.core.service.Service;
@@ -48,7 +49,7 @@ public class UserListController extends Controller<UserListView> implements Fetc
 
     @Override
     String getTitle() {
-        return "Users";
+        return ResBundle.get().usersTitle();
     }
 
     public void sortUsers(User.Properties property, boolean ascending){

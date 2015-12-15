@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.app.Activity;
 import org.w3c.dom.Text;
 import rtdc.android.R;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
@@ -76,7 +77,7 @@ public class UnitListAdapter extends ArrayAdapter {
         }
 
         holder.nameText.setText(unit.getName());
-        holder.secondLine.setText("Total number of beds: " + unit.getTotalBeds());
+        holder.secondLine.setText(ResBundle.get().totalNumberOfBeds(String.valueOf(unit.getTotalBeds())));
         return viewToUse;
     }
 }

@@ -32,6 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import rtdc.android.R;
 import rtdc.core.config.Conf;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 import rtdc.core.util.Cache;
@@ -73,21 +74,21 @@ public class MessageListAdapter extends ArrayAdapter {
                 for(String part: contents){
                     if(part.startsWith("Missed call")){
                         if(sessionUser)
-                            part = part.replace("Missed call", "Call unanswered");
+                            part = part.replace("Missed call", ResBundle.get().missedCallUnanswered());
                         else
-                            part = part.replace("Missed call", "Missed call from " + message.getSender().getFirstName());
+                            part = part.replace("Missed call", ResBundle.get().missedCallFrom(message.getSender().getFirstName()));
                     }else if(part.startsWith("Call rejected")){
                         if(sessionUser)
-                            part = part.replace("Call rejected", "Your call was rejected; user is busy or unavailable");
+                            part = part.replace("Call rejected", ResBundle.get().callRejectedUnavailable());
                         else
-                            part = part.replace("Call rejected", "Call rejected: busy");
+                            part = part.replace("Call rejected", ResBundle.get().callRejectedBusy());
                     }
                     content += part;
                 }
             }else{
                 content = message.getContent();
             }
-            setupColumn(view, R.id.senderNameTextView, sessionUser ? "Me" : message.getSender().getFirstName(), sessionUser);
+            setupColumn(view, R.id.senderNameTextView, sessionUser ? ResBundle.get().me() : message.getSender().getFirstName(), sessionUser);
             setupColumn(view, R.id.messageTextView, content, sessionUser);
             setupColumn(view, R.id.timeSentTextView, new SimpleDateFormat("hh:mm a").format(message.getTimeSent()), sessionUser);
         } else {

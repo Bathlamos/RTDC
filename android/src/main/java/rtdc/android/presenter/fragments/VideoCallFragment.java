@@ -38,6 +38,7 @@ import rtdc.android.impl.voip.AndroidVoIPManager;
 import rtdc.android.impl.voip.AndroidVoIPThread;
 import rtdc.android.presenter.InCallActivity;
 import rtdc.core.Bootstrapper;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.voip.Call;
 import rtdc.core.impl.voip.CallParameters;
 import rtdc.core.impl.voip.Video;
@@ -190,7 +191,7 @@ public class VideoCallFragment extends AbstractCallFragment {
             // Display a ringing message
 
             view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-            ((TextView) view.findViewById(R.id.callStatus)).setText("Ringing");
+            ((TextView) view.findViewById(R.id.callStatus)).setText(ResBundle.get().ringing());
             final TextView ringingDots = ((TextView) view.findViewById(R.id.ringingDots));
             ringingDots.setVisibility(View.VISIBLE);
             ringingTask = inCallActivity.getExecutor().scheduleWithFixedDelay(new Runnable(){
@@ -213,7 +214,7 @@ public class VideoCallFragment extends AbstractCallFragment {
             // If remote user isn't displaying video, we say so on screen
             if(!AndroidVoipController.get().isReceivingRemoteVideo()) {
                 view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-                ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+                ((TextView) view.findViewById(R.id.callStatus)).setText(ResBundle.get().otherUserNotShowingVideo());
             }
         }
 
@@ -332,12 +333,12 @@ public class VideoCallFragment extends AbstractCallFragment {
         @Override
         public void run() {
             view.findViewById(R.id.callStatus).setVisibility(View.INVISIBLE);
-            ((TextView) view.findViewById(R.id.callStatus)).setText("Paused");
+            ((TextView) view.findViewById(R.id.callStatus)).setText(ResBundle.get().paused());
             view.findViewById(R.id.ringingDots).setVisibility(View.INVISIBLE);
             // If remote user isn't displaying video, we say so on screen
             if (!AndroidVoipController.get().isReceivingRemoteVideo()) {
                 view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-                ((TextView) view.findViewById(R.id.callStatus)).setText("Other user isn't showing video");
+                ((TextView) view.findViewById(R.id.callStatus)).setText(ResBundle.get().otherUserNotShowingVideo());
             }
         }
     });
@@ -351,7 +352,7 @@ public class VideoCallFragment extends AbstractCallFragment {
                 //mVideoView.setVisibility(View.INVISIBLE);
                 mCaptureView.setVisibility(View.INVISIBLE);
                 view.findViewById(R.id.callStatus).setVisibility(View.VISIBLE);
-                ((TextView) view.findViewById(R.id.callStatus)).setText("Call ended");
+                ((TextView) view.findViewById(R.id.callStatus)).setText(ResBundle.get().callEndedTitle());
             }
         });
     }

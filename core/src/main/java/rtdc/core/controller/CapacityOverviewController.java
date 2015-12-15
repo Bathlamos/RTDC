@@ -27,6 +27,7 @@ package rtdc.core.controller;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
@@ -50,7 +51,7 @@ public class CapacityOverviewController extends Controller<CapacityOverviewView>
 
     @Override
     String getTitle() {
-        return "Capacity Overview";
+        return ResBundle.get().capacityOverviewTitle();
     }
 
     public void editCapacity(Unit unit){

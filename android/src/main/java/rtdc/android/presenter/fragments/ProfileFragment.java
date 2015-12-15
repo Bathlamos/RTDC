@@ -79,7 +79,7 @@ public class ProfileFragment extends AbstractFragment{
         switch (item.getItemId()) {
             case R.id.action_edit_profile:
                 Cache.getInstance().put("user", Cache.getInstance().get("sessionUser"));
-                Bootstrapper.FACTORY.newDispatcher().goToEditUser(null);
+                Bootstrapper.getFactory().newDispatcher().goToEditUser(null);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

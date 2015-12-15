@@ -28,6 +28,7 @@ import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.exception.ValidationException;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
 import rtdc.core.model.User;
@@ -66,7 +67,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
         Service.getUnits();
 
         if (currentUser != null) {
-            view.setTitle("Edit User");
+            view.setTitle(ResBundle.get().editUserTitle());
             view.getUsernameUiElement().setValue(currentUser.getUsername());
             view.getEmailUiElement().setValue(currentUser.getEmail());
             view.getFirstNameUiElement().setValue(currentUser.getFirstName());
@@ -81,7 +82,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
     @Override
     String getTitle() {
-        return "Add User";
+        return ResBundle.get().addUserTitle();
     }
 
     public void addUser(boolean changePassword) {
@@ -143,7 +144,7 @@ public class AddUserController extends Controller<AddUserView> implements Action
 
     public void validateConfirmPasswordUiElement(){
         if(!view.getConfirmPasswordUiElement().getValue().equals(view.getPasswordUiElement().getValue()))
-            view.getConfirmPasswordUiElement().setErrorMessage("Confirmation doesn't match the password given");
+            view.getConfirmPasswordUiElement().setErrorMessage(ResBundle.get().confirmPasswordDoesntMatch());
     }
 
     public void validateEmailUiElement(){

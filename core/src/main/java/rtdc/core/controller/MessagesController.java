@@ -25,6 +25,7 @@
 package rtdc.core.controller;
 
 import rtdc.core.event.*;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.Message;
 import rtdc.core.model.SimpleComparator;
 import rtdc.core.model.User;
@@ -57,7 +58,7 @@ public class MessagesController extends Controller<CommunicationHubView> impleme
 
     @Override
     String getTitle() {
-        return "Messages";
+        return ResBundle.get().messagesTitle();
     }
 
     public void sortRecentContacts(Message.Properties property){

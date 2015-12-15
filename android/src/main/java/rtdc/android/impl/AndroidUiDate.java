@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.UiElement;
 
 import java.util.Calendar;
@@ -99,7 +100,7 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
                 setValue(date);
             }
         }, hour, minute, true);
-        timePicker.setTitle("Select Time");
+        timePicker.setTitle(ResBundle.get().selectTime());
         timePicker.show();
     }
 

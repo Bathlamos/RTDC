@@ -25,6 +25,7 @@
 package rtdc.core.model;
 
 import rtdc.core.exception.ValidationException;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.json.JSONObject;
 import rtdc.core.util.Stringifier;
 
@@ -56,10 +57,10 @@ public class Action extends RootObject{
                 @Override
                 public String toString(Action.Status status) {
                     switch(status){
-                        case completed: return "Completed";
-                        case failed: return "Failed";
-                        case inProgress: return "In progress";
-                        case notStarted: return "Not started";
+                        case completed: return ResBundle.get().completed();
+                        case failed: return ResBundle.get().failed();
+                        case inProgress: return ResBundle.get().inProgress();
+                        case notStarted: return ResBundle.get().notStarted();
                         default: return status.name();
                     }
                 }
@@ -77,9 +78,9 @@ public class Action extends RootObject{
                 @Override
                 public String toString(Task task) {
                     switch(task){
-                        case holdFor: return "Hold";
-                        case offServicingTo: return "Off servicing";
-                        case pushForDischarge: return "Push for discharge";
+                        case holdFor: return ResBundle.get().hold();
+                        case offServicingTo: return ResBundle.get().offServicing();
+                        case pushForDischarge: return ResBundle.get().pushForDischarge();
                         default: return task.name();
                     }
                 }

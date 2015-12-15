@@ -105,12 +105,18 @@ class BundleInterfaceCreator{
                 sb.append(e.getKey());
                 sb.append("\");\n");
             } else{
-                sb.append("\t\tFORMATTER.applyPattern(BUNDLE.getString(\"");
+                sb.append("\t\tString string = BUNDLE.getString(\"");
                 sb.append(e.getKey());
-                sb.append("\"));\n");
-                sb.append("\t\treturn FORMATTER.format(new Object[]{");
-                sb.append(arguments);
-                sb.append("});\n");
+                sb.append("\"); \n");
+                String[] args = arguments.toString().split(", ");
+                for(String a: args){
+                    sb.append("\t\tstring = string.replace(\"{");
+                    sb.append(a);
+                    sb.append("}\", ");
+                    sb.append(a);
+                    sb.append("); \n");
+                }
+                sb.append("\t\treturn string; \n");
             }
 
             sb.append("\t}\n\n");

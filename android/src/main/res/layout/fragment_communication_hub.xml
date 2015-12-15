@@ -156,7 +156,7 @@
                 android:id="@+id/contactsAutoComplete"
                 android:layout_weight="0.32" android:layout_gravity="top" android:visibility="gone"
                 android:completionThreshold="1"
-                android:popupBackground="@null" android:hint="Type contact name..."
+                android:popupBackground="@null" android:hint="@string/type_contact_name"
         />
     </android.support.v7.widget.CardView>
 </LinearLayout>

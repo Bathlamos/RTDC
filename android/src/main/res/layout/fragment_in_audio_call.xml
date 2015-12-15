@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Mute"
+                    android:text="@string/mute"
                     android:id="@+id/muteText" android:layout_gravity="center_horizontal|bottom" android:padding="4dp"/>
         </LinearLayout>
 
@@ -86,7 +86,7 @@
                          android:background="@drawable/circle_dark_blue" android:tint="@color/RTDC_midnight_blue"
                          android:layout_margin="4dp"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="Video"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="@string/video"
                       android:id="@+id/videoText" android:layout_gravity="center_horizontal|bottom" android:padding="4dp"/>
         </LinearLayout>
         <LinearLayout android:orientation="vertical" android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                          android:background="@drawable/circle_dark_blue" android:tint="@color/RTDC_midnight_blue"
                          android:layout_margin="4dp"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="Speaker"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="@string/speaker"
                       android:id="@+id/speakerText" android:layout_gravity="center_horizontal|bottom"
                       android:padding="4dp"/>
         </LinearLayout>

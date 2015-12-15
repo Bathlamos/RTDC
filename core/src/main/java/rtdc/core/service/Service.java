@@ -28,6 +28,7 @@ import rtdc.core.config.Conf;
 import rtdc.core.Bootstrapper;
 import rtdc.core.event.ErrorEvent;
 import rtdc.core.event.Event;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.json.JSONException;
@@ -154,20 +155,20 @@ public final class Service {
             @Override
             public void onSuccess(HttpResponse resp) {
                 if(resp.getStatusCode() != 200)
-                    new ErrorEvent("Error code " + resp.getStatusCode() + " " + resp.getContent()).fire();
+                    new ErrorEvent(ResBundle.get().errorCode(String.valueOf(resp.getStatusCode()), resp.getContent())).fire();
                 else {
                     try {
                         JSONObject object = new JSONObject(resp.getContent());
                         Event.fire(object);
                     } catch (JSONException e) {
-                        new ErrorEvent("Unrecognized output from server " + resp.getContent() + " " + e.getMessage()).fire();
+                        new ErrorEvent(ResBundle.get().errorUnrecognized(resp.getContent() + " " + e.getMessage())).fire();
                     }
                 }
             }
 
             @Override
             public void onError(String message) {
-                new ErrorEvent("Network error " + message).fire();
+                new ErrorEvent(ResBundle.get().networkError(message)).fire();
             }
         });
     }

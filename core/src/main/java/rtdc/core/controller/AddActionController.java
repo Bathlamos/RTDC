@@ -28,6 +28,7 @@ import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.event.FetchUnitsEvent;
 import rtdc.core.exception.ValidationException;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.Action;
 import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
@@ -66,7 +67,7 @@ public class AddActionController extends Controller<AddActionView> implements Ac
 
         RtdcCurrentAction = (Action) Cache.getInstance().remove("action");
         if (RtdcCurrentAction != null) {
-            view.setTitle("Edit Action");
+            view.setTitle(ResBundle.get().editActionTitle());
             view.getRoleUiElement().setValue(RtdcCurrentAction.getRoleResponsible());
             view.getTargetUiElement().setValue(RtdcCurrentAction.getTarget());
             view.getDeadlineUiElement().setValue(RtdcCurrentAction.getDeadline());
@@ -84,7 +85,7 @@ public class AddActionController extends Controller<AddActionView> implements Ac
 
     @Override
     String getTitle() {
-        return "Add Action";
+        return ResBundle.get().addActionTitle();
     }
 
     public void addAction() {

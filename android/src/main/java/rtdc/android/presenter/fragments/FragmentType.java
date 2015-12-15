@@ -1,16 +1,18 @@
 package rtdc.android.presenter.fragments;
 
+import rtdc.core.i18n.ResBundle;
+
 public enum FragmentType {
-    CAPACITY_OVERVIEW("Capacity Overview"),
-    ACTION_PLAN("Action Plan"),
-    MESSAGES("Messages"),
-    MANAGE_UNITS("Manage Units"),
-    MANAGE_USERS("Manage Users"),
-    PROFILE("Profile");
+    CAPACITY_OVERVIEW(ResBundle.get().capacityOverviewTitle()),
+    ACTION_PLAN(ResBundle.get().actionPlanTitle()),
+    MESSAGES(ResBundle.get().messagesTitle()),
+    MANAGE_UNITS(ResBundle.get().manageUnitsTitle()),
+    MANAGE_USERS(ResBundle.get().manageUsersTitle()),
+    PROFILE(ResBundle.get().profileTitle());
 
     private String title;
 
-    private FragmentType(String title) {
+    FragmentType(String title) {
         this.title = title;
     }
 

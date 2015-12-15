@@ -28,6 +28,7 @@ package rtdc.core.controller;
 import rtdc.core.event.ActionCompleteEvent;
 import rtdc.core.event.Event;
 import rtdc.core.exception.ValidationException;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.model.SimpleValidator;
 import rtdc.core.model.Unit;
 import rtdc.core.service.Service;
@@ -44,7 +45,7 @@ public class EditCapacityController extends Controller<EditCapacityView> impleme
         currentUnit = (Unit) Cache.getInstance().remove("unit");
 
         //Populate the fields
-        view.setTitle("Edit Capacity - " + currentUnit.getName());
+        view.setTitle(ResBundle.get().editCapacityOfUnitTitle(currentUnit.getName()));
         view.getAvailableBedsUiElement().setValue(Integer.toString(currentUnit.getAvailableBeds()));
         view.getPotentialDcUiElement().setValue(Integer.toString(currentUnit.getPotentialDc()));
         view.getDcByDeadlineUiElement().setValue(Integer.toString(currentUnit.getDcByDeadline()));
@@ -54,7 +55,7 @@ public class EditCapacityController extends Controller<EditCapacityView> impleme
 
     @Override
     String getTitle() {
-        return "Edit Capacity";
+        return ResBundle.get().editCapacityTitle();
     }
 
     public void updateCapacity() {
