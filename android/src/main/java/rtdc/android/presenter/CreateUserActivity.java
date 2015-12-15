@@ -41,7 +41,7 @@ import rtdc.android.impl.AndroidUiDropdown;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.AddUserController;
 import rtdc.core.exception.ValidationException;
-import rtdc.core.i18n.MessageBundle;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.UiDropdown;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.SimpleValidator;
@@ -186,11 +186,11 @@ public class CreateUserActivity extends AbstractDialog implements AddUserView {
                controller.validateFirstNameUiElement();
                controller.validateLastNameUiElement();
 
-               if(usernameEdit.getError() != null || (passwordEdit.getError() != null && confirmPasswordEdit.getError() != null && passwordChange.isChecked())
+               if(usernameEdit.getError() != null || (passwordChange.isChecked() && (passwordEdit.getError() != null || confirmPasswordEdit.getError() != null))
                        || emailEdit.getError() != null || firstNameEdit.getError() != null || lastNameEdit.getError() != null || phoneEdit.getError() != null) {
                    new AlertDialog.Builder(this)
-                           .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
-                           .setMessage(MessageBundle.getBundle(Locale.ENGLISH).getString("invalidFields"))
+                           .setTitle(ResBundle.get().errorGeneral())
+                           .setMessage(ResBundle.get().invalidFields())
                            .setNeutralButton(android.R.string.ok, null).show();
                    return true;
                }

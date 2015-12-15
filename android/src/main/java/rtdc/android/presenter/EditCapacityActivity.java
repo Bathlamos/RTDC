@@ -35,7 +35,7 @@ import android.view.View;
 import rtdc.android.R;
 import rtdc.android.impl.AndroidUiString;
 import rtdc.core.controller.EditCapacityController;
-import rtdc.core.i18n.MessageBundle;
+import rtdc.core.i18n.ResBundle;
 import rtdc.core.impl.UiElement;
 import rtdc.core.model.Unit;
 import rtdc.core.util.Cache;
@@ -129,8 +129,8 @@ public class EditCapacityActivity extends AbstractDialog implements EditCapacity
                 if(availableBedsEdit.getError() != null || potentialDcEdit.getError() != null && DcByDeadlineEdit.getError() != null
                         || totalAdmitsEdit.getError() != null || admitsByDeadlineEdit.getError() != null) {
                     new AlertDialog.Builder(this)
-                            .setTitle(MessageBundle.getBundle(Locale.ENGLISH).getString("errorGeneral"))
-                            .setMessage(MessageBundle.getBundle(Locale.ENGLISH).getString("invalidFields"))
+                            .setTitle(ResBundle.get().errorGeneral())
+                            .setMessage(ResBundle.get().invalidFields())
                             .setNeutralButton(android.R.string.ok, null).show();
                     return true;
                 }

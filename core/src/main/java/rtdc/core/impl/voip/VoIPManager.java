@@ -57,6 +57,8 @@ public interface VoIPManager {
 
     TextGroup getOrCreateTextGroup(String sipAddress);
 
+    void setDeviceRotation(int rotation);
+
     enum Reason{
         none,
         noResponse,
