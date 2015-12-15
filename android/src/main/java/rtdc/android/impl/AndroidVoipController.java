@@ -38,6 +38,9 @@ import rtdc.core.model.User;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Android implementation of VoipController
+ */
 public class AndroidVoipController implements VoipController{
 
     private static final AndroidVoipController INST = new AndroidVoipController();
@@ -51,16 +54,25 @@ public class AndroidVoipController implements VoipController{
 
     public static AndroidVoipController get(){ return INST; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void registerUser(User user, String password) {
         AndroidVoIPThread.getInstance().getVoIPManager().registerUser(user, password);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void unregisterCurrentUser() {
         AndroidVoIPThread.getInstance().getVoIPManager().unregisterUser();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void call(User user, boolean videoEnabled) {
         try {
@@ -91,18 +103,27 @@ public class AndroidVoipController implements VoipController{
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setMicMuted(boolean mute) {
         micMuted = mute;
         AndroidVoIPThread.getInstance().getVoIPManager().muteMic(mute);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setSpeaker(boolean enabled) {
         speakerEnabled = enabled;
         AndroidVoIPThread.getInstance().getVoIPManager().enableSpeaker(enabled);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVideo(boolean enabled) {
         VoIPManager vm = AndroidVoIPThread.getInstance().getVoIPManager();
@@ -138,21 +159,39 @@ public class AndroidVoipController implements VoipController{
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isMicMuted() { return micMuted; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSpeakerEnabled() { return speakerEnabled; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVideoEnabled(){ return videoEnabled; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setRemoteVideo(boolean enabled) { remoteVideo = enabled; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isReceivingRemoteVideo() { return remoteVideo; }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void acceptCall() {
         try {
@@ -176,11 +215,17 @@ public class AndroidVoipController implements VoipController{
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void declineCall() {
         AndroidVoIPThread.getInstance().getVoIPManager().declineCall(AndroidVoIPThread.getInstance().getCall(), VoIPManager.Reason.declined);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sendMessage(Message message) {
         String sipAddress = "sip:" + message.getReceiver().getUsername() + "@" + Conf.get().asteriskHost();
@@ -189,6 +234,9 @@ public class AndroidVoipController implements VoipController{
         AndroidVoIPThread.getInstance().getVoIPManager().getOrCreateTextGroup(sipAddress).sendTextMessage(tm);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hangup() {
         AndroidVoIPThread.getInstance().getVoIPManager().terminateCall(AndroidVoIPThread.getInstance().getCall());

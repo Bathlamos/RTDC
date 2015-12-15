@@ -28,8 +28,14 @@ import rtdc.core.util.Stringifier;
 
 import java.util.List;
 
+/**
+ * An abstraction of a generic dropdown ui component.
+ * @param <T> The type of the elements displayed in the dropdown
+ */
 public interface UiDropdown<T> extends UiElement<T> {
 
+    // Used to translate arbitrary objects into Strings, for display
+    // when no other Stringifier is given
     Stringifier DEFAULT_STRINGIFIER = new Stringifier() {
         @Override
         public String toString(Object object) {
@@ -37,10 +43,22 @@ public interface UiDropdown<T> extends UiElement<T> {
         }
     };
 
+    /**
+     * Sets the elements to be displayed. The order is preserved.
+     * @param elements Non-null elements to be displayed.
+     */
     void setArray(T[] elements);
 
+    /**
+     * @return The index of the elements that us currently selected, in the original array.
+     */
     int getSelectedIndex();
 
+    /**
+     * The method used to translate the object into a display-ready String.
+     * For instance, a Unit object might have a <code>Stringifier</code> calling <code>unit.getName()</code>
+     * @param stringifier The Stringifier to be used
+     */
     void setStringifier(Stringifier<T> stringifier);
 
 }

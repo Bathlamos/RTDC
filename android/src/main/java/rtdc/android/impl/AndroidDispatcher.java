@@ -34,6 +34,9 @@ import rtdc.android.presenter.fragments.CapacityOverviewFragment;
 import rtdc.core.controller.Controller;
 import rtdc.core.impl.Dispatcher;
 
+/**
+ * Used to navigate from one part of the application to the other
+ */
 public class AndroidDispatcher implements Dispatcher {
 
     @Override

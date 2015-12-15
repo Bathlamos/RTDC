@@ -26,16 +26,41 @@ package rtdc.core.impl;
 
 import rtdc.core.service.AsyncCallback;
 
+/**
+ * An abstraction of an http request.
+ */
 public interface HttpRequest {
 
-    public enum RequestMethod{GET, PUT, DELETE, POST}
+    /**
+     * Enumeration of popular HTTP verbs. Some are omitted, but may be added if necessary.
+     */
+    enum RequestMethod{GET, PUT, DELETE, POST}
 
-    public void addParameter(String parameter, String data);
+    /**
+     * Adds a parameters to the request. If the HTTP verb is a POST, then the data is encapsulated in the request body.
+     * If the request is a GET, then the data is appended to the URL (and url form-encoded)
+     * @param parameter The name of the parameter
+     * @param data The value of the parameter
+     */
+    void addParameter(String parameter, String data);
 
-    public void setHeader(String name, String value);
+    /**
+     * Appends a new header to the HTTP request
+     * @param name The name of the header
+     * @param value The value of the header
+     */
+    void setHeader(String name, String value);
 
-    public void execute(AsyncCallback<HttpResponse> response);
+    /**
+     * Asynchronously execute the request.
+     * @param response A listener, called when the request fails, times out, or succeeds.
+     */
+    void execute(AsyncCallback<HttpResponse> response);
 
-    public void setContentType(String contentType);
+    /**
+     * Change the content type of the HTTP request
+     * @param contentType The new content type.
+     */
+    void setContentType(String contentType);
 
 }

@@ -30,23 +30,38 @@ import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.Storage;
 import rtdc.core.impl.VoipController;
 
+/**
+ * GWT implementation of Factory
+ */
 public final class GwtFactory implements Factory {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {
         return new GwtHttpRequest(url, requestMethod);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dispatcher newDispatcher() {
         return new GWTDispatcher();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Storage getStorage() {
         return GwtStorage.get();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VoipController getVoipController() {
         return GwtVoipController.get();

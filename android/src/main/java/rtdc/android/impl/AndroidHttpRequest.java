@@ -24,7 +24,6 @@
 
 package rtdc.android.impl;
 
-import android.widget.Toast;
 import com.android.volley.*;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
@@ -45,6 +44,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Android abstraction of an HTTP Request
+ */
 public class AndroidHttpRequest implements HttpRequest {
 
     private static RequestQueue mRequestQueue;
@@ -68,16 +70,25 @@ public class AndroidHttpRequest implements HttpRequest {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addParameter(String parameter, String data) {
         params.put(parameter, data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setHeader(String name, String value) {
         headers.put(name, value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void execute(final AsyncCallback<HttpResponse> callback) {
         Response.Listener listener = new Response.Listener<String>(){
@@ -115,6 +126,9 @@ public class AndroidHttpRequest implements HttpRequest {
         getRequestQueue().add(request);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setContentType(String contentType) {
         this.contentType = contentType;

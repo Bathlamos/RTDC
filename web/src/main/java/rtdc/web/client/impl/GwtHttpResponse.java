@@ -30,6 +30,9 @@ import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.service.AsyncCallback;
 
+/**
+ * GWT implementation of an XMLHttpResponse
+ */
 public class GwtHttpResponse implements HttpResponse{
 
     private Response response;
@@ -38,11 +41,17 @@ public class GwtHttpResponse implements HttpResponse{
         this.response = response;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getStatusCode() {
         return response.getStatusCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getContent() {
         return response.getText();

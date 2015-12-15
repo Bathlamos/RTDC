@@ -27,25 +27,90 @@ package rtdc.core.impl;
 import rtdc.core.model.Message;
 import rtdc.core.model.User;
 
+/**
+ * An abstraction of a Voice over IP mechanism
+ */
 public interface VoipController {
 
-    public void registerUser(User user, String password);
-    public void unregisterCurrentUser();
+    /**
+     * Register the current device to the VoIP server
+     * @param user The user information
+     * @param password The user password
+     */
+    void registerUser(User user, String password);
 
-    public void call(User user, boolean videoEnabled);
-    public void acceptCall();
-    public void declineCall();
-    public void sendMessage(Message message);
+    /**
+     * Unregister the current device, when registered, to the VoIP server
+     */
+    void unregisterCurrentUser();
 
-    public void setMicMuted(boolean mute);
-    public void setSpeaker(boolean enabled);
-    public void setVideo(boolean enabled);
-    public void setRemoteVideo(boolean enabled);
+    /**
+     * Place a call to another user
+     * @param user Information for the target user
+     * @param videoEnabled Streams video from the current device, when true.
+     */
+    void call(User user, boolean videoEnabled);
 
-    public boolean isMicMuted();
-    public boolean isSpeakerEnabled();
-    public boolean isVideoEnabled();
-    public boolean isReceivingRemoteVideo();
+    /**
+     * Confirm a call, on the receiving end.
+     */
+    void acceptCall();
 
-    public void hangup();
+    /**
+     * Decline a call, on the receiving end
+     */
+    void declineCall();
+
+    /**
+     * Send a message to the VoIP server, to be relayed to recipients
+     * @param message The message to be sent
+     */
+    void sendMessage(Message message);
+
+    /**
+     * Mute or unmute the microphone
+     * @param mute Mute the microphone, when true
+     */
+    void setMicMuted(boolean mute);
+
+    /**
+     * Relay audio via the speakers, or via headphones
+     * @param enabled Relay the audio via the speakers, when true
+     */
+    void setSpeaker(boolean enabled);
+
+    /**
+     * @param enabled Enable sending video, when true
+     */
+    void setVideo(boolean enabled);
+
+    /**
+     * @param enabled Enable receiving video, when true
+     */
+    void setRemoteVideo(boolean enabled);
+
+    /**
+     * @return True if the microphone is on mute
+     */
+    boolean isMicMuted();
+
+    /**
+     * @return Ture if the speakers are used to relay the audio
+     */
+    boolean isSpeakerEnabled();
+
+    /**
+     * @return True if video from the device is streamed.
+     */
+    boolean isVideoEnabled();
+
+    /**
+     * @return True if video from the recipient's device is streamed
+     */
+    boolean isReceivingRemoteVideo();
+
+    /**
+     * End a call
+     */
+    void hangup();
 }

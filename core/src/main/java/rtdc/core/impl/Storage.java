@@ -24,14 +24,32 @@
 
 package rtdc.core.impl;
 
+/**
+ * An abstraction of a persistence mechanism
+ */
 public interface Storage {
 
+    // Used to store the authentication token
     String KEY_AUTH_TOKEN = "AUTH_TOKEN";
 
+    /**
+     * Persists the data in a key/value format.
+     * @param key The key used to identify the data
+     * @param data The data, in String format.
+     */
     void add(String key, String data);
 
+    /**
+     * Accesses previously persisted data
+     * @param key The identifier
+     * @return The data linked to the key
+     */
     String retrieve(String key);
 
+    /**
+     * Removes the data from the persistence mechanism. Nothing happens if no data is attached to the key.
+     * @param key The identifier
+     */
     void remove(String key);
 
 }

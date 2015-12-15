@@ -38,6 +38,9 @@ import rtdc.core.impl.UiElement;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Android abstraction of a date picker
+ */
 public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnFocusChangeListener, View.OnClickListener {
 
     private Date date = new Date();
@@ -64,6 +67,9 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
         setOnClickListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if(hasFocus) {
@@ -71,16 +77,25 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onClick(View v) {
         showTimePicker();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Date getValue() {
         return date;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setValue(Date value) {
         this.date = value;
@@ -104,16 +119,25 @@ public class AndroidUiDate extends EditText implements UiElement<Date>, View.OnF
         timePicker.show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getErrorMessage() {
         return "";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setErrorMessage(String errorMessage) {
         //Does nothing
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setFocus(boolean hasFocus) {
         if(hasFocus)

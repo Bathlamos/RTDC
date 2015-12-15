@@ -24,14 +24,37 @@
 
 package rtdc.core.impl;
 
+/**
+ * Factory class to instantiate platform dependant classes.
+ * The class is implemented on each platform so that the underlying functionality
+ * may be used in the core.
+ */
 public interface Factory {
 
+    /**
+     * Generate a new async HTTP request
+     * @param url A complete URL of the resource to be accessed
+     * @param requestMethod One of the HTTP verb
+     * @return A new HttpRequest object, which may be used to execute an async HTTP request.
+     */
     HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod);
 
+    /**
+     * Create a new dispatcher to navigate the application
+     * @return A new instance of Dispatcher
+     */
     Dispatcher newDispatcher();
 
+    /**
+     * Accesses an abstraction of a persistence mechanism.
+     * @return The unique instance of Storage
+     */
     Storage getStorage();
 
+    /**
+     * Accesses an abstraction of the VoIP mechanism.
+     * @return The unique instance of VoipController
+     */
     VoipController getVoipController();
 
 }

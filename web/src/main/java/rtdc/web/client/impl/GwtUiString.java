@@ -28,13 +28,22 @@ package rtdc.web.client.impl;
 import com.google.gwt.user.client.ui.TextBox;
 import rtdc.core.impl.UiElement;
 
+/**
+ * GWT abstraction of a textBox
+ */
 public class GwtUiString extends TextBox implements UiElement<String>{
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getErrorMessage() {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setErrorMessage(String errorMessage) {
 

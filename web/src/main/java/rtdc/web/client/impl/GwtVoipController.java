@@ -29,7 +29,7 @@ import rtdc.core.model.Message;
 import rtdc.core.model.User;
 
 /**
- * Created by Jonathan on 2015-07-26.
+ * GWT implementation of VoipController
  */
 public class GwtVoipController implements VoipController{
 
@@ -39,75 +39,121 @@ public class GwtVoipController implements VoipController{
         return INST;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void registerUser(User user, String password) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void unregisterCurrentUser() {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void call(User user, boolean videoEnabled) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setMicMuted(boolean mute) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setSpeaker(boolean enabled){
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setVideo(boolean enabled) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isVideoEnabled() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setRemoteVideo(boolean enabled) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isMicMuted() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isSpeakerEnabled() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isReceivingRemoteVideo() {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void acceptCall() {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void declineCall() {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void sendMessage(Message message) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hangup() {
 

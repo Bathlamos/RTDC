@@ -26,6 +26,9 @@ package rtdc.android.impl;
 
 import rtdc.core.impl.HttpResponse;
 
+/**
+ * Android abstraction of an HTTP Response
+ */
 public class AndroidHttpResponse implements HttpResponse {
 
     private int statusCode;
@@ -36,11 +39,17 @@ public class AndroidHttpResponse implements HttpResponse {
         this.content = content;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getStatusCode() {
         return statusCode;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getContent() {
         return content;

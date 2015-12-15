@@ -24,14 +24,40 @@
 
 package rtdc.core.impl;
 
+/**
+ * An abstraction of a UI component that (1) displays a value, (2) allows that value to be edited and
+ * (3) shows errors in the UI when the value is incorrect.
+ * @param <T> The type of the value displayed in the UI component
+ */
 public interface UiElement<T> {
 
+    /**
+     * @return The value currently displayed
+     */
     T getValue();
+
+    /**
+     * Sets the value to be displayed
+     * @param value The value to display
+     */
     void setValue(T value);
 
+    /**
+     * @return An empty String, or null if there are no errors. Otherwise, the error shown.
+     */
     String getErrorMessage();
+
+    /**
+     * Sets the error message for this UI component. This will erase previous error messages.
+     * @param errorMessage The error message to be shown
+     */
     void setErrorMessage(String errorMessage);
 
+    /**
+     * Calls for focus to be given to this element. This results in the appearance of a keyboard, in Android,
+     * and in the focus of the cursor on the element, in GWT.
+     * @param hasFocus Focus will be set, if true, and removed, if false
+     */
     void setFocus(boolean hasFocus);
 
 }
