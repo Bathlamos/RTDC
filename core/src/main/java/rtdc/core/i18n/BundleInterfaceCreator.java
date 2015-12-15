@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 class BundleInterfaceCreator{
 
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
+    private static final Pattern VALID_VARIABLE = Pattern.compile("^[a-zA-Z_$][a-zA-Z_$0-9]*$");
 
     public static void main(String[] args) throws IOException {
 
@@ -33,10 +34,12 @@ class BundleInterfaceCreator{
             if(m.find()) {
                 sb.append("String ");
                 sb.append(m.group(1));
+                checkVariableName(value, m.group(1));
             }
             while(m.find()){
                 sb.append(", String ");
                 sb.append(m.group(1));
+                checkVariableName(value, m.group(1));
             }
             sb.append(");\n\n");
         }
@@ -49,6 +52,11 @@ class BundleInterfaceCreator{
         out.close();
 
         System.out.println("i18n: regenerated " + path);
+    }
+
+    static void checkVariableName(String propertyName, String variableName){
+        if(!VALID_VARIABLE.matcher(variableName).matches())
+            throw new RuntimeException("Please rename " + variableName + "in, " + propertyName);
     }
 
     static void generateJavaIOResBundle(Map<String, String> map, String path) throws IOException{
