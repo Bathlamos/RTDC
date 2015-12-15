@@ -314,11 +314,11 @@ public class ServiceTest {
         String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
-        int unitId = 5;
+        int unitId = 4;
         JSONObject result = executeSyncRequest("units/" + unitId, null, "DELETE", authToken);
 
         // Assert
-        Unit checkUnit = getSingleUnit(authToken, 5);
+        Unit checkUnit = getSingleUnit(authToken, 4);
 
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
         Assert.assertNull(checkUnit);
@@ -801,7 +801,7 @@ public class ServiceTest {
         int errorId = 9999999, nathanielId = nathaniel.getId();
 
         // Action
-        JSONObject result = executeSyncRequest("messages/between/" + nathanielId + "/" + errorId + "/" + startIndex + "/" + length, null, "GET", authToken);
+        JSONObject result = executeSyncRequest("messages/" + nathanielId + "/" + errorId + "/" + startIndex + "/" + length, null, "GET", authToken);
 
         // Assert
         //Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
@@ -869,24 +869,30 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
+    // Passing
     @Test
     public void getRecentContacts_ofUserNathaniel_success() {
         // Arrange
         String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        User user = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
 
         // Action
-        JSONObject result = executeSyncRequest("messages/recent", null, "GET", authToken);
+        JSONObject result = executeSyncRequest("messages/" + user.getId(), null, "GET", authToken);
 
         // Assert
         Assert.assertEquals(FetchRecentContactsEvent.TYPE.getName(), result.get("_type"));
+        Assert.assertTrue(result.getJSONArray("messages").length() > 0);
     }
 
+    // Passing
     @Test
     public void getRecentContacts_noAuthToken_error() {
         // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        User user = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
 
         // Action
-        JSONObject result = executeSyncRequest("messages/recent", null, "GET", "");
+        JSONObject result = executeSyncRequest("messages/" + user.getId(), null, "GET", "");
 
         // Assert
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));

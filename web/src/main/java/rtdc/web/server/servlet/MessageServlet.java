@@ -81,7 +81,7 @@ public class MessageServlet {
     }
 
     @GET
-    @Path("between/{userId1}/{userId2}/{startIndex}/{length}")
+    @Path("{userId1}/{userId2}/{startIndex}/{length}")
     @Consumes("application/x-www-form-urlencoded")
     @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getMessages(@Context HttpServletRequest req, @Context User user, @PathParam("userId1") String userId1String, @PathParam("userId2") String userId2String,
@@ -149,10 +149,11 @@ public class MessageServlet {
     }
 
     @GET
-    @Path("recent")
+    @Path("{userId}")
     @Consumes("application/x-www-form-urlencoded")
+    @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
-    public String getRecentContacts(@Context HttpServletRequest req, @Context User user){
+    public String getRecentContacts(@Context HttpServletRequest req, @Context User user, @PathParam("userId") String userId1String){
         int userId = user.getId();
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;

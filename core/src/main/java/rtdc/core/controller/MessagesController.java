@@ -51,7 +51,7 @@ public class MessagesController extends Controller<CommunicationHubView> impleme
         Event.subscribe(MessageSavedEvent.TYPE, this);
         Event.subscribe(FetchUsersEvent.TYPE, this);
 
-        Service.getRecentContacts();
+        Service.getRecentContacts(((User) Cache.getInstance().get("sessionUser")).getId());
         Service.getUsers();
     }
 
