@@ -28,6 +28,8 @@ import rtdc.core.config.Conf;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import rtdc.core.config.JavaIOConfig;
+import rtdc.core.config.Reader;
 import rtdc.core.event.*;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
@@ -37,26 +39,34 @@ import rtdc.core.model.Unit;
 import rtdc.core.model.User;
 
 import javax.annotation.Nullable;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
 public class ServiceTest {
 
-    private static final String URL = Conf.get().apiProtocol() + "://" +
-            Conf.get().apiHost() + ":" +
-            Conf.get().apiPort() +
-            Conf.get().apiPath();
+    static {
+        JavaIOConfig.setReader(new Reader() {
+            @Override
+            public InputStream getContent(String path) throws IOException {
+                System.out.println(System.getProperty("user.dir"));
+                return new FileInputStream("../core/src/main/resources/rtdc/core/config/Config.properties");
+            }
+        });
+    }
+
+    private static String URL;
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final String TEST_USERNAME = "nathaniel";
     private static final String TEST_PASSWORD = "password";
 
     @BeforeClass
     public static void oneTimeSetUp() {
-
+        URL = Conf.get().apiProtocol() + "://" +
+                Conf.get().apiHost() + ":" +
+                Conf.get().apiPort() +
+                Conf.get().apiPath();
     }
     /*
     // Tests for AuthServlet
