@@ -34,6 +34,8 @@ import rtdc.web.server.model.AuthTokenFactory;
 import rtdc.web.server.model.AuthenticationToken;
 import rtdc.web.server.model.UserFactory;
 
+import javax.servlet.ServletContext;
+import javax.ws.rs.core.Context;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,12 +46,16 @@ public class ApiConfig extends ResourceConfig {
 
     private static final Logger LOGGER = Logger.getLogger(ApiConfig.class.getSimpleName());
 
-    public ApiConfig(){
+    public ApiConfig(@Context ServletContext servletContext){
+
+        final String outerPath = servletContext.getRealPath("WEB-INF" + File.separator + "classes" + File.separator);
+
+        System.out.println(outerPath);
 
         JavaIOConfig.setReader(new Reader() {
             @Override
             public InputStream getContent(String path) throws IOException {
-                return new FileInputStream( "WEB-INF" + File.separator + "classes" + File.separator + path);
+                return new FileInputStream(outerPath + path);
             }
         });
 

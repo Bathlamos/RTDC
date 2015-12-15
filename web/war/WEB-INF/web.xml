@@ -28,4 +28,8 @@
         <listener-class>rtdc.web.server.service.CleanupService</listener-class>
     </listener>
 
+    <welcome-file-list>
+        <welcome-file>web</welcome-file>
+    </welcome-file-list>
+
 </web-app>
