@@ -6,11 +6,22 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for regenerating i18n interfaces, after adding new constants to the i18n
+ * properties file. This class regenerates
+ * <ul>
+ *     <li><code>rtdc.core.i18n.JavaIOResBundle</code></li>
+ *     <li><code>rtdc.core.i18n.ResBundleInterface</code></li>
+ * </ul>
+ */
 class BundleInterfaceCreator{
 
+    // Identify parameters in the constants
     private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
-    private static final Pattern VALID_VARIABLE = Pattern.compile("^[a-zA-Z_$][a-zA-Z_$0-9]*$");
 
+    /**
+     * Used to regenerate the files.
+     */
     public static void main(String[] args) throws IOException {
 
         final Map<String, String> keyPairs = parsePropertiesFile("core/src/main/resources/rtdc/core/i18n/Bundle.properties");
@@ -18,7 +29,8 @@ class BundleInterfaceCreator{
         generateJavaIOResBundle(keyPairs, "core/src/main/java/rtdc/core/i18n/JavaIOResBundle.java");
     }
 
-    static void generateResBundleInterface(Map<String, String> map, String path) throws IOException{
+    // Regenerate ResBundleInterface
+    private static void generateResBundleInterface(Map<String, String> map, String path) throws IOException{
         // Generate the Java interface
         final StringBuilder sb = new StringBuilder("package rtdc.core.i18n;\n\n" +
                 "public interface ResBundleInterface {\n\n");
@@ -52,14 +64,15 @@ class BundleInterfaceCreator{
         System.out.println("i18n: regenerated " + path);
     }
 
-    static void generateJavaIOResBundle(Map<String, String> map, String path) throws IOException{
-        // Generate the Java interface
+    // Regenerate JavaIOResBundle
+    private static void generateJavaIOResBundle(Map<String, String> map, String path) throws IOException{
         final StringBuilder sb = new StringBuilder();
 
         BufferedReader br = new BufferedReader(new FileReader(path));
 
         String sCurrentLine;
 
+        // Change nothing above the DO NOT CHANGE comment
         while ((sCurrentLine = br.readLine()) != null) {
             sb.append(sCurrentLine);
             sb.append("\n");
@@ -71,6 +84,7 @@ class BundleInterfaceCreator{
 
         br.close();
 
+        // Rewrite the new methods
         for(Map.Entry<String, String> e: map.entrySet()) {
             sb.append("\t/**\n\t * ");
             String value = e.getValue();
@@ -120,7 +134,8 @@ class BundleInterfaceCreator{
         System.out.println("i18n: regenerated " + path);
     }
 
-    static Map<String, String> parsePropertiesFile(String path) throws IOException{
+    // Parse the properties file, and tokenizes the property names and values in a map.
+    private static Map<String, String> parsePropertiesFile(String path) throws IOException{
         //Write to file
         final Map<String, String> keyPairs = new TreeMap<>();
 
