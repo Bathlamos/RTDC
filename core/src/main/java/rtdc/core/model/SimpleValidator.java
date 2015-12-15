@@ -102,7 +102,7 @@ public class SimpleValidator {
     public static boolean validatePersonFirstName(String value){
         isNotEmpty(value);
 
-        if(!value.matches("([A-Za-z]|\\-)+"))
+        if(!value.matches("([A-Za-z\\s]|\\-)+"))
             throw new ValidationException(ResBundle.get().invalidName());
         return true;
     }

@@ -100,7 +100,7 @@ public class UserServlet {
                 return new ErrorEvent("No user with username " + username + " found.").toString();
             transaction.commit();
 
-            log.info("{}: USER: Getting user + " + retrievedUser.getUsername() + " for user.", user.getUsername());
+            log.info("{}: USER: Getting user " + retrievedUser.getUsername() + " for user.", user.getUsername());
         } catch (RuntimeException e) {
             if(transaction != null)
                 transaction.rollback();

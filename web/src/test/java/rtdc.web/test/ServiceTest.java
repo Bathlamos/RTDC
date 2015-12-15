@@ -25,11 +25,16 @@
 package rtdc.web.test;
 
 import rtdc.core.config.Conf;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import rtdc.core.event.*;
 import rtdc.core.json.JSONArray;
 import rtdc.core.json.JSONObject;
 import rtdc.core.model.Action;
+import rtdc.core.model.Message;
 import rtdc.core.model.Unit;
+import rtdc.core.model.User;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -46,15 +51,21 @@ public class ServiceTest {
             Conf.get().apiPort() +
             Conf.get().apiPath();
     private static final String USER_AGENT = "Mozilla/5.0";
-    private static final String TEST_USERNAME = "Nathaniel";
+    private static final String TEST_USERNAME = "nathaniel";
     private static final String TEST_PASSWORD = "password";
+
+    @BeforeClass
+    public static void oneTimeSetUp() {
+
+    }
     /*
     // Tests for AuthServlet
 
+    // Passing
     @Test
     public void authenticateUser_existingUser_getUserPlusAuthToken() {
         // Action;
-        JSONObject loginResult = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
+        JSONObject loginResult = executeSyncRequest("auth/login", "username=nathaniel&password=password", "POST", null);
 
         // Assert
         Assert.assertNotNull(loginResult);
@@ -66,10 +77,11 @@ public class ServiceTest {
         Assert.assertEquals("Aumonttt", user.getLastName());
     }
 
+    // Passing
     @Test
     public void authenticateUser_badPassword_getNoUser() {
         // Action
-        JSONObject loginResult = executeSyncRequest("auth/login", "username=Nathaniel&password=pssword", "POST", null);
+        JSONObject loginResult = executeSyncRequest("auth/login", "username=nathaniel&password=pssword", "POST", null);
 
         // Assert
         Assert.assertNotNull(loginResult);
@@ -79,10 +91,11 @@ public class ServiceTest {
         Assert.assertFalse(loginResult.has("authenticationToken"));
     }
 
+    // Passing
     @Test
     public void authenticateUser_badUsername_getNoUser() {
         // Action
-        JSONObject loginResult = executeSyncRequest("auth/login", "username=Nahaniel&password=password", "POST", null);
+        JSONObject loginResult = executeSyncRequest("auth/login", "username=nahaniel&password=password", "POST", null);
 
         // Assert
         Assert.assertNotNull(loginResult);
@@ -92,10 +105,11 @@ public class ServiceTest {
         Assert.assertFalse(loginResult.has("authenticationToken"));
     }
 
+    // Passing
     @Test
     public void authenticateUser_badUsernameBadPassword_getNoUser() {
         // Action
-        JSONObject loginResult = executeSyncRequest("auth/login", "username=Nahaniel&password=pasword", "POST", null);
+        JSONObject loginResult = executeSyncRequest("auth/login", "username=nahaniel&password=pasword", "POST", null);
 
         // Assert
         Assert.assertNotNull(loginResult);
@@ -105,6 +119,7 @@ public class ServiceTest {
         Assert.assertFalse(loginResult.has("authenticationToken"));
     }
 
+    // Passing
     @Test
     public void authenticateUser_spaceUsernameSpacePassword_getNoUser() {
         // Action
@@ -118,6 +133,7 @@ public class ServiceTest {
         Assert.assertFalse(loginResult.has("authenticationToken"));
     }
 
+    // Passing
     @Test
     public void authenticateUser_noUsernameNoPassword_getNoUser() {
         // Action
@@ -131,10 +147,11 @@ public class ServiceTest {
         Assert.assertFalse(loginResult.has("authenticationToken"));
     }
 
+    // Passing
     @Test
     public void authenticateUser_NoPassword_getNoUser() {
         // Action
-        JSONObject loginResult = executeSyncRequest("auth/login", "username=Nathaniel&password=", "POST", null);
+        JSONObject loginResult = executeSyncRequest("auth/login", "username=nathaniel&password=", "POST", null);
 
         // Assert
         Assert.assertNotNull(loginResult);
@@ -144,6 +161,7 @@ public class ServiceTest {
         Assert.assertFalse(loginResult.has("authenticationToken"));
     }
 
+    // Passing
     @Test
     public void isAuthTokenValid_validToken_ok() {
         // Arrange
@@ -156,6 +174,7 @@ public class ServiceTest {
         Assert.assertEquals(AuthenticationEvent.TYPE.getName(), result.get("_type"));
     }
 
+    // Passing
     @Test
     public void logout_correctBehavior_userLoggedOut() {
         // Arrange
@@ -168,10 +187,11 @@ public class ServiceTest {
         Assert.assertEquals(LogoutEvent.TYPE.getName(), result.get("_type"));
     }
 
+    // Passing
     @Test
     public void logout_noAuthToken_error() {
         // Arrange
-        JSONObject login = executeSyncRequest("auth/login", "username=Nathaniel&password=password", "POST", null);
+        JSONObject login = executeSyncRequest("auth/login", "username=nathaniel&password=password", "POST", null);
 
         // Action
         JSONObject logoutResult = executeSyncRequest("auth/logout", null, "POST", "");
@@ -182,6 +202,7 @@ public class ServiceTest {
 
     // Tests for UnitServlet
 
+    // Passing
     @Test
     public void getUnits_correctBehavior_gotAllUnits() {
         // Arrange
@@ -196,6 +217,7 @@ public class ServiceTest {
         Assert.assertEquals(unitsJsonArray.length() > 0, true);
     }
 
+    // Passing
     @Test
     public void getUnits_noAuthToken_error() {
         // Arrange
@@ -208,6 +230,7 @@ public class ServiceTest {
         // TODO: Check for correct description, but need to put string in resources file before
     }
 
+    // Passing
     @Test
     public void updateOrSaveUnit_newUnit_unitSaved() {
         // Arrange
@@ -216,6 +239,7 @@ public class ServiceTest {
         Unit testUnit = new Unit();
 
         testUnit.setName("Test Unit " + (int) (Math.random() * 100));
+        testUnit.setTotalBeds(30);
         testUnit.setAvailableBeds(20);
 
         // Action
@@ -234,6 +258,7 @@ public class ServiceTest {
         Assert.assertEquals(savedUnit.getAvailableBeds(), testUnit.getAvailableBeds());
     }
 
+    // Passing
     @Test
     public void updateOrSaveUnit_updateUnit_unitUpdated() {
         // Arrange
@@ -244,7 +269,7 @@ public class ServiceTest {
         JSONArray unitJsonArray = unitsJSON.getJSONArray("units");
 
         // Action
-        Unit unit = new Unit(unitJsonArray.getJSONObject(3));
+        Unit unit = new Unit(unitJsonArray.getJSONObject(0));
         unit.setName("Modified name");
         unit.setTotalBeds(50);
         JSONObject result = executeSyncRequest("units", "unit=" + unit.toString(), "PUT", authToken);
@@ -268,40 +293,41 @@ public class ServiceTest {
         Assert.assertEquals(unit.getTotalBeds(), savedUnit.getTotalBeds());
     }
 
+    // Passing
     @Test
     public void updateOrSaveUnit_noAuthToken_error() {
         // Arrange
         Unit testUnit = new Unit();
 
         testUnit.setName("Test Unit " + (int) (Math.random() * 100));
-        testUnit.setAvailableBeds(20);
+        testUnit.setTotalBeds(20);
 
         // Action
         JSONObject result = executeSyncRequest("units", "unit=" + testUnit.toString(), "PUT", null);
 
         // Assert
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
-        // TODO: Check for correct description, but need to put string in resources file before
+        Assert.assertEquals("You need to be loged in to access this service", result.get("description"));
     }
 
-    // TODO: Broken: Unit is not deleted. DELETE request returns an errorEvent
+    // Passing
     @Test
     public void deleteUnit_unitExists_unitDeleted() {
         // Arrange
         String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
 
         // Action
-        int unitId = 3;
+        int unitId = 4;
         JSONObject result = executeSyncRequest("units/" + unitId, null, "DELETE", authToken);
 
         // Assert
-        Unit checkUnit = getSingleUnit(authToken, 1);
+        Unit checkUnit = getSingleUnit(authToken, 4);
 
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
         Assert.assertNull(checkUnit);
-        // TODO: Check list of units ?
     }
 
+    // Passing
     @Test
     public void deleteUnit_unitNotFound_errorEvent() {
         // Arrange
@@ -315,6 +341,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
+    // Passing
     @Test
     public void deleteUnit_noAuthToken_error() {
         // Arrange
@@ -330,6 +357,7 @@ public class ServiceTest {
 
     // Tests for UserServlet
 
+    // Passing
     @Test
     public void getUsers_correctBehavior_gotAllUsers() {
         // Arrange
@@ -344,6 +372,7 @@ public class ServiceTest {
         Assert.assertTrue(usersArray.length() > 0);
     }
 
+    // Passing
     @Test
     public void getUsers_noAuthToken_error() {
         // Arrange
@@ -355,6 +384,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
+    // Passing
     @Test
     public void getUser_correctBehavior_getUser() {
         // Arrange
@@ -369,6 +399,7 @@ public class ServiceTest {
         Assert.assertEquals(user.getUsername(), TEST_USERNAME);
     }
 
+    // Passing
     @Test
     public void getUser_userNotFound_error() {
         // Arrange
@@ -381,6 +412,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), userJson.get("_type"));
     }
 
+    // Passing
     @Test
     public void getUser_noAuthToken_error() {
         // Arrange
@@ -392,7 +424,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), userJson.get("_type"));
     }
 
-    // TODO: Broken: User is not added in DB
+    // Passing
     @Test
     public void updateOrSaveUser_newUser_userSaved() {
         // Arrange
@@ -400,11 +432,17 @@ public class ServiceTest {
 
         User testUser = new User();
         testUser.setUsername("test" + (int) (Math.random() * 100));
-        testUser.setFirstName("Test1232");
-        testUser.setLastName("Test2");
+        testUser.setFirstName("Camion");
+        testUser.setLastName("Gris");
+        testUser.setEmail("test@dsfdf.ca");
+        testUser.setPhone("123-555-1234");
+        Unit unit = getSingleUnit(authToken, 1);
+        testUser.setUnit(unit);
+        testUser.setPermission(User.Permission.ADMIN);
+        testUser.setRole(User.Role.ADMIN);
 
         // Action
-        JSONObject result = executeSyncRequest("users/add", "user=" + testUser.toString() + "&password=" + TEST_PASSWORD, "POST", authToken);
+        JSONObject result = executeSyncRequest("users/add", "user=" + testUser.toString() + "&password=" + TEST_PASSWORD + "123", "POST", authToken);
 
         // Assert
         Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
@@ -412,7 +450,7 @@ public class ServiceTest {
         Assert.assertEquals(FetchUserEvent.TYPE.getName(), savedUserJson.get("_type"));
     }
 
-    // TODO: Broken
+    // Passing
     @Test
     public void updateOrSaveUser_updateUser_userUpdated() {
         // Arrange
@@ -423,7 +461,7 @@ public class ServiceTest {
         JSONArray userJsonArray = object2.getJSONArray("users");
 
         // Action
-        User user = new User(userJsonArray.getJSONObject(0));
+        User user = new User(userJsonArray.getJSONObject(3));
         user.setFirstName("Modified name");
         JSONObject result = executeSyncRequest("users", "user=" + user.toString(), "PUT", authToken);
 
@@ -435,6 +473,7 @@ public class ServiceTest {
         Assert.assertEquals(user.getFirstName(), savedUser.getFirstName());
     }
 
+    // Passing
     @Test
     public void updateOrSaveUser_noAuthToken_error() {
         // Arrange
@@ -449,6 +488,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
+    // Passing
     @Test
     public void deleteUser_userExists_userDeleted() {
         // Arrange
@@ -474,6 +514,7 @@ public class ServiceTest {
         Assert.assertFalse(userFound);
     }
 
+    // Passing
     @Test
     public void deleteUser_userNotFound_errorMessage() {
         // Arrange
@@ -487,6 +528,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
+    // Passing
     @Test
     public void deleteUser_noAuthToken_error() {
         // Arrange
@@ -501,6 +543,7 @@ public class ServiceTest {
 
     // Tests for ActionServlet
 
+    // Passing
     @Test
     public void getActions_correctBehavior_getAllActions() {
         // Arrange
@@ -516,17 +559,19 @@ public class ServiceTest {
         Assert.assertTrue(arrayOfActions.length() > 0);
     }
 
-     @Test
-     public void getActions_noAuthToken_error() {
-         // Arrange
+    // Passing
+    @Test
+    public void getActions_noAuthToken_error() {
+        // Arrange
 
-         // Action
-         JSONObject result = executeSyncRequest("actions", null, "GET", "");
+        // Action
+        JSONObject result = executeSyncRequest("actions", null, "GET", "");
 
-         // Assert
-         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
-     }
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
 
+    // Passing
     @Test
     public void getAction_actionFound_getAction() {
         // Arrange
@@ -542,6 +587,7 @@ public class ServiceTest {
         Assert.assertEquals(actionId, action.getId());
     }
 
+    // Passing
     @Test
     public void getAction_actionNotFound_error() {
         // Arrange
@@ -556,6 +602,7 @@ public class ServiceTest {
         Assert.assertEquals("Id " + actionId + " doesn't exist", result.get("description"));
     }
 
+    // Passing
     @Test
     public void getAction_noAuthToken_error() {
         // Arrange
@@ -568,6 +615,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
+    // Passing
     @Test
     public void updateOrSaveActions_newAction_actionSaved() {
         // Arrange
@@ -599,6 +647,7 @@ public class ServiceTest {
         //Assert.assertEquals(now.getTime(), savedAction.getLastUpdate().getTime());
     }
 
+    // Passing
     @Test
     public void updateOrSaveAction_updateAction_actionUpdated() {
         // Arrange
@@ -618,6 +667,7 @@ public class ServiceTest {
         Assert.assertEquals("TEST", updatedAction.getDescription());
     }
 
+    // Passing
     @Test
     public void updateOrSaveAction_noAuthToken_error() {
         // Arrange
@@ -628,7 +678,7 @@ public class ServiceTest {
         newAction.setStatus(Action.Status.inProgress);
         User user = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
         newAction.setPersonResponsible(user);
-        Unit unit1 = getSingleUnit(authToken, 3);
+        Unit unit1 = getSingleUnit(authToken, 4);
         newAction.setUnit(unit1);
         Date now = new Date();
         newAction.setLastUpdate(now);
@@ -640,6 +690,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), saveResult.get("_type"));
     }
 
+    // Passing
     @Test
     public void deleteAction_actionFound_actionDeleted() {
         // Arrange
@@ -659,6 +710,7 @@ public class ServiceTest {
         Assert.assertEquals("Id " + actionId + " doesn't exist", resultSearch.get("description"));
     }
 
+    // Passing
     @Test
     public void deleteAction_actionNotFound_error() {
         // Arrange
@@ -673,19 +725,183 @@ public class ServiceTest {
         Assert.assertEquals("No row with the given identifier exists: [rtdc.core.model.Action#" + actionId + "]", result.get("description"));
     }
 
+    // Passed
     @Test
     public void deleteAction_noAuthToken_error() {
         // Arrange
         int actionId = 99999;
 
         // Action
-        JSONObject result =executeSyncRequest("actions/" + actionId, null, "DELETE", "");
+        JSONObject result = executeSyncRequest("actions/" + actionId, null, "DELETE", "");
 
         // Assert
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
-    */
 
+    // Tests for MessageServlet
+
+    // Not passing. Getting 26 messages instead of 25.
+    @Test
+    public void getMessages_getMsgQweAndJackAsQweFirst25_gotMessages() {
+        // Arrange
+        String authToken = getAuthToken("user", TEST_PASSWORD);
+        int startIndex = 0, length = 25;
+        User qwe = new User(executeSyncRequest("users/" + "qwe", null, "GET", authToken).getJSONObject("user"));
+        User jack = new User(executeSyncRequest("users/" + "user", null, "GET", authToken).getJSONObject("user"));
+        int qweId = qwe.getId(), jackId = jack.getId();
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/between/" + qweId + "/" + jackId + "/" + startIndex + "/" + length, null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(FetchMessagesEvent.TYPE.getName(), result.get("_type"));
+        JSONArray messagesArray = result.getJSONArray("messages");
+        Assert.assertEquals(25, messagesArray.length());
+    }
+
+    // Not passing. If there is permission implemented for messages, user user should not be able to get messages exchanged
+    // between nathaniel and qwe.
+    @Test
+    public void getMessages_getMsgQweAndNathanielAsUser_error() {
+        // Arrange
+        String authToken = getAuthToken("user", TEST_PASSWORD);
+        int startIndex = 0, length = 25;
+        User qwe = new User(executeSyncRequest("users/" + "qwe", null, "GET", authToken).getJSONObject("user"));
+        User nathaniel = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        int qweId = qwe.getId(), nathanielId = nathaniel.getId();
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/between/" + qweId + "/" + nathanielId + "/" + startIndex + "/" + length, null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    // Passing
+    @Test
+    public void getMessages_noAuthToken_error() {
+        // Arrange
+        String authToken = getAuthToken("user", TEST_PASSWORD);
+        int startIndex = 0, length = 25;
+        User qwe = new User(executeSyncRequest("users/" + "qwe", null, "GET", authToken).getJSONObject("user"));
+        User jack = new User(executeSyncRequest("users/" + "user", null, "GET", authToken).getJSONObject("user"));
+        int qweId = qwe.getId(), jackId = jack.getId();
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/between/" + qweId + "/" + jackId + "/" + startIndex + "/" + length, null, "GET", "");
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    // Passing
+    @Test
+    public void getMessages_msgBetweenNathanielAndInexistingUser_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        int startIndex = 0, length = 25;
+        User nathaniel = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        int errorId = 9999999, nathanielId = nathaniel.getId();
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/" + nathanielId + "/" + errorId + "/" + startIndex + "/" + length, null, "GET", authToken);
+
+        // Assert
+        //Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+        Assert.assertEquals(0, result.getJSONArray("messages").length());
+    }
+
+    // Passing
+    @Test
+    public void addMessage_newMessage_messageAdded() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        Message message = new Message();
+        User sender = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        User receiver = new User(executeSyncRequest("users/" + "qwe", null, "GET", authToken).getJSONObject("user"));
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        message.setStatus(Message.Status.sent);
+        message.setContent("Camion gris");
+        message.setTimeSent(new Date());
+
+        // Action
+        JSONObject result = executeSyncRequest("messages", "message=" + message.toString(), "POST", authToken);
+
+        // Assert
+        Assert.assertEquals(ActionCompleteEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    // Passing
+    @Test
+    public void addMessage_newMessageWithoutReceiver_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        Message message = new Message();
+        User sender = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        message.setSender(sender);
+        message.setStatus(Message.Status.sent);
+        message.setContent("Camion gris");
+        message.setTimeSent(new Date());
+
+        // Action
+        JSONObject result = executeSyncRequest("messages", "message=" + message.toString(), "POST", authToken);
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    // Passing
+    @Test
+    public void addMessage_noAuthToken_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        Message message = new Message();
+        User sender = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+        User receiver = new User(executeSyncRequest("users/" + "qwe", null, "GET", authToken).getJSONObject("user"));
+        message.setSender(sender);
+        message.setReceiver(receiver);
+        message.setStatus(Message.Status.sent);
+        message.setContent("Camion gris");
+        message.setTimeSent(new Date());
+
+        // Action
+        JSONObject result = executeSyncRequest("messages", "message=" + message.toString(), "POST", "");
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+    // Passing
+    @Test
+    public void getRecentContacts_ofUserNathaniel_success() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        User user = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/" + user.getId(), null, "GET", authToken);
+
+        // Assert
+        Assert.assertEquals(FetchRecentContactsEvent.TYPE.getName(), result.get("_type"));
+        Assert.assertTrue(result.getJSONArray("messages").length() > 0);
+    }
+
+    // Passing
+    @Test
+    public void getRecentContacts_noAuthToken_error() {
+        // Arrange
+        String authToken = getAuthToken(TEST_USERNAME, TEST_PASSWORD);
+        User user = new User(executeSyncRequest("users/" + TEST_USERNAME, null, "GET", authToken).getJSONObject("user"));
+
+        // Action
+        JSONObject result = executeSyncRequest("messages/" + user.getId(), null, "GET", "");
+
+        // Assert
+        Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
+    }
+
+*/
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
         try {
             URL urlObj = new URL(URL + service);
@@ -727,7 +943,7 @@ public class ServiceTest {
     // Does not happen when debugging the server and stepping through the getUnit method in UnitServlet ??
     private static Unit getSingleUnit(String authToken, int id) {
         JSONObject unitJson = executeSyncRequest("units/" + id, null, "GET", authToken);
-        if (unitJson.get("_type") == ErrorEvent.TYPE.getName()) {
+        if (unitJson.get("_type").equals(ErrorEvent.TYPE.getName())) {
             return null;
         }
         JSONArray unitJsonArray = unitJson.getJSONArray("units");
