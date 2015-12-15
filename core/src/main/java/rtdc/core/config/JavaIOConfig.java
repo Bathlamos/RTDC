@@ -21,11 +21,11 @@ public class JavaIOConfig implements ConfigInterface {
             "config" + File.separator +
             "Config.properties";
     private static final Properties prop = new Properties();
-    private static final AtomicBoolean hasLoaded = new AtomicBoolean();
+    //private static final AtomicBoolean hasLoaded = new AtomicBoolean();
 
-    public boolean hasLoaded(){
+    /*public boolean hasLoaded(){
         return hasLoaded.get();
-    }
+    }*/
 
     public static void setReader(Reader reader) {
         try {
@@ -35,10 +35,10 @@ public class JavaIOConfig implements ConfigInterface {
         }
 
         // Notify all threads that made requests that we're ready
-        synchronized (hasLoaded) {
+        /*synchronized (hasLoaded) {
             hasLoaded.set(true);
             hasLoaded.notifyAll();
-        }
+        }*/
 
         LOGGER.info("Finished loading Config.properties");
     }
@@ -66,7 +66,7 @@ public class JavaIOConfig implements ConfigInterface {
     }
 
     private static void waitIfLoading(){
-        try {
+        /*try {
             synchronized (hasLoaded) {
                 while(!hasLoaded.get()) {
                     hasLoaded.wait();
@@ -74,7 +74,7 @@ public class JavaIOConfig implements ConfigInterface {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
