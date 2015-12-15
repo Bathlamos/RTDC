@@ -110,7 +110,9 @@ class BundleInterfaceCreator{
                 sb.append("\"); \n");
                 String[] args = arguments.toString().split(", ");
                 for(String a: args){
-                    sb.append("\t\tstring = string.replace(\"{");
+                    sb.append("\t\tif(");
+                    sb.append(a);
+                    sb.append(" != null) string = string.replace(\"{");
                     sb.append(a);
                     sb.append("}\", ");
                     sb.append(a);

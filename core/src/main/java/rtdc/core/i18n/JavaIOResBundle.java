@@ -75,7 +75,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String callEndedMessage(String duration) {
 		String string = BUNDLE.getString("callEndedMessage"); 
-		string = string.replace("{duration}", duration); 
+		if(duration != null) string = string.replace("{duration}", duration); 
 		return string; 
 	}
 
@@ -175,7 +175,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String editCapacityOfUnitTitle(String capacityName) {
 		String string = BUNDLE.getString("editCapacityOfUnitTitle"); 
-		string = string.replace("{capacityName}", capacityName); 
+		if(capacityName != null) string = string.replace("{capacityName}", capacityName); 
 		return string; 
 	}
 
@@ -205,8 +205,8 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String errorCode(String errorCode, String errorMessage) {
 		String string = BUNDLE.getString("errorCode"); 
-		string = string.replace("{errorCode}", errorCode); 
-		string = string.replace("{errorMessage}", errorMessage); 
+		if(errorCode != null) string = string.replace("{errorCode}", errorCode); 
+		if(errorMessage != null) string = string.replace("{errorMessage}", errorMessage); 
 		return string; 
 	}
 
@@ -222,7 +222,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String errorUnrecognized(String output) {
 		String string = BUNDLE.getString("errorUnrecognized"); 
-		string = string.replace("{output}", output); 
+		if(output != null) string = string.replace("{output}", output); 
 		return string; 
 	}
 
@@ -245,7 +245,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String inCallWith(String caller) {
 		String string = BUNDLE.getString("inCallWith"); 
-		string = string.replace("{caller}", caller); 
+		if(caller != null) string = string.replace("{caller}", caller); 
 		return string; 
 	}
 
@@ -401,7 +401,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String messageFrom(String user) {
 		String string = BUNDLE.getString("messageFrom"); 
-		string = string.replace("{user}", user); 
+		if(user != null) string = string.replace("{user}", user); 
 		return string; 
 	}
 
@@ -417,7 +417,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String missedCallFrom(String caller) {
 		String string = BUNDLE.getString("missedCallFrom"); 
-		string = string.replace("{caller}", caller); 
+		if(caller != null) string = string.replace("{caller}", caller); 
 		return string; 
 	}
 
@@ -440,7 +440,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String networkError(String errorMessage) {
 		String string = BUNDLE.getString("networkError"); 
-		string = string.replace("{errorMessage}", errorMessage); 
+		if(errorMessage != null) string = string.replace("{errorMessage}", errorMessage); 
 		return string; 
 	}
 
@@ -491,7 +491,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String passwordToShort(String minLength) {
 		String string = BUNDLE.getString("passwordToShort"); 
-		string = string.replace("{minLength}", minLength); 
+		if(minLength != null) string = string.replace("{minLength}", minLength); 
 		return string; 
 	}
 
@@ -570,7 +570,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String totalNumberOfBeds(String numBeds) {
 		String string = BUNDLE.getString("totalNumberOfBeds"); 
-		string = string.replace("{numBeds}", numBeds); 
+		if(numBeds != null) string = string.replace("{numBeds}", numBeds); 
 		return string; 
 	}
 
@@ -614,7 +614,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String unknownMessageType(String type) {
 		String string = BUNDLE.getString("unknownMessageType"); 
-		string = string.replace("{type}", type); 
+		if(type != null) string = string.replace("{type}", type); 
 		return string; 
 	}
 
@@ -623,7 +623,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String unregisteredEvent(String eventType) {
 		String string = BUNDLE.getString("unregisteredEvent"); 
-		string = string.replace("{eventType}", eventType); 
+		if(eventType != null) string = string.replace("{eventType}", eventType); 
 		return string; 
 	}
 
@@ -660,7 +660,7 @@ class JavaIOResBundle implements ResBundleInterface {
 	 */
 	public String usernameToShort(String minLength) {
 		String string = BUNDLE.getString("usernameToShort"); 
-		string = string.replace("{minLength}", minLength); 
+		if(minLength != null) string = string.replace("{minLength}", minLength); 
 		return string; 
 	}
 
