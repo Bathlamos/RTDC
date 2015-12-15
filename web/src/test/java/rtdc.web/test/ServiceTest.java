@@ -55,7 +55,7 @@ public class ServiceTest {
     public static void oneTimeSetUp() {
 
     }
-
+    /*
     // Tests for AuthServlet
 
     // Passing
@@ -898,6 +898,7 @@ public class ServiceTest {
         Assert.assertEquals(ErrorEvent.TYPE.getName(), result.get("_type"));
     }
 
+*/
     private static JSONObject executeSyncRequest(String service, String urlParameters, String requestMethod, @Nullable String authToken) {
         try {
             URL urlObj = new URL(_url + service);
