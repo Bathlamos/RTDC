@@ -31,6 +31,9 @@ import rtdc.core.util.Stringifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * GWT abstraction of dropdown box
+ */
 public class GwtUiDropdown<T> extends ListBox implements UiDropdown<T> {
 
     private Stringifier<T> stringifier = DEFAULT_STRINGIFIER;
@@ -45,26 +48,41 @@ public class GwtUiDropdown<T> extends ListBox implements UiDropdown<T> {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setStringifier(Stringifier<T> stringifier) {
         this.stringifier = stringifier;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T getValue() {
         return items.get(getSelectedIndex());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setValue(T value) {
         setSelectedIndex(items.indexOf(value));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getErrorMessage() {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setErrorMessage(String errorMessage) {
 

@@ -43,6 +43,9 @@ import java.util.logging.Logger;
 
 import static rtdc.core.impl.HttpRequest.RequestMethod.*;
 
+/**
+ * Single class used to make all network requests targeting our own API.
+ */
 public final class Service {
 
     private static final String URL = Conf.get().apiProtocol() + "://" +

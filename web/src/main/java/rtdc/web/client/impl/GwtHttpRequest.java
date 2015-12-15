@@ -30,6 +30,9 @@ import rtdc.core.impl.HttpRequest;
 import rtdc.core.impl.HttpResponse;
 import rtdc.core.service.AsyncCallback;
 
+/**
+ * GWT abstraction of an XMLHttpRequest
+ */
 public class GwtHttpRequest implements HttpRequest{
 
     private final RequestBuilder builder;
@@ -51,6 +54,9 @@ public class GwtHttpRequest implements HttpRequest{
     }
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addParameter(String parameter, String data) {
         if(params.length() != 0)
@@ -60,6 +66,9 @@ public class GwtHttpRequest implements HttpRequest{
         params.append(data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void execute(final AsyncCallback<HttpResponse> callback) {
         try {
@@ -79,6 +88,9 @@ public class GwtHttpRequest implements HttpRequest{
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setContentType(String contentType) {
         builder.setHeader("Content-Type", contentType);

@@ -30,8 +30,14 @@ import rtdc.core.config.Reader;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Android implementation of Reader
+ */
 public class AndroidReader implements Reader{
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public InputStream getContent(String path) throws IOException{
         return AndroidBootstrapper.getAppContext().getAssets().open(path);

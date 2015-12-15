@@ -28,6 +28,9 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Cookies;
 import rtdc.core.impl.Storage;
 
+/**
+ * GWT abstraction of a persistence mechanism (cookies)
+ */
 public class GwtStorage implements Storage {
 
     private static GwtStorage INSTANCE;
@@ -36,16 +39,25 @@ public class GwtStorage implements Storage {
         Cookies.setUriEncode(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void add(String key, String data) {
         Cookies.setCookie(key, data);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String retrieve(String key) {
         return Cookies.getCookie(key);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void remove(String key) {
         Cookies.removeCookie(key);

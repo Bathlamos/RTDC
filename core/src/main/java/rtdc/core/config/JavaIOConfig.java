@@ -83,16 +83,6 @@ public class JavaIOConfig implements ConfigInterface {
     }
 
     @Override
-    public String gcmServerProjectId() {
-        return getProperty("gcmServerProjectId");
-    }
-
-    @Override
-    public String gcmServerApiKey() {
-        return getProperty("gcmServerApiKey");
-    }
-
-    @Override
     public String commandExecKey() {
         return getProperty("commandExecKey");
     }

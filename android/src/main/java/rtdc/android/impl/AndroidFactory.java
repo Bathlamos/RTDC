@@ -24,30 +24,40 @@
 
 package rtdc.android.impl;
 
-import rtdc.android.AndroidBootstrapper;
-import rtdc.android.R;
-import rtdc.android.Rtdc;
 import rtdc.core.impl.*;
 
-import java.io.IOException;
-
+/**
+ * Android implementation of Factory
+ */
 public class AndroidFactory implements Factory{
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public HttpRequest newHttpRequest(String url, HttpRequest.RequestMethod requestMethod) {
         return new AndroidHttpRequest(url, requestMethod);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dispatcher newDispatcher() {
         return new AndroidDispatcher();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Storage getStorage() {
         return AndroidStorage.get();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public VoipController getVoipController() {
         return AndroidVoipController.get();

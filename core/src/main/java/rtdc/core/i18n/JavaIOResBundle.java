@@ -12,9 +12,7 @@ import java.util.logging.Logger;
 class JavaIOResBundle implements ResBundleInterface {
 
     private static final Logger LOGGER = Logger.getLogger(JavaIOResBundle.class.getName());
-
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("rtdc.core.i18n.Bundle");
-
     private static final MessageFormat FORMATTER = new MessageFormat("");
 
     static {

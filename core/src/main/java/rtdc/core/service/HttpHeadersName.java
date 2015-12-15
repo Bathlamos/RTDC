@@ -24,6 +24,9 @@
 
 package rtdc.core.service;
 
+/**
+ * A comprehensive list of all the HTTP headers used by the application
+ */
 public class HttpHeadersName {
 
     public static final String AUTH_TOKEN = "auth_token";

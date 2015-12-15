@@ -24,10 +24,21 @@
 
 package rtdc.core.service;
 
+/**
+ * Used for callbacks, when making network requests
+ * @param <T> The data transferred by the callback
+ */
 public interface AsyncCallback<T> {
 
+    /**
+     * Called when the response code is 200
+     * @param data Data fetched by the call
+     */
     void onSuccess(T data);
 
+    /**
+     * @param message Error message
+     */
     void onError(String message);
 
 }

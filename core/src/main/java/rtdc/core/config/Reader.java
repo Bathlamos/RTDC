@@ -27,6 +27,13 @@ package rtdc.core.config;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Different platforms do not have the same mechanism for reading files.
+ * For instance, files in WARs may be ready simply with Java's IO package; however files
+ * in Android are packaged in an APK, and can only be read with one of their InputStream.
+ *
+ * This class is a bridge between these platforms.
+ */
 public interface Reader {
 
     InputStream getContent(String path) throws IOException;

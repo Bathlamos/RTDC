@@ -24,6 +24,9 @@
 
 package rtdc.core.service;
 
+/**
+ * A comprehensive list of all the cookies used by the application
+ */
 public class CookiesName {
 
     public static final String AUTH_COOKIE = "auth";

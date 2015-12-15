@@ -24,10 +24,19 @@
 
 package rtdc.core.impl;
 
+/**
+ * An abstraction of an http response.
+ */
 public interface HttpResponse {
 
-    public int getStatusCode();
+    /**
+     * @return The status code of the http request
+     */
+    int getStatusCode();
 
-    public String getContent();
+    /**
+     * @return The content fetched by the http request
+     */
+    String getContent();
 
 }

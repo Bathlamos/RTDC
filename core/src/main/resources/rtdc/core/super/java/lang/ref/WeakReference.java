@@ -26,7 +26,8 @@ package java.lang.ref;
 
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 
-//HACKY class to make Weakreferences compilable under GWT.
+//HACKY class to make WeakReferences compilable under GWT.
+//This class replaces the normal WeakReference at compile time, in GWT.
 @J2ObjCIncompatible
 public class WeakReference<T extends java.lang.Object> {
 

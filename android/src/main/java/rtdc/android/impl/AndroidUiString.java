@@ -42,7 +42,6 @@ import java.lang.reflect.Method;
     In those versions of Android, the error icon of EditText fields are not displayed when they should
     Fix was taken from here: stackoverflow.com/questions/13756978/android-os-bug-with-some-devices-running-jelly-bean-4-2-1-textview-seterrorch/14175640#14175640
  */
-
 public class AndroidUiString extends EditText implements UiElement<String> {
 
     // Keep track of which error icon we used last
@@ -60,16 +59,25 @@ public class AndroidUiString extends EditText implements UiElement<String> {
         super(context, attrs, defStyle);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getValue() {
         return getText().toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setValue(String value) {
         setText(value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getErrorMessage() {
         if(getError() == null)
@@ -77,11 +85,17 @@ public class AndroidUiString extends EditText implements UiElement<String> {
         return getError().toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setErrorMessage(String errorMessage) {
         setError(errorMessage);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setError(CharSequence error, Drawable icon) {
         super.setError(error, icon);
@@ -92,6 +106,9 @@ public class AndroidUiString extends EditText implements UiElement<String> {
             showErrorIconHax(icon);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setFocus(boolean hasFocus) {
         if(hasFocus)

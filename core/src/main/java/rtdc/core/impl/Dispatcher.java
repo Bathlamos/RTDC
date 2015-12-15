@@ -26,6 +26,9 @@ package rtdc.core.impl;
 
 import rtdc.core.controller.Controller;
 
+/**
+ * Used to navigate from one part of the application to the other
+ */
 public interface Dispatcher {
 
     void goToLogin(Controller caller);

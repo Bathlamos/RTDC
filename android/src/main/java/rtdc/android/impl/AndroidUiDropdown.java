@@ -40,6 +40,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Android abstraction of a dropdown box
+ */
 public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
 
     private final CustomAdapter adapter;
@@ -65,21 +68,33 @@ public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
         setAdapter(adapter);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getSelectedIndex(){
         return getSelectedItemPosition();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setStringifier(Stringifier<T> stringifier) {
         this.stringifier = stringifier;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public T getValue() {
         return adapter.getItem(getSelectedItemPosition());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setArray(T[] elements) {
         adapter.clear();
@@ -88,6 +103,9 @@ public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
         dropDownValues = elements;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setValue(T value) {
         int position = adapter.getPosition(value);
@@ -105,16 +123,25 @@ public class AndroidUiDropdown<T> extends Spinner implements UiDropdown<T> {
             setSelection(position);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getErrorMessage() {
         return "";
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setErrorMessage(String errorMessage) {
         //Does nothing
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setFocus(boolean hasFocus) {
         if(hasFocus)

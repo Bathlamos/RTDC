@@ -24,7 +24,6 @@
 
 package rtdc.web.client.impl;
 
-import com.google.gwt.user.client.Window;
 import rtdc.core.controller.Controller;
 import rtdc.core.impl.Dispatcher;
 

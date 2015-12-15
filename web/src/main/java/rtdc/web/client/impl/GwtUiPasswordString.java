@@ -28,12 +28,22 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import rtdc.core.impl.UiElement;
 
+/**
+ * GWT abstraction of a password textbox
+ */
 public class GwtUiPasswordString extends PasswordTextBox implements UiElement<String> {
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getErrorMessage() {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setErrorMessage(String errorMessage) {
 

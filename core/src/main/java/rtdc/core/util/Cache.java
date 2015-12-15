@@ -26,6 +26,9 @@ package rtdc.core.util;
 
 import java.util.HashMap;
 
+/**
+ * Similar to Session, in web development, but for use client-side.
+ */
 public class Cache {
 
     private HashMap<String,Object> map = new HashMap<>();
