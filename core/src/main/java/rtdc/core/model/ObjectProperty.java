@@ -24,6 +24,11 @@
 
 package rtdc.core.model;
 
+/**
+ * Representation of a property (i.e. variable) of a model class. This is used for easier conversion of the class
+ * instances to and from JSON
+ * @param <T> The type of the class to which the ObjectProperty belong
+ */
 public interface ObjectProperty<T extends RootObject> {
 
     String name();

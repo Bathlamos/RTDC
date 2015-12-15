@@ -27,6 +27,9 @@ package rtdc.core.model;
 import rtdc.core.exception.ValidationException;
 import rtdc.core.i18n.ResBundle;
 
+/**
+ * Contains validation methods to assert the integrity of data stored in our various model objects
+ */
 public class SimpleValidator {
 
     public static boolean isNotNull(Object value){

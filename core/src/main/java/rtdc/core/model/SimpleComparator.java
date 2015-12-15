@@ -31,6 +31,9 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Contains comparators used throughout the application
+ */
 public class SimpleComparator {
 
     private static final NumberAwareStringComparator NUMBER_AWARE_STRING_COMPARATOR = new NumberAwareStringComparator();
@@ -39,6 +42,10 @@ public class SimpleComparator {
         return new Builder<>(property);
     }
 
+    /**
+     * Orders objects according to an arbitrary ObjectProperty
+     * @param <T> The type of object to order
+     */
     public static class Builder<T extends RootObject> {
         private boolean ascending;
         private final ObjectProperty<T> property;
@@ -91,6 +98,9 @@ public class SimpleComparator {
 
     }
 
+    /**
+     * Comparator that orders all the numbers first, then the number-less items, in a list
+     */
     public static class NumberAwareStringComparator implements Comparator<String> {
 
         private static final Pattern PATTERN = Pattern.compile("(\\D*)(\\d*)");
