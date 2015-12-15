@@ -224,6 +224,6 @@ public class MessageServlet {
             session.close();
         }
 
-        return new MessageSavedEvent(message.getId(), message.getTimeSent()).toString();
+        return new MessageSavedEvent(message).toString();
     }
 }

@@ -86,7 +86,6 @@ public class UserListAdapter extends ArrayAdapter {
 
         GradientDrawable background = (GradientDrawable) holder.userIcon.getBackground();
         background.setColor(Color.HSVToColor(user.getProfileColor()));
-        background.setCornerRadius(32);
 
         return viewToUse;
     }

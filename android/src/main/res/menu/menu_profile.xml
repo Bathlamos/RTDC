@@ -23,14 +23,13 @@
   ~ SOFTWARE.
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/RTDC_purple"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
 
-    <padding android:left="2dp"
-             android:top="2dp"
-             android:right="2dp"
-             android:bottom="2dp"
-            />
+    <item android:id="@+id/action_edit_profile"
+          android:title="@string/edit"
+          android:icon="@drawable/ic_build_white_24dp"
+          app:showAsAction="ifRoom|withText"/>
 
-    <corners android:radius="4dp"/>
-</shape>
+</menu>
