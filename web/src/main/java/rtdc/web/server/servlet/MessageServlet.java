@@ -151,9 +151,10 @@ public class MessageServlet {
     @GET
     @Path("{userId}")
     @Consumes("application/x-www-form-urlencoded")
+    @Produces("application/json")
     @RolesAllowed({Permission.USER, Permission.MANAGER, Permission.ADMIN})
     public String getRecentContacts(@Context HttpServletRequest req, @Context User user, @PathParam("userId") String userId1String){
-        int userId = Integer.parseInt(userId1String);
+        int userId = user.getId();
         Session session = PersistenceConfig.getSessionFactory().openSession();
         Transaction transaction = null;
         List<Message> messages = null;
