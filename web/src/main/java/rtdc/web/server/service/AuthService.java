@@ -72,7 +72,7 @@ public class AuthService {
             return authTokenObject;
         }
 
-        throw new SessionExpiredException("Session expired for auth token " + authTokenObject.getAuthenticationToken());
+        throw new SessionExpiredException("Session expired");
     }
 
     public static UserCredentials generateUserCredentials(User user, String password){
