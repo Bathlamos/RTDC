@@ -2,6 +2,7 @@ package rtdc.core.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
@@ -28,7 +29,7 @@ public class JavaIOConfig implements ConfigInterface {
 
     public static void setReader(Reader reader) {
         try {
-            prop.load(reader.getContent(PATH));
+            prop.load(new InputStreamReader(reader.getContent(PATH), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
